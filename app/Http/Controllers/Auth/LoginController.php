@@ -42,12 +42,12 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'name';
+        return 'username';
     }
 
     protected function authenticated(Request $request, $user)
     {
-        $user->lastLoginAt = Carbon::now();
+        $user->last_login_at = Carbon::now();
         $user->save();
     }
 }
