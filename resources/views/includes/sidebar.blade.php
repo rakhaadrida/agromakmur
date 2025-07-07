@@ -58,7 +58,7 @@
             <div id="collapseMaster" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     @if(isUserSuperAdmin())
-                        <a class="collapse-item" href="#">User</a>
+                        <a class="collapse-item" href="{{ route('users.index') }}">User</a>
                     @endif
                     <a class="collapse-item" href="#">Supplier</a>
                     <a class="collapse-item" href="#">Sales</a>

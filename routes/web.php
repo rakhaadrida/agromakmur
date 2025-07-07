@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('/', 'HomeController@index')->name('home');
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::resource('users', 'UserController');
 });
 
 Auth::routes(['verify' => true]);

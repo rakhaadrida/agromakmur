@@ -37,3 +37,8 @@ function isUserWarehouse(): string
 
     return in_array($userRole, [Constant::USER_ROLE_WAREHOUSE]);
 }
+
+function getUserRoleLabel($role): string
+{
+    return Constant::USER_ROLE_LABELS[$role];
+}

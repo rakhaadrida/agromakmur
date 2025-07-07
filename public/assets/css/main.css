@@ -225,7 +225,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .table-cetak-right th,
 .table-cetak-right td {
-    /* border: 1px solid #afbbc5; */
     padding-top: 0.13rem !important;
 }
 
@@ -480,7 +479,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .btn-block {
         margin-bottom: 5px;
     }
-    
+
     .table,
     .subtotal-so,
     .total-so,
@@ -495,4 +494,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .panah-biru {
         margin-top: 20px !important;
     }
+}
+
+.table-head-number {
+    width: 80px;
+}
+
+.table-row-text {
+    padding-left: 0.6rem !important;
+}
+
+.user-button-cancel {
+    padding-left: 0 !important;
+}
+
+.user-invalid-no-icon {
+    background-image: none !important;
 }

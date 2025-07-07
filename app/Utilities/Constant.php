@@ -9,6 +9,13 @@ class Constant
     const USER_ROLE_FINANCE = 'FINANCE';
     const USER_ROLE_WAREHOUSE = 'WAREHOUSE';
 
+    const USER_ROLES = [
+        self::USER_ROLE_SUPER_ADMIN,
+        self::USER_ROLE_ADMIN,
+        self::USER_ROLE_FINANCE,
+        self::USER_ROLE_WAREHOUSE,
+    ];
+
     const USER_ROLE_LABELS = [
         self::USER_ROLE_SUPER_ADMIN => 'Super Admin',
         self::USER_ROLE_ADMIN => 'Admin',
