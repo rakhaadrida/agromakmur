@@ -13,15 +13,15 @@
                     <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New User
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
-                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Data
+                <a href="{{ route('users.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Users
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="table-head-number">No</th>

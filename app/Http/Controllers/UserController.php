@@ -6,9 +6,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Utilities\Constant;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -107,8 +105,8 @@ class UserController extends Controller
         }
     }
 
-    public function trash() {
-        $users = User::onlyTrashed()->get();
+    public function indexDeleted() {
+        $users = User::onlyTrashed()->where('is_destroy', 0)->get();
 
         $data = [
             'users' => $users
@@ -117,19 +115,20 @@ class UserController extends Controller
         return view('pages.admin.user.trash', $data);
     }
 
-    /* public function approve($id) {
+    public function restore($id) {
         try {
             DB::beginTransaction();
 
-            $user = User::query()->findOrFail($id);
-            $user->status = Constant::USER_STATUS_ACTIVE;
-            $user->save();
+            $users = User::onlyTrashed();
+            if($id) {
+                $users = $users->where('id', $id);
+            }
+
+            $users->restore();
 
             DB::commit();
 
-            $user->notify(new UserApprovedNotification());
-
-            return redirect()->route('users.index');
+            return redirect()->route('users.deleted');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -137,5 +136,28 @@ class UserController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
-    } */
+    }
+
+    public function remove($id) {
+        try {
+            DB::beginTransaction();
+
+            $users = User::onlyTrashed();
+            if($id) {
+                $users = $users->where('id', $id);
+            }
+
+            $users->update(['is_destroy' => 1]);
+
+            DB::commit();
+
+            return redirect()->route('users.deleted');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while deleting data'
+            ]);
+        }
+    }
 }

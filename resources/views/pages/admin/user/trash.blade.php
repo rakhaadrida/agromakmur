@@ -1,65 +1,116 @@
 @extends('layouts.admin')
 
 @push('addon-style')
-    <link href="{{ url('backend/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-<div class="container-fluid">
-
-  <!-- Page Heading -->
-  <div class="d-sm-flex align-items-center justify-content-between mb-2">
-      <h1 class="h3 mb-0 text-gray-800 menu-title">Data User Tidak Terpakai</h1>
-      <a href="{{ route('user.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">
-      Kembali ke Data User</a>
-  </div>
-
-  <div class="row">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable" width="100%" cellspacing="0">
-          <a href="{{ route('user-restoreAll') }}" class="btn btn-sm btn-primary shadow-sm mb-3">Kembalikan Semua Data</a>
-          <a href="{{ route('user-hapusAll') }}" class="btn btn-sm btn-outline-danger shadow-sm mb-3 ml-2">Hapus Permanen Semua Data</a>
-          <thead class="text-center text-bold text-dark">
-            <tr align="center">
-              <th style="width: 80px">No</th>
-              <th>Username</th>
-              <th>Roles</th>
-              <th style="width: 160px">Kembalikan</th>
-              <th style="width: 200px">Hapus Permanen</th>
-            </tr>
-          </thead>
-          <tbody>
-            @php $i=1; @endphp
-            @forelse ($items as $item)
-              <tr class="text-dark">
-                <td class="align-middle" align="center">{{ $i }}</td>
-                <td class="align-middle">{{ $item->name }}</td>
-                <td class="align-middle" align="center">{{ $item->roles }}</td>
-                <td class="align-middle" align="center">
-                  <a href="{{ route('user-restore', $item->id) }}" class="btn btn-success btn-sm"><i class="fas fa-fw fa-undo"></i></a>
-                </td>
-                <td class="align-middle" align="center">
-                  <a href="{{ route('user-hapus', $item->id) }}" class="btn btn-danger btn-sm"><i class="fas fa-fw fa-eraser"></i></a>
-                </td>
-              </tr>
-              @php $i++; @endphp
-            @empty
-              <tr>
-                <td colspan="5" class="text-center">Tidak Ada Data</td>
-              </tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-2">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Users</h1>
+            </div>
+            <div class="row">
+                <form action="{{ route('users.restore', 0) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Users">
+                        Restore All Users
+                    </button>
+                </form>
+                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteUserModal" data-id="0">
+                    Permanently Delete All Users
+                </a>
+                <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Users List</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
+                        <thead class="text-center text-bold text-dark">
+                            <tr>
+                                <th class="table-head-number">No</th>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($users as $key => $user)
+                                <tr class="text-dark">
+                                    <td class="align-middle text-center">{{ ++$key }}</td>
+                                    <td class="align-middle table-row-text">{{ $user->username }}</td>
+                                    <td class="align-middle table-row-text">{{ getUserRoleLabel($user->role) }}</td>
+                                    <td class="align-middle text-center">
+                                        <div class="row justify-content-center deleted-action-section">
+                                            <div class="col-auto button-action-deleted-left">
+                                                <form action="{{ route('users.restore', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore User">
+                                                        <i class="fas fa-fw fa-undo"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteUserModal" data-id="{{ $user->id }}">
+                                                <i class="fas fa-fw fa-eraser"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">No Data Available</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-</div>
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                </div>
+                <div class="modal-body text-dark">Are you sure you want to permanently delete this data?</div>
+                <div class="modal-footer">
+                    <form action="" method="POST" id="deleteForm">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('addon-script')
-    <script src="{{ url('backend/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url('backend/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ url('backend/js/demo/datatables-demo.js') }}"></script>
+    <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript">
+        let datatable = $('#dataTable').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    targets: [3],
+                    orderable: false
+                }
+            ],
+        });
+
+        $(document).on('click', '.btn-delete', function () {
+            const userId = $(this).data('id');
+            const url = `{{ route('users.remove', 'userId') }}`;
+
+            $('#deleteForm').attr('action', url.replace('userId', userId));
+        });
+    </script>
 @endpush
