@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             MarketingSeeder::class,
             SupplierSeeder::class,
             CustomerSeeder::class,
-            WarehouseSeeder::class
+            WarehouseSeeder::class,
+            PriceSeeder::class
         ]);
     }
 }

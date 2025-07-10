@@ -42,6 +42,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-warehouses', 'WarehouseController@indexDeleted')->name('warehouses.deleted');
     Route::put('deleted-warehouses/{id}/restore', 'WarehouseController@restore')->name('warehouses.restore');
     Route::put('deleted-warehouses/{id}/remove', 'WarehouseController@remove')->name('warehouses.remove');
+
+    Route::resource('prices', 'PriceController');
+    Route::get('deleted-prices', 'PriceController@indexDeleted')->name('prices.deleted');
+    Route::put('deleted-prices/{id}/restore', 'PriceController@restore')->name('prices.restore');
+    Route::put('deleted-prices/{id}/remove', 'PriceController@remove')->name('prices.remove');
 });
 
 Auth::routes(['verify' => true]);

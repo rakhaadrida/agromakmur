@@ -7,14 +7,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Customer List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Price List</h1>
             <div class="justify-content-end">
-                <a href="{{ route('customers.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Customer
+                <a href="{{ route('prices.create') }}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Price
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
-                <a href="{{ route('customers.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Customers
+                <a href="{{ route('prices.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Prices
                 </a>
             </div>
         </div>
@@ -24,34 +24,30 @@
                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                         <thead class="text-center text-bold text-dark">
                             <tr>
-                                <th>No</th>
+                                <th class="table-head-number">No</th>
                                 <th>Name</th>
-                                <th>Address</th>
-                                <th>Contact Number</th>
-                                <th>Marketing</th>
+                                <th>Code</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($customers as $key => $customer)
+                            @forelse ($prices as $key => $price)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle table-row-text">{{ $customer->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $customer->address }}</td>
-                                    <td class="align-middle table-row-text">{{ $customer->contact_number }}</td>
-                                    <td class="align-middle table-row-text">{{ $customer->marketing_name }}</td>
+                                    <td class="align-middle table-row-text">{{ $price->name }}</td>
+                                    <td class="align-middle table-row-text">{{ $price->code }}</td>
                                     <td class="align-middle text-center">
-                                        <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('prices.edit', $price->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteCustomerModal" data-id="{{ $customer->id }}">
+                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deletePriceModal" data-id="{{ $price->id }}">
                                             <i class="fas fa-fw fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="4" class="text-center text-bold h4 p-2">No Data Available</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -61,7 +57,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deletePriceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -90,15 +86,15 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [5],
+                    targets: [3],
                     orderable: false
                 }
             ],
         });
 
         $(document).on('click', '.btn-delete', function () {
-            const customerId = $(this).data('id');
-            const url = `{{ route('customers.destroy', '') }}` + '/' + customerId;
+            const priceId = $(this).data('id');
+            const url = `{{ route('prices.destroy', '') }}` + '/' + priceId;
 
             $('#deleteForm').attr('action', url);
         });
