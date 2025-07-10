@@ -524,3 +524,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .button-action-deleted-right {
     padding-left: 0 !important;
 }
+
+.alert-input-section {
+    margin-bottom: 0 !important;
+    padding: 0.75rem 1.25rem 0 !important;
+}

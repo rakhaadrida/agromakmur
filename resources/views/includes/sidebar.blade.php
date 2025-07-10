@@ -60,7 +60,7 @@
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('users.index') }}">User</a>
                     @endif
-                    <a class="collapse-item" href="#">Supplier</a>
+                    <a class="collapse-item" href="{{ route('suppliers.index') }}">Supplier</a>
                     <a class="collapse-item" href="#">Sales</a>
                     <a class="collapse-item" href="#">Customer</a>
                     <a class="collapse-item" href="#">Jenis Barang</a>
