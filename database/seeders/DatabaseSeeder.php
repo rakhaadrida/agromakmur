@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             WarehouseSeeder::class,
             PriceSeeder::class,
             CategorySeeder::class,
-            SubcategorySeeder::class
+            SubcategorySeeder::class,
+            UnitSeeder::class
         ]);
     }
 }

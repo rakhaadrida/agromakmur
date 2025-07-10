@@ -57,6 +57,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-subcategories', 'SubcategoryController@indexDeleted')->name('subcategories.deleted');
     Route::put('deleted-subcategories/{id}/restore', 'SubcategoryController@restore')->name('subcategories.restore');
     Route::put('deleted-subcategories/{id}/remove', 'SubcategoryController@remove')->name('subcategories.remove');
+
+    Route::resource('units', 'UnitController');
+    Route::get('deleted-units', 'UnitController@indexDeleted')->name('units.deleted');
+    Route::put('deleted-units/{id}/restore', 'UnitController@restore')->name('units.restore');
+    Route::put('deleted-units/{id}/remove', 'UnitController@remove')->name('units.remove');
 });
 
 Auth::routes(['verify' => true]);
