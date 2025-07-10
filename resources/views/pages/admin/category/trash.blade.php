@@ -8,20 +8,20 @@
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
             <div>
-                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Marketings</h1>
+                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Categories</h1>
             </div>
             <div class="row">
-                <form action="{{ route('marketings.restore', 0) }}" method="POST">
+                <form action="{{ route('categories.restore', 0) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Marketings">
-                        Restore All Marketings
+                    <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Categories">
+                        Restore All Categories
                     </button>
                 </form>
-                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteMarketingModal" data-id="0">
-                    Permanently Delete All Marketings
+                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteCategoryModal" data-id="0">
+                    Permanently Delete All Categories
                 </a>
-                <a href="{{ route('marketings.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Marketings List</a>
+                <a href="{{ route('categories.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Categories List</a>
             </div>
         </div>
         <div class="row">
@@ -36,22 +36,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($marketings as $key => $marketing)
+                            @forelse ($categories as $key => $category)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle table-row-text">{{ $marketing->name }}</td>
+                                    <td class="align-middle table-row-text">{{ $category->name }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">
                                             <div class="col-auto button-action-deleted-left">
-                                                <form action="{{ route('marketings.restore', $marketing->id) }}" method="POST">
+                                                <form action="{{ route('categories.restore', $category->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Marketing">
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Category">
                                                         <i class="fas fa-fw fa-undo"></i>
                                                     </button>
                                                 </form>
                                             </div>
-                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteMarketingModal" data-id="{{ $marketing->id }}">
+                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteCategoryModal" data-id="{{ $category->id }}">
                                                 <i class="fas fa-fw fa-eraser"></i>
                                             </a>
                                         </div>
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteMarketingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,10 +105,10 @@
         });
 
         $(document).on('click', '.btn-delete', function () {
-            const marketingId = $(this).data('id');
-            const url = `{{ route('marketings.remove', 'marketingId') }}`;
+            const categoryId = $(this).data('id');
+            const url = `{{ route('categories.remove', 'categoryId') }}`;
 
-            $('#deleteForm').attr('action', url.replace('marketingId', marketingId));
+            $('#deleteForm').attr('action', url.replace('categoryId', categoryId));
         });
     </script>
 @endpush

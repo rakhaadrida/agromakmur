@@ -47,6 +47,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-prices', 'PriceController@indexDeleted')->name('prices.deleted');
     Route::put('deleted-prices/{id}/restore', 'PriceController@restore')->name('prices.restore');
     Route::put('deleted-prices/{id}/remove', 'PriceController@remove')->name('prices.remove');
+
+    Route::resource('categories', 'CategoryController');
+    Route::get('deleted-categories', 'CategoryController@indexDeleted')->name('categories.deleted');
+    Route::put('deleted-categories/{id}/restore', 'CategoryController@restore')->name('categories.restore');
+    Route::put('deleted-categories/{id}/remove', 'CategoryController@remove')->name('categories.remove');
 });
 
 Auth::routes(['verify' => true]);
