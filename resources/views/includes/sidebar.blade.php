@@ -62,7 +62,7 @@
                     @endif
                     <a class="collapse-item" href="{{ route('marketings.index') }}">Marketing</a>
                     <a class="collapse-item" href="{{ route('suppliers.index') }}">Supplier</a>
-                    <a class="collapse-item" href="#">Customer</a>
+                    <a class="collapse-item" href="{{ route('customers.index') }}">Customer</a>
                     <a class="collapse-item" href="#">Warehouse</a>
                     <a class="collapse-item" href="#">Price</a>
                     <a class="collapse-item" href="#">Category</a>

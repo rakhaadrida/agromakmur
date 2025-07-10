@@ -23,15 +23,20 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::put('deleted-users/{id}/restore', 'UserController@restore')->name('users.restore');
     Route::put('deleted-users/{id}/remove', 'UserController@remove')->name('users.remove');
 
+    Route::resource('marketings', 'MarketingController');
+    Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
+    Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');
+    Route::put('deleted-marketings/{id}/remove', 'MarketingController@remove')->name('marketings.remove');
+
     Route::resource('suppliers', 'SupplierController');
     Route::get('deleted-suppliers', 'SupplierController@indexDeleted')->name('suppliers.deleted');
     Route::put('deleted-suppliers/{id}/restore', 'SupplierController@restore')->name('suppliers.restore');
     Route::put('deleted-suppliers/{id}/remove', 'SupplierController@remove')->name('suppliers.remove');
 
-    Route::resource('marketings', 'MarketingController');
-    Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
-    Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');
-    Route::put('deleted-marketings/{id}/remove', 'MarketingController@remove')->name('marketings.remove');
+    Route::resource('customers', 'CustomerController');
+    Route::get('deleted-customers', 'CustomerController@indexDeleted')->name('customers.deleted');
+    Route::put('deleted-customers/{id}/restore', 'CustomerController@restore')->name('customers.restore');
+    Route::put('deleted-customers/{id}/remove', 'CustomerController@remove')->name('customers.remove');
 });
 
 Auth::routes(['verify' => true]);

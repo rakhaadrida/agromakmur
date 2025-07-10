@@ -46,7 +46,7 @@
                                                 <form action="{{ route('marketings.restore', $marketing->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Supplier">
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Marketing">
                                                         <i class="fas fa-fw fa-undo"></i>
                                                     </button>
                                                 </form>

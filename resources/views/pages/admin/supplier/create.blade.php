@@ -40,7 +40,7 @@
                                     <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Contact Number</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="contact-number" id="contactNumber" value="{{ old('contact-number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ old('contact_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -74,14 +74,14 @@
 @push('addon-script')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#contactNumber').on('keydown', function(event) {
+            $('#contactNumber').on('keypress', function(event) {
                 if (event.which > 31 && (event.which < 48 || event.which > 57)) {
                     $('#contactNumber').tooltip('show');
                     event.preventDefault();
                 }
             });
 
-            $('#taxNumber').on('keydown', function(event) {
+            $('#taxNumber').on('keypress', function(event) {
                 if (event.which > 31 && (event.which < 48 || event.which > 57)) {
                     $('#taxNumber').tooltip('show');
                     event.preventDefault();

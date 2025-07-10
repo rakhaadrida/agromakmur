@@ -4,13 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MarketingCreateRequest;
 use App\Http\Requests\MarketingUpdateRequest;
-use App\Http\Requests\SupplierCreateRequest;
-use App\Http\Requests\SupplierUpdateRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Models\Marketing;
-use App\Models\Supplier;
-use App\Models\User;
-use App\Utilities\Constant;
 use Exception;
 use Illuminate\Support\Facades\DB;
 

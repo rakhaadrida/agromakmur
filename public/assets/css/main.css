@@ -529,3 +529,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 0 !important;
     padding: 0.75rem 1.25rem 0 !important;
 }
+
+.custom-select-picker {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+    width: 25rem !important;
+}
+
+.custom-select-picker .btn-light {
+    background-color: #fff;
+}
+
+.custom-select-picker .btn:focus {
+    outline: 0 !important;
+}
