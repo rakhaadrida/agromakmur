@@ -7,14 +7,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">List Supplier</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">List Marketing</h1>
             <div class="justify-content-end">
-                <a href="{{ route('suppliers.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Supplier
+                <a href="{{ route('marketings.create') }}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Marketing
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
-                <a href="{{ route('suppliers.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Suppliers
+                <a href="{{ route('marketings.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Marketings
                 </a>
             </div>
         </div>
@@ -26,23 +26,19 @@
                             <tr>
                                 <th class="table-head-number">No</th>
                                 <th>Name</th>
-                                <th>Address</th>
-                                <th>Contact Number</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($suppliers as $key => $supplier)
+                            @forelse ($marketings as $key => $marketing)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle table-row-text">{{ $supplier->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $supplier->address }}</td>
-                                    <td class="align-middle table-row-text">{{ $supplier->contact_number }}</td>
+                                    <td class="align-middle table-row-text">{{ $marketing->name }}</td>
                                     <td class="align-middle text-center">
-                                        <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('marketings.edit', $marketing->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteSupplierModal" data-id="{{ $supplier->id }}">
+                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteMarketingModal" data-id="{{ $marketing->id }}">
                                             <i class="fas fa-fw fa-trash"></i>
                                         </a>
                                     </td>
@@ -59,7 +55,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteSupplierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteMarketingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,15 +84,15 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [3],
+                    targets: [2],
                     orderable: false
                 }
             ],
         });
 
         $(document).on('click', '.btn-delete', function () {
-            const supplierId = $(this).data('id');
-            const url = `{{ route('suppliers.destroy', '') }}` + '/' + supplierId;
+            const marketingId = $(this).data('id');
+            const url = `{{ route('marketings.destroy', '') }}` + '/' + marketingId;
 
             $('#deleteForm').attr('action', url);
         });

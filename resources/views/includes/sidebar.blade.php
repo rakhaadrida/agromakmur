@@ -60,21 +60,21 @@
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('users.index') }}">User</a>
                     @endif
+                    <a class="collapse-item" href="{{ route('marketings.index') }}">Marketing</a>
                     <a class="collapse-item" href="{{ route('suppliers.index') }}">Supplier</a>
-                    <a class="collapse-item" href="#">Sales</a>
                     <a class="collapse-item" href="#">Customer</a>
-                    <a class="collapse-item" href="#">Jenis Barang</a>
-                    <a class="collapse-item" href="#">Sub Jenis Barang</a>
-                    <a class="collapse-item" href="#">Barang</a>
-                    <a class="collapse-item" href="#">Harga</a>
-                    <a class="collapse-item" href="#">Gudang</a>
+                    <a class="collapse-item" href="#">Warehouse</a>
+                    <a class="collapse-item" href="#">Price</a>
+                    <a class="collapse-item" href="#">Category</a>
+                    <a class="collapse-item" href="#">Sub Category</a>
+                    <a class="collapse-item" href="#">Item</a>
                 </div>
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePembelian" aria-expanded="true" aria-controls="collapsePembelian">
                 <i class="fas fa-fw fa-shopping-cart"></i>
-                <span>Pembelian</span>
+                <span>Purchase</span>
             </a>
             <div id="collapsePembelian" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -91,7 +91,7 @@
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenjualan" aria-expanded="true" aria-controls="collapsePenjualan">
                 <i class="fas fa-fw fa-shipping-fast"></i>
-                <span>Penjualan</span>
+                <span>Sales</span>
             </a>
             <div id="collapsePenjualan" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -110,7 +110,7 @@
         <li class="nav-item sidebar-menu-icon" >
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-warehouse"></i>
-                <span>Stok</span>
+                <span>Stock</span>
             </a>
         </li>
     @endif
@@ -118,7 +118,7 @@
     <li class="nav-item sidebar-menu-icon">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRetur" aria-expanded="true" aria-controls="collapseRetur">
           <i class="fas fa-fw fa-recycle"></i>
-          <span>Retur</span>
+          <span>Return</span>
         </a>
         <div id="collapseRetur" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
@@ -135,7 +135,7 @@
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporan" aria-expanded="true" aria-controls="collapseLaporan">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Laporan</span>
+                <span>Report</span>
             </a>
             <div id="collapseLaporan" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -185,7 +185,7 @@
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporanFinance" aria-expanded="true" aria-controls="collapseLaporanFinance">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Laporan</span>
+                <span>Report</span>
             </a>
             <div id="collapseLaporanFinance" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">

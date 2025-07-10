@@ -27,6 +27,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-suppliers', 'SupplierController@indexDeleted')->name('suppliers.deleted');
     Route::put('deleted-suppliers/{id}/restore', 'SupplierController@restore')->name('suppliers.restore');
     Route::put('deleted-suppliers/{id}/remove', 'SupplierController@remove')->name('suppliers.remove');
+
+    Route::resource('marketings', 'MarketingController');
+    Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
+    Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');
+    Route::put('deleted-marketings/{id}/remove', 'MarketingController@remove')->name('marketings.remove');
 });
 
 Auth::routes(['verify' => true]);
