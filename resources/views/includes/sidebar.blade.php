@@ -30,7 +30,7 @@
         <li class="nav-item sidebar-menu-icon" >
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-bell"></i>
-                <span>Notifikasi</span>
+                <span>Notification</span>
             </a>
         </li>
     @endif
@@ -41,7 +41,7 @@
         <li class="nav-item sidebar-menu-icon" >
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-warehouse"></i>
-                <span>Stok</span>
+                <span>Stock</span>
             </a>
         </li>
     @endif
@@ -66,7 +66,7 @@
                     <a class="collapse-item" href="{{ route('warehouses.index') }}">Warehouse</a>
                     <a class="collapse-item" href="{{ route('prices.index') }}">Price</a>
                     <a class="collapse-item" href="{{ route('categories.index') }}">Category</a>
-                    <a class="collapse-item" href="#">Sub Category</a>
+                    <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Category</a>
                     <a class="collapse-item" href="#">Item</a>
                 </div>
             </div>
