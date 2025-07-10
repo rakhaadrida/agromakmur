@@ -30,4 +30,20 @@ class Constant
         self::USER_STATUS_PENDING => 'Pending',
         self::USER_STATUS_ACTIVE => 'Active'
     ];
+
+    const WAREHOUSE_TYPE_PRIMARY = 'PRIMARY';
+    const WAREHOUSE_TYPE_SECONDARY = 'SECONDARY';
+    const WAREHOUSE_TYPE_RETURN = 'RETURN';
+
+    const WAREHOUSE_TYPES = [
+        self::WAREHOUSE_TYPE_PRIMARY,
+        self::WAREHOUSE_TYPE_SECONDARY,
+        self::WAREHOUSE_TYPE_RETURN,
+    ];
+
+    const WAREHOUSE_TYPE_LABELS = [
+        self::WAREHOUSE_TYPE_PRIMARY => 'Primary',
+        self::WAREHOUSE_TYPE_SECONDARY => 'Secondary',
+        self::WAREHOUSE_TYPE_RETURN => 'Return'
+    ];
 }

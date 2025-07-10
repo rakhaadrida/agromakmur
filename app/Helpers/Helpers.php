@@ -42,3 +42,8 @@ function getUserRoleLabel($role): string
 {
     return Constant::USER_ROLE_LABELS[$role];
 }
+
+function getWarehouseTypeLabel($type): string
+{
+    return Constant::WAREHOUSE_TYPE_LABELS[$type];
+}
