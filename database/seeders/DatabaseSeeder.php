@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             PriceSeeder::class,
             CategorySeeder::class,
             SubcategorySeeder::class,
-            UnitSeeder::class
+            UnitSeeder::class,
+            ProductSeeder::class
         ]);
     }
 }

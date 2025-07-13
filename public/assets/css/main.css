@@ -543,3 +543,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .custom-select-picker .btn:focus {
     outline: 0 !important;
 }
+
+.product-check-input {
+    margin-left: 0 !important;
+    margin-top: 0.35rem !important;
+}
+
+.product-check-label {
+    padding-top: 0 !important;
+}
+

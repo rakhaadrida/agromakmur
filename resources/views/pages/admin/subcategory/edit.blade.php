@@ -43,7 +43,7 @@
                                                 <option value="{{ $category->id }}" data-tokens="{{ $category->name }}" @if($subcategory->category_id == $category->id) selected @endif>{{ $category->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('$category')
+                                        @error('category')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

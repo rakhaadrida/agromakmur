@@ -42,7 +42,7 @@
                                                 <option value="{{ $category->id }}" data-tokens="{{ $category->name }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('$category')
+                                        @error('category')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

@@ -2,51 +2,78 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubcategoryCreateRequest;
+use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\SubcategoryUpdateRequest;
 use App\Models\Category;
+use App\Models\Price;
+use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Unit;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class SubcategoryController extends Controller
+class ProductController extends Controller
 {
-    public function index(Request $request) {
-        $subcategories = Subcategory::query()
+    public function index() {
+        $products = Product::query()
             ->select(
-                'subcategories.*',
-                'categories.name AS category_name'
+                'products.*',
+                'categories.name AS category_name',
+                'subcategories.name AS subcategory_name',
+                'units.name AS unit_name'
             )
-            ->leftJoin('categories', 'categories.id', 'subcategories.category_id')
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
+            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
+            ->leftJoin('units', 'units.id', 'products.unit_id')
             ->get();
 
         $data = [
-            'subcategories' => $subcategories
+            'products' => $products
         ];
 
-        return view('pages.admin.subcategory.index', $data);
+        return view('pages.admin.product.index', $data);
     }
 
     public function create() {
         $categories = Category::all();
+        $units = Unit::all();
+        $prices = Price::all();
 
         $data = [
-            'categories' => $categories
+            'categories' => $categories,
+            'units' => $units,
+            'prices' => $prices
         ];
 
-        return view('pages.admin.subcategory.create', $data);
+        return view('pages.admin.product.create', $data);
     }
 
-    public function store(SubcategoryCreateRequest $request) {
+    public function store(ProductCreateRequest $request) {
         try {
             DB::beginTransaction();
 
-            Subcategory::create($request->all());
+            $product = Product::create($request->all());
+
+            if($request->get('conversion')) {
+                $product->productConversions()->create([
+                    'unit_id' => $request->get('unit_conversion_id'),
+                    'quantity' => $request->get('quantity')
+                ]);
+            }
+
+            $prices = $request->get('price', []);
+            foreach ($prices as $index => $price) {
+                $product->productPrices()->create([
+                    'price_id' => $request->get('price_id')[$index],
+                    'base_price' => $request->get('base_price')[$index],
+                    'tax_amount' => $request->get('tax_amount')[$index],
+                    'price' => $price
+                ]);
+            }
 
             DB::commit();
 
-            return redirect()->route('subcategories.index');
+            return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -57,16 +84,35 @@ class SubcategoryController extends Controller
     }
 
     public function edit($id) {
-        $subcategory = Subcategory::query()->findOrFail($id);
+        $product = Product::query()->findOrFail($id);
         $categories = Category::all();
+        $units = Unit::all();
+        $prices = Price::all();
+
+        $productPrices = $product->productPrices->mapWithKeys(function($productPrice) {
+            $array = [];
+
+            $array[$productPrice->price_id] = [
+                'base_price' => $productPrice->base_price,
+                'tax_amount' => $productPrice->tax_amount,
+                'price' => $productPrice->price
+            ];
+
+            return $array;
+        });
+
+        $productPrices = $productPrices->toArray();
 
         $data = [
             'id' => $id,
-            'subcategory' => $subcategory,
-            'categories' => $categories
+            'product' => $product,
+            'categories' => $categories,
+            'units' => $units,
+            'prices' => $prices,
+            'productPrices' => $productPrices
         ];
 
-        return view('pages.admin.subcategory.edit', $data);
+        return view('pages.admin.product.edit', $data);
     }
 
     public function update(SubcategoryUpdateRequest $request, $id) {
@@ -169,19 +215,5 @@ class SubcategoryController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
-    }
-
-    public function indexAjax(Request $request) {
-        $filter = (object) $request->all();
-
-        $subcategories = Subcategory::query();
-
-        if ($filter->category_id) {
-            $subcategories = $subcategories->where('category_id', $filter->category_id);
-        }
-
-        $subcategories = $subcategories->get();
-
-        return response()->json($subcategories);
     }
 }

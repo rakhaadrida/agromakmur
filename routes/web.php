@@ -54,6 +54,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::put('deleted-categories/{id}/remove', 'CategoryController@remove')->name('categories.remove');
 
     Route::resource('subcategories', 'SubcategoryController');
+    Route::get('subcategories-ajax', 'SubcategoryController@indexAjax')->name('subcategories.index-ajax');
     Route::get('deleted-subcategories', 'SubcategoryController@indexDeleted')->name('subcategories.deleted');
     Route::put('deleted-subcategories/{id}/restore', 'SubcategoryController@restore')->name('subcategories.restore');
     Route::put('deleted-subcategories/{id}/remove', 'SubcategoryController@remove')->name('subcategories.remove');
@@ -62,6 +63,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-units', 'UnitController@indexDeleted')->name('units.deleted');
     Route::put('deleted-units/{id}/restore', 'UnitController@restore')->name('units.restore');
     Route::put('deleted-units/{id}/remove', 'UnitController@remove')->name('units.remove');
+
+    Route::resource('products', 'ProductController');
+    Route::get('deleted-products', 'ProductController@indexDeleted')->name('products.deleted');
+    Route::put('deleted-products/{id}/restore', 'ProductController@restore')->name('products.restore');
+    Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
 });
 
 Auth::routes(['verify' => true]);
