@@ -24,7 +24,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('products.update', $product->id) }}" method="POST">
+                            <form action="{{ route('products.update', $product->id) }}" method="POST" id="form">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
@@ -54,7 +54,10 @@
                                     <label for="subcategory" class="col-2 col-form-label text-bold text-right">Subcategory</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First" disabled>
+                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First">.
+                                            @foreach($subcategories as $subcategory)
+                                                <option value="{{ $subcategory->id }}" data-tokens="{{ $subcategory->name }}" @if($product->subcategory_id == $subcategory->id) selected @endif>{{ $subcategory->name }}</option>
+                                            @endforeach
                                         </select>
                                         @error('subcategory_id')
                                         <span class="invalid-feedback" role="alert">
@@ -83,7 +86,7 @@
                                     <label for="conversion" class="col-2 col-form-label text-bold text-right"></label>
                                     <span class="col-form-label text-bold"></span>
                                     <div class="col-6 ml-1">
-                                        <input class="form-check-input product-check-input" type="checkbox" name="conversion" id="conversion" {{ !empty($product->productConversions) ? 'checked' : '' }}>
+                                        <input class="form-check-input product-check-input" type="checkbox" name="conversion" id="conversion" {{ $product->productConversions->count() ? 'checked' : '' }}>
                                         <label class="col-form-label product-check-label ml-4" for="remember">Does this product have unit conversion?</label>
                                     </div>
                                 </div>
@@ -94,6 +97,9 @@
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-3">
                                                 <select class="selectpicker custom-select-picker" name="unit_conversion_id" id="unitConversion" data-live-search="true">
+                                                    @foreach($units as $unit)
+                                                        <option value="{{ $unit->id }}" data-tokens="{{ $unit->name }}" @if($conversion->unit_id == $unit->id) selected @elseif($product->unit_id == $unit->id) hidden @endif>{{ $unit->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 @error('unit_conversion_id')
                                                 <span class="invalid-feedback" role="alert">
@@ -113,7 +119,9 @@
                                     @endforeach
                                 </div>
                                 <hr>
-                                <h5 class="h5 mb-3 text-gray-800 menu-title">Price List</h5>
+                                @if(!empty($prices) && $prices->count() > 0)
+                                    <h5 class="h5 mb-3 text-gray-800 menu-title">Price List</h5>
+                                @endif
                                 @foreach($prices as $key => $price)
                                     <div class="form-row">
                                         <div class="form-group col-2">
@@ -134,7 +142,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
                                     </div>
                                     <div class="col-2">
                                         <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
@@ -153,7 +161,66 @@
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $('#category').on('change', function(event) {
+                $('#subcategory').removeAttr('disabled');
+
+                $.ajax({
+                    url: '{{ route('subcategories.index-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        category_id: $(this).val()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let subcategory = $('#subcategory');
+                        subcategory.empty();
+
+                        $.each(data, function(index, item) {
+                            subcategory.append(
+                                $('<option></option>', {
+                                    value: item.id,
+                                    text: item.name,
+                                    'data-tokens': item.name,
+                                })
+                            );
+
+                            if(!index) {
+                                subcategory.selectpicker({
+                                    title: 'Choose Subcategory'
+                                });
+                            }
+
+                            subcategory.selectpicker('refresh');
+                            subcategory.selectpicker('render');
+                        });
+                    }
+                })
+            });
+
+            $('#unit').on('change', function(event) {
+                if($('#conversion').is(':checked')) {
+                    renderSelectConversionUnit();
+                }
+            });
+
+            $('#conversion').on('change', function(event) {
+                if ($(this).is(':checked')) {
+                    $('#conversionSection').removeAttr('hidden');
+
+                    renderSelectConversionUnit();
+                } else {
+                    $('#conversionSection').attr('hidden', true);
+                }
+            });
+
             $('input[name="price[]"]').each(function(index) {
+                let basePriceValue = $(`#basePrice-${index}`);
+                let taxValue = $(`#tax-${index}`);
+
+                basePriceValue.val(thousandSeparator(basePriceValue.val()));
+                taxValue.val(thousandSeparator(taxValue.val()));
+                this.value = thousandSeparator(this.value);
+
                 $(this).on('keypress', function(event) {
                     if (event.which > 31 && (event.which < 48 || event.which > 57)) {
                         $(`#price-${index}`).tooltip('show');
@@ -171,6 +238,78 @@
                     this.value = currencyFormat(this.value);
                 });
             });
+
+            $('#btnSubmit').on('click', function(event) {
+                event.preventDefault();
+
+                $('input[name="price[]"]').each(function() {
+                    this.value = numberFormat(this.value);
+                });
+
+                $('input[name="tax_amount[]"]').each(function() {
+                    this.value = numberFormat(this.value);
+                });
+
+                $('input[name="base_price[]"]').each(function() {
+                    this.value = numberFormat(this.value);
+                });
+
+                $('#form').submit();
+            });
+
+            function renderSelectConversionUnit() {
+                let selectedUnit = $('#unit option:selected');
+                let primaryUnitName = selectedUnit.text();
+                let primaryUnitId = selectedUnit.val();
+                $('#primaryUnit').text(`${primaryUnitName}`);
+
+                let conversionUnit = $('#unitConversion');
+                conversionUnit.empty();
+
+                @foreach($units as $key => $unit)
+                if (primaryUnitId !== '{{ $unit->id }}') {
+                    conversionUnit.append(
+                        $('<option></option>', {
+                            value: '{{ $unit->id }}',
+                            text: '{{ $unit->name }}',
+                            'data-tokens': '{{ $unit->name }}'
+                        })
+                    );
+                }
+
+                if('{{ $key }}') {
+                    conversionUnit.selectpicker({
+                        title: 'Choose Unit Conversion',
+                    });
+                }
+                @endforeach
+
+                conversionUnit.selectpicker('refresh');
+                conversionUnit.selectpicker('render');
+            }
+
+            function currencyFormat(value) {
+                return value
+                    .replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                    ;
+            }
+
+            function numberFormat(value) {
+                return +value.replace(/\./g, "");
+            }
+
+            function thousandSeparator(nStr) {
+                nStr += '';
+                x = nStr.split(',');
+                x1 = x[0];
+                x2 = x.length > 1 ? ',' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + '.' + '$2');
+                }
+                return x1 + x2;
+            }
         });
     </script>
 @endpush

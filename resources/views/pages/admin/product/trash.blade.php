@@ -8,20 +8,20 @@
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
             <div>
-                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Subcategories</h1>
+                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Products</h1>
             </div>
             <div class="row">
-                <form action="{{ route('subcategories.restore', 0) }}" method="POST">
+                <form action="{{ route('products.restore', 0) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Subcategories">
-                        Restore All Subcategories
+                    <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Products">
+                        Restore All Products
                     </button>
                 </form>
-                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteSubcategoryModal" data-id="0">
-                    Permanently Delete All Subcategories
+                <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteProductModal" data-id="0">
+                    Permanently Delete All Products
                 </a>
-                <a href="{{ route('subcategories.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Subcategories List</a>
+                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Products List</a>
             </div>
         </div>
         <div class="row">
@@ -33,27 +33,29 @@
                                 <th class="table-head-number">No</th>
                                 <th>Name</th>
                                 <th>Category</th>
+                                <th>Unit</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($subcategories as $key => $subcategory)
+                            @forelse ($products as $key => $product)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle table-row-text">{{ $subcategory->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $subcategory->category_name }}</td>
+                                    <td class="align-middle table-row-text">{{ $product->name }}</td>
+                                    <td class="align-middle table-row-text">{{ $product->category_name }} - {{ $product->subcategory_name }}</td>
+                                    <td class="align-middle table-row-text">{{ $product->unit_name }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">
                                             <div class="col-auto button-action-deleted-left">
-                                                <form action="{{ route('subcategories.restore', $subcategory->id) }}" method="POST">
+                                                <form action="{{ route('products.restore', $product->id) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Subcategory">
+                                                    <button type="submit" class="btn btn-sm btn-success" title="Restore Product">
                                                         <i class="fas fa-fw fa-undo"></i>
                                                     </button>
                                                 </form>
                                             </div>
-                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteSubcategoryModal" data-id="{{ $subcategory->id }}">
+                                            <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteProductModal" data-id="{{ $product->id }}">
                                                 <i class="fas fa-fw fa-eraser"></i>
                                             </a>
                                         </div>
@@ -61,7 +63,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">No Data Available</td>
+                                    <td colspan="5" class="text-center">No Data Available</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -71,7 +73,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteSubcategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,17 +102,17 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [2],
+                    targets: [4],
                     orderable: false
                 }
             ],
         });
 
         $(document).on('click', '.btn-delete', function () {
-            const subcategoryId = $(this).data('id');
-            const url = `{{ route('subcategories.remove', 'subcategoryId') }}`;
+            const productId = $(this).data('id');
+            const url = `{{ route('products.remove', 'productId') }}`;
 
-            $('#deleteForm').attr('action', url.replace('subcategoryId', subcategoryId));
+            $('#deleteForm').attr('action', url.replace('productId', productId));
         });
     </script>
 @endpush

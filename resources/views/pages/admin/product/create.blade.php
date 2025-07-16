@@ -82,8 +82,8 @@
                                     <label for="conversion" class="col-2 col-form-label text-bold text-right"></label>
                                     <span class="col-form-label text-bold"></span>
                                     <div class="col-6 ml-1">
-                                        <input class="form-check-input product-check-input" type="checkbox" name="conversion" id="conversion" {{ old('conversion') ? 'checked' : '' }}>
-                                        <label class="col-form-label product-check-label ml-4" for="remember">Does this product have unit conversion?</label>
+                                        <input class="form-check-input product-check-input" type="checkbox" name="has_conversion" id="conversion">
+                                        <label class="col-form-label product-check-label ml-4" for="conversion">Does this product have unit conversion?</label>
                                     </div>
                                 </div>
                                 <div id="conversionSection" hidden>
@@ -110,7 +110,9 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <h5 class="h5 mb-3 text-gray-800 menu-title">Price List</h5>
+                                @if(!empty($prices) && $prices->count() > 0)
+                                    <h5 class="h5 mb-3 text-gray-800 menu-title">Price List</h5>
+                                @endif
                                 @foreach($prices as $key => $price)
                                     <div class="form-row">
                                         <div class="form-group col-2">
@@ -180,15 +182,10 @@
                                 subcategory.selectpicker({
                                     title: 'Choose Subcategory'
                                 });
-
-                                // subcategory.removeAttr('title');
                             }
 
                             subcategory.selectpicker('refresh');
-                            // $('#subcategory option:first-child').remove();
-
                             subcategory.selectpicker('render');
-                            subcategory.selectpicker('setStyle', 'bs-placeholder', 'remove');
                         });
                     }
                 })
@@ -203,10 +200,12 @@
             $('#conversion').on('change', function(event) {
                 if ($(this).is(':checked')) {
                     $('#conversionSection').removeAttr('hidden');
+                    this.value = 1;
 
                     renderSelectConversionUnit();
                 } else {
                     $('#conversionSection').attr('hidden', true);
+                    this.value = 0;
                 }
             });
 

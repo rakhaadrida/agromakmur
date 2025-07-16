@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\SubcategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Price;
@@ -54,7 +55,7 @@ class ProductController extends Controller
 
             $product = Product::create($request->all());
 
-            if($request->get('conversion')) {
+            if($request->get('has_conversion')) {
                 $product->productConversions()->create([
                     'unit_id' => $request->get('unit_conversion_id'),
                     'quantity' => $request->get('quantity')
@@ -88,6 +89,9 @@ class ProductController extends Controller
         $categories = Category::all();
         $units = Unit::all();
         $prices = Price::all();
+        $subcategories = Subcategory::query()
+            ->where('category_id', $product->category_id)
+            ->get();
 
         $productPrices = $product->productPrices->mapWithKeys(function($productPrice) {
             $array = [];
@@ -109,27 +113,47 @@ class ProductController extends Controller
             'categories' => $categories,
             'units' => $units,
             'prices' => $prices,
+            'subcategories' => $subcategories,
             'productPrices' => $productPrices
         ];
 
         return view('pages.admin.product.edit', $data);
     }
 
-    public function update(SubcategoryUpdateRequest $request, $id) {
+    public function update(ProductUpdateRequest $request, $id) {
         try {
             DB::beginTransaction();
 
             $data = $request->all();
-            $subcategory = Subcategory::query()->findOrFail($id);
-            $subcategory->update($data);
+            $product = Product::query()->findOrFail($id);
+            $product->update($data);
+
+            $product->productConversions()->delete();
+            if($request->get('has_conversion')) {
+                $product->productConversions()->create([
+                    'unit_id' => $request->get('unit_conversion_id'),
+                    'quantity' => $request->get('quantity')
+                ]);
+            }
+
+            $prices = $request->get('price', []);
+            $product->productPrices()->delete();
+            foreach ($prices as $index => $price) {
+                $product->productPrices()->create([
+                    'price_id' => $request->get('price_id')[$index],
+                    'base_price' => $request->get('base_price')[$index],
+                    'tax_amount' => $request->get('tax_amount')[$index],
+                    'price' => $price
+                ]);
+            }
 
             DB::commit();
 
-            return redirect()->route('subcategories.index');
+            return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
 
-            return redirect()->route('subcategories.edit', $id)->withInput()->withErrors([
+            return redirect()->route('products.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }
@@ -139,12 +163,14 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
-            $subcategory = Subcategory::query()->findOrFail($id);
-            $subcategory->delete();
+            $product = Product::query()->findOrFail($id);
+            $product->productPrices()->delete();
+            $product->productConversions()->delete();
+            $product->delete();
 
             DB::commit();
 
-            return redirect()->route('subcategories.index');
+            return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -155,36 +181,40 @@ class ProductController extends Controller
     }
 
     public function indexDeleted() {
-        $subcategories = Subcategory::onlyTrashed()
+        $products = Product::onlyTrashed()
             ->select(
-                'subcategories.*',
-                'categories.name AS category_name'
+                'products.*',
+                'categories.name AS category_name',
+                'subcategories.name AS subcategory_name',
+                'units.name AS unit_name'
             )
-            ->leftJoin('categories', 'categories.id', 'subcategories.category_id')
-            ->where('subcategories.is_destroy', 0)
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
+            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
+            ->leftJoin('units', 'units.id', 'products.unit_id')
+            ->where('products.is_destroy', 0)
             ->get();
 
         $data = [
-            'subcategories' => $subcategories
+            'products' => $products
         ];
 
-        return view('pages.admin.subcategory.trash', $data);
+        return view('pages.admin.product.trash', $data);
     }
 
     public function restore($id) {
         try {
             DB::beginTransaction();
 
-            $subcategories = Subcategory::onlyTrashed();
+            $products = Product::onlyTrashed();
             if($id) {
-                $subcategories = $subcategories->where('id', $id);
+                $products = $products->where('id', $id);
             }
 
-            $subcategories->restore();
+            $products->restore();
 
             DB::commit();
 
-            return redirect()->route('subcategories.deleted');
+            return redirect()->route('products.deleted');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -198,16 +228,16 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
-            $subcategories = Subcategory::onlyTrashed();
+            $products = Product::onlyTrashed();
             if($id) {
-                $subcategories = $subcategories->where('id', $id);
+                $products = $products->where('id', $id);
             }
 
-            $subcategories->update(['is_destroy' => 1]);
+            $products->update(['is_destroy' => 1]);
 
             DB::commit();
 
-            return redirect()->route('subcategories.deleted');
+            return redirect()->route('products.deleted');
         } catch (Exception $e) {
             DB::rollBack();
 
