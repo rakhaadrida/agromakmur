@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Exports\ProductExport;
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductStockRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Subcategory;
 use App\Models\Unit;
+use App\Models\Warehouse;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +180,69 @@ class ProductController extends Controller
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
+            ]);
+        }
+    }
+
+    public function stock($id) {
+        $product = Product::query()
+            ->select(
+                'products.*',
+                'categories.name AS category_name',
+                'subcategories.name AS subcategory_name',
+                'units.name AS unit_name'
+            )
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
+            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
+            ->leftJoin('units', 'units.id', 'products.unit_id')
+            ->findOrFail($id);
+
+        $warehouses = Warehouse::all();
+        $productStocks = $product->productStocks->mapWithKeys(function($productStock) {
+            $array = [];
+
+            $array[$productStock->warehouse_id] = [
+                'product_id' => $productStock->product_id,
+                'stock' => $productStock->stock,
+            ];
+
+            return $array;
+        });
+
+        $productStocks = $productStocks->toArray();
+
+        $data = [
+            'product' => $product,
+            'warehouses' => $warehouses,
+            'productStocks' => $productStocks
+        ];
+
+        return view('pages.admin.product.stock', $data);
+    }
+
+    public function updateStock(ProductStockRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $product = Product::query()->findOrFail($id);
+
+            $stocks = $request->get('stock', []);
+            $product->productStocks()->delete();
+            foreach ($stocks as $index => $stock) {
+                $product->productStocks()->create([
+                    'warehouse_id' => $request->get('warehouse_id')[$index],
+                    'stock' => $stock
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('products.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return redirect()->route('products.stock', $id)->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
             ]);
         }
     }

@@ -71,6 +71,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::put('deleted-units/{id}/remove', 'UnitController@remove')->name('units.remove');
 
     Route::resource('products', 'ProductController');
+    Route::get('products/{id}/stock', 'ProductController@stock')->name('products.stock');
+    Route::put('products/{id}/stock', 'ProductController@updateStock')->name('products.update-stock');
     Route::get('deleted-products', 'ProductController@indexDeleted')->name('products.deleted');
     Route::put('deleted-products/{id}/restore', 'ProductController@restore')->name('products.restore');
     Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');

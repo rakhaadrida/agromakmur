@@ -46,6 +46,9 @@
                                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
                                         </a>
+                                        <a href="{{ route('products.stock', $product->id) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-fw fa-warehouse"></i>
+                                        </a>
                                         <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteProductModal" data-id="{{ $product->id }}">
                                             <i class="fas fa-fw fa-trash"></i>
                                         </a>
