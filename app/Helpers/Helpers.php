@@ -47,3 +47,8 @@ function getWarehouseTypeLabel($type): string
 {
     return Constant::WAREHOUSE_TYPE_LABELS[$type];
 }
+
+function isActiveData($item): string
+{
+    return empty($item->deleted_at) ? 'Active' : 'Inactive';
+}

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\WarehouseExport;
 use App\Http\Requests\WarehouseCreateRequest;
 use App\Http\Requests\WarehouseUpdateRequest;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class WarehouseController extends Controller
 {
@@ -165,5 +168,11 @@ class WarehouseController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new WarehouseExport(), 'Warehouse_Data_'.$fileDate.'.xlsx');
     }
 }

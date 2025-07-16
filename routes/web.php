@@ -27,21 +27,25 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
     Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');
     Route::put('deleted-marketings/{id}/remove', 'MarketingController@remove')->name('marketings.remove');
+    Route::get('export-marketings', 'MarketingController@export')->name('marketings.export');
 
     Route::resource('suppliers', 'SupplierController');
     Route::get('deleted-suppliers', 'SupplierController@indexDeleted')->name('suppliers.deleted');
     Route::put('deleted-suppliers/{id}/restore', 'SupplierController@restore')->name('suppliers.restore');
     Route::put('deleted-suppliers/{id}/remove', 'SupplierController@remove')->name('suppliers.remove');
+    Route::get('export-suppliers', 'SupplierController@export')->name('suppliers.export');
 
     Route::resource('customers', 'CustomerController');
     Route::get('deleted-customers', 'CustomerController@indexDeleted')->name('customers.deleted');
     Route::put('deleted-customers/{id}/restore', 'CustomerController@restore')->name('customers.restore');
     Route::put('deleted-customers/{id}/remove', 'CustomerController@remove')->name('customers.remove');
+    Route::get('export-customers', 'CustomerController@export')->name('customers.export');
 
     Route::resource('warehouses', 'WarehouseController');
     Route::get('deleted-warehouses', 'WarehouseController@indexDeleted')->name('warehouses.deleted');
     Route::put('deleted-warehouses/{id}/restore', 'WarehouseController@restore')->name('warehouses.restore');
     Route::put('deleted-warehouses/{id}/remove', 'WarehouseController@remove')->name('warehouses.remove');
+    Route::get('export-warehouses', 'WarehouseController@export')->name('warehouses.export');
 
     Route::resource('prices', 'PriceController');
     Route::get('deleted-prices', 'PriceController@indexDeleted')->name('prices.deleted');
@@ -52,12 +56,14 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-categories', 'CategoryController@indexDeleted')->name('categories.deleted');
     Route::put('deleted-categories/{id}/restore', 'CategoryController@restore')->name('categories.restore');
     Route::put('deleted-categories/{id}/remove', 'CategoryController@remove')->name('categories.remove');
+    Route::get('export-categories', 'CategoryController@export')->name('categories.export');
 
     Route::resource('subcategories', 'SubcategoryController');
     Route::get('subcategories-ajax', 'SubcategoryController@indexAjax')->name('subcategories.index-ajax');
     Route::get('deleted-subcategories', 'SubcategoryController@indexDeleted')->name('subcategories.deleted');
     Route::put('deleted-subcategories/{id}/restore', 'SubcategoryController@restore')->name('subcategories.restore');
     Route::put('deleted-subcategories/{id}/remove', 'SubcategoryController@remove')->name('subcategories.remove');
+    Route::get('export-subcategories', 'SubcategoryController@export')->name('subcategories.export');
 
     Route::resource('units', 'UnitController');
     Route::get('deleted-units', 'UnitController@indexDeleted')->name('units.deleted');
@@ -68,6 +74,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('deleted-products', 'ProductController@indexDeleted')->name('products.deleted');
     Route::put('deleted-products/{id}/restore', 'ProductController@restore')->name('products.restore');
     Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
+    Route::get('export-products', 'ProductController@export')->name('products.export');
 });
 
 Auth::routes(['verify' => true]);

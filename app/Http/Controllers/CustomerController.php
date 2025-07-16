@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
 use App\Http\Requests\CustomerCreateRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\Customer;
 use App\Models\Marketing;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
@@ -168,5 +171,11 @@ class CustomerController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new CustomerExport(), 'Customer_Data_'.$fileDate.'.xlsx');
     }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SupplierExport;
 use App\Http\Requests\SupplierCreateRequest;
 use App\Http\Requests\SupplierUpdateRequest;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
 {
@@ -146,5 +149,11 @@ class SupplierController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new SupplierExport(), 'Supplier_Data_'.$fileDate.'.xlsx');
     }
 }

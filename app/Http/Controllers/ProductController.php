@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Http\Requests\SubcategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Subcategory;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -245,5 +247,11 @@ class ProductController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new ProductExport(), 'Product_Data_'.$fileDate.'.xlsx');
     }
 }

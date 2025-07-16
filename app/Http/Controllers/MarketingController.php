@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MarketingExport;
 use App\Http\Requests\MarketingCreateRequest;
 use App\Http\Requests\MarketingUpdateRequest;
 use App\Models\Marketing;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MarketingController extends Controller
 {
@@ -146,5 +149,11 @@ class MarketingController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new MarketingExport(), 'Marketing_Data_'.$fileDate.'.xlsx');
     }
 }

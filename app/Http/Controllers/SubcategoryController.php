@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SubcategoryExport;
 use App\Http\Requests\SubcategoryCreateRequest;
 use App\Http\Requests\SubcategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Subcategory;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SubcategoryController extends Controller
 {
@@ -169,6 +172,12 @@ class SubcategoryController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new SubcategoryExport(), 'Subcategory_Data_'.$fileDate.'.xlsx');
     }
 
     public function indexAjax(Request $request) {

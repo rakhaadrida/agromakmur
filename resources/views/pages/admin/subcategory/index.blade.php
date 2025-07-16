@@ -16,6 +16,10 @@
                 <a href="{{ route('subcategories.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
                     <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Subcategories
                 </a>
+                <span class="vertical-hr mr-2 ml-1"></span>
+                <a href="{{ route('subcategories.export') }}" class="btn btn-sm btn-success shadow-sm">
+                    <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Download Excel
+                </a>
             </div>
         </div>
         <div class="row">

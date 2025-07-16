@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CategoryExport;
 use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
@@ -146,5 +149,11 @@ class CategoryController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new CategoryExport(), 'Category_Data_'.$fileDate.'.xlsx');
     }
 }
