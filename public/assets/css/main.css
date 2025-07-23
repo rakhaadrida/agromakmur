@@ -553,3 +553,113 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding-top: 0 !important;
 }
 
+.input-password-modal-body {
+    margin-bottom: 0 !important;
+}
+
+.warehouse-select-picker {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+    width: 16rem !important;
+    margin-top: -0.1rem !important;
+}
+
+.warehouse-select-picker .dropdown-toggle {
+    padding: 0.25rem 0.35rem !important;
+    background: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.supplier-select-picker {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+    width: 22rem !important;
+    margin-top: -0.1rem !important;
+}
+
+.supplier-select-picker .dropdown-toggle {
+    padding: 0.25rem 0.35rem !important;
+    background: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.table-head-number-transaction {
+    width: 40px;
+}
+
+.table-head-code-transaction {
+    width: 120px;
+}
+
+.table-head-name-transaction {
+    width: 320px;
+}
+
+.table-head-quantity-transaction {
+    width: 70px;
+}
+
+.table-head-unit-transaction {
+    width: 70px;
+}
+
+.table-head-price-transaction {
+    width: 110px;
+}
+
+.table-head-total-transaction {
+    width: 120px;
+}
+
+.product-sku-select-picker {
+    width: 7.5rem !important;
+}
+
+.product-sku-select-picker .dropdown-toggle {
+    width: 150px !important;
+}
+
+.product-name-select-picker {
+    width: 20rem !important;
+}
+
+.product-name-select-picker .dropdown-toggle {
+    width: 400px !important;
+}
+
+.product-unit-select-picker {
+    width: 4.375rem !important;
+}
+
+.product-unit-select-picker .dropdown-toggle {
+    width: 90px !important;
+}
+
+.product-sku-select-picker,
+.product-name-select-picker,
+.product-unit-select-picker {
+    padding: 0 !important;
+}
+
+.product-sku-select-picker .dropdown-toggle,
+.product-name-select-picker .dropdown-toggle,
+.product-unit-select-picker .dropdown-toggle {
+    padding: 0.3rem 0.35rem !important;
+    background: none !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.product-sku-select-picker .dropdown-toggle:after,
+.product-name-select-picker .dropdown-toggle:after,
+.product-unit-select-picker .dropdown-toggle:after {
+    border: none !important;
+}
+
+

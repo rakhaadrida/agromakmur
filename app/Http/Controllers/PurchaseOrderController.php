@@ -10,15 +10,15 @@ use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Warehouse;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ProductController extends Controller
+class PurchaseOrderController extends Controller
 {
     public function index() {
         $products = Product::query()
@@ -41,17 +41,23 @@ class ProductController extends Controller
     }
 
     public function create() {
-        $categories = Category::all();
-        $units = Unit::all();
-        $prices = Price::all();
+        $date = Carbon::now()->format('d-m-Y');
+        $suppliers = Supplier::all();
+        $warehouses = Warehouse::all();
+        $products = Product::all();
+        $rows = range(1, 5);
+        $rowNumbers = count($rows);
 
         $data = [
-            'categories' => $categories,
-            'units' => $units,
-            'prices' => $prices
+            'date' => $date,
+            'suppliers' => $suppliers,
+            'warehouses' => $warehouses,
+            'products' => $products,
+            'rows' => $rows,
+            'rowNumbers' => $rowNumbers
         ];
 
-        return view('pages.admin.product.create', $data);
+        return view('pages.admin.purchase-order.create', $data);
     }
 
     public function store(ProductCreateRequest $request) {
@@ -319,33 +325,5 @@ class ProductController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new ProductExport(), 'Product_Data_'.$fileDate.'.xlsx');
-    }
-
-    public function indexAjax(Request $request) {
-        $filter = (object) $request->all();
-
-        $product = Product::query()
-            ->with(['mainPrice'])
-            ->findOrFail($filter->product_id);
-
-        $units[] = [
-            'id' => $product->unit_id,
-            'name' => $product->unit->name,
-            'quantity' => 1
-        ];
-
-        foreach ($product->productConversions as $conversion) {
-            $units[] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
-        }
-
-        return response()->json([
-            'data' => $product,
-            'units' => $units,
-            'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
-        ]);
     }
 }

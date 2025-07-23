@@ -46,4 +46,16 @@ class Constant
         self::WAREHOUSE_TYPE_SECONDARY => 'Secondary',
         self::WAREHOUSE_TYPE_RETURN => 'Return'
     ];
+
+    const PURCHASE_ORDER_STATUS_ACTIVE = 'ACTIVE';
+    const PURCHASE_ORDER_STATUS_WAITING_APPROVAL = 'WAITING_APPROVAL';
+    const PURCHASE_ORDER_STATUS_UPDATED = 'UPDATED';
+    const PURCHASE_ORDER_STATUS_CANCELLED = 'CANCELLED';
+
+    const PURCHASE_ORDER_STATUS_LABELS = [
+        self::PURCHASE_ORDER_STATUS_ACTIVE => 'Active',
+        self::PURCHASE_ORDER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
+        self::PURCHASE_ORDER_STATUS_UPDATED => 'Updated',
+        self::PURCHASE_ORDER_STATUS_CANCELLED => 'Cancelled',
+    ];
 }

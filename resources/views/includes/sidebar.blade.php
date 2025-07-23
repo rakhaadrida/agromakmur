@@ -73,28 +73,28 @@
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePembelian" aria-expanded="true" aria-controls="collapsePembelian">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePurchase" aria-expanded="true" aria-controls="collapsePembelian">
                 <i class="fas fa-fw fa-shopping-cart"></i>
                 <span>Purchase</span>
             </a>
-            <div id="collapsePembelian" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="#">Penerimaan Barang</a>
-                    <a class="collapse-item" href="#">Cetak Barang Masuk</a>
-                    <a class="collapse-item" href="#">Ubah Barang Masuk</a>
-                    <a class="collapse-item" href="#">Barang Masuk Harian</a>
-                    <a class="collapse-item" href="#">Transfer Barang</a>
-                    <a class="collapse-item" href="#">Cetak Transfer Barang</a>
-                    <a class="collapse-item" href="#">Data Transfer Barang</a>
+                    <a class="collapse-item" href="{{ route('purchase-orders.create') }}">Purchase Order</a>
+                    <a class="collapse-item" href="#">Print Purchase Order</a>
+                    <a class="collapse-item" href="#">Edit Purchase Order</a>
+                    <a class="collapse-item" href="#">Daily Purchase Order</a>
+                    <a class="collapse-item" href="#">Product Transfer</a>
+                    <a class="collapse-item" href="#">Print Product Transfer</a>
+                    <a class="collapse-item" href="#">List Product Transfer</a>
                 </div>
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenjualan" aria-expanded="true" aria-controls="collapsePenjualan">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapsePenjualan">
                 <i class="fas fa-fw fa-shipping-fast"></i>
                 <span>Sales</span>
             </a>
-            <div id="collapsePenjualan" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="#">Input Faktur</a>
                     <a class="collapse-item" href="#">Cetak Faktur</a>
