@@ -3,18 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ProductExport;
-use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductStockRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\PurchaseOrderCreateRequest;
 use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductStock;
+use App\Models\PurchaseOrder;
 use App\Models\Subcategory;
 use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Warehouse;
+use App\Utilities\Constant;
+use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -60,35 +65,79 @@ class PurchaseOrderController extends Controller
         return view('pages.admin.purchase-order.create', $data);
     }
 
-    public function store(ProductCreateRequest $request) {
+    public function store(PurchaseOrderCreateRequest $request) {
         try {
             DB::beginTransaction();
 
-            $product = Product::create($request->all());
+            $date = $request->get('date');
+            $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
-            if($request->get('has_conversion')) {
-                $product->productConversions()->create([
-                    'unit_id' => $request->get('unit_conversion_id'),
-                    'quantity' => $request->get('quantity')
-                ]);
+            $request->merge([
+                'date' => $date,
+                'subtotal' => 0,
+                'tax_amount' => 0,
+                'grand_total' => 0,
+                'status' => Constant::PURCHASE_ORDER_STATUS_ACTIVE,
+                'user_id' => Auth::user()->id,
+            ]);
+
+            $purchaseOrder = PurchaseOrder::create($request->all());
+
+            $subtotal = 0;
+            $productIds = $request->get('product_id', []);
+            foreach ($productIds as $index => $productId) {
+                if(!empty($productId)) {
+                    $unitId = $request->get('unit_id')[$index];
+                    $quantity = $request->get('quantity')[$index];
+                    $realQuantity = $request->get('real_quantity')[$index];
+                    $price = $request->get('price')[$index];
+
+                    $actualQuantity = $quantity * $realQuantity;
+                    $total = $quantity * $price;
+                    $subtotal += $total;
+
+                    $purchaseOrder->purchaseOrderItems()->create([
+                        'product_id' => $productId,
+                        'unit_id' => $unitId,
+                        'quantity' => $quantity,
+                        'actual_quantity' => $actualQuantity,
+                        'price' => $price,
+                        'total' => $total
+                    ]);
+
+                    $productStock = ProductService::getProductStockQuery(
+                        $productId,
+                        $purchaseOrder->warehouse_id
+                    );
+
+                    if($productStock) {
+                        $productStock->increment('stock', $actualQuantity);
+                    } else {
+                        ProductStock::create([
+                            'product_id' => $productId,
+                            'warehouse_id' => $purchaseOrder->warehouse_id,
+                            'stock' => $actualQuantity
+                        ]);
+                    }
+                }
             }
 
-            $prices = $request->get('price', []);
-            foreach ($prices as $index => $price) {
-                $product->productPrices()->create([
-                    'price_id' => $request->get('price_id')[$index],
-                    'base_price' => $request->get('base_price')[$index],
-                    'tax_amount' => $request->get('tax_amount')[$index],
-                    'price' => $price
-                ]);
-            }
+            $taxAmount = $subtotal * (10 / 100);
+            $grandTotal = $subtotal + $taxAmount;
+
+            $purchaseOrder->update([
+                'subtotal' => $subtotal,
+                'tax_amount' => $taxAmount,
+                'grand_total' => $grandTotal
+            ]);
 
             DB::commit();
 
-            return redirect()->route('products.index');
+            return redirect()->route('purchase-orders.create');
         } catch (Exception $e) {
             DB::rollBack();
 
+            dd($e->getMessage());
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
             ]);
