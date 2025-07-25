@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ValidProductSubcategory;
+use App\Rules\ValidUniquePurchaseOrderNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PurchaseOrderCreateRequest extends FormRequest
@@ -15,7 +16,7 @@ class PurchaseOrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'number' => ['required', 'string', 'max:255'],
+            'number' => ['required', 'string', 'max:255', new ValidUniquePurchaseOrderNumber(0)],
             'warehouse_id' => ['required', 'exists:warehouses,id,deleted_at,NULL'],
             'supplier_id' => ['required', 'exists:suppliers,id,deleted_at,NULL'],
             'date' => ['required', 'date', 'date_format:d-m-Y'],

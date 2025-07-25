@@ -48,7 +48,20 @@ function getWarehouseTypeLabel($type): string
     return Constant::WAREHOUSE_TYPE_LABELS[$type];
 }
 
+function getPurchaseOrderStatusLabel($status): string
+{
+    return Constant::PURCHASE_ORDER_STATUS_LABELS[$status];
+}
+
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';
+}
+
+function formatDate($date, $format) {
+    return \Carbon\Carbon::parse($date)->format($format);
+}
+
+function formatCurrency($amount) {
+    return number_format($amount, 0, '', ',');
 }

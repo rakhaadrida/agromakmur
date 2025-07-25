@@ -16,11 +16,13 @@ use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
+use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseOrderController extends Controller
@@ -131,13 +133,15 @@ class PurchaseOrderController extends Controller
                 'grand_total' => $grandTotal
             ]);
 
+            AccountPayableService::createData($purchaseOrder);
+
             DB::commit();
 
             return redirect()->route('purchase-orders.create');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
-            dd($e->getMessage());
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
             ]);
@@ -303,25 +307,23 @@ class PurchaseOrderController extends Controller
         }
     }
 
-    public function indexDeleted() {
-        $products = Product::onlyTrashed()
+    public function indexPrint() {
+        $purchaseOrders = PurchaseOrder::query()
             ->select(
-                'products.*',
-                'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
-                'units.name AS unit_name'
+                'purchase_orders.*',
+                'warehouses.name AS warehouse_name',
+                'suppliers.name AS supplier_name'
             )
-            ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
-            ->leftJoin('units', 'units.id', 'products.unit_id')
-            ->where('products.is_destroy', 0)
+            ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
+            ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
+            ->where('purchase_orders.is_printed', 0)
             ->get();
 
         $data = [
-            'products' => $products
+            'purchaseOrders' => $purchaseOrders
         ];
 
-        return view('pages.admin.product.trash', $data);
+        return view('pages.admin.purchase-order.index-print', $data);
     }
 
     public function restore($id) {

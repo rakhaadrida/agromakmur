@@ -80,6 +80,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('export-products', 'ProductController@export')->name('products.export');
 
     Route::resource('purchase-orders', 'PurchaseOrderController');
+    Route::get('print-purchase-orders', 'PurchaseOrderController@indexPrint')->name('purchase-orders.index-print');
 });
 
 Auth::routes(['verify' => true]);

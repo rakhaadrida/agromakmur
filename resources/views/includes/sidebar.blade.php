@@ -80,7 +80,7 @@
             <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('purchase-orders.create') }}">Purchase Order</a>
-                    <a class="collapse-item" href="#">Print Purchase Order</a>
+                    <a class="collapse-item" href="{{ route('purchase-orders.index-print') }}">Print Purchase Order</a>
                     <a class="collapse-item" href="#">Edit Purchase Order</a>
                     <a class="collapse-item" href="#">Daily Purchase Order</a>
                     <a class="collapse-item" href="#">Product Transfer</a>
