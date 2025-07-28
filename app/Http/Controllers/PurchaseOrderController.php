@@ -4,28 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\PurchaseOrderCreateRequest;
-use App\Models\Category;
-use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\PurchaseOrder;
-use App\Models\Subcategory;
 use App\Models\Supplier;
-use App\Models\Unit;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderController extends Controller
 {
-    public function index() {
-        $date = Carbon::now()->format('d-m-Y');
+    public function index(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
         $purchaseOrders = PurchaseOrder::query()
             ->select(
@@ -37,11 +37,13 @@ class PurchaseOrderController extends Controller
             ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
             ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
             ->leftJoin('users', 'users.id', 'purchase_orders.user_id')
-            ->where('purchase_orders.date', '>=',  Carbon::now()->startOfDay())
+            ->where('purchase_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('purchase_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->get();
 
         $data = [
-            'date' => $date,
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
             'purchaseOrders' => $purchaseOrders
         ];
 
@@ -149,40 +151,17 @@ class PurchaseOrderController extends Controller
         }
     }
 
-    public function edit($id) {
-        $product = Product::query()->findOrFail($id);
-        $categories = Category::all();
-        $units = Unit::all();
-        $prices = Price::all();
-        $subcategories = Subcategory::query()
-            ->where('category_id', $product->category_id)
-            ->get();
-
-        $productPrices = $product->productPrices->mapWithKeys(function($productPrice) {
-            $array = [];
-
-            $array[$productPrice->price_id] = [
-                'base_price' => $productPrice->base_price,
-                'tax_amount' => $productPrice->tax_amount,
-                'price' => $productPrice->price
-            ];
-
-            return $array;
-        });
-
-        $productPrices = $productPrices->toArray();
+    public function detail($id) {
+        $purchaseOrder = PurchaseOrder::query()->findOrFail($id);
+        $purchaseOrderItems = $purchaseOrder->purchaseOrderItems;
 
         $data = [
             'id' => $id,
-            'product' => $product,
-            'categories' => $categories,
-            'units' => $units,
-            'prices' => $prices,
-            'subcategories' => $subcategories,
-            'productPrices' => $productPrices
+            'purchaseOrder' => $purchaseOrder,
+            'purchaseOrderItems' => $purchaseOrderItems,
         ];
 
-        return view('pages.admin.product.edit', $data);
+        return view('pages.admin.purchase-order.detail', $data);
     }
 
     public function update(ProductUpdateRequest $request, $id) {
@@ -243,42 +222,6 @@ class PurchaseOrderController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
-    }
-
-    public function stock($id) {
-        $product = Product::query()
-            ->select(
-                'products.*',
-                'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
-                'units.name AS unit_name'
-            )
-            ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
-            ->leftJoin('units', 'units.id', 'products.unit_id')
-            ->findOrFail($id);
-
-        $warehouses = Warehouse::all();
-        $productStocks = $product->productStocks->mapWithKeys(function($productStock) {
-            $array = [];
-
-            $array[$productStock->warehouse_id] = [
-                'product_id' => $productStock->product_id,
-                'stock' => $productStock->stock,
-            ];
-
-            return $array;
-        });
-
-        $productStocks = $productStocks->toArray();
-
-        $data = [
-            'product' => $product,
-            'warehouses' => $warehouses,
-            'productStocks' => $productStocks
-        ];
-
-        return view('pages.admin.product.stock', $data);
     }
 
     public function indexPrint() {

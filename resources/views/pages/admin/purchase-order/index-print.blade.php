@@ -66,9 +66,9 @@
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td>
-                                                    <button type="submit" formaction="" formmethod="POST" class="btn btn-sm btn-link text-bold">
+                                                    <a href="{{ route('purchase-orders.detail', $purchaseOrder->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $purchaseOrder->number }}
-                                                    </button>
+                                                    </a>
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($purchaseOrder->date, 'Ymd') }}">{{ formatDate($purchaseOrder->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $purchaseOrder->supplier_name }}</td>

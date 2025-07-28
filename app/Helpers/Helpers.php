@@ -53,6 +53,13 @@ function getPurchaseOrderStatusLabel($status): string
     return Constant::PURCHASE_ORDER_STATUS_LABELS[$status];
 }
 
+function getDueDate($date, $tempo, $format): string
+{
+    $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');
+
+    return formatDate($dueDate, $format);
+}
+
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';
@@ -64,4 +71,8 @@ function formatDate($date, $format) {
 
 function formatCurrency($amount) {
     return number_format($amount, 0, '', ',');
+}
+
+function formatQuantity($amount) {
+    return number_format($amount, 0, ',', '.');
 }

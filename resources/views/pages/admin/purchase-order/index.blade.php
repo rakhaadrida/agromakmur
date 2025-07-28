@@ -26,18 +26,17 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="" id="form">
-                                @csrf
+                            <form action="{{ route('purchase-orders.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
                                         <label for="startDate" class="col-auto col-form-label text-bold">PO Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $date }}" required>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                         </div>
                                         <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
                                         <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $date }}">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                         </div>
                                         <div class="col-1 mt-1 main-transaction-button">
                                             <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
@@ -67,9 +66,9 @@
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td>
-                                                    <button type="submit" formaction="" formmethod="POST" class="btn btn-sm btn-link text-bold">
+                                                    <a href="{{ route('purchase-orders.detail', $purchaseOrder->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $purchaseOrder->number }}
-                                                    </button>
+                                                    </a>
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($purchaseOrder->date, 'Ymd') }}">{{ formatDate($purchaseOrder->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $purchaseOrder->supplier_name }}</td>
@@ -124,7 +123,12 @@
         });
 
         $(document).ready(function() {
+            let uri = window.location.toString();
 
+            if (uri.indexOf("?") > 0) {
+                let clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
         });
     </script>
 @endpush

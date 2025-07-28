@@ -721,3 +721,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 150px;
 }
 
+.detail-po-information-row {
+    margin-top: -1.5rem !important;
+}
+
