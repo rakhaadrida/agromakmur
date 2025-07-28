@@ -665,4 +665,59 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     outline: none !important;
 }
 
+.print-transaction-final-select-picker {
+    margin-left: -0.8rem !important;
+}
+
+.print-transaction-select-picker,
+.print-transaction-final-select-picker {
+    width: 11rem !important;
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+}
+
+.print-transaction-select-picker .dropdown-toggle,
+.print-transaction-final-select-picker .dropdown-toggle {
+    padding: 0.35rem 0.35rem !important;
+    background: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.main-transaction-button {
+    margin-left: -0.7rem !important;
+}
+
+.th-number-transaction-index {
+    width: 30px;
+}
+
+.th-code-transaction-index {
+    width: 110px;
+}
+
+.th-date-transaction-index {
+    width: 100px;
+}
+
+.th-name-transaction-index {
+    width: 400px;
+}
+
+.th-warehouse-transaction-index {
+    width: 150px;
+}
+
+.th-unit-transaction {
+    width: 70px;
+}
+
+.th-status-transaction-index {
+    width: 110px;
+}
+
+.th-total-transaction-index {
+    width: 150px;
+}
 

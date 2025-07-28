@@ -2,13 +2,14 @@
 
 @push('addon-style')
     <link href="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Print Purchase Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Purchase Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,22 +30,20 @@
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startNumber" class="col-auto col-form-label text-bold">PO Number</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">PO Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" title="Select Start Number" required>
-                                                @foreach($purchaseOrders as $purchaseOrder)
-                                                    <option value="{{ $purchaseOrder->id }}" data-tokens="{{ $purchaseOrder->number }}">{{ $purchaseOrder->number }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $date }}" required>
                                         </div>
-                                        <label for="finalNumber" class="col-auto col-form-label text-bold ">up to</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" title="Select Final Number" disabled>
-                                            </select>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $date }}">
                                         </div>
-                                        <div class="col-2 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Print</button>
+                                        <div class="col-1 mt-1 main-transaction-button">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                        </div>
+                                        <div class="col-1 mt-1 ml-n3">
+                                            <button type="button" class="btn btn-success btn-sm btn-block text-bold">Export</button>
                                         </div>
                                     </div>
                                 </div>
@@ -57,8 +56,10 @@
                                             <th class="align-middle th-date-transaction-index">Date</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
+                                            <th class="align-middle th-status-transaction-index">Tempo</th>
                                             <th class="align-middle th-total-transaction-index">Grand Total</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
+                                            <th class="align-middle th-status-transaction-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,8 +74,10 @@
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($purchaseOrder->date, 'Ymd') }}">{{ formatDate($purchaseOrder->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $purchaseOrder->supplier_name }}</td>
                                                 <td class="align-middle">{{ $purchaseOrder->warehouse_name }}</td>
+                                                <td class="text-center align-middle">{{ $purchaseOrder->tempo }} Day(s)</td>
                                                 <td class="text-right align-middle">{{ formatCurrency($purchaseOrder->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getPurchaseOrderStatusLabel($purchaseOrder->status) }}</td>
+                                                <td class="text-center align-middle">{{ $purchaseOrder->user_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -93,43 +96,35 @@
 @endsection
 
 @push('addon-script')
-    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
+        $.fn.datepicker.dates['id'] = {
+            days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+            daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+            today: 'Hari Ini',
+            clear: 'Kosongkan'
+        };
+
+        $('.datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'id',
+        });
+
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
         });
 
         $(document).ready(function() {
-            let purchaseOrders = @json($purchaseOrders);
 
-            $('#startNumber').on('change', function (event) {
-                let selectedValue = $(this).val();
-                let finalNumber = $('#finalNumber');
-
-                const filteredPurchaseOrders = purchaseOrders.filter(item => item.id > selectedValue);
-                finalNumber.empty();
-
-                if(filteredPurchaseOrders.length === 0) {
-                    finalNumber.attr('disabled', true);
-                } else {
-                    $.each(filteredPurchaseOrders, function(key, item) {
-                        finalNumber.append(
-                            $('<option></option>', {
-                                value: item.id,
-                                text: item.number,
-                                'data-tokens': item.number,
-                            })
-                        );
-                    });
-
-                    finalNumber.attr('disabled', false);
-                }
-
-                finalNumber.selectpicker('refresh');
-            });
         });
     </script>
 @endpush

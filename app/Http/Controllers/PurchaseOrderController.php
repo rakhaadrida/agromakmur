@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ProductExport;
-use App\Http\Requests\ProductStockRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\PurchaseOrderCreateRequest;
 use App\Models\Category;
@@ -23,28 +21,31 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseOrderController extends Controller
 {
     public function index() {
-        $products = Product::query()
+        $date = Carbon::now()->format('d-m-Y');
+
+        $purchaseOrders = PurchaseOrder::query()
             ->select(
-                'products.*',
-                'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
-                'units.name AS unit_name'
+                'purchase_orders.*',
+                'warehouses.name AS warehouse_name',
+                'suppliers.name AS supplier_name',
+                'users.username AS user_name'
             )
-            ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
-            ->leftJoin('units', 'units.id', 'products.unit_id')
+            ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
+            ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
+            ->leftJoin('users', 'users.id', 'purchase_orders.user_id')
+            ->where('purchase_orders.date', '>=',  Carbon::now()->startOfDay())
             ->get();
 
         $data = [
-            'products' => $products
+            'date' => $date,
+            'purchaseOrders' => $purchaseOrders
         ];
 
-        return view('pages.admin.product.index', $data);
+        return view('pages.admin.purchase-order.index', $data);
     }
 
     public function create() {
@@ -280,33 +281,6 @@ class PurchaseOrderController extends Controller
         return view('pages.admin.product.stock', $data);
     }
 
-    public function updateStock(ProductStockRequest $request, $id) {
-        try {
-            DB::beginTransaction();
-
-            $product = Product::query()->findOrFail($id);
-
-            $stocks = $request->get('stock', []);
-            $product->productStocks()->delete();
-            foreach ($stocks as $index => $stock) {
-                $product->productStocks()->create([
-                    'warehouse_id' => $request->get('warehouse_id')[$index],
-                    'stock' => $stock
-                ]);
-            }
-
-            DB::commit();
-
-            return redirect()->route('products.index');
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return redirect()->route('products.stock', $id)->withInput()->withErrors([
-                'message' => 'An error occurred while updating data'
-            ]);
-        }
-    }
-
     public function indexPrint() {
         $purchaseOrders = PurchaseOrder::query()
             ->select(
@@ -324,57 +298,5 @@ class PurchaseOrderController extends Controller
         ];
 
         return view('pages.admin.purchase-order.index-print', $data);
-    }
-
-    public function restore($id) {
-        try {
-            DB::beginTransaction();
-
-            $products = Product::onlyTrashed();
-            if($id) {
-                $products = $products->where('id', $id);
-            }
-
-            $products->restore();
-
-            DB::commit();
-
-            return redirect()->route('products.deleted');
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->withInput()->withErrors([
-                'message' => 'An error occurred while updating data'
-            ]);
-        }
-    }
-
-    public function remove($id) {
-        try {
-            DB::beginTransaction();
-
-            $products = Product::onlyTrashed();
-            if($id) {
-                $products = $products->where('id', $id);
-            }
-
-            $products->update(['is_destroy' => 1]);
-
-            DB::commit();
-
-            return redirect()->route('products.deleted');
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return redirect()->back()->withInput()->withErrors([
-                'message' => 'An error occurred while deleting data'
-            ]);
-        }
-    }
-
-    public function export() {
-        $fileDate = Carbon::now()->format('Y_m_d');
-
-        return Excel::download(new ProductExport(), 'Product_Data_'.$fileDate.'.xlsx');
     }
 }

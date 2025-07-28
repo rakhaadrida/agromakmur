@@ -82,7 +82,7 @@
                     <a class="collapse-item" href="{{ route('purchase-orders.create') }}">Purchase Order</a>
                     <a class="collapse-item" href="{{ route('purchase-orders.index-print') }}">Print Purchase Order</a>
                     <a class="collapse-item" href="#">Edit Purchase Order</a>
-                    <a class="collapse-item" href="#">Daily Purchase Order</a>
+                    <a class="collapse-item" href="{{ route('purchase-orders.index') }}">Daily Purchase Order</a>
                     <a class="collapse-item" href="#">Product Transfer</a>
                     <a class="collapse-item" href="#">Print Product Transfer</a>
                     <a class="collapse-item" href="#">List Product Transfer</a>
