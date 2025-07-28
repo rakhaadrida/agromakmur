@@ -7,9 +7,9 @@ use App\Utilities\Constant;
 
 class AccountPayableService
 {
-    public static function createData($purchaseOrder) {
+    public static function createData($goodsReceipt) {
         AccountPayable::create([
-            'purchase_order_id' => $purchaseOrder->id,
+            'goods_receipt_id' => $goodsReceipt->id,
             'status' => Constant::ACCOUNT_PAYABLE_STATUS_UNPAID,
         ]);
 

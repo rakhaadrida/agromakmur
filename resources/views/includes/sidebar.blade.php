@@ -79,10 +79,10 @@
             </a>
             <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('purchase-orders.create') }}">Purchase Order</a>
-                    <a class="collapse-item" href="{{ route('purchase-orders.index-print') }}">Print Purchase Order</a>
-                    <a class="collapse-item" href="#">Edit Purchase Order</a>
-                    <a class="collapse-item" href="{{ route('purchase-orders.index') }}">Daily Purchase Order</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Goods Receipt</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Print Goods Receipt</a>
+                    <a class="collapse-item" href="#">Edit Goods Receipt</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Daily Goods Receipt</a>
                     <a class="collapse-item" href="#">Product Transfer</a>
                     <a class="collapse-item" href="#">Print Product Transfer</a>
                     <a class="collapse-item" href="#">List Product Transfer</a>

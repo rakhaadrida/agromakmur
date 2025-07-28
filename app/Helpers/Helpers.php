@@ -48,9 +48,9 @@ function getWarehouseTypeLabel($type): string
     return Constant::WAREHOUSE_TYPE_LABELS[$type];
 }
 
-function getPurchaseOrderStatusLabel($status): string
+function getGoodsReceiptStatusLabel($status): string
 {
-    return Constant::PURCHASE_ORDER_STATUS_LABELS[$status];
+    return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];
 }
 
 function getDueDate($date, $tempo, $format): string

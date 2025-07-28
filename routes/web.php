@@ -79,9 +79,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
     Route::get('export-products', 'ProductController@export')->name('products.export');
 
-    Route::resource('purchase-orders', 'PurchaseOrderController');
-    Route::get('purchase-orders/{id}/detail', 'PurchaseOrderController@detail')->name('purchase-orders.detail');
-    Route::get('print-purchase-orders', 'PurchaseOrderController@indexPrint')->name('purchase-orders.index-print');
+    Route::resource('goods-receipts', 'goodsReceiptController');
+    Route::get('goods-receipts/{id}/detail', 'goodsReceiptController@detail')->name('goods-receipts.detail');
+    Route::get('print-goods-receipts', 'goodsReceiptController@indexPrint')->name('goods-receipts.index-print');
 });
 
 Auth::routes(['verify' => true]);

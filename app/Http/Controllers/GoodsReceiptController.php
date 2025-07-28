@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductUpdateRequest;
-use App\Http\Requests\PurchaseOrderCreateRequest;
+use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Models\Product;
 use App\Models\ProductStock;
-use App\Models\PurchaseOrder;
+use App\Models\GoodsReceipt;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class PurchaseOrderController extends Controller
+class GoodsReceiptController extends Controller
 {
     public function index(Request $request) {
         $filter = (object) $request->all();
@@ -27,28 +27,28 @@ class PurchaseOrderController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
-        $purchaseOrders = PurchaseOrder::query()
+        $goodsReceipts = GoodsReceipt::query()
             ->select(
-                'purchase_orders.*',
+                'goods_receipts.*',
                 'warehouses.name AS warehouse_name',
                 'suppliers.name AS supplier_name',
                 'users.username AS user_name'
             )
-            ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
-            ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
-            ->leftJoin('users', 'users.id', 'purchase_orders.user_id')
-            ->where('purchase_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('purchase_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('purchase_orders.date')
+            ->leftJoin('warehouses', 'warehouses.id', 'goods_receipts.warehouse_id')
+            ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
+            ->leftJoin('users', 'users.id', 'goods_receipts.user_id')
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('goods_receipts.date')
             ->get();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'purchaseOrders' => $purchaseOrders
+            'goodsReceipts' => $goodsReceipts
         ];
 
-        return view('pages.admin.purchase-order.index', $data);
+        return view('pages.admin.goods-receipt.index', $data);
     }
 
     public function create() {
@@ -68,10 +68,10 @@ class PurchaseOrderController extends Controller
             'rowNumbers' => $rowNumbers
         ];
 
-        return view('pages.admin.purchase-order.create', $data);
+        return view('pages.admin.goods-receipt.create', $data);
     }
 
-    public function store(PurchaseOrderCreateRequest $request) {
+    public function store(GoodsReceiptCreateRequest $request) {
         try {
             DB::beginTransaction();
 
@@ -84,11 +84,11 @@ class PurchaseOrderController extends Controller
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
-                'status' => Constant::PURCHASE_ORDER_STATUS_ACTIVE,
+                'status' => Constant::GOODS_RECEIPT_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
 
-            $purchaseOrder = PurchaseOrder::create($request->all());
+            $goodsReceipt = GoodsReceipt::create($request->all());
 
             $subtotal = 0;
             $productIds = $request->get('product_id', []);
@@ -103,7 +103,7 @@ class PurchaseOrderController extends Controller
                     $total = $quantity * $price;
                     $subtotal += $total;
 
-                    $purchaseOrder->purchaseOrderItems()->create([
+                    $goodsReceipt->goodsReceiptItems()->create([
                         'product_id' => $productId,
                         'unit_id' => $unitId,
                         'quantity' => $quantity,
@@ -114,7 +114,7 @@ class PurchaseOrderController extends Controller
 
                     $productStock = ProductService::getProductStockQuery(
                         $productId,
-                        $purchaseOrder->warehouse_id
+                        $goodsReceipt->warehouse_id
                     );
 
                     if($productStock) {
@@ -122,7 +122,7 @@ class PurchaseOrderController extends Controller
                     } else {
                         ProductStock::create([
                             'product_id' => $productId,
-                            'warehouse_id' => $purchaseOrder->warehouse_id,
+                            'warehouse_id' => $goodsReceipt->warehouse_id,
                             'stock' => $actualQuantity
                         ]);
                     }
@@ -132,17 +132,17 @@ class PurchaseOrderController extends Controller
             $taxAmount = $subtotal * (10 / 100);
             $grandTotal = $subtotal + $taxAmount;
 
-            $purchaseOrder->update([
+            $goodsReceipt->update([
                 'subtotal' => $subtotal,
                 'tax_amount' => $taxAmount,
                 'grand_total' => $grandTotal
             ]);
 
-            AccountPayableService::createData($purchaseOrder);
+            AccountPayableService::createData($goodsReceipt);
 
             DB::commit();
 
-            return redirect()->route('purchase-orders.create');
+            return redirect()->route('goods-receipts.create');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -154,16 +154,16 @@ class PurchaseOrderController extends Controller
     }
 
     public function detail($id) {
-        $purchaseOrder = PurchaseOrder::query()->findOrFail($id);
-        $purchaseOrderItems = $purchaseOrder->purchaseOrderItems;
+        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
 
         $data = [
             'id' => $id,
-            'purchaseOrder' => $purchaseOrder,
-            'purchaseOrderItems' => $purchaseOrderItems,
+            'goodsReceipt' => $goodsReceipt,
+            'goodsReceiptItems' => $goodsReceiptItems,
         ];
 
-        return view('pages.admin.purchase-order.detail', $data);
+        return view('pages.admin.goods-receipt.detail', $data);
     }
 
     public function update(ProductUpdateRequest $request, $id) {
@@ -227,22 +227,22 @@ class PurchaseOrderController extends Controller
     }
 
     public function indexPrint() {
-        $purchaseOrders = PurchaseOrder::query()
+        $goodsReceipts = GoodsReceipt::query()
             ->select(
-                'purchase_orders.*',
+                'goods_receipts.*',
                 'warehouses.name AS warehouse_name',
                 'suppliers.name AS supplier_name'
             )
-            ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
-            ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
-            ->where('purchase_orders.is_printed', 0)
-            ->orderBy('purchase_orders.date')
+            ->leftJoin('warehouses', 'warehouses.id', 'goods_receipts.warehouse_id')
+            ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
+            ->where('goods_receipts.is_printed', 0)
+            ->orderBy('goods_receipts.date')
             ->get();
 
         $data = [
-            'purchaseOrders' => $purchaseOrders
+            'goodsReceipts' => $goodsReceipts
         ];
 
-        return view('pages.admin.purchase-order.index-print', $data);
+        return view('pages.admin.goods-receipt.index-print', $data);
     }
 }

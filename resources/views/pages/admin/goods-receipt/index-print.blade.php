@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Print Purchase Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Print Goods Receipt</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,12 +29,12 @@
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startNumber" class="col-auto col-form-label text-bold">PO Number</label>
+                                        <label for="startNumber" class="col-auto col-form-label text-bold">Receipt Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" title="Select Start Number" required>
-                                                @foreach($purchaseOrders as $purchaseOrder)
-                                                    <option value="{{ $purchaseOrder->id }}" data-tokens="{{ $purchaseOrder->number }}">{{ $purchaseOrder->number }}</option>
+                                                @foreach($goodsReceipts as $goodsReceipt)
+                                                    <option value="{{ $goodsReceipt->id }}" data-tokens="{{ $goodsReceipt->number }}">{{ $goodsReceipt->number }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -62,19 +62,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($purchaseOrders as $key => $purchaseOrder)
+                                        @forelse ($goodsReceipts as $key => $goodsReceipt)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td>
-                                                    <a href="{{ route('purchase-orders.detail', $purchaseOrder->id) }}" class="btn btn-sm btn-link text-bold">
-                                                        {{ $purchaseOrder->number }}
+                                                    <a href="{{ route('goods-receipts.detail', $goodsReceipt->id) }}" class="btn btn-sm btn-link text-bold">
+                                                        {{ $goodsReceipt->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($purchaseOrder->date, 'Ymd') }}">{{ formatDate($purchaseOrder->date, 'd-M-y')  }}</td>
-                                                <td class="align-middle">{{ $purchaseOrder->supplier_name }}</td>
-                                                <td class="align-middle">{{ $purchaseOrder->warehouse_name }}</td>
-                                                <td class="text-right align-middle">{{ formatCurrency($purchaseOrder->grand_total) }}</td>
-                                                <td class="text-center align-middle">{{ getPurchaseOrderStatusLabel($purchaseOrder->status) }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
+                                                <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
+                                                <td class="text-right align-middle">{{ formatCurrency($goodsReceipt->grand_total) }}</td>
+                                                <td class="text-center align-middle">{{ getgoodsReceiptstatusLabel($goodsReceipt->status) }}</td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -103,19 +103,19 @@
         });
 
         $(document).ready(function() {
-            let purchaseOrders = @json($purchaseOrders);
+            let goodsReceipts = @json($goodsReceipts);
 
             $('#startNumber').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumber');
 
-                const filteredPurchaseOrders = purchaseOrders.filter(item => item.id > selectedValue);
+                const filteredGoodsReceipts = goodsReceipts.filter(item => item.id > selectedValue);
                 finalNumber.empty();
 
-                if(filteredPurchaseOrders.length === 0) {
+                if(filteredGoodsReceipts.length === 0) {
                     finalNumber.attr('disabled', true);
                 } else {
-                    $.each(filteredPurchaseOrders, function(key, item) {
+                    $.each(filteredGoodsReceipts, function(key, item) {
                         finalNumber.append(
                             $('<option></option>', {
                                 value: item.id,

@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\PurchaseOrder;
+use App\Models\GoodsReceipt;
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidUniquePurchaseOrderNumber implements Rule
+class ValidUniqueGoodsReceiptNumber implements Rule
 {
     protected $id;
 
@@ -28,7 +28,7 @@ class ValidUniquePurchaseOrderNumber implements Rule
      */
     public function passes($attribute, $value)
     {
-        $uniqueNumber = PurchaseOrder::query()
+        $uniqueNumber = GoodsReceipt::query()
             ->where('number', $value)
             ->where('id', '!=', $this->id)
             ->first();
@@ -45,6 +45,6 @@ class ValidUniquePurchaseOrderNumber implements Rule
      */
     public function message()
     {
-        return 'The purchase order number has already been taken';
+        return 'The goods receipt number has already been taken';
     }
 }

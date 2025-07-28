@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Purchase Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Goods Receipt</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" autofocus required >
@@ -187,14 +187,14 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Purchase Order Confirmation</h4>
+                                                <h4 class="modal-title">Goods Receipt Confirmation</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>The purchase order data will be saved. Please select print or re-enter the incoming goods.</p>
+                                                <p>The Goods Receipt data will be saved. Please select print or re-enter the incoming goods.</p>
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" formaction="{{ route('purchase-orders.store') }}" formmethod="POST" class="btn btn-success btn-block text-bold">Print</button>
+                                                        <button type="submit" formaction="{{ route('goods-receipts.store') }}" formmethod="POST" class="btn btn-success btn-block text-bold">Print</button>
                                                     </div>
                                                     <div class="col-4">
                                                         <button type="submit" formaction="#" formmethod="POST" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>

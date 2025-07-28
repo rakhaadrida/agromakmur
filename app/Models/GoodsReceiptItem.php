@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PurchaseOrderItem extends Model
+class GoodsReceiptItem extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'purchase_order_id',
+        'goods_receipt_id',
         'product_id',
         'unit_id',
         'quantity',
@@ -19,8 +19,8 @@ class PurchaseOrderItem extends Model
         'total',
     ];
 
-    public function purchaseOrder() {
-        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
+    public function goodsReceipt() {
+        return $this->belongsTo(GoodsReceipt::class, 'goods_receipt_id', 'id');
     }
 
     public function product() {

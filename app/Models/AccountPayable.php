@@ -10,11 +10,11 @@ class AccountPayable extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'purchase_order_id',
+        'goods_receipt_id',
         'status',
     ];
 
-    public function purchaseOrder() {
-        return $this->belongsTo(PurchaseOrder::class, 'purchase_order_id', 'id');
+    public function goodsReceipt() {
+        return $this->belongsTo(GoodsReceipt::class, 'goods_receipt_id', 'id');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('account_payables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
+            $table->foreignId('goods_receipt_id')->references('id')->on('goods_receipts')->onDelete('cascade');
             $table->enum('status', [
                 \App\Utilities\Constant::ACCOUNT_PAYABLE_STATUS_UNPAID,
                 \App\Utilities\Constant::ACCOUNT_PAYABLE_STATUS_ONGOING,

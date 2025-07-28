@@ -6,7 +6,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Purchase Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Goods Receipt</h1>
         </div>
          @if ($errors->any())
             <div class="alert alert-danger">
@@ -30,7 +30,7 @@
                                             <label for="number" class="col-5 text-right mt-2">Number</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="number" value="{{ $purchaseOrder->number }}">
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="number" value="{{ $goodsReceipt->number }}">
                                             </div>
                                         </div>
                                     </div>
@@ -39,7 +39,7 @@
                                             <label for="supplier" class="col-3 text-right text-bold mt-2">Supplier</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $purchaseOrder->supplier->name }}" >
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $goodsReceipt->supplier->name }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -50,7 +50,7 @@
                                             <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($purchaseOrder->date, 'd-m-Y') }}" >
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -59,7 +59,7 @@
                                             <label for="warehouse" class="col-3 text-right text-bold mt-2">Warehouse</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="warehouse" value="{{ $purchaseOrder->warehouse->name }}">
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse->name }}">
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                             <label for="status" class="col-5 text-right text-bold mt-2">Status</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="status" value="{{ getPurchaseOrderStatusLabel($purchaseOrder->status) }}" >
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="status" value="{{ getgoodsReceiptstatusLabel($goodsReceipt->status) }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                                             <label for="dueDate" class="col-3 text-right text-bold mt-2">Due Date</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($purchaseOrder->date, $purchaseOrder->tempo, 'd-m-Y') }}" >
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -97,14 +97,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($purchaseOrderItems as $key => $purchaseOrderItem)
+                                    @foreach($goodsReceiptItems as $key => $goodsReceiptItem)
                                         <tr class="text-dark">
                                           <td class="text-center">{{ ++$key }}</td>
-                                          <td>{{ $purchaseOrderItem->product->sku }} </td>
-                                          <td>{{ $purchaseOrderItem->product->name }}</td>
-                                          <td class="text-right">{{ formatQuantity($purchaseOrderItem->quantity) }}</td>
-                                          <td class="text-right">{{ formatCurrency($purchaseOrderItem->price) }}</td>
-                                          <td class="text-right">{{ formatCurrency($purchaseOrderItem->total) }}</td>
+                                          <td>{{ $goodsReceiptItem->product->sku }} </td>
+                                          <td>{{ $goodsReceiptItem->product->name }}</td>
+                                          <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
+                                          <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
+                                          <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -113,21 +113,21 @@
                                 <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
                                 <span class="col-form-label text-bold">:</span>
                                 <div class="col-2 mr-1">
-                                    <input type="text" id="subtotal" readonly class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($purchaseOrder->subtotal) }}" />
+                                    <input type="text" id="subtotal" readonly class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->subtotal) }}" />
                                 </div>
                             </div>
                             <div class="form-group row justify-content-end total-so">
                                 <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
                                 <span class="col-form-label text-bold">:</span>
                                 <div class="col-2 mr-1">
-                                    <input type="text" id="taxAmount" readonly class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($purchaseOrder->tax_amount) }}" />
+                                    <input type="text" id="taxAmount" readonly class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->tax_amount) }}" />
                                 </div>
                             </div>
                             <div class="form-group row justify-content-end grandtotal-so">
                                 <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
                                 <span class="col-form-label text-bold">:</span>
                                 <div class="col-2 mr-1">
-                                    <input type="text" id="grandTotal" readonly class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatCurrency($purchaseOrder->grand_total) }}" />
+                                    <input type="text" id="grandTotal" readonly class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatCurrency($goodsReceipt->grand_total) }}" />
                                 </div>
                             </div>
                             <hr>

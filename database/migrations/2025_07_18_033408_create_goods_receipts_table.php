@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_orders', function (Blueprint $table) {
+        Schema::create('goods_receipts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->foreignId('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
@@ -23,10 +23,10 @@ return new class extends Migration
             $table->double('grand_total')->default(0);
             $table->boolean('is_printed')->default(false);
             $table->enum('status', [
-                \App\Utilities\Constant::PURCHASE_ORDER_STATUS_ACTIVE,
-                \App\Utilities\Constant::PURCHASE_ORDER_STATUS_WAITING_APPROVAL,
-                \App\Utilities\Constant::PURCHASE_ORDER_STATUS_UPDATED,
-                \App\Utilities\Constant::PURCHASE_ORDER_STATUS_CANCELLED
+                \App\Utilities\Constant::GOODS_RECEIPT_STATUS_ACTIVE,
+                \App\Utilities\Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL,
+                \App\Utilities\Constant::GOODS_RECEIPT_STATUS_UPDATED,
+                \App\Utilities\Constant::GOODS_RECEIPT_STATUS_CANCELLED
             ])->nullable();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_orders');
+        Schema::dropIfExists('goods_receipts');
     }
 };

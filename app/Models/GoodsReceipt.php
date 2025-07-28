@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PurchaseOrder extends Model
+class GoodsReceipt extends Model
 {
     use SoftDeletes;
 
@@ -35,7 +35,7 @@ class PurchaseOrder extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function purchaseOrderItems() {
-        return $this->hasMany(PurchaseOrderItem::class, 'purchase_order_id', 'id');
+    public function goodsReceiptItems() {
+        return $this->hasMany(GoodsReceiptItem::class, 'goods_receipt_id', 'id');
     }
 }
