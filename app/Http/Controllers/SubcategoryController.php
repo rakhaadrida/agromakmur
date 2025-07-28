@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SubcategoryController extends Controller
@@ -52,6 +53,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategories.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -85,6 +87,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategories.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('subcategories.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -104,6 +107,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategories.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -144,6 +148,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategories.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -167,6 +172,7 @@ class SubcategoryController extends Controller
             return redirect()->route('subcategories.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

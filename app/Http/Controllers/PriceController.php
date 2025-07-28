@@ -7,6 +7,7 @@ use App\Http\Requests\PriceUpdateRequest;
 use App\Models\Price;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PriceController extends Controller
 {
@@ -35,6 +36,7 @@ class PriceController extends Controller
             return redirect()->route('prices.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -66,6 +68,7 @@ class PriceController extends Controller
             return redirect()->route('prices.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('prices.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -85,6 +88,7 @@ class PriceController extends Controller
             return redirect()->route('prices.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -118,6 +122,7 @@ class PriceController extends Controller
             return redirect()->route('prices.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -141,6 +146,7 @@ class PriceController extends Controller
             return redirect()->route('prices.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

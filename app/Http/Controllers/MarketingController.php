@@ -9,6 +9,7 @@ use App\Models\Marketing;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MarketingController extends Controller
@@ -38,6 +39,7 @@ class MarketingController extends Controller
             return redirect()->route('marketings.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -69,6 +71,7 @@ class MarketingController extends Controller
             return redirect()->route('marketings.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('marketings.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -88,6 +91,7 @@ class MarketingController extends Controller
             return redirect()->route('marketings.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -121,6 +125,7 @@ class MarketingController extends Controller
             return redirect()->route('marketings.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -144,6 +149,7 @@ class MarketingController extends Controller
             return redirect()->route('marketings.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Utilities\Constant;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -46,6 +47,7 @@ class UserController extends Controller
             return redirect()->route('users.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -79,6 +81,7 @@ class UserController extends Controller
             return redirect()->route('users.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('users.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -98,6 +101,7 @@ class UserController extends Controller
             return redirect()->route('users.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -131,6 +135,7 @@ class UserController extends Controller
             return redirect()->route('users.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -154,6 +159,7 @@ class UserController extends Controller
             return redirect()->route('users.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

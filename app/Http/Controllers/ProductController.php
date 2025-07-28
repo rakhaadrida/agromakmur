@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
@@ -82,6 +83,7 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -157,6 +159,7 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('products.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -178,6 +181,7 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -241,6 +245,7 @@ class ProductController extends Controller
             return redirect()->route('products.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('products.stock', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -285,6 +290,7 @@ class ProductController extends Controller
             return redirect()->route('products.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -308,6 +314,7 @@ class ProductController extends Controller
             return redirect()->route('products.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

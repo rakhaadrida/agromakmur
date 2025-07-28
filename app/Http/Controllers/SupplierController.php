@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierController extends Controller
@@ -38,6 +39,7 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -69,6 +71,7 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('suppliers.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -88,6 +91,7 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -121,6 +125,7 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -144,6 +149,7 @@ class SupplierController extends Controller
             return redirect()->route('suppliers.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

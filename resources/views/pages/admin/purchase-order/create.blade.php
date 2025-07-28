@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <span class="table-add float-right mb-3 mr-2"><a href="#" class="text-primary text-bold">
+                                <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
                                     Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
@@ -130,7 +130,7 @@
                                     </thead>
                                     <tbody id="itemTable">
                                         @foreach($rows as $key => $row)
-                                            <tr class="text-bold text-dark" id="{{ $row }}">
+                                            <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
                                                     <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
@@ -148,15 +148,15 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" readonly @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
@@ -251,128 +251,75 @@
         });
 
         $(document).ready(function() {
-            let productIdElements = $('select[name="product_id[]"]');
-            let deleteRow = $('button[id="deleteRow[]"]');
+            const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
 
-            productIdElements.each(function (index) {
-                $(this).on('change', function (event) {
-                    displayPrice(this.value, index);
-                });
+            table.on('change', 'select[name="product_id[]"]', function () {
+                const index = $(this).closest('tr').index();
+                displayPrice(this.value, index);
             });
 
-            $('input[name="price[]"]').each(function(index) {
-                $(this).on('keypress', function(event) {
-                    if(!this.readOnly) {
-                        if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                            $(`#price-${index}`).tooltip('show');
-                            event.preventDefault();
-                        }
-                    }
-                });
+            table.on('keypress', 'input[name="quantity[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+                    $(`#price-${index}`).tooltip('show');
 
-                $(this).on('keyup', function(event) {
-                    this.value = currencyFormat(this.value);
-                });
-
-                $(this).on('blur', function(event) {
-                    calculateTotal(index);
-                });
+                    event.preventDefault();
+                }
             });
 
-            $('input[name="quantity[]"]').each(function(index) {
-                $(this).on('keypress', function(event) {
-                    if(!this.readOnly) {
-                        if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                            $(`#price-${index}`).tooltip('show');
-                            event.preventDefault();
-                        }
-                    }
-                });
-
-                $(this).on('keyup', function(event) {
-                    this.value = currencyFormat(this.value);
-                });
-
-                $(this).on('blur', function(event) {
-                    calculateTotal(index);
-                });
+            table.on('keyup', 'input[name="quantity[]"]', function () {
+                this.value = currencyFormat(this.value);
             });
 
-            $('select[name="unit[]"]').each(function (index) {
-                $(this).on('change', function (event) {
-                    $(`#unitValue-${index}`).val(this.value);
-                    $(`#realQuantity-${index}`).val($(this).find(':selected').data('foo'));
-
-                    calculateTotal(index);
-                });
+            table.on('blur', 'input[name="quantity[]"]', function () {
+                const index = $(this).closest('tr').index();
+                calculateTotal(index);
             });
 
-            deleteRow.each(function (index) {
-                $(this).on('click', function (event) {
-                    let quantity = document.getElementById(`quantity-${index}`);
-                    let total = document.getElementById(`total-${index}`);
+            table.on('change', 'select[name="unit[]"]', function () {
+                const index = $(this).closest('tr').index();
+                const selected = $(this).find(':selected');
 
-                    if(quantity.value !== '') {
-                        subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                        calculateTax(numberFormat(subtotal.value));
-                    }
+                $(`#unitValue-${index}`).val(this.value);
+                $(`#realQuantity-${index}`).val(selected.data('foo'));
 
-                    for(let i = index; i < deleteRow.length; i++) {
-                        let quantity = document.getElementById(`quantity-${i}`);
-                        let price = document.getElementById(`price-${i}`);
-                        let total = document.getElementById(`total-${i}`);
-                        let realQuantity = document.getElementById(`realQuantity-${i}`);
-                        let unitValue = document.getElementById(`unitValue-${i}`);
+                calculateTotal(index);
+            });
 
-                        let rowNumber = +i + 1;
-                        let newProductId = document.getElementById(`productId-${rowNumber}`);
-                        let newProductName = document.getElementById(`productId-${rowNumber}`);
-                        let newQuantity = document.getElementById(`quantity-${rowNumber}`);
-                        let newPrice = document.getElementById(`price-${rowNumber}`);
-                        let newUnit = document.getElementById(`unit-${rowNumber}`);
-                        let newTotal = document.getElementById(`total-${rowNumber}`);
-                        let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
-                        let newUnitValue = document.getElementById(`unitValue-${rowNumber}`);
+            table.on('keypress', 'input[name="price[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+                    $(`#price-${index}`).tooltip('show');
 
-                        if(rowNumber !== deleteRow.length) {
-                            total.value = newTotal.value;
-                            price.value = newPrice.value;
-                            quantity.value = newQuantity.value;
-                            realQuantity.value = newRealQuantity.value;
-                            unitValue.value = newUnitValue.value;
+                    event.preventDefault();
+                }
+            });
 
-                            changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
-                            changeSelectPickerValue($(`#productName-${i}`), newProductName.value, rowNumber, false);
-                            changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
+            table.on('keyup', 'input[name="price[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
 
-                            if(newProductId.value === '') {
-                                handleDeletedQuantityPrice(quantity, price);
+            table.on('blur', 'input[name="price[]"]', function () {
+                const index = $(this).closest('tr').index();
+                calculateTotal(index);
+            });
 
-                                if(!i) {
-                                    updateDeletedRowValue([], i);
-                                }
-                            } else {
-                                newQuantity.removeAttribute('required');
-                                newPrice.removeAttribute('required');
-                                quantity.removeAttribute('readonly');
-                                price.removeAttribute('readonly');
-                            }
+            table.on('click', '.remove-transaction-table', function () {
+                const index = $(this).closest('tr').index();
+                const deleteRow = $('.remove-transaction-table');
 
-                            let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
-                            updateDeletedRowValue(elements, rowNumber);
-                        } else {
-                            handleDeletedQuantityPrice(quantity, price);
-
-                            let elements = [total, price, quantity, realQuantity, unitValue];
-                            updateDeletedRowValue(elements, i);
-                        }
-                    }
-                });
+                updateAllRowIndexes(index, deleteRow);
             });
 
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
+
+                let checkForm = document.getElementById('form').checkValidity();
+                if(!checkForm) {
+                    document.getElementById('form').reportValidity();
+                    return false;
+                }
 
                 $('input[name="quantity[]"]').each(function() {
                     this.value = numberFormat(this.value);
@@ -395,6 +342,23 @@
 
                     return false;
                 }
+            });
+
+            $('#addRow').on('click', function(event) {
+                event.preventDefault();
+
+                let itemTable = $('#itemTable');
+                let lastRowId = itemTable.find('tr:last').attr('id');
+                let lastRowNumber = itemTable.find('tr:last td:first-child').text();
+
+                let rowId = lastRowId ? +lastRowId + 1 : 1;
+                let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
+                let newRow = newRowElement(rowId, rowNumber);
+
+                itemTable.append(newRow);
+
+                $(`#productId-${rowId}`).selectpicker();
+                $(`#productName-${rowId}`).selectpicker();
             });
 
             function displayPrice(productId, index) {
@@ -512,11 +476,75 @@
                 return x1 + x2;
             }
 
+            function updateAllRowIndexes(index, deleteRow) {
+                let quantity = document.getElementById(`quantity-${index}`);
+                let total = document.getElementById(`total-${index}`);
+
+                if(quantity.value !== '') {
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
+                    calculateTax(numberFormat(subtotal.value));
+                }
+
+                for(let i = index; i < deleteRow.length; i++) {
+                    let quantity = document.getElementById(`quantity-${i}`);
+                    let price = document.getElementById(`price-${i}`);
+                    let total = document.getElementById(`total-${i}`);
+                    let realQuantity = document.getElementById(`realQuantity-${i}`);
+                    let unitValue = document.getElementById(`unitValue-${i}`);
+
+                    let rowNumber = +i + 1;
+                    let newProductId = document.getElementById(`productId-${rowNumber}`);
+                    let newProductName = document.getElementById(`productId-${rowNumber}`);
+                    let newQuantity = document.getElementById(`quantity-${rowNumber}`);
+                    let newPrice = document.getElementById(`price-${rowNumber}`);
+                    let newUnit = document.getElementById(`unit-${rowNumber}`);
+                    let newTotal = document.getElementById(`total-${rowNumber}`);
+                    let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
+                    let newUnitValue = document.getElementById(`unitValue-${rowNumber}`);
+
+                    if(rowNumber !== deleteRow.length) {
+                        total.value = newTotal.value;
+                        price.value = newPrice.value;
+                        quantity.value = newQuantity.value;
+                        realQuantity.value = newRealQuantity.value;
+                        unitValue.value = newUnitValue.value;
+
+                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
+                        changeSelectPickerValue($(`#productName-${i}`), newProductName.value, rowNumber, false);
+                        changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
+
+                        if(newProductId.value === '') {
+                            handleDeletedQuantityPrice(quantity, price);
+                            updateDeletedRowValue([], i);
+                        } else {
+                            newQuantity.removeAttribute('required');
+                            newPrice.removeAttribute('required');
+                            quantity.removeAttribute('readonly');
+                            price.removeAttribute('readonly');
+                        }
+
+                        let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        updateDeletedRowValue(elements, rowNumber);
+                    } else {
+                        let totalRow = $('#rowNumber').val();
+                        if(rowNumber > totalRow) {
+                            $(`#${i}`).remove();
+                        }
+
+                        handleDeletedQuantityPrice(quantity, price);
+
+                        let elements = [total, price, quantity, realQuantity, unitValue];
+                        updateDeletedRowValue(elements, i);
+                    }
+                }
+            }
+
             function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled) {
                 if(isRemoveDisabled) {
                     let newUnit = $(`#unit-${index}`);
 
                     if(!newUnit.is(':disabled')) {
+                        selectElement.empty();
                         selectElement.append(newUnit.html()).find('option');
                         selectElement.selectpicker('refresh');
                         selectElement.attr('disabled', false);
@@ -556,6 +584,8 @@
             }
 
             function checkDuplicateProduct() {
+                let productIdElements = $('select[name="product_id[]"]');
+
                 let productIds = [];
                 let productDuplicates = [];
 
@@ -572,6 +602,48 @@
                 });
 
                 return [...new Set(productDuplicates)];
+            }
+
+            function newRowElement(rowId, rowNumber) {
+                return `
+                    <tr class="text-bold text-dark" id="${rowId}">
+                        <td class="align-middle text-center">${rowNumber}</td>
+                        <td>
+                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumber += 1}">
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
+                        </td>
+                        <td>
+                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumber += 2}">
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumber += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                        </td>
+                        <td>
+                            <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 4}" disabled>
+                            </select>
+                            <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
+                        </td>
+                        <td>
+                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumber += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                        </td>
+                        <td>
+                            <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
+                        </td>
+                        <td class="align-middle text-center">
+                            <button type="button" class="remove-transaction-table" id="deleteRow[]">
+                                <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
             }
         });
 

@@ -725,3 +725,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -1.5rem !important;
 }
 
+.readonly-input[readonly] {
+    background: none !important;
+}
+

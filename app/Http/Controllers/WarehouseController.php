@@ -10,6 +10,7 @@ use App\Utilities\Constant;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class WarehouseController extends Controller
@@ -50,6 +51,7 @@ class WarehouseController extends Controller
             return redirect()->route('warehouses.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -88,6 +90,7 @@ class WarehouseController extends Controller
             return redirect()->route('warehouses.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('warehouses.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -107,6 +110,7 @@ class WarehouseController extends Controller
             return redirect()->route('warehouses.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -140,6 +144,7 @@ class WarehouseController extends Controller
             return redirect()->route('warehouses.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -163,6 +168,7 @@ class WarehouseController extends Controller
             return redirect()->route('warehouses.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

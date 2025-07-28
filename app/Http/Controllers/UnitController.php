@@ -7,6 +7,7 @@ use App\Http\Requests\UnitUpdateRequest;
 use App\Models\Unit;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UnitController extends Controller
 {
@@ -35,6 +36,7 @@ class UnitController extends Controller
             return redirect()->route('units.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -66,6 +68,7 @@ class UnitController extends Controller
             return redirect()->route('units.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('units.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -85,6 +88,7 @@ class UnitController extends Controller
             return redirect()->route('units.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -118,6 +122,7 @@ class UnitController extends Controller
             return redirect()->route('units.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -141,6 +146,7 @@ class UnitController extends Controller
             return redirect()->route('units.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

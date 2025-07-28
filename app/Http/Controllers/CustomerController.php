@@ -10,6 +10,7 @@ use App\Models\Marketing;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
@@ -51,6 +52,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
@@ -84,6 +86,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->route('customers.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -103,6 +106,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.index');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
@@ -143,6 +147,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
@@ -166,6 +171,7 @@ class CustomerController extends Controller
             return redirect()->route('customers.deleted');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

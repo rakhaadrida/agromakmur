@@ -80,6 +80,7 @@ class PurchaseOrderController extends Controller
 
             $request->merge([
                 'date' => $date,
+                'tempo' => $request->get('tempo') || 0,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
@@ -235,6 +236,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('warehouses', 'warehouses.id', 'purchase_orders.warehouse_id')
             ->leftJoin('suppliers', 'suppliers.id', 'purchase_orders.supplier_id')
             ->where('purchase_orders.is_printed', 0)
+            ->orderBy('purchase_orders.date')
             ->get();
 
         $data = [
