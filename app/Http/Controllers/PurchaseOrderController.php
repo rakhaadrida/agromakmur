@@ -39,6 +39,7 @@ class PurchaseOrderController extends Controller
             ->leftJoin('users', 'users.id', 'purchase_orders.user_id')
             ->where('purchase_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('purchase_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('purchase_orders.date')
             ->get();
 
         $data = [
