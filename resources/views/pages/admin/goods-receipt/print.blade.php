@@ -116,43 +116,31 @@
                 page-break-after: always;
             }
 
-            .print-header {
-                display: inline-block;
-                padding-top: 5px;
-                padding-bottom: 10px;
-                margin-top: -5px;
-                margin-left: 13px;
-                margin-right: 30px;
+            .print-table {
+                font-size: 18px;
+                margin-left: -25px;
+                margin-right: 21px;
+                margin-top: -0px;
             }
 
-            .title-header {
-                font-size: 31px;
-                font-family: Arial, Helvetica, sans-serif;
-                margin-top: 65px;
-                margin-left: 35px;
-            }
-
-            .supplier-info {
-                font-family: Arial, Helvetica, sans-serif;
-                margin-top: 17px;
-                margin-left: -50px;
-                font-size: 17px;
-            }
-
-            .supplier-info-label {
-                margin-top: -3px;
+            .print-table-head {
+                line-height: 20px;
+                border-right-style: none;
+                border-left-style: none;
+                color: black !important;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 21px;
             }
 
             .print-logo img {
                 width: 170px;
                 height: 65px;
-                margin-top: -177px;
-                margin-left: -30px;
+                margin-left: -55px;
             }
 
             .address-info {
-                margin-top: -109px;
-                margin-left: -22.5px !important;
+                margin-top: 5px;
+                margin-left: -30px;
                 font-size: 14px;
                 font-family: 'Courier New', Courier, monospace;
             }
@@ -164,66 +152,107 @@
             .print-time-info {
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 15px;
-                margin-top: -10.940rem;
-                margin-right: -2.815rem;
                 line-height: 16px;
+                margin-right: 1.5rem;
             }
 
-            .print-time-info-label {
-                margin-left: 0;
+            .info-row {
+                display: flex;
+                margin-bottom: 2px;
             }
 
-            .print-time-info-admin {
-                margin-left: 2.815rem;
+            .info-label {
+                width: 120px;
+                text-align: right;
+                font-weight: bold;
+                padding-right: 0.4rem;
+            }
+
+            .info-separator {
+                text-align: center;
+            }
+
+            .info-value {
+                flex: 1;
+                padding-left: 0.4rem;
+                text-align: left;
+            }
+
+            .print-time-info-clear {
+                clear: both;
+            }
+
+            .header-receipt-row {
+                padding-bottom: 0 !important;
+            }
+
+            .print-header {
+                display: inline-block;
+                padding-bottom: 10px;
+                margin-top: -70px;
+            }
+
+            .title-header {
+                font-size: 31px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .supplier-info {
+                text-align: left;
+                font-family: Arial, Helvetica, sans-serif;
+                margin-top: 17px;
+                margin-left: -12px;
+                font-size: 17px;
+                font-weight: normal;
+            }
+
+            .supplier-info-label {
+                margin-top: 0;
             }
 
             .print-receipt-info {
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 17px;
-                width: 258px;
-                margin-top: -95px;
+                font-weight: normal;
+                margin-top: -70px;
                 margin-left: 41.45rem;
                 line-height: 20px;
             }
 
-            .print-receipt-info-number {
-                margin-left: -1.53rem;
+            .receipt-info-row {
+                margin-left: -1rem;
+                display: flex;
+                margin-bottom: 2px;
             }
 
-            .print-receipt-info-warehouse {
-                margin-left: 0.76rem;
+            .receipt-info-label {
+                width: 180px;
+                text-align: right;
+                padding-right: 0.4rem;
+            }
+
+            .receipt-info-separator {
+                text-align: center;
+            }
+
+            .receipt-info-value {
+                flex: 1;
+                padding-left: 0.4rem;
+                text-align: left;
+                width: 120px;
             }
 
             .page-number {
                 float: right;
-                margin-top: -23px;
-                margin-right: -105px;
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 16px;
+                font-weight: normal;
+                margin-top: -6px;
             }
 
-            .print-table {
-                font-size: 18px;
-                margin-left: -25px;
-                margin-right: 21px;
-                margin-top: -0px;
-            }
-
-            .print-table-head {
-                line-height: 20px;
-                border: 1px solid;
-                border-right-style: none;
-                border-left-style: none;
-                color: black !important;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 21px;
-            }
-
-            .print-table-row {
-                line-height: 13px;
-                color: black !important;
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 18px;
+            .table-head-title {
+                border-top: 1px solid black;
+                border-bottom: 1px solid black;
             }
 
             .table-head-number {
@@ -244,6 +273,13 @@
 
             .table-head-unit {
                 width: 6rem;
+            }
+
+            .print-table-row {
+                line-height: 13px;
+                color: black !important;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 18px;
             }
 
             .table-content-sku {
@@ -284,9 +320,26 @@
                 margin-right: 4.35rem;
             }
 
+            #header {
+                display: table-header-group;
+            }
+
             @media print {
                 @page {
                     margin: 0.4302cm 1.27cm 0.254cm 0.381cm;
+                }
+
+                thead {
+                    display: table-header-group;
+                }
+
+                .print-header-top img {
+                    height: 40px;
+                }
+
+                .print-header-top {
+                    overflow: hidden;
+                    margin-bottom: 10px;
                 }
             }
         </style>
@@ -295,56 +348,71 @@
         @php $i = 1; $no = 1; $kode = []; @endphp
         @foreach($goodsReceipts as $key => $goodsReceipt)
             <div class="print-container">
-                <div class="container-fluid print-header">
-                    <div class="title-header text-center">
-                        <h3 class="text-bold">Goods Receipt Note</h3>
-                    </div>
-                    <div class="supplier-info">
-                        <span class="text-right">Supplier</span>
-                        <span>:</span>
-                        <span>{{ $goodsReceipt->supplier_name }}</span>
-                    </div>
-                    <div class="supplier-info supplier-info-label">
-                        <span class="text-right">We had accepted these following item(s) :</span>
-                    </div>
-                </div>
-                <div class="float-left print-logo">
-                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                    <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>
-                    <h6 class="address-info address-info-region">KRAMAT SENTIONG - JAKPUS</h6>
-                </div>
-                <div class="float-right print-time-info">
-                    <span class="text-right text-bold">Print Date</span>
-                    <span>:</span>
-                    <span>{{ $printDate }}</span>
-                    <br>
-                    <span class="print-time-info-label text-right text-bold">Print Time</span>
-                    <span>:</span>
-                    <span>{{ $printTime }}</span>
-                    <br>
-                    <span class="print-time-info-admin text-right text-bold">Admin</span>
-                    <span>:</span>
-                    <span>{{ $goodsReceipt->user_name }}</span>
-                </div>
-                <div class="print-receipt-info">
-                    <span class="text-right">Receipt Date</span>
-                    <span>:</span>
-                    <span>{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
-                    <br>
-                    <span class="print-receipt-info-number text-right">Receipt Number</span>
-                    <span>:</span>
-                    <span>{{ $goodsReceipt->number }}</span>
-                    <span class="print-receipt-info-warehouse text-right">Warehouse</span>
-                    <span>:</span>
-                    <span>{{ $goodsReceipt->warehouse_name }}</span>
-                    <br>
-                </div>
-                <br>
-
-                <span class="page-number text-right">Page  :   {{ $i }}</span>
                 <table class="table table-sm table-responsive-sm print-table">
                     <thead class="text-center text-bold print-table-head">
+                        <tr class="print-header-logo">
+                            <td colspan="5">
+                                <div class="float-left print-logo">
+                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                    <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>
+                                    <h6 class="address-info-region">KRAMAT SENTIONG - JAKPUS</h6>
+                                </div>
+                                <div class="float-right print-time-info">
+                                    <div class="info-row">
+                                        <span class="info-label">Print Date</span>
+                                        <span class="info-separator">:</span>
+                                        <span class="info-value">{{ $printDate }}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="info-label">Print Time</span>
+                                        <span class="info-separator">:</span>
+                                        <span class="info-value">{{ $printTime }}</span>
+                                    </div>
+                                    <div class="info-row">
+                                        <span class="info-label">Admin</span>
+                                        <span class="info-separator">:</span>
+                                        <span class="info-value">{{ $goodsReceipt->user_name }}</span>
+                                    </div>
+                                </div>
+                                <div class="print-time-info-clear"></div>
+                            </td>
+                        </tr>
                         <tr>
+                            <td colspan="5" class="header-receipt-row">
+                                <div class="container-fluid print-header">
+                                    <div class="title-header text-center">
+                                        <h3 class="text-bold">Goods Receipt Note</h3>
+                                    </div>
+                                    <div class="supplier-info">
+                                        <span class="text-right">Supplier</span>
+                                        <span>:</span>
+                                        <span>{{ $goodsReceipt->supplier_name }}</span>
+                                    </div>
+                                    <div class="supplier-info supplier-info-label">
+                                        <span class="text-right">We had accepted these following item(s):</span>
+                                    </div>
+                                    <div class="print-receipt-info">
+                                        <div class="receipt-info-row">
+                                            <span class="receipt-info-label">Receipt Date</span>
+                                            <span class="receipt-info-separator">:</span>
+                                            <span class="receipt-info-value">{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
+                                        </div>
+                                        <div class="receipt-info-row">
+                                            <span class="receipt-info-label">Receipt Number</span>
+                                            <span class="receipt-info-separator">:</span>
+                                            <span class="receipt-info-value">{{ $goodsReceipt->number }}</span>
+                                        </div>
+                                        <div class="receipt-info-row">
+                                            <span class="receipt-info-label">Warehouse</span>
+                                            <span class="receipt-info-separator">:</span>
+                                            <span class="receipt-info-value">{{ $goodsReceipt->warehouse_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="page-number text-right">Page  :   {{ $i }}</span>
+                            </td>
+                        </tr>
+                        <tr class="table-head-title">
                             <th class="table-head-number">No</th>
                             <th class="table-head-sku">SKU</th>
                             <th class="table-head-product">Product Name</th>
@@ -366,7 +434,9 @@
                     </tbody>
                 </table>
                 @php $i++; @endphp
+                <!-- end print content -->
 
+                <!-- print footer -->
                 <div class="container-fluid print-footer">
                     <table class="print-table-signature">
                         <thead>
@@ -386,6 +456,7 @@
                         </thead>
                     </table>
                 </div>
+                <!-- end print footer -->
             </div>
         @endforeach
 
@@ -394,7 +465,56 @@
                 {{--window.location = "{{ route('bm-after-print', $id) }}";--}}
             }
 
-            window.print();
+            // window.print();
         </script>
     </body>
 </html>
+
+
+<!-- print-header -->
+{{--                <div class="container-fluid print-header">--}}
+{{--                    <div class="title-header text-center">--}}
+{{--                        <h3 class="text-bold">Goods Receipt Note</h3>--}}
+{{--                    </div>--}}
+{{--                    <div class="supplier-info">--}}
+{{--                        <span class="text-right">Supplier</span>--}}
+{{--                        <span>:</span>--}}
+{{--                        <span>{{ $goodsReceipt->supplier_name }}</span>--}}
+{{--                    </div>--}}
+{{--                    <div class="supplier-info supplier-info-label">--}}
+{{--                        <span class="text-right">We had accepted these following item(s) :</span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="float-left print-logo">--}}
+{{--                    <img src="{{ url('assets/img/logo.png') }}" alt="">--}}
+{{--                    <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>--}}
+{{--                    <h6 class="address-info address-info-region">KRAMAT SENTIONG - JAKPUS</h6>--}}
+{{--                </div>--}}
+{{--                <div class="float-right print-time-info">--}}
+{{--                    <span class="text-right text-bold">Print Date</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ $printDate }}</span>--}}
+{{--                    <br>--}}
+{{--                    <span class="print-time-info-label text-right text-bold">Print Time</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ $printTime }}</span>--}}
+{{--                    <br>--}}
+{{--                    <span class="print-time-info-admin text-right text-bold">Admin</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ $goodsReceipt->user_name }}</span>--}}
+{{--                </div>--}}
+{{--                <div class="print-receipt-info">--}}
+{{--                    <span class="text-right">Receipt Date</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>--}}
+{{--                    <br>--}}
+{{--                    <span class="print-receipt-info-number text-right">Receipt Number</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ $goodsReceipt->number }}</span>--}}
+{{--                    <span class="print-receipt-info-warehouse text-right">Warehouse</span>--}}
+{{--                    <span>:</span>--}}
+{{--                    <span>{{ $goodsReceipt->warehouse_name }}</span>--}}
+{{--                    <br>--}}
+{{--                </div>--}}
+{{--                <br>--}}
+<!-- end print-header -->
