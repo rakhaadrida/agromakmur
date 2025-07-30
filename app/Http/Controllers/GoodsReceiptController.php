@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
+use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\GoodsReceipt;
@@ -11,6 +12,7 @@ use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
+use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
@@ -27,16 +29,9 @@ class GoodsReceiptController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
-        $goodsReceipts = GoodsReceipt::query()
-            ->select(
-                'goods_receipts.*',
-                'warehouses.name AS warehouse_name',
-                'suppliers.name AS supplier_name',
-                'users.username AS user_name'
-            )
-            ->leftJoin('warehouses', 'warehouses.id', 'goods_receipts.warehouse_id')
-            ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
-            ->leftJoin('users', 'users.id', 'goods_receipts.user_id')
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        $goodsReceipts = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->orderBy('goods_receipts.date')
@@ -227,14 +222,9 @@ class GoodsReceiptController extends Controller
     }
 
     public function indexPrint() {
-        $goodsReceipts = GoodsReceipt::query()
-            ->select(
-                'goods_receipts.*',
-                'warehouses.name AS warehouse_name',
-                'suppliers.name AS supplier_name'
-            )
-            ->leftJoin('warehouses', 'warehouses.id', 'goods_receipts.warehouse_id')
-            ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        $goodsReceipts = $baseQuery
             ->where('goods_receipts.is_printed', 0)
             ->orderBy('goods_receipts.date')
             ->get();
@@ -244,5 +234,46 @@ class GoodsReceiptController extends Controller
         ];
 
         return view('pages.admin.goods-receipt.index-print', $data);
+    }
+
+    public function print(Request $request, $id) {
+        $printDate = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $printTime = Carbon::now()->format('H:i:s');
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        if($id) {
+            $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+        }
+
+        $goodsReceipts = $baseQuery->get();
+
+        $goodsReceiptItems = $goodsReceipts->first()->goodsReceiptItems;
+
+        for($i = 1; $i < 40; $i++) {
+            $item = new GoodsReceiptItem([
+                'id' => $i + 20,
+                'goods_receipt_id' => $goodsReceipts->first()->id,
+                'product_id' => $goodsReceiptItems->first()->product_id,
+                'unit_id' => $goodsReceiptItems->first()->unit_id,
+                'quantity' => 1000,
+                'actual_quantity' => 1000,
+                'price' => 20000,
+                'total' => 20000000,
+            ]);
+
+            $goodsReceiptItems->push($item);
+        }
+
+        $data = [
+            'id' => $id,
+            'goodsReceipts' => $goodsReceipts,
+            'goodsReceiptItems' => $goodsReceiptItems,
+            'printDate' => $printDate,
+            'printTime' => $printTime,
+
+        ];
+
+        return view('pages.admin.goods-receipt.print', $data);
     }
 }

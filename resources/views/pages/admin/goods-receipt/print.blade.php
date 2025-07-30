@@ -164,31 +164,34 @@
             .print-time-info {
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 15px;
-                width: 370px;
-                margin-top: -175px;
-                margin-right: -95px;
+                margin-top: -10.940rem;
+                margin-right: -2.815rem;
                 line-height: 16px;
             }
 
             .print-time-info-label {
-                margin-left: 36px;
+                margin-left: 0;
             }
 
             .print-time-info-admin {
-                margin-left: 54px;
+                margin-left: 2.815rem;
             }
 
             .print-receipt-info {
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 17px;
-                width: 235px;
+                width: 258px;
                 margin-top: -95px;
-                margin-left: 678px;
+                margin-left: 41.45rem;
                 line-height: 20px;
             }
 
             .print-receipt-info-number {
-                margin-left: -24px;
+                margin-left: -1.53rem;
+            }
+
+            .print-receipt-info-warehouse {
+                margin-left: 0.76rem;
             }
 
             .page-number {
@@ -223,6 +226,34 @@
                 font-size: 18px;
             }
 
+            .table-head-number {
+                width: 0.3rem;
+            }
+
+            .table-head-sku {
+                width: 4.5rem;
+            }
+
+            .table-head-product {
+                width: 20.6rem;
+            }
+
+            .table-head-quantity {
+                width: 3.7rem;
+            }
+
+            .table-head-unit {
+                width: 6rem;
+            }
+
+            .table-content-sku {
+                padding-left: 0.5rem !important;
+            }
+
+            .table-content-product {
+                padding-left: 0.5rem !important;
+            }
+
             .print-footer {
                 margin: -13px 30px -50px 90px;
             }
@@ -230,6 +261,27 @@
             .print-table-signature {
                 margin-left: -88px;
                 font-size: 18px;
+            }
+
+            .table-signature-blank-row {
+                height: 3.5rem;
+            }
+
+            .table-signature-head-warehouse {
+                width: 12.5rem;
+            }
+
+            .table-signature-admin {
+                width: 17.5rem;
+            }
+
+            .table-signature-staff-warehouse {
+                width: 10rem;
+            }
+
+            .signature-name {
+                margin-left: 4.35rem;
+                margin-right: 4.35rem;
             }
 
             @media print {
@@ -241,7 +293,7 @@
     </head>
     <body>
         @php $i = 1; $no = 1; $kode = []; @endphp
-        @foreach($items as $item)
+        @foreach($goodsReceipts as $key => $goodsReceipt)
             <div class="print-container">
                 <div class="container-fluid print-header">
                     <div class="title-header text-center">
@@ -250,78 +302,66 @@
                     <div class="supplier-info">
                         <span class="text-right">Supplier</span>
                         <span>:</span>
-                        <span>{{ $items->first()->supplier->nama }}</span>
+                        <span>{{ $goodsReceipt->supplier_name }}</span>
                     </div>
                     <div class="supplier-info supplier-info-label">
                         <span class="text-right">We had accepted these following item(s) :</span>
                     </div>
                 </div>
                 <div class="float-left print-logo">
-                    <img src="{{ url('backend/img/Logo_CPL.jpg') }}" alt="">
+                    <img src="{{ url('assets/img/logo.png') }}" alt="">
                     <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>
                     <h6 class="address-info address-info-region">KRAMAT SENTIONG - JAKPUS</h6>
                 </div>
                 <div class="float-right print-time-info">
                     <span class="text-right text-bold">Print Date</span>
                     <span>:</span>
-                    <span>{{ $today }}</span>
+                    <span>{{ $printDate }}</span>
                     <br>
                     <span class="print-time-info-label text-right text-bold">Print Time</span>
                     <span>:</span>
-                    <span>{{ $waktu }}</span>
+                    <span>{{ $printTime }}</span>
                     <br>
                     <span class="print-time-info-admin text-right text-bold">Admin</span>
                     <span>:</span>
-                    <span>{{ Auth::user()->name }}</span>
+                    <span>{{ $goodsReceipt->user_name }}</span>
                 </div>
                 <div class="print-receipt-info">
                     <span class="text-right">Receipt Date</span>
                     <span>:</span>
-                    <span>{{ \Carbon\Carbon::parse($items->first()->tanggal)->format('d-M-y') }}</span>
+                    <span>{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
                     <br>
                     <span class="print-receipt-info-number text-right">Receipt Number</span>
                     <span>:</span>
-                    <span>{{ $items->first()->id }}</span>
+                    <span>{{ $goodsReceipt->number }}</span>
+                    <span class="print-receipt-info-warehouse text-right">Warehouse</span>
+                    <span>:</span>
+                    <span>{{ $goodsReceipt->warehouse_name }}</span>
                     <br>
                 </div>
                 <br>
-
-                @php
-                $itemsDet = \App\Models\DetilBM::with(['barang'])
-                                  ->select('id_barang', 'diskon')
-                                  ->selectRaw('avg(harga) as harga, sum(qty) as qty')
-                                  ->where('id_bm', $items->first()->id)
-                                  ->whereNotIn('id_barang', $kode)
-                                  ->groupBy('id_barang', 'diskon')
-                                  ->get();
-                @endphp
 
                 <span class="page-number text-right">Page  :   {{ $i }}</span>
                 <table class="table table-sm table-responsive-sm print-table">
                     <thead class="text-center text-bold print-table-head">
                         <tr>
-                            <th style="width: 5px">No</th>
-                            <th style="width: 30px">Number</th>
-                            <th style="width: 350px">Product Name</th>
-                            <th><span style="margin-left: 10px !important">Quantity</span> </th>
-                            <th style="width: 200px">Description</th>
+                            <th class="table-head-number">No</th>
+                            <th class="table-head-sku">SKU</th>
+                            <th class="table-head-product">Product Name</th>
+                            <th class="table-head-quantity">Quantity</th>
+                            <th class="table-head-unit">Unit</th>
                         </tr>
                     </thead>
                     <tbody class="print-table-row">
                         @php $cek = 0; @endphp
-                        @foreach($itemsDet as $itemDet)
+                        @foreach($goodsReceiptItems as $index => $goodsReceiptItem)
                             <tr>
-                                <td class="text-center">{{ $no }}</td>
-                                <td class="text-center">{{ $itemDet->id_barang }}</td>
-                                <td>{{ $itemDet->barang->nama }}</td>
-                                <td class="text-center" style="width: 50px">{{ $itemDet->qty }} @if($itemDet->barang->satuan == "Pcs / Dus") Pcs @elseif($itemDet->barang->satuan == "Set") Set @elseif($itemDet->barang->satuan == "Meter / Rol") Rol @else Meter @endif</td>
-                                <td></td>
+                                <td class="text-center">{{ ++$index }}</td>
+                                <td class="table-content-sku">{{ $goodsReceiptItem->product->sku }}</td>
+                                <td class="table-content-product">{{ $goodsReceiptItem->product->name }}</td>
+                                <td class="text-center">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
+                                <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
                             </tr>
-                            @php $no++; array_push($kode, $itemDet->id_barang); @endphp
-                            @if($no > (34 * $i))
-                                @php $cek = 1; @endphp
-                                @break
-                             @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -331,17 +371,17 @@
                     <table class="print-table-signature">
                         <thead>
                             <tr>
-                                <td align="center" style="width: 200px">HEAD OF WAREHOUSE</td>
-                                <td align="center" style="width: 280px">ADMIN</td>
-                                <td align="center" style="width: 160px">WAREHOUSE STAFF</td>
+                                <td class="text-center table-signature-head-warehouse">HEAD OF WAREHOUSE</td>
+                                <td class="text-center table-signature-admin">ADMIN</td>
+                                <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
                             </tr>
                             <tr>
-                                <td colspan="3" style="height: 45px"></td>
+                                <td colspan="3" class="table-signature-blank-row"></td>
                             </tr>
                             <tr>
-                                <td align="center">(              )</td>
-                                <td align="center">(              )</td>
-                                <td align="center">(              )</td>
+                                <td class="text-center">(<span class="signature-name"></span>)</td>
+                                <td class="text-center">(<span class="signature-name"></span>)</td>
+                                <td class="text-center">(<span class="signature-name"></span>)</td>
                             </tr>
                         </thead>
                     </table>
