@@ -134,24 +134,25 @@
 
             .print-logo img {
                 width: 170px;
-                height: 65px;
-                margin-left: -55px;
+                height: 70px;
+                margin-left: -80px;
             }
 
             .address-info {
                 margin-top: 5px;
                 margin-left: -30px;
-                font-size: 14px;
+                font-size: 16px;
                 font-family: 'Courier New', Courier, monospace;
             }
 
             .address-info-region {
+                font-size: 16px;
                 margin-top: -8px !important;
             }
 
             .print-time-info {
                 font-family: 'Courier New', Courier, monospace;
-                font-size: 15px;
+                font-size: 16px;
                 line-height: 16px;
                 margin-right: 1.5rem;
             }
@@ -176,6 +177,7 @@
                 flex: 1;
                 padding-left: 0.4rem;
                 text-align: left;
+                font-weight: normal;
             }
 
             .print-time-info-clear {
@@ -193,8 +195,9 @@
             }
 
             .title-header {
-                font-size: 31px;
+                font-size: 36px !important;
                 font-family: Arial, Helvetica, sans-serif;
+                margin-left: -3rem;
             }
 
             .supplier-info {
@@ -202,31 +205,31 @@
                 font-family: Arial, Helvetica, sans-serif;
                 margin-top: 17px;
                 margin-left: -12px;
-                font-size: 17px;
+                font-size: 20px;
                 font-weight: normal;
             }
 
             .supplier-info-label {
-                margin-top: 0;
+                margin-top: 5px;
             }
 
             .print-receipt-info {
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 17px;
+                font-size: 20px;
                 font-weight: normal;
-                margin-top: -70px;
-                margin-left: 41.45rem;
+                margin-top: -65px;
+                margin-left: 42rem;
                 line-height: 20px;
             }
 
             .receipt-info-row {
-                margin-left: -1rem;
+                width: 400px;
                 display: flex;
                 margin-bottom: 2px;
             }
 
             .receipt-info-label {
-                width: 180px;
+                width: 220px;
                 text-align: right;
                 padding-right: 0.4rem;
             }
@@ -245,14 +248,23 @@
             .page-number {
                 float: right;
                 font-family: 'Courier New', Courier, monospace;
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: normal;
                 margin-top: -6px;
+                margin-right: 1rem;
+                margin-bottom: 0.1rem;
+                height: 20px;
             }
 
             .table-head-title {
                 border-top: 1px solid black;
                 border-bottom: 1px solid black;
+                font-size: 26px;
+            }
+
+            .table-head-title th {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
             }
 
             .table-head-number {
@@ -276,10 +288,14 @@
             }
 
             .print-table-row {
-                line-height: 13px;
+                line-height: 14px;
                 color: black !important;
                 font-family: Arial, Helvetica, sans-serif;
-                font-size: 18px;
+                font-size: 22px;
+            }
+
+            .print-table-row td {
+                padding-top: 0.5rem !important;
             }
 
             .table-content-sku {
@@ -291,12 +307,12 @@
             }
 
             .print-footer {
-                margin: -13px 30px -50px 90px;
+                margin: -5px 30px 0 150px;
             }
 
             .print-table-signature {
                 margin-left: -88px;
-                font-size: 18px;
+                font-size: 22px;
             }
 
             .table-signature-blank-row {
@@ -304,7 +320,7 @@
             }
 
             .table-signature-head-warehouse {
-                width: 12.5rem;
+                width: 14.5rem;
             }
 
             .table-signature-admin {
@@ -312,7 +328,7 @@
             }
 
             .table-signature-staff-warehouse {
-                width: 10rem;
+                width: 12rem;
             }
 
             .signature-name {
@@ -320,32 +336,24 @@
                 margin-right: 4.35rem;
             }
 
-            #header {
-                display: table-header-group;
-            }
-
             @media print {
                 @page {
                     margin: 0.4302cm 1.27cm 0.254cm 0.381cm;
-                }
 
-                thead {
-                    display: table-header-group;
-                }
-
-                .print-header-top img {
-                    height: 40px;
-                }
-
-                .print-header-top {
-                    overflow: hidden;
-                    margin-bottom: 10px;
+                    @top-right {
+                        content: "Page " counter(page) " of " counter(pages);
+                        font-family: 'Courier New', Courier, monospace;
+                        font-size: 12px;
+                        font-weight: normal;
+                        margin-bottom: -24.1rem !important;
+                        margin-right: 0.44rem !important;
+                    }
                 }
             }
         </style>
     </head>
     <body>
-        @php $i = 1; $no = 1; $kode = []; @endphp
+        @php $number = 1; @endphp
         @foreach($goodsReceipts as $key => $goodsReceipt)
             <div class="print-container">
                 <table class="table table-sm table-responsive-sm print-table">
@@ -409,7 +417,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span class="page-number text-right">Page  :   {{ $i }}</span>
+                                <div class="page-number"></div>
+{{--                                <span class="page-number text-right"></span>--}}
                             </td>
                         </tr>
                         <tr class="table-head-title">
@@ -421,7 +430,6 @@
                         </tr>
                     </thead>
                     <tbody class="print-table-row">
-                        @php $cek = 0; @endphp
                         @foreach($goodsReceiptItems as $index => $goodsReceiptItem)
                             <tr>
                                 <td class="text-center">{{ ++$index }}</td>
@@ -432,89 +440,41 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <div class="container-fluid print-footer">
+                                    <table class="print-table-signature">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-center table-signature-head-warehouse">HEAD OF WAREHOUSE</td>
+                                                <td class="text-center table-signature-admin">ADMIN</td>
+                                                <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="table-signature-blank-row" style="height: 60px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                <td class="text-center">(<span class="signature-name"></span>)</td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                @php $i++; @endphp
-                <!-- end print content -->
-
-                <!-- print footer -->
-                <div class="container-fluid print-footer">
-                    <table class="print-table-signature">
-                        <thead>
-                            <tr>
-                                <td class="text-center table-signature-head-warehouse">HEAD OF WAREHOUSE</td>
-                                <td class="text-center table-signature-admin">ADMIN</td>
-                                <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="table-signature-blank-row"></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <!-- end print footer -->
             </div>
         @endforeach
 
         <script type="text/javascript">
-            window.onafterprint = function() {
+            // window.onafterprint = function() {
                 {{--window.location = "{{ route('bm-after-print', $id) }}";--}}
-            }
+            // }
 
-            // window.print();
+            window.print();
         </script>
     </body>
 </html>
-
-
-<!-- print-header -->
-{{--                <div class="container-fluid print-header">--}}
-{{--                    <div class="title-header text-center">--}}
-{{--                        <h3 class="text-bold">Goods Receipt Note</h3>--}}
-{{--                    </div>--}}
-{{--                    <div class="supplier-info">--}}
-{{--                        <span class="text-right">Supplier</span>--}}
-{{--                        <span>:</span>--}}
-{{--                        <span>{{ $goodsReceipt->supplier_name }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="supplier-info supplier-info-label">--}}
-{{--                        <span class="text-right">We had accepted these following item(s) :</span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="float-left print-logo">--}}
-{{--                    <img src="{{ url('assets/img/logo.png') }}" alt="">--}}
-{{--                    <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>--}}
-{{--                    <h6 class="address-info address-info-region">KRAMAT SENTIONG - JAKPUS</h6>--}}
-{{--                </div>--}}
-{{--                <div class="float-right print-time-info">--}}
-{{--                    <span class="text-right text-bold">Print Date</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ $printDate }}</span>--}}
-{{--                    <br>--}}
-{{--                    <span class="print-time-info-label text-right text-bold">Print Time</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ $printTime }}</span>--}}
-{{--                    <br>--}}
-{{--                    <span class="print-time-info-admin text-right text-bold">Admin</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ $goodsReceipt->user_name }}</span>--}}
-{{--                </div>--}}
-{{--                <div class="print-receipt-info">--}}
-{{--                    <span class="text-right">Receipt Date</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>--}}
-{{--                    <br>--}}
-{{--                    <span class="print-receipt-info-number text-right">Receipt Number</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ $goodsReceipt->number }}</span>--}}
-{{--                    <span class="print-receipt-info-warehouse text-right">Warehouse</span>--}}
-{{--                    <span>:</span>--}}
-{{--                    <span>{{ $goodsReceipt->warehouse_name }}</span>--}}
-{{--                    <br>--}}
-{{--                </div>--}}
-{{--                <br>--}}
-<!-- end print-header -->

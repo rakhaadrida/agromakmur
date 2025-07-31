@@ -237,7 +237,7 @@ class GoodsReceiptController extends Controller
     }
 
     public function print(Request $request, $id) {
-        $printDate = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
 
         $baseQuery = GoodsReceiptService::getBaseQueryIndex();
@@ -271,7 +271,7 @@ class GoodsReceiptController extends Controller
             'goodsReceiptItems' => $goodsReceiptItems,
             'printDate' => $printDate,
             'printTime' => $printTime,
-
+            'rowNumbers' => 35
         ];
 
         return view('pages.admin.goods-receipt.print', $data);
