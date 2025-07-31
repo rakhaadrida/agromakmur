@@ -469,7 +469,6 @@
             </div>
         @endforeach
 
-{{--        <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>--}}
         <script type="text/javascript">
             window.onafterprint = function() {
                 const url = '{{ route('goods-receipts.after-print', $id) }}';
