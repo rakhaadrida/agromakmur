@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="" id="form">
+                            <form action="{{ route('goods-receipts.store') }}" method="POST" id="form">
                                 @csrf
                                 <div class="container">
                                     <div class="row">
@@ -191,13 +191,14 @@
                                             </div>
                                             <div class="modal-body">
                                                 <p>The Goods Receipt data will be saved. Please select print or re-enter the incoming goods.</p>
+                                                <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" formaction="{{ route('goods-receipts.store') }}" formmethod="POST" class="btn btn-success btn-block text-bold">Print</button>
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="submit" formaction="#" formmethod="POST" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
+                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -342,6 +343,13 @@
 
                     return false;
                 }
+            });
+
+            $('#btnPrint').on('click', function(event) {
+                event.preventDefault();
+
+                $('input[name="is_print"]').val(1);
+                $('#form').submit();
             });
 
             $('#addRow').on('click', function(event) {

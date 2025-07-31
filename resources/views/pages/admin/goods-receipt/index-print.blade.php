@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="" id="form">
+                            <form action="{{ route('goods-receipts.print', 0) }}" method="GET" id="form">
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">

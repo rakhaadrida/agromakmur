@@ -296,6 +296,7 @@
 
             .print-table-row td {
                 padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
             }
 
             .table-content-sku {
@@ -417,8 +418,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="page-number"></div>
-{{--                                <span class="page-number text-right"></span>--}}
+                                <span class="page-number text-right"></span>
                             </td>
                         </tr>
                         <tr class="table-head-title">
@@ -430,7 +430,7 @@
                         </tr>
                     </thead>
                     <tbody class="print-table-row">
-                        @foreach($goodsReceiptItems as $index => $goodsReceiptItem)
+                        @foreach($goodsReceipt->goodsReceiptItems as $index => $goodsReceiptItem)
                             <tr>
                                 <td class="text-center">{{ ++$index }}</td>
                                 <td class="table-content-sku">{{ $goodsReceiptItem->product->sku }}</td>
@@ -452,7 +452,7 @@
                                                 <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="table-signature-blank-row" style="height: 60px;"></td>
+                                                <td colspan="3" class="table-signature-blank-row"></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center">(<span class="signature-name"></span>)</td>
@@ -469,10 +469,12 @@
             </div>
         @endforeach
 
+{{--        <script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>--}}
         <script type="text/javascript">
-            // window.onafterprint = function() {
-                {{--window.location = "{{ route('bm-after-print', $id) }}";--}}
-            // }
+            window.onafterprint = function() {
+                const url = '{{ route('goods-receipts.after-print', $id) }}';
+                window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
+            }
 
             window.print();
         </script>

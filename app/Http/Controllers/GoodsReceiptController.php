@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
-use App\Models\GoodsReceiptItem;
+use App\Http\Requests\ProductUpdateRequest;
+use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\ProductStock;
-use App\Models\GoodsReceipt;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
@@ -135,9 +134,17 @@ class GoodsReceiptController extends Controller
 
             AccountPayableService::createData($goodsReceipt);
 
+            $parameters = [];
+            $route = 'goods-receipts.create';
+
+            if($request->get('is_print')) {
+                $route = 'goods-receipts.print';
+                $parameters = ['id' => $goodsReceipt->id];
+            }
+
             DB::commit();
 
-            return redirect()->route('goods-receipts.create');
+            return redirect()->route($route, $parameters);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -237,43 +244,77 @@ class GoodsReceiptController extends Controller
     }
 
     public function print(Request $request, $id) {
+        $filter = (object) $request->all();
+        $startNumber = $filter->start_number ?? 0;
+        $finalNumber = $filter->final_number ?? 0;
+
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
-
         $baseQuery = GoodsReceiptService::getBaseQueryIndex();
 
         if($id) {
             $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+        } else {
+            $baseQuery = $baseQuery
+                ->where('goods_receipts.id', '>=', $startNumber)
+                ->where('goods_receipts.id', '<=', $finalNumber);
         }
 
-        $goodsReceipts = $baseQuery->get();
-
-        $goodsReceiptItems = $goodsReceipts->first()->goodsReceiptItems;
-
-        for($i = 1; $i < 40; $i++) {
-            $item = new GoodsReceiptItem([
-                'id' => $i + 20,
-                'goods_receipt_id' => $goodsReceipts->first()->id,
-                'product_id' => $goodsReceiptItems->first()->product_id,
-                'unit_id' => $goodsReceiptItems->first()->unit_id,
-                'quantity' => 1000,
-                'actual_quantity' => 1000,
-                'price' => 20000,
-                'total' => 20000000,
-            ]);
-
-            $goodsReceiptItems->push($item);
-        }
+        $goodsReceipts = $baseQuery
+            ->where('goods_receipts.is_printed', 0)
+            ->get();
 
         $data = [
             'id' => $id,
             'goodsReceipts' => $goodsReceipts,
-            'goodsReceiptItems' => $goodsReceiptItems,
             'printDate' => $printDate,
             'printTime' => $printTime,
+            'startNumber' => $startNumber,
+            'finalNumber' => $finalNumber,
             'rowNumbers' => 35
         ];
 
         return view('pages.admin.goods-receipt.print', $data);
+    }
+
+    public function afterPrint(Request $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $filter = (object) $request->all();
+            $startNumber = $filter->start_number ?? 0;
+            $finalNumber = $filter->final_number ?? 0;
+
+            $baseQuery = GoodsReceipt::query();
+
+            if($id) {
+                $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+            } else {
+                $baseQuery = $baseQuery
+                    ->where('goods_receipts.id', '>=', $startNumber)
+                    ->where('goods_receipts.id', '<=', $finalNumber);
+            }
+
+            $goodsReceipts = $baseQuery
+                ->where('goods_receipts.is_printed', 0)
+                ->get();
+
+            foreach ($goodsReceipts as $goodsReceipt) {
+                $goodsReceipt->update(['is_printed' => 1]);
+            }
+
+            $route = $id ? 'goods-receipts.create' : 'goods-receipts.index-print';
+
+            DB::commit();
+
+            return redirect()->route($route);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
+            ]);
+        }
     }
 }
