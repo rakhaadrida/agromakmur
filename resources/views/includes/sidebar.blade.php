@@ -83,7 +83,7 @@
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Print Goods Receipt</a>
                     <a class="collapse-item" href="#">Edit Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Daily Goods Receipt</a>
-                    <a class="collapse-item" href="#">Product Transfer</a>
+                    <a class="collapse-item" href="{{ route('product-transfers.create') }}">Product Transfer</a>
                     <a class="collapse-item" href="#">Print Product Transfer</a>
                     <a class="collapse-item" href="#">List Product Transfer</a>
                 </div>

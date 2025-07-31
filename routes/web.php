@@ -79,11 +79,13 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
     Route::get('export-products', 'ProductController@export')->name('products.export');
 
-    Route::resource('goods-receipts', 'goodsReceiptController');
-    Route::get('goods-receipts/{id}/detail', 'goodsReceiptController@detail')->name('goods-receipts.detail');
-    Route::get('goods-receipts/{id}/print', 'goodsReceiptController@print')->name('goods-receipts.print');
-    Route::get('goods-receipts/{id}/after-print', 'goodsReceiptController@afterPrint')->name('goods-receipts.after-print');
-    Route::get('print-goods-receipts', 'goodsReceiptController@indexPrint')->name('goods-receipts.index-print');
+    Route::resource('goods-receipts', 'GoodsReceiptController');
+    Route::get('goods-receipts/{id}/detail', 'GoodsReceiptController@detail')->name('goods-receipts.detail');
+    Route::get('goods-receipts/{id}/print', 'GoodsReceiptController@print')->name('goods-receipts.print');
+    Route::get('goods-receipts/{id}/after-print', 'GoodsReceiptController@afterPrint')->name('goods-receipts.after-print');
+    Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
+
+    Route::resource('product-transfers', 'ProductTransferController');
 });
 
 Auth::routes(['verify' => true]);

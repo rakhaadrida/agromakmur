@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Product Transfer</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,18 +25,17 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('goods-receipts.store') }}" method="POST" id="form">
+                            <form action="{{ route('product-transfers.store') }}" method="POST" id="form">
                                 @csrf
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Transfer Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" autofocus required >
                                                 </div>
-                                                <div class="col-1"></div>
                                                 <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
@@ -44,71 +43,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col" style="margin-left: -320px">
-                                            <div class="form-group row subtotal-po">
-                                                <label for="subtotal" class="col-5 col-form-label text-bold ">Sub Total</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="subtotal" id="subtotal">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="taxAmount" class="col-5 col-form-label text-bold ">Tax Amount</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="tax_amount" id="taxAmount">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="grandTotal" class="col-5 col-form-label text-bold ">Grand Total</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext text-bold text-right text-danger" name="grand_total" id="grandTotal">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row subtotal-so" style="margin-top: -68px">
-                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Warehouse</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" title="Enter or Choose Warehouse" tabindex="3" required>
-                                                @foreach($warehouses as $warehouse)
-                                                    <option value="{{ $warehouse->id }}" data-tokens="{{ $warehouse->name }}">{{ $warehouse->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('warehouse')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                            @enderror
-                                        </div>
-                                        <label for="tempo" class="col-1 col-form-label text-bold text-right">Tempo</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-1 mt-1">
-                                            <input type="text" tabindex="4" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                                        </div>
-                                        <span class="col-form-label text-bold"> Day(s)</span>
-                                    </div>
-                                    <div class="form-group row subtotal-so">
-                                        <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
-                                            <select class="selectpicker supplier-select-picker" name="supplier_id" id="supplier" data-live-search="true" title="Enter or Choose Supplier Name" tabindex="5" required>
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}">{{ $supplier->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('supplier')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                            @enderror
-                                        </div>
-                                        <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
                                 </div>
                                 <hr>
@@ -119,12 +53,14 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
-                                            <td class="align-middle table-head-code-transaction">SKU</td>
+                                            <td class="align-middle table-head-code-transfer-transaction">SKU</td>
                                             <td class="align-middle table-head-name-transaction">Product Name</td>
-                                            <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-price-transaction">Price</td>
-                                            <td class="align-middle table-head-total-transaction">Total</td>
+                                            <td class="align-middle table-head-warehouse-transaction">Source Warehouse</td>
+                                            <td class="align-middle table-head-quantity-transaction">Original Stock</td>
+                                            <td class="align-middle table-head-warehouse-transaction">Destination Warehouse</td>
+                                            <td class="align-middle table-head-quantity-transaction">Destination Stock</td>
+                                            <td class="align-middle table-head-quantity-transaction">Quantity Sent</td>
                                             <td class="align-middle table-head-delete-transaction">Delete</td>
                                         </tr>
                                     </thead>
@@ -133,7 +69,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -141,25 +77,35 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 3 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif disabled>
+                                                    </select>
+                                                    <input type="hidden" name="source_warehouse_id[]" id="sourceWarehouseId-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
+                                                    <input type="text" name="source_stock[]" id="sourceStock-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
+                                                </td>
+                                                <td>
+                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif disabled>
+                                                    </select>
+                                                    <input type="hidden" name="destination_warehouse_id[]" id="destinationWarehouseId-{{ $key }}">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="destination_stock[]" id="destinationStock-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
@@ -190,7 +136,7 @@
                                                 <h4 class="modal-title">Goods Receipt Confirmation</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>The Goods Receipt data will be saved. Please select print or re-enter the incoming goods.</p>
+                                                <p>The Product Transfer data will be saved. Please select print or re-enter the product transfer.</p>
                                                 <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
@@ -252,12 +198,48 @@
         });
 
         $(document).ready(function() {
+            let warehouses = @json($warehouses);
             const table = $('#itemTable');
-            let subtotal = document.getElementById('subtotal');
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
                 displayPrice(this.value, index);
+            });
+
+            table.on('change', 'select[name="unit[]"]', function () {
+                const index = $(this).closest('tr').index();
+                const selectedValue = $(this).find(':selected').data('foo');
+
+                $(`#unitValue-${index}`).val(this.value);
+                $(`#realQuantity-${index}`).val(selectedValue);
+
+                let sourceStock = $(`#sourceWarehouse-${index}`).find('option:selected').data('foo');
+                let destinationStock = $(`#destinationWarehouse-${index}`).find('option:selected').data('foo');
+
+                $(`#sourceStock-${index}`).val(getActualStock(index, sourceStock));
+                $(`#destinationStock-${index}`).val(getActualStock(index, destinationStock));
+            });
+
+            table.on('change', 'select[name="source_warehouse[]"]', function () {
+                const index = $(this).closest('tr').index();
+                const selectedValue = $(this).find(':selected').data('foo');
+
+                let sourceStock = getActualStock(index, selectedValue);
+                let sourceWarehouse = $(`#sourceWarehouse-${index}`);
+                getDestinationWarehouse(index, this.value, sourceWarehouse);
+
+                $(`#sourceWarehouseId-${index}`).val(this.value);
+                $(`#sourceStock-${index}`).val(thousandSeparator(sourceStock));
+            });
+
+            table.on('change', 'select[name="destination_warehouse[]"]', function () {
+                const index = $(this).closest('tr').index();
+                const selectedValue = $(this).find(':selected').data('foo');
+
+                let destinationStock = getActualStock(index, selectedValue);
+
+                $(`#destinationWarehouseId-${index}`).val(this.value);
+                $(`#destinationStock-${index}`).val(thousandSeparator(destinationStock));
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -271,39 +253,6 @@
 
             table.on('keyup', 'input[name="quantity[]"]', function () {
                 this.value = currencyFormat(this.value);
-            });
-
-            table.on('blur', 'input[name="quantity[]"]', function () {
-                const index = $(this).closest('tr').index();
-                calculateTotal(index);
-            });
-
-            table.on('change', 'select[name="unit[]"]', function () {
-                const index = $(this).closest('tr').index();
-                const selected = $(this).find(':selected');
-
-                $(`#unitValue-${index}`).val(this.value);
-                $(`#realQuantity-${index}`).val(selected.data('foo'));
-
-                calculateTotal(index);
-            });
-
-            table.on('keypress', 'input[name="price[]"]', function (event) {
-                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    const index = $(this).closest('tr').index();
-                    $(`#price-${index}`).tooltip('show');
-
-                    event.preventDefault();
-                }
-            });
-
-            table.on('keyup', 'input[name="price[]"]', function () {
-                this.value = currencyFormat(this.value);
-            });
-
-            table.on('blur', 'input[name="price[]"]', function () {
-                const index = $(this).closest('tr').index();
-                calculateTotal(index);
             });
 
             table.on('click', '.remove-transaction-table', function () {
@@ -379,15 +328,12 @@
                     dataType: 'json',
                     success: function(data) {
                         let productName = $(`#productName-${index}`);
-                        let price = $(`#price-${index}`);
+                        let sourceWarehouse = $(`#sourceWarehouse-${index}`);
+                        let sourceStock = $(`#sourceStock-${index}`);
                         let quantity = $(`#quantity-${index}`);
-                        let productPrice = thousandSeparator(data.main_price);
                         let productUnitId = data.data.unit_id;
 
                         productName.selectpicker('val', productId);
-                        price.val(productPrice);
-                        price.attr('readonly', false);
-                        price.attr('required', true);
                         quantity.attr('readonly', false);
                         quantity.attr('required', true);
 
@@ -413,52 +359,77 @@
 
                         $(`#realQuantity-${index}`).val(1);
 
-                        calculateTotal(index);
+                        let warehouseId = 0;
+                        let sourceQuantity = 0;
+                        let productStocks = data.product_stocks;
+
+                        $.each(warehouses, function(key, item) {
+                            sourceWarehouse.append(
+                                $('<option></option>', {
+                                    value: item.id,
+                                    text: item.name,
+                                    'data-tokens': item.name,
+                                    'data-foo': productStocks[item.id]
+                                })
+                            );
+
+                            if(!key) {
+                                warehouseId = item.id;
+                                sourceQuantity = productStocks[item.id] || 0;
+                            }
+                        });
+
+                        sourceWarehouse.attr('disabled', false);
+                        sourceWarehouse.selectpicker('refresh');
+                        sourceWarehouse.selectpicker('val', warehouseId);
+                        $(`#sourceWarehouseId-${index}`).val(warehouseId);
+
+                        sourceStock.val(thousandSeparator(sourceQuantity || 0));
+                        getDestinationWarehouse(index, warehouseId, sourceWarehouse);
                     },
                 })
             }
 
-            function calculateTotal(index) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let price = document.getElementById(`price-${index}`);
-                let total = document.getElementById(`total-${index}`);
+            function getDestinationWarehouse(index, value, sourceWarehouse) {
+                const destinationWarehouse = $(`#destinationWarehouse-${index}`);
+                const filteredWarehouses = warehouses.filter(item => item.id !== +value);
 
-                let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
-                let currentTotal = 0;
+                let destinationStock = $(`#destinationStock-${index}`);
+                let warehouseId = 0;
+                let destinationQuantity = 0;
+                destinationWarehouse.empty();
 
-                if(quantity.value === "") {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                    total.value = '';
-                }
-                else {
-                    currentTotal = numberFormat(total.value);
-                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
-                    calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
-                }
+                $.each(filteredWarehouses, function(key, item) {
+                    let productStocks = sourceWarehouse.find(`option[value="${item.id}"]`).data('foo');
 
-                calculateTax(numberFormat(subtotal.value));
+                    destinationWarehouse.append(
+                        $('<option></option>', {
+                            value: item.id,
+                            text: item.name,
+                            'data-tokens': item.name,
+                            'data-foo': productStocks,
+                        })
+                    );
+
+                    if(!key) {
+                        warehouseId = item.id;
+                        destinationQuantity = productStocks || 0;
+                    }
+                });
+
+                destinationWarehouse.attr('disabled', false);
+                destinationWarehouse.selectpicker('refresh');
+                destinationWarehouse.selectpicker('val', warehouseId);
+                $(`#destinationWarehouseId-${index}`).val(warehouseId);
+
+                let actualStock = getActualStock(index, destinationQuantity || 0);
+                destinationStock.val(thousandSeparator(actualStock));
             }
 
-            function getRealQuantity(quantity, index) {
+            function getActualStock(index, quantity) {
                 let realQuantity = $(`#realQuantity-${index}`).val();
 
-                return +quantity * +realQuantity;
-            }
-
-            function calculateSubtotal(previousAmount, currentAmount, subtotal) {
-                if(previousAmount > currentAmount) {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - (+previousAmount - +currentAmount));
-                } else {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + (+currentAmount - +previousAmount));
-                }
-            }
-
-            function calculateTax(subtotalAmount) {
-                let taxAmount = document.getElementById('taxAmount');
-                let grandTotal = document.getElementById('grandTotal');
-
-                taxAmount.value = thousandSeparator(subtotalAmount * 0.1);
-                grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
+                return thousandSeparator(+quantity / +realQuantity);
             }
 
             function currencyFormat(value) {

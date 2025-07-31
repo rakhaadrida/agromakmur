@@ -609,6 +609,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 120px;
 }
 
+.table-head-warehouse-transaction {
+    width: 120px;
+}
+
+.table-head-delete-transaction {
+    width: 50px;
+}
+
+.table-head-code-transfer-transaction {
+    width: 100px;
+}
+
 .product-sku-select-picker {
     width: 7.5rem !important;
 }
@@ -663,6 +675,64 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .remove-transaction-table:focus {
     outline: none !important;
+}
+
+.product-sku-transfer-select-picker {
+    width: 6.25rem !important;
+}
+
+.product-sku-transfer-select-picker .dropdown-toggle {
+    width: 100px !important;
+}
+
+.product-name-transfer-select-picker {
+    width: 20rem !important;
+}
+
+.product-name-transfer-select-picker .dropdown-toggle {
+    width: 335px !important;
+}
+
+.product-unit-transfer-select-picker {
+    width: 4.375rem !important;
+}
+
+.product-unit-transfer-select-picker .dropdown-toggle {
+    width: 75px !important;
+}
+
+.product-warehouse-transfer-select-picker {
+    width: 7.5rem !important;
+}
+
+.product-warehouse-transfer-select-picker .dropdown-toggle {
+    width: 125px !important;
+}
+
+.product-sku-transfer-select-picker,
+.product-name-transfer-select-picker,
+.product-unit-transfer-select-picker,
+.product-warehouse-transfer-select-picker {
+    padding: 0 !important;
+}
+
+.product-sku-transfer-select-picker .dropdown-toggle,
+.product-name-transfer-select-picker .dropdown-toggle,
+.product-unit-transfer-select-picker .dropdown-toggle,
+.product-warehouse-transfer-select-picker .dropdown-toggle {
+    padding: 0.3rem 0.35rem !important;
+    background: none !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #5a5c69 !important;
+}
+
+.product-sku-transfer-select-picker .dropdown-toggle:after,
+.product-name-transfer-select-picker .dropdown-toggle:after,
+.product-unit-transfer-select-picker .dropdown-toggle:after,
+.product-warehouse-transfer-select-picker .dropdown-toggle:after {
+    border: none !important;
 }
 
 .print-transaction-final-select-picker {

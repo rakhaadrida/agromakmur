@@ -349,10 +349,18 @@ class ProductController extends Controller
             ];
         }
 
+        $productStocks = $product->productStocks->mapWithKeys(function($stock) {
+            $array = [];
+            $array[$stock->warehouse_id] = $stock->stock;
+
+            return $array;
+        });
+
         return response()->json([
             'data' => $product,
             'units' => $units,
             'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
+            'product_stocks' => $productStocks
         ]);
     }
 }
