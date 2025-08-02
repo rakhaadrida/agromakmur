@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GoodsReceiptCreateRequest;
+use App\Http\Requests\ProductTransferCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
-use App\Models\ProductStock;
-use App\Models\Supplier;
+use App\Models\ProductTransfer;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
-use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
@@ -63,7 +61,7 @@ class ProductTransferController extends Controller
         return view('pages.admin.product-transfer.create', $data);
     }
 
-    public function store(GoodsReceiptCreateRequest $request) {
+    public function store(ProductTransferCreateRequest $request) {
         try {
             DB::beginTransaction();
 
@@ -72,72 +70,59 @@ class ProductTransferController extends Controller
 
             $request->merge([
                 'date' => $date,
-                'tempo' => $request->get('tempo') || 0,
-                'subtotal' => 0,
-                'tax_amount' => 0,
-                'grand_total' => 0,
-                'status' => Constant::GOODS_RECEIPT_STATUS_ACTIVE,
+                'status' => Constant::PRODUCT_TRANSFER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
 
-            $goodsReceipt = GoodsReceipt::create($request->all());
+            $productTransfer = ProductTransfer::create($request->all());
 
-            $subtotal = 0;
             $productIds = $request->get('product_id', []);
             foreach ($productIds as $index => $productId) {
                 if(!empty($productId)) {
                     $unitId = $request->get('unit_id')[$index];
+                    $sourceWarehouseId = $request->get('source_warehouse_id')[$index];
+                    $destinationWarehouseId = $request->get('destination_warehouse_id')[$index];
                     $quantity = $request->get('quantity')[$index];
                     $realQuantity = $request->get('real_quantity')[$index];
-                    $price = $request->get('price')[$index];
 
                     $actualQuantity = $quantity * $realQuantity;
-                    $total = $quantity * $price;
-                    $subtotal += $total;
 
-                    $goodsReceipt->goodsReceiptItems()->create([
+                    $productTransfer->productTransferItems()->create([
                         'product_id' => $productId,
-                        'unit_id' => $unitId,
+                        'source_warehouse_id' => $sourceWarehouseId,
+                        'destination_warehouse_id' => $destinationWarehouseId,
                         'quantity' => $quantity,
                         'actual_quantity' => $actualQuantity,
-                        'price' => $price,
-                        'total' => $total
+                        'unit_id' => $unitId,
                     ]);
 
-                    $productStock = ProductService::getProductStockQuery(
+                    $sourceWarehouseStock = ProductService::getProductStockQuery(
                         $productId,
-                        $goodsReceipt->warehouse_id
+                        $sourceWarehouseId
                     );
 
-                    if($productStock) {
-                        $productStock->increment('stock', $actualQuantity);
-                    } else {
-                        ProductStock::create([
-                            'product_id' => $productId,
-                            'warehouse_id' => $goodsReceipt->warehouse_id,
-                            'stock' => $actualQuantity
-                        ]);
-                    }
+                    $sourceWarehouseStock?->decrement('stock', $actualQuantity);
+
+                    $destinationWarehouseStock = ProductService::getProductStockQuery(
+                        $productId,
+                        $destinationWarehouseId
+                    );
+
+                    ProductService::updateProductStockIncrement(
+                        $productId,
+                        $destinationWarehouseStock,
+                        $actualQuantity,
+                        $destinationWarehouseId
+                    );
                 }
             }
 
-            $taxAmount = $subtotal * (10 / 100);
-            $grandTotal = $subtotal + $taxAmount;
-
-            $goodsReceipt->update([
-                'subtotal' => $subtotal,
-                'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
-            ]);
-
-            AccountPayableService::createData($goodsReceipt);
-
             $parameters = [];
-            $route = 'goods-receipts.create';
+            $route = 'product-transfers.create';
 
             if($request->get('is_print')) {
-                $route = 'goods-receipts.print';
-                $parameters = ['id' => $goodsReceipt->id];
+                $route = 'product-transfers.print';
+                $parameters = ['id' => $productTransfer->id];
             }
 
             DB::commit();

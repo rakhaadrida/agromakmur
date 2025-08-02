@@ -111,15 +111,12 @@ class GoodsReceiptController extends Controller
                         $goodsReceipt->warehouse_id
                     );
 
-                    if($productStock) {
-                        $productStock->increment('stock', $actualQuantity);
-                    } else {
-                        ProductStock::create([
-                            'product_id' => $productId,
-                            'warehouse_id' => $goodsReceipt->warehouse_id,
-                            'stock' => $actualQuantity
-                        ]);
-                    }
+                    ProductService::updateProductStockIncrement(
+                        $productId,
+                        $productStock,
+                        $actualQuantity,
+                        $goodsReceipt->warehouse_id
+                    );
                 }
             }
 

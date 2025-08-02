@@ -41,6 +41,7 @@
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="2" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" required>
                                                 </div>
+                                                <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                             </div>
                                         </div>
                                     </div>
@@ -133,7 +134,7 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Goods Receipt Confirmation</h4>
+                                                <h4 class="modal-title">Product Transfer Confirmation</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <p>The Product Transfer data will be saved. Please select print or re-enter the product transfer.</p>
@@ -169,7 +170,7 @@
                     <h4 class="modal-title text-bold">Product Notification</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>There are identical item codes with the same source and destination warehouses such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the warehouse selection of the similar item codes.</h5>
                 </div>
             </div>
         </div>
@@ -245,7 +246,7 @@
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
-                    $(`#price-${index}`).tooltip('show');
+                    $(`#quantity-${index}`).tooltip('show');
 
                     event.preventDefault();
                 }
@@ -275,13 +276,9 @@
                     this.value = numberFormat(this.value);
                 });
 
-                $('input[name="price[]"]').each(function() {
-                    this.value = numberFormat(this.value);
-                });
-
                 let duplicateCodes = checkDuplicateProduct();
                 if(duplicateCodes.length) {
-                    let duplicateCode = duplicateCodes.join(', ');
+                    let duplicateCode = duplicateCodes.join(' | ');
 
                     $('#duplicateCode').text(duplicateCode);
                     $('#modalDuplicate').modal('show');
@@ -362,6 +359,7 @@
                         let warehouseId = 0;
                         let sourceQuantity = 0;
                         let productStocks = data.product_stocks;
+                        sourceWarehouse.empty();
 
                         $.each(warehouses, function(key, item) {
                             sourceWarehouse.append(
@@ -428,8 +426,9 @@
 
             function getActualStock(index, quantity) {
                 let realQuantity = $(`#realQuantity-${index}`).val();
+                let actualStock = decimalFormat(+quantity / +realQuantity);
 
-                return thousandSeparator(+quantity / +realQuantity);
+                return thousandSeparator(actualStock);
             }
 
             function currencyFormat(value) {
@@ -441,6 +440,12 @@
 
             function numberFormat(value) {
                 return +value.replace(/\./g, "");
+            }
+
+            function decimalFormat(value) {
+                let stringValue = value.toString();
+
+                return stringValue.replace(/\./g, ",");
             }
 
             function thousandSeparator(nStr) {
@@ -456,53 +461,61 @@
             }
 
             function updateAllRowIndexes(index, deleteRow) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let total = document.getElementById(`total-${index}`);
-
-                if(quantity.value !== '') {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                    calculateTax(numberFormat(subtotal.value));
-                }
-
                 for(let i = index; i < deleteRow.length; i++) {
-                    let quantity = document.getElementById(`quantity-${i}`);
-                    let price = document.getElementById(`price-${i}`);
-                    let total = document.getElementById(`total-${i}`);
-                    let realQuantity = document.getElementById(`realQuantity-${i}`);
                     let unitValue = document.getElementById(`unitValue-${i}`);
+                    let sourceWarehouseId = document.getElementById(`sourceWarehouseId-${i}`);
+                    let destinationWarehouseId = document.getElementById(`destinationWarehouseId-${i}`);
+                    let sourceStock = document.getElementById(`sourceStock-${i}`);
+                    let destinationStock = document.getElementById(`destinationStock-${i}`);
+                    let quantity = document.getElementById(`quantity-${i}`);
+                    let realQuantity = document.getElementById(`realQuantity-${i}`);
 
                     let rowNumber = +i + 1;
                     let newProductId = document.getElementById(`productId-${rowNumber}`);
                     let newProductName = document.getElementById(`productId-${rowNumber}`);
-                    let newQuantity = document.getElementById(`quantity-${rowNumber}`);
-                    let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newUnit = document.getElementById(`unit-${rowNumber}`);
-                    let newTotal = document.getElementById(`total-${rowNumber}`);
-                    let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
                     let newUnitValue = document.getElementById(`unitValue-${rowNumber}`);
+                    let newSourceWarehouse = document.getElementById(`sourceWarehouse-${rowNumber}`);
+                    let newSourceWarehouseId = document.getElementById(`sourceWarehouseId-${rowNumber}`);
+                    let newSourceStock = document.getElementById(`sourceStock-${rowNumber}`);
+                    let newDestinationWarehouse = document.getElementById(`destinationWarehouse-${rowNumber}`);
+                    let newDestinationWarehouseId = document.getElementById(`destinationWarehouseId-${rowNumber}`);
+                    let newDestinationStock = document.getElementById(`destinationStock-${rowNumber}`);
+                    let newQuantity = document.getElementById(`quantity-${rowNumber}`);
+                    let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
 
                     if(rowNumber !== deleteRow.length) {
-                        total.value = newTotal.value;
-                        price.value = newPrice.value;
+                        unitValue.value = newUnitValue.value;
+                        sourceWarehouseId.value = newSourceWarehouseId.value;
+                        destinationWarehouseId.value = newDestinationWarehouseId.value;
+                        sourceStock.value = newSourceStock.value;
+                        destinationStock.value = newDestinationStock.value;
                         quantity.value = newQuantity.value;
                         realQuantity.value = newRealQuantity.value;
-                        unitValue.value = newUnitValue.value;
 
-                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
-                        changeSelectPickerValue($(`#productName-${i}`), newProductName.value, rowNumber, false);
-                        changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
+                        changeSelectPickerValue($(`#productName-${i}`), newProductName.value, $(`#productName-${rowNumber}`), false);
+                        changeSelectPickerValue($(`#productId-${i}`), newProductId.value, $(`#productId-${rowNumber}`), false);
+                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, $(`#unit-${rowNumber}`), true);
+                        changeSelectPickerValue($(`#sourceWarehouse-${i}`), newSourceWarehouse.value, $(`#sourceWarehouse-${rowNumber}`), true);
+                        changeSelectPickerValue($(`#destinationWarehouse-${i}`), newDestinationWarehouse.value, $(`#destinationWarehouse-${rowNumber}`), true);
 
                         if(newProductId.value === '') {
-                            handleDeletedQuantityPrice(quantity, price);
+                            handleDeletedQuantity(quantity);
                             updateDeletedRowValue([], i);
                         } else {
                             newQuantity.removeAttribute('required');
-                            newPrice.removeAttribute('required');
                             quantity.removeAttribute('readonly');
-                            price.removeAttribute('readonly');
                         }
 
-                        let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        let elements = [
+                            newUnitValue,
+                            newSourceWarehouseId,
+                            newSourceStock,
+                            newDestinationWarehouseId,
+                            newDestinationStock,
+                            newQuantity,
+                            newRealQuantity
+                        ];
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
                         let totalRow = $('#rowNumber').val();
@@ -510,21 +523,27 @@
                             $(`#${i}`).remove();
                         }
 
-                        handleDeletedQuantityPrice(quantity, price);
+                        handleDeletedQuantity(quantity);
 
-                        let elements = [total, price, quantity, realQuantity, unitValue];
+                        let elements = [
+                            unitValue,
+                            sourceWarehouseId,
+                            sourceStock,
+                            destinationWarehouseId,
+                            destinationStock,
+                            quantity,
+                            realQuantity,
+                        ];
                         updateDeletedRowValue(elements, i);
                     }
                 }
             }
 
-            function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled) {
+            function changeSelectPickerValue(selectElement, value, newElement, isRemoveDisabled) {
                 if(isRemoveDisabled) {
-                    let newUnit = $(`#unit-${index}`);
-
-                    if(!newUnit.is(':disabled')) {
+                    if(!newElement.is(':disabled')) {
                         selectElement.empty();
-                        selectElement.append(newUnit.html()).find('option');
+                        selectElement.append(newElement.html()).find('option');
                         selectElement.selectpicker('refresh');
                         selectElement.attr('disabled', false);
                     }
@@ -550,37 +569,47 @@
                     element.value = '';
                 });
 
-                removeSelectPickerOption($(`#unit-${index}`), true);
                 removeSelectPickerOption($(`#productName-${index}`), false);
                 removeSelectPickerOption($(`#productId-${index}`), false);
+                removeSelectPickerOption($(`#unit-${index}`), true);
+                removeSelectPickerOption($(`#sourceWarehouse-${index}`), true);
+                removeSelectPickerOption($(`#destinationWarehouse-${index}`), true);
             }
 
-            function handleDeletedQuantityPrice(quantity, price) {
+            function handleDeletedQuantity(quantity) {
                 quantity.removeAttribute('required');
-                price.removeAttribute('required');
                 quantity.readOnly = true;
-                price.readOnly = true;
             }
 
             function checkDuplicateProduct() {
                 let productIdElements = $('select[name="product_id[]"]');
 
-                let productIds = [];
-                let productDuplicates = [];
+                let productWarehouseIds = [];
+                let productWarehouseDuplicates = [];
 
-                productIdElements.each(function() {
+                productIdElements.each(function(index) {
                     let productId = $(this).val();
                     let productSku = $(this).find(':selected').data('tokens');
+
+                    let sourceWarehouse = $(`#sourceWarehouse-${index}`);
+                    let sourceWarehouseName = sourceWarehouse.find('option:selected').data('tokens');
+
+                    let destinationWarehouse = $(`#destinationWarehouse-${index}`);
+                    let destinationWarehouseName = destinationWarehouse.find(':selected').data('tokens');
+
                     if(productId) {
-                        if(productIds.includes(productId)) {
-                            productDuplicates.push(productSku);
+                        let productWarehouse = `${productId}-${sourceWarehouse.val()}-${destinationWarehouse.val()}`;
+
+                        if(productWarehouseIds.includes(productWarehouse)) {
+                            let productDuplicates = `${productSku}-${sourceWarehouseName}-${destinationWarehouseName}`
+                            productWarehouseDuplicates.push(productDuplicates);
                         } else {
-                            productIds.push(productId);
+                            productWarehouseIds.push(productWarehouse);
                         }
                     }
                 });
 
-                return [...new Set(productDuplicates)];
+                return [...new Set(productWarehouseDuplicates)];
             }
 
             function newRowElement(rowId, rowNumber) {
@@ -588,7 +617,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumber += 1}">
+                            <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter SKU" tabindex="${rowNumber += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -596,25 +625,35 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumber += 2}">
+                            <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumber += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumber += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
-                        </td>
-                        <td>
-                            <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 4}" disabled>
+                            <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 3}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumber += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 4}" disabled>
+                            </select>
+                            <input type="hidden" name="source_warehouse_id[]" id="sourceWarehouseId-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
+                            <input type="text" name="source_stock[]" id="sourceStock-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
+                        </td>
+                        <td>
+                            <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 5}" disabled>
+                            </select>
+                            <input type="hidden" name="destination_warehouse_id[]" id="destinationWarehouseId-${rowId}">
+                        </td>
+                        <td>
+                            <input type="text" name="destination_stock[]" id="destinationStock-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
+                        </td>
+                        <td>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumber += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td class="align-middle text-center">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">

@@ -86,6 +86,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
 
     Route::resource('product-transfers', 'ProductTransferController');
+    Route::get('product-transfers/{id}/print', 'ProductTransferController@print')->name('product-transfers.print');
 });
 
 Auth::routes(['verify' => true]);

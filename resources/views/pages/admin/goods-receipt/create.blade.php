@@ -263,7 +263,7 @@
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
-                    $(`#price-${index}`).tooltip('show');
+                    $(`#quantity-${index}`).tooltip('show');
 
                     event.preventDefault();
                 }

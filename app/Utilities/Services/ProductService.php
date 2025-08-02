@@ -13,4 +13,18 @@ class ProductService
             ->whereNull('deleted_at')
             ->first();
     }
+
+    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $warehouseId) {
+        if($productStock) {
+            $productStock->increment('stock', $actualQuantity);
+        } else {
+            ProductStock::create([
+                'product_id' => $productId,
+                'warehouse_id' => $warehouseId,
+                'stock' => $actualQuantity
+            ]);
+        }
+
+        return true;
+    }
 }
