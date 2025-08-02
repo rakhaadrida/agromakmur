@@ -53,6 +53,11 @@ function getGoodsReceiptStatusLabel($status): string
     return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];
 }
 
+function getProductTransferStatusLabel($status): string
+{
+    return Constant::PRODUCT_TRANSFER_STATUS_LABELS[$status];
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');

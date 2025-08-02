@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductTransferCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\ProductTransfer;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
-use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\ProductTransferService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,21 +25,21 @@ class ProductTransferController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = ProductTransferService::getBaseQueryIndex();
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+        $productTransfers = $baseQuery
+            ->where('product_transfers.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('product_transfers.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('product_transfers.date')
             ->get();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'goodsReceipts' => $goodsReceipts
+            'productTransfers' => $productTransfers
         ];
 
-        return view('pages.admin.goods-receipt.index', $data);
+        return view('pages.admin.product-transfer.index', $data);
     }
 
     public function create() {
@@ -139,16 +138,16 @@ class ProductTransferController extends Controller
     }
 
     public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        $productTransfer = ProductTransfer::query()->findOrFail($id);
+        $productTransferItems = $productTransfer->productTransferItems;
 
         $data = [
             'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'productTransfer' => $productTransfer,
+            'productTransferItems' => $productTransferItems,
         ];
 
-        return view('pages.admin.goods-receipt.detail', $data);
+        return view('pages.admin.product-transfer.detail', $data);
     }
 
     public function update(ProductUpdateRequest $request, $id) {
@@ -212,18 +211,18 @@ class ProductTransferController extends Controller
     }
 
     public function indexPrint() {
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = ProductTransferService::getBaseQueryIndex();
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
-            ->orderBy('goods_receipts.date')
+        $productTransfers = $baseQuery
+            ->where('product_transfers.is_printed', 0)
+            ->orderBy('product_transfers.date')
             ->get();
 
         $data = [
-            'goodsReceipts' => $goodsReceipts
+            'productTransfers' => $productTransfers
         ];
 
-        return view('pages.admin.goods-receipt.index-print', $data);
+        return view('pages.admin.product-transfer.index-print', $data);
     }
 
     public function print(Request $request, $id) {
@@ -233,23 +232,29 @@ class ProductTransferController extends Controller
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = ProductTransferService::getBaseQueryIndex();
 
         if($id) {
-            $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+            $baseQuery = $baseQuery->where('product_transfers.id', $id);
         } else {
-            $baseQuery = $baseQuery
-                ->where('goods_receipts.id', '>=', $startNumber)
-                ->where('goods_receipts.id', '<=', $finalNumber);
+            if($startNumber) {
+                $baseQuery = $baseQuery->where('product_transfers.id', '>=', $startNumber);
+            }
+
+            if($finalNumber) {
+                $baseQuery = $baseQuery->where('product_transfers.id', '<=', $finalNumber);
+            } else {
+                $baseQuery = $baseQuery->where('product_transfers.id', '<=', $startNumber);
+            }
         }
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
+        $productTransfers = $baseQuery
+            ->where('product_transfers.is_printed', 0)
             ->get();
 
         $data = [
             'id' => $id,
-            'goodsReceipts' => $goodsReceipts,
+            'productTransfers' => $productTransfers,
             'printDate' => $printDate,
             'printTime' => $printTime,
             'startNumber' => $startNumber,
@@ -257,7 +262,7 @@ class ProductTransferController extends Controller
             'rowNumbers' => 35
         ];
 
-        return view('pages.admin.goods-receipt.print', $data);
+        return view('pages.admin.product-transfer.print', $data);
     }
 
     public function afterPrint(Request $request, $id) {
@@ -268,25 +273,31 @@ class ProductTransferController extends Controller
             $startNumber = $filter->start_number ?? 0;
             $finalNumber = $filter->final_number ?? 0;
 
-            $baseQuery = GoodsReceipt::query();
+            $baseQuery = ProductTransfer::query();
 
             if($id) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+                $baseQuery = $baseQuery->where('product_transfers.id', $id);
             } else {
-                $baseQuery = $baseQuery
-                    ->where('goods_receipts.id', '>=', $startNumber)
-                    ->where('goods_receipts.id', '<=', $finalNumber);
+                if($startNumber) {
+                    $baseQuery = $baseQuery->where('product_transfers.id', '>=', $startNumber);
+                }
+
+                if($finalNumber) {
+                    $baseQuery = $baseQuery->where('product_transfers.id', '<=', $finalNumber);
+                } else {
+                    $baseQuery = $baseQuery->where('product_transfers.id', '<=', $startNumber);
+                }
             }
 
-            $goodsReceipts = $baseQuery
-                ->where('goods_receipts.is_printed', 0)
+            $productTransfers = $baseQuery
+                ->where('product_transfers.is_printed', 0)
                 ->get();
 
-            foreach ($goodsReceipts as $goodsReceipt) {
-                $goodsReceipt->update(['is_printed' => 1]);
+            foreach ($productTransfers as $productTransfer) {
+                $productTransfer->update(['is_printed' => 1]);
             }
 
-            $route = $id ? 'goods-receipts.create' : 'goods-receipts.index-print';
+            $route = $id ? 'product-transfers.create' : 'product-transfers.index-print';
 
             DB::commit();
 

@@ -252,9 +252,15 @@ class GoodsReceiptController extends Controller
         if($id) {
             $baseQuery = $baseQuery->where('goods_receipts.id', $id);
         } else {
-            $baseQuery = $baseQuery
-                ->where('goods_receipts.id', '>=', $startNumber)
-                ->where('goods_receipts.id', '<=', $finalNumber);
+            if($startNumber) {
+                $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
+            }
+
+            if($finalNumber) {
+                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
+            } else {
+                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
+            }
         }
 
         $goodsReceipts = $baseQuery
@@ -287,9 +293,15 @@ class GoodsReceiptController extends Controller
             if($id) {
                 $baseQuery = $baseQuery->where('goods_receipts.id', $id);
             } else {
-                $baseQuery = $baseQuery
-                    ->where('goods_receipts.id', '>=', $startNumber)
-                    ->where('goods_receipts.id', '<=', $finalNumber);
+                if($startNumber) {
+                    $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
+                }
+
+                if($finalNumber) {
+                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
+                } else {
+                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
+                }
             }
 
             $goodsReceipts = $baseQuery

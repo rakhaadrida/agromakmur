@@ -84,6 +84,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="user" class="col-5 text-right text-bold mt-2">Admin</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6">
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="user" value="{{ $goodsReceipt->user->username }}" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                 <thead class="text-center text-bold text-dark">
@@ -99,12 +110,12 @@
                                 <tbody>
                                     @foreach($goodsReceiptItems as $key => $goodsReceiptItem)
                                         <tr class="text-dark">
-                                          <td class="text-center">{{ ++$key }}</td>
-                                          <td>{{ $goodsReceiptItem->product->sku }} </td>
-                                          <td>{{ $goodsReceiptItem->product->name }}</td>
-                                          <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
-                                          <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
-                                          <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
+                                            <td class="text-center">{{ ++$key }}</td>
+                                            <td>{{ $goodsReceiptItem->product->sku }} </td>
+                                            <td>{{ $goodsReceiptItem->product->name }}</td>
+                                            <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
+                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
+                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

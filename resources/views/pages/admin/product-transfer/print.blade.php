@@ -200,45 +200,42 @@
                 margin-left: -3rem;
             }
 
-            .supplier-info {
+            .note-section {
                 text-align: left;
                 font-family: Arial, Helvetica, sans-serif;
-                margin-top: 17px;
+                margin-top: 18px;
                 margin-left: -12px;
                 font-size: 20px;
                 font-weight: normal;
+                height: 20px;
             }
 
-            .supplier-info-label {
-                margin-top: 5px;
-            }
-
-            .print-receipt-info {
+            .print-transfer-info {
                 font-family: Arial, Helvetica, sans-serif;
                 font-size: 20px;
                 font-weight: normal;
-                margin-top: -65px;
+                margin-top: -50px;
                 margin-left: 42rem;
-                line-height: 20px;
+                line-height: 24px;
             }
 
-            .receipt-info-row {
+            .transfer-info-row {
                 width: 400px;
                 display: flex;
                 margin-bottom: 2px;
             }
 
-            .receipt-info-label {
+            .transfer-info-label {
                 width: 220px;
                 text-align: right;
                 padding-right: 0.4rem;
             }
 
-            .receipt-info-separator {
+            .transfer-info-separator {
                 text-align: center;
             }
 
-            .receipt-info-value {
+            .transfer-info-value {
                 flex: 1;
                 padding-left: 0.4rem;
                 text-align: left;
@@ -250,10 +247,9 @@
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 18px;
                 font-weight: normal;
-                margin-top: -6px;
                 margin-right: 1rem;
                 margin-bottom: 0.1rem;
-                height: 20px;
+                height: 12px;
             }
 
             .table-head-title {
@@ -346,7 +342,7 @@
                         font-family: 'Courier New', Courier, monospace;
                         font-size: 12px;
                         font-weight: normal;
-                        margin-bottom: -24.1rem !important;
+                        margin-bottom: -22rem !important;
                         margin-right: 0.44rem !important;
                     }
                 }
@@ -355,12 +351,12 @@
     </head>
     <body>
         @php $number = 1; @endphp
-        @foreach($goodsReceipts as $key => $goodsReceipt)
+        @foreach($productTransfers as $key => $productTransfer)
             <div class="print-container">
                 <table class="table table-sm table-responsive-sm print-table">
                     <thead class="text-center text-bold print-table-head">
-                        <tr class="print-header-logo">
-                            <td colspan="5">
+                        <tr>
+                            <td colspan="7">
                                 <div class="float-left print-logo">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
                                     <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>
@@ -380,43 +376,36 @@
                                     <div class="info-row">
                                         <span class="info-label">Admin</span>
                                         <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $goodsReceipt->user_name }}</span>
+                                        <span class="info-value">{{ $productTransfer->user_name }}</span>
                                     </div>
                                 </div>
                                 <div class="print-time-info-clear"></div>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="header-receipt-row">
+                            <td colspan="7" class="header-receipt-row">
                                 <div class="container-fluid print-header">
                                     <div class="title-header text-center">
-                                        <h3 class="text-bold">Goods Receipt Note</h3>
+                                        <h3 class="text-bold">Product Transfer Note</h3>
                                     </div>
-                                    <div class="supplier-info">
-                                        <span class="text-right">Supplier</span>
-                                        <span>:</span>
-                                        <span>{{ $goodsReceipt->supplier_name }}</span>
-                                    </div>
-                                    <div class="supplier-info supplier-info-label">
-                                        <span class="text-right">We had accepted these following item(s):</span>
-                                    </div>
-                                    <div class="print-receipt-info">
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Receipt Date</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
-                                        </div>
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Receipt Number</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ $goodsReceipt->number }}</span>
-                                        </div>
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Warehouse</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ $goodsReceipt->warehouse_name }}</span>
+                                    <div class="float-left">
+                                        <div class="note-section">
+                                            <span class="text-right">We had transferred these following item(s):</span>
                                         </div>
                                     </div>
+                                    <div class="float-right print-transfer-info">
+                                        <div class="transfer-info-row">
+                                            <span class="transfer-info-label">Transfer Date</span>
+                                            <span class="transfer-info-separator">:</span>
+                                            <span class="transfer-info-value">{{ formatDate($productTransfer->date, 'd-M-y') }}</span>
+                                        </div>
+                                        <div class="transfer-info-row">
+                                            <span class="transfer-info-label">Transfer Number</span>
+                                            <span class="transfer-info-separator">:</span>
+                                            <span class="transfer-info-value">{{ $productTransfer->number }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="print-time-info-clear"></div>
                                 </div>
                                 <span class="page-number text-right"></span>
                             </td>
@@ -425,24 +414,28 @@
                             <th class="table-head-number">No</th>
                             <th class="table-head-sku">SKU</th>
                             <th class="table-head-product">Product Name</th>
-                            <th class="table-head-quantity">Quantity</th>
+                            <th class="table-head-unit">Source Warehouse</th>
+                            <th class="table-head-quantity">Qty</th>
                             <th class="table-head-unit">Unit</th>
+                            <th class="table-head-unit">Destination Warehouse</th>
                         </tr>
                     </thead>
                     <tbody class="print-table-row">
-                        @foreach($goodsReceipt->goodsReceiptItems as $index => $goodsReceiptItem)
+                        @foreach($productTransfer->productTransferItems as $index => $productTransferItem)
                             <tr>
                                 <td class="text-center">{{ ++$index }}</td>
-                                <td class="table-content-sku">{{ $goodsReceiptItem->product->sku }}</td>
-                                <td class="table-content-product">{{ $goodsReceiptItem->product->name }}</td>
-                                <td class="text-center">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
-                                <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
+                                <td class="table-content-sku">{{ $productTransferItem->product->sku }}</td>
+                                <td class="table-content-product">{{ $productTransferItem->product->name }}</td>
+                                <td>{{ $productTransferItem->sourceWarehouse->name }}</td>
+                                <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
+                                <td class="text-center">{{ $productTransferItem->unit->name }}</td>
+                                <td>{{ $productTransferItem->destinationWarehouse->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="5">
+                            <td colspan="7">
                                 <div class="container-fluid print-footer">
                                     <table class="print-table-signature">
                                         <thead>
@@ -471,7 +464,7 @@
 
         <script type="text/javascript">
             window.onafterprint = function() {
-                const url = '{{ route('goods-receipts.after-print', $id) }}';
+                const url = '{{ route('product-transfers.after-print', $id) }}';
                 window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
             }
 
