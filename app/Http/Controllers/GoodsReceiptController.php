@@ -152,17 +152,27 @@ class GoodsReceiptController extends Controller
         }
     }
 
-    public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+    public function indexEdit(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        $goodsReceipts = $baseQuery
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('goods_receipts.date')
+            ->get();
 
         $data = [
-            'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'goodsReceipts' => $goodsReceipts
         ];
 
-        return view('pages.admin.goods-receipt.detail', $data);
+        return view('pages.admin.goods-receipt.index-edit', $data);
     }
 
     public function update(ProductUpdateRequest $request, $id) {
@@ -223,6 +233,19 @@ class GoodsReceiptController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function detail($id) {
+        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+
+        $data = [
+            'id' => $id,
+            'goodsReceipt' => $goodsReceipt,
+            'goodsReceiptItems' => $goodsReceiptItems,
+        ];
+
+        return view('pages.admin.goods-receipt.detail', $data);
     }
 
     public function indexPrint() {

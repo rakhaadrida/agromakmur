@@ -84,6 +84,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('goods-receipts/{id}/print', 'GoodsReceiptController@print')->name('goods-receipts.print');
     Route::get('goods-receipts/{id}/after-print', 'GoodsReceiptController@afterPrint')->name('goods-receipts.after-print');
     Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
+    Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
 
     Route::resource('product-transfers', 'ProductTransferController');
     Route::get('product-transfers/{id}/detail', 'ProductTransferController@detail')->name('product-transfers.detail');

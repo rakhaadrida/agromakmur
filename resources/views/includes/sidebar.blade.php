@@ -81,7 +81,7 @@
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Print Goods Receipt</a>
-                    <a class="collapse-item" href="#">Edit Goods Receipt</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Edit Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Daily Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('product-transfers.create') }}">Product Transfer</a>
                     <a class="collapse-item" href="{{ route('product-transfers.index-print') }}">Print Product Transfer</a>
