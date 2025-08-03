@@ -155,21 +155,47 @@ class GoodsReceiptController extends Controller
     public function indexEdit(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
-        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $startDate = $filter->start_date ?? null;
+        $finalDate = $filter->final_date ?? null;
+        $number = $filter->number ?? null;
+        $supplierId = $filter->supplier_id ?? null;
 
+        if(!$number && !$supplierId && !$startDate && !$finalDate) {
+            $startDate = Carbon::now()->format('d-m-Y');
+            $finalDate = Carbon::now()->format('d-m-Y');
+        }
+
+        $suppliers = Supplier::all();
         $baseQuery = GoodsReceiptService::getBaseQueryIndex();
 
+        if($startDate) {
+            $baseQuery = $baseQuery->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay());
+        }
+
+        if($finalDate) {
+            $baseQuery = $baseQuery->where('goods_receipts.date', '<=', Carbon::parse($finalDate)->endOfDay());
+        }
+
+        if($number) {
+            $baseQuery = $baseQuery->where('goods_receipts.number', $number);
+        }
+
+        if($supplierId) {
+            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        }
+
         $goodsReceipts = $baseQuery
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+            ->orderByDesc('goods_receipts.date')
+            ->orderByDesc('goods_receipts.id')
             ->get();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'goodsReceipts' => $goodsReceipts
+            'number' => $number,
+            'supplierId' => $supplierId,
+            'suppliers' => $suppliers,
+            'goodsReceipts' => $goodsReceipts,
         ];
 
         return view('pages.admin.goods-receipt.index-edit', $data);

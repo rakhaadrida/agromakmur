@@ -561,8 +561,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 16rem !important;
 }
 
-.supplier-select-picker {
+.supplier-select-picker,
+.supplier-params-select-picker {
     width: 22rem !important;
+}
+
+.supplier-params-select-picker {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
 }
 
 .warehouse-select-picker,
@@ -573,7 +579,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .warehouse-select-picker .dropdown-toggle,
-.supplier-select-picker .dropdown-toggle {
+.supplier-select-picker .dropdown-toggle,
+.supplier-params-select-picker .dropdown-toggle {
     padding: 0.25rem 0.35rem !important;
     background: none !important;
     font-weight: bold !important;
@@ -797,5 +804,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .readonly-input[readonly] {
     background: none !important;
+}
+
+.filter-date-receipt {
+    margin-top: -10px !important;
+}
+
+.filter-final-date-receipt {
+    width: 6.5rem !important;
+}
+
+.filter-supplier-receipt {
+    width: 6.5rem !important;
+}
+
+.btn-search-receipt {
+    margin-left: -10px !important;
 }
 

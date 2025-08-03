@@ -70,7 +70,7 @@
                                             <label for="status" class="col-5 text-right text-bold mt-2">Status</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="status" value="{{ getgoodsReceiptstatusLabel($goodsReceipt->status) }}" >
+                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="status" value="{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}" >
                                             </div>
                                         </div>
                                     </div>
