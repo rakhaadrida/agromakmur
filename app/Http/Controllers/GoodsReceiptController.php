@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
-use App\Http\Requests\ProductUpdateRequest;
+use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -37,6 +37,8 @@ class GoodsReceiptController extends Controller
             ->orderBy('goods_receipts.date')
             ->get();
 
+        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
+
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
@@ -44,6 +46,24 @@ class GoodsReceiptController extends Controller
         ];
 
         return view('pages.admin.goods-receipt.index', $data);
+    }
+
+    public function detail($id) {
+        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+
+        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
+            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
+            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        }
+
+        $data = [
+            'id' => $id,
+            'goodsReceipt' => $goodsReceipt,
+            'goodsReceiptItems' => $goodsReceiptItems,
+        ];
+
+        return view('pages.admin.goods-receipt.detail', $data);
     }
 
     public function create() {
@@ -190,6 +210,8 @@ class GoodsReceiptController extends Controller
             ->orderByDesc('goods_receipts.id')
             ->get();
 
+        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
+
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
@@ -202,40 +224,86 @@ class GoodsReceiptController extends Controller
         return view('pages.admin.goods-receipt.index-edit', $data);
     }
 
-    public function update(ProductUpdateRequest $request, $id) {
+    public function edit($id) {
+        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+
+        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
+            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
+            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        }
+
+        $products = Product::all();
+        $rowNumbers = count($goodsReceiptItems);
+
+        $productIds = $goodsReceiptItems->pluck('product_id')->toArray();
+        $productConversions = ProductService::findProductConversions($productIds);
+
+        foreach($goodsReceiptItems as $goodsReceiptItem) {
+            $units[$goodsReceiptItem->product_id][] = [
+                'id' => $goodsReceiptItem->product->unit_id,
+                'name' => $goodsReceiptItem->product->unit->name,
+                'quantity' => 1
+            ];
+        }
+
+        foreach($productConversions as $conversion) {
+            $units[$conversion->product_id][] = [
+                'id' => $conversion->unit_id,
+                'name' => $conversion->unit->name,
+                'quantity' => $conversion->quantity
+            ];
+        }
+
+        $data = [
+            'id' => $id,
+            'goodsReceipt' => $goodsReceipt,
+            'goodsReceiptItems' => $goodsReceiptItems,
+            'products' => $products,
+            'rowNumbers' => $rowNumbers,
+            'units' => $units,
+        ];
+
+        return view('pages.admin.goods-receipt.edit', $data);
+    }
+
+    public function update(GoodsReceiptUpdateRequest $request, $id) {
         try {
             DB::beginTransaction();
 
             $data = $request->all();
-            $product = Product::query()->findOrFail($id);
-            $product->update($data);
+            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+            $goodsReceipt->update([
+                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
+            ]);
 
-            $product->productConversions()->delete();
-            if($request->get('has_conversion')) {
-                $product->productConversions()->create([
-                    'unit_id' => $request->get('unit_conversion_id'),
-                    'quantity' => $request->get('quantity')
-                ]);
-            }
+            ApprovalService::deleteData($goodsReceipt->approvals);
 
-            $prices = $request->get('price', []);
-            $product->productPrices()->delete();
-            foreach ($prices as $index => $price) {
-                $product->productPrices()->create([
-                    'price_id' => $request->get('price_id')[$index],
-                    'base_price' => $request->get('base_price')[$index],
-                    'tax_amount' => $request->get('tax_amount')[$index],
-                    'price' => $price
-                ]);
-            }
+            $parentApproval = ApprovalService::createData(
+                $goodsReceipt,
+                $goodsReceipt->goodsReceiptItems,
+                Constant::APPROVAL_TYPE_EDIT,
+                Constant::APPROVAL_STATUS_PENDING,
+                $request->get('description', '')
+            );
+
+            ApprovalService::createData(
+                $goodsReceipt,
+                $data,
+                Constant::APPROVAL_TYPE_EDIT,
+                Constant::APPROVAL_STATUS_PENDING,
+                $data['description'],
+                $parentApproval->id
+            );
 
             DB::commit();
 
-            return redirect()->route('products.index');
+            return redirect()->route('goods-receipts.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
-            return redirect()->route('products.edit', $id)->withInput()->withErrors([
+            return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }
@@ -250,6 +318,7 @@ class GoodsReceiptController extends Controller
                 'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
             ]);
 
+            ApprovalService::deleteData($goodsReceipt->approvals);
             ApprovalService::createData(
                 $goodsReceipt,
                 $goodsReceipt->goodsReceiptItems,
@@ -268,19 +337,6 @@ class GoodsReceiptController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
-    }
-
-    public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
-
-        $data = [
-            'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
-        ];
-
-        return view('pages.admin.goods-receipt.detail', $data);
     }
 
     public function indexPrint() {

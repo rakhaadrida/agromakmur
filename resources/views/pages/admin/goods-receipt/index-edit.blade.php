@@ -199,13 +199,13 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                @if(!isWaitingApproval($goodsReceipt->status))
+                                                @if(!isWaitingApproval($goodsReceipt->status) || isApprovalTypeEdit($goodsReceipt->pendingApproval->type))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="" class="btn btn-info btn-block text-bold">Edit</a>
+                                                            <a href="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" class="btn btn-info btn-block text-bold">Edit</a>
                                                         </div>
                                                     </div>
                                                 @endif

@@ -47,6 +47,8 @@ class GoodsReceipt extends Model
 
     public function pendingApproval()
     {
-        return $this->morphOne(Approval::class, 'subject')->where('status', Constant::APPROVAL_STATUS_PENDING);
+        return $this->morphOne(Approval::class, 'subject')
+            ->where('status', Constant::APPROVAL_STATUS_PENDING)
+            ->orderByDesc('id');
     }
 }

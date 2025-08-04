@@ -68,6 +68,11 @@ function isWaitingApproval($status): bool
     return in_array($status, [Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL, Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL]);
 }
 
+function isApprovalTypeEdit($type): bool
+{
+    return $type == Constant::APPROVAL_TYPE_EDIT;
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');
@@ -75,19 +80,32 @@ function getDueDate($date, $tempo, $format): string
     return formatDate($dueDate, $format);
 }
 
+function getRealQuantity($quantity, $actualQuantity)
+{
+    return $actualQuantity / $quantity;
+}
+
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';
 }
 
-function formatDate($date, $format) {
+function formatDate($date, $format)
+{
     return \Carbon\Carbon::parse($date)->format($format);
 }
 
-function formatCurrency($amount) {
+function formatCurrency($amount)
+{
     return number_format($amount, 0, '', ',');
 }
 
-function formatQuantity($amount) {
+function formatPrice($amount)
+{
+    return number_format($amount, 0, ',', '.');
+}
+
+function formatQuantity($amount)
+{
     return number_format($amount, 0, ',', '.');
 }

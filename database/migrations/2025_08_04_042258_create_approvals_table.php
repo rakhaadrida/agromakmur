@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('parent_id')->nullable()->constrained('approvals')->onDelete('cascade');
             $table->morphs('subject');
             $table->dateTime('date');
             $table->enum('type', [
@@ -26,6 +27,9 @@ return new class extends Migration
                 \App\Utilities\Constant::APPROVAL_STATUS_REJECTED
             ])->nullable();
             $table->text('description')->nullable();
+            $table->double('subtotal')->default(0);
+            $table->double('tax_amount')->default(0);
+            $table->double('grand_total')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

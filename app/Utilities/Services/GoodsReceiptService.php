@@ -18,4 +18,23 @@ class GoodsReceiptService
             ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
             ->leftJoin('users', 'users.id', 'goods_receipts.user_id');
     }
+
+    public static function mapGoodsReceiptIndex($goodsReceipts) {
+        foreach ($goodsReceipts as $goodsReceipt) {
+            if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
+                static::mapGoodsReceiptApproval($goodsReceipt);
+            }
+        }
+
+        return $goodsReceipts;
+    }
+
+    public static function mapGoodsReceiptApproval($goodsReceipt) {
+        $goodsReceipt->subtotal = $goodsReceipt->pendingApproval->subtotal;
+        $goodsReceipt->tax_amount = $goodsReceipt->pendingApproval->tax_amount;
+        $goodsReceipt->grand_total = $goodsReceipt->pendingApproval->grand_total;
+        $goodsReceipt->goodsReceiptItems = $goodsReceipt->pendingApproval->approvalItems;
+
+        return $goodsReceipt;
+    }
 }
