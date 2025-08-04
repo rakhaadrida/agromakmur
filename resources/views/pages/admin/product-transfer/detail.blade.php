@@ -23,7 +23,9 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="" id="form">
+                            <form action="{{ route('product-transfers.destroy', $productTransfer->id) }}" method="POST" id="form">
+                                @csrf
+                                @method('DELETE')
                                 <div class="container so-update-container ">
                                     <div class="row">
                                         <div class="col-6">

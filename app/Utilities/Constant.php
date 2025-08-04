@@ -71,4 +71,22 @@ class Constant
         self::ACCOUNT_PAYABLE_STATUS_ONGOING => 'Ongoing',
         self::ACCOUNT_PAYABLE_STATUS_PAID => 'Paid',
     ];
+
+    const APPROVAL_TYPE_EDIT = 'EDIT';
+    const APPROVAL_TYPE_CANCEL = 'CANCEL';
+    const APPROVAL_TYPE_APPROVAL_LIMIT = 'APPROVAL_LIMIT';
+    const APPROVAL_TYPE_LABELS = [
+        self::APPROVAL_TYPE_EDIT => 'Edit',
+        self::APPROVAL_TYPE_CANCEL => 'Cancel',
+        self::APPROVAL_TYPE_APPROVAL_LIMIT => 'Approval Limit',
+    ];
+
+    const APPROVAL_STATUS_PENDING = 'PENDING';
+    const APPROVAL_STATUS_APPROVED = 'APPROVED';
+    const APPROVAL_STATUS_REJECTED = 'REJECTED';
+    const APPROVAL_STATUS_LABELS = [
+        self::APPROVAL_STATUS_PENDING => 'Pending',
+        self::APPROVAL_STATUS_APPROVED => 'Approved',
+        self::APPROVAL_STATUS_REJECTED => 'Rejected',
+    ];
 }

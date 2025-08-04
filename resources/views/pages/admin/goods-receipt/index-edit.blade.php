@@ -69,16 +69,16 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold mt-1">Receipt Number</label>
+                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Number</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="receiptNumber" value="{{ $goodsReceipt->number }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col" style="margin-left: -480px">
+                                                        <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="warehouse" class="col-3 form-control-sm text-bold mt-1">Warehouse</label>
+                                                                <label for="warehouse" class="col-3 form-control-sm text-bold text-right mt-1">Warehouse</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse_name }}" readonly>
@@ -89,16 +89,16 @@
                                                     <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="date" class="col-2 form-control-sm text-bold mt-1">Receipt Date</label>
+                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Date</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-2">
                                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col" style="margin-left: -480px">
+                                                    <div class="col edit-receipt-general-info-right">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="supplier" class="col-3 form-control-sm text-bold mt-1">Supplier</label>
+                                                            <label for="supplier" class="col-3 form-control-sm text-bold text-right mt-1">Supplier</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-8">
                                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="supplier" value="{{ $goodsReceipt->supplier_name }}" readonly>
@@ -109,19 +109,19 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="status" class="col-2 form-control-sm text-bold mt-1">Status</label>
-                                                                <span class="col-form-label text-bold">:</span>
-                                                                <div class="col-3">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}" readonly>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col" style="margin-left: -480px">
-                                                            <div class="form-group row customer-detail">
-                                                                <label for="dueDate" class="col-3 form-control-sm text-bold mt-1">Due Date</label>
+                                                                <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Due Date</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col edit-receipt-general-info-right">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="status" class="col-3 form-control-sm text-bold text-right mt-1">Status</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-6">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -129,13 +129,24 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="user" class="col-2 form-control-sm text-bold mt-1">Admin</label>
+                                                                <label for="user" class="col-2 form-control-sm text-bold text-right mt-1">Admin</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-3">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="user" value="{{ $goodsReceipt->user_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @if(isWaitingApproval($goodsReceipt->status))
+                                                            <div class="col edit-receipt-general-info-right">
+                                                                <div class="form-group row customer-detail">
+                                                                    <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <span class="col-form-label text-bold">:</span>
+                                                                    <div class="col-6">
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($goodsReceipt->pendingApproval->type) }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
@@ -188,14 +199,16 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                <div class="form-row justify-content-center">
-                                                    <div class="col-2">
-                                                        <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
+                                                @if(!isWaitingApproval($goodsReceipt->status))
+                                                    <div class="form-row justify-content-center">
+                                                        <div class="col-2">
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <a href="" class="btn btn-info btn-block text-bold">Edit</a>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <a href="" class="btn btn-info btn-block text-bold">Edit</a>
-                                                    </div>
-                                                </div>
+                                                @endif
                                             </div>
                                         @empty
                                             <div class="container so-update-container text-dark mt-2">
@@ -214,45 +227,46 @@
                                         </a>
                                     @endif
                                 </div>
-                                <div class="modal" id="modalCancelReceipt" tabindex="-1" role="dialog" aria-labelledby="modalCancelReceipt" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title">Cancel Goods Receipt - <span id="modalReceiptNumber"></span></h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="" method="POST" id="deleteForm">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <div class="form-group row">
-                                                        <label for="status" class="col-2 col-form-label text-bold">Status</label>
-                                                        <span class="col-form-label text-bold">:</span>
-                                                        <div class="col-3">
-                                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="status" id="status" value="CANCEL" readonly>
-                                                        </div>
+                            </form>
+
+                            <div class="modal" id="modalCancelReceipt" tabindex="-1" role="dialog" aria-labelledby="modalCancelReceipt" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Cancel Goods Receipt - <span id="modalReceiptNumber"></span></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="POST" id="deleteForm">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="form-group row">
+                                                    <label for="status" class="col-2 col-form-label text-bold">Status</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-3">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="status" id="status" value="CANCEL" readonly>
                                                     </div>
-                                                    <div class="form-group subtotal-so">
-                                                        <label for="description" class="col-form-label">Description</label>
-                                                        <input type="text" class="form-control" name="description" id="description">
+                                                </div>
+                                                <div class="form-group subtotal-so">
+                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <input type="text" class="form-control" name="description" id="description">
+                                                </div>
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
                                                     </div>
-                                                    <hr>
-                                                    <div class="form-row justify-content-center">
-                                                        <div class="col-3">
-                                                            <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
-                                                        </div>
+                                                    <div class="col-3">
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -306,13 +320,13 @@
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
-                let checkForm = document.getElementById('form').checkValidity();
+                let checkForm = document.getElementById('deleteForm').checkValidity();
                 if(!checkForm) {
-                    document.getElementById('form').reportValidity();
+                    document.getElementById('deleteForm').reportValidity();
                     return false;
                 }
 
-                $('#form').submit();
+                $('#deleteForm').submit();
             });
         });
     </script>

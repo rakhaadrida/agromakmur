@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
-use App\Models\ProductStock;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
+use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
@@ -240,18 +241,26 @@ class GoodsReceiptController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy(GoodsReceiptCancelRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $product = Product::query()->findOrFail($id);
-            $product->productPrices()->delete();
-            $product->productConversions()->delete();
-            $product->delete();
+            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+            $goodsReceipt->update([
+                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
+            ]);
+
+            ApprovalService::createData(
+                $goodsReceipt,
+                $goodsReceipt->goodsReceiptItems,
+                Constant::APPROVAL_TYPE_CANCEL,
+                Constant::APPROVAL_STATUS_PENDING,
+                $request->get('description', '')
+            );
 
             DB::commit();
 
-            return redirect()->route('products.index');
+            return redirect()->route('goods-receipts.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -279,6 +288,7 @@ class GoodsReceiptController extends Controller
 
         $goodsReceipts = $baseQuery
             ->where('goods_receipts.is_printed', 0)
+            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
             ->orderBy('goods_receipts.date')
             ->get();
 

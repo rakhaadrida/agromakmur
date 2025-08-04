@@ -58,6 +58,16 @@ function getProductTransferStatusLabel($status): string
     return Constant::PRODUCT_TRANSFER_STATUS_LABELS[$status];
 }
 
+function getApprovalTypeLabel($type): string
+{
+    return Constant::APPROVAL_TYPE_LABELS[$type];
+}
+
+function isWaitingApproval($status): bool
+{
+    return in_array($status, [Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL, Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL]);
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductTransferCancelRequest;
 use App\Http\Requests\ProductTransferCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\ProductTransfer;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
+use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductTransferService;
 use Carbon\Carbon;
@@ -189,18 +192,26 @@ class ProductTransferController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy(ProductTransferCancelRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $product = Product::query()->findOrFail($id);
-            $product->productPrices()->delete();
-            $product->productConversions()->delete();
-            $product->delete();
+            $productTransfer = ProductTransfer::query()->findOrFail($id);
+            $productTransfer->update([
+                'status' => Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL
+            ]);
+
+            ApprovalService::createData(
+                $productTransfer,
+                $productTransfer->productTransferItems,
+                Constant::APPROVAL_TYPE_CANCEL,
+                Constant::APPROVAL_STATUS_PENDING,
+                $request->get('description', '')
+            );
 
             DB::commit();
 
-            return redirect()->route('products.index');
+            return redirect()->route('product-transfers.index');
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -215,6 +226,7 @@ class ProductTransferController extends Controller
 
         $productTransfers = $baseQuery
             ->where('product_transfers.is_printed', 0)
+            ->where('product_transfers.status', '!=', Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL)
             ->orderBy('product_transfers.date')
             ->get();
 

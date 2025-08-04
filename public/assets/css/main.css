@@ -791,7 +791,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-status-transaction-index {
-    width: 110px;
+    width: 130px;
 }
 
 .th-total-transaction-index {
@@ -820,5 +820,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .btn-search-receipt {
     margin-left: -10px !important;
+}
+
+.edit-receipt-general-info-right {
+    margin-left: -480px !important;
 }
 

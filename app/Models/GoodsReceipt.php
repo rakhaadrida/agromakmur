@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utilities\Constant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,5 +38,15 @@ class GoodsReceipt extends Model
 
     public function goodsReceiptItems() {
         return $this->hasMany(GoodsReceiptItem::class, 'goods_receipt_id', 'id');
+    }
+
+    public function approvals()
+    {
+        return $this->morphMany(Approval::class, 'subject');
+    }
+
+    public function pendingApproval()
+    {
+        return $this->morphOne(Approval::class, 'subject')->where('status', Constant::APPROVAL_STATUS_PENDING);
     }
 }
