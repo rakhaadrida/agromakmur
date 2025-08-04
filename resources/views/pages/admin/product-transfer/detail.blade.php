@@ -96,9 +96,11 @@
                                 </table>
                                 <hr>
                                 <div class="form-row justify-content-center">
-                                    <div class="col-2">
-                                        <a href="" class="btn btn-danger btn-block text-bold"  data-toggle="modal" data-target="#modalCancelTransfer">Cancel Transfer</a>
-                                    </div>
+                                    @if(!isWaitingApproval($productTransfer->status))
+                                        <div class="col-2">
+                                            <a href="" class="btn btn-danger btn-block text-bold"  data-toggle="modal" data-target="#modalCancelTransfer">Cancel Transfer</a>
+                                        </div>
+                                    @endif
                                     <div class="col-2">
                                         <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
                                     </div>
