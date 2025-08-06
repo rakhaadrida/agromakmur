@@ -1,14 +1,13 @@
 @extends('layouts.admin')
 
 @push('addon-style')
-  <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
-  <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Goods Receipt</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -18,104 +17,72 @@
                     @endforeach
                 </ul>
             </div>
-       @endif
+        @endif
 
         <div class="row">
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('goods-receipts.store') }}" method="POST" id="form">
+                            <form action="{{ route('goods-receipts.update', $goodsReceipt->id) }}" method="POST" id="form">
                                 @csrf
-                                <div class="container">
+                                @method('PUT')
+                                <div class="container so-container">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark">Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" autofocus required >
-                                                </div>
-                                                <div class="col-1"></div>
-                                                <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-2 mt-1">
-                                                    <input type="text" tabindex="2" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" required>
+                                                    <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="number" id="number" value="{{ $goodsReceipt->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col" style="margin-left: -320px">
-                                            <div class="form-group row subtotal-po">
-                                                <label for="subtotal" class="col-5 col-form-label text-bold ">Sub Total</label>
+                                        <div class="col edit-receipt-general-info-right">
+                                            <div class="form-group row sj-first-line">
+                                                <label for="warehouse" class="col-5 col-form-label text-bold text-right text-dark">Warehouse</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="subtotal" id="subtotal">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="warehouse" id="warehouse" value="{{ $goodsReceipt->warehouse->name }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="taxAmount" class="col-5 col-form-label text-bold ">Tax Amount</label>
+                                            <div class="form-group row sj-after-first">
+                                                <label for="supplier" class="col-5 col-form-label text-bold text-right text-dark">Supplier</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="tax_amount" id="taxAmount">
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="supplier" id="supplier" value="{{ $goodsReceipt->supplier->name }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="grandTotal" class="col-5 col-form-label text-bold ">Grand Total</label>
+                                            <div class="form-group row sj-after-first">
+                                                <label for="dueDate" class="col-5 col-form-label text-bold text-right text-dark">Due Date</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext text-bold text-right text-danger" name="grand_total" id="grandTotal">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row subtotal-so" style="margin-top: -68px">
-                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Warehouse</label>
+                                    <div class="form-group row so-update-left">
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark">Date</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" title="Enter or Choose Warehouse" tabindex="3" required>
-                                                @foreach($warehouses as $warehouse)
-                                                    <option value="{{ $warehouse->id }}" data-tokens="{{ $warehouse->name }}">{{ $warehouse->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('warehouse')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                            @enderror
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                         </div>
-                                        <label for="tempo" class="col-1 col-form-label text-bold text-right">Tempo</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-1 mt-1">
-                                            <input type="text" tabindex="4" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                                        </div>
-                                        <span class="col-form-label text-bold"> Day(s)</span>
                                     </div>
-                                    <div class="form-group row subtotal-so">
-                                        <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
+                                    <div class="form-group row so-update-input">
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark">Description</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
-                                            <select class="selectpicker supplier-select-picker" name="supplier_id" id="supplier" data-live-search="true" title="Enter or Choose Supplier Name" tabindex="5" required>
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}">{{ $supplier->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('supplier')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                            @enderror
+                                        <div class="col-5">
+                                            <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
+                                            <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         </div>
-                                        <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
                                     Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
-                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
+                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" >
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
@@ -129,37 +96,40 @@
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
-                                        @foreach($rows as $key => $row)
+                                        @foreach($goodsReceiptItems as $key => $goodsReceiptItem)
                                             <tr class="text-bold text-dark" id="{{ $key }}">
-                                                <td class="align-middle text-center">{{ $row }}</td>
+                                                <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
                                                     <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
-                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
+                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
+                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($goodsReceiptItem->quantity, $goodsReceiptItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
                                                     <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
-                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
+                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($goodsReceiptItem->quantity) }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
+                                                        @foreach($units[$goodsReceiptItem->product_id] as $unit)
+                                                            <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" @if($goodsReceiptItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
+                                                        @endforeach
                                                     </select>
-                                                    <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
+                                                    <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}" value="{{ $goodsReceiptItem->unit_id }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->price) }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
+                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($goodsReceiptItem->total) }}" title="" readonly >
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
@@ -170,39 +140,34 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="form-group row justify-content-end subtotal-so">
+                                    <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-2 mr-1">
+                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->subtotal) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end total-so">
+                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-2 mr-1">
+                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->tax_amount) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end grandtotal-so">
+                                    <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-2 mr-1">
+                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->grand_total) }}" readonly>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                         <button type="submit" tabindex="{{ $rowNumbers++ }}" id="btnSubmit" class="btn btn-success btn-block text-bold" >Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="{{ $rowNumbers++ }}">Submit</button>
                                     </div>
                                     <div class="col-2">
-                                        <button type="reset" tabindex="{{ $rowNumbers++ }}" id="btnReset" class="btn btn-outline-danger btn-block text-bold">Reset</button>
-                                    </div>
-                                </div>
-
-                                <div class="modal" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title">Goods Receipt Confirmation</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>The Goods Receipt data will be saved. Please select print or re-enter the incoming goods.</p>
-                                                <input type="hidden" name="is_print" value="0">
-                                                <hr>
-                                                <div class="form-row justify-content-center">
-                                                    <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="{{ $rowNumbers += 2 }}">Reset</button>
                                     </div>
                                 </div>
                             </form>
@@ -212,45 +177,11 @@
             </div>
         </div>
     </div>
-
-    <div class="modal" id="modalDuplicate" tabindex="-1" role="dialog" aria-labelledby="modalDuplicate" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                    </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
-                </div>
-                <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('addon-script')
-    <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
-        $.fn.datepicker.dates['id'] = {
-          days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-          daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-          monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
-          today: 'Hari Ini',
-          clear: 'Kosongkan'
-        };
-
-        $('.datepicker').datepicker({
-          format: 'dd-mm-yyyy',
-          autoclose: true,
-          todayHighlight: true,
-          language: 'id',
-        });
-
         $(document).ready(function() {
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
@@ -330,25 +261,6 @@
                     this.value = numberFormat(this.value);
                 });
 
-                let duplicateCodes = checkDuplicateProduct();
-                if(duplicateCodes.length) {
-                    let duplicateCode = duplicateCodes.join(', ');
-
-                    $('#duplicateCode').text(duplicateCode);
-                    $('#modalDuplicate').modal('show');
-
-                    return false;
-                } else {
-                    $('#modalConfirmation').modal('show');
-
-                    return false;
-                }
-            });
-
-            $('#btnPrint').on('click', function(event) {
-                event.preventDefault();
-
-                $('input[name="is_print"]').val(1);
                 $('#form').submit();
             });
 
@@ -457,9 +369,7 @@
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
 
-                let taxValue = (subtotalAmount * 0.1).toFixed(0);
-
-                taxAmount.value = thousandSeparator(taxValue);
+                taxAmount.value = thousandSeparator(subtotalAmount * 0.1);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
             }
 
@@ -656,6 +566,5 @@
                 `;
             }
         });
-
     </script>
 @endpush

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductTransferCancelRequest;
 use App\Http\Requests\ProductTransferCreateRequest;
-use App\Http\Requests\ProductUpdateRequest;
-use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\ProductTransfer;
 use App\Models\Warehouse;
@@ -151,45 +149,6 @@ class ProductTransferController extends Controller
         ];
 
         return view('pages.admin.product-transfer.detail', $data);
-    }
-
-    public function update(ProductUpdateRequest $request, $id) {
-        try {
-            DB::beginTransaction();
-
-            $data = $request->all();
-            $product = Product::query()->findOrFail($id);
-            $product->update($data);
-
-            $product->productConversions()->delete();
-            if($request->get('has_conversion')) {
-                $product->productConversions()->create([
-                    'unit_id' => $request->get('unit_conversion_id'),
-                    'quantity' => $request->get('quantity')
-                ]);
-            }
-
-            $prices = $request->get('price', []);
-            $product->productPrices()->delete();
-            foreach ($prices as $index => $price) {
-                $product->productPrices()->create([
-                    'price_id' => $request->get('price_id')[$index],
-                    'base_price' => $request->get('base_price')[$index],
-                    'tax_amount' => $request->get('tax_amount')[$index],
-                    'price' => $price
-                ]);
-            }
-
-            DB::commit();
-
-            return redirect()->route('products.index');
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return redirect()->route('products.edit', $id)->withInput()->withErrors([
-                'message' => 'An error occurred while updating data'
-            ]);
-        }
     }
 
     public function destroy(ProductTransferCancelRequest $request, $id) {

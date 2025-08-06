@@ -63,6 +63,17 @@ class Constant
         self::PRODUCT_TRANSFER_STATUS_CANCELLED => 'Cancelled',
     ];
 
+    const SALES_ORDER_STATUS_ACTIVE = 'ACTIVE';
+    const SALES_ORDER_STATUS_WAITING_APPROVAL = 'WAITING_APPROVAL';
+    const SALES_ORDER_STATUS_UPDATED = 'UPDATED';
+    const SALES_ORDER_STATUS_CANCELLED = 'CANCELLED';
+    const SALES_ORDER_STATUS_LABELS = [
+        self::SALES_ORDER_STATUS_ACTIVE => 'Active',
+        self::SALES_ORDER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
+        self::SALES_ORDER_STATUS_UPDATED => 'Updated',
+        self::SALES_ORDER_STATUS_CANCELLED => 'Cancelled',
+    ];
+
     const ACCOUNT_PAYABLE_STATUS_UNPAID = 'UNPAID';
     const ACCOUNT_PAYABLE_STATUS_ONGOING = 'ONGOING';
     const ACCOUNT_PAYABLE_STATUS_PAID = 'PAID';
@@ -89,4 +100,6 @@ class Constant
         self::APPROVAL_STATUS_APPROVED => 'Approved',
         self::APPROVAL_STATUS_REJECTED => 'Rejected',
     ];
+
+
 }

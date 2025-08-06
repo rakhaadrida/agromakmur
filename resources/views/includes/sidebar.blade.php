@@ -96,12 +96,12 @@
             </a>
             <div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="#">Input Faktur</a>
-                    <a class="collapse-item" href="#">Cetak Faktur</a>
-                    <a class="collapse-item" href="#">Ubah Faktur</a>
-                    <a class="collapse-item" href="#">Cetak Tanda Terima</a>
-                    <a class="collapse-item" href="#">Data Tanda Terima</a>
-                    <a class="collapse-item" href="#">Transaksi Harian</a>
+                    <a class="collapse-item" href="{{ route('sales-orders.create') }}">Sales Order</a>
+                    <a class="collapse-item" href="#">Print Sales Order</a>
+                    <a class="collapse-item" href="#">Edit Sales Order</a>
+                    <a class="collapse-item" href="#">Daily Sales Order</a>
+                    <a class="collapse-item" href="#">Delivery Order</a>
+                    <a class="collapse-item" href="#">Print Delivery Order</a>
                 </div>
             </div>
         </li>

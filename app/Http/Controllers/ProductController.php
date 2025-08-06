@@ -349,6 +349,14 @@ class ProductController extends Controller
             ];
         }
 
+        foreach ($product->productPrices as $productPrice) {
+            $prices[] = [
+                'id' => $productPrice->price_id,
+                'code' => $productPrice->pricing->code,
+                'price' => $productPrice->price
+            ];
+        }
+
         $productStocks = $product->productStocks->mapWithKeys(function($stock) {
             $array = [];
             $array[$stock->warehouse_id] = $stock->stock;
@@ -359,8 +367,10 @@ class ProductController extends Controller
         return response()->json([
             'data' => $product,
             'units' => $units,
+            'prices' => $prices,
+            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
             'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
-            'product_stocks' => $productStocks
+            'product_stocks' => $productStocks,
         ]);
     }
 }

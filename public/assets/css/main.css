@@ -90,13 +90,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: rgba(0, 0, 0, 0.005);
 }
 
-.diskon-faktur {
-    border: 0;
-    background: transparent;
-    padding: 0px 0px;
-    height: 25px;
-}
-
 .potongan {
     border: 0;
     background: transparent;
@@ -146,10 +139,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .total-so {
     margin-top: -30px;
-}
-
-.so-info-total {
-    margin-right: 50px;
 }
 
 .subtotal-po {
@@ -557,7 +546,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: 0 !important;
 }
 
-.warehouse-select-picker {
+.warehouse-select-picker,
+.marketing-select-picker {
     width: 16rem !important;
 }
 
@@ -572,7 +562,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .warehouse-select-picker,
-.supplier-select-picker {
+.supplier-select-picker,
+.marketing-select-picker{
     border: 1px solid #d1d3e2 !important;
     border-radius: 0.35rem;
     margin-top: -0.1rem !important;
@@ -580,7 +571,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .warehouse-select-picker .dropdown-toggle,
 .supplier-select-picker .dropdown-toggle,
-.supplier-params-select-picker .dropdown-toggle {
+.supplier-params-select-picker .dropdown-toggle,
+.marketing-select-picker .dropdown-toggle {
     padding: 0.25rem 0.35rem !important;
     background: none !important;
     font-weight: bold !important;
@@ -824,5 +816,130 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .edit-receipt-general-info-right {
     margin-left: -480px !important;
+}
+
+.sales-order-middle-input {
+    margin-left: 40px !important;
+}
+
+.sales-order-right-input {
+    margin-left: -320px !important;
+}
+
+.sales-order-is-taxable-input {
+    margin-top: -15px;
+}
+
+.sales-order-customer-input {
+    margin-top: -53px;
+}
+
+.table-head-number-sales-order {
+    width: 30px;
+}
+
+.table-head-code-sales-order {
+    width: 90px;
+}
+
+.table-head-quantity-sales-order {
+    width: 70px;
+}
+
+.table-head-unit-sales-order {
+    width: 60px;
+}
+
+.table-head-price-type-sales-order {
+    width: 50px;
+}
+
+.table-head-price-sales-order {
+    width: 100px;
+}
+
+.table-head-total-sales-order {
+    width: 110px;
+}
+
+.table-head-discount-percentage-sales-order {
+    width: 100px;
+}
+
+.table-head-discount-amount-sales-order {
+    width: 110px;
+}
+
+.table-head-final-amount-sales-order {
+    width: 120px;
+}
+
+.sales-order-sku-select-picker {
+    width: 5.625rem !important;
+}
+
+.sales-order-sku-select-picker .dropdown-toggle {
+    width: 90px !important;
+}
+
+.sales-order-name-select-picker {
+    width: 12.5rem !important;
+}
+
+.sales-order-name-select-picker .dropdown-toggle {
+    width: 215px !important;
+}
+
+.sales-order-unit-select-picker {
+    width: 3.75rem !important;
+}
+
+.sales-order-unit-select-picker .dropdown-toggle {
+    width: 60px !important;
+}
+
+.sales-order-price-type-select-picker {
+    width: 3.125rem !important;
+}
+
+.sales-order-price-type-select-picker .dropdown-toggle {
+    width: 50px !important;
+}
+
+.sales-order-sku-select-picker,
+.sales-order-name-select-picker,
+.sales-order-unit-select-picker,
+.sales-order-price-type-select-picker {
+    padding: 0 !important;
+}
+
+.sales-order-sku-select-picker .dropdown-toggle,
+.sales-order-name-select-picker .dropdown-toggle,
+.sales-order-unit-select-picker .dropdown-toggle,
+.sales-order-price-type-select-picker .dropdown-toggle {
+    padding: 0.3rem 0.35rem !important;
+    background: none !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #5a5c69 !important;
+}
+
+.sales-order-sku-select-picker .dropdown-toggle:after,
+.sales-order-name-select-picker .dropdown-toggle:after,
+.sales-order-unit-select-picker .dropdown-toggle:after,
+.sales-order-price-type-select-picker .dropdown-toggle:after {
+    border: none !important;
+}
+
+.invoice-discount {
+    border: 0;
+    background: transparent;
+    padding: 0 0;
+    height: 25px;
+}
+
+.sales-order-total-amount-info {
+    margin-right: 50px;
 }
 

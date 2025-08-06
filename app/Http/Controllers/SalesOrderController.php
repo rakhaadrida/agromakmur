@@ -6,6 +6,7 @@ use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\GoodsReceipt;
+use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Warehouse;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class GoodsReceiptController extends Controller
+class SalesOrderController extends Controller
 {
     public function index(Request $request) {
         $filter = (object) $request->all();
@@ -68,22 +69,22 @@ class GoodsReceiptController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
-        $suppliers = Supplier::all();
-        $warehouses = Warehouse::all();
+        $customers = Supplier::all();
+        $marketings = Marketing::all();
         $products = Product::all();
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
         $data = [
             'date' => $date,
-            'suppliers' => $suppliers,
-            'warehouses' => $warehouses,
+            'customers' => $customers,
+            'marketings' => $marketings,
             'products' => $products,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
 
-        return view('pages.admin.goods-receipt.create', $data);
+        return view('pages.admin.sales-order.create', $data);
     }
 
     public function store(GoodsReceiptCreateRequest $request) {
