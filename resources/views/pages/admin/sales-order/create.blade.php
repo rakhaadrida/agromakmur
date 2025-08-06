@@ -58,7 +58,7 @@
                                                 <span class="col-form-label text-bold ml-2"></span>
                                                 <div class="col-3 pkp-check">
                                                     <div class="form-check mt-2">
-                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableYes" value="1" tabindex="5">
+                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableYes" value="1" tabindex="5" checked>
                                                         <label class="form-check-label text-bold text-dark" for="isTaxableYes">Yes</label>
                                                     </div>
                                                     <div class="form-check">
@@ -75,7 +75,7 @@
                                         <div class="col-2 mt-1">
                                             <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer" tabindex="3" required>
                                                 @foreach($customers as $customer)
-                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}">{{ $customer->name }}</option>
+                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('warehouse')
@@ -222,7 +222,7 @@
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right" name="tax_amount" id="taxAmount" readonly>
+                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="tax_amount" id="taxAmount" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -236,10 +236,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="{{ $rowNumbers++ }}">Submit</button>
+                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="1000">Submit</button>
                                     </div>
                                     <div class="col-2">
-                                        <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="{{ $rowNumbers++ }}">Reset</button>
+                                        <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="1001">Reset</button>
                                     </div>
                                 </div>
 
@@ -318,6 +318,19 @@
             const table = $('#itemTable');
             let totalAmount = document.getElementById('totalAmount');
             let subtotal = document.getElementById('subtotal');
+
+            $('#customer').on('change', function(event) {
+                event.preventDefault();
+
+                const selected = $(this).find(':selected');
+                const marketing = $(`#marketing`);
+
+                marketing.selectpicker('val', selected.data('foo'));
+                marketing.selectpicker('refresh');
+
+                $('#taxNumber').val(selected.data('tax'));
+                $('#tempo').val(selected.data('tempo'));
+            });
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
@@ -446,10 +459,12 @@
                 let itemTable = $('#itemTable');
                 let lastRowId = itemTable.find('tr:last').attr('id');
                 let lastRowNumber = itemTable.find('tr:last td:first-child').text();
+                let rowNumbers = $('#rowNumber').val();
+                rowNumbers = +rowNumbers + (+lastRowNumber * 28);
 
                 let rowId = lastRowId ? +lastRowId + 1 : 1;
                 let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
-                let newRow = newRowElement(rowId, rowNumber);
+                let newRow = newRowElement(rowId, rowNumber, rowNumbers);
 
                 itemTable.append(newRow);
 
@@ -745,7 +760,7 @@
                             quantity,
                             realQuantity
                         ];
-                        
+
                         updateDeletedRowValue(elements, i);
                     }
                 }
@@ -822,12 +837,12 @@
                 return [...new Set(productDuplicates)];
             }
 
-            function newRowElement(rowId, rowNumber) {
+            function newRowElement(rowId, rowNumber, rowNumbers) {
                 return `
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumber += 1}">
+                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -835,33 +850,33 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumber += 2}">
+                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumber += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
-                            <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 4}" disabled>
+                            <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 5}" disabled>
+                            <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 5}" disabled>
                             </select>
                             <input type="hidden" name="price_id[]" id="priceId-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumber += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                         </td>
                         <td>
-                            <input type="text" name="discount[]" id="discount-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="${rowNumber += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly>
+                            <input type="text" name="discount[]" id="discount-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly>
                         </td>
                         <td>
                             <input type="text" name="discount_amount[]" id="discountAmount-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_amount[]') }}" title="" readonly >

@@ -935,7 +935,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .invoice-discount {
     border: 0;
     background: transparent;
-    padding: 0 0;
+    padding-right: 0 !important;
+    padding-top: 8px !important;
     height: 25px;
 }
 

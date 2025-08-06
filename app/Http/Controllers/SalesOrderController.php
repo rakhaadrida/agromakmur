@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Models\Customer;
 use App\Models\GoodsReceipt;
 use App\Models\Marketing;
 use App\Models\Product;
@@ -69,7 +70,7 @@ class SalesOrderController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
-        $customers = Supplier::all();
+        $customers = Customer::all();
         $marketings = Marketing::all();
         $products = Product::all();
         $rows = range(1, 5);
