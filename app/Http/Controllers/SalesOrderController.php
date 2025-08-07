@@ -67,8 +67,29 @@ class SalesOrderController extends Controller
             $salesOrderItems = $salesOrder->salesOrderItems;
         }
 
-        $baseQueryItems = SalesOrderService::getBaseQuerySalesOrderItem($salesOrder->id);
-        $salesOrderItems = $baseQueryItems->get();
+        $productWarehouses = [];
+        foreach($salesOrderItems as $salesOrderItem) {
+            $productWarehouses[$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
+        }
+
+        $salesOrderItems = $salesOrderItems
+            ->groupBy('product_id')
+            ->map(function ($items, $productId) {
+                return (object) [
+                    'product_id' => $productId,
+                    'product_sku' => $items->first()->product->sku,
+                    'product_name' => $items->first()->product->name,
+                    'quantity' => $items->sum('quantity'),
+                    'unit_id' => $items->first()->unit_id,
+                    'unit_name' => $items->first()->unit->name,
+                    'price' => $items->first()->price,
+                    'total' => $items->sum('total'),
+                    'discount' => $items->first()->discount,
+                    'discount_amount' => $items->sum('discount_amount'),
+                    'final_amount' => $items->sum('final_amount'),
+                ];
+            })
+            ->values();
 
         $warehouses = Warehouse::query()
             ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
@@ -78,6 +99,7 @@ class SalesOrderController extends Controller
             'id' => $id,
             'salesOrder' => $salesOrder,
             'salesOrderItems' => $salesOrderItems,
+            'productWarehouses' => $productWarehouses,
             'warehouses' => $warehouses,
             'totalWarehouses' => $warehouses->count(),
         ];
@@ -91,7 +113,7 @@ class SalesOrderController extends Controller
         $marketings = Marketing::all();
         $products = Product::all();
         $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_PRIMARY)
+            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
             ->get();
 
         $rows = range(1, 5);

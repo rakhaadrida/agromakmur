@@ -114,21 +114,21 @@
                                         @foreach($warehouses as $key => $warehouse)
                                             <td>{{ $warehouse->name }}</td>
                                         @endforeach
-                                        <td class="table-head-discount-percentage-sales-order">%</td>
-                                        <td class="table-head-discount-amount-sales-order">Rupiah</td>
+                                        <td class="align-middle table-head-discount-percentage-sales-order">%</td>
+                                        <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($salesOrderItems as $key => $salesOrderItem)
                                         <tr class="text-dark">
                                             <td class="text-center">{{ ++$key }}</td>
-                                            <td>{{ $salesOrderItem->product->sku }} </td>
-                                            <td>{{ $salesOrderItem->product->name }}</td>
+                                            <td>{{ $salesOrderItem->product_sku }} </td>
+                                            <td>{{ $salesOrderItem->product_name }}</td>
                                             <td class="text-right">{{ formatQuantity($salesOrderItem->quantity) }}</td>
                                             @foreach($warehouses as $index => $warehouse)
-                                                <td class="text-right">{{ isSameWarehouse($warehouse->id, $salesOrderItem->warehouse_id) ? $salesOrderItem->quantity : '' }}</td>
+                                                <td class="text-right">{{ $productWarehouses[$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
                                             @endforeach
-                                            <td>{{ $salesOrderItem->unit->name }}</td>
+                                            <td>{{ $salesOrderItem->unit_name }}</td>
                                             <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
                                             <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
                                             <td class="text-right">{{ $salesOrderItem->discount }}</td>
