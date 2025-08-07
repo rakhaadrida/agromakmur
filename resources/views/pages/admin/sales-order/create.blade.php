@@ -155,6 +155,7 @@
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <input type="hidden" name="total_stock[]" id="totalStock-{{ $key }}">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
@@ -276,6 +277,75 @@
         </div>
     </div>
 
+    <div class="modal" id="modalStock" tabindex="-1" role="dialog" aria-labelledby="modalStock" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Product Stock Notification</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>The input quantity cannot exceed the total stock. The total stock for the item <span class="col-form-label text-bold" id="stockProductName"></span> is <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalWarehouseStock" tabindex="-1" role="dialog" aria-labelledby="modalWarehouseStock" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="closeModal" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Choose Warehouse Stock</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <p>Order quantity exceeds stock in warehouse <span class="text-bold" id="warehouseName"></span>. Select another warehouse to fulfill the order quantity.</p>
+                    <input type="hidden" id="kodeModal{{$i-1}}" value="{{$i-1}}">
+                    <div class="form-group row" style="margin-top: -10px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Order Quantity</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold" id="orderQuantity"></span>
+                        <span class="col-form-label text-bold" id="orderUnit"></span>
+                        <span class="col-form-label text-bold qtyOrderUkuran"></span>
+                        <span class="col-form-label text-bold qtyUkuran"></span>
+                    </div>
+                    <div class="form-group row" style="margin-top: -20px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Primary Warehouse Stock</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold stokJohar"></span>
+                        <span class="col-form-label text-bold stokSatuan"></span>
+                        <span class="col-form-label text-bold stokJoharUkuran"></span>
+                        <span class="col-form-label text-bold stokUkuran"></span>
+                    </div>
+                    <div class="form-group row" style="margin-top: -20px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Remaining Order Quantity</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold sisaQty"></span>
+                        <span class="col-form-label text-bold sisaSatuan"></span>
+                        <span class="col-form-label text-bold sisaQtyUkuran"></span>
+                        <span class="col-form-label text-bold sisaUkuran"></span>
+                    </div>
+                    <label for="pilih" style="margin-bottom: -5px">Pilih Gudang Tambahan</label>
+                    @foreach($gudang as $g)
+                        @if($g->id != "GDG01")
+                            <div class="row">
+                                <label for="kode" class="col-8 col-form-label text-bold">{{ $g->nama }} (Stok : <span class="col-form-label text-bold stokGudang{{$i-1}}"></span><span class="col-form-label text-bold gudangSatuan{{$i-1}}"></span><span class="col-form-label text-bold stokGudangUkuran{{$i-1}}"></span><span class="col-form-label text-bold gudangUkuran{{$i-1}}"></span>)</label>
+                                <input type="hidden" class="kodeGud{{$i-1}}" value="{{$g->id}}">
+                                <div class="col-3">
+                                    <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btnPilih{{$i-1}}">Pilih</button>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="modalDuplicate" tabindex="-1" role="dialog" aria-labelledby="modalDuplicate" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -316,6 +386,7 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+            let invoiceDiscount = $('#invoiceDiscount');
             let totalAmount = document.getElementById('totalAmount');
             let subtotal = document.getElementById('subtotal');
 
@@ -352,6 +423,7 @@
 
             table.on('blur', 'input[name="quantity[]"]', function () {
                 const index = $(this).closest('tr').index();
+                checkProductStock(index, this.value);
                 calculateTotal(index);
             });
 
@@ -414,6 +486,14 @@
                 updateAllRowIndexes(index, deleteRow);
             });
 
+            invoiceDiscount.on('keyup', function() {
+                this.value = currencyFormat(this.value);
+            });
+
+            invoiceDiscount.on('blur', function() {
+                calculateInvoiceDiscount(this.value, totalAmount.value);
+            });
+
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
@@ -428,6 +508,10 @@
                 });
 
                 $('input[name="price[]"]').each(function() {
+                    this.value = numberFormat(this.value);
+                });
+
+                $('input[name="discount_amount[]"]').each(function() {
                     this.value = numberFormat(this.value);
                 });
 
@@ -485,9 +569,12 @@
                         let price = $(`#price-${index}`);
                         let discount = $(`#discount-${index}`);
                         let quantity = $(`#quantity-${index}`);
+                        let totalStock = $(`#totalStock-${index}`);
+
                         let productPrice = thousandSeparator(data.main_price);
                         let productUnitId = data.data.unit_id;
                         let productPriceId = data.data.main_price_id;
+                        let productStocks = data.data.product_stocks;
 
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
@@ -535,11 +622,68 @@
                             $(`#priceId-${index}`).val(productPriceId);
                         });
 
+                        let stock = 0;
+                        $.each(productStocks, function(key, item) {
+                            stock += item.stock;
+                        });
+
+                        totalStock.val(stock);
                         $(`#realQuantity-${index}`).val(1);
 
                         calculateTotal(index);
                     },
                 })
+            }
+
+            function checkProductStock(index, quantity) {
+                let productName = $(`#productName-${index} option:selected`).text();
+                let selectedUnit = $(`#unit-${index} option:selected`);
+                let conversionUnit = $(`#unit-${index} option:not(:selected):first`);
+                let totalStock = $(`#totalStock-${index}`).val();
+                let conversionStock = +totalStock / +conversionUnit.data('foo');
+                quantity = numberFormat(quantity);
+
+                if(+quantity > +totalStock) {
+                    totalStock = thousandSeparator(totalStock) + ` ${selectedUnit.text()}`;
+                    conversionStock = thousandSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+
+                    $('#stockProductName').text(productName);
+                    $('#totalStock').text(totalStock);
+                    $('#totalConversion').text(` ${conversionStock}`);
+                    $('#modalStock').modal('show');
+                }
+            }
+
+            function calculateTotal(index) {
+                let quantity = document.getElementById(`quantity-${index}`);
+                let price = document.getElementById(`price-${index}`);
+                let discountAmount = document.getElementById(`discountAmount-${index}`);
+                let total = document.getElementById(`total-${index}`);
+                let finalAmount = document.getElementById(`finalAmount-${index}`);
+
+                let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
+                let currentFinalAmount = 0;
+
+                if(quantity.value === "") {
+                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(finalAmount.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(finalAmount.value));
+                    total.value = '';
+                    finalAmount.value = '';
+                }
+                else {
+                    currentFinalAmount = numberFormat(finalAmount.value);
+                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
+                    finalAmount.value = thousandSeparator(realQuantity * numberFormat(price.value) - numberFormat(discountAmount.value));
+                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
+                }
+
+                calculateTax(numberFormat(subtotal.value));
+            }
+
+            function getRealQuantity(quantity, index) {
+                let realQuantity = $(`#realQuantity-${index}`).val();
+
+                return +quantity * +realQuantity;
             }
 
             function calculateDiscount(index) {
@@ -583,36 +727,9 @@
                 return maxDiscount;
             }
 
-            function calculateTotal(index) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let price = document.getElementById(`price-${index}`);
-                let discountAmount = document.getElementById(`discountAmount-${index}`);
-                let total = document.getElementById(`total-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
-
-                let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
-                let currentFinalAmount = 0;
-
-                if(quantity.value === "") {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(finalAmount.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(finalAmount.value));
-                    total.value = '';
-                    finalAmount.value = '';
-                }
-                else {
-                    currentFinalAmount = numberFormat(finalAmount.value);
-                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
-                    finalAmount.value = thousandSeparator(realQuantity * numberFormat(price.value) - numberFormat(discountAmount.value));
-                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
-                }
-
+            function calculateInvoiceDiscount(invoiceDiscount, totalAmount) {
+                subtotal.value = thousandSeparator(numberFormat(totalAmount) - numberFormat(invoiceDiscount));
                 calculateTax(numberFormat(subtotal.value));
-            }
-
-            function getRealQuantity(quantity, index) {
-                let realQuantity = $(`#realQuantity-${index}`).val();
-
-                return +quantity * +realQuantity;
             }
 
             function calculateSubtotal(previousAmount, currentAmount, subtotal, total) {

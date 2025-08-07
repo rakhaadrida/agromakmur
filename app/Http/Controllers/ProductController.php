@@ -373,4 +373,42 @@ class ProductController extends Controller
             'product_stocks' => $productStocks,
         ]);
     }
+
+    public function checkStockAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $product = Product::query()
+            ->with(['mainPrice'])
+            ->findOrFail($filter->product_id);
+
+        $units[] = [
+            'id' => $product->unit_id,
+            'name' => $product->unit->name,
+            'quantity' => 1
+        ];
+
+        foreach ($product->productConversions as $conversion) {
+            $units[] = [
+                'id' => $conversion->unit_id,
+                'name' => $conversion->unit->name,
+                'quantity' => $conversion->quantity
+            ];
+        }
+
+        $productStocks = $product->productStocks->mapWithKeys(function($stock) {
+            $array = [];
+            $array[$stock->warehouse_id] = $stock->stock;
+
+            return $array;
+        });
+
+        return response()->json([
+            'data' => $product,
+            'units' => $units,
+            'prices' => $prices,
+            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
+            'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
+            'product_stocks' => $productStocks,
+        ]);
+    }
 }
