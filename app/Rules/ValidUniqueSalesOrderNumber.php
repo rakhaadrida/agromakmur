@@ -2,10 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\ProductTransfer;
+use App\Models\GoodsReceipt;
+use App\Models\SalesOrder;
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidUniqueProductTransferNumber implements Rule
+class ValidUniqueSalesOrderNumber implements Rule
 {
     protected $id;
 
@@ -28,7 +29,7 @@ class ValidUniqueProductTransferNumber implements Rule
      */
     public function passes($attribute, $value)
     {
-        $uniqueNumber = ProductTransfer::query()
+        $uniqueNumber = SalesOrder::query()
             ->where('number', $value)
             ->where('id', '!=', $this->id)
             ->first();
@@ -45,6 +46,6 @@ class ValidUniqueProductTransferNumber implements Rule
      */
     public function message()
     {
-        return 'The product transfer number has already been taken';
+        return 'The sales order number has already been taken';
     }
 }

@@ -48,7 +48,7 @@
                                                 <label for="tempo" class="col-5 col-form-label text-bold text-right">Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-3 mt-1">
-                                                    <input type="text" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="4">
+                                                    <input type="text" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="6">
                                                 </div>
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
@@ -58,11 +58,11 @@
                                                 <span class="col-form-label text-bold ml-2"></span>
                                                 <div class="col-3 pkp-check">
                                                     <div class="form-check mt-2">
-                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableYes" value="1" tabindex="5" checked>
+                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableYes" value="1" tabindex="7" checked>
                                                         <label class="form-check-label text-bold text-dark" for="isTaxableYes">Yes</label>
                                                     </div>
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableNo" value="0" tabindex="5">
+                                                        <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableNo" value="0" tabindex="7">
                                                         <label class="form-check-label text-bold text-dark" for="isTaxableNo">No</label>
                                                     </div>
                                                 </div>
@@ -87,14 +87,14 @@
                                         <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tax Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" name="tax_number" id="taxNumber" class="form-control form-control-sm text-bold" tabindex="4" readonly>
+                                            <input type="text" name="tax_number" id="taxNumber" class="form-control form-control-sm text-bold" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
                                         <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" title="Enter or Choose Marketing" tabindex="5" required>
+                                            <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" title="Enter or Choose Marketing" tabindex="4" required>
                                                 @foreach($marketings as $marketing)
                                                     <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}">{{ $marketing->name }}</option>
                                                 @endforeach
@@ -105,10 +105,10 @@
                                         </span>
                                             @enderror
                                         </div>
-                                        <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" tabindex="2" required>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $date }}" tabindex="5" required>
                                         </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
@@ -142,7 +142,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -150,40 +150,41 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <input type="hidden" name="total_stock[]" id="totalStock-{{ $key }}">
+                                                    <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
+                                                    <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 4 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 6 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
+                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount_amount[]" id="discountAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_amount[]') }}" title="" readonly >
+                                                    <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="final_amount[]" id="finalAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly >
+                                                    <input type="text" name="final_amount[]" id="finalAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
@@ -304,42 +305,36 @@
                 </div>
                 <div class="modal-body text-dark">
                     <p>Order quantity exceeds stock in warehouse <span class="text-bold" id="warehouseName"></span>. Select another warehouse to fulfill the order quantity.</p>
-                    <input type="hidden" id="kodeModal{{$i-1}}" value="{{$i-1}}">
                     <div class="form-group row" style="margin-top: -10px">
                         <label for="kode" class="col-6 col-form-label text-bold">Order Quantity</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="orderQuantity"></span>
-                        <span class="col-form-label text-bold" id="orderUnit"></span>
-                        <span class="col-form-label text-bold qtyOrderUkuran"></span>
-                        <span class="col-form-label text-bold qtyUkuran"></span>
+                        <input type="hidden" id="rowIndex">
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
                         <label for="kode" class="col-6 col-form-label text-bold">Primary Warehouse Stock</label>
                         <span class="col-auto col-form-label text-bold">:</span>
-                        <span class="col-form-label text-bold stokJohar"></span>
-                        <span class="col-form-label text-bold stokSatuan"></span>
-                        <span class="col-form-label text-bold stokJoharUkuran"></span>
-                        <span class="col-form-label text-bold stokUkuran"></span>
+                        <span class="col-form-label text-bold" id="primaryStock"></span>
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
                         <label for="kode" class="col-6 col-form-label text-bold">Remaining Order Quantity</label>
                         <span class="col-auto col-form-label text-bold">:</span>
-                        <span class="col-form-label text-bold sisaQty"></span>
-                        <span class="col-form-label text-bold sisaSatuan"></span>
-                        <span class="col-form-label text-bold sisaQtyUkuran"></span>
-                        <span class="col-form-label text-bold sisaUkuran"></span>
+                        <span class="col-form-label text-bold" id="remainingQuantity"></span>
+                        <input type="hidden" id="remainingQuantityValue">
+                        <input type="hidden" id="remainingQuantityUnit">
+                        <input type="hidden" id="remainingConversionValue">
+                        <input type="hidden" id="remainingConversionUnit">
                     </div>
-                    <label for="pilih" style="margin-bottom: -5px">Pilih Gudang Tambahan</label>
-                    @foreach($gudang as $g)
-                        @if($g->id != "GDG01")
-                            <div class="row">
-                                <label for="kode" class="col-8 col-form-label text-bold">{{ $g->nama }} (Stok : <span class="col-form-label text-bold stokGudang{{$i-1}}"></span><span class="col-form-label text-bold gudangSatuan{{$i-1}}"></span><span class="col-form-label text-bold stokGudangUkuran{{$i-1}}"></span><span class="col-form-label text-bold gudangUkuran{{$i-1}}"></span>)</label>
-                                <input type="hidden" class="kodeGud{{$i-1}}" value="{{$g->id}}">
-                                <div class="col-3">
-                                    <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btnPilih{{$i-1}}">Pilih</button>
-                                </div>
+                    <label style="margin-bottom: -5px">Choose Another Warehouse</label>
+                    @foreach($warehouses as $key => $warehouse)
+                        <div class="row">
+                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
+                            <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
+                            <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Select</button>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -386,6 +381,8 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+            const modalWarehouseStock = $('#modalWarehouseStock');
+
             let invoiceDiscount = $('#invoiceDiscount');
             let totalAmount = document.getElementById('totalAmount');
             let subtotal = document.getElementById('subtotal');
@@ -423,6 +420,7 @@
 
             table.on('blur', 'input[name="quantity[]"]', function () {
                 const index = $(this).closest('tr').index();
+
                 checkProductStock(index, this.value);
                 calculateTotal(index);
             });
@@ -441,7 +439,7 @@
                 const index = $(this).closest('tr').index();
                 const selected = $(this).find(':selected');
 
-                $(`#priceId-${index}`).val(this.value);
+                $(`#priceId-${index}`).val(selected.val());
                 $(`#price-${index}`).val(thousandSeparator(selected.data('foo')));
 
                 calculateTotal(index);
@@ -511,9 +509,12 @@
                     this.value = numberFormat(this.value);
                 });
 
-                $('input[name="discount_amount[]"]').each(function() {
+                $('input[name="discount_product[]"]').each(function() {
                     this.value = numberFormat(this.value);
                 });
+
+                let invoiceDiscount = $('#invoiceDiscount');
+                invoiceDiscount.val(numberFormat(invoiceDiscount.val()));
 
                 let duplicateCodes = checkDuplicateProduct();
                 if(duplicateCodes.length) {
@@ -544,7 +545,7 @@
                 let lastRowId = itemTable.find('tr:last').attr('id');
                 let lastRowNumber = itemTable.find('tr:last td:first-child').text();
                 let rowNumbers = $('#rowNumber').val();
-                rowNumbers = +rowNumbers + (+lastRowNumber * 28);
+                rowNumbers = +rowNumbers + (+lastRowNumber * 36);
 
                 let rowId = lastRowId ? +lastRowId + 1 : 1;
                 let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
@@ -554,6 +555,19 @@
 
                 $(`#productId-${rowId}`).selectpicker();
                 $(`#productName-${rowId}`).selectpicker();
+            });
+
+            modalWarehouseStock.on('click', '.btn-select', function () {
+                const buttonId = $(this).attr('id');
+                const warehouseId = buttonId.split('-')[1];
+
+                updateWarehouseStock(warehouseId, this);
+            });
+
+            modalWarehouseStock.on('hidden.bs.modal', function () {
+                $('.btn-select').each(function () {
+                    $(this).attr('disabled', false);
+                });
             });
 
             function displayPrice(productId, index) {
@@ -569,12 +583,10 @@
                         let price = $(`#price-${index}`);
                         let discount = $(`#discount-${index}`);
                         let quantity = $(`#quantity-${index}`);
-                        let totalStock = $(`#totalStock-${index}`);
 
                         let productPrice = thousandSeparator(data.main_price);
                         let productUnitId = data.data.unit_id;
-                        let productPriceId = data.data.main_price_id;
-                        let productStocks = data.data.product_stocks;
+                        let productPriceId = data.main_price_id;
 
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
@@ -622,12 +634,6 @@
                             $(`#priceId-${index}`).val(productPriceId);
                         });
 
-                        let stock = 0;
-                        $.each(productStocks, function(key, item) {
-                            stock += item.stock;
-                        });
-
-                        totalStock.val(stock);
                         $(`#realQuantity-${index}`).val(1);
 
                         calculateTotal(index);
@@ -636,28 +642,132 @@
             }
 
             function checkProductStock(index, quantity) {
+                let productId = $(`#productId-${index} option:selected`).val();
                 let productName = $(`#productName-${index} option:selected`).text();
                 let selectedUnit = $(`#unit-${index} option:selected`);
                 let conversionUnit = $(`#unit-${index} option:not(:selected):first`);
-                let totalStock = $(`#totalStock-${index}`).val();
-                let conversionStock = +totalStock / +conversionUnit.data('foo');
+                let warehouseIds = $(`#warehouseIds-${index}`);
+                let warehouseStocks = $(`#warehouseStocks-${index}`);
+
+                let totalStock = 0;
+                let productStocks;
                 quantity = numberFormat(quantity);
 
-                if(+quantity > +totalStock) {
-                    totalStock = thousandSeparator(totalStock) + ` ${selectedUnit.text()}`;
-                    conversionStock = thousandSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+                $.ajax({
+                    url: '{{ route('products.check-stock-ajax') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        product_id: productId
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let primaryWarehouse = data.primary_warehouse;
+                        let otherWarehouses = data.other_warehouses;
 
-                    $('#stockProductName').text(productName);
-                    $('#totalStock').text(totalStock);
-                    $('#totalConversion').text(` ${conversionStock}`);
-                    $('#modalStock').modal('show');
+                        totalStock = data.total_stock;
+                        productStocks = data.product_stocks;
+
+                        warehouseIds.val(primaryWarehouse.id);
+                        warehouseStocks.val(quantity);
+
+                        let conversionStock = +totalStock / +conversionUnit.data('foo');
+                        if(+quantity > +totalStock) {
+                            totalStock = thousandSeparator(totalStock) + ` ${selectedUnit.text()}`;
+                            conversionStock = thousandSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+
+                            $('#stockProductName').text(productName);
+                            $('#totalStock').text(totalStock);
+                            $('#totalConversion').text(` ${conversionStock}`);
+                            $('#modalStock').modal('show');
+                        } else if(+quantity > +primaryWarehouse.stock && +quantity <= +totalStock) {
+                            let originalQuantity = thousandSeparator(quantity) + ` ${selectedUnit.text()}`
+                            let orderConversion = +quantity / +conversionUnit.data('foo');
+                            let conversionQuantity = ` (${thousandSeparator(orderConversion)} ${conversionUnit.text()})`;
+                            let orderQuantity = originalQuantity + conversionQuantity;
+
+                            let primaryQuantity = thousandSeparator(primaryWarehouse.stock) + ` ${selectedUnit.text()}`;
+                            let primaryConversionStock = +primaryWarehouse.stock / +conversionUnit.data('foo');
+                            let primaryConversion = ` (${thousandSeparator(primaryConversionStock)} ${conversionUnit.text()})`;
+                            let primaryStock = primaryQuantity + primaryConversion;
+
+                            let remainingStockValue = +quantity - +primaryWarehouse.stock;
+                            let remainingQuantity = thousandSeparator(remainingStockValue) + ` ${selectedUnit.text()}`;
+                            let remainingConversionStock = +remainingStockValue / +conversionUnit.data('foo');
+                            let remainingConversion = ` (${thousandSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
+                            let remainingStock = remainingQuantity + remainingConversion;
+
+                            $('#warehouseName').text(primaryWarehouse.name);
+                            $('#orderQuantity').text(orderQuantity);
+                            $('#primaryStock').text(primaryStock);
+                            $('#remainingQuantity').text(remainingStock);
+
+                            $('#remainingQuantityValue').val(remainingStockValue);
+                            $('#remainingQuantityUnit').val(selectedUnit.text());
+                            $('#remainingConversionValue').val(conversionUnit.data('foo'));
+                            $('#remainingConversionUnit').val(conversionUnit.text());
+
+                            $.each(otherWarehouses, function(key, item) {
+                                let otherStock = thousandSeparator(item.stock) + ` ${selectedUnit.text()} / `;
+                                let otherConversionStock = +item.stock / +conversionUnit.data('foo');
+                                let otherConversion = `${thousandSeparator(otherConversionStock)} ${conversionUnit.text()}`;
+
+                                $(`#warehouseStock-${item.id}`).text(otherStock + otherConversion);
+                                $(`#warehouseOriginalStock-${item.id}`).val(item.stock);
+                            });
+
+                            warehouseStocks.val(primaryWarehouse.stock);
+                            $('#rowIndex').val(index);
+                            $('#modalWarehouseStock').modal('show');
+                        }
+                    },
+                })
+            }
+
+            function updateWarehouseStock(index, element) {
+                let remainingStockValue = $('#remainingQuantityValue');
+                let remainingStockUnit = $('#remainingQuantityUnit');
+                let remainingConversionValue = $('#remainingConversionValue');
+                let remainingConversionUnit = $('#remainingConversionUnit');
+                let warehouseOriginalStock = $(`#warehouseOriginalStock-${index}`);
+                let warehouseId = $(`#warehouseId-${index}`).val();
+                let rowIndex = $('#rowIndex').val();
+                let warehouseIds = $(`#warehouseIds-${rowIndex}`);
+                let warehouseStocks = $(`#warehouseStocks-${rowIndex}`);
+
+                let remainingStock = +remainingStockValue.val();
+                let remainingConversion = +remainingConversionValue.val();
+                let warehouseStock = warehouseOriginalStock.val();
+                let warehouseIdsValue = warehouseIds.val();
+                let warehouseStocksValue = warehouseStocks.val();
+
+                if(+warehouseStock < +remainingStock) {
+                    $(element).attr('disabled', true);
+
+                    let newRemainingStock = +remainingStock - +warehouseStock;
+                    let newRemainingConversion = +newRemainingStock / +remainingConversion;
+
+                    let remainingQuantityText = thousandSeparator(newRemainingStock) + ` ${remainingStockUnit.val()}`;
+                    let remainingConversionText = ` (${thousandSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
+                    let newRemainingQuantity = remainingQuantityText + remainingConversionText;
+
+                    warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
+                    warehouseStocks.val(warehouseStocksValue + ',' + warehouseStock);
+
+                    remainingStockValue.val(newRemainingStock);
+                    $('#remainingQuantity').text(newRemainingQuantity);
+                } else {
+                    warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
+                    warehouseStocks.val(warehouseStocksValue + ',' + remainingStock);
+
+                    $('#modalWarehouseStock').modal('hide');
                 }
             }
 
             function calculateTotal(index) {
                 let quantity = document.getElementById(`quantity-${index}`);
                 let price = document.getElementById(`price-${index}`);
-                let discountAmount = document.getElementById(`discountAmount-${index}`);
+                let discountProduct = document.getElementById(`discountProduct-${index}`);
                 let total = document.getElementById(`total-${index}`);
                 let finalAmount = document.getElementById(`finalAmount-${index}`);
 
@@ -673,7 +783,7 @@
                 else {
                     currentFinalAmount = numberFormat(finalAmount.value);
                     total.value = thousandSeparator(realQuantity * numberFormat(price.value));
-                    finalAmount.value = thousandSeparator(realQuantity * numberFormat(price.value) - numberFormat(discountAmount.value));
+                    finalAmount.value = thousandSeparator(realQuantity * numberFormat(price.value) - numberFormat(discountProduct.value));
                     calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
                 }
 
@@ -688,14 +798,14 @@
 
             function calculateDiscount(index) {
                 let discount = document.getElementById(`discount-${index}`);
-                let discountAmount = document.getElementById(`discountAmount-${index}`);
+                let discountProduct = document.getElementById(`discountProduct-${index}`);
                 let finalAmount = document.getElementById(`finalAmount-${index}`);
                 let total = document.getElementById(`total-${index}`);
 
                 if(discount.value === '') {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) + numberFormat(discountAmount.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + numberFormat(discountAmount.value));
-                    discountAmount.value = '';
+                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) + numberFormat(discountProduct.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + numberFormat(discountProduct.value));
+                    discountProduct.value = '';
                     finalAmount.value = total.value;
                 } else {
                     let currentFinalAmount = numberFormat(finalAmount.value);
@@ -703,7 +813,7 @@
                     let totalValue = numberFormat(total.value);
                     let discountValue = ((discountPercentage * totalValue) / 100).toFixed(0);
 
-                    discountAmount.value = thousandSeparator(discountValue);
+                    discountProduct.value = thousandSeparator(discountValue);
                     finalAmount.value = thousandSeparator(totalValue - discountValue);
 
                     calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
@@ -782,7 +892,6 @@
 
             function updateAllRowIndexes(index, deleteRow) {
                 let quantity = document.getElementById(`quantity-${index}`);
-                let total = document.getElementById(`total-${index}`);
                 let finalAmount = document.getElementById(`finalAmount-${index}`);
 
                 if(quantity.value !== '') {
@@ -799,8 +908,10 @@
                     let price = document.getElementById(`price-${i}`);
                     let total = document.getElementById(`total-${i}`);
                     let discount = document.getElementById(`discount-${i}`);
-                    let discountAmount = document.getElementById(`discountAmount-${i}`);
+                    let discountProduct = document.getElementById(`discountProduct-${i}`);
                     let finalAmount = document.getElementById(`finalAmount-${i}`);
+                    let warehouseIds = document.getElementById(`warehouseIds-${i}`);
+                    let warehouseStocks = document.getElementById(`warehouseStocks-${i}`);
 
                     let rowNumber = +i + 1;
                     let newProductId = document.getElementById(`productId-${rowNumber}`);
@@ -814,8 +925,10 @@
                     let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newDiscount = document.getElementById(`discount-${rowNumber}`);
-                    let newDiscountAmount = document.getElementById(`discountAmount-${rowNumber}`);
+                    let newdiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
                     let newFinalAmount = document.getElementById(`finalAmount-${rowNumber}`);
+                    let newWarehouseIds = document.getElementById(`warehouseIds-${rowNumber}`);
+                    let newWarehouseStocks = document.getElementById(`warehouseStocks-${rowNumber}`);
 
                     if(rowNumber !== deleteRow.length) {
                         quantity.value = newQuantity.value;
@@ -825,8 +938,10 @@
                         price.value = newPrice.value;
                         total.value = newTotal.value;
                         discount.value = newDiscount.value;
-                        discountAmount.value = newDiscountAmount.value;
+                        discountProduct.value = newdiscountProduct.value;
                         finalAmount.value = newFinalAmount.value;
+                        warehouseIds.value = newWarehouseIds.value;
+                        warehouseStocks.value = newWarehouseStocks.value;
 
                         changeSelectPickerValue($(`#priceType-${i}`), newPriceType.value, rowNumber, true);
                         changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
@@ -846,14 +961,16 @@
 
                         let elements = [
                             newFinalAmount,
-                            newDiscountAmount,
+                            newdiscountProduct,
                             newDiscount,
                             newTotal,
                             newPrice,
                             newPriceId,
                             newUnitValue,
                             newQuantity,
-                            newRealQuantity
+                            newRealQuantity,
+                            newWarehouseIds,
+                            newWarehouseStocks
                         ];
 
                         updateDeletedRowValue(elements, rowNumber);
@@ -868,14 +985,16 @@
 
                         let elements = [
                             finalAmount,
-                            discountAmount,
+                            discountProduct,
                             discount,
                             total,
                             price,
                             priceId,
                             unitValue,
                             quantity,
-                            realQuantity
+                            realQuantity,
+                            warehouseIds,
+                            warehouseStocks
                         ];
 
                         updateDeletedRowValue(elements, i);
@@ -959,7 +1078,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -972,6 +1091,8 @@
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
+                            <input type="hidden" name="warehouse_ids[]" id="warehouseIds-${rowId}">
+                            <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-${rowId}">
                         </td>
                         <td>
                             <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
@@ -996,7 +1117,7 @@
                             <input type="text" name="discount[]" id="discount-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly>
                         </td>
                         <td>
-                            <input type="text" name="discount_amount[]" id="discountAmount-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_amount[]') }}" title="" readonly >
+                            <input type="text" name="discount_product[]" id="discountProduct-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly >
                         </td>
                         <td>
                             <input type="text" name="final_amount[]" id="finalAmount-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly >

@@ -74,6 +74,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('products/{id}/stock', 'ProductController@stock')->name('products.stock');
     Route::put('products/{id}/stock', 'ProductController@updateStock')->name('products.update-stock');
     Route::get('products-ajax', 'ProductController@indexAjax')->name('products.index-ajax');
+    Route::post('products-stock-ajax', 'ProductController@checkStockAjax')->name('products.check-stock-ajax');
     Route::get('deleted-products', 'ProductController@indexDeleted')->name('products.deleted');
     Route::put('deleted-products/{id}/restore', 'ProductController@restore')->name('products.restore');
     Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
@@ -93,6 +94,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('print-product-transfers', 'ProductTransferController@indexPrint')->name('product-transfers.index-print');
 
     Route::resource('sales-orders', 'SalesOrderController');
+    Route::get('sales-orders/{id}/detail', 'SalesOrderController@detail')->name('sales-orders.detail');
 });
 
 Auth::routes(['verify' => true]);

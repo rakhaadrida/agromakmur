@@ -790,6 +790,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 150px;
 }
 
+.th-tempo-transaction-index {
+    width: 100px;
+}
+
 .detail-po-information-row {
     margin-top: -1.5rem !important;
 }

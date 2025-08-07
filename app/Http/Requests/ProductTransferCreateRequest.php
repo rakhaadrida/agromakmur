@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidProductSubcategory;
-use App\Rules\ValidUniqueGoodsReceiptNumber;
 use App\Rules\ValidUniqueProductTransferNumber;
 use Illuminate\Foundation\Http\FormRequest;
 

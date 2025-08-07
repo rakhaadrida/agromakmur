@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Subcategory;
 use App\Models\Unit;
 use App\Models\Warehouse;
+use App\Utilities\Constant;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -381,34 +382,33 @@ class ProductController extends Controller
             ->with(['mainPrice'])
             ->findOrFail($filter->product_id);
 
-        $units[] = [
-            'id' => $product->unit_id,
-            'name' => $product->unit->name,
-            'quantity' => 1
-        ];
+        $productStocks = $product->productStocks;
+        $totalStock = $productStocks->sum('stock');
 
-        foreach ($product->productConversions as $conversion) {
-            $units[] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
+        $primaryWarehouse = [];
+        $otherWarehouses = [];
+        foreach ($productStocks as $productStock) {
+            if ($productStock->warehouse->type == Constant::WAREHOUSE_TYPE_PRIMARY) {
+                $primaryWarehouse = [
+                    'id' => $productStock->warehouse_id,
+                    'name' => $productStock->warehouse->name,
+                    'stock' => $productStock->stock
+                ];
+            } else {
+                $otherWarehouses[] = [
+                    'id' => $productStock->warehouse_id,
+                    'name' => $productStock->warehouse->name,
+                    'stock' => $productStock->stock
+                ];
+            }
         }
-
-        $productStocks = $product->productStocks->mapWithKeys(function($stock) {
-            $array = [];
-            $array[$stock->warehouse_id] = $stock->stock;
-
-            return $array;
-        });
 
         return response()->json([
             'data' => $product,
-            'units' => $units,
-            'prices' => $prices,
-            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
-            'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
             'product_stocks' => $productStocks,
+            'total_stock' => $totalStock,
+            'primary_warehouse' => $primaryWarehouse,
+            'other_warehouses' => $otherWarehouses,
         ]);
     }
 }

@@ -40,7 +40,7 @@ class SalesOrder extends Model
     }
 
     public function salesOrderItems() {
-        return $this->hasMany(GoodsReceiptItem::class, 'goods_receipt_id', 'id');
+        return $this->hasMany(SalesOrderItem::class, 'sales_order_id', 'id');
     }
 
     public function approvals()

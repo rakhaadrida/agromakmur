@@ -58,6 +58,11 @@ function getProductTransferStatusLabel($status): string
     return Constant::PRODUCT_TRANSFER_STATUS_LABELS[$status];
 }
 
+function getSalesOrderStatusLabel($status): string
+{
+    return Constant::SALES_ORDER_STATUS_LABELS[$status];
+}
+
 function getApprovalTypeLabel($type): string
 {
     return Constant::APPROVAL_TYPE_LABELS[$type];
@@ -80,6 +85,16 @@ function getDueDate($date, $tempo, $format): string
     return formatDate($dueDate, $format);
 }
 
+function getInvoiceAge($date, $tempo): string
+{
+    $now = \Carbon\Carbon::now();
+    $invoiceDate = \Carbon\Carbon::parse($date);
+
+    $diffInDays = $now->diffInDays($invoiceDate);
+
+    return $diffInDays;
+}
+
 function getRealQuantity($quantity, $actualQuantity)
 {
     return $actualQuantity / $quantity;
@@ -88,6 +103,11 @@ function getRealQuantity($quantity, $actualQuantity)
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';
+}
+
+function isSameWarehouse($warehouseId, $itemId): string
+{
+    return $warehouseId == $itemId;
 }
 
 function formatDate($date, $format)

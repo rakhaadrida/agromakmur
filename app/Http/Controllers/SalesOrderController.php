@@ -3,19 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GoodsReceiptCancelRequest;
-use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Http\Requests\SalesOrderCreateRequest;
 use App\Models\Customer;
 use App\Models\GoodsReceipt;
 use App\Models\Marketing;
 use App\Models\Product;
+use App\Models\SalesOrder;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
-use App\Utilities\Services\AccountPayableService;
+use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,41 +33,56 @@ class SalesOrderController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+        if($startDate) {
+            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
+        }
+
+        if($finalDate) {
+            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
+        }
+
+        $salesOrders = $baseQuery
+            ->orderBy('sales_orders.date')
             ->get();
 
-        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
+        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders);
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'goodsReceipts' => $goodsReceipts
+            'salesOrders' => $salesOrders
         ];
 
-        return view('pages.admin.goods-receipt.index', $data);
+        return view('pages.admin.sales-order.index', $data);
     }
 
     public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        $salesOrder = SalesOrder::query()->findOrFail($id);
+        $salesOrderItems = $salesOrder->salesOrderItems;
 
-        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
-            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
-            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
+            $salesOrder = SalesOrderService::mapSalesOrderApproval($salesOrder);
+            $salesOrderItems = $salesOrder->salesOrderItems;
         }
+
+        $baseQueryItems = SalesOrderService::getBaseQuerySalesOrderItem($salesOrder->id);
+        $salesOrderItems = $baseQueryItems->get();
+
+        $warehouses = Warehouse::query()
+            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
+            ->get();
 
         $data = [
             'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'salesOrder' => $salesOrder,
+            'salesOrderItems' => $salesOrderItems,
+            'warehouses' => $warehouses,
+            'totalWarehouses' => $warehouses->count(),
         ];
 
-        return view('pages.admin.goods-receipt.detail', $data);
+        return view('pages.admin.sales-order.detail', $data);
     }
 
     public function create() {
@@ -73,6 +90,10 @@ class SalesOrderController extends Controller
         $customers = Customer::all();
         $marketings = Marketing::all();
         $products = Product::all();
+        $warehouses = Warehouse::query()
+            ->where('type', '!=', Constant::WAREHOUSE_TYPE_PRIMARY)
+            ->get();
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
@@ -81,6 +102,7 @@ class SalesOrderController extends Controller
             'customers' => $customers,
             'marketings' => $marketings,
             'products' => $products,
+            'warehouses' => $warehouses,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
@@ -88,78 +110,118 @@ class SalesOrderController extends Controller
         return view('pages.admin.sales-order.create', $data);
     }
 
-    public function store(GoodsReceiptCreateRequest $request) {
+    public function store(SalesOrderCreateRequest $request) {
         try {
             DB::beginTransaction();
 
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
+            $deliveryDate = $request->get('delivery_date');
+            $deliveryDate = Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d');
+
             $request->merge([
                 'date' => $date,
-                'tempo' => $request->get('tempo') || 0,
+                'delivery_date' => $deliveryDate,
+                'discount_amount' => $request->get('invoice_discount') ?? 0,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
-                'status' => Constant::GOODS_RECEIPT_STATUS_ACTIVE,
+                'status' => Constant::SALES_ORDER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
 
-            $goodsReceipt = GoodsReceipt::create($request->all());
+            $salesOrder = SalesOrder::create($request->all());
+
+            $productIds = $request->get('product_id', []);
+            $unitIds = $request->get('unit_id', []);
+            $realQuantities = $request->get('real_quantity', []);
+            $prices = $request->get('price', []);
+            $priceIds = $request->get('price_id', []);
+            $discounts = $request->get('discount', []);
+            $discountProducts = $request->get('discount_product', []);
+            $warehouseIdsList = $request->get('warehouse_ids', []);
+            $warehouseStocksList = $request->get('warehouse_stocks', []);
+
+            $itemsData = collect($productIds)
+                ->map(function ($productId, $index) use (
+                    $unitIds, $realQuantities, $prices, $priceIds,
+                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
+                ) {
+                    if (empty($productId)) return null;
+
+                    return [
+                        'product_id' => $productId,
+                        'unit_id' => $unitIds[$index],
+                        'real_quantity' => $realQuantities[$index],
+                        'price' => $prices[$index],
+                        'price_id' => $priceIds[$index],
+                        'discount' => $discounts[$index],
+                        'discount_product' => $discountProducts[$index],
+                        'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
+                        'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
+                    ];
+                })
+                ->filter();
 
             $subtotal = 0;
-            $productIds = $request->get('product_id', []);
-            foreach ($productIds as $index => $productId) {
-                if(!empty($productId)) {
-                    $unitId = $request->get('unit_id')[$index];
-                    $quantity = $request->get('quantity')[$index];
-                    $realQuantity = $request->get('real_quantity')[$index];
-                    $price = $request->get('price')[$index];
+            foreach ($itemsData as $item) {
+                $totalDiscount = $item['discount_product'];
+                $warehouseCount = count($item['warehouse_ids']);
 
-                    $actualQuantity = $quantity * $realQuantity;
-                    $total = $quantity * $price;
-                    $subtotal += $total;
+                foreach ($item['warehouse_ids'] as $key => $warehouseId) {
+                    $quantity = $item['warehouse_stocks'][$key] ?? 0;
+                    $actualQuantity = $quantity * $item['real_quantity'];
+                    $total = $quantity * $item['price'];
 
-                    $goodsReceipt->goodsReceiptItems()->create([
-                        'product_id' => $productId,
-                        'unit_id' => $unitId,
+                    $discountValue = round($item['discount_product'] / $warehouseCount);
+                    if ($discountValue < $totalDiscount) {
+                        $totalDiscount -= $discountValue;
+                    } else {
+                        $discountValue = $totalDiscount;
+                        $totalDiscount = 0;
+                    }
+
+                    $finalAmount = $total - $discountValue;
+                    $subtotal += $finalAmount;
+
+                    $salesOrder->salesOrderItems()->create([
+                        'product_id' => $item['product_id'],
+                        'warehouse_id' => $warehouseId,
+                        'unit_id' => $item['unit_id'],
                         'quantity' => $quantity,
                         'actual_quantity' => $actualQuantity,
-                        'price' => $price,
-                        'total' => $total
+                        'price_id' => $item['price_id'],
+                        'price' => $item['price'],
+                        'total' => $total,
+                        'discount' => $item['discount'],
+                        'discount_amount' => $discountValue,
+                        'final_amount' => $finalAmount
                     ]);
 
-                    $productStock = ProductService::getProductStockQuery(
-                        $productId,
-                        $goodsReceipt->warehouse_id
-                    );
-
-                    ProductService::updateProductStockIncrement(
-                        $productId,
-                        $productStock,
-                        $actualQuantity,
-                        $goodsReceipt->warehouse_id
-                    );
+                    ProductService::getProductStockQuery($item['product_id'], $warehouseId)
+                        ->decrement('stock', $actualQuantity);
                 }
             }
 
-            $taxAmount = $subtotal * (10 / 100);
-            $grandTotal = $subtotal + $taxAmount;
+            $totalAfterDiscount = $subtotal - $salesOrder->discount_amount;
+            $taxAmount = round($totalAfterDiscount * (10 / 100));
+            $grandTotal = (int) $totalAfterDiscount + $taxAmount;
 
-            $goodsReceipt->update([
+            $salesOrder->update([
                 'subtotal' => $subtotal,
                 'tax_amount' => $taxAmount,
                 'grand_total' => $grandTotal
             ]);
 
-            AccountPayableService::createData($goodsReceipt);
+            AccountReceivableService::createData($salesOrder);
 
             $parameters = [];
-            $route = 'goods-receipts.create';
+            $route = 'sales-orders.create';
 
             if($request->get('is_print')) {
-                $route = 'goods-receipts.print';
-                $parameters = ['id' => $goodsReceipt->id];
+                $route = 'sales-orders.print';
+                $parameters = ['id' => $salesOrder->id];
             }
 
             DB::commit();

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidProductSubcategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GoodsReceiptCancelRequest extends FormRequest

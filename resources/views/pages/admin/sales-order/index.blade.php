@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Sales Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -26,10 +26,10 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('goods-receipts.index') }}" method="GET" id="form">
+                            <form action="{{ route('sales-orders.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startDate" class="col-auto col-form-label text-bold">Receipt Date</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">Order Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
@@ -52,31 +52,31 @@
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-date-transaction-index">Date</th>
-                                            <th class="align-middle th-name-transaction-index">Supplier</th>
-                                            <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
-                                            <th class="align-middle th-status-transaction-index">Tempo</th>
+                                            <th class="align-middle th-code-transaction-index">Date</th>
+                                            <th class="align-middle th-name-transaction-index">Customer</th>
+                                            <th class="align-middle th-tempo-transaction-index">Tempo</th>
+                                            <th class="align-middle th-tempo-transaction-index">Invoice Age</th>
                                             <th class="align-middle th-total-transaction-index">Grand Total</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
                                             <th class="align-middle th-status-transaction-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($goodsReceipts as $key => $goodsReceipt)
+                                        @forelse ($salesOrders as $key => $salesOrder)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td>
-                                                    <a href="{{ route('goods-receipts.detail', $goodsReceipt->id) }}" class="btn btn-sm btn-link text-bold">
-                                                        {{ $goodsReceipt->number }}
+                                                    <a href="{{ route('sales-orders.detail', $salesOrder->id) }}" class="btn btn-sm btn-link text-bold">
+                                                        {{ $salesOrder->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
-                                                <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
-                                                <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
-                                                <td class="text-center align-middle">{{ $goodsReceipt->tempo }} Day(s)</td>
-                                                <td class="text-right align-middle">{{ formatCurrency($goodsReceipt->grand_total) }}</td>
-                                                <td class="text-center align-middle">{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}</td>
-                                                <td class="text-center align-middle">{{ $goodsReceipt->user_name }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle">{{ $salesOrder->customer_name }}</td>
+                                                <td class="text-center align-middle">{{ $salesOrder->tempo }} Day(s)</td>
+                                                <td class="text-center align-middle">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
+                                                <td class="text-right align-middle">{{ formatCurrency($salesOrder->grand_total) }}</td>
+                                                <td class="text-center align-middle">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>
+                                                <td class="text-center align-middle">{{ $salesOrder->user_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>
