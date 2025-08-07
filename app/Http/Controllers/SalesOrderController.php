@@ -31,7 +31,11 @@ class SalesOrderController extends Controller
         $filter = (object) $request->all();
 
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
-        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
 
         $baseQuery = SalesOrderService::getBaseQueryIndex();
 
