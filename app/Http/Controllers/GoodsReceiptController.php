@@ -332,6 +332,7 @@ class GoodsReceiptController extends Controller
             return redirect()->route('goods-receipts.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'

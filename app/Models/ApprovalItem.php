@@ -12,13 +12,16 @@ class ApprovalItem extends Model
     protected $fillable = [
         'approval_id',
         'product_id',
+        'warehouse_id',
         'unit_id',
         'quantity',
         'actual_quantity',
+        'price_id',
         'price',
+        'total',
         'discount',
         'discount_amount',
-        'total',
+        'final_amount'
     ];
 
     public function approval() {
@@ -29,7 +32,15 @@ class ApprovalItem extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
+    public function warehouse() {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
+    }
+
     public function unit() {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
+    }
+
+    public function price() {
+        return $this->belongsTo(Price::class, 'price_id', 'id');
     }
 }

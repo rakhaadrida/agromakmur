@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Sales Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -24,7 +24,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('goods-receipts.update', $goodsReceipt->id) }}" method="POST" id="form">
+                            <form action="{{ route('sales-orders.update', $salesOrder->id) }}" method="POST" id="form">
                                 @csrf
                                 @method('PUT')
                                 <div class="container so-container">

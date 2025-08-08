@@ -39,17 +39,21 @@ class ApprovalService
         $subtotal = 0;
         foreach($parentItems as $item) {
             $total = $item->quantity * $item->price;
-            $subtotal += $total;
+            $finalAmount = $total - $item->discount_amount ?? 0;
+            $subtotal += $finalAmount;
 
             $approval->approvalItems()->create([
                 'product_id' => $item->product_id,
                 'unit_id' => $item->unit_id,
+                'warehouse_id' => $item->warehouse_id ?? null,
                 'quantity' => $item->quantity,
                 'actual_quantity' => $item->actual_quantity,
+                'price_id' => $item->price_id ?? null,
                 'price' => $item->price ?? 0,
+                'total' => $total ?? 0,
                 'discount' => $item->discount ?? 0,
                 'discount_amount' => $item->discount_amount ?? 0,
-                'total' => $total ?? 0,
+                'final_amount' => $finalAmount ?? 0,
             ]);
         }
 
@@ -62,24 +66,32 @@ class ApprovalService
 
         foreach ($productIds as $index => $productId) {
             if(!empty($productId)) {
+                $warehouseId = $childItems['warehouse_id'][$index] ?? null;
                 $unitId = $childItems['unit_id'][$index];
                 $quantity = $childItems['quantity'][$index];
                 $realQuantity = $childItems['real_quantity'][$index];
+                $priceId = $childItems['price_id'][$index] ?? null;
                 $price = $childItems['price'][$index];
+                $discount = $childItems['discount'][$index] ?? 0;
+                $discountAmount = $childItems['discount_amount'][$index] ?? 0;
 
                 $actualQuantity = $quantity * $realQuantity;
                 $total = $quantity * $price;
-                $subtotal += $total;
+                $finalAmount = $total - $discountAmount;
+                $subtotal += $finalAmount;
 
                 $approval->approvalItems()->create([
                     'product_id' => $productId,
+                    'warehouse_id' => $warehouseId,
                     'unit_id' => $unitId,
                     'quantity' => $quantity,
                     'actual_quantity' => $actualQuantity,
+                    'price_id' => $priceId,
                     'price' => $price,
-                    'discount' => $item->discount ?? 0,
-                    'discount_amount' => $item->discount_amount ?? 0,
                     'total' => $total,
+                    'discount' => $discount,
+                    'discount_amount' => $discountAmount,
+                    'final_amount' => $finalAmount,
                 ]);
             }
         }

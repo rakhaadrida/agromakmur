@@ -13,21 +13,12 @@ class SalesOrderService
             ->select(
                 'sales_orders.*',
                 'customers.name AS customer_name',
+                'marketings.name AS marketing_name',
                 'users.username AS user_name'
             )
             ->leftJoin('customers', 'customers.id', 'sales_orders.customer_id')
+            ->leftJoin('marketings', 'marketings.id', 'sales_orders.marketing_id')
             ->leftJoin('users', 'users.id', 'sales_orders.user_id');
-    }
-
-    public static function getBaseQuerySalesOrderItem($salesOrderId) {
-        return SalesOrderItem::query()
-            ->select(
-                'sales_order_items.*',
-                DB::raw('SUM(quantity) AS quantity'),
-                DB::raw('SUM(discount_amount) AS discount_amount'),
-            )
-            ->where('sales_order_id', $salesOrderId)
-            ->groupBy('product_id');
     }
 
     public static function mapSalesOrderIndex($salesOrders) {
@@ -47,5 +38,26 @@ class SalesOrderService
         $salesOrder->sales_order_items = $salesOrder->pendingApproval->approvalItems;
 
         return $salesOrder;
+    }
+
+    public static function mapSalesOrderItemDetail($salesOrderItems) {
+        return $salesOrderItems
+            ->groupBy('product_id')
+            ->map(function ($items, $productId) {
+                return (object) [
+                    'product_id' => $productId,
+                    'product_sku' => $items->first()->product->sku,
+                    'product_name' => $items->first()->product->name,
+                    'quantity' => $items->sum('quantity'),
+                    'unit_id' => $items->first()->unit_id,
+                    'unit_name' => $items->first()->unit->name,
+                    'price' => $items->first()->price,
+                    'total' => $items->sum('total'),
+                    'discount' => $items->first()->discount,
+                    'discount_amount' => $items->sum('discount_amount'),
+                    'final_amount' => $items->sum('final_amount'),
+                ];
+            })
+            ->values();
     }
 }

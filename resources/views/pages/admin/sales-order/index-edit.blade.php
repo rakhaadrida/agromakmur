@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Sales Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,21 +25,21 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('goods-receipts.index-edit') }}" method="GET" id="form">
+                            <form action="{{ route('sales-orders.index-edit') }}" method="GET" id="form">
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
+                                        <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
                                         </div>
-                                        <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Supplier</label>
+                                        <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
-                                            <select class="selectpicker supplier-params-select-picker" name="supplier_id" id="supplier" data-live-search="true" title="Enter or Choose Supplier Name" tabindex="2">
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}" @if($supplierId == $supplier->id) selected @endif>{{ $supplier->name }}</option>
+                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer Name" tabindex="2">
+                                                @foreach($customers as $customer)
+                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" @if($customerId == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -63,25 +63,25 @@
                                 <hr>
                                 <div id="so-carousel" class="carousel slide" data-interval="false" wrap="false">
                                     <div class="carousel-inner">
-                                        @forelse($goodsReceipts as $key => $goodsReceipt)
+                                        @forelse($salesOrders as $key => $salesOrder)
                                             <div class="carousel-item @if(!$key) active @endif">
                                                 <div class="container so-update-container text-dark">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Number</label>
+                                                                <label for="orderNumber" class="col-2 form-control-sm text-bold text-right mt-1">Order Number</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="receiptNumber" value="{{ $goodsReceipt->number }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="orderNumber" value="{{ $salesOrder->number }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="warehouse" class="col-3 form-control-sm text-bold text-right mt-1">Warehouse</label>
+                                                                <label for="customer" class="col-3 form-control-sm text-bold text-right mt-1">Customer</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse_name }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="customer" value="{{ $salesOrder->customer_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -89,19 +89,19 @@
                                                     <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Date</label>
+                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Order Date</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-2">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
+                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col edit-receipt-general-info-right">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="supplier" class="col-3 form-control-sm text-bold text-right mt-1">Supplier</label>
+                                                            <label for="marketing" class="col-3 form-control-sm text-bold text-right mt-1">Marketing</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-8">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="supplier" value="{{ $goodsReceipt->supplier_name }}" readonly>
+                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="marketing" value="{{ $salesOrder->marketing_name }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -112,7 +112,7 @@
                                                                 <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Due Date</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -121,7 +121,7 @@
                                                                 <label for="status" class="col-3 form-control-sm text-bold text-right mt-1">Status</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-6">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getSalesOrderStatusLabel($salesOrder->status) }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -132,17 +132,17 @@
                                                                 <label for="user" class="col-2 form-control-sm text-bold text-right mt-1">Admin</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-3">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="user" value="{{ $goodsReceipt->user_name }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="user" value="{{ $salesOrder->user_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if(isWaitingApproval($goodsReceipt->status))
+                                                        @if(isWaitingApproval($salesOrder->status))
                                                             <div class="col edit-receipt-general-info-right">
                                                                 <div class="form-group row customer-detail">
                                                                     <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
-                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($goodsReceipt->pendingApproval->type) }}" readonly>
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($salesOrder->pendingApproval->type) }}" readonly>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -152,23 +152,41 @@
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">
                                                         <tr>
-                                                            <td class="table-head-number">No</td>
-                                                            <td class="table-head-code-transaction">SKU</td>
-                                                            <td class="table-head-name-transaction">Product Name</td>
-                                                            <td class="table-head-quantity-transaction">Qty</td>
-                                                            <td class="table-head-price-transaction">Price</td>
-                                                            <td class="table-head-total-transaction">Total</td>
+                                                            <td rowspan="2" class="align-middle table-head-number-transaction">No</td>
+                                                            <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
+                                                            <td rowspan="2" class="align-middle table-head-name-transaction">Product Name</td>
+                                                            <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
+                                                            <td colspan="{{ $totalWarehouses }}">Warehouse</td>
+                                                            <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
+                                                            <td rowspan="2" class="align-middle table-head-price-transaction">Price</td>
+                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
+                                                            <td colspan="2">Discount</td>
+                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Final Amount</td>
+                                                        </tr>
+                                                        <tr>
+                                                            @foreach($warehouses as $warehouse)
+                                                                <td>{{ $warehouse->name }}</td>
+                                                            @endforeach
+                                                            <td class="align-middle table-head-discount-percentage-sales-order">%</td>
+                                                            <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @forelse($goodsReceipt->goodsReceiptItems as $index => $goodsReceiptItem)
+                                                        @forelse($salesOrder->salesOrderItems as $index => $salesOrderItem)
                                                             <tr class="text-dark">
                                                                 <td class="text-center">{{ ++$index }}</td>
-                                                                <td>{{ $goodsReceiptItem->product->sku }} </td>
-                                                                <td>{{ $goodsReceiptItem->product->name }}</td>
-                                                                <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
+                                                                <td>{{ $salesOrderItem->product_sku }} </td>
+                                                                <td>{{ $salesOrderItem->product_name }}</td>
+                                                                <td class="text-right">{{ formatQuantity($salesOrderItem->quantity) }}</td>
+                                                                @foreach($warehouses as $warehouse)
+                                                                    <td class="text-right">{{ $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
+                                                                @endforeach
+                                                                <td>{{ $salesOrderItem->unit_name }}</td>
+                                                                <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
+                                                                <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
+                                                                <td class="text-right">{{ $salesOrderItem->discount }}</td>
+                                                                <td class="text-right">{{ formatPrice($salesOrderItem->discount_amount) }}</td>
+                                                                <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
                                                             </tr>
                                                         @empty
                                                             <tr>
@@ -178,34 +196,48 @@
                                                     </tbody>
                                                 </table>
                                                 <div class="form-group row justify-content-end subtotal-so">
+                                                    <label for="total" class="col-2 col-form-label text-bold text-right text-dark">Total</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-2 mr-1">
+                                                        <input type="text" id="total" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->subtotal) }}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row justify-content-end total-so">
+                                                    <label for="invoiceDiscount" class="col-2 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-2 mr-1">
+                                                        <input type="text" id="invoiceDiscount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->discount_amount) }}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row justify-content-end total-so">
                                                     <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->subtotal) }}" readonly>
+                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">
                                                     <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->tax_amount) }}" readonly>
+                                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->tax_amount) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end grandtotal-so">
                                                     <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatCurrency($goodsReceipt->grand_total) }}" readonly>
+                                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($salesOrder->grand_total) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                @if(!isWaitingApproval($goodsReceipt->status) || isApprovalTypeEdit($goodsReceipt->pendingApproval->type))
+                                                @if(!isWaitingApproval($salesOrder->status) || isApprovalTypeEdit($salesOrder->pendingApproval->type))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
-                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $salesOrder->id }}" data-number="{{ $salesOrder->number }}" tabindex="6">Cancel Order</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" class="btn btn-info btn-block text-bold">Edit</a>
+                                                            <a href="{{ route('sales-orders.edit', $salesOrder->id) }}" class="btn btn-info btn-block text-bold">Edit</a>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -216,7 +248,7 @@
                                             </div>
                                         @endforelse
                                     </div>
-                                    @if(($goodsReceipts->count() > 0) && ($goodsReceipts->count() != 1))
+                                    @if(($salesOrders->count() > 0) && ($salesOrders->count() != 1))
                                         <a class="carousel-control-prev" href="#so-carousel" role="button" data-slide="prev">
                                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
@@ -229,14 +261,14 @@
                                 </div>
                             </form>
 
-                            <div class="modal" id="modalCancelReceipt" tabindex="-1" role="dialog" aria-labelledby="modalCancelReceipt" aria-hidden="true">
+                            <div class="modal" id="modalCancelOrder" tabindex="-1" role="dialog" aria-labelledby="modalCancelOrder" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                             </button>
-                                            <h4 class="modal-title">Cancel Goods Receipt - <span id="modalReceiptNumber"></span></h4>
+                                            <h4 class="modal-title">Cancel Sales Order - <span id="modalOrderNumber"></span></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST" id="deleteForm">
@@ -298,22 +330,22 @@
 
         $(document).ready(function() {
             const form = $('#form');
-            const modalCancelReceipt = $('#modalCancelReceipt');
+            const modalCancelOrder = $('#modalCancelOrder');
 
-            form.on('click', '.cancel-receipt', function () {
-                const receiptId = $(this).data('id');
-                const receiptNumber = $(this).data('number');
-                const url = `{{ route('goods-receipts.destroy', '') }}` + '/' + receiptId;
+            form.on('click', '.cancel-order', function () {
+                const orderId = $(this).data('id');
+                const orderNumber = $(this).data('number');
+                const url = `{{ route('sales-orders.destroy', '') }}` + '/' + orderId;
 
-                $('#modalReceiptNumber').text(receiptNumber);
+                $('#modalOrderNumber').text(orderNumber);
                 $('#deleteForm').attr('action', url);
             });
 
-            modalCancelReceipt.on('show.bs.modal', function (e) {
+            modalCancelOrder.on('show.bs.modal', function (e) {
                 $('#description').attr('required', true);
             })
 
-            modalCancelReceipt.on('hide.bs.modal', function (e) {
+            modalCancelOrder.on('hide.bs.modal', function (e) {
                 $('#description').removeAttr('required');
             })
 

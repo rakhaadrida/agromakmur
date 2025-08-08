@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('approval_id')->references('id')->on('approvals')->onDelete('cascade');
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('warehouse_id')->nullable()->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->integer('actual_quantity')->default(0);
+            $table->foreignId('price_id')->nullable()->references('id')->on('prices')->onDelete('cascade');
             $table->double('price')->nullable();
+            $table->double('total')->nullable();
             $table->string('discount')->nullable();
             $table->string('discount_amount')->nullable();
-            $table->double('total')->nullable();
+            $table->double('final_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

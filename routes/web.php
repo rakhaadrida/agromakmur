@@ -95,6 +95,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
     Route::resource('sales-orders', 'SalesOrderController');
     Route::get('sales-orders/{id}/detail', 'SalesOrderController@detail')->name('sales-orders.detail');
+    Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
 });
 
 Auth::routes(['verify' => true]);

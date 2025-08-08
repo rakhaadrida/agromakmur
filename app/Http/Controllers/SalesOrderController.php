@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Http\Requests\SalesOrderCancelRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
 use App\Models\Customer;
 use App\Models\GoodsReceipt;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
-use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
@@ -76,24 +75,7 @@ class SalesOrderController extends Controller
             $productWarehouses[$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
         }
 
-        $salesOrderItems = $salesOrderItems
-            ->groupBy('product_id')
-            ->map(function ($items, $productId) {
-                return (object) [
-                    'product_id' => $productId,
-                    'product_sku' => $items->first()->product->sku,
-                    'product_name' => $items->first()->product->name,
-                    'quantity' => $items->sum('quantity'),
-                    'unit_id' => $items->first()->unit_id,
-                    'unit_name' => $items->first()->unit->name,
-                    'price' => $items->first()->price,
-                    'total' => $items->sum('total'),
-                    'discount' => $items->first()->discount,
-                    'discount_amount' => $items->sum('discount_amount'),
-                    'final_amount' => $items->sum('final_amount'),
-                ];
-            })
-            ->values();
+        $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
 
         $warehouses = Warehouse::query()
             ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
@@ -269,70 +251,88 @@ class SalesOrderController extends Controller
         $startDate = $filter->start_date ?? null;
         $finalDate = $filter->final_date ?? null;
         $number = $filter->number ?? null;
-        $supplierId = $filter->supplier_id ?? null;
+        $customerId = $filter->customer_id ?? null;
 
-        if(!$number && !$supplierId && !$startDate && !$finalDate) {
+        if(!$number && !$customerId && !$startDate && !$finalDate) {
             $startDate = Carbon::now()->format('d-m-Y');
             $finalDate = Carbon::now()->format('d-m-Y');
         }
 
-        $suppliers = Supplier::all();
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $customers = Customer::all();
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
 
         if($startDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay());
+            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
         }
 
         if($finalDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '<=', Carbon::parse($finalDate)->endOfDay());
+            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
         }
 
         if($number) {
-            $baseQuery = $baseQuery->where('goods_receipts.number', $number);
+            $baseQuery = $baseQuery->where('sales_orders.number', $number);
         }
 
-        if($supplierId) {
-            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        if($customerId) {
+            $baseQuery = $baseQuery->where('sales_orders.customer_id', $customerId);
         }
 
-        $goodsReceipts = $baseQuery
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
+        $salesOrders = $baseQuery
+            ->orderByDesc('sales_orders.date')
+            ->orderByDesc('sales_orders.id')
             ->get();
 
-        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
+        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders);
+
+        $productWarehouses = [];
+        foreach ($salesOrders as $salesOrder) {
+            foreach($salesOrder->salesOrderItems as $salesOrderItem) {
+                $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
+            }
+        }
+
+        foreach ($salesOrders as $salesOrder) {
+            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
+        }
+
+        $warehouses = Warehouse::query()
+            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
+            ->get();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
             'number' => $number,
-            'supplierId' => $supplierId,
-            'suppliers' => $suppliers,
-            'goodsReceipts' => $goodsReceipts,
+            'customerId' => $customerId,
+            'customers' => $customers,
+            'salesOrders' => $salesOrders,
+            'productWarehouses' => $productWarehouses,
+            'warehouses' => $warehouses,
+            'totalWarehouses' => $warehouses->count(),
         ];
 
-        return view('pages.admin.goods-receipt.index-edit', $data);
+        return view('pages.admin.sales-order.index-edit', $data);
     }
 
     public function edit($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        $salesOrder = SalesOrder::query()->findOrFail($id);
+        $salesOrderItems = $salesOrder->salesOrderItems;
 
-        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
-            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
-            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
+            $salesOrder = SalesOrderService::mapSalesOrderApproval($salesOrder);
+            $salesOrderItems = $salesOrder->salesOrderItems;
         }
 
         $products = Product::all();
-        $rowNumbers = count($goodsReceiptItems);
+        $rowNumbers = count($salesOrderItems);
 
-        $productIds = $goodsReceiptItems->pluck('product_id')->toArray();
+        $productIds = $salesOrderItems->pluck('product_id')->toArray();
         $productConversions = ProductService::findProductConversions($productIds);
 
-        foreach($goodsReceiptItems as $goodsReceiptItem) {
-            $units[$goodsReceiptItem->product_id][] = [
-                'id' => $goodsReceiptItem->product->unit_id,
-                'name' => $goodsReceiptItem->product->unit->name,
+        foreach($salesOrderItems as $salesOrderItem) {
+            $units[$salesOrderItem->product_id][] = [
+                'id' => $salesOrderItem->product->unit_id,
+                'name' => $salesOrderItem->product->unit->name,
                 'quantity' => 1
             ];
         }
@@ -347,14 +347,14 @@ class SalesOrderController extends Controller
 
         $data = [
             'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'salesOrder' => $salesOrder,
+            'salesOrderItems' => $salesOrderItems,
             'products' => $products,
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],
         ];
 
-        return view('pages.admin.goods-receipt.edit', $data);
+        return view('pages.admin.sales-order.edit', $data);
     }
 
     public function update(GoodsReceiptUpdateRequest $request, $id) {
@@ -399,19 +399,19 @@ class SalesOrderController extends Controller
         }
     }
 
-    public function destroy(GoodsReceiptCancelRequest $request, $id) {
+    public function destroy(SalesOrderCancelRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-            $goodsReceipt->update([
-                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
+            $salesOrder = SalesOrder::query()->findOrFail($id);
+            $salesOrder->update([
+                'status' => Constant::SALES_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($goodsReceipt->approvals);
+            ApprovalService::deleteData($salesOrder->approvals);
             ApprovalService::createData(
-                $goodsReceipt,
-                $goodsReceipt->goodsReceiptItems,
+                $salesOrder,
+                $salesOrder->salesOrderItems,
                 Constant::APPROVAL_TYPE_CANCEL,
                 Constant::APPROVAL_STATUS_PENDING,
                 $request->get('description', '')
@@ -419,9 +419,10 @@ class SalesOrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('goods-receipts.index-edit');
+            return redirect()->route('sales-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error($e->getMessage());
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
