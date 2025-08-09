@@ -357,6 +357,10 @@ class SalesOrderController extends Controller
             ];
         }
 
+        $warehouses = Warehouse::query()
+            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
+            ->get();
+
         $data = [
             'id' => $id,
             'salesOrder' => $salesOrder,
@@ -365,6 +369,7 @@ class SalesOrderController extends Controller
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],
             'prices' => $prices ?? [],
+            'warehouses' => $warehouses,
         ];
 
         return view('pages.admin.sales-order.edit', $data);

@@ -113,7 +113,7 @@
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
+                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($salesOrderItem->quantity, $salesOrderItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
                                                     <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
@@ -121,11 +121,13 @@
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
-                                                    <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
+                                                    <input type="hidden" name="base_warehouse_ids[]" id="baseWarehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
+                                                    <input type="hidden" name="base_warehouse_stocks[]" id="baseWarehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
+                                                    <input type="text" name="warehouse_ids[]" id="warehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
+                                                    <input type="text" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($salesOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 4 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($salesOrderItem->quantity) }}" data-foo="{{ $salesOrderItem->quantity }}" tabindex="{{ $rowNumbers += 4 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
@@ -144,13 +146,13 @@
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $key }}" value="{{ $salesOrderItem->price_id }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->discount_amount) }}" title="" readonly>
@@ -216,9 +218,114 @@
                                         <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="{{ $rowNumbers += 2 }}">Reset</button>
                                     </div>
                                 </div>
+
+                                <div class="modal" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Sales Order Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>The Sales Order data will be saved. Please select print or re-enter the sales order.</p>
+                                                <input type="hidden" name="is_print" value="0">
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalStock" tabindex="-1" role="dialog" aria-labelledby="modalStock" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Product Stock Notification</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>The input quantity cannot exceed the total stock. The total stock for the item <span class="col-form-label text-bold" id="stockProductName"></span> is <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalWarehouseStock" tabindex="-1" role="dialog" aria-labelledby="modalWarehouseStock" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="closeModal" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Choose Warehouse Stock</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <p>Order quantity exceeds stock in warehouse <span class="text-bold" id="warehouseName"></span>. Select another warehouse to fulfill the order quantity.</p>
+                    <div class="form-group row" style="margin-top: -10px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Order Quantity</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold" id="orderQuantity"></span>
+                        <input type="hidden" id="rowIndex">
+                    </div>
+                    <div class="form-group row" style="margin-top: -20px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Primary Warehouse Stock</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold" id="primaryStock"></span>
+                    </div>
+                    <div class="form-group row" style="margin-top: -20px">
+                        <label for="kode" class="col-6 col-form-label text-bold">Remaining Order Quantity</label>
+                        <span class="col-auto col-form-label text-bold">:</span>
+                        <span class="col-form-label text-bold" id="remainingQuantity"></span>
+                        <input type="hidden" id="remainingQuantityValue">
+                        <input type="hidden" id="remainingQuantityUnit">
+                        <input type="hidden" id="remainingConversionValue">
+                        <input type="hidden" id="remainingConversionUnit">
+                    </div>
+                    <label style="margin-bottom: -5px">Choose Another Warehouse</label>
+                    @foreach($warehouses as $key => $warehouse)
+                        <div class="row">
+                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
+                            <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
+                            <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Select</button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalDuplicate" tabindex="-1" role="dialog" aria-labelledby="modalDuplicate" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Product Notification</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
                 </div>
             </div>
         </div>
@@ -287,8 +394,9 @@
 
             table.on('blur', 'input[name="quantity[]"]', function () {
                 const index = $(this).closest('tr').index();
+                let baseQuantity = $(this).data('foo');
 
-                checkProductStock(index, this.value);
+                checkProductStock(index, this.value, baseQuantity);
                 calculateTotal(index);
             });
 
@@ -508,17 +616,21 @@
                 })
             }
 
-            function checkProductStock(index, quantity) {
+            function checkProductStock(index, quantity, baseQuantity) {
                 let productId = $(`#productId-${index} option:selected`).val();
                 let productName = $(`#productName-${index} option:selected`).text();
                 let selectedUnit = $(`#unit-${index} option:selected`);
                 let conversionUnit = $(`#unit-${index} option:not(:selected):first`);
                 let warehouseIds = $(`#warehouseIds-${index}`);
                 let warehouseStocks = $(`#warehouseStocks-${index}`);
+                let baseWarehouseIds = $(`#baseWarehouseIds-${index}`) || [];
+                let baseWarehouseStocks = $(`#baseWarehouseStocks-${index}`) || [];
 
                 let totalStock = 0;
                 let productStocks;
-                quantity = numberFormat(quantity);
+                let currentQuantity = numberFormat(quantity) || 0;
+
+                quantity = numberFormat(quantity) - +baseQuantity;
 
                 $.ajax({
                     url: '{{ route('products.check-stock-ajax') }}',
@@ -531,34 +643,40 @@
                     success: function(data) {
                         let primaryWarehouse = data.primary_warehouse;
                         let otherWarehouses = data.other_warehouses;
+                        let arrayWarehouseIds = baseWarehouseIds.val().split(',');
+                        let arrayWarehouseStocks = baseWarehouseStocks.val().split(',');
+                        let primaryWarehouseStock = arrayWarehouseStocks[0] || 0;
+                        let primaryWarehouseConversion = +primaryWarehouseStock / +conversionUnit.data('foo');
 
                         totalStock = data.total_stock;
                         productStocks = data.product_stocks;
 
                         warehouseIds.val(primaryWarehouse.id);
-                        warehouseStocks.val(quantity);
+                        warehouseStocks.val(+quantity + +primaryWarehouseStock);
 
+                        let baseConversionStock = +baseQuantity / +conversionUnit.data('foo');
                         let conversionStock = +totalStock / +conversionUnit.data('foo');
+
                         if(+quantity > +totalStock) {
-                            totalStock = thousandSeparator(totalStock) + ` ${selectedUnit.text()}`;
-                            conversionStock = thousandSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+                            totalStock = thousandSeparator(+totalStock + +baseQuantity) + ` ${selectedUnit.text()}`;
+                            conversionStock = thousandSeparator(+conversionStock + +baseConversionStock) + ` ${conversionUnit.text()}`;
 
                             $('#stockProductName').text(productName);
                             $('#totalStock').text(totalStock);
                             $('#totalConversion').text(` ${conversionStock}`);
                             $('#modalStock').modal('show');
-                        } else if(+quantity > +primaryWarehouse.stock && +quantity <= +totalStock) {
-                            let originalQuantity = thousandSeparator(quantity) + ` ${selectedUnit.text()}`
+                        } else if(+quantity > +primaryWarehouse.stock) {
+                            let originalQuantity = thousandSeparator(+quantity + +baseQuantity) + ` ${selectedUnit.text()}`
                             let orderConversion = +quantity / +conversionUnit.data('foo');
-                            let conversionQuantity = ` (${thousandSeparator(orderConversion)} ${conversionUnit.text()})`;
+                            let conversionQuantity = ` (${thousandSeparator(+orderConversion + +baseConversionStock)} ${conversionUnit.text()})`;
                             let orderQuantity = originalQuantity + conversionQuantity;
 
-                            let primaryQuantity = thousandSeparator(primaryWarehouse.stock) + ` ${selectedUnit.text()}`;
+                            let primaryQuantity = thousandSeparator(+primaryWarehouse.stock + +primaryWarehouseStock) + ` ${selectedUnit.text()}`;
                             let primaryConversionStock = +primaryWarehouse.stock / +conversionUnit.data('foo');
-                            let primaryConversion = ` (${thousandSeparator(primaryConversionStock)} ${conversionUnit.text()})`;
+                            let primaryConversion = ` (${thousandSeparator(+primaryConversionStock + +primaryWarehouseConversion)} ${conversionUnit.text()})`;
                             let primaryStock = primaryQuantity + primaryConversion;
 
-                            let remainingStockValue = +quantity - +primaryWarehouse.stock;
+                            let remainingStockValue = (+quantity + +baseQuantity) - (+primaryWarehouse.stock + +primaryWarehouseStock);
                             let remainingQuantity = thousandSeparator(remainingStockValue) + ` ${selectedUnit.text()}`;
                             let remainingConversionStock = +remainingStockValue / +conversionUnit.data('foo');
                             let remainingConversion = ` (${thousandSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
@@ -575,17 +693,52 @@
                             $('#remainingConversionUnit').val(conversionUnit.text());
 
                             $.each(otherWarehouses, function(key, item) {
-                                let otherStock = thousandSeparator(item.stock) + ` ${selectedUnit.text()} / `;
+                                let existingWarehouseStock = 0;
+                                let existingWarehouseConversion = 0;
+                                let existingWarehouseId = arrayWarehouseIds.indexOf(item.id.toString());
+
+                                if(existingWarehouseId > 0) {
+                                    existingWarehouseStock = arrayWarehouseStocks[existingWarehouseId];
+                                    existingWarehouseConversion = existingWarehouseStock / +conversionUnit.data('foo');
+                                }
+
+                                let otherStock = thousandSeparator(+item.stock + +existingWarehouseStock) + ` ${selectedUnit.text()} / `;
                                 let otherConversionStock = +item.stock / +conversionUnit.data('foo');
-                                let otherConversion = `${thousandSeparator(otherConversionStock)} ${conversionUnit.text()}`;
+                                let otherConversion = `${thousandSeparator(+otherConversionStock + +existingWarehouseConversion)} ${conversionUnit.text()}`;
 
                                 $(`#warehouseStock-${item.id}`).text(otherStock + otherConversion);
-                                $(`#warehouseOriginalStock-${item.id}`).val(item.stock);
+                                $(`#warehouseOriginalStock-${item.id}`).val(+item.stock + +existingWarehouseStock);
                             });
 
                             $('#rowIndex').val(index);
-                            warehouseStocks.val(primaryWarehouse.stock);
+                            warehouseStocks.val(+primaryWarehouse.stock + +primaryWarehouseStock);
                             modalWarehouseStock.modal('show');
+                        } else {
+                            let newWarehouseIds = '';
+                            let newWarehouseStocks = '';
+                            let newQuantity = +quantity + +primaryWarehouseStock;
+
+                            arrayWarehouseIds.forEach(function(warehouseId, index) {
+                                if(!index) {
+                                    newWarehouseIds = warehouseId;
+                                    newWarehouseStocks = newQuantity > 0 ? newQuantity : 0;
+                                    currentQuantity -= newWarehouseStocks;
+                                } else {
+                                    let newStocks = arrayWarehouseStocks[index];
+                                    if(currentQuantity > arrayWarehouseStocks[index]) {
+                                        currentQuantity -= arrayWarehouseStocks[index];
+                                    } else {
+                                        newStocks = currentQuantity;
+                                        currentQuantity = 0;
+                                    }
+
+                                    newWarehouseIds += ',' + warehouseId;
+                                    newWarehouseStocks += ',' + newStocks;
+                                }
+                            });
+
+                            warehouseIds.val(newWarehouseIds);
+                            warehouseStocks.val(newWarehouseStocks);
                         }
                     },
                 })
