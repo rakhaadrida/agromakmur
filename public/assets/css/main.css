@@ -158,6 +158,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -5px;
 }
 
+.so-update-customer {
+    margin-top: 0;
+}
+
 .sj-after-first {
     margin-top: -20px;
 }
@@ -170,7 +174,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -85px;
 }
 
+.so-update-date {
+    margin-top: -95px;
+}
+
 .so-update-input {
+    margin-top: -15px;
+}
+
+.gr-update-input {
     margin-top: -20px;
 }
 

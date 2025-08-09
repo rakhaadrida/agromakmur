@@ -69,7 +69,7 @@
                                             <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                         </div>
                                     </div>
-                                    <div class="form-group row so-update-input">
+                                    <div class="form-group row gr-update-input">
                                         <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-5">
@@ -164,15 +164,31 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="{{ $rowNumbers++ }}">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
                                     </div>
                                     <div class="col-2">
-                                        <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="{{ $rowNumbers += 2 }}">Reset</button>
+                                        <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalDuplicate" tabindex="-1" role="dialog" aria-labelledby="modalDuplicate" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Product Notification</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
                 </div>
             </div>
         </div>
@@ -261,7 +277,17 @@
                     this.value = numberFormat(this.value);
                 });
 
-                $('#form').submit();
+                let duplicateCodes = checkDuplicateProduct();
+                if(duplicateCodes.length) {
+                    let duplicateCode = duplicateCodes.join(', ');
+
+                    $('#duplicateCode').text(duplicateCode);
+                    $('#modalDuplicate').modal('show');
+
+                    return false;
+                } else {
+                    $('#form').submit();
+                }
             });
 
             $('#addRow').on('click', function(event) {
@@ -270,10 +296,12 @@
                 let itemTable = $('#itemTable');
                 let lastRowId = itemTable.find('tr:last').attr('id');
                 let lastRowNumber = itemTable.find('tr:last td:first-child').text();
+                let rowNumbers = $('#rowNumber').val();
+                rowNumbers = +rowNumbers + (+lastRowNumber * 20);
 
                 let rowId = lastRowId ? +lastRowId + 1 : 1;
                 let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
-                let newRow = newRowElement(rowId, rowNumber);
+                let newRow = newRowElement(rowId, rowNumber, rowNumbers);
 
                 itemTable.append(newRow);
 
@@ -524,12 +552,12 @@
                 return [...new Set(productDuplicates)];
             }
 
-            function newRowElement(rowId, rowNumber) {
+            function newRowElement(rowId, rowNumber, rowNumbers) {
                 return `
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumber += 1}">
+                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -537,22 +565,22 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumber += 2}">
+                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumber += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
-                            <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumber += 4}" disabled>
+                            <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumber += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >

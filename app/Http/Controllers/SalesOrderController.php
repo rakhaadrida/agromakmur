@@ -326,6 +326,8 @@ class SalesOrderController extends Controller
 
         $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
 
+        $customers = Customer::all();
+        $marketings = Marketing::all();
         $products = Product::all();
         $rowNumbers = count($salesOrderItems);
 
@@ -365,6 +367,8 @@ class SalesOrderController extends Controller
             'id' => $id,
             'salesOrder' => $salesOrder,
             'salesOrderItems' => $salesOrderItems,
+            'customers' => $customers,
+            'marketings' => $marketings,
             'products' => $products,
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],

@@ -48,7 +48,7 @@
                                                 <label for="tempo" class="col-5 col-form-label text-bold text-right">Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-3 mt-1">
-                                                    <input type="text" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="6">
+                                                    <input type="text" class="form-control form-control-sm text-bold"  name="tempo" id="tempo" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="6">
                                                 </div>
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
@@ -78,10 +78,10 @@
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('warehouse')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            @error('customer')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                             @enderror
                                         </div>
                                         <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tax Number</label>
@@ -99,10 +99,10 @@
                                                     <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}">{{ $marketing->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('supplier')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            @error('marketing')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                             @enderror
                                         </div>
                                         <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
@@ -208,7 +208,7 @@
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
-                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Enter Discount">
+                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Enter Discount" tabindex="9999">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -238,10 +238,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="1000">Submit</button>
+                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
                                     </div>
                                     <div class="col-2">
-                                        <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="1001">Reset</button>
+                                        <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
                                     </div>
                                 </div>
 
@@ -925,7 +925,7 @@
                     let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newDiscount = document.getElementById(`discount-${rowNumber}`);
-                    let newdiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
+                    let newDiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
                     let newFinalAmount = document.getElementById(`finalAmount-${rowNumber}`);
                     let newWarehouseIds = document.getElementById(`warehouseIds-${rowNumber}`);
                     let newWarehouseStocks = document.getElementById(`warehouseStocks-${rowNumber}`);
@@ -938,7 +938,7 @@
                         price.value = newPrice.value;
                         total.value = newTotal.value;
                         discount.value = newDiscount.value;
-                        discountProduct.value = newdiscountProduct.value;
+                        discountProduct.value = newDiscountProduct.value;
                         finalAmount.value = newFinalAmount.value;
                         warehouseIds.value = newWarehouseIds.value;
                         warehouseStocks.value = newWarehouseStocks.value;
@@ -961,7 +961,7 @@
 
                         let elements = [
                             newFinalAmount,
-                            newdiscountProduct,
+                            newDiscountProduct,
                             newDiscount,
                             newTotal,
                             newPrice,

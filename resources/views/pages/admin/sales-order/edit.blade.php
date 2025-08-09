@@ -40,34 +40,53 @@
                                             </div>
                                         </div>
                                         <div class="col edit-receipt-general-info-right">
-                                            <div class="form-group row sj-first-line">
+                                            <div class="form-group row so-update-customer">
                                                 <label for="customer" class="col-3 col-form-label text-bold text-right text-dark">Customer</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-5">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="customer" id="customer" value="{{ $salesOrder->customer->name }}" readonly>
+                                                <div class="col-2 mt-1">
+                                                    <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer" tabindex="3" required>
+                                                        @foreach($customers as $customer)
+                                                            <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}" @if($salesOrder->customer_id == $customer->id) selected @endif>{{ $customer->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('customer')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                             </div>
-                                            <div class="form-group row sj-after-first">
+                                            <div class="form-group row so-update-input">
                                                 <label for="marketing" class="col-3 col-form-label text-bold text-right text-dark">Marketing</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="marketing" id="marketing" value="{{ $salesOrder->marketing->name }}" readonly>
+                                                <div class="col-2 mt-1">
+                                                    <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" title="Enter or Choose Marketing" tabindex="4" required>
+                                                        @foreach($marketings as $marketing)
+                                                            <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}" @if($salesOrder->marketing_id == $marketing->id) selected @endif>{{ $marketing->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('marketing')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                             </div>
-                                            <div class="form-group row sj-after-first">
-                                                <label for="dueDate" class="col-3 col-form-label text-bold text-right text-dark">Due Date</label>
+                                            <div class="form-group row so-update-input">
+                                                <label for="tempo" class="col-3 col-form-label text-bold text-right text-dark">Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-5">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
+                                                <div class="col-3 mt-1">
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="tempo" id="tempo" value="{{ $salesOrder->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="5">
                                                 </div>
+                                                <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row so-update-left">
+                                    <div class="form-group row so-update-date">
                                         <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" readonly>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" tabindex="2" required>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">
@@ -108,7 +127,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
@@ -116,21 +135,21 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($salesOrderItem->quantity, $salesOrderItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 6 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <input type="hidden" name="base_warehouse_ids[]" id="baseWarehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
                                                     <input type="hidden" name="base_warehouse_stocks[]" id="baseWarehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
-                                                    <input type="text" name="warehouse_ids[]" id="warehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
-                                                    <input type="text" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
+                                                    <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
+                                                    <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($salesOrderItem->quantity) }}" data-foo="{{ $salesOrderItem->quantity }}" tabindex="{{ $rowNumbers += 4 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($salesOrderItem->quantity) }}" data-foo="{{ $salesOrderItem->quantity }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 7 }}" @if($key == 0) required @endif>
                                                         @foreach($units[$salesOrderItem->product_id] as $unit)
                                                             <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" data-foo="{{ $unit['quantity'] }}" @if($salesOrderItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
                                                         @endforeach
@@ -146,13 +165,13 @@
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $key }}" value="{{ $salesOrderItem->price_id }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" @if($key == 0) required @endif>
+                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->discount_amount) }}" title="" readonly>
@@ -182,7 +201,7 @@
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
-                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" value="{{ formatPrice($salesOrder->invoice_discount) }}">
+                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" value="{{ formatPrice($salesOrder->discount_amount) }}" tabindex="9999">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -212,36 +231,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="{{ $rowNumbers++ }}">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
                                     </div>
                                     <div class="col-2">
-                                        <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="{{ $rowNumbers += 2 }}">Reset</button>
-                                    </div>
-                                </div>
-
-                                <div class="modal" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title">Sales Order Confirmation</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>The Sales Order data will be saved. Please select print or re-enter the sales order.</p>
-                                                <input type="hidden" name="is_print" value="0">
-                                                <hr>
-                                                <div class="form-row justify-content-center">
-                                                    <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>
                                     </div>
                                 </div>
                             </form>
@@ -394,7 +387,7 @@
 
             table.on('blur', 'input[name="quantity[]"]', function () {
                 const index = $(this).closest('tr').index();
-                let baseQuantity = $(this).data('foo');
+                let baseQuantity = $(this).data('foo') || 0;
 
                 checkProductStock(index, this.value, baseQuantity);
                 calculateTotal(index);
@@ -500,17 +493,8 @@
 
                     return false;
                 } else {
-                    $('#modalConfirmation').modal('show');
-
-                    return false;
+                    $('#form').submit();
                 }
-            });
-
-            $('#btnPrint').on('click', function(event) {
-                event.preventDefault();
-
-                $('input[name="is_print"]').val(1);
-                $('#form').submit();
             });
 
             $('#addRow').on('click', function(event) {
@@ -520,7 +504,7 @@
                 let lastRowId = itemTable.find('tr:last').attr('id');
                 let lastRowNumber = itemTable.find('tr:last td:first-child').text();
                 let rowNumbers = $('#rowNumber').val();
-                rowNumbers = +rowNumbers + (+lastRowNumber * 36);
+                rowNumbers = +rowNumbers + (+lastRowNumber * 55);
 
                 let rowId = lastRowId ? +lastRowId + 1 : 1;
                 let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
@@ -643,8 +627,8 @@
                     success: function(data) {
                         let primaryWarehouse = data.primary_warehouse;
                         let otherWarehouses = data.other_warehouses;
-                        let arrayWarehouseIds = baseWarehouseIds.val().split(',');
-                        let arrayWarehouseStocks = baseWarehouseStocks.val().split(',');
+                        let arrayWarehouseIds = baseWarehouseIds.length ? baseWarehouseIds.val().split(',') : [];
+                        let arrayWarehouseStocks = baseWarehouseStocks.length ? baseWarehouseStocks.val().split(',') : [];
                         let primaryWarehouseStock = arrayWarehouseStocks[0] || 0;
                         let primaryWarehouseConversion = +primaryWarehouseStock / +conversionUnit.data('foo');
 
@@ -714,31 +698,33 @@
                             warehouseStocks.val(+primaryWarehouse.stock + +primaryWarehouseStock);
                             modalWarehouseStock.modal('show');
                         } else {
-                            let newWarehouseIds = '';
-                            let newWarehouseStocks = '';
-                            let newQuantity = +quantity + +primaryWarehouseStock;
+                            if(arrayWarehouseIds.length > 0) {
+                                let newWarehouseIds = '';
+                                let newWarehouseStocks = '';
+                                let newQuantity = +quantity + +primaryWarehouseStock;
 
-                            arrayWarehouseIds.forEach(function(warehouseId, index) {
-                                if(!index) {
-                                    newWarehouseIds = warehouseId;
-                                    newWarehouseStocks = newQuantity > 0 ? newQuantity : 0;
-                                    currentQuantity -= newWarehouseStocks;
-                                } else {
-                                    let newStocks = arrayWarehouseStocks[index];
-                                    if(currentQuantity > arrayWarehouseStocks[index]) {
-                                        currentQuantity -= arrayWarehouseStocks[index];
+                                arrayWarehouseIds.forEach(function (warehouseId, index) {
+                                    if (!index) {
+                                        newWarehouseIds = warehouseId;
+                                        newWarehouseStocks = newQuantity > 0 ? newQuantity : 0;
+                                        currentQuantity -= newWarehouseStocks;
                                     } else {
-                                        newStocks = currentQuantity;
-                                        currentQuantity = 0;
+                                        let newStocks = arrayWarehouseStocks[index];
+                                        if (currentQuantity > arrayWarehouseStocks[index]) {
+                                            currentQuantity -= arrayWarehouseStocks[index];
+                                        } else {
+                                            newStocks = currentQuantity;
+                                            currentQuantity = 0;
+                                        }
+
+                                        newWarehouseIds += ',' + warehouseId;
+                                        newWarehouseStocks += ',' + newStocks;
                                     }
+                                });
 
-                                    newWarehouseIds += ',' + warehouseId;
-                                    newWarehouseStocks += ',' + newStocks;
-                                }
-                            });
-
-                            warehouseIds.val(newWarehouseIds);
-                            warehouseStocks.val(newWarehouseStocks);
+                                warehouseIds.val(newWarehouseIds);
+                                warehouseStocks.val(newWarehouseStocks);
+                            }
                         }
                     },
                 })
@@ -945,7 +931,7 @@
                     let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newDiscount = document.getElementById(`discount-${rowNumber}`);
-                    let newdiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
+                    let newDiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
                     let newFinalAmount = document.getElementById(`finalAmount-${rowNumber}`);
                     let newWarehouseIds = document.getElementById(`warehouseIds-${rowNumber}`);
                     let newWarehouseStocks = document.getElementById(`warehouseStocks-${rowNumber}`);
@@ -958,7 +944,7 @@
                         price.value = newPrice.value;
                         total.value = newTotal.value;
                         discount.value = newDiscount.value;
-                        discountProduct.value = newdiscountProduct.value;
+                        discountProduct.value = newDiscountProduct.value;
                         finalAmount.value = newFinalAmount.value;
                         warehouseIds.value = newWarehouseIds.value;
                         warehouseStocks.value = newWarehouseStocks.value;
@@ -981,7 +967,7 @@
 
                         let elements = [
                             newFinalAmount,
-                            newdiscountProduct,
+                            newDiscountProduct,
                             newDiscount,
                             newTotal,
                             newPrice,
@@ -995,8 +981,7 @@
 
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
-                        let totalRow = $('#rowNumber').val();
-                        if(rowNumber > totalRow) {
+                        if(rowNumber > 1) {
                             $(`#${i}`).remove();
                         }
 
@@ -1100,18 +1085,18 @@
                         <td>
                             <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
-                <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
+                                    <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
-                </select>
-                <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
+                            </select>
+                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
                             <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
-                <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
-                </select>
-                <input type="hidden" name="warehouse_ids[]" id="warehouseIds-${rowId}">
+                            </select>
+                            <input type="hidden" name="warehouse_ids[]" id="warehouseIds-${rowId}">
                             <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-${rowId}">
                         </td>
                         <td>
