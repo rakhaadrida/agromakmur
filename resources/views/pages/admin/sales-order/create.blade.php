@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
 @push('addon-style')
-  <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
-  <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -718,7 +718,7 @@
 
                             warehouseStocks.val(primaryWarehouse.stock);
                             $('#rowIndex').val(index);
-                            $('#modalWarehouseStock').modal('show');
+                            modalWarehouseStock.modal('show');
                         }
                     },
                 })
@@ -760,7 +760,7 @@
                     warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
                     warehouseStocks.val(warehouseStocksValue + ',' + remainingStock);
 
-                    $('#modalWarehouseStock').modal('hide');
+                    modalWarehouseStock.modal('hide');
                 }
             }
 

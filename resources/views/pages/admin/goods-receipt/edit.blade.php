@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-dark">Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="number" id="number" value="{{ $goodsReceipt->number }}" readonly>
@@ -63,14 +63,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-left">
-                                        <label for="date" class="col-2 col-form-label text-bold text-dark">Date</label>
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">
-                                        <label for="description" class="col-2 col-form-label text-bold text-dark">Description</label>
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-5">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
@@ -120,7 +120,7 @@
                                                 <td>
                                                     <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
                                                         @foreach($units[$goodsReceiptItem->product_id] as $unit)
-                                                            <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" @if($goodsReceiptItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
+                                                            <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" data-foo="{{ $unit['quantity'] }}" @if($goodsReceiptItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
                                                         @endforeach
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}" value="{{ $goodsReceiptItem->unit_id }}">

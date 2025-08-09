@@ -8,6 +8,7 @@ use App\Http\Requests\SalesOrderCreateRequest;
 use App\Models\Customer;
 use App\Models\GoodsReceipt;
 use App\Models\Marketing;
+use App\Models\Price;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\Warehouse;
@@ -323,16 +324,19 @@ class SalesOrderController extends Controller
             $salesOrderItems = $salesOrder->salesOrderItems;
         }
 
+        $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
+
         $products = Product::all();
         $rowNumbers = count($salesOrderItems);
 
         $productIds = $salesOrderItems->pluck('product_id')->toArray();
         $productConversions = ProductService::findProductConversions($productIds);
+        $productPrices = ProductService::findProductPrices($productIds);
 
         foreach($salesOrderItems as $salesOrderItem) {
             $units[$salesOrderItem->product_id][] = [
-                'id' => $salesOrderItem->product->unit_id,
-                'name' => $salesOrderItem->product->unit->name,
+                'id' => $salesOrderItem->product_unit_id,
+                'name' => $salesOrderItem->unit_name,
                 'quantity' => 1
             ];
         }
@@ -345,6 +349,14 @@ class SalesOrderController extends Controller
             ];
         }
 
+        foreach($productPrices as $productPrice) {
+            $prices[$productPrice->product_id][] = [
+                'id' => $productPrice->price_id,
+                'code' => $productPrice->pricing->code,
+                'price' => $productPrice->price
+            ];
+        }
+
         $data = [
             'id' => $id,
             'salesOrder' => $salesOrder,
@@ -352,6 +364,7 @@ class SalesOrderController extends Controller
             'products' => $products,
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],
+            'prices' => $prices ?? [],
         ];
 
         return view('pages.admin.sales-order.edit', $data);

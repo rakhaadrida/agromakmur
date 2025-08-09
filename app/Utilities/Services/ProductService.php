@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\ProductConversion;
+use App\Models\ProductPrice;
 use App\Models\ProductStock;
 
 class ProductService
@@ -31,6 +32,13 @@ class ProductService
 
     public static function findProductConversions($productIds) {
         return ProductConversion::query()
+            ->whereIn('product_id', $productIds)
+            ->whereNull('deleted_at')
+            ->get();
+    }
+
+    public static function findProductPrices($productIds) {
+        return ProductPrice::query()
             ->whereIn('product_id', $productIds)
             ->whereNull('deleted_at')
             ->get();
