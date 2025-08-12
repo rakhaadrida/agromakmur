@@ -3,8 +3,6 @@
 namespace App\Utilities\Services;
 
 use App\Models\SalesOrder;
-use App\Models\SalesOrderItem;
-use Illuminate\Support\Facades\DB;
 
 class SalesOrderService
 {
@@ -21,21 +19,38 @@ class SalesOrderService
             ->leftJoin('users', 'users.id', 'sales_orders.user_id');
     }
 
-    public static function mapSalesOrderIndex($salesOrders) {
+    public static function mapSalesOrderIndex($salesOrders, $isIndexEdit = false) {
         foreach ($salesOrders as $salesOrder) {
             if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
                 static::mapSalesOrderApproval($salesOrder);
             }
         }
 
+        if(!$isIndexEdit) {
+            $salesOrders = $salesOrders->sortBy(function ($salesOrder) {
+                return $salesOrder->date;
+            })->values();
+        } else {
+            $salesOrders = $salesOrders->sortByDesc(function ($salesOrder) {
+                return [$salesOrder->date, $salesOrder->id];
+            })->values();
+        }
+
         return $salesOrders;
     }
 
     public static function mapSalesOrderApproval($salesOrder) {
+        $salesOrder->date = $salesOrder->pendingApproval->subject_date;
+        $salesOrder->customer_id = $salesOrder->pendingApproval->customer_id;
+        $salesOrder->customer_name = $salesOrder->pendingApproval->customer->name;
+        $salesOrder->marketing_id = $salesOrder->pendingApproval->marketing_id;
+        $salesOrder->marketing_name = $salesOrder->pendingApproval->marketing->name;
+        $salesOrder->tempo = $salesOrder->pendingApproval->tempo;
         $salesOrder->subtotal = $salesOrder->pendingApproval->subtotal;
+        $salesOrder->discount_amount = $salesOrder->pendingApproval->discount_amount;
         $salesOrder->tax_amount = $salesOrder->pendingApproval->tax_amount;
         $salesOrder->grand_total = $salesOrder->pendingApproval->grand_total;
-        $salesOrder->sales_order_items = $salesOrder->pendingApproval->approvalItems;
+        $salesOrder->salesOrderItems = $salesOrder->pendingApproval->approvalItems;
 
         return $salesOrder;
     }

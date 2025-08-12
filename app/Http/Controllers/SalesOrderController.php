@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Http\Requests\SalesOrderCancelRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
+use App\Http\Requests\SalesOrderUpdateRequest;
 use App\Models\Customer;
 use App\Models\GoodsReceipt;
 use App\Models\Marketing;
-use App\Models\Price;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\Warehouse;
@@ -283,7 +282,7 @@ class SalesOrderController extends Controller
             ->orderByDesc('sales_orders.id')
             ->get();
 
-        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders);
+        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
 
         $productWarehouses = [];
         foreach ($salesOrders as $salesOrder) {
@@ -379,43 +378,75 @@ class SalesOrderController extends Controller
         return view('pages.admin.sales-order.edit', $data);
     }
 
-    public function update(GoodsReceiptUpdateRequest $request, $id) {
+    public function update(SalesOrderUpdateRequest $request, $id) {
         try {
             DB::beginTransaction();
 
             $data = $request->all();
-            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-            $goodsReceipt->update([
-                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
+            $salesOrder = SalesOrder::query()->findOrFail($id);
+            $salesOrder->update([
+                'status' => Constant::SALES_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($goodsReceipt->approvals);
+            $productIds = $request->get('product_id', []);
+            $unitIds = $request->get('unit_id', []);
+            $realQuantities = $request->get('real_quantity', []);
+            $prices = $request->get('price', []);
+            $priceIds = $request->get('price_id', []);
+            $discounts = $request->get('discount', []);
+            $discountProducts = $request->get('discount_product', []);
+            $warehouseIdsList = $request->get('warehouse_ids', []);
+            $warehouseStocksList = $request->get('warehouse_stocks', []);
+
+            $itemsData = collect($productIds)
+                ->map(function ($productId, $index) use (
+                    $unitIds, $realQuantities, $prices, $priceIds,
+                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
+                ) {
+                    if (empty($productId)) return null;
+
+                    return [
+                        'product_id' => $productId,
+                        'unit_id' => $unitIds[$index],
+                        'real_quantity' => $realQuantities[$index],
+                        'price' => $prices[$index],
+                        'price_id' => $priceIds[$index],
+                        'discount' => $discounts[$index],
+                        'discount_product' => $discountProducts[$index],
+                        'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
+                        'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
+                    ];
+                })
+                ->filter();
+
+            ApprovalService::deleteData($salesOrder->approvals);
 
             $parentApproval = ApprovalService::createData(
-                $goodsReceipt,
-                $goodsReceipt->goodsReceiptItems,
+                $salesOrder,
+                $salesOrder->salesOrderItems,
                 Constant::APPROVAL_TYPE_EDIT,
                 Constant::APPROVAL_STATUS_PENDING,
                 $request->get('description', '')
             );
 
-            ApprovalService::createData(
-                $goodsReceipt,
-                $data,
+            ApprovalService::createDataSalesOrder(
+                $salesOrder,
+                $itemsData,
                 Constant::APPROVAL_TYPE_EDIT,
                 Constant::APPROVAL_STATUS_PENDING,
                 $data['description'],
-                $parentApproval->id
+                $parentApproval->id,
+                $data
             );
 
             DB::commit();
 
-            return redirect()->route('goods-receipts.index-edit');
+            return redirect()->route('sales-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
 
-            return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
+            return redirect()->route('sales-orders.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }

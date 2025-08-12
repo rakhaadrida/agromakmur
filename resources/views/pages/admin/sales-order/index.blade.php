@@ -65,7 +65,7 @@
                                         @forelse ($salesOrders as $key => $salesOrder)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <a href="{{ route('sales-orders.detail', $salesOrder->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $salesOrder->number }}
                                                     </a>

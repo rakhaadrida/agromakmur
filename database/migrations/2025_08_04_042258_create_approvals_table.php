@@ -27,7 +27,12 @@ return new class extends Migration
                 \App\Utilities\Constant::APPROVAL_STATUS_REJECTED
             ])->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->onDelete('cascade');
+            $table->foreignId('marketing_id')->nullable()->constrained('marketings')->onDelete('cascade');
+            $table->dateTime('subject_date')->nullable();
+            $table->integer('tempo')->nullable();
             $table->double('subtotal')->default(0);
+            $table->double('discount_amount')->default(0);
             $table->double('tax_amount')->default(0);
             $table->double('grand_total')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -14,6 +14,7 @@ class ApprovalService
             'type' => $type,
             'status' => $status,
             'description' => $description,
+            'discount_amount' => $subject->discount_amount ?? 0,
             'user_id' => Auth::user()->id,
         ]);
 
@@ -23,8 +24,42 @@ class ApprovalService
             $subtotal = static::createChildItems($approval, $subjectItems);
         }
 
-        $taxAmount = $subtotal * (10 / 100);
-        $grandTotal = $subtotal + $taxAmount;
+        $totalAfterDiscount = $subtotal - $approval->discount_amount;
+        $taxAmount = round($totalAfterDiscount * (10 / 100));
+        $grandTotal = (int) $totalAfterDiscount + $taxAmount;
+
+        $approval->update([
+            'subtotal' => $subtotal,
+            'tax_amount' => $taxAmount,
+            'grand_total' => $grandTotal
+        ]);
+
+        return $approval;
+    }
+
+    public static function createDataSalesOrder($subject, $subjectItems, $type, $status, $description, $parentId, $subjectData) {
+        $date = $subjectData['date'];
+        $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+
+        $approval = $subject->approvals()->create([
+            'parent_id' => $parentId,
+            'date' => Carbon::now(),
+            'type' => $type,
+            'status' => $status,
+            'description' => $description,
+            'subject_date' => $date,
+            'customer_id' => $subjectData['customer_id'],
+            'marketing_id' => $subjectData['marketing_id'],
+            'tempo' => $subjectData['tempo'],
+            'discount_amount' => $subjectData['invoice_discount'] ?? 0,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        $subtotal = static::createChildItemSalesOrders($approval, $subjectItems);
+
+        $totalAfterDiscount = $subtotal - $approval->discount_amount;
+        $taxAmount = round($totalAfterDiscount * (10 / 100));
+        $grandTotal = (int) $totalAfterDiscount + $taxAmount;
 
         $approval->update([
             'subtotal' => $subtotal,
@@ -92,6 +127,47 @@ class ApprovalService
                     'discount' => $discount,
                     'discount_amount' => $discountAmount,
                     'final_amount' => $finalAmount,
+                ]);
+            }
+        }
+
+        return $subtotal;
+    }
+
+    protected static function createChildItemSalesOrders($approval, $childItems) {
+        $subtotal = 0;
+        foreach ($childItems as $item) {
+            $totalDiscount = $item['discount_product'];
+            $warehouseCount = count($item['warehouse_ids']);
+
+            foreach ($item['warehouse_ids'] as $key => $warehouseId) {
+                $quantity = $item['warehouse_stocks'][$key] ?? 0;
+                $actualQuantity = $quantity * $item['real_quantity'];
+                $total = $quantity * $item['price'];
+
+                $discountValue = round($item['discount_product'] / $warehouseCount);
+                if ($discountValue < $totalDiscount) {
+                    $totalDiscount -= $discountValue;
+                } else {
+                    $discountValue = $totalDiscount;
+                    $totalDiscount = 0;
+                }
+
+                $finalAmount = $total - $discountValue;
+                $subtotal += $finalAmount;
+
+                $approval->approvalItems()->create([
+                    'product_id' => $item['product_id'],
+                    'warehouse_id' => $warehouseId,
+                    'unit_id' => $item['unit_id'],
+                    'quantity' => $quantity,
+                    'actual_quantity' => $actualQuantity,
+                    'price_id' => $item['price_id'],
+                    'price' => $item['price'],
+                    'total' => $total,
+                    'discount' => $item['discount'],
+                    'discount_amount' => $discountValue,
+                    'final_amount' => $finalAmount
                 ]);
             }
         }

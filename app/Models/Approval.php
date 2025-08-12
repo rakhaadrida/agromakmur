@@ -17,7 +17,12 @@ class Approval extends Model
         'type',
         'status',
         'description',
+        'subject_date',
+        'customer_id',
+        'marketing_id',
+        'tempo',
         'subtotal',
+        'discount_amount',
         'tax_amount',
         'grand_total',
         'user_id',
@@ -33,6 +38,14 @@ class Approval extends Model
 
     public function subject() {
         return $this->morphTo();
+    }
+
+    public function customer() {
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+
+    public function marketing() {
+        return $this->belongsTo(Marketing::class, 'marketing_id', 'id');
     }
 
     public function user() {
