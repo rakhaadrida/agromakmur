@@ -97,7 +97,7 @@
             <div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('sales-orders.create') }}">Sales Order</a>
-                    <a class="collapse-item" href="#">Print Sales Order</a>
+                    <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Print Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index-edit') }}">Edit Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index') }}">Daily Sales Order</a>
                     <a class="collapse-item" href="#">Delivery Order</a>

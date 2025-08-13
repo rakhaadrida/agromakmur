@@ -25,6 +25,7 @@ return new class extends Migration
             $table->double('tax_amount')->default(0);
             $table->double('grand_total')->default(0);
             $table->boolean('is_printed')->default(false);
+            $table->integer('print_count')->default(0);
             $table->enum('status', [
                 \App\Utilities\Constant::SALES_ORDER_STATUS_ACTIVE,
                 \App\Utilities\Constant::SALES_ORDER_STATUS_WAITING_APPROVAL,

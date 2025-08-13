@@ -52,7 +52,7 @@
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-code-transaction-index">Date</th>
+                                            <th class="align-middle th-date-transaction-index">Date</th>
                                             <th class="align-middle th-name-transaction-index">Customer</th>
                                             <th class="align-middle th-tempo-transaction-index">Tempo</th>
                                             <th class="align-middle th-tempo-transaction-index">Invoice Age</th>

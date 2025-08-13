@@ -23,6 +23,7 @@ class SalesOrder extends Model
         'tax_amount',
         'grand_total',
         'is_printed',
+        'print_count',
         'status',
         'user_id',
     ];

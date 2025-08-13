@@ -484,19 +484,19 @@ class SalesOrderController extends Controller
     }
 
     public function indexPrint() {
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
-            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
-            ->orderBy('goods_receipts.date')
+        $salesOrders = $baseQuery
+            ->where('sales_orders.is_printed', 0)
+            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->orderBy('sales_orders.date')
             ->get();
 
         $data = [
-            'goodsReceipts' => $goodsReceipts
+            'salesOrders' => $salesOrders
         ];
 
-        return view('pages.admin.goods-receipt.index-print', $data);
+        return view('pages.admin.sales-order.index-print', $data);
     }
 
     public function print(Request $request, $id) {
@@ -506,29 +506,30 @@ class SalesOrderController extends Controller
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
 
         if($id) {
-            $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+            $baseQuery = $baseQuery->where('sales_orders.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', '>=', $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $startNumber);
             }
         }
 
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
+        $salesOrders = $baseQuery
+            ->where('sales_orders.is_printed', 0)
+            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
         $data = [
             'id' => $id,
-            'goodsReceipts' => $goodsReceipts,
+            'salesOrders' => $salesOrders,
             'printDate' => $printDate,
             'printTime' => $printTime,
             'startNumber' => $startNumber,
@@ -536,7 +537,7 @@ class SalesOrderController extends Controller
             'rowNumbers' => 35
         ];
 
-        return view('pages.admin.goods-receipt.print', $data);
+        return view('pages.admin.sales-order.print', $data);
     }
 
     public function afterPrint(Request $request, $id) {
@@ -547,31 +548,31 @@ class SalesOrderController extends Controller
             $startNumber = $filter->start_number ?? 0;
             $finalNumber = $filter->final_number ?? 0;
 
-            $baseQuery = GoodsReceipt::query();
+            $baseQuery = SalesOrder::query();
 
             if($id) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', $id);
+                $baseQuery = $baseQuery->where('sales_orders.id', $id);
             } else {
                 if($startNumber) {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
+                    $baseQuery = $baseQuery->where('sales_orders.id', '>=', $startNumber);
                 }
 
                 if($finalNumber) {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
+                    $baseQuery = $baseQuery->where('sales_orders.id', '<=', $finalNumber);
                 } else {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
+                    $baseQuery = $baseQuery->where('sales_orders.id', '<=', $startNumber);
                 }
             }
 
-            $goodsReceipts = $baseQuery
-                ->where('goods_receipts.is_printed', 0)
+            $salesOrders = $baseQuery
+                ->where('sales_orders.is_printed', 0)
                 ->get();
 
-            foreach ($goodsReceipts as $goodsReceipt) {
-                $goodsReceipt->update(['is_printed' => 1]);
+            foreach ($salesOrders as $salesOrder) {
+                $salesOrder->update(['is_printed' => 1]);
             }
 
-            $route = $id ? 'goods-receipts.create' : 'goods-receipts.index-print';
+            $route = $id ? 'sales-orders.create' : 'sales-orders.index-print';
 
             DB::commit();
 

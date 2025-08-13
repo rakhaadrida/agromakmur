@@ -381,6 +381,7 @@ class GoodsReceiptController extends Controller
 
         $goodsReceipts = $baseQuery
             ->where('goods_receipts.is_printed', 0)
+            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
             ->get();
 
         $data = [
