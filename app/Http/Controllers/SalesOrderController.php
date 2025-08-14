@@ -527,6 +527,8 @@ class SalesOrderController extends Controller
             ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
+        $salesOrderItems =
+
         $data = [
             'id' => $id,
             'salesOrders' => $salesOrders,
