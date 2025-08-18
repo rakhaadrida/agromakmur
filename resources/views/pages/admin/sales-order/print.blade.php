@@ -18,28 +18,24 @@
             @font-face {
                 font-family: "epson1";
                 font-weight: 900;
-                color: black;
                 src: url('{{ public_path('backend/fonts/epson1.woff') }}');
             }
 
             @font-face {
                 font-family: "Dotrice";
                 font-weight: 800;
-                color: black;
                 src: url('{{ public_path('backend/fonts/Dotrice.ttf') }}');
             }
 
             @font-face {
                 font-family: "Dotrice Bold";
                 font-weight: 800;
-                color: black;
                 src: url('{{ public_path('backend/fonts/Dotrice-Bold.otf') }}');
             }
 
             @font-face {
                 font-family: "buenard";
                 font-weight: 800;
-                color: black;
                 src: url('{{ public_path('backend/fonts/Buenard-Regular.ttf') }}');
             }
 
@@ -154,10 +150,28 @@
                 page-break-after: always
             }
 
+            .table-order-item {
+                font-size: 16px;
+                width: 90.1% !important;
+                height: 52.5% !important;
+                margin-right: 34px;
+            }
+
+            .table-order-item thead td {
+                padding-top: 0.3rem !important;
+                padding-left: 0 !important;
+            }
+
+            .table-order-item tbody td:empty {
+                border-left: 0;
+                border-right: 0;
+                border-top: 0;
+            }
+
             .header-section {
                 display: inline-block;
                 color: black;
-                border: 1.4px dotted;
+                border: 1px dotted;
                 border-bottom: none;
                 border-top-left-radius: 10px;
                 border-top-right-radius: 10px;
@@ -167,6 +181,7 @@
                 padding-bottom: 10px;
                 margin-left: 0;
                 margin-right: 0;
+                margin-bottom: -6px !important;
                 width: 97.1% !important;
             }
 
@@ -175,15 +190,13 @@
                 font-family: Arial, Helvetica, sans-serif;
             }
 
-            .order-type {
-                margin-top: -0.625rem;
-            }
-
             .order-info-section {
                 font-family: 'Courier New', Courier, monospace;
                 color: black;
                 font-size: 15px;
                 text-align: left;
+                margin-top: 1.2rem;
+                margin-bottom: 0.5rem;
             }
 
             .order-info-row {
@@ -193,9 +206,11 @@
             }
 
             .order-info-label {
+                font-family: 'Calibri', Helvetica, sans-serif;
                 width: 380px;
                 text-align: right;
                 padding-right: 0.4rem;
+                margin-top: -0.1rem !important;
             }
 
             .order-info-separator {
@@ -207,10 +222,11 @@
                 padding-left: 0.4rem;
                 text-align: left;
                 width: 120px;
+                font-weight: bold;
             }
 
             .logo-section {
-                margin-top: -103px;
+                margin-top: -95px;
                 margin-left: -7px;
             }
 
@@ -231,7 +247,7 @@
                 font-weight: 500;
                 font-size: 16px;
                 width: 260px;
-                margin-top: -105px;
+                margin-top: -95px;
                 margin-right: 0;
             }
 
@@ -242,73 +258,18 @@
             .customer-name-info {
                 color: black;
                 font-size: 16px;
-                line-height: 15px;
+                line-height: 22px;
             }
 
             .customer-address-info {
                 color: black;
                 font-size: 15px;
                 margin-bottom: -10px;
-                line-height: 20px;
+                line-height: 14px;
             }
 
-            .table-general-info {
-                margin-top: -30px;
-                font-size: 15px;
-                border-spacing: 0px;
-                margin-right: 30px;
-            }
-
-            .table-general-info td {
-                border: 1px dotted;
-            }
-
-            .table-general-info thead td {
-                padding-bottom: 0.25rem !important;
-                font-weight: 600;
-            }
-
-            .table-general-info-head {
-                font-family: 'Courier New', Courier, sans-serif;
-                line-height: 6px;
-            }
-
-            .table-general-info-head-number {
-                width: 120px;
-            }
-
-            .table-general-info-head-date {
-                width: 130px;
-            }
-
-            .table-general-info-head-tempo {
-                width: 110px;
-            }
-
-            .table-general-info-head-marketing {
-                width: 180px;
-            }
-
-            .table-general-info-body td {
-                line-height: 9px;
-            }
-
-            .table-order-item {
-                font-size: 16px;
-                width: 90.1% !important;
-                height: 52.5% !important;
-                margin-right: 34.5px;
-            }
-
-            .table-order-item thead td {
-                padding-top: 0.3rem !important;
-                padding-bottom: 0.4rem !important;
-            }
-
-            .table-order-item tbody td:empty {
-                border-left: 0;
-                border-right: 0;
-                border-top: 0;
+            .table-order-item-head {
+                margin-top: -1rem !important;
             }
 
             .table-order-item-head td {
@@ -365,7 +326,7 @@
                 border-radius: 10px;
                 border-left: 1px solid black;
                 border-right: 1px solid black;
-                margin: -15px 30px -40px 0;
+                margin: -5px 30px -40px 0;
             }
 
             .table-footer {
@@ -383,7 +344,7 @@
                 font-size: 15px;
                 padding-left: 5px;
                 margin-bottom: 12px;
-                margin-top: 5px;
+                margin-top: 0;
             }
 
             .recipient-signature-table {
@@ -401,7 +362,7 @@
 
             .payment-info {
                 color: black;
-                margin-top: -7px;
+                margin-top: 0;
                 margin-left: 5px;
                 margin-right: 30px;
                 font-size: 15px;
@@ -462,7 +423,7 @@
             }
 
             .invoice-amount-table {
-                line-height: 15px;
+                line-height: 6px;
                 margin-bottom: 3px;
             }
 
@@ -527,9 +488,6 @@
                                 <div class="container-fluid header-section">
                                     <div class="title-header text-center">
                                         <h5 class="text-bold">SALES INVOICE</h5>
-                                        <h5 class="text-bold order-type">
-                                            {{ $salesOrder->tempo > 0 ? '(TEMPO)' : '(CASH)' }}
-                                        </h5>
                                     </div>
                                     <div class="order-info-section">
                                         <div class="order-info-row">
@@ -557,29 +515,6 @@
                                     <span class="customer-address-info text-wrap">{{ $salesOrder->customer_address }}</span>
                                     <br>
                                 </div>
-                                <br><br>
-                                <table class="table table-sm table-responsive-sm table-hover table-general-info" width="100%">
-                                    <thead class="text-center">
-                                    <tr>
-                                        <td>Order Number</td>
-                                        <td>Order Date</td>
-                                        <td>Tempo</td>
-                                        <td>Due Date</td>
-                                        <td>Marketing</td>
-                                        <td>Admin</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="text-center">
-                                        <td>{{ $salesOrder->number }}</td>
-                                        <td>{{ formatDate($salesOrder->date, 'd-M-y') }}</td>
-                                        <td>{{ $salesOrder->tempo }} Day(s)</td>
-                                        <td>{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}</td>
-                                        <td>{{ $salesOrder->marketing_name }}</td>
-                                        <td>{{ $salesOrder->user_name }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </td>
                         </tr>
                         <tr class="text-center table-order-item-head">
@@ -593,74 +528,6 @@
                             <td>Subtotal</td>
                         </tr>
                     </thead>
-{{--                <div class="container-fluid header-section">--}}
-{{--                    <div class="title-header text-center">--}}
-{{--                        <h5 class="text-bold">SALES INVOICE</h5>--}}
-{{--                        <h5 class="text-bold order-type">{{ $salesOrder->tempo > 0 ? '(TEMPO)' : '(CASH)' }}</h5>--}}
-{{--                    </div>--}}
-{{--                    <table class="order-info-table" style="margin: 0 auto;">--}}
-{{--                        <tr>--}}
-{{--                            <td class="label">Number</td>--}}
-{{--                            <td class="colon">:</td>--}}
-{{--                            <td class="value">{{ $salesOrder->number }}</td>--}}
-{{--                        </tr>--}}
-{{--                        <tr>--}}
-{{--                            <td class="label">Date</td>--}}
-{{--                            <td class="colon">:</td>--}}
-{{--                            <td class="value">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>--}}
-{{--                        </tr>--}}
-{{--                    </table>--}}
-{{--                </div>--}}
-{{--                <div class="float-left logo-section">--}}
-{{--                    <img src="{{ url('assets/img/logo.png') }}" alt="">--}}
-{{--                    <br>--}}
-{{--                    <span class="logo-section-phone-info">Phone : +62 822-8239-3930</span>--}}
-{{--                </div>--}}
-{{--                <div class="float-right customer-section">--}}
-{{--                    <span class="customer-section-greetings">Dear :</span>--}}
-{{--                    <br>--}}
-{{--                    <span class="customer-name-info">{{ $salesOrder->customer_name }}</span>--}}
-{{--                    <br>--}}
-{{--                    <span class="customer-address-info text-wrap">{{ $salesOrder->customer_address }}</span>--}}
-{{--                    <br>--}}
-{{--                </div>--}}
-{{--                <br>--}}
-{{--                <br>--}}
-{{--                <table class="table table-sm table-responsive-sm table-hover table-general-info">--}}
-{{--                    <thead class="text-center">--}}
-{{--                        <tr class="table-general-info-head">--}}
-{{--                            <td class="table-general-info-head-number">Order Number</td>--}}
-{{--                            <td class="table-general-info-head-date">Order Date</td>--}}
-{{--                            <td class="table-general-info-head-tempo">Tempo</td>--}}
-{{--                            <td class="table-general-info-head-date">Due Date</td>--}}
-{{--                            <td class="table-general-info-head-marketing">Marketing</td>--}}
-{{--                            <td>Admin</td>--}}
-{{--                        </tr>--}}
-{{--                    </thead>--}}
-{{--                    <tbody>--}}
-{{--                        <tr class="table-general-info-body">--}}
-{{--                            <td class="text-center">{{ $salesOrder->number }}</td>--}}
-{{--                            <td class="text-center">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>--}}
-{{--                            <td class="text-center">{{ $salesOrder->tempo }} Day(s)</td>--}}
-{{--                            <td class="text-center">{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}</td>--}}
-{{--                            <td class="text-center">{{ $salesOrder->marketing_name }}</td>--}}
-{{--                            <td class="text-center">{{ $salesOrder->user_name }}</td>--}}
-{{--                        </tr>--}}
-{{--                    </tbody>--}}
-{{--                </table>--}}
-{{--                <table class="table table-sm table-responsive-sm table-order-item">--}}
-{{--                    <thead class="text-center table-order-item-head">--}}
-{{--                        <tr>--}}
-{{--                            <td class="table-order-item-head-number">No</td>--}}
-{{--                            <td class="table-order-item-head-product">Product Name</td>--}}
-{{--                            <td class="table-order-item-head-quantity">Qty</td>--}}
-{{--                            <td class="table-order-item-head-unit">Unit</td>--}}
-{{--                            <td class="table-order-item-head-price">Price</td>--}}
-{{--                            <td class="table-order-item-head-total">Total</td>--}}
-{{--                            <td colspan="2">Discount</td>--}}
-{{--                            <td class="table-order-item-head-subtotal">Subtotal</td>--}}
-{{--                        </tr>--}}
-{{--                    </thead>--}}
                     <tbody class="table-order-item-body">
                         @foreach($salesOrder->salesOrderItems as $index => $salesOrderItem)
                             <tr class="table-order-item-body-row">
@@ -689,108 +556,211 @@
                             </tr>
                         @endfor
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9">
+                                <div class="container-fluid footer-section">
+                                    <table class="table-footer">
+                                        <thead>
+                                        <tr>
+                                            <td class="table-footer-head-recipient">
+                                                <div class="recipient-signature">
+                                                    <table class="recipient-signature-table">
+                                                        <tr>
+                                                            <td class="text-center">Recipient</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="recipient-signature-table-blank"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">(__________)</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            <td class="table-footer-head-account-info">
+                                                <div class="payment-info">
+                                                    <span>Giro / Transfer Payment</span>
+                                                    <br>
+                                                    <span>BCA Bank Account</span>
+                                                    <br>
+                                                    <span>p.p Indah Ramadhon 5790416491</span>
+                                                </div>
+                                            </td>
+                                            <td class="table-footer-head-warehouse">
+                                                <div class="warehouse-signature">
+                                                    <table class="warehouse-signature-table">
+                                                        <tr>
+                                                            <td class="text-center">Marketing</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="warehouse-signature-table-blank"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">(___________)</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            <td class="table-footer-head-admin">
+                                                <div class="admin-signature">
+                                                    <table class="admin-signature-table">
+                                                        <tr>
+                                                            <td class="admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">Admin</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="admin-signature-table-blank"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">(__________)</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="invoice-amount-section">
+                                                    <table class="invoice-amount-table">
+                                                        <tr>
+                                                            <td class="text-bold invoice-amount-label">Total</td>
+                                                            <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-bold invoice-amount-label">Invoice Discount</td>
+                                                            <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-bold invoice-amount-label">Subtotal</td>
+                                                            <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-bold invoice-amount-label">Tax Amount</td>
+                                                            <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="invoice-amount-label"></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" class="invoice-amount-blank-row"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-bold invoice-amount-label">Grand Total</td>
+                                                            <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <div class="container-fluid footer-section">
-                    <table class="table-footer">
-                        <thead>
-                            <tr>
-                                <td class="table-footer-head-recipient">
-                                    <div class="recipient-signature">
-                                        <table class="recipient-signature-table">
-                                            <tr>
-                                                <td class="text-center">Recipient</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="recipient-signature-table-blank"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">(__________)</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                                <td class="table-footer-head-account-info">
-                                    <div class="payment-info">
-                                        <span>Giro / Transfer Payment</span>
-                                        <br>
-                                        <span>BCA Bank Account</span>
-                                        <br>
-                                        <span>p.p Indah Ramadhon 5790416491</span>
-                                    </div>
-                                </td>
-                                <td class="table-footer-head-warehouse">
-                                    <div class="warehouse-signature">
-                                        <table class="warehouse-signature-table">
-                                            <tr>
-                                                <td class="text-center">Warehouse</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="warehouse-signature-table-blank"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">(___________)</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                                <td class="table-footer-head-admin">
-                                    <div class="admin-signature">
-                                        <table class="admin-signature-table">
-                                            <tr>
-                                                <td class="admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Admin</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="admin-signature-table-blank"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">(__________)</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="invoice-amount-section">
-                                        <table class="invoice-amount-table">
-                                            <tr>
-                                                <td class="text-bold invoice-amount-label">Total</td>
-                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-bold invoice-amount-label">Invoice Discount</td>
-                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-bold invoice-amount-label">Subtotal</td>
-                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-bold invoice-amount-label">Tax Amount</td>
-                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="invoice-amount-label"></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2" class="invoice-amount-blank-row"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-bold invoice-amount-label">Grand Total</td>
-                                                <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+{{--                <div class="container-fluid footer-section">--}}
+{{--                    <table class="table-footer">--}}
+{{--                        <thead>--}}
+{{--                            <tr>--}}
+{{--                                <td class="table-footer-head-recipient">--}}
+{{--                                    <div class="recipient-signature">--}}
+{{--                                        <table class="recipient-signature-table">--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">Recipient</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="recipient-signature-table-blank"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">(__________)</td>--}}
+{{--                                            </tr>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+{{--                                <td class="table-footer-head-account-info">--}}
+{{--                                    <div class="payment-info">--}}
+{{--                                        <span>Giro / Transfer Payment</span>--}}
+{{--                                        <br>--}}
+{{--                                        <span>BCA Bank Account</span>--}}
+{{--                                        <br>--}}
+{{--                                        <span>p.p Indah Ramadhon 5790416491</span>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+{{--                                <td class="table-footer-head-warehouse">--}}
+{{--                                    <div class="warehouse-signature">--}}
+{{--                                        <table class="warehouse-signature-table">--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">Marketing</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="warehouse-signature-table-blank"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">(___________)</td>--}}
+{{--                                            </tr>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+{{--                                <td class="table-footer-head-admin">--}}
+{{--                                    <div class="admin-signature">--}}
+{{--                                        <table class="admin-signature-table">--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">Admin</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="admin-signature-table-blank"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-center">(__________)</td>--}}
+{{--                                            </tr>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <div class="invoice-amount-section">--}}
+{{--                                        <table class="invoice-amount-table">--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-bold invoice-amount-label">Total</td>--}}
+{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-bold invoice-amount-label">Invoice Discount</td>--}}
+{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-bold invoice-amount-label">Subtotal</td>--}}
+{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-bold invoice-amount-label">Tax Amount</td>--}}
+{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="invoice-amount-label"></td>--}}
+{{--                                                <td></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td colspan="2" class="invoice-amount-blank-row"></td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="text-bold invoice-amount-label">Grand Total</td>--}}
+{{--                                                <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
+{{--                        </thead>--}}
+{{--                    </table>--}}
+{{--                </div>--}}
                 <div class="float-right print-time-section">
                     <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
-                    <span class="print-time-section-count">Print Count: {{ $salesOrder->print_count }}</span>
                 </div>
             </div>
         @endforeach
