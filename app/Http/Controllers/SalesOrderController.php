@@ -527,7 +527,13 @@ class SalesOrderController extends Controller
             ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
-        $salesOrderItems =
+        foreach ($salesOrders as $salesOrder) {
+            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
+
+            $totalPage = ceil(($salesOrder->salesOrderItems->count()) / 15);
+            $salesOrder->total_page = $totalPage;
+            $salesOrder->total_rows = $salesOrder->salesOrderItems->count();
+       }
 
         $data = [
             'id' => $id,

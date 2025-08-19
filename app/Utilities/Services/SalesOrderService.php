@@ -60,6 +60,16 @@ class SalesOrderService
         return $salesOrderItems
             ->groupBy('product_id')
             ->map(function ($items, $productId) {
+                $totalDiscount = 100;
+                $discount = str_replace(',', '.', $items->first()->discount);
+                $arrayDiscounts = explode('+', $discount);
+
+                foreach($arrayDiscounts as $arrayDiscount) {
+                    $totalDiscount -= ($arrayDiscount * $totalDiscount) / 100;
+                }
+
+                $discountPercentage = number_format((($totalDiscount - 100) * -1), 2, ",", "");
+
                 return (object) [
                     'product_id' => $productId,
                     'product_sku' => $items->first()->product->sku,
@@ -75,6 +85,7 @@ class SalesOrderService
                     'price' => $items->first()->price,
                     'total' => $items->sum('total'),
                     'discount' => $items->first()->discount,
+                    'discount_percentage' => $discountPercentage,
                     'discount_amount' => $items->sum('discount_amount'),
                     'final_amount' => $items->sum('final_amount'),
                 ];

@@ -150,8 +150,8 @@
             }
 
             .print-container {
-                margin-bottom: -3.438rem;
-                page-break-after: always
+                margin-bottom: -1.438rem;
+                page-break-after: always;
             }
 
             .table-order-item {
@@ -297,23 +297,19 @@
             }
 
             .table-order-item-head-quantity {
-                width: 75px;
+                width: 95px;
             }
 
             .table-order-item-head-unit {
-                width: 50px;
+                width: 70px;
             }
 
             .table-order-item-head-price {
-                width: 50px;
+                width: 70px;
             }
 
             .table-order-item-head-total {
-                width: 90px;
-            }
-
-            .table-order-item-head-subtotal {
-                width: 80px;
+                width: 110px;
                 border-right: 1px dotted;
             }
 
@@ -335,7 +331,7 @@
                 border-radius: 10px;
                 border-left: 1px solid black;
                 border-right: 1px solid black;
-                margin: -5px 0 -40px -3px;
+                margin: -5px 0 -5px -3px;
                 width: 97.5% !important;
             }
 
@@ -343,7 +339,6 @@
                 margin-left: -15px;
                 width: 860px;
                 margin-right: -50px;
-                /*border: 1px solid red;*/
             }
 
             .table-footer-head-recipient {
@@ -449,7 +444,6 @@
                 padding-right: 0.01rem !important;
             }
 
-
             .invoice-amount-table .invoice-amount-label-grand-total {
                 padding-top: 10px !important;
             }
@@ -462,15 +456,11 @@
 
             .print-time-section {
                 font-weight: 700;
-                margin-left: 30px;
-                margin-right: 90px;
-                margin-top: 17px;
+                margin-top: 5px;
             }
 
             .print-time-section-time {
                 font-size: 12px !important;
-                margin-left: -15px;
-                margin-right: 10px;
             }
 
             @media print {
@@ -478,6 +468,15 @@
                     width: 21.8cm;
                     height: 13.8cm;
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
+
+                    @bottom-right {
+                        /*content: "Page " counter(page);*/
+                        font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                        font-size: 12px;
+                        font-weight: bold;
+                        margin-top: -24.235rem !important;
+                        margin-right: 17.75rem !important;
+                    }
                 }
 
                 body {
@@ -490,7 +489,7 @@
     <body>
         @php $number = 1 @endphp
         @foreach($salesOrders as $key => $salesOrder)
-            <div class="print-container">
+            <div class="print-container" id="printContainer">
                 <table class="table table-sm table-responsive-sm table-order-item">
                     <thead class="print-header">
                         <tr>
@@ -527,16 +526,6 @@
                                 </div>
                             </td>
                         </tr>
-{{--                        <tr class="text-center table-order-item-head">--}}
-{{--                            <td>No</td>--}}
-{{--                            <td>Product Name</td>--}}
-{{--                            <td>Qty</td>--}}
-{{--                            <td>Unit</td>--}}
-{{--                            <td>Price</td>--}}
-{{--                            <td>Total</td>--}}
-{{--                            <td colspan="2">Discount</td>--}}
-{{--                            <td>Subtotal</td>--}}
-{{--                        </tr>--}}
                         <tr class="text-center table-order-item-head">
                             <td class="table-order-item-head-number">No</td>
                             <td class="table-order-item-head-product">Product Name</td>
@@ -544,35 +533,22 @@
                             <td class="table-order-item-head-unit">Unit</td>
                             <td class="table-order-item-head-price">Price</td>
                             <td class="table-order-item-head-total">Total</td>
-                            <td colspan="2">Discount</td>
-                            <td class="table-order-item-head-subtotal">Subtotal</td>
                         </tr>
                     </thead>
                     <tbody class="table-order-item-body">
                         @foreach($salesOrder->salesOrderItems as $index => $salesOrderItem)
                             <tr class="table-order-item-body-row">
                                 <td class="text-center">{{ ++$index }}</td>
-                                <td>{{ $salesOrderItem->product->name }}</td>
-                                <td class="text-center">{{ $salesOrderItem->quantity }}</td>
-                                <td class="text-center">{{ $salesOrderItem->unit->name }}</td>
+                                <td>{{ $salesOrderItem->product_name }}</td>
+                                <td class="text-right">{{ $salesOrderItem->quantity }}</td>
+                                <td class="text-center">{{ $salesOrderItem->unit_name }}</td>
                                 <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
-                                <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
-                                <td class="text-right" style="width: 55px; font-size: 14.5px">{{ $salesOrderItem->discount }}</td>
-                                <td class="text-right" style="width: 65px">{{ formatPrice($salesOrderItem->discount_amount) }}</td>
                                 <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
                             </tr>
                         @endforeach
-                        @for($i = 0; $i < 20; $i++)
+                        @for($i = $salesOrder->total_rows; $i < ($salesOrder->total_page * 15); $i++)
                             <tr class="table-order-item-body-row">
-                                <td class="text-center">{{ $i }}</td>
-                                <td>{{ $i }}</td>
-                                <td class="text-center">{{ $i }}</td>
-                                <td class="text-center">{{ $i }}</td>
-                                <td class="text-right">{{ $i }}</td>
-                                <td class="text-right">{{ $i }}</td>
-                                <td class="text-right" style="width: 55px; font-size: 14.5px">{{ $i }}</td>
-                                <td class="text-right" style="width: 65px">{{ $i }}</td>
-                                <td class="text-right">{{ $i }}</td>
+                                <td colspan="6"></td>
                             </tr>
                         @endfor
                     </tbody>
@@ -670,121 +646,58 @@
                                         </thead>
                                     </table>
                                 </div>
+                                <div class="float-left print-time-section">
+                                    <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
+                                </div>
+                                <div class="float-right print-time-section">
+                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $salesOrder->total_page }}</span>
+                                </div>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
-{{--                <div class="container-fluid footer-section">--}}
-{{--                    <table class="table-footer">--}}
-{{--                        <thead>--}}
-{{--                            <tr>--}}
-{{--                                <td class="table-footer-head-recipient">--}}
-{{--                                    <div class="recipient-signature">--}}
-{{--                                        <table class="recipient-signature-table">--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">Recipient</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="recipient-signature-table-blank"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">(__________)</td>--}}
-{{--                                            </tr>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                                <td class="table-footer-head-account-info">--}}
-{{--                                    <div class="payment-info">--}}
-{{--                                        <span>Giro / Transfer Payment</span>--}}
-{{--                                        <br>--}}
-{{--                                        <span>BCA Bank Account</span>--}}
-{{--                                        <br>--}}
-{{--                                        <span>p.p Indah Ramadhon 5790416491</span>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                                <td class="table-footer-head-warehouse">--}}
-{{--                                    <div class="warehouse-signature">--}}
-{{--                                        <table class="warehouse-signature-table">--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">Marketing</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="warehouse-signature-table-blank"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">(___________)</td>--}}
-{{--                                            </tr>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                                <td class="table-footer-head-admin">--}}
-{{--                                    <div class="admin-signature">--}}
-{{--                                        <table class="admin-signature-table">--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">Admin</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="admin-signature-table-blank"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-center">(__________)</td>--}}
-{{--                                            </tr>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <div class="invoice-amount-section">--}}
-{{--                                        <table class="invoice-amount-table">--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-bold invoice-amount-label">Total</td>--}}
-{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-bold invoice-amount-label">Invoice Discount</td>--}}
-{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-bold invoice-amount-label">Subtotal</td>--}}
-{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-bold invoice-amount-label">Tax Amount</td>--}}
-{{--                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="invoice-amount-label"></td>--}}
-{{--                                                <td></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td colspan="2" class="invoice-amount-blank-row"></td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <td class="text-bold invoice-amount-label">Grand Total</td>--}}
-{{--                                                <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                            </tr>--}}
-{{--                        </thead>--}}
-{{--                    </table>--}}
-{{--                </div>--}}
-                <div class="float-right print-time-section">
-                    <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
-                </div>
             </div>
         @endforeach
 
         <script type="text/javascript">
-            window.onafterprint = function() {
-                {{--const url = '{{ route('sales-orders.after-print', $id) }}';--}}
-                {{--window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');--}}
+            function paginateTable(table, pageHeight = 1122) {
+                let rows = table.querySelectorAll("tbody tr");
+                let footer = table.querySelector("tfoot td .page-number");
+
+                let totalHeight = 0;
+                let page = 1;
+                let pages = 1;
+                let rowHeights = [];
+
+                rows.forEach(row => {
+                    rowHeights.push(row.offsetHeight);
+                });
+
+                totalHeight = 0;
+                pages = 1;
+                for (let h of rowHeights) {
+                    totalHeight += h;
+                    if (totalHeight > pageHeight) {
+                        pages++;
+                        totalHeight = h;
+                    }
+                }
+
+                footer.innerText = `Page ${page}`;
             }
 
-            // window.print();
+            window.onbeforeprint = () => {
+                document.querySelectorAll("table.table-order-item").forEach(table => {
+                    paginateTable(table, 842);
+                });
+            };
+
+            window.onafterprint = function() {
+                const url = '{{ route('sales-orders.after-print', $id) }}';
+                window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
+            }
+
+            window.print();
         </script>
     </body>
 </html>
