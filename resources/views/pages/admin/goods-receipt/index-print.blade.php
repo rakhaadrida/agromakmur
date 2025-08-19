@@ -57,6 +57,7 @@
                                             <th class="align-middle th-date-transaction-index">Date</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
+                                            <th class="align-middle th-status-transaction-index">Invoice Age</th>
                                             <th class="align-middle th-total-transaction-index">Grand Total</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
                                         </tr>
@@ -73,6 +74,7 @@
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
+                                                <td class="text-center align-middle">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
                                                 <td class="text-right align-middle">{{ formatCurrency($goodsReceipt->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}</td>
                                             </tr>
