@@ -44,7 +44,7 @@
                                                 <label for="customer" class="col-3 col-form-label text-bold text-right text-dark">Customer</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer" tabindex="3" required>
+                                                    <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer" tabindex="4" required>
                                                         @foreach($customers as $customer)
                                                             <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}" @if($salesOrder->customer_id == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                         @endforeach
@@ -60,7 +60,7 @@
                                                 <label for="marketing" class="col-3 col-form-label text-bold text-right text-dark">Marketing</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" title="Enter or Choose Marketing" tabindex="4" required>
+                                                    <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" title="Enter or Choose Marketing" tabindex="5" required>
                                                         @foreach($marketings as $marketing)
                                                             <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}" @if($salesOrder->marketing_id == $marketing->id) selected @endif>{{ $marketing->name }}</option>
                                                         @endforeach
@@ -76,7 +76,7 @@
                                                 <label for="tempo" class="col-3 col-form-label text-bold text-right text-dark">Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-3 mt-1">
-                                                    <input type="text" class="form-control form-control-sm text-bold" name="tempo" id="tempo" value="{{ $salesOrder->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="5">
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="tempo" id="tempo" value="{{ $salesOrder->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" tabindex="6">
                                                 </div>
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
@@ -86,7 +86,14 @@
                                         <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" tabindex="2" required>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" tabindex="3" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row so-update-input">
+                                        <label for="note" class="col-2 col-form-label text-bold text-dark text-right">Note</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control form-control-sm text-bold mt-1" name="note" id="note" value="{{ $salesOrder->note }}" tabindex="2">
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">

@@ -18,6 +18,7 @@ class SalesOrder extends Model
         'delivery_date',
         'tempo',
         'is_taxable',
+        'note',
         'subtotal',
         'discount_amount',
         'tax_amount',

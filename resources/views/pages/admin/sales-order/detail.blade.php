@@ -94,6 +94,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="note" class="col-3 text-right text-bold mt-2">Note</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-7">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">

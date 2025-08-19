@@ -18,6 +18,7 @@ class SalesOrderUpdateRequest extends FormRequest
             'marketing_id' => ['nullable', 'exists:marketings,id,deleted_at,NULL'],
             'date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'tempo' => ['nullable', 'integer', 'min:0'],
+            'note' => ['nullable', 'string'],
             'description' => ['required', 'string'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],

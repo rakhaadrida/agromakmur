@@ -110,6 +110,13 @@
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $date }}" tabindex="5" required>
                                         </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
+                                        <label for="note" class="col-2 col-form-label text-bold text-right">Note</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-6 mt-1">
+                                            <input type="text" class="form-control form-control-sm text-bold" name="note" id="note" value="{{ old('note') }}" tabindex="8">
+                                        </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
                                 </div>
@@ -142,7 +149,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -150,7 +157,7 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
@@ -159,26 +166,26 @@
                                                     <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 4 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 6 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 6 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 7 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly>

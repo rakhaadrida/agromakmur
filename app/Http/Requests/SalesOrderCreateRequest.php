@@ -22,6 +22,7 @@ class SalesOrderCreateRequest extends FormRequest
             'delivery_date' => ['required', 'date', 'date_format:d-m-Y'],
             'tempo' => ['nullable', 'integer', 'min:0'],
             'is_taxable' => ['nullable', 'boolean'],
+            'note' => ['nullable', 'string'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],

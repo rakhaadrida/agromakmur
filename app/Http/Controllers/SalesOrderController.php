@@ -6,7 +6,6 @@ use App\Http\Requests\SalesOrderCancelRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
 use App\Http\Requests\SalesOrderUpdateRequest;
 use App\Models\Customer;
-use App\Models\GoodsReceipt;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
@@ -14,7 +13,6 @@ use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
-use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
@@ -574,6 +572,7 @@ class SalesOrderController extends Controller
 
             $salesOrders = $baseQuery
                 ->where('sales_orders.is_printed', 0)
+                ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
                 ->get();
 
             foreach ($salesOrders as $salesOrder) {

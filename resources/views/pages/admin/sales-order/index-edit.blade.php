@@ -146,8 +146,31 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        @else
+                                                            <div class="col edit-receipt-general-info-right">
+                                                                <div class="form-group row customer-detail">
+                                                                    <label for="note" class="col-3 form-control-sm text-bold text-right mt-1">Note</label>
+                                                                    <span class="col-form-label text-bold">:</span>
+                                                                    <div class="col-6">
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         @endif
                                                     </div>
+                                                    @if(isWaitingApproval($salesOrder->status))
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="form-group row customer-detail">
+                                                                    <label for="note" class="col-2 form-control-sm text-bold text-right mt-1">Note</label>
+                                                                    <span class="col-form-label text-bold">:</span>
+                                                                    <div class="col-3">
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">
