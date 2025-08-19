@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidPriceType;
 use App\Rules\ValidUniquePriceCode;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,7 +17,8 @@ class PriceUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', new ValidUniquePriceCode($this->route('id'))],
+            'code' => ['required', 'string', new ValidUniquePriceCode($this->route('price'))],
+            'type' => ['required', 'string', new ValidPriceType()]
         ];
     }
 }

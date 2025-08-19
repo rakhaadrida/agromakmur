@@ -36,6 +36,22 @@
                                         <input type="text" class="form-control col-form-label-sm" name="code" id="code" value="{{ old('code') }}" required>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="type" class="col-2 col-form-label text-md-right">Type</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-3">
+                                        <select class="custom-select mr-sm-2" name="type" id="type">
+                                            @foreach($priceTypes as $key => $priceType)
+                                                <option value="{{ $key }}">{{ $priceType }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">

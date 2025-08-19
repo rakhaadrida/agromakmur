@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PriceCreateRequest;
 use App\Http\Requests\PriceUpdateRequest;
 use App\Models\Price;
+use App\Utilities\Constant;
+use App\Utilities\Services\PriceService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,13 +24,20 @@ class PriceController extends Controller
     }
 
     public function create() {
-        return view('pages.admin.price.create', []);
+        $priceTypes = Constant::PRICE_TYPE_LABELS;
+
+        $data = [
+            'priceTypes' => $priceTypes
+        ];
+
+        return view('pages.admin.price.create', $data);
     }
 
     public function store(PriceCreateRequest $request) {
         try {
             DB::beginTransaction();
 
+            PriceService::updateExistingPrice($request->get('type'));
             Price::create($request->all());
 
             DB::commit();
@@ -46,10 +55,12 @@ class PriceController extends Controller
 
     public function edit($id) {
         $price = Price::query()->findOrFail($id);
+        $priceTypes = Constant::PRICE_TYPE_LABELS;
 
         $data = [
             'id' => $id,
             'price' => $price,
+            'priceTypes' => $priceTypes
         ];
 
         return view('pages.admin.price.edit', $data);
@@ -60,6 +71,9 @@ class PriceController extends Controller
             DB::beginTransaction();
 
             $data = $request->all();
+
+            PriceService::updateExistingPrice($data['type']);
+
             $price = Price::query()->findOrFail($id);
             $price->update($data);
 

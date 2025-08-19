@@ -33,6 +33,7 @@
                                 <th class="table-head-number">No</th>
                                 <th>Name</th>
                                 <th>Code</th>
+                                <th>Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,6 +43,7 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $price->name }}</td>
                                     <td class="align-middle table-row-text">{{ $price->code }}</td>
+                                    <td class="align-middle table-row-text">{{ getPriceTypeLabel($price->type) }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">
                                             <div class="col-auto button-action-deleted-left">

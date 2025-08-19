@@ -43,6 +43,20 @@ class Constant
         self::WAREHOUSE_TYPE_RETURN => 'Return'
     ];
 
+    const PRICE_TYPE_GENERAL = 'GENERAL';
+    const PRICE_TYPE_RETAIL = 'RETAIL';
+    const PRICE_TYPE_WHOLESALE = 'WHOLESALE';
+    const PRICE_TYPES = [
+        self::PRICE_TYPE_GENERAL,
+        self::PRICE_TYPE_RETAIL,
+        self::PRICE_TYPE_WHOLESALE,
+    ];
+    const PRICE_TYPE_LABELS = [
+        self::PRICE_TYPE_GENERAL => 'General',
+        self::PRICE_TYPE_RETAIL => 'Retail',
+        self::PRICE_TYPE_WHOLESALE => 'Wholesale'
+    ];
+
     const GOODS_RECEIPT_STATUS_ACTIVE = 'ACTIVE';
     const GOODS_RECEIPT_STATUS_WAITING_APPROVAL = 'WAITING_APPROVAL';
     const GOODS_RECEIPT_STATUS_UPDATED = 'UPDATED';
@@ -72,6 +86,13 @@ class Constant
         self::SALES_ORDER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
         self::SALES_ORDER_STATUS_UPDATED => 'Updated',
         self::SALES_ORDER_STATUS_CANCELLED => 'Cancelled',
+    ];
+
+    const SALES_ORDER_TYPE_RETAIL = 'RETAIL';
+    const SALES_ORDER_TYPE_WHOLESALE = 'WHOLESALE';
+    const SALES_ORDER_TYPE_LABELS = [
+        self::SALES_ORDER_TYPE_RETAIL => 'Retail',
+        self::SALES_ORDER_TYPE_WHOLESALE => 'Wholesale',
     ];
 
     const ACCOUNT_PAYABLE_STATUS_UNPAID = 'UNPAID';

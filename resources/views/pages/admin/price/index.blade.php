@@ -27,6 +27,7 @@
                                 <th class="table-head-number">No</th>
                                 <th>Name</th>
                                 <th>Code</th>
+                                <th>Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $price->name }}</td>
                                     <td class="align-middle table-row-text">{{ $price->code }}</td>
+                                    <td class="align-middle table-row-text">{{ getPriceTypeLabel($price->type) }}</td>
                                     <td class="align-middle text-center">
                                         <a href="{{ route('prices.edit', $price->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>

@@ -53,7 +53,7 @@
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
                                             <div class="form-group row sales-order-is-taxable-input">
-                                                <label for="taxAmount" class="col-5 col-form-label text-bold text-right">Is Taxable</label>
+                                                <label for="isTaxable" class="col-5 col-form-label text-bold text-right">Is Taxable</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2"></span>
                                                 <div class="col-3 pkp-check">
@@ -64,6 +64,21 @@
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableNo" value="0" tabindex="7">
                                                         <label class="form-check-label text-bold text-dark" for="isTaxableNo">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row sales-order-type-input">
+                                                <label for="type" class="col-5 col-form-label text-bold text-right">Type</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <span class="col-form-label text-bold ml-2"></span>
+                                                <div class="col-3 pkp-check">
+                                                    <div class="form-check mt-2">
+                                                        <input class="form-check-input" type="radio" name="type" id="typeRetail" value="{{ \App\Utilities\Constant::SALES_ORDER_TYPE_RETAIL }}" tabindex="7" required>
+                                                        <label class="form-check-label text-bold text-dark" for="typeRetail">Retail</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="type" id="typeWholesale" value="{{ \App\Utilities\Constant::SALES_ORDER_TYPE_WHOLESALE }}" tabindex="7">
+                                                        <label class="form-check-label text-bold text-dark" for="typeWholesale">Wholesale</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -121,134 +136,136 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
-                                </span>
-                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
-                                    <thead class="text-center text-bold text-dark">
-                                        <tr>
-                                            <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
-                                            <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
-                                            <td rowspan="2" class="align-middle">Product Name</td>
-                                            <td rowspan="2" class="align-middle table-head-quantity-sales-order">Qty</td>
-                                            <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
-                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Price Type</td>
-                                            <td rowspan="2" class="align-middle table-head-price-sales-order">Price</td>
-                                            <td rowspan="2" class="align-middle table-head-total-sales-order">Total</td>
-                                            <td colspan="2" class="align-middle">Discount</td>
-                                            <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Final Amount</td>
-                                            <td rowspan="2" class="align-middle table-head-delete-transaction">Delete</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="table-head-discount-percentage-sales-order">%</td>
-                                            <td class="table-head-discount-amount-sales-order">Rupiah</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="itemTable">
-                                        @foreach($rows as $key => $row)
-                                            <tr class="text-bold text-dark" id="{{ $key }}">
-                                                <td class="align-middle text-center">{{ $row }}</td>
-                                                <td>
-                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
-                                                        @foreach($products as $product)
-                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
-                                                </td>
-                                                <td>
-                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
-                                                        @foreach($products as $product)
-                                                            <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
-                                                    <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 6 }}" disabled @if($key == 0) required @endif>
-                                                    </select>
-                                                    <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
-                                                </td>
-                                                <td>
-                                                    <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 7 }}" disabled @if($key == 0) required @endif>
-                                                    </select>
-                                                    <input type="hidden" name="price_id[]" id="priceId-{{ $key }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="final_amount[]" id="finalAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <button type="button" class="remove-transaction-table" id="deleteRow[]">
-                                                        <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
-                                                    </button>
-                                                </td>
+                                <div id="itemContent" hidden>
+                                    <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
+                                        Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    </span>
+                                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
+                                        <thead class="text-center text-bold text-dark">
+                                            <tr>
+                                                <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
+                                                <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
+                                                <td rowspan="2" class="align-middle">Product Name</td>
+                                                <td rowspan="2" class="align-middle table-head-quantity-sales-order">Qty</td>
+                                                <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
+                                                <td rowspan="2" class="align-middle table-head-price-type-sales-order">Price Type</td>
+                                                <td rowspan="2" class="align-middle table-head-price-sales-order">Price</td>
+                                                <td rowspan="2" class="align-middle table-head-total-sales-order">Total</td>
+                                                <td colspan="2" class="align-middle">Discount</td>
+                                                <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Final Amount</td>
+                                                <td rowspan="2" class="align-middle table-head-delete-transaction">Delete</td>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="form-group row justify-content-end subtotal-so sales-order-total-amount-info">
-                                    <label for="totalAmount" class="col-3 col-form-label text-bold text-right text-dark">Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="total_amount" id="totalAmount" readonly>
+                                            <tr>
+                                                <td class="table-head-discount-percentage-sales-order">%</td>
+                                                <td class="table-head-discount-amount-sales-order">Rupiah</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="itemTable">
+                                            @foreach($rows as $key => $row)
+                                                <tr class="text-bold text-dark" id="{{ $key }}">
+                                                    <td class="align-middle text-center">{{ $row }}</td>
+                                                    <td>
+                                                        <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
+                                                            @foreach($products as $product)
+                                                                <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
+                                                    </td>
+                                                    <td>
+                                                        <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
+                                                            @foreach($products as $product)
+                                                                <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
+                                                        <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    </td>
+                                                    <td>
+                                                        <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 6 }}" disabled @if($key == 0) required @endif>
+                                                        </select>
+                                                        <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
+                                                    </td>
+                                                    <td>
+                                                        <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 7 }}" disabled @if($key == 0) required @endif>
+                                                        </select>
+                                                        <input type="hidden" name="price_id[]" id="priceId-{{ $key }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign" readonly @if($key == 0) required @endif>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="final_amount[]" id="finalAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <button type="button" class="remove-transaction-table" id="deleteRow[]">
+                                                            <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="form-group row justify-content-end subtotal-so sales-order-total-amount-info">
+                                        <label for="totalAmount" class="col-3 col-form-label text-bold text-right text-dark">Total</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="total_amount" id="totalAmount" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Invoice Discount</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Enter Discount" tabindex="9999">
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Enter Discount" tabindex="9999">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="subtotal" class="col-3 col-form-label text-bold text-right text-dark">Sub Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="subtotal" id="subtotal" readonly>
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="subtotal" class="col-3 col-form-label text-bold text-right text-dark">Sub Total</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="subtotal" id="subtotal" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">Tax Amount</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="tax_amount" id="taxAmount" readonly>
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="tax_amount" id="taxAmount" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="grandTotal" class="col-3 col-form-label text-bold text-right text-dark">Grand Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="grand_total" id="grandTotal" readonly>
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="grandTotal" class="col-3 col-form-label text-bold text-right text-dark">Grand Total</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="grand_total" id="grandTotal" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <hr>
-                                <div class="form-row justify-content-center">
-                                    <div class="col-2">
-                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
+                                    <hr>
+                                    <div class="form-row justify-content-center">
+                                        <div class="col-2">
+                                             <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -407,9 +424,18 @@
                 $('#tempo').val(selected.data('tempo'));
             });
 
+            $('input[name="type"]').change(function() {
+                $('#itemContent').removeAttr('hidden');
+
+                let salesOrderType = $(this).val();
+                changePriceType(salesOrderType);
+            });
+
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index);
+                let salesOrderType = $('input[name="type"]:checked').val();
+
+                displayPrice(this.value, index, salesOrderType);
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -577,12 +603,39 @@
                 });
             });
 
-            function displayPrice(productId, index) {
+            function changePriceType(salesOrderType) {
+                let prices = $('select[name="price_type[]"]');
+
+                $.each(prices, function(index, data) {
+                    let price = $(`#price-${index}`);
+                    let priceTypes = $(`#priceType-${index} option`);
+                    let hasPriceType = 0;
+
+                    $.each(priceTypes, function(key, item) {
+                        let priceType = $(this).data('type');
+
+                        if(priceType === salesOrderType) {
+                            $(`#priceType-${index}`).selectpicker('val', $(this).val());
+                            price.val(thousandSeparator($(this).data('foo')));
+                            hasPriceType = 1;
+                        }
+                    });
+
+                    if(!hasPriceType && priceTypes.length > 0) {
+                        let firstType = $(priceTypes[0]);
+
+                        $(`#priceType-${index}`).selectpicker('val', firstType.val());
+                        price.val(thousandSeparator(firstType.data('foo')));
+                    }
+                });
+            }
+
+            function displayPrice(productId, index, salesOrderType) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',
                     data: {
-                        product_id: productId
+                        product_id: productId,
                     },
                     dataType: 'json',
                     success: function(data) {
@@ -632,8 +685,14 @@
                                     text: item.code,
                                     'data-tokens': item.code,
                                     'data-foo': item.price,
+                                    'data-type': item.type
                                 })
                             );
+
+                            if(item.type === salesOrderType) {
+                                productPriceId = item.id;
+                                price.val(thousandSeparator(item.price));
+                            }
 
                             priceType.attr('disabled', false);
                             priceType.selectpicker('refresh');
@@ -950,8 +1009,8 @@
                         warehouseIds.value = newWarehouseIds.value;
                         warehouseStocks.value = newWarehouseStocks.value;
 
-                        changeSelectPickerValue($(`#priceType-${i}`), newPriceType.value, rowNumber, true);
-                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
+                        changeSelectPickerValue($(`#priceType-${i}`), newPriceType.value, rowNumber, true, $(`#priceType-${rowNumber}`));
+                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true, $(`#unit-${rowNumber}`));
                         changeSelectPickerValue($(`#productName-${i}`), newProductName.value, rowNumber, false);
                         changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
 
@@ -1009,13 +1068,11 @@
                 }
             }
 
-            function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled) {
+            function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled, newElement = null) {
                 if(isRemoveDisabled) {
-                    let newUnit = $(`#unit-${index}`);
-
-                    if(!newUnit.is(':disabled')) {
+                    if(!newElement.is(':disabled')) {
                         selectElement.empty();
-                        selectElement.append(newUnit.html()).find('option');
+                        selectElement.append(newElement.html()).find('option');
                         selectElement.selectpicker('refresh');
                         selectElement.attr('disabled', false);
                     }

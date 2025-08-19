@@ -846,8 +846,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -15px;
 }
 
+.sales-order-type-input {
+    margin-top: 0;
+}
+
 .sales-order-customer-input {
-    margin-top: -53px;
+    margin-top: -107px;
 }
 
 .table-head-number-sales-order {

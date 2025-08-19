@@ -48,6 +48,11 @@ function getWarehouseTypeLabel($type): string
     return Constant::WAREHOUSE_TYPE_LABELS[$type];
 }
 
+function getPriceTypeLabel($type): string
+{
+    return Constant::PRICE_TYPE_LABELS[$type];
+}
+
 function getGoodsReceiptStatusLabel($status): string
 {
     return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];

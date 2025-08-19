@@ -354,6 +354,7 @@ class ProductController extends Controller
             $prices[] = [
                 'id' => $productPrice->price_id,
                 'code' => $productPrice->pricing->code,
+                'type' => $productPrice->pricing->type,
                 'price' => $productPrice->price
             ];
         }
