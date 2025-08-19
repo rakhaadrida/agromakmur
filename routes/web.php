@@ -99,6 +99,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
     Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
     Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
+
+    Route::resource('delivery-orders', 'DeliveryOrderController');
 });
 
 Auth::routes(['verify' => true]);

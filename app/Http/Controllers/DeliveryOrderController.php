@@ -13,7 +13,6 @@ use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
-use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
@@ -23,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class SalesOrderController extends Controller
+class DeliveryOrderController extends Controller
 {
     public function index(Request $request) {
         $filter = (object) $request->all();
@@ -139,7 +138,6 @@ class SalesOrderController extends Controller
             ]);
 
             $salesOrder = SalesOrder::create($request->all());
-            $deliveryOrder = DeliveryOrderService::createData($salesOrder);
 
             $productIds = $request->get('product_id', []);
             $unitIds = $request->get('unit_id', []);
@@ -193,7 +191,7 @@ class SalesOrderController extends Controller
                     $finalAmount = $total - $discountValue;
                     $subtotal += $finalAmount;
 
-                    $salesOrderItem = $salesOrder->salesOrderItems()->create([
+                    $salesOrder->salesOrderItems()->create([
                         'product_id' => $item['product_id'],
                         'warehouse_id' => $warehouseId,
                         'unit_id' => $item['unit_id'],
@@ -209,8 +207,6 @@ class SalesOrderController extends Controller
 
                     ProductService::getProductStockQuery($item['product_id'], $warehouseId)
                         ->decrement('stock', $actualQuantity);
-
-                    DeliveryOrderService::createItemData($deliveryOrder, $salesOrderItem);
                 }
             }
 
