@@ -221,7 +221,8 @@ class SalesOrderController extends Controller
             $salesOrder->update([
                 'subtotal' => $subtotal,
                 'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
+                'grand_total' => $grandTotal,
+                'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED
             ]);
 
             AccountReceivableService::createData($salesOrder);
@@ -599,5 +600,40 @@ class SalesOrderController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function indexAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+        $salesOrder = $baseQuery->findOrFail($filter->sales_order_id);
+        $salesOrderItems = $salesOrder->salesOrderItems;
+
+        if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
+            $salesOrder = SalesOrderService::mapSalesOrderApproval($salesOrder);
+            $salesOrderItems = $salesOrder->salesOrderItems;
+        }
+
+        $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
+        $productIds = $salesOrderItems->pluck('product_id')->toArray();
+
+        $deliveredQuantities = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($salesOrder->id, $productIds);
+        $mapDeliveredQuantityByProductId = [];
+        foreach($deliveredQuantities as $deliveredQuantity) {
+            $mapDeliveredQuantityByProductId[$deliveredQuantity->product_id] = $deliveredQuantity->quantity;
+        }
+
+        foreach($salesOrderItems as $salesOrderItem) {
+            $deliveredQuantity = $mapDeliveredQuantityByProductId[$salesOrderItem->product_id] ?? 0;
+            $remainingQuantity = $salesOrderItem->quantity - $deliveredQuantity;
+
+            $salesOrderItem->delivered_quantity = $deliveredQuantity;
+            $salesOrderItem->remaining_quantity = $remainingQuantity;
+        }
+
+        return response()->json([
+            'data' => $salesOrder,
+            'sales_order_items' => $salesOrderItems,
+        ]);
     }
 }

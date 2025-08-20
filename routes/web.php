@@ -97,6 +97,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('sales-orders/{id}/detail', 'SalesOrderController@detail')->name('sales-orders.detail');
     Route::get('sales-orders/{id}/print', 'SalesOrderController@print')->name('sales-orders.print');
     Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
+    Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
     Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
     Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
 

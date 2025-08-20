@@ -866,6 +866,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -107px;
 }
 
+.delivery-order-customer-input {
+    margin-top: -13px;
+}
+
 .table-head-number-sales-order {
     width: 30px;
 }
@@ -985,7 +989,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .table-head-quantity-delivery-order {
-    width: 140px;
+    width: 120px;
 }
 
 .table-head-unit-delivery-order {

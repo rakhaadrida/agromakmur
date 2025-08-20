@@ -3,19 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeliveryOrderCancelRequest;
+use App\Http\Requests\DeliveryOrderCreateRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
-use App\Http\Requests\SalesOrderCreateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
-use App\Models\Marketing;
-use App\Models\Product;
 use App\Models\SalesOrder;
-use App\Models\Warehouse;
 use App\Utilities\Constant;
-use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
-use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
@@ -81,11 +76,9 @@ class DeliveryOrderController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
-        $customers = Customer::all();
-        $marketings = Marketing::all();
-        $products = Product::all();
-        $warehouses = Warehouse::query()
-            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
+        $salesOrders = SalesOrder::query()
+            ->where('status' , '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->where('delivery_status', '!=', Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED)
             ->get();
 
         $rows = range(1, 5);
@@ -93,129 +86,70 @@ class DeliveryOrderController extends Controller
 
         $data = [
             'date' => $date,
-            'customers' => $customers,
-            'marketings' => $marketings,
-            'products' => $products,
-            'warehouses' => $warehouses,
+            'salesOrders' => $salesOrders,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
 
-        return view('pages.admin.sales-order.create', $data);
+        return view('pages.admin.delivery-order.create', $data);
     }
 
-    public function store(SalesOrderCreateRequest $request) {
+    public function store(DeliveryOrderCreateRequest $request) {
         try {
             DB::beginTransaction();
 
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
-            $deliveryDate = $request->get('delivery_date');
-            $deliveryDate = Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d');
-
             $request->merge([
                 'date' => $date,
-                'delivery_date' => $deliveryDate,
-                'discount_amount' => $request->get('invoice_discount') ?? 0,
-                'subtotal' => 0,
-                'tax_amount' => 0,
-                'grand_total' => 0,
-                'status' => Constant::SALES_ORDER_STATUS_ACTIVE,
+                'status' => Constant::DELIVERY_ORDER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
 
-            $salesOrder = SalesOrder::create($request->all());
+            $deliveryOrder = DeliveryOrder::create($request->all());
 
+            $totalOrderQuantity = 0;
+            $totalDeliveredQuantity = 0;
             $productIds = $request->get('product_id', []);
-            $unitIds = $request->get('unit_id', []);
-            $realQuantities = $request->get('real_quantity', []);
-            $prices = $request->get('price', []);
-            $priceIds = $request->get('price_id', []);
-            $discounts = $request->get('discount', []);
-            $discountProducts = $request->get('discount_product', []);
-            $warehouseIdsList = $request->get('warehouse_ids', []);
-            $warehouseStocksList = $request->get('warehouse_stocks', []);
+            foreach ($productIds as $index => $productId) {
+                if(!empty($productId)) {
+                    $unitId = $request->get('unit_id')[$index];
+                    $orderQuantity = $request->get('order_quantity')[$index];
+                    $quantity = $request->get('quantity')[$index];
+                    $actualQuantity = $request->get('real_quantity')[$index];
 
-            $itemsData = collect($productIds)
-                ->map(function ($productId, $index) use (
-                    $unitIds, $realQuantities, $prices, $priceIds,
-                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
-                ) {
-                    if (empty($productId)) return null;
-
-                    return [
+                    $deliveryOrder->deliveryOrderItems()->create([
                         'product_id' => $productId,
-                        'unit_id' => $unitIds[$index],
-                        'real_quantity' => $realQuantities[$index],
-                        'price' => $prices[$index],
-                        'price_id' => $priceIds[$index],
-                        'discount' => $discounts[$index],
-                        'discount_product' => $discountProducts[$index],
-                        'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
-                        'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
-                    ];
-                })
-                ->filter();
-
-            $subtotal = 0;
-            foreach ($itemsData as $item) {
-                $totalDiscount = $item['discount_product'];
-                $warehouseCount = count($item['warehouse_ids']);
-
-                foreach ($item['warehouse_ids'] as $key => $warehouseId) {
-                    $quantity = $item['warehouse_stocks'][$key] ?? 0;
-                    $actualQuantity = $quantity * $item['real_quantity'];
-                    $total = $quantity * $item['price'];
-
-                    $discountValue = round($item['discount_product'] / $warehouseCount);
-                    if ($discountValue < $totalDiscount) {
-                        $totalDiscount -= $discountValue;
-                    } else {
-                        $discountValue = $totalDiscount;
-                        $totalDiscount = 0;
-                    }
-
-                    $finalAmount = $total - $discountValue;
-                    $subtotal += $finalAmount;
-
-                    $salesOrder->salesOrderItems()->create([
-                        'product_id' => $item['product_id'],
-                        'warehouse_id' => $warehouseId,
-                        'unit_id' => $item['unit_id'],
+                        'unit_id' => $unitId,
                         'quantity' => $quantity,
                         'actual_quantity' => $actualQuantity,
-                        'price_id' => $item['price_id'],
-                        'price' => $item['price'],
-                        'total' => $total,
-                        'discount' => $item['discount'],
-                        'discount_amount' => $discountValue,
-                        'final_amount' => $finalAmount
                     ]);
 
-                    ProductService::getProductStockQuery($item['product_id'], $warehouseId)
-                        ->decrement('stock', $actualQuantity);
+                    $totalOrderQuantity += $orderQuantity;
                 }
             }
 
-            $totalAfterDiscount = $subtotal - $salesOrder->discount_amount;
-            $taxAmount = round($totalAfterDiscount * (10 / 100));
-            $grandTotal = (int) $totalAfterDiscount + $taxAmount;
+            $deliveredQuantities = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
+            foreach($deliveredQuantities as $deliveredQuantity) {
+                $totalDeliveredQuantity += $deliveredQuantity->quantity;
+            }
 
-            $salesOrder->update([
-                'subtotal' => $subtotal,
-                'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
+            $deliveryStatus = Constant::SALES_ORDER_DELIVERY_STATUS_ON_PROGRESS;
+            if($totalOrderQuantity == $totalDeliveredQuantity) {
+                $deliveryStatus = Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED;
+            }
+
+            $deliveryOrder->salesOrder()->update([
+                'delivery_status' => $deliveryStatus
             ]);
 
-            AccountReceivableService::createData($salesOrder);
-
             $parameters = [];
-            $route = 'sales-orders.create';
+            $route = 'delivery-orders.create';
 
             if($request->get('is_print')) {
-                $route = 'sales-orders.print';
-                $parameters = ['id' => $salesOrder->id];
+                $route = 'delivery-orders.print';
+                $parameters = ['id' => $deliveryOrder->id];
             }
 
             DB::commit();
@@ -288,7 +222,31 @@ class DeliveryOrderController extends Controller
 
         if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
             $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
-            $deliveryOrderItems = $deliveryOrder->salesOrderItems;
+            $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+        }
+
+        $productIds = $deliveryOrderItems->pluck('product_id')->toArray();
+        $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
+
+        $mapOrderQuantityByProductId = [];
+        foreach($orderQuantities as $orderQuantity) {
+            $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
+        }
+
+        $deliveredQuantities = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
+        $mapDeliveredQuantityByProductId = [];
+        foreach($deliveredQuantities as $deliveredQuantity) {
+            $mapDeliveredQuantityByProductId[$deliveredQuantity->product_id] = $deliveredQuantity->quantity;
+        }
+
+        foreach($deliveryOrderItems as $deliveryOrderItem) {
+            $orderQuantity = $mapOrderQuantityByProductId[$deliveryOrderItem->product_id];
+            $deliveredQuantity = $mapDeliveredQuantityByProductId[$deliveryOrderItem->product_id];
+            $remainingQuantity = $orderQuantity - $deliveredQuantity + $deliveryOrderItem->quantity;
+
+            $deliveryOrderItem->order_quantity = $orderQuantity;
+            $deliveryOrderItem->delivered_quantity = $deliveredQuantity;
+            $deliveryOrderItem->remaining_quantity = $remainingQuantity;
         }
 
         $rowNumbers = count($deliveryOrderItems);

@@ -3,6 +3,8 @@
 namespace App\Utilities\Services;
 
 use App\Models\SalesOrder;
+use App\Models\SalesOrderItem;
+use Illuminate\Support\Facades\DB;
 
 class SalesOrderService
 {
@@ -91,5 +93,19 @@ class SalesOrderService
                 ];
             })
             ->values();
+    }
+
+    public static function getSalesOrderQuantityBySalesOrderProductIds($salesOrderId, $productIds) {
+        $salesOrderQuantities = SalesOrderItem::query()
+            ->select(
+                'product_id',
+                DB::raw('SUM(quantity) AS quantity')
+            )
+            ->where('sales_order_id', $salesOrderId)
+            ->whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->get();
+
+        return $salesOrderQuantities;
     }
 }

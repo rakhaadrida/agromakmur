@@ -27,6 +27,7 @@ class SalesOrder extends Model
         'is_printed',
         'print_count',
         'status',
+        'delivery_status',
         'user_id',
     ];
 
@@ -44,6 +45,10 @@ class SalesOrder extends Model
 
     public function salesOrderItems() {
         return $this->hasMany(SalesOrderItem::class, 'sales_order_id', 'id');
+    }
+
+    public function deliveryOrders() {
+        return $this->hasMany(DeliveryOrder::class, 'sales_order_id', 'id');
     }
 
     public function approvals()

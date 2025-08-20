@@ -7,6 +7,7 @@ use App\Models\DeliveryOrderItem;
 use App\Utilities\Constant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryOrderService
 {
@@ -80,5 +81,24 @@ class DeliveryOrderService
         $deliveryOrder->deliveryOrderItems = $deliveryOrder->pendingApproval->approvalItems;
 
         return $deliveryOrder;
+    }
+
+    public static function getDeliveryQuantityBySalesOrderProductIds($salesOrderId, $productIds) {
+        $deliveryOrderIds = DeliveryOrder::query()
+            ->where('sales_order_id', $salesOrderId)
+            ->pluck('id')
+            ->toArray();
+
+        $deliveryOrderQuantities = DeliveryOrderItem::query()
+            ->select(
+                'product_id',
+                DB::raw('SUM(quantity) AS quantity')
+            )
+            ->whereIn('delivery_order_id', $deliveryOrderIds)
+            ->whereIn('product_id', $productIds)
+            ->groupBy('product_id')
+            ->get();
+
+        return $deliveryOrderQuantities;
     }
 }

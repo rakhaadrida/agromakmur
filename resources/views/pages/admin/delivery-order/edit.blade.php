@@ -86,7 +86,10 @@
                                             <td class="align-middle table-head-number-delivery-order">No</td>
                                             <td class="align-middle table-head-code-delivery-order">SKU</td>
                                             <td class="align-middle">Product Name</td>
-                                            <td class="align-middle table-head-quantity-delivery-order">Qty</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Qty to be Sent</td>
                                             <td class="align-middle table-head-unit-delivery-order">Unit</td>
                                         </tr>
                                     </thead>
@@ -102,7 +105,16 @@
                                                     <input type="text" name="product_name[]" id="productName-{{ $key }}" class="form-control form-control-sm text-bold text-dark readonly-input" title="" value="{{ $deliveryOrderItem->product->name }}" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" data-foo="{{ $deliveryOrderItem->quantity }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                                    <input type="text" name="order_quantity[]" id="orderQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->order_quantity) }}" title="" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="delivered_quantity[]" id="deliveredQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->delivered_quantity) }}" title="" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="remaining_quantity[]" id="remainingQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->remaining_quantity) }}" title="" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ $deliveryOrderItem->actual_quantity }}">
                                                 </td>
                                                 <td class="align-middle text-center">
@@ -158,7 +170,11 @@
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
-                    $(`#quantity-${index}`).tooltip('show');
+
+                    let quantity = $(`#quantity-${index}`);
+                    quantity.attr('title', 'Only allowed to input numbers');
+                    quantity.attr('data-original-title', 'Only allowed to input numbers');
+                    quantity.tooltip('show');
 
                     event.preventDefault();
                 }
@@ -166,11 +182,6 @@
 
             table.on('keyup', 'input[name="quantity[]"]', function () {
                 this.value = currencyFormat(this.value);
-            });
-
-            table.on('blur', 'input[name="quantity[]"]', function () {
-                const index = $(this).closest('tr').index();
-                let baseQuantity = $(this).data('foo') || 0;
             });
 
             $('#btnSubmit').on('click', function(event) {
@@ -182,7 +193,27 @@
                     return false;
                 }
 
-                $('#form').submit();
+                let isInvalidQuantity = 0;
+                $('input[name="quantity[]"]').each(function(index) {
+                    this.value = numberFormat(this.value);
+
+                    let remainingQuantityElement = $(`#remainingQuantity-${index}`);
+                    let remainingQuantity = numberFormat(remainingQuantityElement.val());
+
+                    if(this.value > remainingQuantity) {
+                        let quantity = $(`#quantity-${index}`);
+                        quantity.attr('title', 'Quantity to be sent can not greater than remaining quantity');
+                        quantity.attr('data-original-title', 'Quantity to be sent can not greater than remaining quantity');
+                        quantity.tooltip('show');
+                        isInvalidQuantity = 1;
+
+                        return false;
+                    }
+                });
+
+                if(!isInvalidQuantity) {
+                    $('#form').submit();
+                }
             });
 
             function currencyFormat(value) {
@@ -190,6 +221,10 @@
                     .replace(/\D/g, "")
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                     ;
+            }
+
+            function numberFormat(value) {
+                return +value.replace(/\./g, "");
             }
         });
     </script>
