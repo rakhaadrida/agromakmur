@@ -176,7 +176,7 @@
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('account-payables.index') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Account Payable</span>
             </a>
