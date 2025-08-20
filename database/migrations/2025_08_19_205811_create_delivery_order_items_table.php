@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('delivery_order_id')->references('id')->on('delivery_orders')->onDelete('cascade');
             $table->foreignId('sales_order_item_id')->references('id')->on('sales_order_items')->onDelete('cascade');
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreignId('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->integer('actual_quantity')->default(0);

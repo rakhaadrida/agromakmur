@@ -535,7 +535,7 @@ class SalesOrderController extends Controller
             $totalPage = ceil(($salesOrder->salesOrderItems->count()) / 15);
             $salesOrder->total_page = $totalPage;
             $salesOrder->total_rows = $salesOrder->salesOrderItems->count();
-       }
+        }
 
         $data = [
             'id' => $id,
@@ -580,7 +580,10 @@ class SalesOrderController extends Controller
                 ->get();
 
             foreach ($salesOrders as $salesOrder) {
-                $salesOrder->update(['is_printed' => 1]);
+                $salesOrder->update([
+                    'is_printed' => 1,
+                    'print_count' => $salesOrder->print_count + 1
+                ]);
             }
 
             $route = $id ? 'sales-orders.create' : 'sales-orders.index-print';

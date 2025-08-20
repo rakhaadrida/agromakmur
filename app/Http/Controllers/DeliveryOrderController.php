@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SalesOrderCancelRequest;
+use App\Http\Requests\DeliveryOrderCancelRequest;
+use App\Http\Requests\DeliveryOrderUpdateRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
-use App\Http\Requests\SalesOrderUpdateRequest;
 use App\Models\Customer;
+use App\Models\DeliveryOrder;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
@@ -13,6 +14,7 @@ use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
@@ -60,35 +62,21 @@ class DeliveryOrderController extends Controller
     }
 
     public function detail($id) {
-        $salesOrder = SalesOrder::query()->findOrFail($id);
-        $salesOrderItems = $salesOrder->salesOrderItems;
+        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+        $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
 
-        if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
-            $salesOrder = SalesOrderService::mapSalesOrderApproval($salesOrder);
-            $salesOrderItems = $salesOrder->salesOrderItems;
+        if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
+            $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
+            $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
         }
-
-        $productWarehouses = [];
-        foreach($salesOrderItems as $salesOrderItem) {
-            $productWarehouses[$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
-        }
-
-        $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
-
-        $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
-            ->get();
 
         $data = [
             'id' => $id,
-            'salesOrder' => $salesOrder,
-            'salesOrderItems' => $salesOrderItems,
-            'productWarehouses' => $productWarehouses,
-            'warehouses' => $warehouses,
-            'totalWarehouses' => $warehouses->count(),
+            'deliveryOrder' => $deliveryOrder,
+            'deliveryOrderItems' => $deliveryOrderItems,
         ];
 
-        return view('pages.admin.sales-order.detail', $data);
+        return view('pages.admin.delivery-order.detail', $data);
     }
 
     public function create() {
@@ -257,45 +245,30 @@ class DeliveryOrderController extends Controller
         }
 
         $customers = Customer::all();
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
 
         if($startDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
+            $baseQuery = $baseQuery->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
         }
 
         if($finalDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
+            $baseQuery = $baseQuery->where('delivery_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
         }
 
         if($number) {
-            $baseQuery = $baseQuery->where('sales_orders.number', $number);
+            $baseQuery = $baseQuery->where('delivery_orders.number', $number);
         }
 
         if($customerId) {
-            $baseQuery = $baseQuery->where('sales_orders.customer_id', $customerId);
+            $baseQuery = $baseQuery->where('delivery_orders.customer_id', $customerId);
         }
 
-        $salesOrders = $baseQuery
-            ->orderByDesc('sales_orders.date')
-            ->orderByDesc('sales_orders.id')
+        $deliveryOrders = $baseQuery
+            ->orderByDesc('delivery_orders.date')
+            ->orderByDesc('delivery_orders.id')
             ->get();
 
-        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
-
-        $productWarehouses = [];
-        foreach ($salesOrders as $salesOrder) {
-            foreach($salesOrder->salesOrderItems as $salesOrderItem) {
-                $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
-            }
-        }
-
-        foreach ($salesOrders as $salesOrder) {
-            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
-        }
-
-        $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
-            ->get();
+        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders, true);
 
         $data = [
             'startDate' => $startDate,
@@ -303,166 +276,88 @@ class DeliveryOrderController extends Controller
             'number' => $number,
             'customerId' => $customerId,
             'customers' => $customers,
-            'salesOrders' => $salesOrders,
-            'productWarehouses' => $productWarehouses,
-            'warehouses' => $warehouses,
-            'totalWarehouses' => $warehouses->count(),
+            'deliveryOrders' => $deliveryOrders,
         ];
 
-        return view('pages.admin.sales-order.index-edit', $data);
+        return view('pages.admin.delivery-order.index-edit', $data);
     }
 
     public function edit($id) {
-        $salesOrder = SalesOrder::query()->findOrFail($id);
-        $salesOrderItems = $salesOrder->salesOrderItems;
+        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+        $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
 
-        if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
-            $salesOrder = SalesOrderService::mapSalesOrderApproval($salesOrder);
-            $salesOrderItems = $salesOrder->salesOrderItems;
+        if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
+            $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
+            $deliveryOrderItems = $deliveryOrder->salesOrderItems;
         }
 
-        $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
-
-        $customers = Customer::all();
-        $marketings = Marketing::all();
-        $products = Product::all();
-        $rowNumbers = count($salesOrderItems);
-
-        $productIds = $salesOrderItems->pluck('product_id')->toArray();
-        $productConversions = ProductService::findProductConversions($productIds);
-        $productPrices = ProductService::findProductPrices($productIds);
-
-        foreach($salesOrderItems as $salesOrderItem) {
-            $units[$salesOrderItem->product_id][] = [
-                'id' => $salesOrderItem->product_unit_id,
-                'name' => $salesOrderItem->unit_name,
-                'quantity' => 1
-            ];
-        }
-
-        foreach($productConversions as $conversion) {
-            $units[$conversion->product_id][] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
-        }
-
-        foreach($productPrices as $productPrice) {
-            $prices[$productPrice->product_id][] = [
-                'id' => $productPrice->price_id,
-                'code' => $productPrice->pricing->code,
-                'price' => $productPrice->price
-            ];
-        }
-
-        $warehouses = Warehouse::query()
-            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
-            ->get();
+        $rowNumbers = count($deliveryOrderItems);
 
         $data = [
             'id' => $id,
-            'salesOrder' => $salesOrder,
-            'salesOrderItems' => $salesOrderItems,
-            'customers' => $customers,
-            'marketings' => $marketings,
-            'products' => $products,
+            'deliveryOrder' => $deliveryOrder,
+            'deliveryOrderItems' => $deliveryOrderItems,
             'rowNumbers' => $rowNumbers,
-            'units' => $units ?? [],
-            'prices' => $prices ?? [],
-            'warehouses' => $warehouses,
         ];
 
-        return view('pages.admin.sales-order.edit', $data);
+        return view('pages.admin.delivery-order.edit', $data);
     }
 
-    public function update(SalesOrderUpdateRequest $request, $id) {
+    public function update(DeliveryOrderUpdateRequest $request, $id) {
         try {
             DB::beginTransaction();
 
             $data = $request->all();
-            $salesOrder = SalesOrder::query()->findOrFail($id);
-            $salesOrder->update([
-                'status' => Constant::SALES_ORDER_STATUS_WAITING_APPROVAL
+            $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+            $deliveryOrder->update([
+                'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            $productIds = $request->get('product_id', []);
-            $unitIds = $request->get('unit_id', []);
-            $realQuantities = $request->get('real_quantity', []);
-            $prices = $request->get('price', []);
-            $priceIds = $request->get('price_id', []);
-            $discounts = $request->get('discount', []);
-            $discountProducts = $request->get('discount_product', []);
-            $warehouseIdsList = $request->get('warehouse_ids', []);
-            $warehouseStocksList = $request->get('warehouse_stocks', []);
-
-            $itemsData = collect($productIds)
-                ->map(function ($productId, $index) use (
-                    $unitIds, $realQuantities, $prices, $priceIds,
-                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
-                ) {
-                    if (empty($productId)) return null;
-
-                    return [
-                        'product_id' => $productId,
-                        'unit_id' => $unitIds[$index],
-                        'real_quantity' => $realQuantities[$index],
-                        'price' => $prices[$index],
-                        'price_id' => $priceIds[$index],
-                        'discount' => $discounts[$index],
-                        'discount_product' => $discountProducts[$index],
-                        'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
-                        'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
-                    ];
-                })
-                ->filter();
-
-            ApprovalService::deleteData($salesOrder->approvals);
+            ApprovalService::deleteData($deliveryOrder->approvals);
 
             $parentApproval = ApprovalService::createData(
-                $salesOrder,
-                $salesOrder->salesOrderItems,
+                $deliveryOrder,
+                $deliveryOrder->deliveryOrderItems,
                 Constant::APPROVAL_TYPE_EDIT,
                 Constant::APPROVAL_STATUS_PENDING,
                 $request->get('description', '')
             );
 
-            ApprovalService::createDataSalesOrder(
-                $salesOrder,
-                $itemsData,
+            ApprovalService::createData(
+                $deliveryOrder,
+                $data,
                 Constant::APPROVAL_TYPE_EDIT,
                 Constant::APPROVAL_STATUS_PENDING,
                 $data['description'],
                 $parentApproval->id,
-                $data
             );
 
             DB::commit();
 
-            return redirect()->route('sales-orders.index-edit');
+            return redirect()->route('delivery-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
 
-            return redirect()->route('sales-orders.edit', $id)->withInput()->withErrors([
+            return redirect()->route('delivery-orders.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }
     }
 
-    public function destroy(SalesOrderCancelRequest $request, $id) {
+    public function destroy(DeliveryOrderCancelRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $salesOrder = SalesOrder::query()->findOrFail($id);
-            $salesOrder->update([
-                'status' => Constant::SALES_ORDER_STATUS_WAITING_APPROVAL
+            $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+            $deliveryOrder->update([
+                'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($salesOrder->approvals);
+            ApprovalService::deleteData($deliveryOrder->approvals);
             ApprovalService::createData(
-                $salesOrder,
-                $salesOrder->salesOrderItems,
+                $deliveryOrder,
+                $deliveryOrder->deliveryOrderItems,
                 Constant::APPROVAL_TYPE_CANCEL,
                 Constant::APPROVAL_STATUS_PENDING,
                 $request->get('description', '')
@@ -470,7 +365,7 @@ class DeliveryOrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('sales-orders.index-edit');
+            return redirect()->route('delivery-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -482,19 +377,19 @@ class DeliveryOrderController extends Controller
     }
 
     public function indexPrint() {
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
 
-        $salesOrders = $baseQuery
-            ->where('sales_orders.is_printed', 0)
-            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
-            ->orderBy('sales_orders.date')
+        $deliveryOrders = $baseQuery
+            ->where('delivery_orders.is_printed', 0)
+            ->where('delivery_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->orderBy('delivery_orders.date')
             ->get();
 
         $data = [
-            'salesOrders' => $salesOrders
+            'deliveryOrders' => $deliveryOrders
         ];
 
-        return view('pages.admin.sales-order.index-print', $data);
+        return view('pages.admin.delivery-order.index-print', $data);
     }
 
     public function print(Request $request, $id) {
@@ -504,38 +399,36 @@ class DeliveryOrderController extends Controller
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
 
         if($id) {
-            $baseQuery = $baseQuery->where('sales_orders.id', $id);
+            $baseQuery = $baseQuery->where('delivery_orders.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('sales_orders.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', '>=', $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $startNumber);
             }
         }
 
-        $salesOrders = $baseQuery
-            ->where('sales_orders.is_printed', 0)
-            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+        $deliveryOrders = $baseQuery
+            ->where('delivery_orders.is_printed', 0)
+            ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
-        foreach ($salesOrders as $salesOrder) {
-            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
-
-            $totalPage = ceil(($salesOrder->salesOrderItems->count()) / 15);
-            $salesOrder->total_page = $totalPage;
-            $salesOrder->total_rows = $salesOrder->salesOrderItems->count();
-       }
+        foreach ($deliveryOrders as $deliveryOrder) {
+            $totalPage = ceil(($deliveryOrder->deliveryOrderItems->count()) / 15);
+            $deliveryOrder->total_page = $totalPage;
+            $deliveryOrder->total_rows = $deliveryOrder->deliveryOrderItems->count();
+        }
 
         $data = [
             'id' => $id,
-            'salesOrders' => $salesOrders,
+            'deliveryOrders' => $deliveryOrders,
             'printDate' => $printDate,
             'printTime' => $printTime,
             'startNumber' => $startNumber,
@@ -543,7 +436,7 @@ class DeliveryOrderController extends Controller
             'rowNumbers' => 35
         ];
 
-        return view('pages.admin.sales-order.print', $data);
+        return view('pages.admin.delivery-order.print', $data);
     }
 
     public function afterPrint(Request $request, $id) {
@@ -554,32 +447,35 @@ class DeliveryOrderController extends Controller
             $startNumber = $filter->start_number ?? 0;
             $finalNumber = $filter->final_number ?? 0;
 
-            $baseQuery = SalesOrder::query();
+            $baseQuery = DeliveryOrder::query();
 
             if($id) {
-                $baseQuery = $baseQuery->where('sales_orders.id', $id);
+                $baseQuery = $baseQuery->where('delivery_orders.id', $id);
             } else {
                 if($startNumber) {
-                    $baseQuery = $baseQuery->where('sales_orders.id', '>=', $startNumber);
+                    $baseQuery = $baseQuery->where('delivery_orders.id', '>=', $startNumber);
                 }
 
                 if($finalNumber) {
-                    $baseQuery = $baseQuery->where('sales_orders.id', '<=', $finalNumber);
+                    $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $finalNumber);
                 } else {
-                    $baseQuery = $baseQuery->where('sales_orders.id', '<=', $startNumber);
+                    $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $startNumber);
                 }
             }
 
-            $salesOrders = $baseQuery
-                ->where('sales_orders.is_printed', 0)
-                ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            $deliveryOrders = $baseQuery
+                ->where('delivery_orders.is_printed', 0)
+                ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
                 ->get();
 
-            foreach ($salesOrders as $salesOrder) {
-                $salesOrder->update(['is_printed' => 1]);
+            foreach ($deliveryOrders as $deliveryOrder) {
+                $deliveryOrder->update([
+                    'is_printed' => 1,
+                    'print_count' => $deliveryOrder->print_count + 1
+                ]);
             }
 
-            $route = $id ? 'sales-orders.create' : 'sales-orders.index-print';
+            $route = $id ? 'delivery-orders.create' : 'delivery-orders.index-print';
 
             DB::commit();
 

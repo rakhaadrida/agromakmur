@@ -13,7 +13,6 @@ class DeliveryOrderItem extends Model
         'delivery_order_id',
         'sales_order_item_id',
         'product_id',
-        'warehouse_id',
         'unit_id',
         'quantity',
         'actual_quantity',
@@ -29,10 +28,6 @@ class DeliveryOrderItem extends Model
 
     public function product() {
         return $this->belongsTo(Product::class, 'product_id', 'id');
-    }
-
-    public function warehouse() {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
 
     public function unit() {

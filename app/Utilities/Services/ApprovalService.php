@@ -106,7 +106,7 @@ class ApprovalService
                 $quantity = $childItems['quantity'][$index];
                 $realQuantity = $childItems['real_quantity'][$index];
                 $priceId = $childItems['price_id'][$index] ?? null;
-                $price = $childItems['price'][$index];
+                $price = $childItems['price'][$index] ?? 0;
                 $discount = $childItems['discount'][$index] ?? 0;
                 $discountAmount = $childItems['discount_amount'][$index] ?? 0;
 

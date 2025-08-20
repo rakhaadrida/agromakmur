@@ -186,6 +186,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -20px;
 }
 
+.do-update-date {
+    margin-top: -90px;
+}
+
+.do-update-input {
+    margin-top: -18px;
+}
+
 .title-rekap {
     margin-top: -25px;
 }
@@ -834,6 +842,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-left: -480px !important;
 }
 
+.edit-delivery-general-info-right {
+    margin-left: -550px !important;
+}
+
 .sales-order-middle-input {
     margin-left: 40px !important;
 }
@@ -962,5 +974,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .sales-order-total-amount-info {
     margin-right: 50px;
+}
+
+.table-head-number-delivery-order {
+    width: 60px;
+}
+
+.table-head-code-delivery-order {
+    width: 120px;
+}
+
+.table-head-quantity-delivery-order {
+    width: 140px;
+}
+
+.table-head-unit-delivery-order {
+    width: 130px;
 }
 

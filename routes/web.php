@@ -101,6 +101,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
 
     Route::resource('delivery-orders', 'DeliveryOrderController');
+    Route::get('delivery-orders/{id}/detail', 'DeliveryOrderController@detail')->name('delivery-orders.detail');
+    Route::get('delivery-orders/{id}/print', 'DeliveryOrderController@print')->name('delivery-orders.print');
+    Route::get('delivery-orders/{id}/after-print', 'DeliveryOrderController@afterPrint')->name('delivery-orders.after-print');
+    Route::get('print-delivery-orders', 'DeliveryOrderController@indexPrint')->name('delivery-orders.index-print');
+    Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
 });
 
 Auth::routes(['verify' => true]);

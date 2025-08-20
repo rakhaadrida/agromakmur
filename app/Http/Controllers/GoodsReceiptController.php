@@ -426,7 +426,10 @@ class GoodsReceiptController extends Controller
                 ->get();
 
             foreach ($goodsReceipts as $goodsReceipt) {
-                $goodsReceipt->update(['is_printed' => 1]);
+                $goodsReceipt->update([
+                    'is_printed' => 1,
+                    'print_count' => $goodsReceipt->print_count + 1
+                ]);
             }
 
             $route = $id ? 'goods-receipts.create' : 'goods-receipts.index-print';

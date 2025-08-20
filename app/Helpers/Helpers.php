@@ -68,6 +68,11 @@ function getSalesOrderStatusLabel($status): string
     return Constant::SALES_ORDER_STATUS_LABELS[$status];
 }
 
+function getDeliveryOrderStatusLabel($status): string
+{
+    return Constant::DELIVERY_ORDER_STATUS_LABELS[$status];
+}
+
 function getApprovalTypeLabel($type): string
 {
     return Constant::APPROVAL_TYPE_LABELS[$type];
