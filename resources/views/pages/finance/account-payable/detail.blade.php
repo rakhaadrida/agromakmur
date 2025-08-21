@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Payable</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Payable - {{ $supplier->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('account-payables.index') }}" method="GET" id="form">
+                            <form action="{{ route('account-payables.detail', $id) }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row account-payable-filter-row">
                                         <label for="status" class="col-2 col-form-label text-right text-bold">Status</label>
@@ -59,8 +59,10 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-payable-number">No</th>
-                                            <th class="align-middle th-payable-supplier">Supplier</th>
-                                            <th class="align-middle th-payable-invoice-count">Invoice Count</th>
+                                            <th class="align-middle th-payable-receipt-number">Receipt Number</th>
+                                            <th class="align-middle th-payable-date">Receipt Date</th>
+                                            <th class="align-middle th-payable-date">Due Date</th>
+                                            <th class="align-middle th-payable-invoice-age">Invoice Age</th>
                                             <th class="align-middle th-payable-grand-total">Grand Total</th>
                                             <th class="align-middle th-payable-amount">Payment</th>
                                             <th class="align-middle th-payable-amount">Return Amount</th>
@@ -72,25 +74,29 @@
                                         @forelse($accountPayables as $key => $accountPayable)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td class="align-middle">{{ $accountPayable->supplier_name }}</td>
-                                                <td class="align-middle text-center">{{ $accountPayable->invoice_count }}</td>
+                                                <td class="align-middle">
+                                                    <a href="{{ route('goods-receipts.detail', $accountPayable->goods_receipt_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ $accountPayable->number }}</a>
+                                                </td>
+                                                <td class="align-middle text-center" data-sort="{{ formatDate($accountPayable->date, 'Ymd') }}">{{ formatDate($accountPayable->date, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'Ymd') }}">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Day(s)</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->payment_amount }}">{{ formatPrice($accountPayable->payment_amount) }}</td>
                                                 <td class="align-middle text-right">0</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->outstanding_amount }}">{{ formatPrice($accountPayable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountPayableUnpaid($accountPayable->status)) account-payable-unpaid @elseif(isAccountPayableOngoing($accountPayable->status)) account-payable-ongoing @else account-payable-paid @endif">
-                                                    <a href="{{ route('account-payables.detail', $accountPayable->supplier_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
+                                                    <a href="{{ route('account-payables.payment', $accountPayable->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="8" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="10" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                     <tfoot>
                                         <tr class="text-right text-bold text-dark tfoot-account-payable">
-                                            <td colspan="3" class="text-center">Total</td>
+                                            <td colspan="5" class="text-center">Total</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -144,8 +150,8 @@
                 };
 
                 let column;
-                $.each([3, 4, 5, 6], function(index, value) {
-                    if((value === 3) || (value === 4) || (value === 5) || (value === 6)) {
+                $.each([5, 6, 7, 8], function(index, value) {
+                    if((value === 5) || (value === 6) || (value === 7) || (value === 8)) {
                         column = api
                             .column(value, {
                                 page: 'current'

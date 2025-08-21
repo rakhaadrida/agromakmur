@@ -117,7 +117,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
     });
 
-    Route::resource('account-payables', 'AccountPayableController');
+    Route::resource('account-payables', 'AccountPayableController')->except(['create', 'destroy']);
+    Route::get('account-payables/{id}/detail', 'AccountPayableController@detail')->name('account-payables.detail');
+    Route::get('account-payables/{id}/payment', 'AccountPayableController@payment')->name('account-payables.payment');
 });
 
 Auth::routes(['verify' => true]);

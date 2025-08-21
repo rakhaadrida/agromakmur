@@ -996,3 +996,68 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 130px;
 }
 
+.account-payable-filter-row {
+    margin-top: -10px !important;
+}
+
+.account-payable-filter-status {
+    flex: 0 0 39.5% !important;
+}
+
+.account-payable-unpaid {
+    background: lightpink;
+}
+
+.account-payable-ongoing {
+    background: lightblue;
+}
+
+.account-payable-paid {
+    background: lightgreen;
+}
+
+.th-payable-number {
+    width: 30px;
+}
+
+.th-payable-supplier {
+    width: 300px;
+}
+
+.th-payable-receipt-number {
+    width: 200px;
+}
+
+.th-payable-date {
+    width: 80px;
+}
+
+.th-payable-invoice-age {
+    width: 90px;
+}
+
+.th-payable-invoice-count {
+    width: 50px;
+}
+
+.th-payable-grand-total {
+    width: 75px;
+}
+
+.th-payable-amount {
+    width: 70px;
+}
+
+.th-payable-status {
+    width: 75px;
+}
+
+.tbody-payable-status {
+    font-size: 14px !important;
+}
+
+.tfoot-account-payable {
+    background: lightgrey;
+    font-size: 14px;
+}
+

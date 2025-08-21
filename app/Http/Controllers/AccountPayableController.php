@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AccountPayableCreateRequest;
 use App\Http\Requests\GoodsReceiptCancelRequest;
-use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Models\AccountPayable;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\Supplier;
-use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ApprovalService;
@@ -17,7 +17,6 @@ use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -26,143 +25,155 @@ class AccountPayableController extends Controller
     public function index(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $accountPayableStatuses = Constant::ACCOUNT_PAYABLE_STATUSES;
+        $status = $accountPayableStatuses;
 
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $baseQuery = AccountPayableService::getBaseQueryIndex();
 
         $accountPayables = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+            ->whereIn('account_payables.status', $status)
+            ->orderBy('suppliers.name')
             ->get();
 
-        $accountPayables = GoodsReceiptService::mapGoodsReceiptIndex($accountPayables);
+        foreach($accountPayables as $accountPayable) {
+            $paymentAmount = $accountPayable->payment_amount ?? 0;
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount;
+            $status = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
+
+            if($outstandingAmount <= 0) {
+                $status = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+            } else if($paymentAmount > 0) {
+                $status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+            }
+
+            $accountPayable->outstanding_amount = $outstandingAmount;
+            $accountPayable->status = $status;
+        }
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
+            'accountPayableStatuses' => $accountPayableStatuses,
+            'status' => $filter->status ?? null,
             'accountPayables' => $accountPayables
         ];
 
         return view('pages.finance.account-payable.index', $data);
     }
 
-    public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+    public function detail(Request $request, $id) {
+        $filter = (object) $request->all();
 
-        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
-            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
-            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $accountPayableStatuses = Constant::ACCOUNT_PAYABLE_STATUSES;
+        $status = $accountPayableStatuses;
+
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $supplier = Supplier::query()->findOrFail($id);
+        $baseQuery = AccountPayableService::getBaseQueryDetail();
+
+        $accountPayables = $baseQuery
+            ->where('goods_receipts.supplier_id', $id)
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->whereIn('account_payables.status', $status)
+            ->orderByDesc('goods_receipts.date')
+            ->orderBy('goods_receipts.id')
+            ->get();
+
+        foreach($accountPayables as $accountPayable) {
+            $paymentAmount = $accountPayable->payment_amount ?? 0;
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount;
+
+            $accountPayable->outstanding_amount = $outstandingAmount;
         }
 
         $data = [
             'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'accountPayableStatuses' => $accountPayableStatuses,
+            'status' => $filter->status ?? null,
+            'accountPayables' => $accountPayables,
+            'supplier' => $supplier
         ];
 
-        return view('pages.admin.goods-receipt.detail', $data);
+        return view('pages.finance.account-payable.detail', $data);
     }
 
-    public function create() {
-        $date = Carbon::now()->format('d-m-Y');
-        $suppliers = Supplier::all();
-        $warehouses = Warehouse::all();
-        $products = Product::all();
-        $rows = range(1, 5);
-        $rowNumbers = count($rows);
+    public function payment($id) {
+        $baseQuery = AccountPayableService::getBaseQueryDetail();
+        $accountPayable = $baseQuery->where('account_payables.id', $id)->first();
+
+        $grandTotal = $accountPayable->grand_total;
+        $paymentAmount = $accountPayable->payment_amount ?? 0;
+        $outstandingAmount = $grandTotal - $paymentAmount;
+        $accountPayable->outstanding_amount = $outstandingAmount;
+
+        $accountPayablePayments = $accountPayable->payments;
+        foreach($accountPayablePayments as $payment) {
+            $payment->outstanding_amount = $grandTotal - $payment->amount;
+            $grandTotal -= $payment->amount;
+        }
+
+        $rowNumbers = $accountPayablePayments->count();
 
         $data = [
-            'date' => $date,
-            'suppliers' => $suppliers,
-            'warehouses' => $warehouses,
-            'products' => $products,
-            'rows' => $rows,
+            'accountPayable' => $accountPayable,
+            'accountPayablePayments' => $accountPayablePayments,
             'rowNumbers' => $rowNumbers
         ];
 
-        return view('pages.admin.goods-receipt.create', $data);
+        return view('pages.finance.account-payable.payment', $data);
     }
 
-    public function store(GoodsReceiptCreateRequest $request) {
+    public function store(AccountPayableCreateRequest $request) {
         try {
             DB::beginTransaction();
 
-            $date = $request->get('date');
-            $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+            $payableId = $request->get('payable_id') ?? 0;
+            $accountPayable = AccountPayable::query()->findOrFail($payableId);
 
-            $request->merge([
-                'date' => $date,
-                'tempo' => $request->get('tempo') || 0,
-                'subtotal' => 0,
-                'tax_amount' => 0,
-                'grand_total' => 0,
-                'status' => Constant::GOODS_RECEIPT_STATUS_ACTIVE,
-                'user_id' => Auth::user()->id,
-            ]);
+            $accountPayable->payments()->delete();
 
-            $goodsReceipt = GoodsReceipt::create($request->all());
+            $totalPayment = 0;
+            $paymentDates = $request->get('payment_date', []);
+            foreach ($paymentDates as $index => $paymentDate) {
+                $date = Carbon::createFromFormat('d-m-Y', $paymentDate)->format('Y-m-d');
+                $paymentAmount = $request->get('payment_amount')[$index];
 
-            $subtotal = 0;
-            $productIds = $request->get('product_id', []);
-            foreach ($productIds as $index => $productId) {
-                if(!empty($productId)) {
-                    $unitId = $request->get('unit_id')[$index];
-                    $quantity = $request->get('quantity')[$index];
-                    $realQuantity = $request->get('real_quantity')[$index];
-                    $price = $request->get('price')[$index];
+                $accountPayable->payments()->create([
+                    'date' => $date,
+                    'amount' => $paymentAmount,
+                ]);
 
-                    $actualQuantity = $quantity * $realQuantity;
-                    $total = $quantity * $price;
-                    $subtotal += $total;
-
-                    $goodsReceipt->goodsReceiptItems()->create([
-                        'product_id' => $productId,
-                        'unit_id' => $unitId,
-                        'quantity' => $quantity,
-                        'actual_quantity' => $actualQuantity,
-                        'price' => $price,
-                        'total' => $total
-                    ]);
-
-                    $productStock = ProductService::getProductStockQuery(
-                        $productId,
-                        $goodsReceipt->warehouse_id
-                    );
-
-                    ProductService::updateProductStockIncrement(
-                        $productId,
-                        $productStock,
-                        $actualQuantity,
-                        $goodsReceipt->warehouse_id
-                    );
-                }
+                $totalPayment += $paymentAmount;
             }
 
-            $taxAmount = $subtotal * (10 / 100);
-            $grandTotal = $subtotal + $taxAmount;
-
-            $goodsReceipt->update([
-                'subtotal' => $subtotal,
-                'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
-            ]);
-
-            AccountPayableService::createData($goodsReceipt);
-
-            $parameters = [];
-            $route = 'goods-receipts.create';
-
-            if($request->get('is_print')) {
-                $route = 'goods-receipts.print';
-                $parameters = ['id' => $goodsReceipt->id];
+            $status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+            if($totalPayment == $accountPayable->goodsReceipt->grand_total) {
+                $status = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
             }
+
+            $accountPayable->update([
+                'status' => $status,
+            ]);
 
             DB::commit();
 
-            return redirect()->route($route, $parameters);
+            return redirect()->route('account-payables.detail', ['id' => $accountPayable->goodsReceipt->supplier_id]);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -171,57 +182,6 @@ class AccountPayableController extends Controller
                 'message' => 'An error occurred while saving data'
             ]);
         }
-    }
-
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $supplierId = $filter->supplier_id ?? null;
-
-        if(!$number && !$supplierId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $suppliers = Supplier::all();
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('goods_receipts.number', $number);
-        }
-
-        if($supplierId) {
-            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
-        }
-
-        $goodsReceipts = $baseQuery
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->get();
-
-        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'supplierId' => $supplierId,
-            'suppliers' => $suppliers,
-            'goodsReceipts' => $goodsReceipts,
-        ];
-
-        return view('pages.admin.goods-receipt.index-edit', $data);
     }
 
     public function edit($id) {
@@ -305,37 +265,6 @@ class AccountPayableController extends Controller
 
             return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
-            ]);
-        }
-    }
-
-    public function destroy(GoodsReceiptCancelRequest $request, $id) {
-        try {
-            DB::beginTransaction();
-
-            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-            $goodsReceipt->update([
-                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
-            ]);
-
-            ApprovalService::deleteData($goodsReceipt->approvals);
-            ApprovalService::createData(
-                $goodsReceipt,
-                $goodsReceipt->goodsReceiptItems,
-                Constant::APPROVAL_TYPE_CANCEL,
-                Constant::APPROVAL_STATUS_PENDING,
-                $request->get('description', '')
-            );
-
-            DB::commit();
-
-            return redirect()->route('goods-receipts.index-edit');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-
-            return redirect()->back()->withInput()->withErrors([
-                'message' => 'An error occurred while deleting data'
             ]);
         }
     }

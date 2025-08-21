@@ -73,6 +73,11 @@ function getDeliveryOrderStatusLabel($status): string
     return Constant::DELIVERY_ORDER_STATUS_LABELS[$status];
 }
 
+function getAccountPayableStatusLabel($status): string
+{
+    return Constant::ACCOUNT_PAYABLE_STATUS_LABELS[$status];
+}
+
 function getApprovalTypeLabel($type): string
 {
     return Constant::APPROVAL_TYPE_LABELS[$type];
@@ -86,6 +91,21 @@ function isWaitingApproval($status): bool
 function isApprovalTypeEdit($type): bool
 {
     return $type == Constant::APPROVAL_TYPE_EDIT;
+}
+
+function isAccountPayableUnpaid($status): bool
+{
+    return $status == Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
+}
+
+function isAccountPayableOngoing($status): bool
+{
+    return $status == Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+}
+
+function isAccountPayablePaid($status): bool
+{
+    return $status == Constant::ACCOUNT_PAYABLE_STATUS_PAID;
 }
 
 function getDueDate($date, $tempo, $format): string

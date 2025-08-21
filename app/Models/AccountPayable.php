@@ -17,4 +17,8 @@ class AccountPayable extends Model
     public function goodsReceipt() {
         return $this->belongsTo(GoodsReceipt::class, 'goods_receipt_id', 'id');
     }
+
+    public function payments() {
+        return $this->hasMany(AccountPayablePayment::class, 'account_payable_id', 'id');
+    }
 }
