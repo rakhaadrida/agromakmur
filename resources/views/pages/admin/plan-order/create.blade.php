@@ -613,7 +613,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-plan-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -621,7 +621,7 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-plan-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
@@ -631,7 +631,7 @@
                             <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
-                            <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 4}" disabled>
+                            <select class="selectpicker product-unit-plan-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
