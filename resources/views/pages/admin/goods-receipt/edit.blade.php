@@ -91,6 +91,8 @@
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
                                             <td class="align-middle table-head-price-transaction">Price</td>
+                                            <td class="align-middle table-head-price-transaction">Wages</td>
+                                            <td class="align-middle table-head-price-transaction">Shipping Cost</td>
                                             <td class="align-middle table-head-total-transaction">Total</td>
                                             <td class="align-middle table-head-delete-transaction">Delete</td>
                                         </tr>
@@ -100,7 +102,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
@@ -127,6 +129,12 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->price) }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->wages) }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->shipping_cost) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($goodsReceiptItem->total) }}" title="" readonly >
@@ -253,6 +261,42 @@
                 calculateTotal(index);
             });
 
+            table.on('keypress', 'input[name="wages[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+                    $(`#wages-${index}`).tooltip('show');
+
+                    event.preventDefault();
+                }
+            });
+
+            table.on('keyup', 'input[name="wages[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="wages[]"]', function () {
+                const index = $(this).closest('tr').index();
+                calculateTotal(index);
+            });
+
+            table.on('keypress', 'input[name="shipping_cost[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+                    $(`#shippingCost-${index}`).tooltip('show');
+
+                    event.preventDefault();
+                }
+            });
+
+            table.on('keyup', 'input[name="shipping_cost[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="shipping_cost[]"]', function () {
+                const index = $(this).closest('tr').index();
+                calculateTotal(index);
+            });
+
             table.on('click', '.remove-transaction-table', function () {
                 const index = $(this).closest('tr').index();
                 const deleteRow = $('.remove-transaction-table');
@@ -269,14 +313,6 @@
                     return false;
                 }
 
-                $('input[name="quantity[]"]').each(function() {
-                    this.value = numberFormat(this.value);
-                });
-
-                $('input[name="price[]"]').each(function() {
-                    this.value = numberFormat(this.value);
-                });
-
                 let duplicateCodes = checkDuplicateProduct();
                 if(duplicateCodes.length) {
                     let duplicateCode = duplicateCodes.join(', ');
@@ -286,6 +322,22 @@
 
                     return false;
                 } else {
+                    $('input[name="quantity[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
+                    $('input[name="price[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
+                    $('input[name="wages[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
+                    $('input[name="shipping_cost[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
                     $('#form').submit();
                 }
             });
@@ -297,7 +349,7 @@
                 let lastRowId = itemTable.find('tr:last').attr('id');
                 let lastRowNumber = itemTable.find('tr:last td:first-child').text();
                 let rowNumbers = $('#rowNumber').val();
-                rowNumbers = +rowNumbers + (+lastRowNumber * 20);
+                rowNumbers = +rowNumbers + (+lastRowNumber * 32);
 
                 let rowId = lastRowId ? +lastRowId + 1 : 1;
                 let rowNumber = lastRowNumber ? +lastRowNumber + 1 : 1;
@@ -320,16 +372,17 @@
                     success: function(data) {
                         let productName = $(`#productName-${index}`);
                         let price = $(`#price-${index}`);
+                        let wages = $(`#wages-${index}`);
+                        let shippingCost = $(`#shippingCost-${index}`);
                         let quantity = $(`#quantity-${index}`);
                         let productPrice = thousandSeparator(data.main_price);
                         let productUnitId = data.data.unit_id;
 
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
-                        price.attr('readonly', false);
-                        price.attr('required', true);
-                        quantity.attr('readonly', false);
-                        quantity.attr('required', true);
+
+                        let elements = [wages, shippingCost, price, quantity];
+                        handleRequiredReadonlyAttribute(elements);
 
                         let units = data.units;
                         let unit = $(`#unit-${index}`);
@@ -358,9 +411,18 @@
                 })
             }
 
+            function handleRequiredReadonlyAttribute(elements) {
+                elements.forEach(function(element) {
+                    element.attr('readonly', false);
+                    element.attr('required', true);
+                });
+            }
+
             function calculateTotal(index) {
                 let quantity = document.getElementById(`quantity-${index}`);
                 let price = document.getElementById(`price-${index}`);
+                let wages = document.getElementById(`wages-${index}`);
+                let shippingCost = document.getElementById(`shippingCost-${index}`);
                 let total = document.getElementById(`total-${index}`);
 
                 let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
@@ -371,8 +433,12 @@
                     total.value = '';
                 }
                 else {
+                    let wagesAmount = numberFormat(wages.value) || 0;
+                    let shippingCostAmount = numberFormat(shippingCost.value) || 0;
+                    let totalExpenses = wagesAmount + shippingCostAmount;
+
                     currentTotal = numberFormat(total.value);
-                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
+                    total.value = thousandSeparator(realQuantity * numberFormat(price.value) + totalExpenses);
                     calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
                 }
 
@@ -436,6 +502,8 @@
                 for(let i = index; i < deleteRow.length; i++) {
                     let quantity = document.getElementById(`quantity-${i}`);
                     let price = document.getElementById(`price-${i}`);
+                    let wages = document.getElementById(`wages-${i}`);
+                    let shippingCost = document.getElementById(`shippingCost-${i}`);
                     let total = document.getElementById(`total-${i}`);
                     let realQuantity = document.getElementById(`realQuantity-${i}`);
                     let unitValue = document.getElementById(`unitValue-${i}`);
@@ -445,6 +513,8 @@
                     let newProductName = document.getElementById(`productId-${rowNumber}`);
                     let newQuantity = document.getElementById(`quantity-${rowNumber}`);
                     let newPrice = document.getElementById(`price-${rowNumber}`);
+                    let newWages = document.getElementById(`wages-${rowNumber}`);
+                    let newShippingCost = document.getElementById(`shippingCost-${rowNumber}`);
                     let newUnit = document.getElementById(`unit-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
@@ -453,6 +523,8 @@
                     if(rowNumber !== deleteRow.length) {
                         total.value = newTotal.value;
                         price.value = newPrice.value;
+                        wages.value = newWages.value;
+                        shippingCost.value = newShippingCost.value;
                         quantity.value = newQuantity.value;
                         realQuantity.value = newRealQuantity.value;
                         unitValue.value = newUnitValue.value;
@@ -462,26 +534,28 @@
                         changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
 
                         if(newProductId.value === '') {
-                            handleDeletedQuantityPrice(quantity, price);
+                            let deletedElements = [quantity, price, wages, shippingCost];
+                            handleDeletedElementAttribute(deletedElements);
+
                             updateDeletedRowValue([], i);
                         } else {
-                            newQuantity.removeAttribute('required');
-                            newPrice.removeAttribute('required');
-                            quantity.removeAttribute('readonly');
-                            price.removeAttribute('readonly');
+                            handleRemoveRequiredReadonly(newQuantity, quantity);
+                            handleRemoveRequiredReadonly(newPrice, price);
+                            handleRemoveRequiredReadonly(newWages, wages);
+                            handleRemoveRequiredReadonly(newShippingCost, shippingCost);
                         }
 
-                        let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        let elements = [newTotal, newShippingCost, newWages, newPrice, newQuantity, newRealQuantity, newUnitValue];
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
-                        let totalRow = $('#rowNumber').val();
-                        if(rowNumber > totalRow) {
+                        if(rowNumber > 1) {
                             $(`#${i}`).remove();
                         }
 
-                        handleDeletedQuantityPrice(quantity, price);
+                        let deletedElements = [quantity, price, wages, shippingCost];
+                        handleDeletedElementAttribute(deletedElements);
 
-                        let elements = [total, price, quantity, realQuantity, unitValue];
+                        let elements = [total, shippingCost, wages, price, quantity, realQuantity, unitValue];
                         updateDeletedRowValue(elements, i);
                     }
                 }
@@ -524,11 +598,16 @@
                 removeSelectPickerOption($(`#productId-${index}`), false);
             }
 
-            function handleDeletedQuantityPrice(quantity, price) {
-                quantity.removeAttribute('required');
-                price.removeAttribute('required');
-                quantity.readOnly = true;
-                price.readOnly = true;
+            function handleDeletedElementAttribute(elements) {
+                elements.forEach(function(element) {
+                    element.removeAttribute('required');
+                    element.readOnly = true;
+                });
+            }
+
+            function handleRemoveRequiredReadonly(newElement, element) {
+                newElement.removeAttribute('required');
+                element.removeAttribute('readonly');
             }
 
             function checkDuplicateProduct() {
@@ -557,7 +636,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -581,6 +660,12 @@
                         </td>
                         <td>
                             <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                        </td>
+                        <td>
+                            <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                        </td>
+                        <td>
+                            <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >

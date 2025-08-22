@@ -100,11 +100,13 @@
                                 <thead class="text-center text-bold text-dark">
                                     <tr>
                                         <td>No</td>
-                                        <td>SKU</td>
+                                        <td class="table-head-shipping-cost-transaction">SKU</td>
                                         <td>Product Name</td>
                                         <td>Qty</td>
-                                        <td>Price</td>
-                                        <td>Total</td>
+                                        <td class="table-head-price-transaction">Price</td>
+                                        <td class="table-head-price-transaction">Wages</td>
+                                        <td class="table-head-shipping-cost-transaction">Shipping Cost</td>
+                                        <td class="table-head-shipping-cost-transaction">Total</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,6 +117,8 @@
                                             <td>{{ $goodsReceiptItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
                                             <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
+                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->wages) }}</td>
+                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->shipping_cost) }}</td>
                                             <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
                                         </tr>
                                     @endforeach

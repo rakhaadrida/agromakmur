@@ -16,6 +16,8 @@ class GoodsReceiptItem extends Model
         'quantity',
         'actual_quantity',
         'price',
+        'wages',
+        'shipping_cost',
         'total',
     ];
 

@@ -85,6 +85,8 @@ class ApprovalService
                 'actual_quantity' => $item->actual_quantity,
                 'price_id' => $item->price_id ?? null,
                 'price' => $item->price ?? 0,
+                'wages' => $item->wages ?? 0,
+                'shipping_cost' => $item->shipping_cost ?? 0,
                 'total' => $total ?? 0,
                 'discount' => $item->discount ?? 0,
                 'discount_amount' => $item->discount_amount ?? 0,
@@ -107,11 +109,14 @@ class ApprovalService
                 $realQuantity = $childItems['real_quantity'][$index];
                 $priceId = $childItems['price_id'][$index] ?? null;
                 $price = $childItems['price'][$index] ?? 0;
+                $wages = $childItems['wages'][$index] ?? 0;
+                $shippingCost = $childItems['shipping_cost'][$index] ?? 0;
                 $discount = $childItems['discount'][$index] ?? 0;
                 $discountAmount = $childItems['discount_amount'][$index] ?? 0;
 
                 $actualQuantity = $quantity * $realQuantity;
-                $total = $quantity * $price;
+                $totalExpenses = $wages + $shippingCost;
+                $total = ($quantity * $price) + $totalExpenses;
                 $finalAmount = $total - $discountAmount;
                 $subtotal += $finalAmount;
 
@@ -123,6 +128,8 @@ class ApprovalService
                     'actual_quantity' => $actualQuantity,
                     'price_id' => $priceId,
                     'price' => $price,
+                    'wages' => $wages,
+                    'shipping_cost' => $shippingCost,
                     'total' => $total,
                     'discount' => $discount,
                     'discount_amount' => $discountAmount,

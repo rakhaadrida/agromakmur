@@ -18,6 +18,8 @@ class ApprovalItem extends Model
         'actual_quantity',
         'price_id',
         'price',
+        'wages',
+        'shipping_cost',
         'total',
         'discount',
         'discount_amount',

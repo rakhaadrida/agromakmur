@@ -52,21 +52,21 @@
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-status-transaction-index">Date</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
-                                            <th class="align-middle th-status-transaction-index">Tempo</th>
+                                            <th class="align-middle th-code-transaction-index">Tempo</th>
                                             <th class="align-middle th-status-transaction-index">Invoice Age</th>
                                             <th class="align-middle th-total-transaction-index">Grand Total</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
-                                            <th class="align-middle th-status-transaction-index">Admin</th>
+                                            <th class="align-middle th-code-transaction-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($goodsReceipts as $key => $goodsReceipt)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <a href="{{ route('goods-receipts.detail', $goodsReceipt->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $goodsReceipt->number }}
                                                     </a>

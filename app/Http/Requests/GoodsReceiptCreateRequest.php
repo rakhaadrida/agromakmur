@@ -24,6 +24,8 @@ class GoodsReceiptCreateRequest extends FormRequest
             'quantity.*' => ['nullable', 'integer'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],
             'price.*' => ['nullable', 'integer'],
+            'wages.*' => ['nullable', 'integer'],
+            'shipping_cost.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],
             'is_print' => ['nullable', 'boolean'],
         ];

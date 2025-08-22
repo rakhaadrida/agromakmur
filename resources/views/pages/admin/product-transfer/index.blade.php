@@ -58,7 +58,7 @@
                                         @forelse ($productTransfers as $key => $productTransfer)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td>
+                                                <td class="align-middle">
                                                     <a href="{{ route('product-transfers.detail', $productTransfer->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $productTransfer->number }}
                                                     </a>

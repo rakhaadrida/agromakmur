@@ -113,9 +113,12 @@ class GoodsReceiptController extends Controller
                     $quantity = $request->get('quantity')[$index];
                     $realQuantity = $request->get('real_quantity')[$index];
                     $price = $request->get('price')[$index];
+                    $wages = $request->get('wages')[$index];
+                    $shippingCost = $request->get('shipping_cost')[$index];
 
                     $actualQuantity = $quantity * $realQuantity;
-                    $total = $quantity * $price;
+                    $totalExpenses = $wages + $shippingCost;
+                    $total = ($quantity * $price) + $totalExpenses;
                     $subtotal += $total;
 
                     $goodsReceipt->goodsReceiptItems()->create([
@@ -124,6 +127,8 @@ class GoodsReceiptController extends Controller
                         'quantity' => $quantity,
                         'actual_quantity' => $actualQuantity,
                         'price' => $price,
+                        'wages' => $wages,
+                        'shipping_cost' => $shippingCost,
                         'total' => $total
                     ]);
 

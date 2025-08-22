@@ -152,11 +152,13 @@
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">
                                                         <tr>
-                                                            <td class="table-head-number">No</td>
+                                                            <td class="table-head-delete-transaction">No</td>
                                                             <td class="table-head-code-transaction">SKU</td>
                                                             <td class="table-head-name-transaction">Product Name</td>
                                                             <td class="table-head-quantity-transaction">Qty</td>
                                                             <td class="table-head-price-transaction">Price</td>
+                                                            <td class="table-head-price-transaction">Wages</td>
+                                                            <td class="table-head-price-transaction">Shipping Cost</td>
                                                             <td class="table-head-total-transaction">Total</td>
                                                         </tr>
                                                     </thead>
@@ -168,6 +170,8 @@
                                                                 <td>{{ $goodsReceiptItem->product->name }}</td>
                                                                 <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
                                                                 <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
+                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->wages) }}</td>
+                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->shipping_cost) }}</td>
                                                                 <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
                                                             </tr>
                                                         @empty

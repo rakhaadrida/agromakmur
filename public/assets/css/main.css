@@ -624,6 +624,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 110px;
 }
 
+.table-head-shipping-cost-transaction {
+    width: 140px;
+}
+
 .table-head-total-transaction {
     width: 120px;
 }
@@ -645,7 +649,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .product-sku-select-picker .dropdown-toggle {
-    width: 150px !important;
+    width: 120px !important;
 }
 
 .product-name-select-picker {
@@ -653,7 +657,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .product-name-select-picker .dropdown-toggle {
-    width: 400px !important;
+    width: 320px !important;
 }
 
 .product-unit-select-picker {
@@ -661,7 +665,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .product-unit-select-picker .dropdown-toggle {
-    width: 90px !important;
+    width: 70px !important;
 }
 
 .product-sku-select-picker,
@@ -795,7 +799,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-warehouse-transaction-index {
-    width: 150px;
+    width: 130px;
 }
 
 .th-unit-transaction {
