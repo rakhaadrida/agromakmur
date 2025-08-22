@@ -265,7 +265,12 @@
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index);
+                displayPrice(this.value, index, false);
+            });
+
+            table.on('change', 'select[name="product_name[]"]', function () {
+                const index = $(this).closest('tr').index();
+                displayPrice(this.value, index, true);
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -423,7 +428,7 @@
                 $(`#productName-${rowId}`).selectpicker();
             });
 
-            function displayPrice(productId, index) {
+            function displayPrice(productId, index, isProductName) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',
@@ -433,6 +438,10 @@
                     dataType: 'json',
                     success: function(data) {
                         let productName = $(`#productName-${index}`);
+                        if(isProductName) {
+                            productName = $(`#productId-${index}`);
+                        }
+
                         let price = $(`#price-${index}`);
                         let wages = $(`#wages-${index}`);
                         let shippingCost = $(`#shippingCost-${index}`);
@@ -443,8 +452,11 @@
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
 
-                        let elements = [wages, shippingCost, price, quantity];
+                        let elements = [price, quantity];
                         handleRequiredReadonlyAttribute(elements);
+
+                        wages.attr('readonly', false);
+                        shippingCost.attr('readonly', false);
 
                         let units = data.units;
                         let unit = $(`#unit-${index}`);

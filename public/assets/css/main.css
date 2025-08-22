@@ -1133,3 +1133,50 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .validate-password-eye-icon {
     margin-top: -26px !important;
 }
+
+.product-sku-plan-select-picker {
+    width: 7.5rem !important;
+}
+
+.product-sku-plan-select-picker .dropdown-toggle {
+    width: 148px !important;
+}
+
+.product-name-plan-select-picker {
+    width: 20rem !important;
+}
+
+.product-name-plan-select-picker .dropdown-toggle {
+    width: 390px !important;
+}
+
+.product-unit-plan-select-picker {
+    width: 4.375rem !important;
+}
+
+.product-unit-plan-select-picker .dropdown-toggle {
+    width: 90px !important;
+}
+
+.product-sku-plan-select-picker,
+.product-name-plan-select-picker,
+.product-unit-plan-select-picker {
+    padding: 0 !important;
+}
+
+.product-sku-plan-select-picker .dropdown-toggle,
+.product-name-plan-select-picker .dropdown-toggle,
+.product-unit-plan-select-picker .dropdown-toggle {
+    padding: 0.3rem 0.35rem !important;
+    background: none !important;
+    border: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #5a5c69 !important;
+}
+
+.product-sku-plan-select-picker .dropdown-toggle:after,
+.product-name-plan-select-picker .dropdown-toggle:after,
+.product-unit-plan-select-picker .dropdown-toggle:after {
+    border: none !important;
+}

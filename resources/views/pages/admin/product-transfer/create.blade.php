@@ -182,20 +182,20 @@
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $.fn.datepicker.dates['id'] = {
-          days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-          daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-          monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
-          today: 'Hari Ini',
-          clear: 'Kosongkan'
+            days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+            daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+            today: 'Hari Ini',
+            clear: 'Kosongkan'
         };
 
         $('.datepicker').datepicker({
-          format: 'dd-mm-yyyy',
-          autoclose: true,
-          todayHighlight: true,
-          language: 'id',
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'id',
         });
 
         $(document).ready(function() {
@@ -204,7 +204,12 @@
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index);
+                displayPrice(this.value, index, false);
+            });
+
+            table.on('change', 'select[name="product_name[]"]', function () {
+                const index = $(this).closest('tr').index();
+                displayPrice(this.value, index, true);
             });
 
             table.on('change', 'select[name="unit[]"]', function () {
@@ -317,7 +322,7 @@
                 $(`#productName-${rowId}`).selectpicker();
             });
 
-            function displayPrice(productId, index) {
+            function displayPrice(productId, index, isProductName) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',
@@ -327,6 +332,10 @@
                     dataType: 'json',
                     success: function(data) {
                         let productName = $(`#productName-${index}`);
+                        if(isProductName) {
+                            productName = $(`#productId-${index}`);
+                        }
+
                         let sourceWarehouse = $(`#sourceWarehouse-${index}`);
                         let sourceStock = $(`#sourceStock-${index}`);
                         let quantity = $(`#quantity-${index}`);

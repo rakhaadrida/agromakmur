@@ -111,7 +111,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-plan-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter Product SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -119,7 +119,7 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-plan-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
@@ -129,7 +129,7 @@
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-unit-plan-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
@@ -235,7 +235,12 @@
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index);
+                displayPrice(this.value, index, false);
+            });
+
+            table.on('change', 'select[name="product_name[]"]', function () {
+                const index = $(this).closest('tr').index();
+                displayPrice(this.value, index, true);
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -349,7 +354,7 @@
                 $(`#productName-${rowId}`).selectpicker();
             });
 
-            function displayPrice(productId, index) {
+            function displayPrice(productId, index, isProductName) {
                 $.ajax({
                     url: '{{ route('goods-receipts.index-ajax') }}',
                     type: 'GET',
@@ -359,8 +364,12 @@
                     },
                     dataType: 'json',
                     success: function(data) {
-                        let productSku = $(`#productId-${index} option[value="${data.data.id}"]`);
                         let productName = $(`#productName-${index}`);
+                        if(isProductName) {
+                            productName = $(`#productId-${index}`);
+                        }
+
+                        let productSku = $(`#productId-${index} option[value="${data.data.id}"]`);
                         let price = $(`#price-${index}`);
                         let quantity = $(`#quantity-${index}`);
                         let supplierId = $('#supplier').val();

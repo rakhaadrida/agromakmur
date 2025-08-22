@@ -435,7 +435,14 @@
                 const index = $(this).closest('tr').index();
                 let salesOrderType = $('input[name="type"]:checked').val();
 
-                displayPrice(this.value, index, salesOrderType);
+                displayPrice(this.value, index, salesOrderType, false);
+            });
+
+            table.on('change', 'select[name="product_name[]"]', function () {
+                const index = $(this).closest('tr').index();
+                let salesOrderType = $('input[name="type"]:checked').val();
+
+                displayPrice(this.value, index, salesOrderType, true);
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -630,7 +637,7 @@
                 });
             }
 
-            function displayPrice(productId, index, salesOrderType) {
+            function displayPrice(productId, index, salesOrderType, isProductName) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',
@@ -640,6 +647,10 @@
                     dataType: 'json',
                     success: function(data) {
                         let productName = $(`#productName-${index}`);
+                        if(isProductName) {
+                            productName = $(`#productId-${index}`);
+                        }
+
                         let price = $(`#price-${index}`);
                         let discount = $(`#discount-${index}`);
                         let quantity = $(`#quantity-${index}`);
