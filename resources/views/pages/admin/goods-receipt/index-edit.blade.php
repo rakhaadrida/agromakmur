@@ -205,7 +205,7 @@
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" class="btn btn-info btn-block text-bold">Edit</a>
+                                                            <a href="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" class="btn btn-info btn-block text-bold edit-receipt" id="btnEdit-{{ $key }}">Edit</a>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -299,6 +299,14 @@
         $(document).ready(function() {
             const form = $('#form');
             const modalCancelReceipt = $('#modalCancelReceipt');
+
+            form.on('click', '.edit-receipt', function (e) {
+                e.preventDefault();
+
+                let sourceMenu = $(this).attr('href');
+                $('#targetRoute').val(sourceMenu);
+                $('#modalPassword').modal('show');
+            });
 
             form.on('click', '.cancel-receipt', function () {
                 const receiptId = $(this).data('id');

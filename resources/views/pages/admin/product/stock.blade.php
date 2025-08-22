@@ -42,8 +42,8 @@
                                     <div class="form-group row">
                                         <label for="stock-{{ $key }}" class="col-2 col-form-label text-bold">{{ $warehouse->name }}</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-1">
-                                            <input type="number" min="0" step="any" class="form-control col-form-label-sm text-right" name="stock[]" id="stock-{{ $key }}" value="{{ $productStocks[$warehouse->id]['stock'] ?? 0 }}" required>
+                                        <div class="col-1 col-product-stock">
+                                            <input type="number" min="0" step="any" class="form-control col-form-label-sm text-right form-product-stock" name="stock[]" id="stock-{{ $key }}" value="{{ $productStocks[$warehouse->id]['stock'] ?? 0 }}" required>
                                             <input type="hidden" name="warehouse_id[]" value="{{ $warehouse->id }}">
                                         </div>
                                         <span class="col-form-label text-bold">{{ $product->unit_name }}</span>

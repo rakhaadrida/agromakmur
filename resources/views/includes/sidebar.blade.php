@@ -68,7 +68,7 @@
                     <a class="collapse-item" href="{{ route('categories.index') }}">Category</a>
                     <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Category</a>
                     <a class="collapse-item" href="{{ route('units.index') }}">Unit</a>
-                    <a class="collapse-item" href="{{ route('products.index') }}">Product</a>
+                    <a class="collapse-item" id="menuProduct" href="{{ route('products.index') }}">Product</a>
                 </div>
             </div>
         </li>

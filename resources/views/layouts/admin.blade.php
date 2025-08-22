@@ -48,28 +48,34 @@
             </div>
         </div>
 
-        <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="modalPassword" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Input Your Password</h5>
                     </div>
-                    <form action="{{ url('logout') }}" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group row input-password-modal-body">
-                                <label for="name" class="col-3 col-form-label text-bold text-right">Password</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-6">
-                                    <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ old('name') }}" required autofocus>
-                                </div>
+                    <div class="modal-body">
+                        <div class="form-group row input-password-modal-body">
+                            <label for="password" class="col-3 col-form-label text-bold text-right">Password</label>
+                            <span class="col-form-label text-bold">:</span>
+                            <div class="col-6">
+                                <input type="password" class="form-control col-form-label-sm" name="password" id="password" required autofocus>
+                                <i class="far fa-eye password-eye-icon validate-password-eye-icon" id="togglePassword"></i>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <div class="form-group row input-password-modal-body">
+                            <label class="col-3 col-form-label text-bold text-right"></label>
+                            <span class="col-form-label text-bold"></span>
+                            <div class="col-6">
+                                <input type="hidden" id="targetRoute">
+                                <strong><span class="invalid-feedback ml-2" role="alert" id="passwordErrorMessage"></span></strong>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" id="btnSubmitPassword">Submit</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1097,3 +1097,35 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 95px;
 }
 
+.col-product-stock {
+    flex: 0 0 9.5% !important;
+    max-width: 9.5% !important;
+}
+
+.form-product-stock {
+    padding-right: 0.3rem !important;
+}
+
+.th-product-number {
+    width: 30px;
+}
+
+.th-product-name {
+    width: 200px;
+}
+
+.th-product-category {
+    width: 200px;
+}
+
+.th-product-stock {
+    width: 110px;
+}
+
+.th-product-action {
+    width: 120px;
+}
+
+.validate-password-eye-icon {
+    margin-top: -26px !important;
+}

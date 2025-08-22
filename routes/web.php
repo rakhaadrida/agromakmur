@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+    Route::post('validate-password-ajax', 'UserController@validatePasswordAjax')->name('validate-password-ajax');
 
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,

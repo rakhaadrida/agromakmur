@@ -28,11 +28,13 @@
                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                         <thead class="text-center text-bold text-dark">
                             <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Unit</th>
-                                <th>Action</th>
+                                <th class="align-middle th-product-number">No</th>
+                                <th class="align-middle th-product-name">Name</th>
+                                <th class="align-middle th-product-category">Category</th>
+                                @foreach($warehouses as $warehouse)
+                                    <th class="align-middle th-product-stock">{{ $warehouse->name }}</th>
+                                @endforeach
+                                <th class="align-middle th-product-action">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,7 +43,9 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $product->name }}</td>
                                     <td class="align-middle table-row-text">{{ $product->category_name }} - {{ $product->subcategory_name }}</td>
-                                    <td class="align-middle table-row-text">{{ $product->unit_name }}</td>
+                                    @foreach($warehouses as $warehouse)
+                                        <td class="align-middle text-right table-row-text">{{ formatQuantity($mapStockByProductWarehouse[$product->id][$warehouse->id] ?? 0) }}</td>
+                                    @endforeach
                                     <td class="align-middle text-center">
                                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>

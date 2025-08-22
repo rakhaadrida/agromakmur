@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Utilities\Constant;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -164,6 +166,27 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
             ]);
+        }
+    }
+
+    public function validatePasswordAjax(UserPasswordRequest $request) {
+        $filter = (object) $request->all();
+
+        $userId = Auth::user()->id;
+        $user = User::query()->findOrFail($userId);
+
+        $password = $filter->password;
+
+        if (password_verify($password, $user->password)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password is valid'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid Password'
+            ], 422);
         }
     }
 }

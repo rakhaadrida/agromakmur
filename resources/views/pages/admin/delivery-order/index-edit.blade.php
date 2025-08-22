@@ -182,7 +182,7 @@
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelDelivery" data-id="{{ $deliveryOrder->id }}" data-number="{{ $deliveryOrder->number }}" tabindex="6">Cancel Delivery</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" class="btn btn-info btn-block text-bold">Edit</a>
+                                                            <a href="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" class="btn btn-info btn-block text-bold edit-order" id="btnEdit-{{ $key }}">Edit</a>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -276,6 +276,14 @@
         $(document).ready(function() {
             const form = $('#form');
             const modalCancelDelivery = $('#modalCancelDelivery');
+
+            form.on('click', '.edit-order', function (e) {
+                e.preventDefault();
+
+                let sourceMenu = $(this).attr('href');
+                $('#targetRoute').val(sourceMenu);
+                $('#modalPassword').modal('show');
+            });
 
             form.on('click', '.cancel-order', function () {
                 const deliveryId = $(this).data('id');

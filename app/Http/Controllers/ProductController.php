@@ -9,6 +9,7 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\Subcategory;
 use App\Models\Unit;
 use App\Models\Warehouse;
@@ -35,8 +36,20 @@ class ProductController extends Controller
             ->leftJoin('units', 'units.id', 'products.unit_id')
             ->get();
 
+        $warehouses = Warehouse::all();
+        $productStocks = ProductStock::query()
+            ->whereNull('deleted_at')
+            ->get();
+
+        $mapStockByProductWarehouse = [];
+        foreach($productStocks as $productStock) {
+            $mapStockByProductWarehouse[$productStock->product_id][$productStock->warehouse_id] = $productStock->stock;
+        }
+
         $data = [
-            'products' => $products
+            'products' => $products,
+            'warehouses' => $warehouses,
+            'mapStockByProductWarehouse' => $mapStockByProductWarehouse
         ];
 
         return view('pages.admin.product.index', $data);
