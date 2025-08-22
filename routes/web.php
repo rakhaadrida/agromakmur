@@ -117,13 +117,19 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
     });
 
-    Route::resource('account-payables', 'AccountPayableController')->only(['index', 'store']);
-    Route::get('account-payables/{id}/detail', 'AccountPayableController@detail')->name('account-payables.detail');
-    Route::get('account-payables/{id}/payment', 'AccountPayableController@payment')->name('account-payables.payment');
+    Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_FINANCE,
+    ]], function() {
+        Route::resource('account-payables', 'AccountPayableController')->only(['index', 'store']);
+        Route::get('account-payables/{id}/detail', 'AccountPayableController@detail')->name('account-payables.detail');
+        Route::get('account-payables/{id}/payment', 'AccountPayableController@payment')->name('account-payables.payment');
 
-    Route::resource('account-receivables', 'AccountReceivableController')->only(['index', 'store']);
-    Route::get('account-receivables/{id}/detail', 'AccountReceivableController@detail')->name('account-receivables.detail');
-    Route::get('account-receivables/{id}/payment', 'AccountReceivableController@payment')->name('account-receivables.payment');
+        Route::resource('account-receivables', 'AccountReceivableController')->only(['index', 'store']);
+        Route::get('account-receivables/{id}/detail', 'AccountReceivableController@detail')->name('account-receivables.detail');
+        Route::get('account-receivables/{id}/payment', 'AccountReceivableController@payment')->name('account-receivables.payment');
+        Route::get('check-invoices', 'AccountReceivableController@checkInvoice')->name('account-receivables.check-invoice');
+    });
 });
 
 Auth::routes(['verify' => true]);

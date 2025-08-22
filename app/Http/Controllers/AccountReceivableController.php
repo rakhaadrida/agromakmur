@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AccountReceivableCreateRequest;
 use App\Models\AccountReceivable;
 use App\Models\Customer;
+use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
+use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -180,5 +182,74 @@ class AccountReceivableController extends Controller
                 'message' => 'An error occurred while saving data'
             ]);
         }
+    }
+
+    public function checkInvoice(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? null;
+        $finalDate = $filter->final_date ?? null;
+        $number = $filter->number ?? null;
+        $customerId = $filter->customer_id ?? null;
+
+        if(!$number && !$customerId && !$startDate && !$finalDate) {
+            $startDate = Carbon::now()->format('d-m-Y');
+            $finalDate = Carbon::now()->format('d-m-Y');
+        }
+
+        $customers = Customer::all();
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+
+        if($startDate) {
+            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
+        }
+
+        if($finalDate) {
+            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
+        }
+
+        if($number) {
+            $baseQuery = $baseQuery->where('sales_orders.number', $number);
+        }
+
+        if($customerId) {
+            $baseQuery = $baseQuery->where('sales_orders.customer_id', $customerId);
+        }
+
+        $salesOrders = $baseQuery
+            ->orderByDesc('sales_orders.date')
+            ->orderByDesc('sales_orders.id')
+            ->get();
+
+        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
+
+        $productWarehouses = [];
+        foreach ($salesOrders as $salesOrder) {
+            foreach($salesOrder->salesOrderItems as $salesOrderItem) {
+                $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
+            }
+        }
+
+        foreach ($salesOrders as $salesOrder) {
+            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
+        }
+
+        $warehouses = Warehouse::query()
+            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
+            ->get();
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'number' => $number,
+            'customerId' => $customerId,
+            'customers' => $customers,
+            'salesOrders' => $salesOrders,
+            'productWarehouses' => $productWarehouses,
+            'warehouses' => $warehouses,
+            'totalWarehouses' => $warehouses->count(),
+        ];
+
+        return view('pages.finance.account-receivable.check-invoice', $data);
     }
 }
