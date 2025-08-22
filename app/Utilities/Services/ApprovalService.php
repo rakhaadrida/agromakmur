@@ -2,11 +2,30 @@
 
 namespace App\Utilities\Services;
 
+use App\Models\Approval;
+use App\Utilities\Constant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ApprovalService
 {
+    public static function getBaseQueryIndex($subject) {
+        return Approval::query()
+            ->select(
+                'approvals.*',
+                'customers.name AS customer_name',
+                'marketings.name AS marketing_name',
+                'users.username AS user_name'
+            )
+            ->leftJoin('customers', 'customers.id', 'approvals.customer_id')
+            ->leftJoin('marketings', 'marketings.id', 'approvals.marketing_id')
+            ->leftJoin('users', 'users.id', 'approvals.user_id')
+            ->where('approvals.subject_type', $subject)
+            ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
+            ->whereNull('approvals.parent_id')
+            ->whereNull('approvals.deleted_at');
+    }
+
     public static function createData($subject, $subjectItems, $type, $status, $description, $parentId = null) {
         $approval = $subject->approvals()->create([
             'parent_id' => $parentId,

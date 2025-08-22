@@ -88,6 +88,11 @@ function getAccountReceivableStatusLabel($status): string
     return Constant::ACCOUNT_RECEIVABLE_STATUS_LABELS[$status];
 }
 
+function getApprovalStatusLabel($status): string
+{
+    return Constant::APPROVAL_STATUS_LABELS[$status];
+}
+
 function getApprovalTypeLabel($type): string
 {
     return Constant::APPROVAL_TYPE_LABELS[$type];

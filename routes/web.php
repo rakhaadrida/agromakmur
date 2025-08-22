@@ -22,6 +22,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
     ]], function() {
+        Route::resource('approvals', 'ApprovalController');
+
         Route::resource('users', 'UserController');
         Route::get('deleted-users', 'UserController@indexDeleted')->name('users.deleted');
         Route::put('deleted-users/{id}/restore', 'UserController@restore')->name('users.restore');
