@@ -206,6 +206,16 @@
             const table = $('#itemTable');
             let totalOutstanding = document.getElementById(`outstandingAmount`);
 
+            table.on('change', 'input[name="payment_date[]"]', function () {
+                const index = $(this).closest('tr').index();
+
+                if(this.value !== '') {
+                    $(`#paymentAmount-${index}`).attr('required', true);
+                } else {
+                    $(`#paymentAmount-${index}`).removeAttr('required');
+                }
+            });
+
             table.on('keypress', 'input[name="payment_amount[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
@@ -222,6 +232,15 @@
             table.on('blur', 'input[name="payment_amount[]"]', function () {
                 const index = $(this).closest('tr').index();
                 calculateOutstandingAmount(index);
+
+                if(this.value !== '') {
+                    $(`#paymentDate-${index}`).attr('required', true);
+                    $(`#paymentAmount-${index}`).attr('required', true);
+                } else {
+                    $(`#paymentDate-${index}`).removeAttr('required');
+                    $(`#paymentAmount-${index}`).removeAttr('required');
+                    $(`#outstandingPayment-${index}`).val('');
+                }
             });
 
             table.on('click', '.remove-transaction-table', function () {
@@ -271,20 +290,25 @@
                 finalPayment.value = thousandSeparator(finalPaymentAmount);
                 currentOutstanding.value = thousandSeparator(outstandingAmount);
                 $('#finalOutstandingPayment').val(thousandSeparator(outstandingAmount));
-
-                $(`#paymentDate-${index}`).attr('required', true);
             }
 
             function updateAllRowIndexes(index, deleteRow) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let total = document.getElementById(`total-${index}`);
+                let finalPayment = document.getElementById('finalPaymentAmount');
+                let finalOutstanding = document.getElementById('finalOutstandingPayment');
+                let currentPaymentAmount = document.getElementById(`paymentAmount-${index}`);
 
-                if(quantity.value !== '') {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                    calculateTax(numberFormat(subtotal.value));
+                if(currentPaymentAmount.value !== '') {
+                    let finalPaymentAmount = numberFormat(finalPayment.value) - numberFormat(currentPaymentAmount.value);
+                    let finalOutstandingAmount = numberFormat(finalOutstanding.value) + numberFormat(currentPaymentAmount.value);
+
+                    finalOutstanding.value = thousandSeparator(finalOutstandingAmount);
+                    finalPayment.value = thousandSeparator(finalPaymentAmount);
                 }
 
                 for(let i = index; i < deleteRow.length; i++) {
+                    let previousIndex = i - 1;
+                    let previousOutstanding = document.getElementById(`outstandingPayment-${previousIndex}`) ?? totalOutstanding;
+
                     let paymentDate = document.getElementById(`paymentDate-${i}`);
                     let paymentAmount = document.getElementById(`paymentAmount-${i}`);
                     let basePaymentAmount = document.getElementById(`basePaymentAmount-${i}`);
@@ -297,29 +321,38 @@
                     let newOutstandingPayment = document.getElementById(`outstandingPayment-${rowNumber}`);
 
                     if(rowNumber !== deleteRow.length) {
+                        let newOutstandingAmount = numberFormat(previousOutstanding.value) - numberFormat(newPaymentAmount.value);
+
+                        paymentDate.placeholder = newPaymentDate.placeholder;
                         paymentDate.value = newPaymentDate.value;
                         paymentAmount.value = newPaymentAmount.value;
                         basePaymentAmount.value = newBasePaymentAmount.value;
                         outstandingPayment.value = newOutstandingPayment.value;
 
-                        if(newProductId.value === '') {
-                            handleDeletedQuantityPrice(quantity, price);
-                            updateDeletedRowValue([], i);
-                        } else {
-                            newQuantity.removeAttribute('required');
-                            newPrice.removeAttribute('required');
-                            quantity.removeAttribute('readonly');
-                            price.removeAttribute('readonly');
+                        if(newOutstandingPayment.value !== '') {
+                            outstandingPayment.value = thousandSeparator(newOutstandingAmount);
                         }
 
-                        let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        if(newPaymentDate.value === '') {
+                            handleDeletedElement(paymentDate, paymentAmount);
+                            updateDeletedRowValue([], i);
+                        } else {
+                            newPaymentDate.removeAttribute('required');
+                            newPaymentAmount.removeAttribute('required');
+                        }
+
+                        let elements = [newPaymentDate, newPaymentAmount, newBasePaymentAmount, newOutstandingPayment];
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
                         handleDeletedElement(paymentDate, paymentAmount);
 
-                        let elements = [paymentDate, paymentAmount, basePaymentAmount];
+                        let elements = [paymentDate, paymentAmount, basePaymentAmount, outstandingPayment];
                         updateDeletedRowValue(elements, i);
                     }
+                }
+
+                if(index !== deleteRow.length - 1) {
+                    $(`#${deleteRow.length - 1}`).remove();
                 }
             }
 

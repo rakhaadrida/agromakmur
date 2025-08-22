@@ -151,15 +151,17 @@ class AccountPayableController extends Controller
             $totalPayment = 0;
             $paymentDates = $request->get('payment_date', []);
             foreach ($paymentDates as $index => $paymentDate) {
-                $date = Carbon::createFromFormat('d-m-Y', $paymentDate)->format('Y-m-d');
-                $paymentAmount = $request->get('payment_amount')[$index];
+                if(!empty($paymentDate)) {
+                    $date = Carbon::createFromFormat('d-m-Y', $paymentDate)->format('Y-m-d');
+                    $paymentAmount = $request->get('payment_amount')[$index];
 
-                $accountPayable->payments()->create([
-                    'date' => $date,
-                    'amount' => $paymentAmount,
-                ]);
+                    $accountPayable->payments()->create([
+                        'date' => $date,
+                        'amount' => $paymentAmount,
+                    ]);
 
-                $totalPayment += $paymentAmount;
+                    $totalPayment += $paymentAmount;
+                }
             }
 
             $status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
