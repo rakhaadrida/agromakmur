@@ -536,6 +536,7 @@ class SalesOrderController extends Controller
             $totalPage = ceil(($salesOrder->salesOrderItems->count()) / 15);
             $salesOrder->total_page = $totalPage;
             $salesOrder->total_rows = $salesOrder->salesOrderItems->count();
+            $salesOrder->pages = range(1, $totalPage);
         }
 
         $data = [

@@ -419,36 +419,6 @@
                 height: 30px;
             }
 
-            .invoice-amount-section {
-                margin-top: 0;
-                margin-left: 5px;
-                font-size: 14px;
-            }
-
-            .invoice-amount-table {
-                line-height: 6px;
-            }
-
-            .invoice-amount-label {
-                font-size: 14px;
-            }
-
-            .invoice-amount-number {
-                width: 157px;
-                font-size: 16px;
-                padding-right: 0.01rem !important;
-            }
-
-            .invoice-amount-table .invoice-amount-label-grand-total {
-                padding-top: 10px !important;
-            }
-
-            .invoice-amount-table .invoice-amount-grand-total {
-                padding-top: 10px !important;
-                width: 145px;
-                font-size: 17px;
-            }
-
             .print-time-section {
                 font-weight: 700;
                 margin-top: 5px;
@@ -465,12 +435,12 @@
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
 
                     @bottom-right {
-                        /*content: "Page " counter(page);*/
+                        content: "Page " counter(page);
                         font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 12px;
+                        font-size: 11px;
                         font-weight: bold;
-                        margin-top: -24.235rem !important;
-                        margin-right: 17.75rem !important;
+                        margin-top: -26.55rem !important;
+                        margin-right: 19.3rem !important;
                     }
                 }
 

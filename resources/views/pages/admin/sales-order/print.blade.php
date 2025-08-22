@@ -470,12 +470,12 @@
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
 
                     @bottom-right {
-                        /*content: "Page " counter(page);*/
+                        content: "Page " counter(page);
                         font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 12px;
+                        font-size: 11px;
                         font-weight: bold;
-                        margin-top: -24.235rem !important;
-                        margin-right: 17.75rem !important;
+                        margin-top: -26.35rem !important;
+                        margin-right: 19.3rem !important;
                     }
                 }
 
@@ -662,7 +662,7 @@
         <script type="text/javascript">
             function paginateTable(table, pageHeight = 1122) {
                 let rows = table.querySelectorAll("tbody tr");
-                let footer = table.querySelector("tfoot td .page-number");
+                let footer = table.querySelectorAll("tfoot td .page-number");
 
                 let totalHeight = 0;
                 let page = 1;
@@ -680,6 +680,7 @@
                     if (totalHeight > pageHeight) {
                         pages++;
                         totalHeight = h;
+                        page++;
                     }
                 }
 
@@ -688,13 +689,13 @@
 
             window.onbeforeprint = () => {
                 document.querySelectorAll("table.table-order-item").forEach(table => {
-                    paginateTable(table, 842);
+                    // paginateTable(table, 842);
                 });
             };
 
             window.onafterprint = function() {
                 const url = '{{ route('sales-orders.after-print', $id) }}';
-                window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
+                {{--window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');--}}
             }
 
             window.print();

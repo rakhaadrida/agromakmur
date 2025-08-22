@@ -448,12 +448,12 @@
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
 
                     @bottom-right {
-                        /*content: "Page " counter(page);*/
+                        content: "Page " counter(page);
                         font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 12px;
+                        font-size: 11px;
                         font-weight: bold;
-                        margin-top: -24.235rem !important;
-                        margin-right: 17.75rem !important;
+                        margin-top: -26.35rem !important;
+                        margin-right: 19.3rem !important;
                     }
                 }
 
@@ -637,7 +637,7 @@
 
             window.onbeforeprint = () => {
                 document.querySelectorAll("table.table-order-item").forEach(table => {
-                    paginateTable(table, 842);
+                    // paginateTable(table, 842);
                 });
             };
 
