@@ -89,10 +89,17 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
         Route::get('export-products', 'ProductController@export')->name('products.export');
 
+        Route::resource('plan-orders', 'PlanOrderController')->only(['create', 'store']);
+        Route::get('plan-orders/{id}/detail', 'PlanOrderController@detail')->name('plan-orders.detail');
+        Route::get('plan-orders/{id}/print', 'PlanOrderController@print')->name('plan-orders.print');
+        Route::get('plan-orders/{id}/after-print', 'PlanOrderController@afterPrint')->name('plan-orders.after-print');
+        Route::get('print-plan-orders', 'PlanOrderController@indexPrint')->name('plan-orders.index-print');
+
         Route::resource('goods-receipts', 'GoodsReceiptController');
         Route::get('goods-receipts/{id}/detail', 'GoodsReceiptController@detail')->name('goods-receipts.detail');
         Route::get('goods-receipts/{id}/print', 'GoodsReceiptController@print')->name('goods-receipts.print');
         Route::get('goods-receipts/{id}/after-print', 'GoodsReceiptController@afterPrint')->name('goods-receipts.after-print');
+        Route::get('goods-receipt-ajax', 'GoodsReceiptController@indexAjax')->name('goods-receipts.index-ajax');
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
         Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
 

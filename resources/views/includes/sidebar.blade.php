@@ -79,6 +79,8 @@
             </a>
             <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('plan-orders.create') }}">Plan Order</a>
+                    <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Print Plan Order</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Print Goods Receipt</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Edit Goods Receipt</a>

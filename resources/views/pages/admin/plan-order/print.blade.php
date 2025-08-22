@@ -235,7 +235,7 @@
             }
 
             .logo-section {
-                margin-top: -110px;
+                margin-top: -95px;
                 margin-left: -7px;
             }
 
@@ -256,7 +256,7 @@
                 font-weight: 500;
                 font-size: 16px;
                 width: 260px;
-                margin-top: -110px;
+                margin-top: -95px;
                 margin-right: 0;
             }
 
@@ -292,20 +292,25 @@
                 border-left: 1px dotted;
             }
 
-            .table-order-item-head-sku {
-                width: 90px;
-            }
-
             .table-order-item-head-product {
-                width: 320px;
+                width: 340px;
             }
 
             .table-order-item-head-quantity {
-                width: 115px;
+                width: 95px;
             }
 
             .table-order-item-head-unit {
-                width: 90px;
+                width: 70px;
+            }
+
+            .table-order-item-head-price {
+                width: 70px;
+            }
+
+            .table-order-item-head-total {
+                width: 110px;
+                border-right: 1px dotted;
             }
 
             .table-order-item-body {
@@ -337,7 +342,7 @@
             }
 
             .table-footer-head-recipient {
-                width: 90px;
+                width: 363px;
                 border-right: 1px dotted;
             }
 
@@ -346,19 +351,6 @@
                 padding-left: 5px;
                 margin-bottom: 0;
                 margin-top: 0;
-            }
-
-            .recipient-signature-table {
-                font-size: 15px !important;
-            }
-
-            .recipient-signature-table-blank {
-                height: 35px;
-            }
-
-            .table-footer-head-account-info {
-                width: 273px;
-                border-right: 1px dotted;
             }
 
             .payment-info {
@@ -431,22 +423,13 @@
 
             .invoice-amount-label {
                 font-size: 14px;
+                width: 100px;
             }
 
             .invoice-amount-number {
                 width: 157px;
                 font-size: 16px;
                 padding-right: 0.01rem !important;
-            }
-
-            .invoice-amount-table .invoice-amount-label-grand-total {
-                padding-top: 10px !important;
-            }
-
-            .invoice-amount-table .invoice-amount-grand-total {
-                padding-top: 10px !important;
-                width: 145px;
-                font-size: 17px;
             }
 
             .print-time-section {
@@ -483,7 +466,7 @@
     </head>
     <body>
         @php $number = 1 @endphp
-        @foreach($deliveryOrders as $key => $deliveryOrder)
+        @foreach($planOrders as $key => $planOrder)
             <div class="print-container" id="printContainer">
                 <table class="table table-sm table-responsive-sm table-order-item">
                     <thead class="print-header">
@@ -491,23 +474,18 @@
                             <td colspan="9">
                                 <div class="container-fluid header-section">
                                     <div class="title-header text-center">
-                                        <h5 class="text-bold">DELIVERY ORDER</h5>
+                                        <h5 class="text-bold">PLAN ORDER</h5>
                                     </div>
                                     <div class="order-info-section">
                                         <div class="order-info-row">
                                             <span class="order-info-label">Number</span>
                                             <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $deliveryOrder->number }}</span>
+                                            <span class="order-info-value">{{ $planOrder->number }}</span>
                                         </div>
                                         <div class="order-info-row">
                                             <span class="order-info-label">Date</span>
                                             <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</span>
-                                        </div>
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">SO Number</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $deliveryOrder->salesOrder->number }}</span>
+                                            <span class="order-info-value">{{ formatDate($planOrder->date, 'd-M-y') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -519,34 +497,36 @@
                                 <div class="float-right customer-section">
                                     <span class="customer-section-greetings">Dear :</span>
                                     <br>
-                                    <span class="customer-name-info">{{ $deliveryOrder->customer_name }}</span>
+                                    <span class="customer-name-info">{{ $planOrder->supplier_name }}</span>
                                     <br>
-                                    <span class="customer-address-info text-wrap">{{ $deliveryOrder->address }}</span>
+                                    <span class="customer-address-info text-wrap">{{ $planOrder->supplier_address }}</span>
                                     <br>
                                 </div>
                             </td>
                         </tr>
                         <tr class="text-center table-order-item-head">
                             <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-sku">SKU</td>
                             <td class="table-order-item-head-product">Product Name</td>
                             <td class="table-order-item-head-quantity">Qty</td>
                             <td class="table-order-item-head-unit">Unit</td>
+                            <td class="table-order-item-head-price">Price</td>
+                            <td class="table-order-item-head-total">Total</td>
                         </tr>
                     </thead>
                     <tbody class="table-order-item-body">
-                        @foreach($deliveryOrder->deliveryOrderItems as $index => $deliveryOrderItem)
+                        @foreach($planOrder->planOrderItems as $index => $planOrderItem)
                             <tr class="table-order-item-body-row">
                                 <td class="text-center">{{ ++$index }}</td>
-                                <td>{{ $deliveryOrderItem->product->sku }}</td>
-                                <td>{{ $deliveryOrderItem->product->name }}</td>
-                                <td class="text-center">{{ $deliveryOrderItem->quantity }}</td>
-                                <td class="text-center">{{ $deliveryOrderItem->unit->name }}</td>
+                                <td>{{ $planOrderItem->product->name }}</td>
+                                <td class="text-right">{{ $planOrderItem->quantity }}</td>
+                                <td class="text-center">{{ $planOrderItem->unit->name }}</td>
+                                <td class="text-right">{{ formatPrice($planOrderItem->price) }}</td>
+                                <td class="text-right">{{ formatPrice($planOrderItem->total) }}</td>
                             </tr>
                         @endforeach
-                        @for($i = $deliveryOrder->total_rows; $i < ($deliveryOrder->total_page * 14); $i++)
+                        @for($i = $planOrder->total_rows; $i < ($planOrder->total_page * 15); $i++)
                             <tr class="table-order-item-body-row">
-                                <td colspan="5"></td>
+                                <td colspan="6"></td>
                             </tr>
                         @endfor
                     </tbody>
@@ -559,26 +539,13 @@
                                             <tr>
                                                 <td class="table-footer-head-recipient">
                                                     <div class="recipient-signature">
-                                                        <table class="recipient-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Recipient</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="recipient-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-account-info align-middle">
-                                                    <div class="payment-info">
-                                                        <span>Giro / Transfer Payment</span>
-                                                        <br>
-                                                        <span>BCA Bank Account</span>
-                                                        <br>
-                                                        <span>p.p Indah Ramadhon 5790416491</span>
+                                                        <div class="payment-info">
+                                                            <span>Note:</span>
+                                                            <br>
+                                                            <span>1. Apabila ada perubahan harga, harap konfirmasi terlebih dahulu</span>
+                                                            <br>
+                                                            <span>2. Harap kirimkan barang hanya sesuai pesanan</span>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td class="table-footer-head-warehouse">
@@ -600,7 +567,7 @@
                                                     <div class="admin-signature">
                                                         <table class="admin-signature-table">
                                                             <tr>
-                                                                <td class="text-center admin-signature-table-date">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</td>
+                                                                <td class="text-center admin-signature-table-date">{{ formatDate($planOrder->date, 'd-M-y') }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-center admin-signature-label">Admin</td>
@@ -615,7 +582,14 @@
                                                     </div>
                                                 </td>
                                                 <td>
-
+                                                    <div class="invoice-amount-section">
+                                                        <table class="invoice-amount-table">
+                                                            <tr>
+                                                                <td class="text-bold invoice-amount-label">Total</td>
+                                                                <td class="text-right invoice-amount-number">{{ formatPrice($planOrder->subtotal) }}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </thead>
@@ -625,7 +599,7 @@
                                     <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
                                 </div>
                                 <div class="float-right print-time-section">
-                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $deliveryOrder->total_page }}</span>
+                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $planOrder->total_page }}</span>
                                 </div>
                             </td>
                         </tr>
@@ -635,8 +609,40 @@
         @endforeach
 
         <script type="text/javascript">
+            function paginateTable(table, pageHeight = 1122) {
+                let rows = table.querySelectorAll("tbody tr");
+                let footer = table.querySelector("tfoot td .page-number");
+
+                let totalHeight = 0;
+                let page = 1;
+                let pages = 1;
+                let rowHeights = [];
+
+                rows.forEach(row => {
+                    rowHeights.push(row.offsetHeight);
+                });
+
+                totalHeight = 0;
+                pages = 1;
+                for (let h of rowHeights) {
+                    totalHeight += h;
+                    if (totalHeight > pageHeight) {
+                        pages++;
+                        totalHeight = h;
+                    }
+                }
+
+                footer.innerText = `Page ${page}`;
+            }
+
+            window.onbeforeprint = () => {
+                document.querySelectorAll("table.table-order-item").forEach(table => {
+                    paginateTable(table, 842);
+                });
+            };
+
             window.onafterprint = function() {
-                const url = '{{ route('delivery-orders.after-print', $id) }}';
+                const url = '{{ route('plan-orders.after-print', $id) }}';
                 window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
             }
 

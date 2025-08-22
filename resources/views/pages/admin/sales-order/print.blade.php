@@ -18,25 +18,25 @@
             @font-face {
                 font-family: "epson1";
                 font-weight: 900;
-                src: url('{{ public_path('backend/fonts/epson1.woff') }}');
+                src: url('{{ public_path('assets/fonts/epson1.woff') }}');
             }
 
             @font-face {
                 font-family: "Dotrice";
                 font-weight: 800;
-                src: url('{{ public_path('backend/fonts/Dotrice.ttf') }}');
+                src: url('{{ public_path('assets/fonts/Dotrice.ttf') }}');
             }
 
             @font-face {
                 font-family: "Dotrice Bold";
                 font-weight: 800;
-                src: url('{{ public_path('backend/fonts/Dotrice-Bold.otf') }}');
+                src: url('{{ public_path('assets/fonts/Dotrice-Bold.otf') }}');
             }
 
             @font-face {
                 font-family: "buenard";
                 font-weight: 800;
-                src: url('{{ public_path('backend/fonts/Buenard-Regular.ttf') }}');
+                src: url('{{ public_path('assets/fonts/Buenard-Regular.ttf') }}');
             }
 
             h1,
