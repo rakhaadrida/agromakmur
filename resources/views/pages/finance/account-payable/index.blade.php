@@ -79,7 +79,7 @@
                                                 <td class="align-middle text-right">0</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->outstanding_amount }}">{{ formatPrice($accountPayable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountPayableUnpaid($accountPayable->status)) account-payable-unpaid @elseif(isAccountPayableOngoing($accountPayable->status)) account-payable-ongoing @else account-payable-paid @endif">
-                                                    <a href="{{ route('account-payables.detail', $accountPayable->supplier_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
+                                                    <a href="{{ route('account-payables.detail', ['id' => $accountPayable->supplier_id, 'start_date' => $startDate, 'final_date' => $finalDate]) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
                                                 </td>
                                             </tr>
                                         @empty

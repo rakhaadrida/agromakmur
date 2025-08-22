@@ -39,30 +39,33 @@ class AccountPayableController extends Controller
         $accountPayables = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->whereIn('account_payables.status', $status)
             ->orderBy('suppliers.name')
             ->get();
 
         foreach($accountPayables as $accountPayable) {
             $paymentAmount = $accountPayable->payment_amount ?? 0;
             $outstandingAmount = $accountPayable->grand_total - $paymentAmount;
-            $status = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
+            $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
 
             if($outstandingAmount <= 0) {
-                $status = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
             } else if($paymentAmount > 0) {
-                $status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
             }
 
             $accountPayable->outstanding_amount = $outstandingAmount;
-            $accountPayable->status = $status;
+            $accountPayable->status = $payableStatus;
         }
+
+        $accountPayables = $accountPayables->filter(function ($item) use ($status) {
+            return in_array($item->status, $status);
+        });
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
             'accountPayableStatuses' => $accountPayableStatuses,
-            'status' => $filter->status ?? null,
+            'status' => $filter->status ?? 0,
             'accountPayables' => $accountPayables
         ];
 
