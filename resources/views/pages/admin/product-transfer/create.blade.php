@@ -70,7 +70,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -78,19 +78,19 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 3 }}" disabled @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 3 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif disabled>
+                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif disabled>
                                                     </select>
                                                     <input type="hidden" name="source_warehouse_id[]" id="sourceWarehouseId-{{ $key }}">
                                                 </td>
@@ -98,7 +98,7 @@
                                                     <input type="text" name="source_stock[]" id="sourceStock-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-{{ $key }}" data-live-search="true" title="" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif disabled>
+                                                    <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif disabled>
                                                     </select>
                                                     <input type="hidden" name="destination_warehouse_id[]" id="destinationWarehouseId-{{ $key }}">
                                                 </td>
@@ -628,7 +628,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -636,19 +636,19 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 3}" disabled>
+                            <select class="selectpicker product-unit-transfer-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 3}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 4}" disabled>
+                            <select class="selectpicker product-warehouse-transfer-select-picker" name="source_warehouse[]" id="sourceWarehouse-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="source_warehouse_id[]" id="sourceWarehouseId-${rowId}">
                         </td>
@@ -656,7 +656,7 @@
                             <input type="text" name="source_stock[]" id="sourceStock-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
                         </td>
                         <td>
-                            <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-${rowId}" data-live-search="true" title="" tabindex="${rowNumbers += 5}" disabled>
+                            <select class="selectpicker product-warehouse-transfer-select-picker" name="destination_warehouse[]" id="destinationWarehouse-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 5}" disabled>
                             </select>
                             <input type="hidden" name="destination_warehouse_id[]" id="destinationWarehouseId-${rowId}">
                         </td>

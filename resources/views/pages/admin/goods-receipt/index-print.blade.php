@@ -32,7 +32,7 @@
                                         <label for="startNumber" class="col-auto col-form-label text-bold">Receipt Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" title="Select Start Number" required>
+                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" data-size="6" title="Select Start Number" required>
                                                 @foreach($goodsReceipts as $goodsReceipt)
                                                     <option value="{{ $goodsReceipt->id }}" data-tokens="{{ $goodsReceipt->number }}">{{ $goodsReceipt->number }}</option>
                                                 @endforeach
@@ -40,7 +40,7 @@
                                         </div>
                                         <label for="finalNumber" class="col-auto col-form-label text-bold ">up to</label>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" title="Select Final Number" disabled>
+                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" data-size="6" title="Select Final Number" disabled>
                                             </select>
                                         </div>
                                         <div class="col-2 mt-1 main-transaction-button">

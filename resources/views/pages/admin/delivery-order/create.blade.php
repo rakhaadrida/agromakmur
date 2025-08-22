@@ -48,7 +48,7 @@
                                         <label for="salesOrderId" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="5" title="Enter or Choose Customer" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" data-size="5" title="Enter or Choose Customer" tabindex="3" required>
                                                 @foreach($salesOrders as $salesOrder)
                                                     <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}">{{ $salesOrder->number }}</option>
                                                 @endforeach
