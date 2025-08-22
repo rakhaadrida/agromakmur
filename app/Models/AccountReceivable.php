@@ -17,4 +17,8 @@ class AccountReceivable extends Model
     public function salesOrder() {
         return $this->belongsTo(SalesOrder::class, 'sales_order_id', 'id');
     }
+
+    public function payments() {
+        return $this->hasMany(AccountReceivablePayment::class, 'account_receivable_id', 'id');
+    }
 }

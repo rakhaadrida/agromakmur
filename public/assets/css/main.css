@@ -1061,3 +1061,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 14px;
 }
 
+.th-receivable-number {
+    width: 20px;
+}
+
+.th-receivable-receipt-number {
+    width: 140px;
+}
+
+.th-receivable-date {
+    width: 110px;
+}
+
+.th-receivable-invoice-age {
+    width: 80px;
+}
+
+.th-receivable-marketing {
+    width: 110px;
+}
+
+.th-receivable-type {
+    width: 80px;
+}
+
+.th-receivable-grand-total {
+    width: 75px;
+}
+
+.th-receivable-amount {
+    width: 70px;
+}
+
+.th-receivable-status {
+    width: 95px;
+}
+

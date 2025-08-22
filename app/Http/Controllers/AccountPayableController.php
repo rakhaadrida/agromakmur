@@ -3,17 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountPayableCreateRequest;
-use App\Http\Requests\GoodsReceiptCancelRequest;
-use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\AccountPayable;
-use App\Models\GoodsReceipt;
-use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
-use App\Utilities\Services\ApprovalService;
-use App\Utilities\Services\GoodsReceiptService;
-use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -185,91 +178,6 @@ class AccountPayableController extends Controller
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
-            ]);
-        }
-    }
-
-    public function edit($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
-
-        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
-            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
-            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
-        }
-
-        $products = Product::all();
-        $rowNumbers = count($goodsReceiptItems);
-
-        $productIds = $goodsReceiptItems->pluck('product_id')->toArray();
-        $productConversions = ProductService::findProductConversions($productIds);
-
-        foreach($goodsReceiptItems as $goodsReceiptItem) {
-            $units[$goodsReceiptItem->product_id][] = [
-                'id' => $goodsReceiptItem->product->unit_id,
-                'name' => $goodsReceiptItem->product->unit->name,
-                'quantity' => 1
-            ];
-        }
-
-        foreach($productConversions as $conversion) {
-            $units[$conversion->product_id][] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
-        }
-
-        $data = [
-            'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
-            'products' => $products,
-            'rowNumbers' => $rowNumbers,
-            'units' => $units ?? [],
-        ];
-
-        return view('pages.admin.goods-receipt.edit', $data);
-    }
-
-    public function update(GoodsReceiptUpdateRequest $request, $id) {
-        try {
-            DB::beginTransaction();
-
-            $data = $request->all();
-            $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-            $goodsReceipt->update([
-                'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
-            ]);
-
-            ApprovalService::deleteData($goodsReceipt->approvals);
-
-            $parentApproval = ApprovalService::createData(
-                $goodsReceipt,
-                $goodsReceipt->goodsReceiptItems,
-                Constant::APPROVAL_TYPE_EDIT,
-                Constant::APPROVAL_STATUS_PENDING,
-                $request->get('description', '')
-            );
-
-            ApprovalService::createData(
-                $goodsReceipt,
-                $data,
-                Constant::APPROVAL_TYPE_EDIT,
-                Constant::APPROVAL_STATUS_PENDING,
-                $data['description'],
-                $parentApproval->id
-            );
-
-            DB::commit();
-
-            return redirect()->route('goods-receipts.index-edit');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-
-            return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
-                'message' => 'An error occurred while updating data'
             ]);
         }
     }

@@ -53,6 +53,11 @@ function getPriceTypeLabel($type): string
     return Constant::PRICE_TYPE_LABELS[$type];
 }
 
+function getSalesOrderTypeLabel($type): string
+{
+    return Constant::SALES_ORDER_TYPE_LABELS[$type];
+}
+
 function getGoodsReceiptStatusLabel($status): string
 {
     return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];
@@ -76,6 +81,11 @@ function getDeliveryOrderStatusLabel($status): string
 function getAccountPayableStatusLabel($status): string
 {
     return Constant::ACCOUNT_PAYABLE_STATUS_LABELS[$status];
+}
+
+function getAccountReceivableStatusLabel($status): string
+{
+    return Constant::ACCOUNT_RECEIVABLE_STATUS_LABELS[$status];
 }
 
 function getApprovalTypeLabel($type): string
@@ -106,6 +116,21 @@ function isAccountPayableOngoing($status): bool
 function isAccountPayablePaid($status): bool
 {
     return $status == Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+}
+
+function isAccountReceivableUnpaid($status): bool
+{
+    return $status == Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID;
+}
+
+function isAccountReceivableOngoing($status): bool
+{
+    return $status == Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
+}
+
+function isAccountReceivablePaid($status): bool
+{
+    return $status == Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
 }
 
 function getDueDate($date, $tempo, $format): string

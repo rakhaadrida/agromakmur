@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Payable</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Receivable - {{ $customer->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('account-payables.index') }}" method="GET" id="form">
+                            <form action="{{ route('account-receivables.detail', $id) }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row account-payable-filter-row">
                                         <label for="status" class="col-2 col-form-label text-right text-bold">Status</label>
@@ -33,8 +33,8 @@
                                         <div class="col-5 account-payable-filter-status">
                                             <select class="form-control form-control-sm mt-1" name="status" id="status" tabindex="2">
                                                 <option value="0" selected>All</option>
-                                                @foreach($accountPayableStatuses as $accountPayableStatus)
-                                                    <option value="{{ $accountPayableStatus }}" @if($status == $accountPayableStatus) selected @endif>{{ getAccountPayableStatusLabel($accountPayableStatus) }}</option>
+                                                @foreach($accountReceivableStatuses as $accountReceivableStatus)
+                                                    <option value="{{ $accountReceivableStatus }}" @if($status == $accountReceivableStatus) selected @endif>{{ getAccountReceivableStatusLabel($accountReceivableStatus) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -58,39 +58,49 @@
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
-                                            <th class="align-middle th-payable-number">No</th>
-                                            <th class="align-middle th-payable-supplier">Supplier</th>
-                                            <th class="align-middle th-payable-invoice-count">Invoice Count</th>
-                                            <th class="align-middle th-payable-grand-total">Grand Total</th>
-                                            <th class="align-middle th-payable-amount">Payment</th>
-                                            <th class="align-middle th-payable-amount">Return Amount</th>
-                                            <th class="align-middle th-payable-amount">Outstanding Amount</th>
-                                            <th class="align-middle th-payable-status">Status</th>
+                                            <th class="align-middle th-receivable-number">No</th>
+                                            <th class="align-middle th-receivable-receipt-number">Order Number</th>
+                                            <th class="align-middle th-receivable-date">Order Date</th>
+                                            <th class="align-middle th-receivable-date">Due Date</th>
+                                            <th class="align-middle th-receivable-invoice-age">Invoice Age</th>
+                                            <th class="align-middle th-receivable-marketing">Marketing</th>
+                                            <th class="align-middle th-receivable-type">Type</th>
+                                            <th class="align-middle th-receivable-grand-total">Grand Total</th>
+                                            <th class="align-middle th-receivable-amount">Payment</th>
+                                            <th class="align-middle th-receivable-amount">Return Amount</th>
+                                            <th class="align-middle th-receivable-amount">Unpaid Amount</th>
+                                            <th class="align-middle th-receivable-status">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-ar">
-                                        @forelse($accountPayables as $key => $accountPayable)
+                                        @forelse($accountReceivables as $key => $accountReceivable)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td class="align-middle">{{ $accountPayable->supplier_name }}</td>
-                                                <td class="align-middle text-center">{{ $accountPayable->invoice_count }}</td>
-                                                <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>
-                                                <td class="align-middle text-right" data-sort="{{ $accountPayable->payment_amount }}">{{ formatPrice($accountPayable->payment_amount) }}</td>
+                                                <td class="align-middle">
+                                                    <a href="{{ route('sales-orders.detail', $accountReceivable->sales_order_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ $accountReceivable->number }}</a>
+                                                </td>
+                                                <td class="align-middle text-center" data-sort="{{ formatDate($accountReceivable->date, 'Ymd') }}">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'Ymd') }}">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Day(s)</td>
+                                                <td class="align-middle">{{ $accountReceivable->marketing_name }}</td>
+                                                <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
+                                                <td class="align-middle text-right" data-sort="{{ $accountReceivable->grand_total }}">{{ formatPrice($accountReceivable->grand_total) }}</td>
+                                                <td class="align-middle text-right" data-sort="{{ $accountReceivable->payment_amount }}">{{ formatPrice($accountReceivable->payment_amount) }}</td>
                                                 <td class="align-middle text-right">0</td>
-                                                <td class="align-middle text-right" data-sort="{{ $accountPayable->outstanding_amount }}">{{ formatPrice($accountPayable->outstanding_amount) }}</td>
-                                                <td class="align-middle text-center text-bold @if(isAccountPayableUnpaid($accountPayable->status)) account-payable-unpaid @elseif(isAccountPayableOngoing($accountPayable->status)) account-payable-ongoing @else account-payable-paid @endif">
-                                                    <a href="{{ route('account-payables.detail', ['id' => $accountPayable->supplier_id, 'start_date' => $startDate, 'final_date' => $finalDate]) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
+                                                <td class="align-middle text-right" data-sort="{{ $accountReceivable->outstanding_amount }}">{{ formatPrice($accountReceivable->outstanding_amount) }}</td>
+                                                <td class="align-middle text-center text-bold @if(isAccountReceivableUnpaid($accountReceivable->status)) account-payable-unpaid @elseif(isAccountReceivableOngoing($accountReceivable->status)) account-payable-ongoing @else account-payable-paid @endif">
+                                                    <a href="{{ route('account-receivables.payment', $accountReceivable->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountReceivableStatusLabel($accountReceivable->status) }}</a>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="8" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                     <tfoot>
                                         <tr class="text-right text-bold text-dark tfoot-account-payable">
-                                            <td colspan="3" class="text-center">Total</td>
+                                            <td colspan="7" class="text-center">Total</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -133,12 +143,12 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
-            "drawCallback": function(settings) {
-                var api = this.api();
-                api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            },
+            "columnDefs": [
+                {
+                    targets: [5, 6, 11],
+                    orderable: false
+                }
+            ],
             "footerCallback": function (row, data, start, end, display) {
                 let api = this.api();
 
@@ -150,8 +160,8 @@
                 };
 
                 let column;
-                $.each([3, 4, 5, 6], function(index, value) {
-                    if((value === 3) || (value === 4) || (value === 5) || (value === 6)) {
+                $.each([7, 8, 9, 10], function(index, value) {
+                    if((value === 7) || (value === 8) || (value === 9) || (value === 10)) {
                         column = api
                             .column(value, {
                                 page: 'current'
