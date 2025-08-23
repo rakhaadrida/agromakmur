@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
+use App\Models\ProductTransfer;
 use App\Models\SalesOrder;
 use App\Models\Supplier;
 use App\Models\Warehouse;
@@ -36,6 +38,45 @@ class ApprovalController extends Controller
         ];
 
         return view('pages.admin.approval.index', $data);
+    }
+
+    public function indexAjax(Request $request) {
+        $filter = (object) $request->all();
+        $subject = $filter->subject ?? null;
+
+        switch ($subject) {
+            case 'goods-receipts':
+                $subject = GoodsReceipt::class;
+                break;
+            case 'delivery-orders':
+                $subject = DeliveryOrder::class;
+                break;
+            case 'product-transfers':
+                $subject = ProductTransfer::class;
+                break;
+            default:
+                return response()->json([
+                    'message' => 'Invalid subject type'
+                ], 400);
+        }
+
+        $baseQuery = ApprovalService::getBaseQueryIndex($subject);
+
+        $approvals = $baseQuery
+            ->with(['subject'])
+            ->orderBy('approvals.date');
+
+        if($filter->subject === 'goods-receipts') {
+            $approvals = $approvals->with(['subject.supplier']);
+        } elseif($filter->subject === 'delivery-orders') {
+            $approvals = $approvals->with(['subject.customer']);
+        }
+
+        $approvals = $approvals->get();
+
+        return response()->json([
+            'data' => $approvals,
+        ]);
     }
 
     public function detail($id) {
@@ -333,160 +374,5 @@ class ApprovalController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
-    }
-
-    public function indexPrint() {
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
-
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
-            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
-            ->orderBy('goods_receipts.date')
-            ->get();
-
-        $data = [
-            'goodsReceipts' => $goodsReceipts
-        ];
-
-        return view('pages.admin.goods-receipt.index-print', $data);
-    }
-
-    public function print(Request $request, $id) {
-        $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
-
-        $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
-        $printTime = Carbon::now()->format('H:i:s');
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
-
-        if($id) {
-            $baseQuery = $baseQuery->where('goods_receipts.id', $id);
-        } else {
-            if($startNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
-            }
-
-            if($finalNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
-            } else {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
-            }
-        }
-
-        $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
-            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
-            ->get();
-
-        $data = [
-            'id' => $id,
-            'goodsReceipts' => $goodsReceipts,
-            'printDate' => $printDate,
-            'printTime' => $printTime,
-            'startNumber' => $startNumber,
-            'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
-        ];
-
-        return view('pages.admin.goods-receipt.print', $data);
-    }
-
-    public function afterPrint(Request $request, $id) {
-        try {
-            DB::beginTransaction();
-
-            $filter = (object) $request->all();
-            $startNumber = $filter->start_number ?? 0;
-            $finalNumber = $filter->final_number ?? 0;
-
-            $baseQuery = GoodsReceipt::query();
-
-            if($id) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', $id);
-            } else {
-                if($startNumber) {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
-                }
-
-                if($finalNumber) {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
-                } else {
-                    $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
-                }
-            }
-
-            $goodsReceipts = $baseQuery
-                ->where('goods_receipts.is_printed', 0)
-                ->get();
-
-            foreach ($goodsReceipts as $goodsReceipt) {
-                $goodsReceipt->update([
-                    'is_printed' => 1,
-                    'print_count' => $goodsReceipt->print_count + 1
-                ]);
-            }
-
-            $route = $id ? 'goods-receipts.create' : 'goods-receipts.index-print';
-
-            DB::commit();
-
-            return redirect()->route($route);
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-
-            return redirect()->back()->withInput()->withErrors([
-                'message' => 'An error occurred while updating data'
-            ]);
-        }
-    }
-
-    public function indexAjax(Request $request) {
-        $filter = (object) $request->all();
-
-        $product = Product::query()
-            ->with(['mainPrice'])
-            ->findOrFail($filter->product_id);
-
-        $mainPrice = $product->mainPrice ? $product->mainPrice->price : 0;
-
-        $latestReceiptPrice = GoodsReceipt::query()
-            ->select(
-                'goods_receipt_items.product_id',
-                'goods_receipt_items.price',
-            )
-            ->leftJoin('goods_receipt_items', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
-            ->where('supplier_id', $filter->supplier_id)
-            ->where('goods_receipt_items.product_id', $filter->product_id)
-            ->whereNull('goods_receipt_items.deleted_at')
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->first();
-
-        if($latestReceiptPrice) {
-            $mainPrice = $latestReceiptPrice->price;
-        }
-
-        $units[] = [
-            'id' => $product->unit_id,
-            'name' => $product->unit->name,
-            'quantity' => 1
-        ];
-
-        foreach ($product->productConversions as $conversion) {
-            $units[] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
-        }
-
-        return response()->json([
-            'data' => $product,
-            'units' => $units,
-            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
-            'main_price' => $mainPrice,
-        ]);
     }
 }

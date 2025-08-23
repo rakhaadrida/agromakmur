@@ -1180,3 +1180,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .product-unit-plan-select-picker .dropdown-toggle:after {
     border: none !important;
 }
+
+.card-tabs {
+    border-top: none !important;
+    border-top-left-radius: 0 !important;
+}

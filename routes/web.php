@@ -23,6 +23,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
     ]], function() {
         Route::resource('approvals', 'ApprovalController');
+        Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
 
         Route::resource('users', 'UserController');
         Route::get('deleted-users', 'UserController@indexDeleted')->name('users.deleted');
