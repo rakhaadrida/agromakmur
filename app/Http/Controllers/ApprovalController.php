@@ -18,6 +18,7 @@ use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -80,15 +81,26 @@ class ApprovalController extends Controller
         ]);
     }
 
-    public function detail($id) {
+    public function show($id) {
         $approval = Approval::query()->findOrFail($id);
         $childData = $approval->activeChild;
+        $productWarehouses = [];
+        $childProductWarehouses = [];
+
+        $approvalItems = $approval->approvalItems()->orderBy('product_id')->get();
 
         switch ($approval->subject_type) {
             case SalesOrder::class:
                 $approval->client_label = 'Customer';
                 $approval->client_name = $approval->subject->customer->name ?? '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $productWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
+                }
+
+                $approval->approvalItems = SalesOrderService::mapSalesOrderItemDetail($approvalItems);
+
                 break;
             case GoodsReceipt::class:
                 $approval->client_label = 'Supplier';
@@ -110,10 +122,48 @@ class ApprovalController extends Controller
                 abort(404, 'Invalid subject type');
         }
 
+        $approvalItems = $approval->approvalItems;
+        $childItems = $childData->approvalItems()->orderBy('product_id')->get();
+
+        if($childData) {
+            switch ($childData->subject_type) {
+                case SalesOrder::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+
+                    foreach($childData->approvalItems as $approvalItem) {
+                        $childProductWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
+                    }
+
+                    $childData->approvalItems = SalesOrderService::mapSalesOrderItemDetail($childItems);
+
+                    break;
+                case GoodsReceipt::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+                    break;
+                case DeliveryOrder::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
+                    break;
+                case ProductTransfer::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+                    $childData->approvalItems = $approval->subject->productTransferItems;
+                    break;
+                default:
+                    abort(404, 'Invalid subject type');
+            }
+        }
+
+        $warehouses = Warehouse::all();
+        $totalWarehouses = $warehouses->count();
+
         $data = [
             'id' => $id,
             'approval' => $approval,
+            'approvalItems' => $approvalItems,
             'childData' => $childData,
+            'warehouses' => $warehouses,
+            'totalWarehouses' => $totalWarehouses,
+            'productWarehouses' => $productWarehouses ?? [],
+            'childProductWarehouses' => $childProductWarehouses ?? [],
         ];
 
         return view('pages.admin.approval.detail', $data);

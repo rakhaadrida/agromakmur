@@ -88,6 +88,11 @@ function getAccountReceivableStatusLabel($status): string
     return Constant::ACCOUNT_RECEIVABLE_STATUS_LABELS[$status];
 }
 
+function getApprovalSubjectTypeLabel($subjectType): string
+{
+    return Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType];
+}
+
 function getApprovalStatusLabel($status): string
 {
     return Constant::APPROVAL_STATUS_LABELS[$status];
@@ -103,9 +108,9 @@ function isWaitingApproval($status): bool
     return in_array($status, [Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL, Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL]);
 }
 
-function isApprovalSalesTransaction($subjectType): bool
+function isApprovalSalesReceiptTransaction($subjectType): bool
 {
-    return in_array($subjectType, [Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER, Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER]);
+    return in_array($subjectType, [Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER, Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT]);
 }
 
 function isApprovalSubjectTypeSalesOrder($subjectType): bool
@@ -120,7 +125,7 @@ function isApprovalSubjectTypeGoodsReceipt($subjectType): bool
 
 function isApprovalSubjectTypeDeliveryOrder($subjectType): bool
 {
-    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
 }
 
 function isApprovalSubjectTypeProductTransfer($subjectType): bool
@@ -141,6 +146,11 @@ function isApprovalTypeApprovalLimit($type): bool
 function isApprovalTypeCancel($type): bool
 {
     return $type == Constant::APPROVAL_TYPE_CANCEL;
+}
+
+function isDifferenceApprovalItem($childItem, $parentItem): bool
+{
+    return $childItem != $parentItem;
 }
 
 function isAccountPayableUnpaid($status): bool

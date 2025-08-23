@@ -113,7 +113,7 @@
                                             <td>{{ $deliveryOrderItem->product->sku }} </td>
                                             <td>{{ $deliveryOrderItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($deliveryOrderItem->quantity) }}</td>
-                                            <td>{{ $deliveryOrderItem->unit->name }}</td>
+                                            <td class="text-center">{{ $deliveryOrderItem->unit->name }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -72,7 +72,7 @@
                                                     <td class="align-middle text-center">{{ $approval->description }}</td>
                                                     <td class="align-middle text-center">{{ $approval->user_name }}</td>
                                                     <td class="align-middle text-center">
-                                                        <a href="{{ route('approvals.edit', $approval->id) }}" class="btn btn-sm btn-info">
+                                                        <a href="{{ route('approvals.show', $approval->id) }}" class="btn btn-sm btn-info">
                                                             <i class="fas fa-fw fa-eye"></i>
                                                         </a>
                                                     </td>
@@ -255,7 +255,7 @@
             function goodsReceiptItemRow(rowNumber, item) {
                 let baseUrl = `{{ route('goods-receipts.detail', 'id') }}`;
                 let urlDetail = baseUrl.replace('id', item.subject_id);
-                let urlEdit = `{{ route('approvals.edit', '') }}` + '/' + item.id;
+                let urlEdit = `{{ route('approvals.show', '') }}` + '/' + item.id;
 
                 return `
                     <tr class="text-dark item-row">
@@ -283,7 +283,7 @@
             function deliveryOrderItemRow(rowNumber, item) {
                 let baseUrl = `{{ route('delivery-orders.detail', 'id') }}`;
                 let urlDetail = baseUrl.replace('id', item.subject_id);
-                let urlEdit = `{{ route('approvals.edit', '') }}` + '/' + item.id;
+                let urlEdit = `{{ route('approvals.show', '') }}` + '/' + item.id;
 
                 return `
                     <tr class="text-dark item-row">
@@ -311,7 +311,7 @@
             function productTransferItemRow(rowNumber, item) {
                 let baseUrl = `{{ route('product-transfers.detail', 'id') }}`;
                 let urlDetail = baseUrl.replace('id', item.subject_id);
-                let urlEdit = `{{ route('approvals.edit', '') }}` + '/' + item.id;
+                let urlEdit = `{{ route('approvals.show', '') }}` + '/' + item.id;
 
                 return `
                     <tr class="text-dark item-row">

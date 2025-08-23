@@ -115,6 +115,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -30px;
 }
 
+.approval-detail-row {
+    margin-top: -25px;
+}
+
+.approval-delivery-order-description {
+    margin-top: -60px;
+}
+
+.approval-sales-order-description {
+    margin-top: -30px;
+}
+
 .tgl-faktur {
     margin-top: -85px;
     margin-bottom: 35px;
@@ -461,11 +473,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 @media only screen and (max-width: 992px) {
-    .kode-dokumen {
+    .transaction-number {
         margin-bottom: -20px;
     }
 
-    .tanggal-dokumen {
+    .transaction-date {
         margin-bottom: 10px;
     }
 
@@ -503,6 +515,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .blue-arrow {
         margin-top: 20px !important;
     }
+}
+
+.blue-arrow {
+    margin-top: -80px !important;
+}
+
+.blue-arrow-delivery-order {
+    margin-top: 10px !important;
 }
 
 .table-head-number {
@@ -1184,4 +1204,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .card-tabs {
     border-top: none !important;
     border-top-left-radius: 0 !important;
+}
+
+.approval-difference-amount-section {
+    background: linear-gradient(to bottom,  transparent 20%, #ffc107 20%, #ffc107 80%, transparent 80%) !important;
 }
