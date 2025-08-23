@@ -103,6 +103,7 @@
                                         <td class="table-head-shipping-cost-transaction">SKU</td>
                                         <td>Product Name</td>
                                         <td>Qty</td>
+                                        <td class="table-head-unit-transaction">Unit</td>
                                         <td class="table-head-price-transaction">Price</td>
                                         <td class="table-head-price-transaction">Wages</td>
                                         <td class="table-head-shipping-cost-transaction">Shipping Cost</td>
@@ -116,6 +117,7 @@
                                             <td>{{ $goodsReceiptItem->product->sku }} </td>
                                             <td>{{ $goodsReceiptItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
+                                            <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
                                             <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
                                             <td class="text-right">{{ formatCurrency($goodsReceiptItem->wages) }}</td>
                                             <td class="text-right">{{ formatCurrency($goodsReceiptItem->shipping_cost) }}</td>

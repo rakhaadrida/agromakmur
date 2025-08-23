@@ -103,9 +103,44 @@ function isWaitingApproval($status): bool
     return in_array($status, [Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL, Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL]);
 }
 
+function isApprovalSalesTransaction($subjectType): bool
+{
+    return in_array($subjectType, [Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER, Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER]);
+}
+
+function isApprovalSubjectTypeSalesOrder($subjectType): bool
+{
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+}
+
+function isApprovalSubjectTypeGoodsReceipt($subjectType): bool
+{
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+}
+
+function isApprovalSubjectTypeDeliveryOrder($subjectType): bool
+{
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+}
+
+function isApprovalSubjectTypeProductTransfer($subjectType): bool
+{
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+}
+
 function isApprovalTypeEdit($type): bool
 {
     return $type == Constant::APPROVAL_TYPE_EDIT;
+}
+
+function isApprovalTypeApprovalLimit($type): bool
+{
+    return $type == Constant::APPROVAL_TYPE_APPROVAL_LIMIT;
+}
+
+function isApprovalTypeCancel($type): bool
+{
+    return $type == Constant::APPROVAL_TYPE_CANCEL;
 }
 
 function isAccountPayableUnpaid($status): bool

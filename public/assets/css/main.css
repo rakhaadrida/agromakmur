@@ -500,7 +500,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         font-size: 13.5px;
     }
 
-    .panah-biru {
+    .blue-arrow {
         margin-top: 20px !important;
     }
 }

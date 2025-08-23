@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Models\Approval;
 use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
@@ -68,7 +69,7 @@ class ApprovalController extends Controller
 
         if($filter->subject === 'goods-receipts') {
             $approvals = $approvals->with(['subject.supplier']);
-        } elseif($filter->subject === 'delivery-orders') {
+        } else if($filter->subject === 'delivery-orders') {
             $approvals = $approvals->with(['subject.customer']);
         }
 
@@ -80,21 +81,42 @@ class ApprovalController extends Controller
     }
 
     public function detail($id) {
-        $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
-        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        $approval = Approval::query()->findOrFail($id);
+        $childData = $approval->activeChild;
 
-        if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
-            $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
-            $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+        switch ($approval->subject_type) {
+            case SalesOrder::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+                break;
+            case GoodsReceipt::class:
+                $approval->client_label = 'Supplier';
+                $approval->client_name = $approval->subject->supplier->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+                break;
+            case DeliveryOrder::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
+                break;
+            case ProductTransfer::class:
+                $approval->client_label = '';
+                $approval->client_name = '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+                $approval->approvalItems = $approval->subject->productTransferItems;
+                break;
+            default:
+                abort(404, 'Invalid subject type');
         }
 
         $data = [
             'id' => $id,
-            'goodsReceipt' => $goodsReceipt,
-            'goodsReceiptItems' => $goodsReceiptItems,
+            'approval' => $approval,
+            'childData' => $childData,
         ];
 
-        return view('pages.admin.goods-receipt.detail', $data);
+        return view('pages.admin.approval.detail', $data);
     }
 
     public function create() {
