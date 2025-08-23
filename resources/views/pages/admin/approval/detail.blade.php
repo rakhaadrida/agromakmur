@@ -135,7 +135,7 @@
                                                     <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-m-Y') }}" readonly>
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-M-y') }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,7 +386,7 @@
                                 <hr>
                                 @if(!isApprovalTypeApprovalLimit($approval->type) && !isApprovalTypeCancel($approval->type))
                                     <div class="container so-update-container text-dark" style="margin-top: 40px">
-                                        <div class="row" >
+                                        <div class="row">
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row transaction-date approval-detail-row">
                                                     <label for="requestDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Request Date</label>
@@ -416,7 +416,51 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group row approval-detail-row">
+                                                        <label for="clientLabelChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Customer</label>
+                                                        <span class="col-form-label text-bold">:</span>
+                                                        <div class="col-6 col-sm-5 col-md-7">
+                                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->customer->name, $approval->client_name)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="client_label_child" id="clientLabelChild" value="{{ $childData->customer->name ?? '' }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
+                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
+                                            <div class="row" style="margin-top: -5px">
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group row transaction-date approval-detail-row">
+                                                        <label for="dateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Transaction Date</label>
+                                                        <span class="col-form-label text-bold">:</span>
+                                                        <div class="col-4">
+                                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->subject_date, $approval->subject->date)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="date_child" id="dateChild" value="{{ formatDate($childData->subject_date, 'd-M-y') }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form-group row approval-detail-row">
+                                                        <label for="marketingChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                        <span class="col-form-label text-bold">:</span>
+                                                        <div class="col-6 col-sm-5 col-md-7">
+                                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->marketing->name, $approval->subject->marketing->name)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="marketing_child" id="marketingChild" value="{{ $childData->marketing->name ?? '' }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: -5px">
+                                                <div class="col-12 col-lg-6" >
+                                                    <div class="form-group row approval-detail-row">
+                                                        <label for="dueDateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                        <span class="col-form-label text-bold">:</span>
+                                                        <div class="col-6 col-sm-5 col-md-7">
+                                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->tempo, $approval->subject->tempo)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="due_date_child" id="dueDateChild" value="{{ getDueDate($childData->subject_date, $childData->tempo, 'd-M-y') }}" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                         @if(isApprovalSubjectTypeDeliveryOrder($childData->subject_label))

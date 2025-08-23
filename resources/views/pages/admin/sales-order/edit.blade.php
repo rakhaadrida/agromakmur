@@ -90,13 +90,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">
-                                        <label for="note" class="col-2 col-form-label text-bold text-dark text-right">Note</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-4">
-                                            <input type="text" class="form-control form-control-sm text-bold mt-1" name="note" id="note" value="{{ $salesOrder->note }}" tabindex="2">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row so-update-input">
                                         <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
