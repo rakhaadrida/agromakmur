@@ -10,12 +10,15 @@ use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
 use App\Models\Warehouse;
+use App\Notifications\CancelSalesOrderNotification;
+use App\Notifications\UpdateSalesOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -444,6 +447,12 @@ class SalesOrderController extends Controller
 
             DB::commit();
 
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new UpdateSalesOrderNotification($salesOrder->number, $parentApproval->id));
+            }
+
             return redirect()->route('sales-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
@@ -465,7 +474,7 @@ class SalesOrderController extends Controller
             ]);
 
             ApprovalService::deleteData($salesOrder->approvals);
-            ApprovalService::createData(
+            $approval = ApprovalService::createData(
                 $salesOrder,
                 $salesOrder->salesOrderItems,
                 Constant::APPROVAL_TYPE_CANCEL,
@@ -474,6 +483,12 @@ class SalesOrderController extends Controller
             );
 
             DB::commit();
+
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new CancelSalesOrderNotification($salesOrder->number, $approval->id));
+            }
 
             return redirect()->route('sales-orders.index-edit');
         } catch (Exception $e) {

@@ -29,6 +29,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getTotalUnreadNotificationAttribute(): string
+    {
+        return $this->unreadNotifications()->count();
+    }
+
     public function hasRole($roles): bool
     {
         if(is_array($roles)) {

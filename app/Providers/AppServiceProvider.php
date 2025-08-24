@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +23,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \Carbon\Carbon::setLocale('id');
+
+        View::composer('includes.navbar', function ($view) {
+            $user = User::query()->findOrFail(Auth::user()->id);
+
+            $view->with('notificationLists', $user->notifications()->limit(4)->get());
+        });
     }
 }

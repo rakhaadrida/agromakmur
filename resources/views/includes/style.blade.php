@@ -4,5 +4,5 @@
 
 <!-- Custom styles for this template-->
 <link href="{{ url('assets/css/sb-admin-2.css') }}" rel="stylesheet">
-<link href="{{ url('assets/css/main.css?v=1') }}" rel="stylesheet">
+<link href="{{ url('assets/css/main.css?v=2') }}" rel="stylesheet">
 <link href="{{ url('assets/css/jquery-1.12.1.css') }}" rel="stylesheet">

@@ -8,10 +8,13 @@ use App\Http\Requests\DeliveryOrderUpdateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
 use App\Models\SalesOrder;
+use App\Notifications\CancelDeliveryOrderNotification;
+use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\SalesOrderService;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -292,6 +295,12 @@ class DeliveryOrderController extends Controller
 
             DB::commit();
 
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new UpdateDeliveryOrderNotification($deliveryOrder->number, $parentApproval->id));
+            }
+
             return redirect()->route('delivery-orders.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
@@ -313,7 +322,7 @@ class DeliveryOrderController extends Controller
             ]);
 
             ApprovalService::deleteData($deliveryOrder->approvals);
-            ApprovalService::createData(
+            $approval = ApprovalService::createData(
                 $deliveryOrder,
                 $deliveryOrder->deliveryOrderItems,
                 Constant::APPROVAL_TYPE_CANCEL,
@@ -322,6 +331,12 @@ class DeliveryOrderController extends Controller
             );
 
             DB::commit();
+
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new CancelDeliveryOrderNotification($deliveryOrder->number, $approval->id));
+            }
 
             return redirect()->route('delivery-orders.index-edit');
         } catch (Exception $e) {

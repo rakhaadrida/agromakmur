@@ -7,10 +7,12 @@ use App\Http\Requests\ProductTransferCreateRequest;
 use App\Models\Product;
 use App\Models\ProductTransfer;
 use App\Models\Warehouse;
+use App\Notifications\CancelProductTransferNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductTransferService;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -160,7 +162,7 @@ class ProductTransferController extends Controller
                 'status' => Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::createData(
+            $approval = ApprovalService::createData(
                 $productTransfer,
                 $productTransfer->productTransferItems,
                 Constant::APPROVAL_TYPE_CANCEL,
@@ -169,6 +171,12 @@ class ProductTransferController extends Controller
             );
 
             DB::commit();
+
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new CancelProductTransferNotification($productTransfer->number, $approval->id));
+            }
 
             return redirect()->route('product-transfers.index');
         } catch (Exception $e) {

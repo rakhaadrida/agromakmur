@@ -9,11 +9,14 @@ use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Warehouse;
+use App\Notifications\CancelGoodsReceiptNotification;
+use App\Notifications\UpdateGoodsReceiptNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -303,6 +306,12 @@ class GoodsReceiptController extends Controller
 
             DB::commit();
 
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new UpdateGoodsReceiptNotification($goodsReceipt->number, $parentApproval->id));
+            }
+
             return redirect()->route('goods-receipts.index-edit');
         } catch (Exception $e) {
             DB::rollBack();
@@ -324,7 +333,7 @@ class GoodsReceiptController extends Controller
             ]);
 
             ApprovalService::deleteData($goodsReceipt->approvals);
-            ApprovalService::createData(
+            $approval = ApprovalService::createData(
                 $goodsReceipt,
                 $goodsReceipt->goodsReceiptItems,
                 Constant::APPROVAL_TYPE_CANCEL,
@@ -333,6 +342,12 @@ class GoodsReceiptController extends Controller
             );
 
             DB::commit();
+
+            $users = UserService::getSuperAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new CancelGoodsReceiptNotification($goodsReceipt->number, $approval->id));
+            }
 
             return redirect()->route('goods-receipts.index-edit');
         } catch (Exception $e) {
