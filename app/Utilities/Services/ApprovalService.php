@@ -92,7 +92,8 @@ class ApprovalService
     protected static function createParentItems($approval, $parentItems) {
         $subtotal = 0;
         foreach($parentItems as $item) {
-            $total = $item->quantity * $item->price;
+            $totalExpenses = $item->wages + $item->shipping_cost;
+            $total = ($item->quantity * $item->price) + $totalExpenses;
             $finalAmount = $total - $item->discount_amount ?? 0;
             $subtotal += $finalAmount;
 

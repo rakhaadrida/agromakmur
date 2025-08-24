@@ -115,7 +115,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
-                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ $deliveryOrderItem->actual_quantity }}">
+                                                    <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ $deliveryOrderItem->actual_quantity / $deliveryOrderItem->quantity }}">
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <input type="text" name="unit[]" id="unit-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-center readonly-input" title="" value="{{ $deliveryOrderItem->unit->name }}" readonly>

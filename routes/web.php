@@ -22,7 +22,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
     ]], function() {
-        Route::resource('approvals', 'ApprovalController')->only(['index', 'show']);
+        Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
         Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
 
         Route::resource('users', 'UserController');

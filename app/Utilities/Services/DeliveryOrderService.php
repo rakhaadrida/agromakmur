@@ -101,4 +101,31 @@ class DeliveryOrderService
 
         return $deliveryOrderQuantities;
     }
+
+    public static function handleApprovalData($id, $approval) {
+        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+        $status = $approval->type == Constant::APPROVAL_TYPE_EDIT
+            ? Constant::DELIVERY_ORDER_STATUS_UPDATED
+            : Constant::DELIVERY_ORDER_STATUS_CANCELLED;
+
+        $deliveryOrder->update([
+            'status' => $status,
+            'updated_by' => auth()->id()
+        ]);
+
+        foreach($approval->approvalItems as $approvalItem) {
+            $deliveryItem = $deliveryOrder->deliveryOrderItems
+                ->where('product_id', $approvalItem->product_id)
+                ->first();
+
+            if($deliveryItem) {
+                $deliveryItem->update([
+                    'quantity' => $approvalItem->quantity,
+                    'actual_quantity' => $approvalItem->actual_quantity,
+                ]);
+            }
+        }
+
+        return true;
+    }
 }
