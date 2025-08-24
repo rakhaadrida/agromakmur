@@ -182,7 +182,7 @@
 
                 let table = $('#itemGoodsReceipt');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'goods-receipts', 9);
+                    displayApprovalData(table, 'goods-receipts', 9, datatableGoodsReceipt);
                 }
             });
 
@@ -191,7 +191,7 @@
 
                 let table = $('#itemDeliveryOrder');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'delivery-orders', 9);
+                    displayApprovalData(table, 'delivery-orders', 9, datatableDeliveryOrder);
                 }
             });
 
@@ -200,11 +200,11 @@
 
                 let table = $('#itemProductTransfer');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'product-transfers', 8);
+                    displayApprovalData(table, 'product-transfers', 8, datatableProductTransfer);
                 }
             });
 
-            function displayApprovalData(table, subject, colspan) {
+            function displayApprovalData(table, subject, colspan, datatable) {
                 $.ajax({
                     url: '{{ route('approvals.index-history-ajax') }}',
                     type: 'GET',
@@ -247,6 +247,18 @@
                                 table.append(newRow);
                                 rowNumber++;
                             });
+
+                            if (datatable) {
+                                datatable.clear();
+
+                                if (approvals.length > 0) {
+                                    datatable.rows.add(table.find('tr'));
+                                }
+
+                                datatable.draw(false);
+                            }
+
+                            datatable.draw(false);
                         }
                     },
                 })

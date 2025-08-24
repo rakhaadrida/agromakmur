@@ -203,7 +203,7 @@
 
                 let table = $('#itemSalesOrder');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'sales-orders', 9, salesOrderTab);
+                    displayApprovalData(table, 'sales-orders', 9, salesOrderTab, datatableSalesOrder);
                 }
             });
 
@@ -212,7 +212,7 @@
 
                 let table = $('#itemGoodsReceipt');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'goods-receipts', 9, goodsReceiptTab);
+                    displayApprovalData(table, 'goods-receipts', 9, goodsReceiptTab, datatableGoodsReceipt);
                 }
             });
 
@@ -221,7 +221,7 @@
 
                 let table = $('#itemDeliveryOrder');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'delivery-orders', 9, deliveryOrderTab);
+                    displayApprovalData(table, 'delivery-orders', 9, deliveryOrderTab, datatableDeliveryOrder);
                 }
             });
 
@@ -230,11 +230,11 @@
 
                 let table = $('#itemProductTransfer');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'product-transfers', 8, productTransferTab);
+                    displayApprovalData(table, 'product-transfers', 8, productTransferTab, datatableProductTransfer);
                 }
             });
 
-            function displayApprovalData(table, subject, colspan, tabItem) {
+            function displayApprovalData(table, subject, colspan, tabItem, datatable) {
                 $.ajax({
                     url: '{{ route('approvals.index-ajax') }}',
                     type: 'GET',
@@ -257,6 +257,7 @@
                             table.append(emptyRow);
                         } else {
                             let rowNumber = 1;
+                            datatable.clear();
 
                             let newRow;
                             $.each(approvals, function(index, item) {
@@ -278,6 +279,7 @@
                                 }
 
                                 table.append(newRow);
+                                datatable.rows.add(table.find('tr'));
                                 rowNumber++;
                             });
 
@@ -288,6 +290,18 @@
                             } else {
                                 tabItem.append(approvalDataCountElement(approvals.length));
                             }
+
+                            if (datatable) {
+                                datatable.clear();
+
+                                if (approvals.length > 0) {
+                                    datatable.rows.add(table.find('tr'));
+                                }
+
+                                datatable.draw(false);
+                            }
+
+                            datatable.draw(false);
                         }
                     },
                 })

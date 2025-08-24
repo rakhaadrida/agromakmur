@@ -7,6 +7,7 @@ use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
 use App\Models\ProductTransfer;
 use App\Models\SalesOrder;
+use App\Models\User;
 use App\Models\Warehouse;
 use App\Notifications\RejectApprovalNotification;
 use App\Notifications\RequestApprovedNotification;
@@ -15,6 +16,7 @@ use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\GoodsReceiptService;
+use App\Utilities\Services\NotificationService;
 use App\Utilities\Services\ProductTransferService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
@@ -249,6 +251,7 @@ class ApprovalController extends Controller
             }
 
             $subjectLabel = Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType] ?? 'Unknown Subject';
+            NotificationService::markAsReadRequestNotification($id);
 
             DB::commit();
 
@@ -291,9 +294,11 @@ class ApprovalController extends Controller
                 ]);
             }
 
-            $approval = Approval::query()->findOrFail($id);
+            NotificationService::markAsReadRequestNotification($id);
 
             DB::commit();
+
+            $approval = Approval::query()->findOrFail($id);
 
             $subjectType = $approval->subject_type;
             switch ($approval->subject_type) {

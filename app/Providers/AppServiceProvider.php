@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('includes.navbar', function ($view) {
             $user = User::query()->findOrFail(Auth::user()->id);
 
-            $view->with('notificationLists', $user->notifications()->limit(4)->get());
+            $view->with('notificationLists', $user->notifications()->whereNull('read_at')->limit(4)->get());
         });
     }
 }
