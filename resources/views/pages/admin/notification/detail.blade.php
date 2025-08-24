@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Approval - {{ getApprovalSubjectTypeLabel($approval->subject_label) }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Notification - {{ getApprovalSubjectTypeLabel($approval->subject_label) }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -650,18 +650,14 @@
                             @endif
                             <div class="form-row justify-content-center">
                                 <div class="col-2">
-                                    <form action="{{ route('approvals.update', $approval->id) }}" method="POST" id="updateForm">
+                                    <form action="{{ route('notifications.update', $notificationId) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Approve</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Mark As Read</button>
                                     </form>
                                 </div>
                                 <div class="col-2">
-                                    <form action="{{ route('approvals.destroy', $approval->id) }}" method="POST" id="deleteForm">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-block text-bold">Cancel Revision</button>
-                                    </form>
+                                    <a href="{{ url()->previous() }}" class="btn btn-primary btn-block text-bold">Back To List</a>
                                 </div>
                             </div>
                         </div>

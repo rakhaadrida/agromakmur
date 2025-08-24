@@ -1219,3 +1219,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size: 12px;
     margin-left: 5px;
 }
+
+.th-date-notification-index {
+    width: 160px;
+}
+
+.th-action-notification-index {
+    width: 180px;
+}

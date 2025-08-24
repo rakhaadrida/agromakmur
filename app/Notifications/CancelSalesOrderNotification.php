@@ -49,7 +49,7 @@ class CancelSalesOrderNotification extends Notification
     {
         return [
             'subject' => 'Cancel Sales Order Request - ' . $this->orderNumber,
-            'message' => 'There is a new cancel request for sales order with number ' .$this->orderNumber. '. Click the order number to redirect to the details page.',
+            'message' => 'There is a new cancel request for sales order with number ' .$this->orderNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

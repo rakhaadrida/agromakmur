@@ -6,19 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CancelGoodsReceiptNotification extends Notification
+class RequestApprovedNotification extends Notification
 {
     use Queueable;
 
-    protected $receiptNumber;
+    protected $transactionNumber;
+    protected $type;
     protected $approvalId;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($receiptNumber, $approvalId)
+    public function __construct($transactionNumber, $type, $approvalId)
     {
-        $this->receiptNumber = $receiptNumber;
+        $this->transactionNumber = $transactionNumber;
+        $this->type = $type;
         $this->approvalId = $approvalId;
     }
 
@@ -48,8 +50,8 @@ class CancelGoodsReceiptNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Goods Receipt Request - ' . $this->receiptNumber,
-            'message' => 'There is a new cancel request for goods receipt with number ' .$this->receiptNumber. '. Click here to go to details page.',
+            'subject' => 'Request Approved - ' . $this->transactionNumber,
+            'message' => 'Change request for ' . $this->type . ' with number ' . $this->transactionNumber . ' has been Approved. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

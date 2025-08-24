@@ -49,7 +49,7 @@ class CancelProductTransferNotification extends Notification
     {
         return [
             'subject' => 'Cancel Product Transfer Request - ' . $this->transferNumber,
-            'message' => 'There is a new cancel request for product transfer with number ' .$this->transferNumber. '. Click the transfer number to redirect to the details page.',
+            'message' => 'There is a new cancel request for product transfer with number ' .$this->transferNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

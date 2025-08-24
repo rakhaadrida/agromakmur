@@ -8,12 +8,16 @@ use App\Models\GoodsReceipt;
 use App\Models\ProductTransfer;
 use App\Models\SalesOrder;
 use App\Models\Warehouse;
+use App\Notifications\RejectApprovalNotification;
+use App\Notifications\RequestApprovedNotification;
+use App\Notifications\UpdateSalesOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductTransferService;
 use App\Utilities\Services\SalesOrderService;
+use App\Utilities\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -198,6 +202,7 @@ class ApprovalController extends Controller
             DB::beginTransaction();
 
             $approval = Approval::query()->findOrFail($id);
+            $parentApproval = $approval;
 
             $approval->update([
                 'status' => Constant::APPROVAL_STATUS_APPROVED,
@@ -209,12 +214,14 @@ class ApprovalController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
 
+            $subjectType = $approval->subject_type;
             switch ($approval->subject_type) {
                 case SalesOrder::class:
                     if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
                         $approval = $approval->activeChild;
                     }
 
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
                     SalesOrderService::handleApprovalData($approval->subject_id, $approval);
                     break;
                 case GoodsReceipt::class:
@@ -222,6 +229,7 @@ class ApprovalController extends Controller
                        $approval = $approval->activeChild;
                     }
 
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
                     GoodsReceiptService::handleApprovalData($approval->subject_id, $approval);
                     break;
                 case DeliveryOrder::class:
@@ -229,16 +237,26 @@ class ApprovalController extends Controller
                         $approval = $approval->activeChild;
                     }
 
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                     DeliveryOrderService::handleApprovalData($approval->subject_id, $approval);
                     break;
                 case ProductTransfer::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
                     ProductTransferService::handleApprovalData($approval->subject_id);
                     break;
                 default:
                     abort(404, 'Invalid subject type');
             }
 
+            $subjectLabel = Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType] ?? 'Unknown Subject';
+
             DB::commit();
+
+            $users = UserService::getAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new RequestApprovedNotification($approval->subject->number, $subjectLabel, $parentApproval->id));
+            }
 
             return redirect()->route('approvals.index');
         } catch (Exception $e) {
@@ -273,7 +291,34 @@ class ApprovalController extends Controller
                 ]);
             }
 
+            $approval = Approval::query()->findOrFail($id);
+
             DB::commit();
+
+            $subjectType = $approval->subject_type;
+            switch ($approval->subject_type) {
+                case SalesOrder::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+                    break;
+                case GoodsReceipt::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+                    break;
+                case DeliveryOrder::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
+                    break;
+                case ProductTransfer::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+                    break;
+                default:
+                    abort(404, 'Invalid subject type');
+            }
+
+            $subjectLabel = Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType] ?? 'Unknown Subject';
+            $users = UserService::getAdminUsers();
+
+            foreach($users as $user) {
+                $user->notify(new RejectApprovalNotification($approval->subject->number, $subjectLabel, $approval->id));
+            }
 
             return redirect()->route('approvals.index');
         } catch (Exception $e) {

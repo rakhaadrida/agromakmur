@@ -28,7 +28,7 @@
 
     @if(isUserAdminOnly())
         <li class="nav-item sidebar-menu-icon" >
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('notifications.index') }}">
                 <i class="fas fa-fw fa-bell"></i>
                 <span>Notification</span>
             </a>

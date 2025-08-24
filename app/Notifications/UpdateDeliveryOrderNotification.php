@@ -50,7 +50,7 @@ class UpdateDeliveryOrderNotification extends Notification
     {
         return [
             'subject' => 'Update Delivery Order Request - ' . $this->deliveryNumber,
-            'message' => 'There is a new update request for delivery order with number ' .$this->deliveryNumber. '. Click the delivery number to redirect to the details page.',
+            'message' => 'There is a new update request for delivery order with number ' .$this->deliveryNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

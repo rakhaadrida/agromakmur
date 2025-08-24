@@ -12,4 +12,10 @@ class UserService
             ->where('role', Constant::USER_ROLE_SUPER_ADMIN)
             ->get();
     }
+
+    public static function getAdminUsers() {
+        return User::query()
+            ->where('role', Constant::USER_ROLE_ADMIN)
+            ->get();
+    }
 }

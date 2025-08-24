@@ -49,7 +49,7 @@ class UpdateSalesOrderNotification extends Notification
     {
         return [
             'subject' => 'Update Sales Order Request - ' . $this->orderNumber,
-            'message' => 'There is a new update request for sales order with number ' .$this->orderNumber. '. Click the order number to redirect to the details page.',
+            'message' => 'There is a new update request for sales order with number ' .$this->orderNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

@@ -650,7 +650,7 @@
                             @endif
                             <div class="form-row justify-content-center">
                                 <div class="col-2">
-                                    <a href="{{ url()->previous() }}" class="btn btn-primary btn-block text-bold">Kembali</a>
+                                    <a href="{{ url()->previous() }}" class="btn btn-primary btn-block text-bold">Back To List</a>
                                 </div>
                             </div>
                         </div>

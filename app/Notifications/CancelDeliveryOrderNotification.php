@@ -50,7 +50,7 @@ class CancelDeliveryOrderNotification extends Notification
     {
         return [
             'subject' => 'Cancel Delivery Order Request - ' . $this->deliveryNumber,
-            'message' => 'There is a new cancel request for delivery order with number ' .$this->deliveryNumber. '. Click the delivery number to redirect to the details page.',
+            'message' => 'There is a new cancel request for delivery order with number ' .$this->deliveryNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }

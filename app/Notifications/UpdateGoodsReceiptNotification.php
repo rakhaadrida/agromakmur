@@ -49,7 +49,7 @@ class UpdateGoodsReceiptNotification extends Notification
     {
         return [
             'subject' => 'Update Goods Receipt Request - ' . $this->receiptNumber,
-            'message' => 'There is a new update request for goods receipt with number ' .$this->receiptNumber. '. Click the receipt number to redirect to the details page.',
+            'message' => 'There is a new update request for goods receipt with number ' .$this->receiptNumber. '. Click here to go to details page.',
             'approval_id' => $this->approvalId
         ];
     }
