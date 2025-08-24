@@ -4,6 +4,8 @@ namespace App\Utilities\Services;
 
 use App\Models\SalesOrder;
 use App\Models\SalesOrderItem;
+use App\Utilities\Constant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalesOrderService
@@ -107,5 +109,86 @@ class SalesOrderService
             ->get();
 
         return $salesOrderQuantities;
+    }
+
+    public static function handleApprovalData($id, $approval) {
+        $salesOrder = SalesOrder::query()->findOrFail($id);
+        $status = $approval->type == Constant::APPROVAL_TYPE_EDIT
+            ? Constant::SALES_ORDER_STATUS_UPDATED
+            : Constant::SALES_ORDER_STATUS_CANCELLED;
+
+        $salesOrder->update([
+            'status' => $status,
+            'updated_by' => Auth::user()->id
+        ]);
+
+        foreach($approval->approvalItems as $approvalItem) {
+            $productStock = ProductService::getProductStockQuery(
+                $approvalItem->product_id,
+                $approvalItem->warehouse_id
+            );
+
+            if($approval->type == Constant::APPROVAL_TYPE_CANCEL) {
+                $productStock?->increment('stock', $approvalItem->actual_quantity);
+            } else {
+                $orderItem = $salesOrder->salesOrderItems
+                    ->where('product_id', $approvalItem->product_id)
+                    ->first();
+
+                if(!$orderItem) {
+                    $productStock?->decrement('stock', $approvalItem->actual_quantity);
+                } else {
+                    $actualQuantity = $approvalItem->actual_quantity - $orderItem->actual_quantity;
+                    $productStock?->increment('stock', $actualQuantity);
+                }
+            }
+        }
+
+        $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
+        $orderItemProductIds = $salesOrder->salesOrderItems->pluck('product_id');
+
+        $missingOrderItemIds = $orderItemProductIds->diff($approvalItemProductIds);
+        $missingOrderItems = $salesOrder->salesOrderItems->whereIn('product_id', $missingOrderItemIds);
+
+        foreach($missingOrderItems as $missingOrderItem) {
+            $productStock = ProductService::getProductStockQuery(
+                $missingOrderItem->product_id,
+                $missingOrderItem->warehouse_id
+            );
+
+            if($productStock) {
+                $productStock->increment('stock', $missingOrderItem->actual_quantity);
+            }
+        }
+
+        $salesOrder->salesOrderItems()->delete();
+        foreach($approval->approvalItems as $approvalItem) {
+            $salesOrder->salesOrderItems()->create([
+                'product_id' => $approvalItem->product_id,
+                'warehouse_id' => $approvalItem->warehouse_id,
+                'unit_id' => $approvalItem->unit_id,
+                'quantity' => $approvalItem->quantity,
+                'actual_quantity' => $approvalItem->actual_quantity,
+                'price_id' => $approvalItem->price_id,
+                'price' => $approvalItem->price,
+                'total' => $approvalItem->total,
+                'discount' => $approvalItem->discount,
+                'discount_amount' => $approvalItem->discount_amount,
+                'final_amount' => $approvalItem->final_amount,
+            ]);
+        }
+
+        $salesOrder->update([
+            'date' => $approval->subject_date ?: $salesOrder->date,
+            'customer_id' => $approval->customer_id ?: $salesOrder->customer_id,
+            'marketing_id' => $approval->marketing_id ?: $salesOrder->marketing_id,
+            'tempo' => $approval->tempo ?: $salesOrder->tempo,
+            'subtotal' => $approval->subtotal,
+            'discount_amount' => $approval->discount_amount,
+            'tax_amount' => $approval->tax_amount,
+            'grand_total' => $approval->grand_total,
+        ]);
+
+        return true;
     }
 }

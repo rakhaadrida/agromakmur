@@ -181,13 +181,19 @@ class ApprovalController extends Controller
             ]);
 
             switch ($approval->subject_type) {
+                case SalesOrder::class:
+                    if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
+                        $approval = $approval->activeChild;
+                    }
+
+                    SalesOrderService::handleApprovalData($approval->subject_id, $approval);
+                    break;
                 case GoodsReceipt::class:
                     if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
                        $approval = $approval->activeChild;
                     }
 
                     GoodsReceiptService::handleApprovalData($approval->subject_id, $approval);
-
                     break;
                 case DeliveryOrder::class:
                     if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
@@ -195,11 +201,9 @@ class ApprovalController extends Controller
                     }
 
                     DeliveryOrderService::handleApprovalData($approval->subject_id, $approval);
-
                     break;
                 case ProductTransfer::class:
                     ProductTransferService::handleApprovalData($approval->subject_id);
-
                     break;
                 default:
                     abort(404, 'Invalid subject type');
@@ -233,6 +237,10 @@ class ApprovalController extends Controller
                 $approval->update([
                     'status' => Constant::APPROVAL_STATUS_REJECTED,
                     'updated_by' => Auth::user()->id,
+                ]);
+
+                $approval->subject()->update([
+                    'status' => Constant::SALES_ORDER_STATUS_ACTIVE
                 ]);
             }
 
