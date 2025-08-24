@@ -20,7 +20,7 @@
             <div id="collapseApproval" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('approvals.index') }}">Need Approval</a>
-                    <a class="collapse-item" href="#">Histori Approval</a>
+                    <a class="collapse-item" href="{{ route('approvals.index-history') }}">Approval History</a>
                 </div>
             </div>
         </li>

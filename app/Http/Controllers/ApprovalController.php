@@ -26,6 +26,7 @@ class ApprovalController extends Controller
         $baseQuery = ApprovalService::getBaseQueryIndex(SalesOrder::class);
 
         $approvals = $baseQuery
+            ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
             ->orderBy('approvals.date')
             ->get();
 
@@ -60,6 +61,7 @@ class ApprovalController extends Controller
 
         $approvals = $baseQuery
             ->with(['subject'])
+            ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
             ->orderBy('approvals.date');
 
         if($filter->subject === 'goods-receipts') {
@@ -255,5 +257,149 @@ class ApprovalController extends Controller
                 'message' => 'An error occurred while deleting data'
             ]);
         }
+    }
+
+    public function indexHistory(Request $request) {
+        $baseQuery = ApprovalService::getBaseQueryIndex(SalesOrder::class);
+
+        $approvals = $baseQuery
+            ->where('approvals.status', '!=', Constant::APPROVAL_STATUS_PENDING)
+            ->orderBy('approvals.date')
+            ->get();
+
+        $data = [
+            'approvals' => $approvals
+        ];
+
+        return view('pages.admin.approval.index-history', $data);
+    }
+
+    public function indexHistoryAjax(Request $request) {
+        $filter = (object) $request->all();
+        $subject = $filter->subject ?? null;
+
+        switch ($subject) {
+            case 'goods-receipts':
+                $subject = GoodsReceipt::class;
+                break;
+            case 'delivery-orders':
+                $subject = DeliveryOrder::class;
+                break;
+            case 'product-transfers':
+                $subject = ProductTransfer::class;
+                break;
+            default:
+                return response()->json([
+                    'message' => 'Invalid subject type'
+                ], 400);
+        }
+
+        $baseQuery = ApprovalService::getBaseQueryIndex($subject);
+
+        $approvals = $baseQuery
+            ->with(['subject'])
+            ->where('approvals.status', '!=', Constant::APPROVAL_STATUS_PENDING)
+            ->orderBy('approvals.date');
+
+        if($filter->subject === 'goods-receipts') {
+            $approvals = $approvals->with(['subject.supplier']);
+        } else if($filter->subject === 'delivery-orders') {
+            $approvals = $approvals->with(['subject.customer']);
+        }
+
+        $approvals = $approvals->get();
+
+        return response()->json([
+            'data' => $approvals,
+        ]);
+    }
+
+    public function detail($id) {
+        $approval = Approval::query()->findOrFail($id);
+        $childData = $approval->activeChild;
+        $productWarehouses = [];
+        $childProductWarehouses = [];
+
+        $approvalItems = $approval->approvalItems()->orderBy('product_id')->get();
+
+        switch ($approval->subject_type) {
+            case SalesOrder::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $productWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
+                }
+
+                $approval->approvalItems = SalesOrderService::mapSalesOrderItemDetail($approvalItems);
+
+                break;
+            case GoodsReceipt::class:
+                $approval->client_label = 'Supplier';
+                $approval->client_name = $approval->subject->supplier->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+                $approval->approvalItems = $approvalItems;
+                break;
+            case DeliveryOrder::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
+                $approval->approvalItems = $approvalItems;
+                break;
+            case ProductTransfer::class:
+                $approval->client_label = '';
+                $approval->client_name = '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+                $approval->approvalItems = $approval->subject->productTransferItems;
+                break;
+            default:
+                abort(404, 'Invalid subject type');
+        }
+
+        $approvalItems = $approval->approvalItems;
+
+        if($childData) {
+            $childItems = $childData->approvalItems()->orderBy('product_id')->get();
+
+            switch ($childData->subject_type) {
+                case SalesOrder::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
+
+                    foreach($childData->approvalItems as $approvalItem) {
+                        $childProductWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
+                    }
+
+                    $childData->approvalItems = SalesOrderService::mapSalesOrderItemDetail($childItems);
+
+                    break;
+                case GoodsReceipt::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
+                    $childData->approvalItems = $childItems;
+                    break;
+                case DeliveryOrder::class:
+                    $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
+                    $childData->approvalItems = $childItems;
+                    break;
+                default:
+                    abort(404, 'Invalid subject type');
+            }
+        }
+
+        $warehouses = Warehouse::all();
+        $totalWarehouses = $warehouses->count();
+
+        $data = [
+            'id' => $id,
+            'approval' => $approval,
+            'approvalItems' => $approvalItems,
+            'childData' => $childData,
+            'warehouses' => $warehouses,
+            'totalWarehouses' => $totalWarehouses,
+            'productWarehouses' => $productWarehouses ?? [],
+            'childProductWarehouses' => $childProductWarehouses ?? [],
+        ];
+
+        return view('pages.admin.approval.detail-history', $data);
     }
 }

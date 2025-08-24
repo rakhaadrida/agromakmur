@@ -15,13 +15,14 @@ class ApprovalService
                 'approvals.*',
                 'customers.name AS customer_name',
                 'marketings.name AS marketing_name',
-                'users.username AS user_name'
+                'users.username AS user_name',
+                'updated_users.username AS updated_user_name',
             )
             ->leftJoin('customers', 'customers.id', 'approvals.customer_id')
             ->leftJoin('marketings', 'marketings.id', 'approvals.marketing_id')
             ->leftJoin('users', 'users.id', 'approvals.user_id')
+            ->leftJoin('users AS updated_users', 'updated_users.id', 'approvals.updated_by')
             ->where('approvals.subject_type', $subject)
-            ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
             ->whereNull('approvals.parent_id')
             ->whereNull('approvals.deleted_at');
     }
