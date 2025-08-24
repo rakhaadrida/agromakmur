@@ -6,6 +6,7 @@ use App\Models\Approval;
 use App\Utilities\Constant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ApprovalService
 {
@@ -25,6 +26,18 @@ class ApprovalService
             ->where('approvals.subject_type', $subject)
             ->whereNull('approvals.parent_id')
             ->whereNull('approvals.deleted_at');
+    }
+
+    public static function getBaseQueryCount() {
+        return Approval::query()
+            ->select(
+                'approvals.subject_type',
+                DB::raw('COUNT(approvals.id) AS total_approvals'),
+            )
+            ->where('status', Constant::APPROVAL_STATUS_PENDING)
+            ->whereNull('parent_id')
+            ->whereNull('deleted_at')
+            ->groupBy('subject_type');
     }
 
     public static function createData($subject, $subjectItems, $type, $status, $description, $parentId = null) {

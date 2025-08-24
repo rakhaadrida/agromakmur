@@ -30,8 +30,32 @@ class ApprovalController extends Controller
             ->orderBy('approvals.date')
             ->get();
 
+        $baseQueryCountApprovals = ApprovalService::getBaseQueryCount();
+        $countApprovals = $baseQueryCountApprovals->get();
+
+        $mapCountApprovalBySubject = [];
+        foreach($countApprovals as $countApproval) {
+            switch ($countApproval->subject_type) {
+                case SalesOrder::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER] = $countApproval->total_approvals;
+                    break;
+                case GoodsReceipt::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT] = $countApproval->total_approvals;
+                    break;
+                case DeliveryOrder::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER] = $countApproval->total_approvals;
+                    break;
+                case ProductTransfer::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER] = $countApproval->total_approvals;
+                    break;
+                default:
+                    abort(404, 'Invalid subject type');
+            }
+        }
+
         $data = [
-            'approvals' => $approvals
+            'approvals' => $approvals,
+            'mapCountApprovalBySubject' => $mapCountApprovalBySubject,
         ];
 
         return view('pages.admin.approval.index', $data);
@@ -42,6 +66,9 @@ class ApprovalController extends Controller
         $subject = $filter->subject ?? null;
 
         switch ($subject) {
+            case 'sales-orders':
+                $subject = SalesOrder::class;
+                break;
             case 'goods-receipts':
                 $subject = GoodsReceipt::class;
                 break;
@@ -64,9 +91,9 @@ class ApprovalController extends Controller
             ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
             ->orderBy('approvals.date');
 
-        if($filter->subject === 'goods-receipts') {
+        if($filter->subject == 'goods-receipts') {
             $approvals = $approvals->with(['subject.supplier']);
-        } else if($filter->subject === 'delivery-orders') {
+        } else if(in_array($filter->subject, ['sales-orders', 'delivery-orders'])) {
             $approvals = $approvals->with(['subject.customer']);
         }
 

@@ -25,16 +25,32 @@
             <div class="card-body">
                 <ul class="nav nav-tabs" id="tabHeader" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive active" id="salesOrderTab" data-toggle="pill" data-target="#salesOrder" type="button" role="tab" aria-controls="sales-order" aria-selected="true">Sales Order</a>
+                        <a class="nav-link nav-link-inactive active" id="salesOrderTab" data-toggle="pill" data-target="#salesOrder" type="button" role="tab" aria-controls="sales-order" aria-selected="true">Sales Order
+                            @if($mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER] ?? 0)
+                                <span class="notification-badge">{{ $mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER] ?? 0 }}</span>
+                            @endif
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="goodsReceiptTab" data-toggle="pill" data-target="#goodsReceipt" type="button" role="tab" aria-controls="goods-receipt" aria-selected="false">Goods Receipt</a>
+                        <a class="nav-link nav-link-inactive" id="goodsReceiptTab" data-toggle="pill" data-target="#goodsReceipt" type="button" role="tab" aria-controls="goods-receipt" aria-selected="false">Goods Receipt
+                            @if($mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT] ?? 0)
+                                <span class="notification-badge">{{ $mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT] }}</span>
+                            @endif
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="deliveryOrderTab" data-toggle="pill" data-target="#deliveryOrder" type="button" role="tab" aria-controls="delivery-order" aria-selected="false">Delivery Order</a>
+                        <a class="nav-link nav-link-inactive" id="deliveryOrderTab" data-toggle="pill" data-target="#deliveryOrder" type="button" role="tab" aria-controls="delivery-order" aria-selected="false">Delivery Order
+                            @if($mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER] ?? 0)
+                                <span class="notification-badge">{{ $mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER] }}</span>
+                            @endif
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="productTransferTab" data-toggle="pill" data-target="#productTransfer" type="button" role="tab" aria-controls="product-transfer" aria-selected="false">Product Transfer</a>
+                        <a class="nav-link nav-link-inactive" id="productTransferTab" data-toggle="pill" data-target="#productTransfer" type="button" role="tab" aria-controls="product-transfer" aria-selected="false">Product Transfer
+                            @if($mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER] ?? 0)
+                                <span class="notification-badge">{{ $mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER] }}</span>
+                            @endif
+                        </a>
                     </li>
                 </ul>
                 <div class="table-responsive">
@@ -56,7 +72,7 @@
                                                 <th class="align-middle th-code-transaction-index">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="itemSalesOrder">
                                             @forelse ($approvals as $key => $approval)
                                                 <tr class="text-dark">
                                                     <td class="align-middle text-center">{{ ++$key }}</td>
@@ -177,34 +193,48 @@
         });
 
         $(document).ready(function() {
-            $('#goodsReceiptTab').on('click', function (e) {
+            let salesOrderTab = $('#salesOrderTab');
+            let goodsReceiptTab = $('#goodsReceiptTab');
+            let deliveryOrderTab = $('#deliveryOrderTab');
+            let productTransferTab = $('#productTransferTab');
+
+            salesOrderTab.on('click', function (e) {
+                e.preventDefault();
+
+                let table = $('#itemSalesOrder');
+                if(table.find('.item-row').length === 0) {
+                    displayApprovalData(table, 'sales-orders', 9, salesOrderTab);
+                }
+            });
+
+            goodsReceiptTab.on('click', function (e) {
                 e.preventDefault();
 
                 let table = $('#itemGoodsReceipt');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'goods-receipts', 9);
+                    displayApprovalData(table, 'goods-receipts', 9, goodsReceiptTab);
                 }
             });
 
-            $('#deliveryOrderTab').on('click', function (e) {
+            deliveryOrderTab.on('click', function (e) {
                 e.preventDefault();
 
                 let table = $('#itemDeliveryOrder');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'delivery-orders', 9);
+                    displayApprovalData(table, 'delivery-orders', 9, deliveryOrderTab);
                 }
             });
 
-            $('#productTransferTab').on('click', function (e) {
+            productTransferTab.on('click', function (e) {
                 e.preventDefault();
 
                 let table = $('#itemProductTransfer');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'product-transfers', 8);
+                    displayApprovalData(table, 'product-transfers', 8, productTransferTab);
                 }
             });
 
-            function displayApprovalData(table, subject, colspan) {
+            function displayApprovalData(table, subject, colspan, tabItem) {
                 $.ajax({
                     url: '{{ route('approvals.index-ajax') }}',
                     type: 'GET',
@@ -231,6 +261,9 @@
                             let newRow;
                             $.each(approvals, function(index, item) {
                                 switch (subject) {
+                                    case 'sales-orders':
+                                        newRow = salesOrderItemRow(rowNumber, item);
+                                        break;
                                     case 'goods-receipts':
                                         newRow = goodsReceiptItemRow(rowNumber, item);
                                         break;
@@ -247,9 +280,45 @@
                                 table.append(newRow);
                                 rowNumber++;
                             });
+
+                            let hasBadge = tabItem.find('.notification-badge');
+
+                            if(hasBadge.length) {
+                                hasBadge.text(approvals.length);
+                            } else {
+                                tabItem.append(approvalDataCountElement(approvals.length));
+                            }
                         }
                     },
                 })
+            }
+
+            function salesOrderItemRow(rowNumber, item) {
+                let baseUrl = `{{ route('sales-orders.detail', 'id') }}`;
+                let urlDetail = baseUrl.replace('id', item.subject_id);
+                let urlEdit = `{{ route('approvals.show', '') }}` + '/' + item.id;
+
+                return `
+                    <tr class="text-dark item-row">
+                        <td class="align-middle text-center">${rowNumber}</td>
+                        <td class="align-middle">
+                            <a href="${urlDetail}" class="btn btn-sm btn-link text-bold">
+                                ${item.subject.number}
+                            </a>
+                        </td>
+                        <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
+                        <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.customer.name}</td>
+                        <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
+                        <td class="align-middle text-center">${item.description}</td>
+                        <td class="align-middle text-center">${item.user_name}</td>
+                        <td class="align-middle text-center">
+                            <a href="${urlEdit}" class="btn btn-sm btn-info">
+                                <i class="fas fa-fw fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
             }
 
             function goodsReceiptItemRow(rowNumber, item) {
@@ -352,6 +421,12 @@
                     <tr>
                         <td colspan="${colspan}" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                     </tr>
+                `;
+            }
+
+            function approvalDataCountElement(total) {
+                return `
+                    <span class="notification-badge">${total}</span>
                 `;
             }
 

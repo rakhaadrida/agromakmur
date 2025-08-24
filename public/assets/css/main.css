@@ -1209,3 +1209,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .approval-difference-amount-section {
     background: linear-gradient(to bottom,  transparent 20%, #ffc107 20%, #ffc107 80%, transparent 80%) !important;
 }
+
+.notification-badge {
+    top: 10px;
+    padding: 0.25rem 0.4rem;
+    border-radius: 50%;
+    background: #ef2b2b;
+    color: white;
+    font-size: 12px;
+    margin-left: 5px;
+}
