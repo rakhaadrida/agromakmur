@@ -1227,3 +1227,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-action-notification-index {
     width: 180px;
 }
+
+.th-return-number {
+    width: 50px;
+}
+
+.th-return-product-sku {
+    width: 90px;
+}
+
+.th-return-product-name {
+    width: 200px;
+}
+
+.th-return-stock {
+    width: 100px;
+}
+
+.th-return-unit-name {
+    width: 100px;
+}

@@ -127,7 +127,7 @@
         <div id="collapseRetur" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 @if(isUserAdmin() || isUserWarehouse())
-                    <a class="collapse-item" href="#">Stok Retur</a>
+                    <a class="collapse-item" href="{{ route('returns.index') }}">Return Stock</a>
                 @endif
                 <a class="collapse-item" href="#">Retur Customer</a>
                 <a class="collapse-item" href="#">Retur Supplier</a>
