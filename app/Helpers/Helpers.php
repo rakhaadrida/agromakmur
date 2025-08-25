@@ -78,6 +78,16 @@ function getDeliveryOrderStatusLabel($status): string
     return Constant::DELIVERY_ORDER_STATUS_LABELS[$status];
 }
 
+function getSalesReturnStatusLabel($status): string
+{
+    return Constant::SALES_RETURN_STATUS_LABELS[$status];
+}
+
+function getSalesReturnDeliveryStatusLabel($deliveryStatus): string
+{
+    return Constant::SALES_RETURN_DELIVERY_STATUS_LABELS[$deliveryStatus];
+}
+
 function getAccountPayableStatusLabel($status): string
 {
     return Constant::ACCOUNT_PAYABLE_STATUS_LABELS[$status];
@@ -151,6 +161,21 @@ function isApprovalTypeCancel($type): bool
 function isDifferenceApprovalItem($childItem, $parentItem): bool
 {
     return $childItem != $parentItem;
+}
+
+function isSalesReturnActive($status): bool
+{
+    return $status == Constant::SALES_RETURN_DELIVERY_STATUS_ACTIVE;
+}
+
+function isSalesReturnOngoing($status): bool
+{
+    return $status == Constant::SALES_RETURN_DELIVERY_STATUS_ONGOING;
+}
+
+function isSalesReturnCompleted($status): bool
+{
+    return $status == Constant::SALES_RETURN_DELIVERY_STATUS_COMPLETED;
 }
 
 function isAccountPayableUnpaid($status): bool

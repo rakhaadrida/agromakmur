@@ -1228,6 +1228,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 180px;
 }
 
+.sales-return-final-date {
+    width: 8.4rem !important;
+}
+
 .th-return-number {
     width: 50px;
 }
@@ -1246,4 +1250,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .th-return-unit-name {
     width: 100px;
+}
+
+.th-sales-return-number {
+    width: 30px;
+}
+
+.th-sales-return-return-number {
+    width: 100px;
+}
+
+.th-sales-return-date {
+    width: 100px;
+}
+
+.th-sales-return-order-number {
+    width: 100px;
+}
+
+.th-sales-return-quantity {
+    width: 80px;
+}
+
+.th-sales-return-status {
+    width: 90px;
 }

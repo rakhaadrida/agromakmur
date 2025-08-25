@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Delivery Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Create Sales Return</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,18 +25,18 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('delivery-orders.store') }}" method="POST" id="form">
+                            <form action="{{ route('sales-returns.store') }}" method="POST" id="form">
                                 @csrf
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">DO Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Return Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" autofocus required >
                                                 </div>
-                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" tabindex="2" required>
@@ -48,9 +48,9 @@
                                         <label for="salesOrderId" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" data-size="5" title="Enter or Choose Number" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" title="Enter or Choose Number" tabindex="3" required>
                                                 @foreach($salesOrders as $salesOrder)
-                                                    <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}">{{ $salesOrder->number }}</option>
+                                                    <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}" data-customer="{{ $salesOrder->customer_id }}">{{ $salesOrder->number }}</option>
                                                 @endforeach
                                             </select>
                                             @error('sales_order_id')
@@ -59,22 +59,27 @@
                                                 </span>
                                             @enderror
                                         </div>
+                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" tabindex="2" required>
+                                        </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <input type="text" name="customer" id="customer" class="form-control form-control-sm text-bold" readonly>
-                                            <input type="hidden" name="customer_id" id="customerId">
+                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="3" required>
+                                                @foreach($customers as $customer)
+                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}">{{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('customer_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
-                                    </div>
-                                    <div class="form-group row subtotal-so">
-                                        <label for="address" class="col-2 col-form-label text-bold text-right">Address</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-6 mt-1">
-                                            <input type="text" class="form-control form-control-sm text-bold" name="address" id="address" value="{{ old('address') }}" tabindex="4" required>
-                                        </div>
-                                        <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
                                 </div>
                                 <hr>
@@ -86,10 +91,11 @@
                                                 <td class="align-middle table-head-code-delivery-order">SKU</td>
                                                 <td class="align-middle">Product Name</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Qty to be Sent</td>
                                                 <td class="align-middle table-head-unit-delivery-order">Unit</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Return Qty</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Cut Bill Qty</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
                                             </tr>
                                         </thead>
                                         <tbody id="itemTable">
@@ -102,32 +108,6 @@
                                         </div>
                                         <div class="col-2">
                                             <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                                                </button>
-                                                <h4 class="modal-title">Delivery Order Confirmation</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>The Delivery Order data will be saved. Please select print or re-enter the delivery order.</p>
-                                                <input type="hidden" name="is_print" value="0">
-                                                <hr>
-                                                <div class="form-row justify-content-center">
-                                                    <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -164,10 +144,20 @@
         $(document).ready(function() {
             const table = $('#itemTable');
 
+            $('#customerId').change(function() {
+                $('#itemContent').removeAttr('hidden');
+
+                let salesOrderId = $(this).val();
+                displaySalesOrderData(salesOrderId);
+            });
+
             $('#salesOrderId').change(function() {
                 $('#itemContent').removeAttr('hidden');
 
                 let salesOrderId = $(this).val();
+                let customerId = $(this).find(':selected').data('customer');
+
+                $('#customer').selectpicker('val', customerId);
                 displaySalesOrderData(salesOrderId);
             });
 
@@ -222,13 +212,6 @@
 
                     $('#modalConfirmation').modal('show');
                 }
-            });
-
-            $('#btnPrint').on('click', function(event) {
-                event.preventDefault();
-
-                $('input[name="is_print"]').val(1);
-                $('#form').submit();
             });
 
             function displaySalesOrderData(salesOrderId) {

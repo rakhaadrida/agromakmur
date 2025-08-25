@@ -129,7 +129,7 @@
                 @if(isUserAdmin() || isUserWarehouse())
                     <a class="collapse-item" href="{{ route('returns.index') }}">Return Stock</a>
                 @endif
-                <a class="collapse-item" href="#">Retur Customer</a>
+                <a class="collapse-item" href="{{ route('sales-returns.index') }}">Sales Return</a>
                 <a class="collapse-item" href="#">Retur Supplier</a>
             </div>
         </div>

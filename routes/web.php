@@ -138,6 +138,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
 
         Route::resource('returns', 'ReturnController')->only(['index']);
+
+        Route::resource('sales-returns', 'SalesReturnController');
     });
 
     Route::group(['roles' => [
