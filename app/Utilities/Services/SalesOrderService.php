@@ -75,6 +75,7 @@ class SalesOrderService
                 $discountPercentage = number_format((($totalDiscount - 100) * -1), 2, ",", "");
 
                 return (object) [
+                    'id' => $items->first()->id,
                     'product_id' => $productId,
                     'product_sku' => $items->first()->product->sku,
                     'product_name' => $items->first()->product->name,
@@ -109,6 +110,10 @@ class SalesOrderService
             ->get();
 
         return $salesOrderQuantities;
+    }
+
+    public static function getSalesOrderItemById($id) {
+        return SalesOrderItem::query()->findOrFail($id);
     }
 
     public static function handleApprovalData($id, $approval) {

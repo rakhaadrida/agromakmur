@@ -21,4 +21,8 @@ class AccountReceivable extends Model
     public function payments() {
         return $this->hasMany(AccountReceivablePayment::class, 'account_receivable_id', 'id');
     }
+
+    public function returns() {
+        return $this->hasMany(AccountReceivableReturn::class, 'account_receivable_id', 'id');
+    }
 }

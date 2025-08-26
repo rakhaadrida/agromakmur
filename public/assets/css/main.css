@@ -1257,19 +1257,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-sales-return-return-number {
-    width: 100px;
+    width: 80px;
 }
 
 .th-sales-return-date {
     width: 100px;
 }
 
+.th-sales-return-customer {
+    width: 150px;
+}
+
 .th-sales-return-order-number {
-    width: 100px;
+    width: 80px;
 }
 
 .th-sales-return-quantity {
-    width: 80px;
+    width: 60px;
 }
 
 .th-sales-return-status {

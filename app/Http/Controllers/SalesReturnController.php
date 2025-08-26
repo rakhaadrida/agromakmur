@@ -12,11 +12,15 @@ use App\Models\SalesReturn;
 use App\Notifications\CancelDeliveryOrderNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Utilities\Constant;
+use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\SalesReturnService;
 use App\Utilities\Services\UserService;
+use App\Utilities\Services\WarehouseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -67,6 +71,7 @@ class SalesReturnController extends Controller
             'salesReturnStatuses' => $salesReturnStatuses,
             'salesReturnDeliveryStatuses' => $salesReturnDeliveryStatuses,
             'status' => $filter->status ?? 0,
+            'deliveryStatus' => $filter->delivery_status ?? 0,
             'salesReturns' => $salesReturns
         ];
 
@@ -135,31 +140,71 @@ class SalesReturnController extends Controller
                     $itemId = $request->get('item_id')[$index];
                     $unitId = $request->get('unit_id')[$index];
                     $quantity = $request->get('quantity')[$index];
-                    $actualQuantity = $request->get('real_quantity')[$index];
+                    $realQuantity = $request->get('real_quantity')[$index];
                     $deliveredQuantity = $request->get('delivered_quantity')[$index];
                     $cutBillQuantity = $request->get('cut_bill_quantity')[$index];
+                    $actualQuantity = $quantity * $realQuantity;
+                    $actualDeliveredQuantity = $deliveredQuantity * $realQuantity;
 
-                    $salesReturn->salesReturnItems()->create([
-                        'item_id' => $itemId,
-                        'product_id' => $productId,
-                        'unit_id' => $unitId,
-                        'quantity' => $quantity,
-                        'actual_quantity' => $actualQuantity,
-                        'delivered_quantity' => $deliveredQuantity,
-                        'cut_bill_quantity' => $cutBillQuantity,
-                    ]);
+                    if($quantity > 0) {
+                        $salesReturn->salesReturnItems()->create([
+                            'sales_order_item_id' => $itemId,
+                            'product_id' => $productId,
+                            'unit_id' => $unitId,
+                            'quantity' => $quantity,
+                            'actual_quantity' => $actualQuantity,
+                            'delivered_quantity' => $deliveredQuantity,
+                            'cut_bill_quantity' => $cutBillQuantity,
+                        ]);
 
-                    $totalReturnQuantity += $quantity;
-                    $totalDeliveredQuantity += $deliveredQuantity;
-                    $totalCutBillQuantity += $cutBillQuantity;
+                        $totalReturnQuantity += $quantity;
+                        $totalDeliveredQuantity += $deliveredQuantity;
+                        $totalCutBillQuantity += $cutBillQuantity;
+
+                        $returnWarehouse = WarehouseService::getReturnWarehouse();
+                        $productStock = ProductService::getProductStockQuery(
+                            $productId,
+                            $returnWarehouse->id
+                        );
+
+                        $productStock?->increment('stock', $actualQuantity - $actualDeliveredQuantity);
+
+                        if($cutBillQuantity > 0) {
+                            $accountReceivable = AccountReceivableService::getAccountReceivableBySalesOrderId($salesReturn->sales_order_id);
+
+                            if($accountReceivable) {
+                                $salesOrderItem = SalesOrderService::getSalesOrderItemById($itemId);
+                                $total = $salesOrderItem->price * $cutBillQuantity;
+                                $discountPercentage = CommonService::calculateDiscountPercentage($salesOrderItem->discount);
+                                $discountAmount = ceil(($total * $discountPercentage) / 100);
+                                $finalAmount = ceil($total - $discountAmount);
+
+                                $accountReceivable->returns()->create([
+                                    'sales_return_id' => $salesReturn->id,
+                                    'product_id' => $productId,
+                                    'unit_id' => $unitId,
+                                    'quantity' => $cutBillQuantity,
+                                    'actual_quantity' => $cutBillQuantity * $realQuantity,
+                                    'price_id' => $salesOrderItem->price_id,
+                                    'price' => $salesOrderItem->price,
+                                    'total' => $total,
+                                    'discount' => $salesOrderItem->discount,
+                                    'discount_amount' => $discountAmount,
+                                    'final_amount' => $finalAmount,
+                                ]);
+                            }
+                        }
+                    }
                 }
             }
 
             $totalRemainingQuantity = $totalReturnQuantity - $totalDeliveredQuantity - $totalCutBillQuantity;
 
-            $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ONGOING;
+            $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ACTIVE;
             if($totalRemainingQuantity == 0) {
                 $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_COMPLETED;
+            } else if($totalDeliveredQuantity > 0 || $totalCutBillQuantity > 0) {
+                $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ONGOING;
             }
 
             $salesReturn->update([
@@ -177,57 +222,6 @@ class SalesReturnController extends Controller
                 'message' => 'An error occurred while saving data'
             ]);
         }
-    }
-
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $customerId = $filter->customer_id ?? null;
-
-        if(!$number && !$customerId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $customers = Customer::all();
-        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('delivery_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('delivery_orders.number', $number);
-        }
-
-        if($customerId) {
-            $baseQuery = $baseQuery->where('delivery_orders.customer_id', $customerId);
-        }
-
-        $deliveryOrders = $baseQuery
-            ->orderByDesc('delivery_orders.date')
-            ->orderByDesc('delivery_orders.id')
-            ->get();
-
-        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders, true);
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'customerId' => $customerId,
-            'customers' => $customers,
-            'deliveryOrders' => $deliveryOrders,
-        ];
-
-        return view('pages.admin.delivery-order.index-edit', $data);
     }
 
     public function edit($id) {

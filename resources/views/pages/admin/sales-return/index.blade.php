@@ -43,13 +43,13 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="status" class="col-auto col-form-label text-right text-bold">Delivery Status</label>
+                                        <label for="deliveryStatus" class="col-auto col-form-label text-right text-bold">Delivery Status</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 account-payable-filter-status">
-                                            <select class="form-control form-control-sm mt-1" name="status" id="status" tabindex="2">
+                                            <select class="form-control form-control-sm mt-1" name="delivery_status" id="deliveryStatus" tabindex="2">
                                                 <option value="0" selected>All</option>
                                                 @foreach($salesReturnDeliveryStatuses as $salesReturnDeliveryStatus)
-                                                    <option value="{{ $salesReturnDeliveryStatus }}" @if($status == $salesReturnDeliveryStatus) selected @endif>{{ getSalesReturnDeliveryStatusLabel($salesReturnDeliveryStatus) }}</option>
+                                                    <option value="{{ $salesReturnDeliveryStatus }}" @if($deliveryStatus == $salesReturnDeliveryStatus) selected @endif>{{ getSalesReturnDeliveryStatusLabel($salesReturnDeliveryStatus) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -77,7 +77,7 @@
                                             <th class="align-middle th-sales-return-number">No</th>
                                             <th class="align-middle th-sales-return-return-number">Return Number</th>
                                             <th class="align-middle th-sales-return-date">Return Date</th>
-                                            <th class="align-middle">Customer</th>
+                                            <th class="align-middle th-sales-return-customer">Customer</th>
                                             <th class="align-middle th-sales-return-order-number">Order Number</th>
                                             <th class="align-middle th-sales-return-quantity">Qty</th>
                                             <th class="align-middle th-sales-return-quantity">Delivered Qty</th>
@@ -157,6 +157,12 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "columnDefs": [
+                {
+                    targets: [9, 10],
+                    orderable: false
+                }
+            ],
             "drawCallback": function(settings) {
                 var api = this.api();
                 api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
@@ -174,8 +180,8 @@
                 };
 
                 let column;
-                $.each([3, 4, 5, 6], function(index, value) {
-                    if((value === 3) || (value === 4) || (value === 5) || (value === 6)) {
+                $.each([5, 6, 7, 8], function(index, value) {
+                    if((value === 5) || (value === 6) || (value === 7) || (value === 8)) {
                         column = api
                             .column(value, {
                                 page: 'current'

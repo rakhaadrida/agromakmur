@@ -141,20 +141,20 @@
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $.fn.datepicker.dates['id'] = {
-          days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-          daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-          months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-          monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
-          today: 'Hari Ini',
-          clear: 'Kosongkan'
+            days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+            daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            daysMin: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+            today: 'Hari Ini',
+            clear: 'Kosongkan'
         };
 
         $('.datepicker').datepicker({
-          format: 'dd-mm-yyyy',
-          autoclose: true,
-          todayHighlight: true,
-          language: 'id',
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'id',
         });
 
         $(document).ready(function() {
@@ -292,8 +292,9 @@
                     deliveredQuantities.each(function (index) {
                         this.value = numberFormat(this.value);
 
-                        let remainingQuantityElement = $(`#remainingQuantity-${index}`);
-                        let remainingQuantity = numberFormat(remainingQuantityElement.val());
+                        let quantityElement = $(`#quantity-${index}`);
+                        let cutBillQuantityElement = $(`#cutBillQuantity-${index}`);
+                        let remainingQuantity = numberFormat(quantityElement.val()) - numberFormat(cutBillQuantityElement.val());
 
                         if (this.value > remainingQuantity) {
                             let deliveredQuantity = $(`#deliveredQuantity-${index}`);
@@ -311,8 +312,9 @@
                     cutBillQuantities.each(function (index) {
                         this.value = numberFormat(this.value);
 
-                        let remainingQuantityElement = $(`#remainingQuantity-${index}`);
-                        let remainingQuantity = numberFormat(remainingQuantityElement.val());
+                        let quantityElement = $(`#quantity-${index}`);
+                        let deliveredQuantityElement = $(`#deliveredQuantity-${index}`);
+                        let remainingQuantity = numberFormat(quantityElement.val()) - numberFormat(deliveredQuantityElement.val());
 
                         if (this.value > remainingQuantity) {
                             let cutBillQuantity = $(`#cutBillQuantity-${index}`);
