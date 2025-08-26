@@ -652,4 +652,25 @@ class SalesOrderController extends Controller
             'sales_order_items' => $salesOrderItems,
         ]);
     }
+
+    public function indexListAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+
+        if(!empty($filter->customer_id)) {
+            $baseQuery = $baseQuery
+                ->where('sales_orders.customer_id', $filter->customer_id);
+        }
+
+        $salesOrders = $baseQuery
+            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->orderByDesc('sales_orders.date')
+            ->orderByDesc('sales_orders.id')
+            ->get();
+
+        return response()->json([
+            'data' => $salesOrders,
+        ]);
+    }
 }

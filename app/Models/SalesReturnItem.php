@@ -14,7 +14,6 @@ class SalesReturnItem extends Model
         'sales_order_item_id',
         'product_id',
         'unit_id',
-        'order_quantity',
         'quantity',
         'actual_quantity',
         'delivered_quantity',

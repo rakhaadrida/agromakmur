@@ -62,14 +62,14 @@
                                         <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" tabindex="2" required>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" tabindex="4">
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
+                                        <label for="customerId" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customerId" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="5" required>
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}">{{ $customer->name }}</option>
                                                 @endforeach
@@ -118,6 +118,22 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modalEmptyQuantity" tabindex="-1" role="dialog" aria-labelledby="modalEmptyQuantity" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Return Quantity Notification</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>Return Quantity can not be empty. Please enter a minimum quantity of 1 in one of the inputs.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('addon-script')
@@ -145,10 +161,8 @@
             const table = $('#itemTable');
 
             $('#customerId').change(function() {
-                $('#itemContent').removeAttr('hidden');
-
-                let salesOrderId = $(this).val();
-                displaySalesOrderData(salesOrderId);
+                let customerId = $(this).val();
+                displaySalesOrderList(customerId);
             });
 
             $('#salesOrderId').change(function() {
@@ -157,7 +171,7 @@
                 let salesOrderId = $(this).val();
                 let customerId = $(this).find(':selected').data('customer');
 
-                $('#customer').selectpicker('val', customerId);
+                $('#customerId').selectpicker('val', customerId);
                 displaySalesOrderData(salesOrderId);
             });
 
@@ -178,6 +192,58 @@
                 this.value = currencyFormat(this.value);
             });
 
+            table.on('blur', 'input[name="quantity[]"]', function () {
+                const index = $(this).closest('tr').index();
+
+                calculateRemainingQuantity(index);
+            });
+
+            table.on('keypress', 'input[name="delivered_quantity[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+
+                    let deliveredQuantity = $(`#deliveredQuantity-${index}`);
+                    deliveredQuantity.attr('title', 'Only allowed to input numbers');
+                    deliveredQuantity.attr('data-original-title', 'Only allowed to input numbers');
+                    deliveredQuantity.tooltip('show');
+
+                    event.preventDefault();
+                }
+            });
+
+            table.on('keyup', 'input[name="delivered_quantity[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="delivered_quantity[]"]', function () {
+                const index = $(this).closest('tr').index();
+
+                calculateRemainingQuantity(index);
+            });
+
+            table.on('keypress', 'input[name="cut_bill_quantity[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+
+                    let cutBillQuantity = $(`#cutBillQuantity-${index}`);
+                    cutBillQuantity.attr('title', 'Only allowed to input numbers');
+                    cutBillQuantity.attr('data-original-title', 'Only allowed to input numbers');
+                    cutBillQuantity.tooltip('show');
+
+                    event.preventDefault();
+                }
+            });
+
+            table.on('keyup', 'input[name="cut_bill_quantity[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="cut_bill_quantity[]"]', function () {
+                const index = $(this).closest('tr').index();
+
+                calculateRemainingQuantity(index);
+            });
+
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
@@ -187,17 +253,34 @@
                     return false;
                 }
 
+                let quantities = $('input[name="quantity[]"]');
+                let deliveredQuantities = $('input[name="delivered_quantity[]"]');
+                let cutBillQuantities = $('input[name="cut_bill_quantity[]"]');
+                let isEmptyArrayValue = false;
+
+                quantities.each(function(e) {
+                    if (this.value) {
+                        isEmptyArrayValue = true;
+                        return false
+                    }
+                });
+
+                if(!isEmptyArrayValue) {
+                    $('#modalEmptyQuantity').modal('show');
+                    return false;
+                }
+
                 let isInvalidQuantity = 0;
-                $('input[name="quantity[]"]').each(function(index) {
+                quantities.each(function(index) {
                     this.value = numberFormat(this.value);
 
-                    let remainingQuantityElement = $(`#remainingQuantity-${index}`);
-                    let remainingQuantity = numberFormat(remainingQuantityElement.val());
+                    let orderQuantityElement = $(`#orderQuantity-${index}`);
+                    let orderQuantity = numberFormat(orderQuantityElement.val());
 
-                    if(this.value > remainingQuantity) {
+                    if(this.value > orderQuantity) {
                         let quantity = $(`#quantity-${index}`);
-                        quantity.attr('title', 'Quantity to be sent can not greater than remaining quantity');
-                        quantity.attr('data-original-title', 'Quantity to be sent can not greater than remaining quantity');
+                        quantity.attr('title', 'Quantity to be sent can not greater than order quantity');
+                        quantity.attr('data-original-title', 'Quantity to be sent can not greater than order quantity');
                         quantity.tooltip('show');
                         isInvalidQuantity = 1;
 
@@ -206,13 +289,93 @@
                 });
 
                 if(!isInvalidQuantity) {
+                    deliveredQuantities.each(function (index) {
+                        this.value = numberFormat(this.value);
+
+                        let remainingQuantityElement = $(`#remainingQuantity-${index}`);
+                        let remainingQuantity = numberFormat(remainingQuantityElement.val());
+
+                        if (this.value > remainingQuantity) {
+                            let deliveredQuantity = $(`#deliveredQuantity-${index}`);
+                            deliveredQuantity.attr('title', 'Delivered Quantity can not greater than remaining quantity');
+                            deliveredQuantity.attr('data-original-title', 'Delivered Quantity can not greater than remaining quantity');
+                            deliveredQuantity.tooltip('show');
+                            isInvalidQuantity = 1;
+
+                            return false;
+                        }
+                    });
+                }
+
+                if(!isInvalidQuantity) {
+                    cutBillQuantities.each(function (index) {
+                        this.value = numberFormat(this.value);
+
+                        let remainingQuantityElement = $(`#remainingQuantity-${index}`);
+                        let remainingQuantity = numberFormat(remainingQuantityElement.val());
+
+                        if (this.value > remainingQuantity) {
+                            let cutBillQuantity = $(`#cutBillQuantity-${index}`);
+                            cutBillQuantity.attr('title', 'Cut Bill Quantity can not greater than remaining quantity');
+                            cutBillQuantity.attr('data-original-title', 'Cut Bill Quantity can not greater than remaining quantity');
+                            cutBillQuantity.tooltip('show');
+                            isInvalidQuantity = 1;
+
+                            return false;
+                        }
+                    });
+                }
+
+                if(!isInvalidQuantity) {
                     $('input[name="order_quantity[]"]').each(function() {
                         this.value = numberFormat(this.value);
                     });
 
-                    $('#modalConfirmation').modal('show');
+                    $('input[name="delivered_quantity[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
+                    $('input[name="cut_bill_quantity[]"]').each(function() {
+                        this.value = numberFormat(this.value);
+                    });
+
+                    $('#form').submit();
                 }
             });
+
+            function displaySalesOrderList(customerId) {
+                $.ajax({
+                    url: '{{ route('sales-orders.index-list-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        customer_id: customerId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let salesOrder = $('#salesOrderId');
+                        salesOrder.empty();
+
+                        $.each(data.data, function(index, item) {
+                            salesOrder.append(
+                                $('<option></option>', {
+                                    value: item.id,
+                                    text: item.number,
+                                    'data-tokens': item.number,
+                                })
+                            );
+
+                            if(!index) {
+                                salesOrder.selectpicker({
+                                    title: 'Enter or Choose Number'
+                                });
+                            }
+
+                            salesOrder.selectpicker('refresh');
+                            salesOrder.selectpicker('render');
+                        });
+                    },
+                })
+            }
 
             function displaySalesOrderData(salesOrderId) {
                 $.ajax({
@@ -239,7 +402,7 @@
 
                             rowId++;
                             rowNumber++;
-                            rowNumbers++;
+                            rowNumbers += 4;
                         });
                     },
                 })
@@ -255,26 +418,45 @@
                         </td>
                         <td>
                             <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_name[]" id="productName-${rowId}" value="${item.product_name}" title="" readonly>
+                            <input type="hidden" name="item_id[]" id="itemId-${rowId}" value="${item.id}">
                         </td>
                         <td>
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="order_quantity[]" id="orderQuantity-${rowId}" value="${thousandSeparator(item.quantity)}" title="" readonly>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-${rowId}" value="${thousandSeparator(item.delivered_quantity)}" title="" readonly>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" title="" readonly>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" tabindex="${rowNumbers += 1}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
-                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity}">
-                        </td>
-                        <td>
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-${rowId}" value="${item.unit_name}" title="" readonly>
                             <input type="hidden" name="unit_id[]" id="unitId-${rowId}" value="${item.unit_id}">
                         </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="" tabindex="${rowNumbers + 1}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity / item.quantity}">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-${rowId}" tabindex="${rowNumbers + 2}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-${rowId}" tabindex="${rowNumbers + 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-${rowId}" title="" readonly>
+                        </td>
                     </tr>
                 `;
+            }
+
+            function calculateRemainingQuantity(index) {
+                let quantity = document.getElementById(`quantity-${index}`);
+                let remainingQuantity = document.getElementById(`remainingQuantity-${index}`);
+
+                if(quantity.value) {
+                    let deliveredQuantity = document.getElementById(`deliveredQuantity-${index}`);
+                    let cutBillQuantity = document.getElementById(`cutBillQuantity-${index}`);
+
+                    let remainingAmount = numberFormat(quantity.value) - numberFormat(deliveredQuantity.value) - numberFormat(cutBillQuantity.value);
+                    remainingQuantity.value = thousandSeparator(remainingAmount);
+                } else {
+                    remainingQuantity.value = '';
+                }
             }
 
             function currencyFormat(value) {

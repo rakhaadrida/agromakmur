@@ -3,8 +3,6 @@
 namespace App\Rules;
 
 use App\Models\DeliveryOrder;
-use App\Models\GoodsReceipt;
-use App\Models\SalesOrder;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidUniqueDeliveryOrderNumber implements Rule

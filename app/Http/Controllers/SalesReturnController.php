@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeliveryOrderCancelRequest;
-use App\Http\Requests\DeliveryOrderCreateRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
+use App\Http\Requests\SalesReturnCreateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
 use App\Models\SalesOrder;
+use App\Models\SalesReturn;
 use App\Notifications\CancelDeliveryOrderNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Utilities\Constant;
@@ -106,67 +107,68 @@ class SalesReturnController extends Controller
         return view('pages.admin.sales-return.create', $data);
     }
 
-    public function store(DeliveryOrderCreateRequest $request) {
+    public function store(SalesReturnCreateRequest $request) {
         try {
             DB::beginTransaction();
 
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
+            $deliveryDate = $request->get('delivery_date');
+            $deliveryDate = $deliveryDate ? Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d') : null;
+
             $request->merge([
                 'date' => $date,
-                'status' => Constant::DELIVERY_ORDER_STATUS_ACTIVE,
+                'delivery_date' => $deliveryDate,
+                'status' => Constant::SALES_RETURN_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
 
-            $deliveryOrder = DeliveryOrder::create($request->all());
+            $salesReturn = SalesReturn::create($request->all());
 
-            $totalOrderQuantity = 0;
+            $totalReturnQuantity = 0;
             $totalDeliveredQuantity = 0;
+            $totalCutBillQuantity = 0;
             $productIds = $request->get('product_id', []);
             foreach ($productIds as $index => $productId) {
                 if(!empty($productId)) {
+                    $itemId = $request->get('item_id')[$index];
                     $unitId = $request->get('unit_id')[$index];
-                    $orderQuantity = $request->get('order_quantity')[$index];
                     $quantity = $request->get('quantity')[$index];
                     $actualQuantity = $request->get('real_quantity')[$index];
+                    $deliveredQuantity = $request->get('delivered_quantity')[$index];
+                    $cutBillQuantity = $request->get('cut_bill_quantity')[$index];
 
-                    $deliveryOrder->deliveryOrderItems()->create([
+                    $salesReturn->salesReturnItems()->create([
+                        'item_id' => $itemId,
                         'product_id' => $productId,
                         'unit_id' => $unitId,
                         'quantity' => $quantity,
                         'actual_quantity' => $actualQuantity,
+                        'delivered_quantity' => $deliveredQuantity,
+                        'cut_bill_quantity' => $cutBillQuantity,
                     ]);
 
-                    $totalOrderQuantity += $orderQuantity;
+                    $totalReturnQuantity += $quantity;
+                    $totalDeliveredQuantity += $deliveredQuantity;
+                    $totalCutBillQuantity += $cutBillQuantity;
                 }
             }
 
-            $deliveredQuantities = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
-            foreach($deliveredQuantities as $deliveredQuantity) {
-                $totalDeliveredQuantity += $deliveredQuantity->quantity;
+            $totalRemainingQuantity = $totalReturnQuantity - $totalDeliveredQuantity - $totalCutBillQuantity;
+
+            $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ONGOING;
+            if($totalRemainingQuantity == 0) {
+                $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_COMPLETED;
             }
 
-            $deliveryStatus = Constant::SALES_ORDER_DELIVERY_STATUS_ON_PROGRESS;
-            if($totalOrderQuantity == $totalDeliveredQuantity) {
-                $deliveryStatus = Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED;
-            }
-
-            $deliveryOrder->salesOrder()->update([
+            $salesReturn->update([
                 'delivery_status' => $deliveryStatus
             ]);
 
-            $parameters = [];
-            $route = 'delivery-orders.create';
-
-            if($request->get('is_print')) {
-                $route = 'delivery-orders.print';
-                $parameters = ['id' => $deliveryOrder->id];
-            }
-
             DB::commit();
 
-            return redirect()->route($route, $parameters);
+            return redirect()->route('sales-returns.index');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

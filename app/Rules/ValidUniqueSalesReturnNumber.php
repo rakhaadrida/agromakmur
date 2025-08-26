@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\PlanOrder;
+use App\Models\SalesReturn;
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidUniquePlanOrderNumber implements Rule
+class ValidUniqueSalesReturnNumber implements Rule
 {
     protected $id;
 
@@ -28,7 +28,7 @@ class ValidUniquePlanOrderNumber implements Rule
      */
     public function passes($attribute, $value)
     {
-        $uniqueNumber = PlanOrder::query()
+        $uniqueNumber = SalesReturn::query()
             ->where('number', $value)
             ->where('id', '!=', $this->id)
             ->first();
@@ -45,6 +45,6 @@ class ValidUniquePlanOrderNumber implements Rule
      */
     public function message()
     {
-        return 'The plan order number has already been taken';
+        return 'The sales return number has already been taken';
     }
 }
