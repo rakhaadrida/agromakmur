@@ -103,7 +103,7 @@
                                                 <td class="align-middle text-right" data-sort="{{ $salesReturn->remaining_quantity }}">{{ formatPrice($salesReturn->remaining_quantity) }}</td>
                                                 <td class="align-middle text-center">{{ getSalesReturnStatusLabel($salesReturn->status) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isSalesReturnActive($salesReturn->delivery_status)) account-payable-unpaid @elseif(isSalesReturnOngoing($salesReturn->delivery_status)) account-payable-ongoing @else account-payable-paid @endif">
-                                                    <a href="{{ route('account-receivables.payment', $salesReturn->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getSalesReturnDeliveryStatusLabel($salesReturn->delivery_status) }}</a>
+                                                    <a href="{{ route('sales-returns.edit', $salesReturn->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getSalesReturnDeliveryStatusLabel($salesReturn->delivery_status) }}</a>
                                                 </td>
                                             </tr>
                                         @empty

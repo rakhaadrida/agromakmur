@@ -225,48 +225,24 @@ class SalesReturnController extends Controller
     }
 
     public function edit($id) {
-        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
-        $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+        $salesReturn = SalesReturn::query()->findOrFail($id);
+        $salesReturnItems = $salesReturn->salesReturnItems;
 
-        if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
-            $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
-            $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+        foreach($salesReturnItems as $salesReturnItem) {
+            $remainingQuantity = $salesReturnItem->quantity - $salesReturnItem->delivered_quantity - $salesReturnItem->cut_bill_quantity;
+            $salesReturnItem->remaining_quantity = $remainingQuantity;
         }
 
-        $productIds = $deliveryOrderItems->pluck('product_id')->toArray();
-        $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
-
-        $mapOrderQuantityByProductId = [];
-        foreach($orderQuantities as $orderQuantity) {
-            $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
-        }
-
-        $deliveredQuantities = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $productIds);
-        $mapDeliveredQuantityByProductId = [];
-        foreach($deliveredQuantities as $deliveredQuantity) {
-            $mapDeliveredQuantityByProductId[$deliveredQuantity->product_id] = $deliveredQuantity->quantity;
-        }
-
-        foreach($deliveryOrderItems as $deliveryOrderItem) {
-            $orderQuantity = $mapOrderQuantityByProductId[$deliveryOrderItem->product_id];
-            $deliveredQuantity = $mapDeliveredQuantityByProductId[$deliveryOrderItem->product_id];
-            $remainingQuantity = $orderQuantity - $deliveredQuantity + $deliveryOrderItem->quantity;
-
-            $deliveryOrderItem->order_quantity = $orderQuantity;
-            $deliveryOrderItem->delivered_quantity = $deliveredQuantity;
-            $deliveryOrderItem->remaining_quantity = $remainingQuantity;
-        }
-
-        $rowNumbers = count($deliveryOrderItems);
+        $rowNumbers = count($salesReturnItems);
 
         $data = [
             'id' => $id,
-            'deliveryOrder' => $deliveryOrder,
-            'deliveryOrderItems' => $deliveryOrderItems,
+            'salesReturn' => $salesReturn,
+            'salesReturnItems' => $salesReturnItems,
             'rowNumbers' => $rowNumbers,
         ];
 
-        return view('pages.admin.delivery-order.edit', $data);
+        return view('pages.admin.sales-return.edit', $data);
     }
 
     public function update(DeliveryOrderUpdateRequest $request, $id) {

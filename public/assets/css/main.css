@@ -874,6 +874,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-left: 40px !important;
 }
 
+.sales-order-middle-last-input {
+    margin-left: -53px !important;
+}
+
 .sales-order-right-input {
     margin-left: -320px !important;
 }
