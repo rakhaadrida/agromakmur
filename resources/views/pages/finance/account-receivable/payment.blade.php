@@ -57,7 +57,7 @@
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right text-dark" name="return_amount" id="returnAmount" value="0" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right text-dark" name="return_amount" id="returnAmount" value="{{ formatPrice($accountReceivable->return_amount) }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
@@ -65,7 +65,7 @@
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right text-dark" name="outstanding_amount" id="outstandingAmount" value={{ formatPrice($accountReceivable->grand_total) }} readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right text-dark" name="outstanding_amount" id="outstandingAmount" value={{ formatPrice($accountReceivable->outstanding_amount) }} readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
                                                 <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" id="finalPaymentAmount" value="{{ formatPrice($accountReceivable->payment_amount ?? 0) }}" title="" style="font-size: 16px" readonly>
                                             </td>
                                             <td class="text-right text-bold text-dark">
-                                                <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="final_outstanding_payment" id="finalOutstandingPayment" value="{{ formatPrice($accountReceivable->outstanding_amount) }}" title="" style="font-size: 16px" readonly>
+                                                <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="final_outstanding_payment" id="finalOutstandingPayment" value="{{ formatPrice($accountReceivable->final_outstanding_amount) }}" title="" style="font-size: 16px" readonly>
                                             </td>
                                             <td></td>
                                         </tr>

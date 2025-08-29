@@ -120,13 +120,18 @@ class AccountReceivableController extends Controller
 
         $grandTotal = $accountReceivable->grand_total;
         $paymentAmount = $accountReceivable->payment_amount ?? 0;
-        $outstandingAmount = $grandTotal - $paymentAmount;
+        $returnAmount = $accountReceivable->return_amount ?? 0;
+
+        $outstandingAmount = $grandTotal - $returnAmount;
+        $finalOutstandingAmount = $grandTotal - $paymentAmount - $returnAmount;
+
         $accountReceivable->outstanding_amount = $outstandingAmount;
+        $accountReceivable->final_outstanding_amount = $finalOutstandingAmount;
 
         $accountReceivablePayments = $accountReceivable->payments;
         foreach($accountReceivablePayments as $payment) {
-            $payment->outstanding_amount = $grandTotal - $payment->amount;
-            $grandTotal -= $payment->amount;
+            $payment->outstanding_amount = $outstandingAmount - $payment->amount;
+            $outstandingAmount -= $payment->amount;
         }
 
         $rowNumbers = $accountReceivablePayments->count();
@@ -165,8 +170,10 @@ class AccountReceivableController extends Controller
                 }
             }
 
+            $returnAmount = $accountReceivable->returns()->sum('final_amount') ?? 0;
+
             $status = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
-            if($totalPayment == $accountReceivable->salesOrder->grand_total) {
+            if($totalPayment == ($accountReceivable->salesOrder->grand_total - $returnAmount)) {
                 $status = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
             }
 
