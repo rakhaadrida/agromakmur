@@ -25,7 +25,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
         Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
         Route::get('approval-histories', 'ApprovalController@indexHistory')->name('approvals.index-history');
-        Route::get('approval-histories/{id}', 'ApprovalController@detail')->name('approvals.detail');
         Route::get('approval-history-ajax', 'ApprovalController@indexHistoryAjax')->name('approvals.index-history-ajax');
 
         Route::resource('users', 'UserController');
@@ -45,6 +44,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
     ]], function() {
+        Route::get('approval-histories/{id}', 'ApprovalController@detail')->name('approvals.detail');
+
         Route::resource('marketings', 'MarketingController');
         Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
         Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');

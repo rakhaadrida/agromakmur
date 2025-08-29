@@ -46,7 +46,7 @@
                                     <td class="align-middle text-center">{{ formatDate($notification->created_at, 'd M y h:i:s') }} </td>
                                     <td class="align-middle">{{ $notification->data['message'] }}</td>
                                     <td class="align-middle text-center">
-                                        <a href="{{ route('notifications.show', ['notification' => $notification->data['approval_id'], 'notification_id' => $notification->id]) }}" class="btn btn-sm btn-info d-inline-block">See Details</a>
+                                        <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="btn btn-sm btn-info d-inline-block">See Details</a>
                                         <form action="{{ route('notifications.update', $notification->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             @method('PUT')

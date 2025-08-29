@@ -33,7 +33,7 @@
                         Notification
                     </h6>
                     @forelse($notificationLists as $notification)
-                        <a href="{{ route('approvals.show', $notification->data['approval_id']) }}" class="dropdown-item d-flex align-items-center">
+                        <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="dropdown-item d-flex align-items-center">
                             <div class="mr-3">
                                 <div class="icon-circle bg-primary" style="margin-left: -10px">
                                     <i class="fas fa-file-alt text-white"></i>
@@ -47,10 +47,12 @@
                     @empty
                         <a class="dropdown-item text-center text-dark-600" href="#">No Notifications</a>
                     @endforelse
-                    @if(isUserSuperAdmin())
-                        <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
-                    @elseif(isUserAdminOnly())
-                        <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
+                    @if($notificationLists->count() > 0)
+                        @if(isUserSuperAdmin())
+                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
+                        @elseif(isUserAdminOnly())
+                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
+                        @endif
                     @endif
                 </div>
             </li>

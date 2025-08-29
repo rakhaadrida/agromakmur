@@ -401,6 +401,9 @@ class ApprovalController extends Controller
             case 'product-transfers':
                 $subject = ProductTransfer::class;
                 break;
+            case 'sales-returns':
+                $subject = SalesReturn::class;
+                break;
             default:
                 return response()->json([
                     'message' => 'Invalid subject type'
@@ -416,7 +419,7 @@ class ApprovalController extends Controller
 
         if($filter->subject === 'goods-receipts') {
             $approvals = $approvals->with(['subject.supplier']);
-        } else if($filter->subject === 'delivery-orders') {
+        } else if(in_array($filter->subject,  ['delivery-orders', 'sales-returns'])) {
             $approvals = $approvals->with(['subject.customer']);
         }
 
@@ -465,6 +468,27 @@ class ApprovalController extends Controller
                 $approval->client_name = '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
                 $approval->approvalItems = $approval->subject->productTransferItems;
+                break;
+            case SalesReturn::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
+                $approval->approvalItems = $approvalItems;
+
+                $productIds = $approvalItems->pluck('product_id')->toArray();
+                $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($approval->subject->sales_order_id, $productIds);
+
+                $mapOrderQuantityByProductId = [];
+                foreach($orderQuantities as $orderQuantity) {
+                    $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
+                }
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $approvalItem->order_quantity = $mapOrderQuantityByProductId[$approvalItem->product_id] ?? 0;
+
+                    $remainingQuantity = $approvalItem->quantity - $approvalItem->delivered_quantity - $approvalItem->cut_bill_quantity;
+                    $approvalItem->remaining_quantity = $remainingQuantity;
+                }
                 break;
             default:
                 abort(404, 'Invalid subject type');

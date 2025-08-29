@@ -318,17 +318,17 @@
                                     </tbody>
                                 @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
                                     <thead class="text-center text-bold text-dark">
-                                    <tr>
-                                        <td class="align-middle table-head-number-transaction">No</td>
-                                        <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                        <td class="align-middle table-head-name-transaction">Product Name</td>
-                                        <td class="align-middle table-head-return-quantity-transaction">Order Qty</td>
-                                        <td class="align-middle table-head-unit-transaction">Unit</td>
-                                        <td class="align-middle table-head-return-quantity-transaction">Return Qty</td>
-                                        <td class="align-middle table-head-return-quantity-transaction">Delivered Qty</td>
-                                        <td class="align-middle table-head-return-quantity-transaction">Cut Bill Qty</td>
-                                        <td class="align-middle table-head-return-quantity-transaction">Remaining Qty</td>
-                                    </tr>
+                                        <tr>
+                                            <td class="align-middle table-head-number-transaction">No</td>
+                                            <td class="align-middle table-head-code-transfer-transaction">SKU</td>
+                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Order Qty</td>
+                                            <td class="align-middle table-head-unit-transaction">Unit</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Return Qty</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Delivered Qty</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Cut Bill Qty</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Remaining Qty</td>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($approval->approvalItems as $key => $approvalItem)
