@@ -39,7 +39,9 @@ class AccountReceivableController extends Controller
 
         foreach($accountReceivables as $accountReceivable) {
             $paymentAmount = $accountReceivable->payment_amount ?? 0;
-            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount;
+            $returnAmount = $accountReceivable->return_amount ?? 0;
+
+            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
             $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID;
 
             if($outstandingAmount <= 0) {
@@ -93,7 +95,8 @@ class AccountReceivableController extends Controller
 
         foreach($accountReceivables as $accountReceivable) {
             $paymentAmount = $accountReceivable->payment_amount ?? 0;
-            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount;
+            $returnAmount = $accountReceivable->return_amount ?? 0;
+            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
 
             $accountReceivable->outstanding_amount = $outstandingAmount;
         }
