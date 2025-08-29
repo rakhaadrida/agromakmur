@@ -51,7 +51,7 @@
                         @if(isUserSuperAdmin())
                             <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
                         @elseif(isUserAdminOnly())
-                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
+                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('notifications.index') }}">See All Notifications</a>
                         @endif
                     @endif
                 </div>
