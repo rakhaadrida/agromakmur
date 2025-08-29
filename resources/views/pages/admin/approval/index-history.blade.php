@@ -60,7 +60,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($approvals as $key => $approval)
+                                            @foreach ($approvals as $key => $approval)
                                                 <tr class="text-dark">
                                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                                     <td class="align-middle">
@@ -80,11 +80,7 @@
                                                         </a>
                                                     </td>
                                                 </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="9" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
-                                                </tr>
-                                            @endforelse
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -181,26 +177,41 @@
         let datatableSalesOrder = $('#dataTableSalesOrder').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
         });
 
         let datatableGoodsReceipt = $('#dataTableGoodsReceipt').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
         });
 
         let datatableDeliveryOrder = $('#dataTableDeliveryOrder').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
         });
 
         let datatableProductTransfer = $('#dataTableProductTransfer').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
         });
 
         let datatableSalesReturn = $('#dataTableSalesReturn').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
         });
 
         $(document).ready(function() {
@@ -259,8 +270,8 @@
                         table.empty();
 
                         if(approvals.length === 0) {
-                            let emptyRow = emptyItemRow(colspan);
-                            table.append(emptyRow);
+                            datatable.clear();
+                            datatable.draw(false);
                         } else {
                             let rowNumber = 1;
 
