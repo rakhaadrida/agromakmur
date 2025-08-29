@@ -39,6 +39,10 @@ class SalesReturn extends Model
         return $this->hasMany(SalesReturnItem::class, 'sales_return_id', 'id');
     }
 
+    public function accountReceivableReturns() {
+        return $this->hasMany(AccountReceivableReturn::class, 'sales_return_id', 'id');
+    }
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'subject');

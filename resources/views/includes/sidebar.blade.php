@@ -130,29 +130,28 @@
                     <a class="collapse-item" href="{{ route('returns.index') }}">Return Stock</a>
                 @endif
                 <a class="collapse-item" href="{{ route('sales-returns.index') }}">Sales Return</a>
-                <a class="collapse-item" href="#">Retur Supplier</a>
+                <a class="collapse-item" href="#">Purchase Return</a>
             </div>
         </div>
     </li>
 
     @if(isUserAdmin())
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporan" aria-expanded="true" aria-controls="collapseLaporan">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseReport">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Report</span>
             </a>
-            <div id="collapseLaporan" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="#">Price List</a>
-                    <a class="collapse-item" href="#">Penjualan Extrana</a>
-                    <a class="collapse-item" href="#">Barang Masuk</a>
-                    <a class="collapse-item" href="#">Barang Keluar</a>
-                    <a class="collapse-item" href="#">Kartu Stok</a>
-                    <a class="collapse-item" href="#">Rekap Stok</a>
-                    <a class="collapse-item" href="#">Rekap Value</a>
-                    <a class="collapse-item" href="#">Rekap Penjualan</a>
+                    <a class="collapse-item" href="#">Incoming Items</a>
+                    <a class="collapse-item" href="#">Out-coming Items</a>
+                    <a class="collapse-item" href="#">Stock Card</a>
+                    <a class="collapse-item" href="#">Stock Recap</a>
+                    <a class="collapse-item" href="#">Value Recap</a>
+                    <a class="collapse-item" href="#">Sales Recap</a>
                     @if(isUserSuperAdmin())
-                        <a class="collapse-item" href="#">Rekap Qty Sales</a>
+                        <a class="collapse-item" href="#">Marketing Qty Recap</a>
                     @endif
                 </div>
             </div>
@@ -187,15 +186,14 @@
 
     @if(isUserSuperAdmin())
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporanFinance" aria-expanded="true" aria-controls="collapseLaporanFinance">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFinancialReport" aria-expanded="true" aria-controls="collapseFinancialReport">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Report</span>
             </a>
-            <div id="collapseLaporanFinance" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseFinancialReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="#">Laporan Keuangan</a>
-                  <a class="collapse-item" href="#">Komisi Sales</a>
-                  <a class="collapse-item" href="#">Program Prime</a>
+                  <a class="collapse-item" href="#">Financial Statements</a>
+                  <a class="collapse-item" href="#">Merketing Commission</a>
                 </div>
             </div>
         </li>

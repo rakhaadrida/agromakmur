@@ -80,6 +80,7 @@
                                                 <td class="align-middle table-head-number-delivery-order">No</td>
                                                 <td class="align-middle table-head-code-delivery-order">SKU</td>
                                                 <td class="align-middle">Product Name</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
                                                 <td class="align-middle table-head-unit-delivery-order">Unit</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Return Qty</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
@@ -97,11 +98,14 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_name[]" id="productName-{{ $index }}" value="{{ $salesReturnItem->product->name }}" title="" readonly>
-                                                        <input type="hidden" name="item_id[]" id="itemId-{{ $index }}" value="${item.id}">
+                                                        <input type="hidden" name="item_id[]" id="itemId-{{ $index }}" value="{{ $salesReturnItem->sales_order_item_id }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="order_quantity[]" id="orderQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->order_quantity) }}" title="" readonly>
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-{{ $index }}" value="{{ $salesReturnItem->unit->name }}" title="" readonly>
-                                                        <input type="hidden" name="unit_id[]" id="unitId-{{ $index }}" value="${item.unit_id}">
+                                                        <input type="hidden" name="unit_id[]" id="unitId-{{ $index }}" value="{{ $salesReturnItem->unit_id }}">
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
@@ -126,7 +130,7 @@
                                              <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
                                         </div>
                                         <div class="col-2">
-                                            <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnCancel" tabindex="10001">Cancel Return</button>
+                                            <button type="button" class="btn btn-outline-danger btn-block text-bold" id="btnCancel" data-toggle="modal" data-target="#modalCancelReturn" data-id="{{ $salesReturn->id }}" tabindex="10001">Cancel Return</button>
                                         </div>
                                         <div class="col-2">
                                             <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
@@ -134,6 +138,45 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <div class="modal" id="modalCancelReturn" tabindex="-1" role="dialog" aria-labelledby="modalCancelReturn" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Cancel Sales Return - {{ $salesReturn->number }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('sales-returns.destroy', $salesReturn->id) }}" method="POST" id="deleteForm">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="form-group row">
+                                                    <label for="status" class="col-2 col-form-label text-bold">Status</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-3">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="status" id="status" value="CANCEL" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group subtotal-so">
+                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <input type="text" class="form-control" name="description" id="description">
+                                                </div>
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmitCancel">Submit</button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,6 +208,27 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+            const modalCancelReturn = $('#modalCancelReturn');
+
+            modalCancelReturn.on('show.bs.modal', function (e) {
+                $('#description').attr('required', true);
+            })
+
+            modalCancelReturn.on('hide.bs.modal', function (e) {
+                $('#description').removeAttr('required');
+            })
+
+            $('#btnSubmitCancel').on('click', function(event) {
+                event.preventDefault();
+
+                let checkForm = document.getElementById('deleteForm').checkValidity();
+                if(!checkForm) {
+                    document.getElementById('deleteForm').reportValidity();
+                    return false;
+                }
+
+                $('#deleteForm').submit();
+            });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
@@ -238,15 +302,30 @@
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
+                let quantities = $('input[name="quantity[]"]');
+                let deliveredQuantities = $('input[name="delivered_quantity[]"]');
+                let cutBillQuantities = $('input[name="cut_bill_quantity[]"]');
+                let isEmptyDeliveredQuantity = true;
+
+                deliveredQuantities.each(function(e) {
+                    if (this.value > 0) {
+                        isEmptyDeliveredQuantity = false;
+                        return false
+                    }
+                });
+
+                if(!isEmptyDeliveredQuantity) {
+                    $('#deliveryDate').prop('required', true);
+                } else {
+                    $('#deliveryDate').prop('required', false);
+                }
+
                 let checkForm = document.getElementById('form').checkValidity();
                 if(!checkForm) {
                     document.getElementById('form').reportValidity();
                     return false;
                 }
 
-                let quantities = $('input[name="quantity[]"]');
-                let deliveredQuantities = $('input[name="delivered_quantity[]"]');
-                let cutBillQuantities = $('input[name="cut_bill_quantity[]"]');
                 let isEmptyArrayValue = false;
 
                 quantities.each(function(e) {
@@ -374,6 +453,5 @@
                 return x1 + x2;
             }
         });
-
     </script>
 @endpush

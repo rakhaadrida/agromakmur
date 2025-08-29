@@ -23,7 +23,9 @@ class ApprovalItem extends Model
         'total',
         'discount',
         'discount_amount',
-        'final_amount'
+        'final_amount',
+        'delivered_quantity',
+        'cut_bill_quantity'
     ];
 
     public function approval() {

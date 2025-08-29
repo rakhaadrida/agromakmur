@@ -2,25 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeliveryOrderCancelRequest;
-use App\Http\Requests\DeliveryOrderUpdateRequest;
+use App\Http\Requests\SalesReturnCancelRequest;
 use App\Http\Requests\SalesReturnCreateRequest;
+use App\Http\Requests\SalesReturnUpdateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
-use App\Notifications\CancelDeliveryOrderNotification;
-use App\Notifications\UpdateDeliveryOrderNotification;
+use App\Notifications\CancelSalesReturnNotification;
 use App\Utilities\Constant;
-use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
-use App\Utilities\Services\CommonService;
 use App\Utilities\Services\DeliveryOrderService;
-use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\SalesReturnService;
 use App\Utilities\Services\UserService;
-use App\Utilities\Services\WarehouseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -130,86 +125,7 @@ class SalesReturnController extends Controller
             ]);
 
             $salesReturn = SalesReturn::create($request->all());
-
-            $totalReturnQuantity = 0;
-            $totalDeliveredQuantity = 0;
-            $totalCutBillQuantity = 0;
-            $productIds = $request->get('product_id', []);
-            foreach ($productIds as $index => $productId) {
-                if(!empty($productId)) {
-                    $itemId = $request->get('item_id')[$index];
-                    $unitId = $request->get('unit_id')[$index];
-                    $quantity = $request->get('quantity')[$index];
-                    $realQuantity = $request->get('real_quantity')[$index];
-                    $deliveredQuantity = $request->get('delivered_quantity')[$index];
-                    $cutBillQuantity = $request->get('cut_bill_quantity')[$index];
-                    $actualQuantity = $quantity * $realQuantity;
-                    $actualDeliveredQuantity = $deliveredQuantity * $realQuantity;
-
-                    if($quantity > 0) {
-                        $salesReturn->salesReturnItems()->create([
-                            'sales_order_item_id' => $itemId,
-                            'product_id' => $productId,
-                            'unit_id' => $unitId,
-                            'quantity' => $quantity,
-                            'actual_quantity' => $actualQuantity,
-                            'delivered_quantity' => $deliveredQuantity,
-                            'cut_bill_quantity' => $cutBillQuantity,
-                        ]);
-
-                        $totalReturnQuantity += $quantity;
-                        $totalDeliveredQuantity += $deliveredQuantity;
-                        $totalCutBillQuantity += $cutBillQuantity;
-
-                        $returnWarehouse = WarehouseService::getReturnWarehouse();
-                        $productStock = ProductService::getProductStockQuery(
-                            $productId,
-                            $returnWarehouse->id
-                        );
-
-                        $productStock?->increment('stock', $actualQuantity - $actualDeliveredQuantity);
-
-                        if($cutBillQuantity > 0) {
-                            $accountReceivable = AccountReceivableService::getAccountReceivableBySalesOrderId($salesReturn->sales_order_id);
-
-                            if($accountReceivable) {
-                                $salesOrderItem = SalesOrderService::getSalesOrderItemById($itemId);
-                                $total = $salesOrderItem->price * $cutBillQuantity;
-                                $discountPercentage = CommonService::calculateDiscountPercentage($salesOrderItem->discount);
-                                $discountAmount = ceil(($total * $discountPercentage) / 100);
-                                $finalAmount = ceil($total - $discountAmount);
-
-                                $accountReceivable->returns()->create([
-                                    'sales_return_id' => $salesReturn->id,
-                                    'product_id' => $productId,
-                                    'unit_id' => $unitId,
-                                    'quantity' => $cutBillQuantity,
-                                    'actual_quantity' => $cutBillQuantity * $realQuantity,
-                                    'price_id' => $salesOrderItem->price_id,
-                                    'price' => $salesOrderItem->price,
-                                    'total' => $total,
-                                    'discount' => $salesOrderItem->discount,
-                                    'discount_amount' => $discountAmount,
-                                    'final_amount' => $finalAmount,
-                                ]);
-                            }
-                        }
-                    }
-                }
-            }
-
-            $totalRemainingQuantity = $totalReturnQuantity - $totalDeliveredQuantity - $totalCutBillQuantity;
-
-            $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ACTIVE;
-            if($totalRemainingQuantity == 0) {
-                $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_COMPLETED;
-            } else if($totalDeliveredQuantity > 0 || $totalCutBillQuantity > 0) {
-                $deliveryStatus = Constant::SALES_RETURN_DELIVERY_STATUS_ONGOING;
-            }
-
-            $salesReturn->update([
-                'delivery_status' => $deliveryStatus
-            ]);
+            SalesReturnService::createItemData($salesReturn, $request);
 
             DB::commit();
 
@@ -228,9 +144,18 @@ class SalesReturnController extends Controller
         $salesReturn = SalesReturn::query()->findOrFail($id);
         $salesReturnItems = $salesReturn->salesReturnItems;
 
+        $productIds = $salesReturnItems->pluck('product_id')->toArray();
+        $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($salesReturn->sales_order_id, $productIds);
+
+        $mapOrderQuantityByProductId = [];
+        foreach($orderQuantities as $orderQuantity) {
+            $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
+        }
+
         foreach($salesReturnItems as $salesReturnItem) {
             $remainingQuantity = $salesReturnItem->quantity - $salesReturnItem->delivered_quantity - $salesReturnItem->cut_bill_quantity;
             $salesReturnItem->remaining_quantity = $remainingQuantity;
+            $salesReturnItem->order_quantity = $mapOrderQuantityByProductId[$salesReturnItem->product_id] ?? 0;
         }
 
         $rowNumbers = count($salesReturnItems);
@@ -245,67 +170,49 @@ class SalesReturnController extends Controller
         return view('pages.admin.sales-return.edit', $data);
     }
 
-    public function update(DeliveryOrderUpdateRequest $request, $id) {
+    public function update(SalesReturnUpdateRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $data = $request->all();
-            $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
-            $deliveryOrder->update([
-                'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
+            $deliveryDate = $request->get('delivery_date');
+            $deliveryDate = $deliveryDate ? Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d') : null;
+
+            $salesReturn = SalesReturn::query()->findOrFail($id);
+            $salesReturn->update([
+                'delivery_date' => $deliveryDate
             ]);
 
-            ApprovalService::deleteData($deliveryOrder->approvals);
+            $salesReturn->accountReceivableReturns()->delete();
 
-            $parentApproval = ApprovalService::createData(
-                $deliveryOrder,
-                $deliveryOrder->deliveryOrderItems,
-                Constant::APPROVAL_TYPE_EDIT,
-                Constant::APPROVAL_STATUS_PENDING,
-                $request->get('description', '')
-            );
-
-            ApprovalService::createData(
-                $deliveryOrder,
-                $data,
-                Constant::APPROVAL_TYPE_EDIT,
-                Constant::APPROVAL_STATUS_PENDING,
-                $data['description'],
-                $parentApproval->id,
-            );
+            SalesReturnService::deleteItemData($salesReturn->salesReturnItems);
+            SalesReturnService::createItemData($salesReturn, $request);
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
-
-            foreach($users as $user) {
-                $user->notify(new UpdateDeliveryOrderNotification($deliveryOrder->number, $parentApproval->id));
-            }
-
-            return redirect()->route('delivery-orders.index-edit');
+            return redirect()->route('sales-returns.index');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
 
-            return redirect()->route('delivery-orders.edit', $id)->withInput()->withErrors([
+            return redirect()->route('sales-returns.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }
     }
 
-    public function destroy(DeliveryOrderCancelRequest $request, $id) {
+    public function destroy(SalesReturnCancelRequest $request, $id) {
         try {
             DB::beginTransaction();
 
-            $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
-            $deliveryOrder->update([
-                'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
+            $salesReturn = SalesReturn::query()->findOrFail($id);
+            $salesReturn->update([
+                'status' => Constant::SALES_RETURN_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($deliveryOrder->approvals);
+            ApprovalService::deleteData($salesReturn->approvals);
             $approval = ApprovalService::createData(
-                $deliveryOrder,
-                $deliveryOrder->deliveryOrderItems,
+                $salesReturn,
+                $salesReturn->salesReturnItems,
                 Constant::APPROVAL_TYPE_CANCEL,
                 Constant::APPROVAL_STATUS_PENDING,
                 $request->get('description', '')
@@ -316,15 +223,15 @@ class SalesReturnController extends Controller
             $users = UserService::getSuperAdminUsers();
 
             foreach($users as $user) {
-                $user->notify(new CancelDeliveryOrderNotification($deliveryOrder->number, $approval->id));
+                $user->notify(new CancelSalesReturnNotification($salesReturn->number, $approval->id));
             }
 
-            return redirect()->route('delivery-orders.index-edit');
+            return redirect()->route('sales-returns.index');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
 
-            return redirect()->back()->withInput()->withErrors([
+            return redirect()->route('sales-returns.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
             ]);
         }

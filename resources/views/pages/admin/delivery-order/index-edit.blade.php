@@ -206,7 +206,7 @@
                                 </div>
                             </form>
 
-                            <div class="modal" id="modalCancelDelivery" tabindex="-1" role="dialog" aria-labelledby="modalCancelOrder" aria-hidden="true">
+                            <div class="modal" id="modalCancelDelivery" tabindex="-1" role="dialog" aria-labelledby="modalCancelDelivery" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
