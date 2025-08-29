@@ -4,6 +4,7 @@ namespace App\Utilities\Services;
 
 use App\Models\SalesReturn;
 use App\Utilities\Constant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalesReturnService
@@ -123,6 +124,71 @@ class SalesReturnService
             $productStock?->decrement('stock', $item->actualQuantity - $actualDeliveredQuantity);
 
             $item->delete();
+        }
+    }
+
+    public static function handleApprovalData($id) {
+        $salesReturn = SalesReturn::query()->findOrFail($id);
+        $salesReturn->update([
+            'status' => Constant::SALES_RETURN_STATUS_CANCELLED
+        ]);
+
+        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        foreach($salesReturn->salesReturnItems as $salesReturnItem) {
+            $productStock = ProductService::getProductStockQuery(
+                $salesReturnItem->product_id,
+                $returnWarehouse->id
+            );
+
+            $realQuantity = $salesReturnItem->actual_quantity * $salesReturnItem->quantity;
+            $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
+
+            $productStock?->decrement('stock', $salesReturnItem->actualQuantity - $actualDeliveredQuantity);
+        }
+
+        return true;
+    }
+
+    public static function createAutoCancelApprovalData($salesOrder) {
+        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        $salesReturns = SalesReturn::query()
+            ->where('sales_order_id', $salesOrder->id)
+            ->get();
+
+        foreach($salesReturns as $salesReturn) {
+            if($salesReturn->status == Constant::SALES_RETURN_STATUS_CANCELLED) {
+                continue;
+            }
+
+            $salesReturn->update([
+                'status' => Constant::SALES_RETURN_STATUS_CANCELLED
+            ]);
+
+            ApprovalService::deleteData($salesReturn->approvals);
+
+            $approval = ApprovalService::createData(
+                $salesReturn,
+                $salesReturn->salesReturnItems,
+                Constant::APPROVAL_TYPE_CANCEL,
+                Constant::APPROVAL_STATUS_APPROVED,
+                'Auto cancel by system due to sales order cancellation'
+            );
+
+            $approval->update([
+                'updated_by' => Auth::user()->id
+            ]);
+
+            foreach($salesReturn->salesReturnItems as $salesReturnItem) {
+                $productStock = ProductService::getProductStockQuery(
+                    $salesReturnItem->product_id,
+                    $returnWarehouse->id
+                );
+
+                $realQuantity = $salesReturnItem->actual_quantity * $salesReturnItem->quantity;
+                $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
+
+                $productStock?->decrement('stock', $salesReturnItem->actualQuantity - $actualDeliveredQuantity);
+            }
         }
     }
 }

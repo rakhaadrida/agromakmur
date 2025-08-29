@@ -19,8 +19,7 @@ class ProductTransferService
     public static function handleApprovalData($id) {
         $productTransfer = ProductTransfer::query()->findOrFail($id);
         $productTransfer->update([
-            'status' => Constant::PRODUCT_TRANSFER_STATUS_CANCELLED,
-            'updated_by' => auth()->id()
+            'status' => Constant::PRODUCT_TRANSFER_STATUS_CANCELLED
         ]);
 
         foreach($productTransfer->productTransferItems as $productTransferItem) {

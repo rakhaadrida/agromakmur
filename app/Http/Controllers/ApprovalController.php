@@ -7,6 +7,7 @@ use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
 use App\Models\ProductTransfer;
 use App\Models\SalesOrder;
+use App\Models\SalesReturn;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Notifications\RejectApprovalNotification;
@@ -19,6 +20,7 @@ use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\NotificationService;
 use App\Utilities\Services\ProductTransferService;
 use App\Utilities\Services\SalesOrderService;
+use App\Utilities\Services\SalesReturnService;
 use App\Utilities\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
@@ -54,6 +56,9 @@ class ApprovalController extends Controller
                 case ProductTransfer::class:
                     $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER] = $countApproval->total_approvals;
                     break;
+                case SalesReturn::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN] = $countApproval->total_approvals;
+                    break;
                 default:
                     abort(404, 'Invalid subject type');
             }
@@ -84,6 +89,9 @@ class ApprovalController extends Controller
             case 'product-transfers':
                 $subject = ProductTransfer::class;
                 break;
+            case 'sales-returns':
+                $subject = SalesReturn::class;
+                break;
             default:
                 return response()->json([
                     'message' => 'Invalid subject type'
@@ -99,7 +107,7 @@ class ApprovalController extends Controller
 
         if($filter->subject == 'goods-receipts') {
             $approvals = $approvals->with(['subject.supplier']);
-        } else if(in_array($filter->subject, ['sales-orders', 'delivery-orders'])) {
+        } else if(in_array($filter->subject, ['sales-orders', 'delivery-orders', 'sales-returns'])) {
             $approvals = $approvals->with(['subject.customer']);
         }
 
@@ -148,6 +156,27 @@ class ApprovalController extends Controller
                 $approval->client_name = '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
                 $approval->approvalItems = $approval->subject->productTransferItems;
+                break;
+            case SalesReturn::class:
+                $approval->client_label = 'Customer';
+                $approval->client_name = $approval->subject->customer->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
+                $approval->approvalItems = $approvalItems;
+
+                $productIds = $approvalItems->pluck('product_id')->toArray();
+                $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($approval->subject->sales_order_id, $productIds);
+
+                $mapOrderQuantityByProductId = [];
+                foreach($orderQuantities as $orderQuantity) {
+                    $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
+                }
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $approvalItem->order_quantity = $mapOrderQuantityByProductId[$approvalItem->product_id] ?? 0;
+
+                    $remainingQuantity = $approvalItem->quantity - $approvalItem->delivered_quantity - $approvalItem->cut_bill_quantity;
+                    $approvalItem->remaining_quantity = $remainingQuantity;
+                }
                 break;
             default:
                 abort(404, 'Invalid subject type');
@@ -246,6 +275,10 @@ class ApprovalController extends Controller
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
                     ProductTransferService::handleApprovalData($approval->subject_id);
                     break;
+                case SalesReturn::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
+                    SalesReturnService::handleApprovalData($approval->subject_id);
+                    break;
                 default:
                     abort(404, 'Invalid subject type');
             }
@@ -313,6 +346,9 @@ class ApprovalController extends Controller
                     break;
                 case ProductTransfer::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+                    break;
+                case SalesReturn::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     break;
                 default:
                     abort(404, 'Invalid subject type');

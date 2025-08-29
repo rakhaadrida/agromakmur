@@ -123,8 +123,7 @@ class SalesOrderService
             : Constant::SALES_ORDER_STATUS_CANCELLED;
 
         $salesOrder->update([
-            'status' => $status,
-            'updated_by' => Auth::user()->id
+            'status' => $status
         ]);
 
         foreach($approval->approvalItems as $approvalItem) {
@@ -149,50 +148,56 @@ class SalesOrderService
             }
         }
 
-        $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
-        $orderItemProductIds = $salesOrder->salesOrderItems->pluck('product_id');
+        if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
+            $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
+            $orderItemProductIds = $salesOrder->salesOrderItems->pluck('product_id');
 
-        $missingOrderItemIds = $orderItemProductIds->diff($approvalItemProductIds);
-        $missingOrderItems = $salesOrder->salesOrderItems->whereIn('product_id', $missingOrderItemIds);
+            $missingOrderItemIds = $orderItemProductIds->diff($approvalItemProductIds);
+            $missingOrderItems = $salesOrder->salesOrderItems->whereIn('product_id', $missingOrderItemIds);
 
-        foreach($missingOrderItems as $missingOrderItem) {
-            $productStock = ProductService::getProductStockQuery(
-                $missingOrderItem->product_id,
-                $missingOrderItem->warehouse_id
-            );
+            foreach ($missingOrderItems as $missingOrderItem) {
+                $productStock = ProductService::getProductStockQuery(
+                    $missingOrderItem->product_id,
+                    $missingOrderItem->warehouse_id
+                );
 
-            if($productStock) {
-                $productStock->increment('stock', $missingOrderItem->actual_quantity);
+                if ($productStock) {
+                    $productStock->increment('stock', $missingOrderItem->actual_quantity);
+                }
             }
-        }
 
-        $salesOrder->salesOrderItems()->delete();
-        foreach($approval->approvalItems as $approvalItem) {
-            $salesOrder->salesOrderItems()->create([
-                'product_id' => $approvalItem->product_id,
-                'warehouse_id' => $approvalItem->warehouse_id,
-                'unit_id' => $approvalItem->unit_id,
-                'quantity' => $approvalItem->quantity,
-                'actual_quantity' => $approvalItem->actual_quantity,
-                'price_id' => $approvalItem->price_id,
-                'price' => $approvalItem->price,
-                'total' => $approvalItem->total,
-                'discount' => $approvalItem->discount,
-                'discount_amount' => $approvalItem->discount_amount,
-                'final_amount' => $approvalItem->final_amount,
+            $salesOrder->salesOrderItems()->delete();
+            foreach ($approval->approvalItems as $approvalItem) {
+                $salesOrder->salesOrderItems()->create([
+                    'product_id' => $approvalItem->product_id,
+                    'warehouse_id' => $approvalItem->warehouse_id,
+                    'unit_id' => $approvalItem->unit_id,
+                    'quantity' => $approvalItem->quantity,
+                    'actual_quantity' => $approvalItem->actual_quantity,
+                    'price_id' => $approvalItem->price_id,
+                    'price' => $approvalItem->price,
+                    'total' => $approvalItem->total,
+                    'discount' => $approvalItem->discount,
+                    'discount_amount' => $approvalItem->discount_amount,
+                    'final_amount' => $approvalItem->final_amount,
+                ]);
+            }
+
+            $salesOrder->update([
+                'date' => $approval->subject_date ?: $salesOrder->date,
+                'customer_id' => $approval->customer_id ?: $salesOrder->customer_id,
+                'marketing_id' => $approval->marketing_id ?: $salesOrder->marketing_id,
+                'tempo' => $approval->tempo ?: $salesOrder->tempo,
+                'subtotal' => $approval->subtotal,
+                'discount_amount' => $approval->discount_amount,
+                'tax_amount' => $approval->tax_amount,
+                'grand_total' => $approval->grand_total,
             ]);
+        } else {
+            AccountReceivableService::deleteData($salesOrder->accountReceivable);
+            DeliveryOrderService::createAutoCancelApprovalData($salesOrder);
+            SalesReturnService::createAutoCancelApprovalData($salesOrder);
         }
-
-        $salesOrder->update([
-            'date' => $approval->subject_date ?: $salesOrder->date,
-            'customer_id' => $approval->customer_id ?: $salesOrder->customer_id,
-            'marketing_id' => $approval->marketing_id ?: $salesOrder->marketing_id,
-            'tempo' => $approval->tempo ?: $salesOrder->tempo,
-            'subtotal' => $approval->subtotal,
-            'discount_amount' => $approval->discount_amount,
-            'tax_amount' => $approval->tax_amount,
-            'grand_total' => $approval->grand_total,
-        ]);
 
         return true;
     }

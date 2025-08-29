@@ -109,8 +109,7 @@ class DeliveryOrderService
             : Constant::DELIVERY_ORDER_STATUS_CANCELLED;
 
         $deliveryOrder->update([
-            'status' => $status,
-            'updated_by' => auth()->id()
+            'status' => $status
         ]);
 
         foreach($approval->approvalItems as $approvalItem) {
@@ -127,5 +126,35 @@ class DeliveryOrderService
         }
 
         return true;
+    }
+
+    public static function createAutoCancelApprovalData($salesOrder) {
+        $deliveryOrders = DeliveryOrder::query()
+            ->where('sales_order_id', $salesOrder->id)
+            ->get();
+
+        foreach($deliveryOrders as $deliveryOrder) {
+            if($deliveryOrder->status == Constant::DELIVERY_ORDER_STATUS_CANCELLED) {
+                continue;
+            }
+
+            $deliveryOrder->update([
+                'status' => Constant::DELIVERY_ORDER_STATUS_CANCELLED
+            ]);
+
+            ApprovalService::deleteData($deliveryOrder->approvals);
+
+            $approval = ApprovalService::createData(
+                $deliveryOrder,
+                $deliveryOrder->deliveryOrderItems,
+                Constant::APPROVAL_TYPE_CANCEL,
+                Constant::APPROVAL_STATUS_APPROVED,
+                'Auto cancel by system due to sales order cancellation'
+            );
+
+            $approval->update([
+                'updated_by' => Auth::user()->id
+            ]);
+        }
     }
 }

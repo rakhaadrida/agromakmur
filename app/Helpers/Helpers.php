@@ -115,7 +115,22 @@ function getApprovalTypeLabel($type): string
 
 function isWaitingApproval($status): bool
 {
-    return in_array($status, [Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL, Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL]);
+    return in_array($status, [
+        Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL,
+        Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL,
+        Constant::SALES_ORDER_STATUS_WAITING_APPROVAL,
+        Constant::SALES_RETURN_STATUS_WAITING_APPROVAL
+    ]);
+}
+
+function isCancelled($status): bool
+{
+    return in_array($status, [
+        Constant::PRODUCT_TRANSFER_STATUS_CANCELLED,
+        Constant::GOODS_RECEIPT_STATUS_CANCELLED,
+        Constant::SALES_ORDER_STATUS_CANCELLED,
+        Constant::SALES_RETURN_STATUS_CANCELLED
+    ]);
 }
 
 function isApprovalSalesReceiptTransaction($subjectType): bool
@@ -141,6 +156,11 @@ function isApprovalSubjectTypeDeliveryOrder($subjectType): bool
 function isApprovalSubjectTypeProductTransfer($subjectType): bool
 {
     return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
+}
+
+function isApprovalSubjectTypeSalesReturn($subjectType): bool
+{
+    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
 }
 
 function isApprovalTypeEdit($type): bool

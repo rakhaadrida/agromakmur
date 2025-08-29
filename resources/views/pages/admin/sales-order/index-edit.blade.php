@@ -254,7 +254,7 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                @if(!isWaitingApproval($salesOrder->status) || isApprovalTypeEdit($salesOrder->pendingApproval->type))
+                                                @if((!isWaitingApproval($salesOrder->status) || isApprovalTypeEdit($salesOrder->pendingApproval->type)) && !isCancelled($salesOrder->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $salesOrder->id }}" data-number="{{ $salesOrder->number }}" tabindex="6">Cancel Order</button>

@@ -51,6 +51,10 @@ class SalesOrder extends Model
         return $this->hasMany(DeliveryOrder::class, 'sales_order_id', 'id');
     }
 
+    public function accountReceivable() {
+        return $this->hasOne(AccountReceivable::class, 'sales_order_id', 'id');
+    }
+
     public function approvals()
     {
         return $this->morphMany(Approval::class, 'subject');

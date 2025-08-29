@@ -65,6 +65,14 @@ class AccountReceivableService
         return true;
     }
 
+    public static function deleteData($accountReceivable) {
+        $accountReceivable->payments()->delete();
+        $accountReceivable->returns()->delete();
+        $accountReceivable->delete();
+
+        return true;
+    }
+
     public static function getAccountReceivableBySalesOrderId($salesOrderId) {
         return AccountReceivable::query()->where('sales_order_id', $salesOrderId)->first();
     }

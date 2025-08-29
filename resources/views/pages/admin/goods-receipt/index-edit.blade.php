@@ -203,7 +203,7 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                @if(!isWaitingApproval($goodsReceipt->status) || isApprovalTypeEdit($goodsReceipt->pendingApproval->type))
+                                                @if((!isWaitingApproval($goodsReceipt->status) || isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) && !isCancelled($goodsReceipt->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
