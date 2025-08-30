@@ -73,22 +73,31 @@ class SalesReturnController extends Controller
         return view('pages.admin.sales-return.index', $data);
     }
 
-    public function detail($id) {
-        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
-        $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+    public function show($id) {
+        $salesReturn = SalesReturn::query()->findOrFail($id);
+        $salesReturnItems = $salesReturn->salesReturnItems;
 
-        if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
-            $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
-            $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+        $productIds = $salesReturnItems->pluck('product_id')->toArray();
+        $orderQuantities = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($salesReturn->sales_order_id, $productIds);
+
+        $mapOrderQuantityByProductId = [];
+        foreach($orderQuantities as $orderQuantity) {
+            $mapOrderQuantityByProductId[$orderQuantity->product_id] = $orderQuantity->quantity;
+        }
+
+        foreach($salesReturnItems as $salesReturnItem) {
+            $remainingQuantity = $salesReturnItem->quantity - $salesReturnItem->delivered_quantity - $salesReturnItem->cut_bill_quantity;
+            $salesReturnItem->remaining_quantity = $remainingQuantity;
+            $salesReturnItem->order_quantity = $mapOrderQuantityByProductId[$salesReturnItem->product_id] ?? 0;
         }
 
         $data = [
             'id' => $id,
-            'deliveryOrder' => $deliveryOrder,
-            'deliveryOrderItems' => $deliveryOrderItems,
+            'salesReturn' => $salesReturn,
+            'salesReturnItems' => $salesReturnItems
         ];
 
-        return view('pages.admin.delivery-order.detail', $data);
+        return view('pages.admin.sales-return.detail', $data);
     }
 
     public function create() {

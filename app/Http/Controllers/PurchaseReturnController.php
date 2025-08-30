@@ -78,22 +78,23 @@ class PurchaseReturnController extends Controller
         return view('pages.admin.purchase-return.index', $data);
     }
 
-    public function detail($id) {
-        $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
-        $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+    public function show($id) {
+        $purchaseReturn = PurchaseReturn::query()->findOrFail($id);
+        $purchaseReturnItems = $purchaseReturn->purchaseReturnItems;
 
-        if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
-            $deliveryOrder = DeliveryOrderService::mapDeliveryOrderApproval($deliveryOrder);
-            $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
+        foreach($purchaseReturnItems as $purchaseReturnItem) {
+            $remainingQuantity = $purchaseReturnItem->quantity - $purchaseReturnItem->received_quantity - $purchaseReturnItem->cut_bill_quantity;
+            $purchaseReturnItem->remaining_quantity = $remainingQuantity;
+            $purchaseReturnItem->receipt_quantity = $purchaseReturnItem->goodsReceiptItem->quantity;
         }
 
         $data = [
             'id' => $id,
-            'deliveryOrder' => $deliveryOrder,
-            'deliveryOrderItems' => $deliveryOrderItems,
+            'purchaseReturn' => $purchaseReturn,
+            'purchaseReturnItems' => $purchaseReturnItems,
         ];
 
-        return view('pages.admin.delivery-order.detail', $data);
+        return view('pages.admin.purchase-return.detail', $data);
     }
 
     public function create() {
