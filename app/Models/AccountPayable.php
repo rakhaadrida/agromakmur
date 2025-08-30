@@ -21,4 +21,8 @@ class AccountPayable extends Model
     public function payments() {
         return $this->hasMany(AccountPayablePayment::class, 'account_payable_id', 'id');
     }
+
+    public function returns() {
+        return $this->hasMany(AccountPayableReturn::class, 'account_payable_id', 'id');
+    }
 }

@@ -514,4 +514,44 @@ class GoodsReceiptController extends Controller
             'main_price' => $mainPrice,
         ]);
     }
+
+    public function indexListAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        if(!empty($filter->supplier_id)) {
+            $baseQuery = $baseQuery
+                ->where('goods_receipts.supplier_id', $filter->supplier_id);
+        }
+
+        $goodsReceipts = $baseQuery
+            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
+            ->orderByDesc('goods_receipts.date')
+            ->orderByDesc('goods_receipts.id')
+            ->get();
+
+        return response()->json([
+            'data' => $goodsReceipts,
+        ]);
+    }
+
+    public function indexDataAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+        $goodsReceipt = $baseQuery->findOrFail($filter->goods_receipt_id);
+        $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
+
+        foreach($goodsReceiptItems as $goodsReceiptItem) {
+            $goodsReceiptItem->product_sku = $goodsReceiptItem->product->sku;
+            $goodsReceiptItem->product_name = $goodsReceiptItem->product->name;
+            $goodsReceiptItem->unit_name = $goodsReceiptItem->unit->name;
+        }
+
+        return response()->json([
+            'data' => $goodsReceipt,
+            'goods_receipt_items' => $goodsReceiptItems,
+        ]);
+    }
 }

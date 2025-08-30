@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Create Sales Return</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Purchase Return</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -22,11 +22,12 @@
 
         <div class="row">
             <div class="card-body">
-                <div class="table-responsive table-responsive-return">
+                <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('sales-returns.store') }}" method="POST" id="form">
+                            <form action="{{ route('purchase-returns.update', $purchaseReturn->id) }}" method="POST" id="form">
                                 @csrf
+                                @method('PUT')
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12">
@@ -34,56 +35,45 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">Return Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" autofocus required >
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $purchaseReturn->number }}" readonly>
                                                 </div>
                                                 <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" tabindex="2" required>
+                                                    <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($purchaseReturn->date, 'd-M-y') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row delivery-order-customer-input">
-                                        <label for="salesOrderId" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
+                                        <label for="goodsReceipt" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" title="Enter or Choose Number" tabindex="3" required>
-                                                @foreach($salesOrders as $salesOrder)
-                                                    <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}" data-customer="{{ $salesOrder->customer_id }}">{{ $salesOrder->number }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('sales_order_id')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="goods_receipt" id="goodsReceipt" value="{{ $purchaseReturn->goodsReceipt->number }}" readonly>
+                                            <input type="hidden" name="goods_receipt_id" value="{{ $purchaseReturn->goods_receipt_id }}">
                                         </div>
-                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                        <label for="receivedDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Received Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" tabindex="4">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="received_date" id="receivedDate" value="{{ $purchaseReturn->received_date ? formatDate($purchaseReturn->received_date, 'd-M-y') : '' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="customerId" class="col-2 col-form-label text-bold text-right">Customer</label>
+                                        <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customerId" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="5" required>
-                                                @foreach($customers as $customer)
-                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}">{{ $customer->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('customer_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="supplier" id="supplier" value="{{ $purchaseReturn->supplier->name }}" readonly>
+                                            <input type="hidden" name="supplier_id" value="{{ $purchaseReturn->supplier_id }}">
+                                        </div>
+                                        <label for="receiptStatus" class="col-2 col-form-label text-bold text-right sales-order-middle-last-input">Receipt Status</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="receipt_status" id="receiptStatus" value="{{ getPurchaseReturnReceiptStatusLabel($purchaseReturn->receipt_status) }}" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
-                                <div id="itemContent" hidden>
+                                <div>
                                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
@@ -93,12 +83,45 @@
                                                 <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
                                                 <td class="align-middle table-head-unit-delivery-order">Unit</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Return Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Received Qty</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Cut Bill Qty</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
                                             </tr>
                                         </thead>
                                         <tbody id="itemTable">
+                                            @foreach($purchaseReturn->purchaseReturnItems as $index => $purchaseReturnItem)
+                                                <tr class="text-bold text-dark" id="{{ $index }}">
+                                                    <td class="align-middle text-center">{{ $index + 1 }}</td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_sku[]" id="productSku-{{ $index }}" value="{{ $purchaseReturnItem->product->sku }}" title="" readonly>
+                                                        <input type="hidden" name="product_id[]" id="productId-{{ $index }}" value="{{ $purchaseReturnItem->product_id }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_name[]" id="productName-{{ $index }}" value="{{ $purchaseReturnItem->product->name }}" title="" readonly>
+                                                        <input type="hidden" name="item_id[]" id="itemId-{{ $index }}" value="{{ $purchaseReturnItem->goods_receipt_item_id }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="order_quantity[]" id="orderQuantity-{{ $index }}" value="{{ formatQuantity($purchaseReturnItem->receipt_quantity) }}" title="" readonly>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-{{ $index }}" value="{{ $purchaseReturnItem->unit->name }}" title="" readonly>
+                                                        <input type="hidden" name="unit_id[]" id="unitId-{{ $index }}" value="{{ $purchaseReturnItem->unit_id }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-{{ $index }}" value="{{ formatQuantity($purchaseReturnItem->quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                                        <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $index }}" value="{{ $purchaseReturnItem->actual_quantity / $purchaseReturnItem->quantity }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="received_quantity[]" id="receivedQuantity-{{ $index }}" value="{{ formatQuantity($purchaseReturnItem->received_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-{{ $index }}" value="{{ formatQuantity($purchaseReturnItem->cut_bill_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-{{ $index }}" value="{{ formatQuantity($purchaseReturnItem->remaining_quantity) }}" title="" readonly>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                     <hr>
@@ -107,29 +130,55 @@
                                              <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
                                         </div>
                                         <div class="col-2">
-                                            <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
+                                            <button type="button" class="btn btn-outline-danger btn-block text-bold" id="btnCancel" data-toggle="modal" data-target="#modalCancelReturn" data-id="{{ $purchaseReturn->id }}" tabindex="10001">Cancel Return</button>
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+
+                            <div class="modal" id="modalCancelReturn" tabindex="-1" role="dialog" aria-labelledby="modalCancelReturn" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Cancel Sales Return - {{ $purchaseReturn->number }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('purchase-returns.destroy', $purchaseReturn->id) }}" method="POST" id="deleteForm">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="form-group row">
+                                                    <label for="status" class="col-2 col-form-label text-bold">Status</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-3">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="status" id="status" value="CANCEL" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group subtotal-so">
+                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <input type="text" class="form-control" name="description" id="description">
+                                                </div>
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmitCancel">Submit</button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modalEmptyQuantity" tabindex="-1" role="dialog" aria-labelledby="modalEmptyQuantity" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
-                    </button>
-                    <h4 class="modal-title text-bold">Return Quantity Notification</h4>
-                </div>
-                <div class="modal-body text-dark">
-                    <h5>Return Quantity can not be empty. Please enter a minimum quantity of 1 in one of the inputs.</h5>
                 </div>
             </div>
         </div>
@@ -159,20 +208,26 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+            const modalCancelReturn = $('#modalCancelReturn');
 
-            $('#customerId').change(function() {
-                let customerId = $(this).val();
-                displaySalesOrderList(customerId);
-            });
+            modalCancelReturn.on('show.bs.modal', function (e) {
+                $('#description').attr('required', true);
+            })
 
-            $('#salesOrderId').change(function() {
-                $('#itemContent').removeAttr('hidden');
+            modalCancelReturn.on('hide.bs.modal', function (e) {
+                $('#description').removeAttr('required');
+            })
 
-                let salesOrderId = $(this).val();
-                let customerId = $(this).find(':selected').data('customer');
+            $('#btnSubmitCancel').on('click', function(event) {
+                event.preventDefault();
 
-                $('#customerId').selectpicker('val', customerId);
-                displaySalesOrderData(salesOrderId);
+                let checkForm = document.getElementById('deleteForm').checkValidity();
+                if(!checkForm) {
+                    document.getElementById('deleteForm').reportValidity();
+                    return false;
+                }
+
+                $('#deleteForm').submit();
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -198,11 +253,11 @@
                 calculateRemainingQuantity(index);
             });
 
-            table.on('keypress', 'input[name="delivered_quantity[]"]', function (event) {
+            table.on('keypress', 'input[name="received_quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
 
-                    let deliveredQuantity = $(`#deliveredQuantity-${index}`);
+                    let deliveredQuantity = $(`#receivedQuantity-${index}`);
                     deliveredQuantity.attr('title', 'Only allowed to input numbers');
                     deliveredQuantity.attr('data-original-title', 'Only allowed to input numbers');
                     deliveredQuantity.tooltip('show');
@@ -211,11 +266,11 @@
                 }
             });
 
-            table.on('keyup', 'input[name="delivered_quantity[]"]', function () {
+            table.on('keyup', 'input[name="received_quantity[]"]', function () {
                 this.value = currencyFormat(this.value);
             });
 
-            table.on('blur', 'input[name="delivered_quantity[]"]', function () {
+            table.on('blur', 'input[name="received_quantity[]"]', function () {
                 const index = $(this).closest('tr').index();
 
                 calculateRemainingQuantity(index);
@@ -248,21 +303,21 @@
                 event.preventDefault();
 
                 let quantities = $('input[name="quantity[]"]');
-                let deliveredQuantities = $('input[name="delivered_quantity[]"]');
+                let receivedQuantities = $('input[name="received_quantity[]"]');
                 let cutBillQuantities = $('input[name="cut_bill_quantity[]"]');
-                let isEmptyDeliveredQuantity = true;
+                let isEmptyReceivedQuantity = true;
 
-                deliveredQuantities.each(function(e) {
+                receivedQuantities.each(function(e) {
                     if (this.value > 0) {
-                        isEmptyDeliveredQuantity = false;
+                        isEmptyReceivedQuantity = false;
                         return false
                     }
                 });
 
-                if(!isEmptyDeliveredQuantity) {
-                    $('#deliveryDate').prop('required', true);
+                if(!isEmptyReceivedQuantity) {
+                    $('#receivedDate').prop('required', true);
                 } else {
-                    $('#deliveryDate').prop('required', false);
+                    $('#receivedDate').prop('required', false);
                 }
 
                 let checkForm = document.getElementById('form').checkValidity();
@@ -304,17 +359,17 @@
                 });
 
                 if(!isInvalidQuantity) {
-                    deliveredQuantities.each(function (index) {
-                        let deliveredAmount = numberFormat(this.value);
+                    receivedQuantities.each(function (index) {
+                        let receivedAmount = numberFormat(this.value);
 
                         let quantityElement = $(`#quantity-${index}`);
                         let cutBillQuantityElement = $(`#cutBillQuantity-${index}`);
                         let remainingQuantity = numberFormat(quantityElement.val()) - numberFormat(cutBillQuantityElement.val());
 
-                        if (deliveredAmount > remainingQuantity) {
-                            let deliveredQuantity = $(`#deliveredQuantity-${index}`);
-                            deliveredQuantity.attr('title', 'Delivered Quantity can not greater than remaining quantity');
-                            deliveredQuantity.attr('data-original-title', 'Delivered Quantity can not greater than remaining quantity');
+                        if (receivedAmount > remainingQuantity) {
+                            let deliveredQuantity = $(`#receivedQuantity-${index}`);
+                            deliveredQuantity.attr('title', 'Received Quantity can not greater than remaining quantity');
+                            deliveredQuantity.attr('data-original-title', 'Received Quantity can not greater than remaining quantity');
                             deliveredQuantity.tooltip('show');
                             isInvalidQuantity = 1;
 
@@ -328,8 +383,8 @@
                         let cutBillAmount = numberFormat(this.value);
 
                         let quantityElement = $(`#quantity-${index}`);
-                        let deliveredQuantityElement = $(`#deliveredQuantity-${index}`);
-                        let remainingQuantity = numberFormat(quantityElement.val()) - numberFormat(deliveredQuantityElement.val());
+                        let receivedQuantityElement = $(`#receivedQuantity-${index}`);
+                        let remainingQuantity = numberFormat(quantityElement.val()) - numberFormat(receivedQuantityElement.val());
 
                         if (cutBillAmount > remainingQuantity) {
                             let cutBillQuantity = $(`#cutBillQuantity-${index}`);
@@ -348,7 +403,7 @@
                         this.value = numberFormat(this.value);
                     });
 
-                    deliveredQuantities.each(function() {
+                    receivedQuantities.each(function() {
                         this.value = numberFormat(this.value);
                     });
 
@@ -360,116 +415,15 @@
                 }
             });
 
-            function displaySalesOrderList(customerId) {
-                $.ajax({
-                    url: '{{ route('sales-orders.index-list-ajax') }}',
-                    type: 'GET',
-                    data: {
-                        customer_id: customerId,
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        let salesOrder = $('#salesOrderId');
-                        salesOrder.empty();
-
-                        $.each(data.data, function(index, item) {
-                            salesOrder.append(
-                                $('<option></option>', {
-                                    value: item.id,
-                                    text: item.number,
-                                    'data-tokens': item.number,
-                                })
-                            );
-
-                            if(!index) {
-                                salesOrder.selectpicker({
-                                    title: 'Enter or Choose Number'
-                                });
-                            }
-
-                            salesOrder.selectpicker('refresh');
-                            salesOrder.selectpicker('render');
-                        });
-                    },
-                })
-            }
-
-            function displaySalesOrderData(salesOrderId) {
-                $.ajax({
-                    url: '{{ route('sales-orders.index-ajax') }}',
-                    type: 'GET',
-                    data: {
-                        sales_order_id: salesOrderId,
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        $('#customerId').val(data.data.customer_id);
-                        $('#customer').val(data.data.customer_name);
-                        $('#address').val(data.data.customer_address);
-
-                        let salesOrderItems = data.sales_order_items;
-                        let rowId = 0;
-                        let rowNumber = 1;
-                        let rowNumbers = 5;
-
-                        table.empty();
-                        $.each(salesOrderItems, function(index, item) {
-                            let newRow = salesOrderItemRowElement(rowId, rowNumber, rowNumbers, item);
-                            table.append(newRow);
-
-                            rowId++;
-                            rowNumber++;
-                            rowNumbers += 4;
-                        });
-                    },
-                })
-            }
-
-            function salesOrderItemRowElement(rowId, rowNumber, rowNumbers, item) {
-                return `
-                    <tr class="text-bold text-dark" id="${rowId}">
-                        <td class="align-middle text-center">${rowNumber}</td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_sku[]" id="productSku-${rowId}" value="${item.product_sku}" title="" readonly>
-                            <input type="hidden" name="product_id[]" id="productId-${rowId}" value="${item.product_id}">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_name[]" id="productName-${rowId}" value="${item.product_name}" title="" readonly>
-                            <input type="hidden" name="item_id[]" id="itemId-${rowId}" value="${item.id}">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="order_quantity[]" id="orderQuantity-${rowId}" value="${thousandSeparator(item.quantity)}" title="" readonly>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-${rowId}" value="${item.unit_name}" title="" readonly>
-                            <input type="hidden" name="unit_id[]" id="unitId-${rowId}" value="${item.unit_id}">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="" tabindex="${rowNumbers + 1}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity / item.quantity}">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-${rowId}" tabindex="${rowNumbers + 2}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-${rowId}" tabindex="${rowNumbers + 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-${rowId}" title="" readonly>
-                        </td>
-                    </tr>
-                `;
-            }
-
             function calculateRemainingQuantity(index) {
                 let quantity = document.getElementById(`quantity-${index}`);
                 let remainingQuantity = document.getElementById(`remainingQuantity-${index}`);
 
                 if(quantity.value) {
-                    let deliveredQuantity = document.getElementById(`deliveredQuantity-${index}`);
+                    let receivedQuantity = document.getElementById(`receivedQuantity-${index}`);
                     let cutBillQuantity = document.getElementById(`cutBillQuantity-${index}`);
 
-                    let remainingAmount = numberFormat(quantity.value) - numberFormat(deliveredQuantity.value) - numberFormat(cutBillQuantity.value);
+                    let remainingAmount = numberFormat(quantity.value) - numberFormat(receivedQuantity.value) - numberFormat(cutBillQuantity.value);
                     remainingQuantity.value = thousandSeparator(remainingAmount);
                 } else {
                     remainingQuantity.value = '';
@@ -499,6 +453,5 @@
                 return x1 + x2;
             }
         });
-
     </script>
 @endpush

@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\GoodsReceipt;
+use App\Models\GoodsReceiptItem;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,10 @@ class GoodsReceiptService
         $goodsReceipt->goodsReceiptItems = $goodsReceipt->pendingApproval->approvalItems;
 
         return $goodsReceipt;
+    }
+
+    public static function getGoodsReceiptItemById($id) {
+        return GoodsReceiptItem::query()->findOrFail($id);
     }
 
     public static function handleApprovalData($id, $approval) {

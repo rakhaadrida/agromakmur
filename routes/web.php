@@ -114,6 +114,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('goods-receipts/{id}/print', 'GoodsReceiptController@print')->name('goods-receipts.print');
         Route::get('goods-receipts/{id}/after-print', 'GoodsReceiptController@afterPrint')->name('goods-receipts.after-print');
         Route::get('goods-receipt-ajax', 'GoodsReceiptController@indexAjax')->name('goods-receipts.index-ajax');
+        Route::get('goods-receipt-lists-ajax', 'GoodsReceiptController@indexListAjax')->name('goods-receipts.index-list-ajax');
+        Route::get('goods-receipt-data-ajax', 'GoodsReceiptController@indexDataAjax')->name('goods-receipts.index-data-ajax');
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
         Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
 
@@ -142,6 +144,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::resource('returns', 'ReturnController')->only(['index']);
 
         Route::resource('sales-returns', 'SalesReturnController');
+
+        Route::resource('purchase-returns', 'PurchaseReturnController');
     });
 
     Route::group(['roles' => [

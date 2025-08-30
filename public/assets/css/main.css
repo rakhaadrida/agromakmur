@@ -1291,3 +1291,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-sales-return-status {
     width: 90px;
 }
+
+.purchase-return-final-date {
+    width: 8rem !important;
+}
+
+.table-responsive-return {
+    overflow: visible !important;
+}

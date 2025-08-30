@@ -88,6 +88,16 @@ function getSalesReturnDeliveryStatusLabel($deliveryStatus): string
     return Constant::SALES_RETURN_DELIVERY_STATUS_LABELS[$deliveryStatus];
 }
 
+function getPurchaseReturnStatusLabel($status): string
+{
+    return Constant::PURCHASE_RETURN_STATUS_LABELS[$status];
+}
+
+function getPurchaseReturnReceiptStatusLabel($receiptStatus): string
+{
+    return Constant::PURCHASE_RETURN_RECEIPT_STATUS_LABELS[$receiptStatus];
+}
+
 function getAccountPayableStatusLabel($status): string
 {
     return Constant::ACCOUNT_PAYABLE_STATUS_LABELS[$status];
@@ -196,6 +206,21 @@ function isSalesReturnOngoing($status): bool
 function isSalesReturnCompleted($status): bool
 {
     return $status == Constant::SALES_RETURN_DELIVERY_STATUS_COMPLETED;
+}
+
+function isPurchaseReturnActive($status): bool
+{
+    return $status == Constant::PURCHASE_RETURN_RECEIPT_STATUS_ACTIVE;
+}
+
+function isPurchaseReturnOngoing($status): bool
+{
+    return $status == Constant::PURCHASE_RETURN_RECEIPT_STATUS_ONGOING;
+}
+
+function isPurchaseReturnCompleted($status): bool
+{
+    return $status == Constant::PURCHASE_RETURN_RECEIPT_STATUS_COMPLETED;
 }
 
 function isAccountPayableUnpaid($status): bool

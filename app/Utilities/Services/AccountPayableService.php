@@ -3,7 +3,6 @@
 namespace App\Utilities\Services;
 
 use App\Models\AccountPayable;
-use App\Models\Supplier;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\DB;
 
@@ -61,5 +60,9 @@ class AccountPayableService
         ]);
 
         return true;
+    }
+
+    public static function getAccountPayableByGoodsReceiptId($goodsReceiptId) {
+        return AccountPayable::query()->where('goods_receipt_id', $goodsReceiptId)->first();
     }
 }
