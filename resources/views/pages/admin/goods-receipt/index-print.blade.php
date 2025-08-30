@@ -80,7 +80,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="7" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="8" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

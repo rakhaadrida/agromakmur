@@ -114,7 +114,7 @@ class PurchaseReturnService
         $returnWarehouse = WarehouseService::getReturnWarehouse();
 
         foreach ($purchaseReturnItems as $item) {
-            $realQuantity = $item->actual_quantity * $item->quantity;
+            $realQuantity = $item->actual_quantity / $item->quantity;
             $actualReceivedQuantity = $item->received_quantity * $realQuantity;
 
             $productStock = ProductService::getProductStockQuery(
@@ -129,23 +129,25 @@ class PurchaseReturnService
     }
 
     public static function handleApprovalData($id) {
-        $salesReturn = SalesReturn::query()->findOrFail($id);
-        $salesReturn->update([
-            'status' => Constant::SALES_RETURN_STATUS_CANCELLED
+        $purchaseReturn = PurchaseReturn::query()->findOrFail($id);
+        $purchaseReturn->update([
+            'status' => Constant::PURCHASE_RETURN_STATUS_CANCELLED
         ]);
 
         $returnWarehouse = WarehouseService::getReturnWarehouse();
-        foreach($salesReturn->salesReturnItems as $salesReturnItem) {
+        foreach($purchaseReturn->purchaseReturnItems as $purchaseReturnItem) {
             $productStock = ProductService::getProductStockQuery(
-                $salesReturnItem->product_id,
+                $purchaseReturnItem->product_id,
                 $returnWarehouse->id
             );
 
-            $realQuantity = $salesReturnItem->actual_quantity * $salesReturnItem->quantity;
-            $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
+            $realQuantity = $purchaseReturnItem->actual_quantity / $purchaseReturnItem->quantity;
+            $actualReceivedQuantity = $purchaseReturnItem->received_quantity * $realQuantity;
 
-            $productStock?->decrement('stock', $salesReturnItem->actualQuantity - $actualDeliveredQuantity);
+            $productStock?->increment('stock', $purchaseReturnItem->actual_quantity - $actualReceivedQuantity);
         }
+
+        $purchaseReturn->accountPayableReturns()->delete();
 
         return true;
     }

@@ -126,12 +126,14 @@
                                     </table>
                                     <hr>
                                     <div class="form-row justify-content-center">
-                                        <div class="col-2">
-                                             <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
-                                        </div>
-                                        <div class="col-2">
-                                            <button type="button" class="btn btn-outline-danger btn-block text-bold" id="btnCancel" data-toggle="modal" data-target="#modalCancelReturn" data-id="{{ $salesReturn->id }}" tabindex="10001">Cancel Return</button>
-                                        </div>
+                                        @if(!isWaitingApproval($salesReturn->status) && !isCancelled($salesReturn->status))
+                                            <div class="col-2">
+                                                 <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="button" class="btn btn-outline-danger btn-block text-bold" id="btnCancel" data-toggle="modal" data-target="#modalCancelReturn" data-id="{{ $salesReturn->id }}" tabindex="10001">Cancel Return</button>
+                                            </div>
+                                        @endif
                                         <div class="col-2">
                                             <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
                                         </div>

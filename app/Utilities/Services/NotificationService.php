@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Notifications\CancelDeliveryOrderNotification;
 use App\Notifications\CancelGoodsReceiptNotification;
 use App\Notifications\CancelProductTransferNotification;
+use App\Notifications\CancelPurchaseReturnNotification;
 use App\Notifications\CancelSalesOrderNotification;
 use App\Notifications\CancelSalesReturnNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;
@@ -25,7 +26,8 @@ class NotificationService
             CancelProductTransferNotification::class,
             CancelSalesOrderNotification::class,
             CancelDeliveryOrderNotification::class,
-            CancelSalesReturnNotification::class
+            CancelSalesReturnNotification::class,
+            CancelPurchaseReturnNotification::class,
         ];
     }
 

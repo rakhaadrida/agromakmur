@@ -126,6 +126,7 @@ class ApprovalService
                 'discount_amount' => $item->discount_amount ?? 0,
                 'final_amount' => $finalAmount ?? 0,
                 'delivered_quantity' => $item->delivered_quantity ?? 0,
+                'received_quantity' => $item->received_quantity ?? 0,
                 'cut_bill_quantity' => $item->cut_bill_quantity ?? 0,
             ]);
         }

@@ -6,6 +6,7 @@ use App\Models\Approval;
 use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
 use App\Models\ProductTransfer;
+use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
 use App\Models\User;
@@ -19,6 +20,7 @@ use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\NotificationService;
 use App\Utilities\Services\ProductTransferService;
+use App\Utilities\Services\PurchaseReturnService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\SalesReturnService;
 use App\Utilities\Services\UserService;
@@ -59,6 +61,9 @@ class ApprovalController extends Controller
                 case SalesReturn::class:
                     $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN] = $countApproval->total_approvals;
                     break;
+                case PurchaseReturn::class:
+                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN] = $countApproval->total_approvals;
+                    break;
                 default:
                     abort(404, 'Invalid subject type');
             }
@@ -92,6 +97,9 @@ class ApprovalController extends Controller
             case 'sales-returns':
                 $subject = SalesReturn::class;
                 break;
+            case 'purchase-returns':
+                $subject = PurchaseReturn::class;
+                break;
             default:
                 return response()->json([
                     'message' => 'Invalid subject type'
@@ -105,7 +113,7 @@ class ApprovalController extends Controller
             ->where('approvals.status', Constant::APPROVAL_STATUS_PENDING)
             ->orderBy('approvals.date');
 
-        if($filter->subject == 'goods-receipts') {
+        if(in_array($filter->subject, ['goods-receipts', 'purchase-returns'])) {
             $approvals = $approvals->with(['subject.supplier']);
         } else if(in_array($filter->subject, ['sales-orders', 'delivery-orders', 'sales-returns'])) {
             $approvals = $approvals->with(['subject.customer']);
@@ -175,6 +183,27 @@ class ApprovalController extends Controller
                     $approvalItem->order_quantity = $mapOrderQuantityByProductId[$approvalItem->product_id] ?? 0;
 
                     $remainingQuantity = $approvalItem->quantity - $approvalItem->delivered_quantity - $approvalItem->cut_bill_quantity;
+                    $approvalItem->remaining_quantity = $remainingQuantity;
+                }
+                break;
+            case PurchaseReturn::class:
+                $approval->client_label = 'Supplier';
+                $approval->client_name = $approval->subject->supplier->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
+                $approval->approvalItems = $approvalItems;
+
+                $productIds = $approvalItems->pluck('product_id')->toArray();
+                $receiptQuantities = GoodsReceiptService::getGoodsReceiptQuantityByGoodsReceiptProductIds($approval->subject->goods_receipt_id, $productIds);
+
+                $mapReceiptQuantityByProductId = [];
+                foreach($receiptQuantities as $receiptQuantity) {
+                    $mapReceiptQuantityByProductId[$receiptQuantity->product_id] = $receiptQuantity->quantity;
+                }
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $approvalItem->receipt_quantity = $mapReceiptQuantityByProductId[$approvalItem->product_id] ?? 0;
+
+                    $remainingQuantity = $approvalItem->quantity - $approvalItem->received_quantity - $approvalItem->cut_bill_quantity;
                     $approvalItem->remaining_quantity = $remainingQuantity;
                 }
                 break;
@@ -279,6 +308,10 @@ class ApprovalController extends Controller
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     SalesReturnService::handleApprovalData($approval->subject_id);
                     break;
+                case PurchaseReturn::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
+                    PurchaseReturnService::handleApprovalData($approval->subject_id);
+                    break;
                 default:
                     abort(404, 'Invalid subject type');
             }
@@ -350,6 +383,9 @@ class ApprovalController extends Controller
                 case SalesReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     break;
+                case PurchaseReturn::class:
+                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
+                    break;
                 default:
                     abort(404, 'Invalid subject type');
             }
@@ -404,6 +440,9 @@ class ApprovalController extends Controller
             case 'sales-returns':
                 $subject = SalesReturn::class;
                 break;
+            case 'purchase-returns':
+                $subject = PurchaseReturn::class;
+                break;
             default:
                 return response()->json([
                     'message' => 'Invalid subject type'
@@ -417,7 +456,7 @@ class ApprovalController extends Controller
             ->where('approvals.status', '!=', Constant::APPROVAL_STATUS_PENDING)
             ->orderBy('approvals.date');
 
-        if($filter->subject === 'goods-receipts') {
+        if(in_array($filter->subject, ['goods-receipts', 'purchase-returns'])) {
             $approvals = $approvals->with(['subject.supplier']);
         } else if(in_array($filter->subject,  ['delivery-orders', 'sales-returns'])) {
             $approvals = $approvals->with(['subject.customer']);
@@ -487,6 +526,27 @@ class ApprovalController extends Controller
                     $approvalItem->order_quantity = $mapOrderQuantityByProductId[$approvalItem->product_id] ?? 0;
 
                     $remainingQuantity = $approvalItem->quantity - $approvalItem->delivered_quantity - $approvalItem->cut_bill_quantity;
+                    $approvalItem->remaining_quantity = $remainingQuantity;
+                }
+                break;
+            case PurchaseReturn::class:
+                $approval->client_label = 'Supplier';
+                $approval->client_name = $approval->subject->supplier->name ?? '';
+                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
+                $approval->approvalItems = $approvalItems;
+
+                $productIds = $approvalItems->pluck('product_id')->toArray();
+                $receiptQuantities = GoodsReceiptService::getGoodsReceiptQuantityByGoodsReceiptProductIds($approval->subject->goods_receipt_id, $productIds);
+
+                $mapReceiptQuantityByProductId = [];
+                foreach($receiptQuantities as $receiptQuantity) {
+                    $mapReceiptQuantityByProductId[$receiptQuantity->product_id] = $receiptQuantity->quantity;
+                }
+
+                foreach($approval->approvalItems as $approvalItem) {
+                    $approvalItem->receipt_quantity = $mapReceiptQuantityByProductId[$approvalItem->product_id] ?? 0;
+
+                    $remainingQuantity = $approvalItem->quantity - $approvalItem->received_quantity - $approvalItem->cut_bill_quantity;
                     $approvalItem->remaining_quantity = $remainingQuantity;
                 }
                 break;

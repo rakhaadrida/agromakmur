@@ -112,7 +112,7 @@ class SalesReturnService
 
     public static function deleteItemData($salesReturnItems) {
         foreach ($salesReturnItems as $item) {
-            $realQuantity = $item->actual_quantity * $item->quantity;
+            $realQuantity = $item->actual_quantity / $item->quantity;
             $actualDeliveredQuantity = $item->delivered_quantity * $realQuantity;
 
             $returnWarehouse = WarehouseService::getReturnWarehouse();
@@ -140,11 +140,13 @@ class SalesReturnService
                 $returnWarehouse->id
             );
 
-            $realQuantity = $salesReturnItem->actual_quantity * $salesReturnItem->quantity;
+            $realQuantity = $salesReturnItem->actual_quantity / $salesReturnItem->quantity;
             $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
 
-            $productStock?->decrement('stock', $salesReturnItem->actualQuantity - $actualDeliveredQuantity);
+            $productStock?->decrement('stock', $salesReturnItem->actual_quantity - $actualDeliveredQuantity);
         }
+
+        $salesReturn->accountReceivableReturn()->delete();
 
         return true;
     }

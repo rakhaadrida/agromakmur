@@ -25,6 +25,7 @@ class ApprovalItem extends Model
         'discount_amount',
         'final_amount',
         'delivered_quantity',
+        'received_quantity',
         'cut_bill_quantity'
     ];
 

@@ -59,6 +59,13 @@
                             @endif
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-inactive" id="purchaseReturnTab" data-toggle="pill" data-target="#purchaseReturn" type="button" role="tab" aria-controls="purchase-return" aria-selected="false">Purchase Return
+                            @if($mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN] ?? 0)
+                                <span class="notification-badge">{{ $mapCountApprovalBySubject[\App\Utilities\Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN] }}</span>
+                            @endif
+                        </a>
+                    </li>
                 </ul>
                 <div class="table-responsive">
                     <div class="card show card-tabs">
@@ -179,6 +186,25 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="tab-pane fade" id="purchaseReturn" role="tabpanel" aria-labelledby="purchaseReturnTab">
+                                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTablePurchaseReturn">
+                                        <thead class="text-center text-bold text-dark">
+                                        <tr>
+                                            <th class="align-middle th-number-transaction-index">No</th>
+                                            <th class="align-middle th-code-transaction-index">Return Number</th>
+                                            <th class="align-middle th-code-transaction-index">Return Date</th>
+                                            <th class="align-middle th-status-transaction-index">Request Date</th>
+                                            <th class="align-middle th-name-transaction-index">Supplier</th>
+                                            <th class="align-middle th-status-transaction-index">Type</th>
+                                            <th class="align-middle th-warehouse-transaction-index">Description</th>
+                                            <th class="align-middle th-code-transaction-index">Admin</th>
+                                            <th class="align-middle th-code-transaction-index">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="itemPurchaseReturn">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -234,12 +260,21 @@
             },
         });
 
+        let datatablePurchaseReturn = $('#dataTablePurchaseReturn').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+            },
+        });
+
         $(document).ready(function() {
             let salesOrderTab = $('#salesOrderTab');
             let goodsReceiptTab = $('#goodsReceiptTab');
             let deliveryOrderTab = $('#deliveryOrderTab');
             let productTransferTab = $('#productTransferTab');
             let salesReturnTab = $('#salesReturnTab');
+            let purchaseReturnTab = $('#purchaseReturnTab');
 
             salesOrderTab.on('click', function (e) {
                 e.preventDefault();
@@ -286,6 +321,15 @@
                 }
             });
 
+            purchaseReturnTab.on('click', function (e) {
+                e.preventDefault();
+
+                let table = $('#itemPurchaseReturn');
+                if(table.find('.item-row').length === 0) {
+                    displayApprovalData(table, 'purchase-returns', 9, purchaseReturnTab, datatablePurchaseReturn);
+                }
+            });
+
             function displayApprovalData(table, subject, colspan, tabItem, datatable) {
                 $.ajax({
                     url: '{{ route('approvals.index-ajax') }}',
@@ -327,6 +371,9 @@
                                         break;
                                     case 'sales-returns':
                                         newRow = salesReturnItemRow(rowNumber, item);
+                                        break;
+                                    case 'purchase-returns':
+                                        newRow = purchaseReturnItemRow(rowNumber, item);
                                         break;
                                     default:
                                         return;
@@ -485,6 +532,34 @@
                         <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
                         <td class="align-middle">${item.subject.customer.name}</td>
+                        <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
+                        <td class="align-middle text-center">${item.description}</td>
+                        <td class="align-middle text-center">${item.user_name}</td>
+                        <td class="align-middle text-center">
+                            <a href="${urlEdit}" class="btn btn-sm btn-info">
+                                <i class="fas fa-fw fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            function purchaseReturnItemRow(rowNumber, item) {
+                let baseUrl = `{{ route('purchase-returns.show', 'id') }}`;
+                let urlDetail = baseUrl.replace('id', item.subject_id);
+                let urlEdit = `{{ route('approvals.show', '') }}` + '/' + item.id;
+
+                return `
+                    <tr class="text-dark item-row">
+                        <td class="align-middle text-center">${rowNumber}</td>
+                        <td class="align-middle">
+                            <a href="${urlDetail}" class="btn btn-sm btn-link text-bold">
+                                ${item.subject.number}
+                            </a>
+                        </td>
+                        <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
+                        <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.supplier.name}</td>
                         <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
                         <td class="align-middle text-center">${item.description}</td>
                         <td class="align-middle text-center">${item.user_name}</td>

@@ -45,6 +45,15 @@ class GoodsReceiptService
         return GoodsReceiptItem::query()->findOrFail($id);
     }
 
+    public static function getGoodsReceiptQuantityByGoodsReceiptProductIds($goodsReceiptId, $productIds) {
+        $goodsReceiptQuantities = GoodsReceiptItem::query()
+            ->where('goods_receipt_id', $goodsReceiptId)
+            ->whereIn('product_id', $productIds)
+            ->get();
+
+        return $goodsReceiptQuantities;
+    }
+
     public static function handleApprovalData($id, $approval) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
         $status = $approval->type == Constant::APPROVAL_TYPE_EDIT
