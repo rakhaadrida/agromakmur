@@ -38,6 +38,82 @@ function isUserWarehouse(): string
     return in_array($userRole, [Constant::USER_ROLE_WAREHOUSE]);
 }
 
+function getApprovalRoute() : array
+{
+    return [
+        'approvals.*',
+        'approval-histories',
+    ];
+}
+
+function getMasterRoute() : array
+{
+    return [
+        'users.*',
+        'marketings.*',
+        'suppliers.*',
+        'customers.*',
+        'warehouses.*',
+        'prices.*',
+        'categories.*',
+        'subcategories.*',
+        'units.*',
+        'products.*',
+        'deleted-users',
+        'deleted-marketings',
+        'deleted-suppliers',
+        'deleted-customers',
+        'deleted-warehouses',
+        'deleted-prices',
+        'deleted-categories',
+        'deleted-subcategories',
+        'deleted-units',
+        'deleted-products',
+    ];
+}
+
+function getPurchaseRoute() : array
+{
+    return [
+        'plan-orders.*',
+        'goods-receipts.*',
+        'product-transfers.*',
+        'print-plan-orders',
+        'print-goods-receipts',
+        'print-product-transfers',
+        'edit-goods-receipts',
+    ];
+}
+
+function getSalesRoute() : array
+{
+    return [
+        'sales-orders.*',
+        'delivery-orders.*',
+        'print-sales-orders',
+        'print-delivery-orders',
+        'edit-sales-orders',
+        'edit-delivery-orders',
+    ];
+}
+
+function getReturnRoute() : array
+{
+    return [
+        'returns.*',
+        'sales-returns.*',
+        'purchase-returns.*',
+    ];
+}
+
+function getReceivableRoute() : array
+{
+    return [
+        'account-receivables.*',
+        'check-invoices',
+    ];
+}
+
 function getUserRoleLabel($role): string
 {
     return Constant::USER_ROLE_LABELS[$role];

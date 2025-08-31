@@ -4,7 +4,7 @@
         <div class="sidebar-brand-text mx-3">{{ env('APP_NAME') }}</div>
     </a>
     <hr class="sidebar-divider my-0">
-    <li class="nav-item active sidebar-first-icon">
+    <li class="nav-item sidebar-first-icon {{ request()->routeIs('dashboard') ? 'active' : '' }}">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-home"></i>
             <span>Dashboard</span>
@@ -12,7 +12,7 @@
     </li>
 
     @if(isUserSuperAdmin())
-        <li class="nav-item sidebar-menu-icon" >
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getApprovalRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseApproval" aria-expanded="true" aria-controls="collapseApproval">
                 <i class="fas fa-fw fa-check"></i>
                 <span>Approval</span>
@@ -27,7 +27,7 @@
     @endif
 
     @if(isUserAdminOnly())
-        <li class="nav-item sidebar-menu-icon" >
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('notifications.index') }}">
                 <i class="fas fa-fw fa-bell"></i>
                 <span>Notification</span>
@@ -38,7 +38,7 @@
     <hr class="sidebar-divider">
 
     @if(isUserWarehouse())
-        <li class="nav-item sidebar-menu-icon" >
+        <li class="nav-item sidebar-menu-icon">
             <a class="nav-link" href="#">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>Stock</span>
@@ -50,7 +50,7 @@
         <div class="sidebar-heading sidebar-heading-title text-white">
             Sales and Purchases
         </div>
-        <li class="nav-item sidebar-first-icon">
+        <li class="nav-item sidebar-first-icon {{ request()->routeIs(getMasterRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Master</span>
@@ -72,8 +72,8 @@
                 </div>
             </div>
         </li>
-        <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePurchase" aria-expanded="true" aria-controls="collapsePembelian">
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getPurchaseRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePurchase" aria-expanded="true" aria-controls="collapsePurchase">
                 <i class="fas fa-fw fa-shopping-cart"></i>
                 <span>Purchase</span>
             </a>
@@ -91,8 +91,8 @@
                 </div>
             </div>
         </li>
-        <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapsePenjualan">
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getSalesRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapseSales">
                 <i class="fas fa-fw fa-shipping-fast"></i>
                 <span>Sales</span>
             </a>
@@ -119,12 +119,12 @@
         </li>
     @endif
 
-    <li class="nav-item sidebar-menu-icon">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRetur" aria-expanded="true" aria-controls="collapseRetur">
+    <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getReturnRoute()) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReturn" aria-expanded="true" aria-controls="collapseReturn">
           <i class="fas fa-fw fa-recycle"></i>
           <span>Return</span>
         </a>
-        <div id="collapseRetur" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseReturn" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 @if(isUserAdmin() || isUserWarehouse())
                     <a class="collapse-item" href="{{ route('returns.index') }}">Return Stock</a>
@@ -164,19 +164,19 @@
         <div class="sidebar-heading sidebar-heading-title text-white">
             Finance
         </div>
-        <li class="nav-item sidebar-first-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <li class="nav-item sidebar-first-icon {{ request()->routeIs(getReceivableRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReceivables" aria-expanded="true" aria-controls="collapseReceivables">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Account Receivable</span>
             </a>
-            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseReceivables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('account-receivables.index') }}">Receivable List</a>
                     <a class="collapse-item" href="{{ route('account-receivables.check-invoice') }}">Check Invoice</a>
                 </div>
             </div>
         </li>
-        <li class="nav-item sidebar-menu-icon">
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('account-payables.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('account-payables.index') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Account Payable</span>
