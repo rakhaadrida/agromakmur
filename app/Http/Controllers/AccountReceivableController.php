@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountReceivableCreateRequest;
+use App\Http\Requests\AccountReceivableUpdateRequest;
 use App\Models\AccountReceivable;
 use App\Models\Customer;
 use App\Models\Warehouse;
@@ -150,8 +151,8 @@ class AccountReceivableController extends Controller
         try {
             DB::beginTransaction();
 
-            $payableId = $request->get('receivable_id') ?? 0;
-            $accountReceivable = AccountReceivable::query()->findOrFail($payableId);
+            $receivableId = $request->get('receivable_id') ?? 0;
+            $accountReceivable = AccountReceivable::query()->findOrFail($receivableId);
 
             $accountReceivable->payments()->delete();
 
@@ -221,6 +222,73 @@ class AccountReceivableController extends Controller
         ];
 
         return view('pages.finance.account-receivable.return', $data);
+    }
+
+    public function update(AccountReceivableUpdateRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $accountReceivable = AccountReceivable::query()->findOrFail($id);
+            $accountReceivable->returns()->delete();
+
+            $totalReturn = 0;
+            $productIds = $request->get('product_id', []);
+            foreach ($productIds as $index => $productId) {
+                $salesReturnId = $request->get('sales_return_id')[$index];
+                $unitId = $request->get('unit_id')[$index];
+                $quantity = $request->get('quantity')[$index];
+                $realQuantity = $request->get('real_quantity')[$index];
+                $priceId = $request->get('price_id')[$index];
+                $price = $request->get('price')[$index];
+                $discount = $request->get('discount')[$index];
+                $discountAmount = $request->get('discount_product')[$index];
+
+                $actualQuantity = $quantity * $realQuantity;
+                $total = $quantity * $price;
+                $finalAmount = $total - $discountAmount;
+
+                $accountReceivable->returns()->create([
+                    'product_id' => $productId,
+                    'sales_return_id' => $salesReturnId,
+                    'unit_id' => $unitId,
+                    'quantity' => $quantity,
+                    'actual_quantity' => $actualQuantity,
+                    'price_id' => $priceId,
+                    'price' => $price,
+                    'total' => $total,
+                    'discount' => $discount,
+                    'discount_amount' => $discountAmount,
+                    'final_amount' => $finalAmount
+                ]);
+
+                $totalReturn += $finalAmount;
+            }
+
+            $totalPayment = $accountReceivable->payments()->sum('amount') ?? 0;
+            $grandTotal = $accountReceivable->salesOrder->grand_total;
+
+            $status = $accountReceivable->status;
+            if($grandTotal == ($totalReturn + $totalPayment)) {
+                $status = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
+            } elseif($totalPayment > 0 || $totalReturn > 0) {
+                $status = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
+            }
+
+            $accountReceivable->update([
+                'status' => $status,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('account-receivables.detail', ['id' => $accountReceivable->salesOrder->customer_id]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
+            ]);
+        }
     }
 
     public function checkInvoice(Request $request) {

@@ -1299,3 +1299,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .table-responsive-return {
     overflow: visible !important;
 }
+
+.th-return-number-receivable-returns {
+    width: 100px;
+}
+
+.th-quantity-receivable-returns {
+    width: 70px;
+}
+
+.th-price-receivable-returns {
+    width: 100px;
+}
+
+.th-total-receivable-returns {
+    width: 100px;
+}
+
+.th-discount-percentage-receivable-returns {
+    width: 90px;
+}
+
+.th-discount-amount-receivable-returns {
+    width: 100px;
+}
+
+.th-final-amount-receivable-returns {
+    width: 110px;
+}
