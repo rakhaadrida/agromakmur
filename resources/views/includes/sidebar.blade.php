@@ -38,7 +38,7 @@
     <hr class="sidebar-divider">
 
     @if(isUserWarehouse())
-        <li class="nav-item sidebar-menu-icon">
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('stocks.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('stocks.index') }}">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>Stock</span>
