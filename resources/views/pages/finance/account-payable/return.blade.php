@@ -94,7 +94,7 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('purchase-returns.show', $return->purchase_return_id) }}" class="btn btn-sm btn-link text-bold text-center">{{ $return->purchaseReturn->number }}</a>
-                                                    <input type="hidden" name="sales_return_id[]" id="salesReturnId-{{ $index }}" value="{{ $return->purchase_return_id }}">
+                                                    <input type="hidden" name="purchase_return_id[]" id="purchaseReturnId-{{ $index }}" value="{{ $return->purchase_return_id }}">
                                                 </td>
                                                 <td class="align-middle">
                                                     <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-{{ $index }}" value="{{ formatQuantity($return->quantity) }}" title="" readonly>
@@ -123,7 +123,7 @@
                                             <td class="text-right text-bold text-dark">
                                                 <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" id="totalQuantity" value="{{ formatQuantity($accountPayable->total_quantity ?? 0) }}" title="" style="font-size: 16px" readonly>
                                             </td>
-                                            <td colspan="6" class="align-middle text-center text-bold text-dark"></td>
+                                            <td colspan="4" class="align-middle text-center text-bold text-dark"></td>
                                             <td class="text-right text-bold text-dark">
                                                 <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="total_amount" id="totalAmount" value="{{ formatPrice($accountPayable->return_amount ?? 0) }}" title="" style="font-size: 16px" readonly>
                                             </td>
@@ -132,7 +132,7 @@
                                 </table>
                                 <hr>
                                 <div class="form-row justify-content-center">
-                                    @if(!isAccountReceivablePaid($accountPayable->status))
+                                    @if(!isAccountPayablePaid($accountPayable->status))
                                         <div class="col-2">
                                             <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
                                         </div>
@@ -159,16 +159,6 @@
             let subtotal = document.getElementById('subtotal');
             let totalAmount = document.getElementById('totalAmount');
 
-            table.on('change', 'select[name="price_type[]"]', function () {
-                const index = $(this).closest('tr').index();
-                const selected = $(this).find(':selected');
-
-                $(`#priceId-${index}`).val(selected.val());
-                $(`#price-${index}`).val(thousandSeparator(selected.data('foo')));
-
-                calculateTotal(index);
-            });
-
             table.on('keypress', 'input[name="price[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
@@ -187,18 +177,40 @@
                 calculateTotal(index);
             });
 
-            table.on('keypress', 'input[name="discount[]"]', function (event) {
-                if (!this.readOnly && event.which > 31 && event.which !== 43 && event.which !== 44 && (event.which < 48 || event.which > 57)) {
+            table.on('keypress', 'input[name="wages[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
-                    $(`#discount-${index}`).tooltip('show');
+                    $(`#wages-${index}`).tooltip('show');
 
                     event.preventDefault();
                 }
             });
 
-            table.on('blur', 'input[name="discount[]"]', function () {
+            table.on('keyup', 'input[name="wages[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="wages[]"]', function () {
                 const index = $(this).closest('tr').index();
-                calculateDiscount(index);
+                calculateTotal(index);
+            });
+
+            table.on('keypress', 'input[name="shipping_cost[]"]', function (event) {
+                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
+                    const index = $(this).closest('tr').index();
+                    $(`#shippingCost-${index}`).tooltip('show');
+
+                    event.preventDefault();
+                }
+            });
+
+            table.on('keyup', 'input[name="shipping_cost[]"]', function () {
+                this.value = currencyFormat(this.value);
+            });
+
+            table.on('blur', 'input[name="shipping_cost[]"]', function () {
+                const index = $(this).closest('tr').index();
+                calculateTotal(index);
             });
 
             $('#btnSubmit').on('click', function(event) {
@@ -218,7 +230,11 @@
                     this.value = numberFormat(this.value);
                 });
 
-                $('input[name="discount_product[]"]').each(function() {
+                $('input[name="wages[]"]').each(function() {
+                    this.value = numberFormat(this.value);
+                });
+
+                $('input[name="shipping_cost[]"]').each(function() {
                     this.value = numberFormat(this.value);
                 });
 
@@ -228,24 +244,26 @@
             function calculateTotal(index) {
                 let quantity = document.getElementById(`quantity-${index}`);
                 let price = document.getElementById(`price-${index}`);
-                let discountProduct = document.getElementById(`discountProduct-${index}`);
+                let wages = document.getElementById(`wages-${index}`);
+                let shippingCost = document.getElementById(`shippingCost-${index}`);
                 let total = document.getElementById(`total-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
 
                 let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
-                let currentFinalAmount = 0;
+                let currentTotal = 0;
 
                 if(quantity.value === "") {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(finalAmount.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(finalAmount.value));
+                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(total.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
                     total.value = '';
-                    finalAmount.value = '';
                 }
                 else {
-                    currentFinalAmount = numberFormat(finalAmount.value);
-                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
-                    finalAmount.value = thousandSeparator(realQuantity * numberFormat(price.value) - numberFormat(discountProduct.value));
-                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
+                    let wagesAmount = numberFormat(wages.value) || 0;
+                    let shippingCostAmount = numberFormat(shippingCost.value) || 0;
+                    let totalExpenses = wagesAmount + shippingCostAmount;
+
+                    currentTotal = numberFormat(total.value);
+                    total.value = thousandSeparator(realQuantity * numberFormat(price.value) + totalExpenses);
+                    calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
                 }
             }
 
@@ -253,47 +271,6 @@
                 let realQuantity = $(`#realQuantity-${index}`).val();
 
                 return +quantity * +realQuantity;
-            }
-
-            function calculateDiscount(index) {
-                let discount = document.getElementById(`discount-${index}`);
-                let discountProduct = document.getElementById(`discountProduct-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
-                let total = document.getElementById(`total-${index}`);
-
-                if(discount.value === '') {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) + numberFormat(discountProduct.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + numberFormat(discountProduct.value));
-                    discountProduct.value = '';
-                    finalAmount.value = total.value;
-                } else {
-                    let currentFinalAmount = numberFormat(finalAmount.value);
-                    let discountPercentage = calculateDiscountPercentage(discount.value);
-                    let totalValue = numberFormat(total.value);
-                    let discountValue = ((discountPercentage * totalValue) / 100).toFixed(0);
-
-                    discountProduct.value = thousandSeparator(discountValue);
-                    finalAmount.value = thousandSeparator(totalValue - discountValue);
-
-                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
-                }
-
-                calculateTax(numberFormat(subtotal.value));
-            }
-
-            function calculateDiscountPercentage(value) {
-                let maxDiscount = 100;
-
-                value.replace(/\,/g, ".");
-                let arrayDiscount = value.split('+');
-
-                arrayDiscount.forEach(function(discount) {
-                    maxDiscount -= (discount * maxDiscount) / 100;
-                });
-
-                maxDiscount = ((maxDiscount - 100) * -1);
-
-                return maxDiscount;
             }
 
             function calculateSubtotal(previousAmount, currentAmount, subtotal, total) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AccountPayableCreateRequest;
+use App\Http\Requests\AccountPayableUpdateRequest;
 use App\Models\AccountPayable;
 use App\Models\Supplier;
 use App\Utilities\Constant;
@@ -200,5 +201,69 @@ class AccountPayableController extends Controller
         ];
 
         return view('pages.finance.account-payable.return', $data);
+    }
+
+    public function update(AccountPayableUpdateRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $accountPayable = AccountPayable::query()->findOrFail($id);
+            $accountPayable->returns()->delete();
+
+            $totalReturn = 0;
+            $productIds = $request->get('product_id', []);
+            foreach ($productIds as $index => $productId) {
+                $purchaseReturnId = $request->get('purchase_return_id')[$index];
+                $unitId = $request->get('unit_id')[$index];
+                $quantity = $request->get('quantity')[$index];
+                $realQuantity = $request->get('real_quantity')[$index];
+                $price = $request->get('price')[$index];
+                $wages = $request->get('wages')[$index];
+                $shippingCost = $request->get('shipping_cost')[$index];
+
+                $actualQuantity = $quantity * $realQuantity;
+                $totalExpenses = $wages + $shippingCost;
+                $total = ($quantity * $price) + $totalExpenses;
+
+                $accountPayable->returns()->create([
+                    'product_id' => $productId,
+                    'purchase_return_id' => $purchaseReturnId,
+                    'unit_id' => $unitId,
+                    'quantity' => $quantity,
+                    'actual_quantity' => $actualQuantity,
+                    'price' => $price,
+                    'wages' => $wages,
+                    'shipping_cost' => $shippingCost,
+                    'total' => $total,
+                ]);
+
+                $totalReturn += $total;
+            }
+
+            $totalPayment = $accountPayable->payments()->sum('amount') ?? 0;
+            $grandTotal = $accountPayable->goodsReceipt->grand_total;
+
+            $status = $accountPayable->status;
+            if($grandTotal == ($totalReturn + $totalPayment)) {
+                $status = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+            } elseif($totalPayment > 0 || $totalReturn > 0) {
+                $status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+            }
+
+            $accountPayable->update([
+                'status' => $status,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('account-payables.detail', ['id' => $accountPayable->goodsReceipt->supplier_id]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
+            ]);
+        }
     }
 }
