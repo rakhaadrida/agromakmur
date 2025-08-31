@@ -86,7 +86,10 @@
                                                 <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->grand_total }}">{{ formatPrice($accountReceivable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->payment_amount }}">{{ formatPrice($accountReceivable->payment_amount) }}</td>
-                                                <td class="align-middle text-right" data-sort="{{ $accountReceivable->return_amount }}">{{ formatPrice($accountReceivable->return_amount) }}</td>
+                                                <td class="align-middle text-right" data-sort="{{ $accountReceivable->return_amount }}">
+                                                    <input type="hidden" value="{{ $accountReceivable->return_amount }}">
+                                                    <a href="{{ route('account-receivables.return', $accountReceivable->id) }}" class="text-bold tbody-payable-status">{{ formatPrice($accountReceivable->return_amount) }}</a>
+                                                </td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->outstanding_amount }}">{{ formatPrice($accountReceivable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountReceivableUnpaid($accountReceivable->status)) account-payable-unpaid @elseif(isAccountReceivableOngoing($accountReceivable->status)) account-payable-ongoing @else account-payable-paid @endif">
                                                     <a href="{{ route('account-receivables.payment', $accountReceivable->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountReceivableStatusLabel($accountReceivable->status) }}</a>
@@ -161,7 +164,7 @@
 
                 let column;
                 $.each([7, 8, 9, 10], function(index, value) {
-                    if((value === 7) || (value === 8) || (value === 9) || (value === 10)) {
+                    if((value === 7) || (value === 8) || (value === 10)) {
                         column = api
                             .column(value, {
                                 page: 'current'

@@ -60,7 +60,8 @@ class AccountReceivableService
                 'customers.name AS customer_name',
                 'marketings.name AS marketing_name',
                 DB::raw('SUM(payments.total_payment) AS payment_amount'),
-                DB::raw('SUM(returns.total_return) AS return_amount')
+                DB::raw('SUM(returns.total_return) AS return_amount'),
+                DB::raw('SUM(returns.total_quantity) AS total_quantity'),
             )
             ->join('sales_orders', 'sales_orders.id', 'account_receivables.sales_order_id')
             ->join('customers', 'customers.id', 'sales_orders.customer_id')
@@ -81,7 +82,8 @@ class AccountReceivableService
                 DB::table('account_receivable_returns')
                     ->select(
                         'account_receivable_returns.account_receivable_id',
-                        DB::raw('SUM(account_receivable_returns.final_amount) AS total_return')
+                        DB::raw('SUM(account_receivable_returns.final_amount) AS total_return'),
+                        DB::raw('SUM(account_receivable_returns.quantity) AS total_quantity')
                     )
                     ->whereNull('account_receivable_returns.deleted_at')
                     ->groupBy('account_receivable_returns.account_receivable_id'),

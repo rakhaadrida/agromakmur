@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
+use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
@@ -192,6 +193,34 @@ class AccountReceivableController extends Controller
                 'message' => 'An error occurred while saving data'
             ]);
         }
+    }
+
+    public function return($id) {
+        $baseQuery = AccountReceivableService::getBaseQueryDetail();
+        $accountReceivable = $baseQuery->where('account_receivables.id', $id)->first();
+        $accountReceivableReturns = $accountReceivable->returns;
+
+        $productIds = $accountReceivableReturns->pluck('product_id')->toArray();
+        $productPrices = ProductService::findProductPrices($productIds);
+
+        foreach($productPrices as $productPrice) {
+            $prices[$productPrice->product_id][] = [
+                'id' => $productPrice->price_id,
+                'code' => $productPrice->pricing->code,
+                'price' => $productPrice->price
+            ];
+        }
+
+        $rowNumbers = $accountReceivableReturns->count();
+
+        $data = [
+            'accountReceivable' => $accountReceivable,
+            'accountReceivableReturns' => $accountReceivableReturns,
+            'prices' => $prices ?? [],
+            'rowNumbers' => $rowNumbers
+        ];
+
+        return view('pages.finance.account-receivable.return', $data);
     }
 
     public function checkInvoice(Request $request) {
