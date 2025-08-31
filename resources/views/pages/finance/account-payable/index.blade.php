@@ -76,7 +76,7 @@
                                                 <td class="align-middle text-center">{{ $accountPayable->invoice_count }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->payment_amount }}">{{ formatPrice($accountPayable->payment_amount) }}</td>
-                                                <td class="align-middle text-right">0</td>
+                                                <td class="align-middle text-right" data-sort="{{ $accountPayable->return_amount }}">{{ formatPrice($accountPayable->return_amount) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->outstanding_amount }}">{{ formatPrice($accountPayable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountPayableUnpaid($accountPayable->status)) account-payable-unpaid @elseif(isAccountPayableOngoing($accountPayable->status)) account-payable-ongoing @else account-payable-paid @endif">
                                                     <a href="{{ route('account-payables.detail', ['id' => $accountPayable->supplier_id, 'start_date' => $startDate, 'final_date' => $finalDate]) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>

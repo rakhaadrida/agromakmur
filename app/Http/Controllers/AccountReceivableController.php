@@ -48,7 +48,7 @@ class AccountReceivableController extends Controller
 
             if($outstandingAmount <= 0) {
                 $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
-            } else if($paymentAmount > 0) {
+            } else if($paymentAmount > 0 || $returnAmount > 0) {
                 $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
             }
 

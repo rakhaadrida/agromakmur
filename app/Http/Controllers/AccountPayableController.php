@@ -37,12 +37,14 @@ class AccountPayableController extends Controller
 
         foreach($accountPayables as $accountPayable) {
             $paymentAmount = $accountPayable->payment_amount ?? 0;
-            $outstandingAmount = $accountPayable->grand_total - $paymentAmount;
+            $returnAmount = $accountPayable->return_amount ?? 0;
+
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
             $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
 
             if($outstandingAmount <= 0) {
                 $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
-            } else if($paymentAmount > 0) {
+            } else if($paymentAmount > 0 || $returnAmount > 0) {
                 $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
             }
 
@@ -91,7 +93,8 @@ class AccountPayableController extends Controller
 
         foreach($accountPayables as $accountPayable) {
             $paymentAmount = $accountPayable->payment_amount ?? 0;
-            $outstandingAmount = $accountPayable->grand_total - $paymentAmount;
+            $returnAmount = $accountPayable->return_amount ?? 0;
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
 
             $accountPayable->outstanding_amount = $outstandingAmount;
         }
@@ -180,5 +183,22 @@ class AccountPayableController extends Controller
                 'message' => 'An error occurred while saving data'
             ]);
         }
+    }
+
+    public function return($id) {
+        $baseQuery = AccountPayableService::getBaseQueryDetail();
+        $accountPayable = $baseQuery->where('account_payables.id', $id)->first();
+        $accountPayableReturns = $accountPayable->returns;
+
+        $rowNumbers = $accountPayableReturns->count();
+
+        $data = [
+            'accountPayable' => $accountPayable,
+            'accountPayableReturns' => $accountPayableReturns,
+            'prices' => $prices ?? [],
+            'rowNumbers' => $rowNumbers
+        ];
+
+        return view('pages.finance.account-payable.return', $data);
     }
 }

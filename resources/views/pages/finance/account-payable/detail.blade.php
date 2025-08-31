@@ -82,7 +82,10 @@
                                                 <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Day(s)</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->payment_amount }}">{{ formatPrice($accountPayable->payment_amount) }}</td>
-                                                <td class="align-middle text-right">0</td>
+                                                <td class="align-middle text-right" data-sort="{{ $accountPayable->return_amount }}">
+                                                    <input type="hidden" value="{{ $accountPayable->return_amount }}">
+                                                    <a href="{{ route('account-payables.return', $accountPayable->id) }}" class="text-bold tbody-payable-status">{{ formatPrice($accountPayable->return_amount) }}</a>
+                                                </td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->outstanding_amount }}">{{ formatPrice($accountPayable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountPayableUnpaid($accountPayable->status)) account-payable-unpaid @elseif(isAccountPayableOngoing($accountPayable->status)) account-payable-ongoing @else account-payable-paid @endif">
                                                     <a href="{{ route('account-payables.payment', $accountPayable->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountPayableStatusLabel($accountPayable->status) }}</a>
@@ -151,7 +154,7 @@
 
                 let column;
                 $.each([5, 6, 7, 8], function(index, value) {
-                    if((value === 5) || (value === 6) || (value === 7) || (value === 8)) {
+                    if((value === 5) || (value === 6) || (value === 8)) {
                         column = api
                             .column(value, {
                                 page: 'current'

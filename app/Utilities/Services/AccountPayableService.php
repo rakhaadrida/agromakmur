@@ -15,7 +15,8 @@ class AccountPayableService
                 'suppliers.name AS supplier_name',
                 DB::raw('SUM(grand_total) AS grand_total'),
                 DB::raw('COUNT(account_payables.id) AS invoice_count'),
-                DB::raw('SUM(payments.total_payment) AS payment_amount')
+                DB::raw('SUM(payments.total_payment) AS payment_amount'),
+                DB::raw('SUM(returns.total_return) AS return_amount')
             )
             ->join('goods_receipts', 'goods_receipts.id', 'account_payables.goods_receipt_id')
             ->join('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
@@ -31,6 +32,18 @@ class AccountPayableService
                 'payments.account_payable_id',
                 'account_payables.id'
             )
+            ->leftJoinSub(
+                DB::table('account_payable_returns')
+                    ->select(
+                        'account_payable_returns.account_payable_id',
+                        DB::raw('SUM(account_payable_returns.total) AS total_return')
+                    )
+                    ->whereNull('account_payable_returns.deleted_at')
+                    ->groupBy('account_payable_returns.account_payable_id'),
+                'returns',
+                'returns.account_payable_id',
+                'account_payables.id'
+            )
             ->groupBy('goods_receipts.supplier_id');
     }
 
@@ -44,12 +57,37 @@ class AccountPayableService
                 'goods_receipts.tempo',
                 'goods_receipts.grand_total',
                 'suppliers.name AS supplier_name',
-                DB::raw('SUM(account_payable_payments.amount) AS payment_amount')
+                DB::raw('SUM(payments.total_payment) AS payment_amount'),
+                DB::raw('SUM(returns.total_return) AS return_amount'),
+                DB::raw('SUM(returns.total_quantity) AS total_quantity'),
             )
             ->join('goods_receipts', 'goods_receipts.id', 'account_payables.goods_receipt_id')
             ->join('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
-            ->leftJoin('account_payable_payments', 'account_payable_payments.account_payable_id', 'account_payables.id')
-            ->whereNull('account_payable_payments.deleted_at')
+            ->leftJoinSub(
+                DB::table('account_payable_payments')
+                    ->select(
+                        'account_payable_payments.account_payable_id',
+                        DB::raw('SUM(account_payable_payments.amount) AS total_payment')
+                    )
+                    ->whereNull('account_payable_payments.deleted_at')
+                    ->groupBy('account_payable_payments.account_payable_id'),
+                'payments',
+                'payments.account_payable_id',
+                'account_payables.id'
+            )
+            ->leftJoinSub(
+                DB::table('account_payable_returns')
+                    ->select(
+                        'account_payable_returns.account_payable_id',
+                        DB::raw('SUM(account_payable_returns.total) AS total_return'),
+                        DB::raw('SUM(account_payable_returns.quantity) AS total_quantity')
+                    )
+                    ->whereNull('account_payable_returns.deleted_at')
+                    ->groupBy('account_payable_returns.account_payable_id'),
+                'returns',
+                'returns.account_payable_id',
+                'account_payables.id'
+            )
             ->groupBy('account_payables.id');
     }
 

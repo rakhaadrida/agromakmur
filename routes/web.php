@@ -152,9 +152,10 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_FINANCE,
     ]], function() {
-        Route::resource('account-payables', 'AccountPayableController')->only(['index', 'store']);
+        Route::resource('account-payables', 'AccountPayableController')->only(['index', 'store', 'update']);
         Route::get('account-payables/{id}/detail', 'AccountPayableController@detail')->name('account-payables.detail');
         Route::get('account-payables/{id}/payment', 'AccountPayableController@payment')->name('account-payables.payment');
+        Route::get('account-payables/{id}/return', 'AccountPayableController@return')->name('account-payables.return');
 
         Route::resource('account-receivables', 'AccountReceivableController')->only(['index', 'store', 'update']);
         Route::get('account-receivables/{id}/detail', 'AccountReceivableController@detail')->name('account-receivables.detail');
