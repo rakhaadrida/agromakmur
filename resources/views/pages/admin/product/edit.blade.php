@@ -54,7 +54,7 @@
                                     <label for="subcategory" class="col-2 col-form-label text-bold text-right">Subcategory</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First">.
+                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First">
                                             @foreach($subcategories as $subcategory)
                                                 <option value="{{ $subcategory->id }}" data-tokens="{{ $subcategory->name }}" @if($product->subcategory_id == $subcategory->id) selected @endif>{{ $subcategory->name }}</option>
                                             @endforeach

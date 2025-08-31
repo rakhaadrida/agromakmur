@@ -39,7 +39,7 @@
 
     @if(isUserWarehouse())
         <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('stocks.index') }}">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>Stock</span>
             </a>
@@ -107,15 +107,6 @@
                     <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Edit Delivery Order</a>
                 </div>
             </div>
-        </li>
-    @endif
-
-    @if(isUserFinance())
-        <li class="nav-item sidebar-menu-icon" >
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-warehouse"></i>
-                <span>Stock</span>
-            </a>
         </li>
     @endif
 

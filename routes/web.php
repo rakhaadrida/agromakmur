@@ -41,6 +41,12 @@ Route::middleware(['auth', 'roles'])->group(function() {
     });
 
     Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_WAREHOUSE,
+    ]], function() {
+        Route::resource('stocks', 'StockController')->only(['index', 'show']);
+    });
+
+    Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
     ]], function() {
@@ -140,12 +146,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('delivery-orders/{id}/after-print', 'DeliveryOrderController@afterPrint')->name('delivery-orders.after-print');
         Route::get('print-delivery-orders', 'DeliveryOrderController@indexPrint')->name('delivery-orders.index-print');
         Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
-
-        Route::resource('returns', 'ReturnController')->only(['index']);
-
-        Route::resource('sales-returns', 'SalesReturnController');
-
-        Route::resource('purchase-returns', 'PurchaseReturnController');
     });
 
     Route::group(['roles' => [
@@ -162,6 +162,24 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('account-payables/{id}/detail', 'AccountPayableController@detail')->name('account-payables.detail');
         Route::get('account-payables/{id}/payment', 'AccountPayableController@payment')->name('account-payables.payment');
         Route::get('account-payables/{id}/return', 'AccountPayableController@return')->name('account-payables.return');
+    });
+
+    Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_WAREHOUSE
+    ]], function() {
+        Route::resource('returns', 'ReturnController')->only(['index']);
+    });
+
+    Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_FINANCE,
+        \App\Utilities\Constant::USER_ROLE_WAREHOUSE
+    ]], function() {
+        Route::resource('sales-returns', 'SalesReturnController');
+        Route::resource('purchase-returns', 'PurchaseReturnController');
     });
 });
 
