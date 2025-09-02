@@ -135,12 +135,12 @@
             .print-logo img {
                 width: 170px;
                 height: 70px;
-                margin-left: -80px;
+                margin-left: -115px;
             }
 
             .address-info {
                 margin-top: 5px;
-                margin-left: -30px;
+                margin-left: 0;
                 font-size: 16px;
                 font-family: 'Courier New', Courier, monospace;
             }
@@ -148,6 +148,7 @@
             .address-info-region {
                 font-size: 16px;
                 margin-top: -8px !important;
+                text-align: left;
             }
 
             .print-time-info {
@@ -359,8 +360,8 @@
                             <td colspan="7">
                                 <div class="float-left print-logo">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="address-info">JL KRAMAT PULO GUNDUL</h6>
-                                    <h6 class="address-info-region">KRAMAT SENTIONG - JAKPUS</h6>
+                                    <h6 class="address-info">JL RAYA CURUP, LUBUK LINGGAU</h6>
+                                    <h6 class="address-info-region">CAWANG BARU - BENGKULU</h6>
                                 </div>
                                 <div class="float-right print-time-info">
                                     <div class="info-row">

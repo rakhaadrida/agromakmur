@@ -247,8 +247,9 @@
             .logo-section-phone-info {
                 font-family: "Rockwell", Helvetica, sans-serif;
                 font-size: 10.5px;
-                line-height: 15px;
                 margin-left: 10px;
+                margin-top: 2px;
+                margin-bottom: 2px;
             }
 
             .customer-section {
@@ -431,7 +432,7 @@
             @media print {
                 @page {
                     width: 21.8cm;
-                    height: 13.8cm;
+                    height: 13.9cm;
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
 
                     @bottom-right {
@@ -483,8 +484,9 @@
                                 </div>
                                 <div class="float-left logo-section">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <br>
-                                    <span class="logo-section-phone-info">Phone : +62 822-8239-3930</span>
+                                    <h6 class="logo-section-phone-info">Jl Raya Curup, Lubuk Linggau, Cawang Baru</h6>
+                                    <h6 class="logo-section-phone-info">Kec. Selupu Rejang - Bengkulu</h6>
+                                    <span class="logo-section-phone-info">Phone : +62822-8239-3930 / +62823-7896-1876</span>
                                 </div>
                                 <div class="float-right customer-section">
                                     <span class="customer-section-greetings">Dear :</span>
@@ -546,9 +548,9 @@
                                                     <div class="payment-info">
                                                         <span>Giro / Transfer Payment</span>
                                                         <br>
-                                                        <span>BCA Bank Account</span>
+                                                        <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
                                                         <br>
-                                                        <span>p.p Indah Ramadhon 5790416491</span>
+                                                        <span>2. BCA - 8455720458 - ALFIONNY DEVALIN</span>
                                                     </div>
                                                 </td>
                                                 <td class="table-footer-head-warehouse">
