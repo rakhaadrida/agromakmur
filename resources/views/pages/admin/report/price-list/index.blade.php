@@ -61,7 +61,7 @@
                                                     <tbody>
                                                         @forelse($mapSubcategoryByCategory[$category->id] ?? [] as $subcategory)
                                                             <tr class="text-dark text-bold" style="background-color: rgb(255, 221, 181)">
-                                                                <td colspan="6" class="text-center">
+                                                                <td colspan="{{ $prices->count() + 3 }}" class="text-center">
                                                                     <button type="button" class="btn btn-link btn-sm text-dark text-bold" data-toggle="collapse" data-target="#collapseSubcategory-{{ $subcategory->id }}" aria-expanded="false" aria-controls="collapseSubcategory-{{ $subcategory->id }}" style="padding: 0; font-size: 15px; width: 100%">{{ $subcategory->name }}</button>
                                                                 </td>
                                                             </tr>

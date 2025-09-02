@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Stock Recap</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Value Recap</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -41,7 +41,7 @@
                                             <div class="carousel-item @if(!$key) active @endif">
                                                 <div class="container" style="margin-bottom: 0">
                                                     <div class="row justify-content-center">
-                                                        <h4 class="text-bold text-dark">Stock Recap {{ $category->name }}</h4>
+                                                        <h4 class="text-bold text-dark">Value Recap {{ $category->name }}</h4>
                                                     </div>
                                                     <div class="row justify-content-center" style="margin-top: -5px">
                                                         <h6 class="text-dark">Time : {{ $reportDate }}</h6>
@@ -53,16 +53,15 @@
                                                             <td class="align-middle th-price-list-number">No</td>
                                                             <td class="align-middle th-price-list-product-sku">SKU</td>
                                                             <td class="align-middle">Product Name</td>
+                                                            <td class="align-middle th-price-list-price">Price</td>
                                                             <td class="align-middle th-price-list-price">Total Stock</td>
-                                                            @foreach($warehouses as $warehouse)
-                                                                <td class="align-middle th-price-list-price">{{ $warehouse->name }}</td>
-                                                            @endforeach
+                                                            <td class="align-middle th-price-list-total-value">Total Value</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @forelse($mapSubcategoryByCategory[$category->id] ?? [] as $subcategory)
                                                             <tr class="text-dark text-bold" style="background-color: rgb(255, 221, 181)">
-                                                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center">
+                                                                <td colspan="6" class="text-center">
                                                                     <button type="button" class="btn btn-link btn-sm text-dark text-bold" data-toggle="collapse" data-target="#collapseSubcategory-{{ $subcategory->id }}" aria-expanded="false" aria-controls="collapseSubcategory-{{ $subcategory->id }}" style="padding: 0; font-size: 15px; width: 100%">{{ $subcategory->name }}</button>
                                                                 </td>
                                                             </tr>
@@ -71,19 +70,18 @@
                                                                     <td class="text-center">{{ $index + 1 }}</td>
                                                                     <td class="text-center">{{ $product->sku }}</td>
                                                                     <td>{{ $product->name }}</td>
-                                                                    <td class="text-right" style="background-color: yellow">{{ getTotalArray($mapStockByProduct[$product->id] ?? []) }}</td>
-                                                                    @foreach($warehouses as $warehouse)
-                                                                        <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id][$warehouse->id] ?? 0) }}</td>
-                                                                    @endforeach
+                                                                    <td class="text-right">{{ formatPrice($product->price) }}</td>
+                                                                    <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id] ?? 0) }}</td>
+                                                                    <td class="text-right">{{ formatPrice($product->total_value) }}</td>
                                                                 </tr>
                                                             @empty
                                                                 <tr>
-                                                                    <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                                    <td colspan="6" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
                                                                 </tr>
                                                             @endforelse
                                                         @empty
                                                             <tr>
-                                                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                                <td colspan="6" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>

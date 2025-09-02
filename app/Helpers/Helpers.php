@@ -336,6 +336,16 @@ function isAccountReceivablePaid($status): bool
     return $status == Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
 }
 
+function isActiveData($item): string
+{
+    return empty($item->deleted_at) ? 'Active' : 'Inactive';
+}
+
+function isSameWarehouse($warehouseId, $itemId): string
+{
+    return $warehouseId == $itemId;
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');
@@ -358,15 +368,11 @@ function getRealQuantity($quantity, $actualQuantity)
     return $actualQuantity / $quantity;
 }
 
-function isActiveData($item): string
+function getTotalArray($array)
 {
-    return empty($item->deleted_at) ? 'Active' : 'Inactive';
+    return formatQuantity(array_sum($array));
 }
 
-function isSameWarehouse($warehouseId, $itemId): string
-{
-    return $warehouseId == $itemId;
-}
 
 function formatDate($date, $format)
 {

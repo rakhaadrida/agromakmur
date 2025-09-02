@@ -5,6 +5,7 @@ namespace App\Utilities\Services;
 use App\Models\ProductConversion;
 use App\Models\ProductPrice;
 use App\Models\ProductStock;
+use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
@@ -14,6 +15,17 @@ class ProductService
             ->where('warehouse_id', $warehouseId)
             ->whereNull('deleted_at')
             ->first();
+    }
+
+    public static function getTotalProductStock() {
+        return ProductStock::query()
+            ->select(
+                'product_stocks.product_id',
+                DB::raw('SUM(product_stocks.stock) as total_stock')
+            )
+            ->whereNull('deleted_at')
+            ->groupBy('product_stocks.product_id')
+            ->get();
     }
 
     public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $warehouseId) {

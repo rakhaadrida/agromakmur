@@ -139,7 +139,7 @@
                     <a class="collapse-item" href="#">Out-coming Items</a>
                     <a class="collapse-item" href="#">Stock Card</a>
                     <a class="collapse-item" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</a>
-                    <a class="collapse-item" href="#">Value Recap</a>
+                    <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Value Recap</a>
                     <a class="collapse-item" href="#">Sales Recap</a>
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="#">Marketing Qty Recap</a>
