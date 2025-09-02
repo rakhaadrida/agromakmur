@@ -14,6 +14,22 @@
             $('#modalPassword').modal('show');
         });
 
+        $('#menuReportPriceList').on('click', function(event) {
+            event.preventDefault();
+
+            let sourceMenu = $(this).attr('href');
+            $('#targetRoute').val(sourceMenu);
+            $('#modalPassword').modal('show');
+        });
+
+        $('#menuReportStockRecap').on('click', function(event) {
+            event.preventDefault();
+
+            let sourceMenu = $(this).attr('href');
+            $('#targetRoute').val(sourceMenu);
+            $('#modalPassword').modal('show');
+        });
+
         $('#togglePassword').on('click', function(e) {
             let password = document.getElementById('password');
             let type = password.getAttribute('type') === 'password' ? 'text' : 'password';

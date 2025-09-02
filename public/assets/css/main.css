@@ -1327,3 +1327,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-final-amount-receivable-returns {
     width: 110px;
 }
+
+.price-list-carousel {
+    margin-left: 30px;
+    margin-right: 30px;
+
+}
+
+.th-price-list-number {
+    width: 50px;
+}
+
+.th-price-list-product-sku {
+    width: 110px;
+}
+
+.th-price-list-price {
+    width: 130px;
+}
