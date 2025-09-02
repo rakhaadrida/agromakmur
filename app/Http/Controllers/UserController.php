@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserPasswordRequest;
+use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Utilities\Constant;
@@ -165,6 +166,36 @@ class UserController extends Controller
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while deleting data'
+            ]);
+        }
+    }
+
+    public function changePassword() {
+        return view('auth.passwords.reset', []);
+    }
+
+    public function updatePassword(UserUpdatePasswordRequest $request) {
+        try {
+            DB::beginTransaction();
+
+            $userId = Auth::user()->id;
+            $user = User::query()->findOrFail($userId);
+
+            $user->update([
+                'password' => $request->get('new_password'),
+            ]);
+
+            DB::commit();
+
+            $message = 'Password changed successfully';
+
+            return redirect()->route('change-password')->with('message', $message);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while saving data'
             ]);
         }
     }

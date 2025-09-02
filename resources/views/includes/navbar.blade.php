@@ -64,14 +64,12 @@
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->username }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Ganti Password
+                <a class="dropdown-item" href="{{ route('change-password') }}">
+                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>Change Password
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout
                 </a>
             </div>
         </li>
