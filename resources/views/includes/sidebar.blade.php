@@ -135,7 +135,7 @@
             <div id="collapseReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-list.index') }}">Price List</a>
-                    <a class="collapse-item" href="#">Incoming Items</a>
+                    <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
                     <a class="collapse-item" href="#">Out-coming Items</a>
                     <a class="collapse-item" href="#">Stock Card</a>
                     <a class="collapse-item" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</a>

@@ -1349,3 +1349,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-price-list-total-value {
     width: 140px;
 }
+
+.th-incoming-items-number {
+    width: 30px;
+}
+
+.th-incoming-items-supplier {
+    width: 300px;
+}
+
+.th-incoming-items-product-sku {
+    width: 100px;
+}
+
+.th-incoming-items-warehouse {
+    width: 130px;
+}
+
+.th-incoming-items-total-quantity {
+    width: 50px;
+    background: yellow;
+}
