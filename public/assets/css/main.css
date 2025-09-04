@@ -1355,7 +1355,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-incoming-items-supplier {
-    width: 300px;
+    width: 250px;
 }
 
 .th-incoming-items-product-sku {
@@ -1369,4 +1369,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-incoming-items-total-quantity {
     width: 50px;
     background: yellow;
+}
+
+.th-incoming-items-unit {
+    width: 50px;
 }

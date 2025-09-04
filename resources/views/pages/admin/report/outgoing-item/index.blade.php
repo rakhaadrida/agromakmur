@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Incoming Items Report</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Outgoing Items Report</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,7 +25,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('report.incoming-items.index') }}" method="GET" id="form">
+                            <form action="{{ route('report.outgoing-items.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
                                         <label for="startDate" class="col-auto col-form-label text-bold">Start Date</label>
@@ -50,7 +50,7 @@
                                 <hr>
                                 <div class="container" style="margin-bottom: 0">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">Incoming Items Report ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Outgoing Items Report ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center" style="margin-top: -5px">
                                         <h6 class="text-dark">Time : {{ $reportDate }}</h6>
@@ -60,7 +60,7 @@
                                     <thead class="text-center text-dark text-bold">
                                         <tr>
                                             <td class="align-middle th-incoming-items-number">No</td>
-                                            <td class="align-middle th-incoming-items-supplier">Supplier</td>
+                                            <td class="align-middle th-incoming-items-supplier">Customer</td>
                                             <td class="align-middle th-incoming-items-product-sku">Product SKU</td>
                                             <td class="align-middle">Product Name</td>
                                             <td class="align-middle th-incoming-items-warehouse">Warehouse</td>
@@ -69,15 +69,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($receiptItems as $index => $receiptItem)
+                                        @forelse($orderItems as $index => $orderItem)
                                             <tr class="text-dark text-bold">
                                                 <td class="text-center">{{ $index + 1 }}</td>
-                                                <td>{{ $receiptItem->supplier_name }}</td>
-                                                <td class="text-center">{{ $receiptItem->product_sku }}</td>
-                                                <td>{{ $receiptItem->product_name }}</td>
-                                                <td class="text-center">{{ $receiptItem->warehouse_name }}</td>
-                                                <td class="text-right" style="background-color: yellow" data-sort="{{ $receiptItem->total_quantity }}">{{ formatQuantity($receiptItem->total_quantity ?? 0) }}</td>
-                                                <td class="text-center">{{ $receiptItem->unit_name }}</td>
+                                                <td>{{ $orderItem->customer_name }}</td>
+                                                <td class="text-center">{{ $orderItem->product_sku }}</td>
+                                                <td>{{ $orderItem->product_name }}</td>
+                                                <td class="text-center">{{ $orderItem->warehouse_name }}</td>
+                                                <td class="text-right" style="background-color: yellow" data-sort="{{ $orderItem->total_quantity }}">{{ formatQuantity($orderItem->total_quantity ?? 0) }}</td>
+                                                <td class="text-center">{{ $orderItem->unit_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>
