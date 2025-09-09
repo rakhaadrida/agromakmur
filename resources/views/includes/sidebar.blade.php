@@ -127,14 +127,15 @@
     </li>
 
     @if(isUserAdmin())
-        <li class="nav-item sidebar-menu-icon">
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('report.*') ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseReport">
                 <i class="fas fa-fw fa-chart-area"></i>
                 <span>Report</span>
             </a>
             <div id="collapseReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-list.index') }}">Price List</a>
+                    <a class="collapse-item" href="{{ route('report.product-histories.index') }}">Product History</a>
+                    <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</a>
                     <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
                     <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Outgoing Items</a>
                     <a class="collapse-item" href="#">Stock Card</a>

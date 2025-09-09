@@ -151,7 +151,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
 
         Route::group(['namespace' => 'Report', 'prefix' => 'report', 'as' => 'report.'], function () {
-            Route::resource('price-list', 'PriceListController')->only(['index']);
+            Route::resource('product-histories', 'ProductHistoryController')->only(['index']);
+
+            Route::resource('price-lists', 'PriceListController')->only(['index']);
             Route::resource('incoming-items', 'IncomingItemController')->only(['index']);
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);
             Route::resource('stock-recap', 'StockRecapController')->only(['index']);

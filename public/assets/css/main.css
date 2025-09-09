@@ -1392,6 +1392,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #6e707e !important;
 }
 
+.filter-date-marketing-report {
+    margin-top: -15px !important;
+}
+
 .th-marketing-recap-number {
     width: 30px;
 }
@@ -1415,4 +1419,40 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .th-marketing-recap-unit {
     width: 80px;
+}
+
+.th-product-history-number {
+    width: 20px;
+}
+
+.th-product-history-supplier {
+    width: 160px;
+}
+
+.th-product-history-product-sku {
+    width: 90px;
+}
+
+.th-product-history-date {
+    width: 90px;
+}
+
+.th-product-history-latest-number {
+    width: 90px;
+}
+
+.th-product-history-price {
+    width: 70px;
+}
+
+.th-product-history-total-quantity {
+    width: 60px;
+}
+
+.th-product-history-total {
+    width: 75px;
+}
+
+.th-product-history-action {
+    width: 60px;
 }

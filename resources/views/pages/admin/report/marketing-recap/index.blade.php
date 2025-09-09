@@ -29,18 +29,6 @@
                             <form action="{{ route('report.marketing-recap.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
-                                        </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row filter-date-receipt">
                                         <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
@@ -59,7 +47,19 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-1 btn-search-receipt">
+                                    </div>
+                                    <div class="form-group row filter-date-marketing-report">
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
+                                        </div>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
+                                        </div>
+                                        <div class="col-1 mt-1 btn-search-receipt">
                                             <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
                                         </div>
                                     </div>
