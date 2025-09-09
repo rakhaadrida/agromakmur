@@ -142,7 +142,7 @@
                     <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Value Recap</a>
                     <a class="collapse-item" href="#">Sales Recap</a>
                     @if(isUserSuperAdmin())
-                        <a class="collapse-item" href="#">Marketing Qty Recap</a>
+                        <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Marketing Qty Recap</a>
                     @endif
                 </div>
             </div>
@@ -184,7 +184,7 @@
             <div id="collapseFinancialReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                   <a class="collapse-item" href="#">Financial Statements</a>
-                  <a class="collapse-item" href="#">Merketing Commission</a>
+                  <a class="collapse-item" href="#">Marketing Commission</a>
                 </div>
             </div>
         </li>

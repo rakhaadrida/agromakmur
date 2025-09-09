@@ -156,6 +156,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);
             Route::resource('stock-recap', 'StockRecapController')->only(['index']);
             Route::resource('value-recap', 'ValueRecapController')->only(['index']);
+            Route::resource('marketing-recap', 'MarketingRecapController')->only(['index']);
         });
     });
 

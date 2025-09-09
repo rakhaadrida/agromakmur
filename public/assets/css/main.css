@@ -1374,3 +1374,45 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-incoming-items-unit {
     width: 50px;
 }
+
+.marketing-report-select-picker {
+    width: 10.2rem !important;
+}
+
+.marketing-report-select-picker {
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+}
+
+.marketing-report-select-picker .dropdown-toggle {
+    padding: 0.25rem 0.35rem !important;
+    background: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.th-marketing-recap-number {
+    width: 30px;
+}
+
+.th-marketing-recap-customer {
+    width: 290px;
+}
+
+.th-marketing-recap-product-sku {
+    width: 110px;
+}
+
+.th-marketing-recap-category {
+    width: 150px;
+}
+
+.th-marketing-recap-total-quantity {
+    width: 90px;
+    background: yellow;
+}
+
+.th-marketing-recap-unit {
+    width: 80px;
+}

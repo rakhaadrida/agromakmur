@@ -346,6 +346,11 @@ function isSameWarehouse($warehouseId, $itemId): string
     return $warehouseId == $itemId;
 }
 
+function isNotEmptyMarketingRecap($items): bool
+{
+    return !empty($items);
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');
