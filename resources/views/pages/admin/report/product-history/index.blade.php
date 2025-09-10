@@ -14,14 +14,14 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <div class="container" style="margin-bottom: 0">
-                                <div class="row justify-content-center" style="margin-top: -5px">
-                                    <h6 class="text-dark">Time : {{ $reportDate }}</h6>
+                            <div class="container">
+                                <div class="row justify-content-center mb-2">
+                                    <h4 class="text-dark text-bold">Report Time : {{ $reportDate }}</h4>
                                 </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                 <thead class="text-center text-bold text-dark">
-                                    <tr>
+                                    <tr class="bg-light">
                                         <th class="align-middle th-product-history-number">No</th>
                                         <th class="align-middle th-product-history-product-sku">Product SKU</th>
                                         <th class="align-middle">Product Name</th>
@@ -29,32 +29,38 @@
                                         <th class="align-middle th-product-history-date">Latest Receipt Date</th>
                                         <th class="align-middle th-product-history-latest-number">Latest Receipt Number</th>
                                         <th class="align-middle th-product-history-price">Latest Price</th>
-                                        <th class="align-middle th-product-history-total-quantity">Latest Qty</th>
+                                        <th class="align-middle th-product-history-quantity">Latest Qty</th>
+                                        <th class="align-middle th-product-history-unit">Latest Unit</th>
                                         <th class="align-middle th-product-history-total">Latest Total</th>
                                         <th class="align-middle th-product-history-action">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($products as $index => $product)
-                                        <tr class="text-dark">
+                                        <tr class="text-dark text-bold">
                                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                                             <td class="align-middle text-center">{{ $product->product_sku }}</td>
                                             <td class="align-middle">{{ $product->product_name }}</td>
                                             <td class="align-middle">{{ $product->latest_supplier }}</td>
-                                            <td class="align-middle text-center">{{ formatDate($product->latest_date, 'd-m-Y') }}</td>
-                                            <td class="align-middle text-center">{{ $product->latest_number }}</td>
+                                            <td class="align-middle text-center" data-sort="{{ formatDate($product->latest_date, 'Ymd') }}">{{ formatDate($product->latest_date, 'd-m-Y') }}</td>
+                                            <td class="align-middle text-center">
+                                                <a href="{{ route('goods-receipts.detail', $product->latest_id) }}" class="btn btn-sm btn-link text-bold">
+                                                    {{ $product->latest_number }}
+                                                </a>
+                                            </td>
                                             <td class="align-middle text-right">{{ formatPrice($product->latest_price) }}</td>
                                             <td class="align-middle text-right">{{ formatQuantity($product->latest_quantity) }}</td>
-                                            <td class="align-middle text-right">{{ formatPrice($product->latest_total) }}</td>
+                                            <td class="align-middle text-center">{{ $product->latest_unit }}</td>
+                                            <td class="align-middle text-right">{{ formatPrice($product->latest_price * $product->latest_quantity) }}</td>
                                             <td class="align-middle text-center">
-                                                <a href="#" class="btn btn-sm btn-info">
-                                                    See Details
+                                                <a href="{{ route('report.product-histories.show', $product->product_id) }}" class="btn btn-sm btn-info text-bold">
+                                                    Detail
                                                 </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="9" class="text-center text-bold h4 p-2">No Data Available</td>
+                                            <td colspan="10" class="text-center text-bold h4 p-2">No Data Available</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -74,9 +80,13 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "pageLength": 25,
+            "order": [
+                [2, 'asc']
+            ],
             "columnDefs": [
                 {
-                    targets: [1, 5, 9],
+                    targets: [0, 1, 3, 5, 6, 7, 8, 9, 10],
                     orderable: false
                 }
             ],

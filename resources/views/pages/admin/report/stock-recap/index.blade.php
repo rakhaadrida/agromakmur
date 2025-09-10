@@ -44,7 +44,7 @@
                                                         <h4 class="text-bold text-dark">Stock Recap {{ $category->name }}</h4>
                                                     </div>
                                                     <div class="row justify-content-center" style="margin-top: -5px">
-                                                        <h6 class="text-dark">Time : {{ $reportDate }}</h6>
+                                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
                                                     </div>
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
