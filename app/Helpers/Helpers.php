@@ -351,6 +351,11 @@ function isNotEmptyMarketingRecap($items): bool
     return !empty($items);
 }
 
+function isSubjectProduct($subject): bool
+{
+    return $subject == 'products';
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');

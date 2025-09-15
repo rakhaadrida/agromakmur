@@ -63,22 +63,22 @@
                                             <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
                                         </div>
                                     </div>
-                                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTableProduct">
+                                    <table class="table table-sm table-bordered table-striped table-responsive-sm" id="dataTableProduct">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-sales-recap-number">No</th>
                                                 <th class="align-middle th-sales-recap-product-sku">Product SKU</th>
                                                 <th class="align-middle">Product Name</th>
-                                                <th class="align-middle th-sales-recap-invoice-count">Invoice Count</th>
-                                                <th class="align-middle th-sales-recap-quantity">Total Quantity</th>
+                                                <th class="align-middle text-center th-sales-recap-invoice-count">Invoice Count</th>
+                                                <th class="align-middle text-center th-sales-recap-quantity">Total Quantity</th>
                                                 <th class="align-middle th-sales-recap-unit">Unit</th>
-                                                <th class="align-middle th-sales-recap-total">Grand Total</th>
+                                                <th class="align-middle text-center th-sales-recap-total">Grand Total</th>
                                                 <th class="align-middle th-sales-recap-action">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="itemProduct">
+                                        <tbody class="text-bold text-dark" id="itemProduct">
                                             @foreach ($salesItems as $index => $salesItem)
-                                                <tr class="text-dark">
+                                                <tr>
                                                     <td class="align-middle text-center">{{ $index + 1 }}</td>
                                                     <td class="align-middle text-center">{{ $salesItem->product_sku }}</td>
                                                     <td class="align-middle">{{ $salesItem->product_name }}</td>
@@ -87,7 +87,7 @@
                                                     <td class="align-middle text-center">{{ $salesItem->unit_name }}</td>
                                                     <td class="align-middle text-right">{{ $salesItem->grand_total }}</td>
                                                     <td class="align-middle text-center">
-                                                        <a href="{{ route('report.sales-recap.show', $salesItem->id) }}" class="btn btn-sm btn-info text-bold">
+                                                        <a href="{{ route('report.sales-recap.show', ['sales_recap' => $salesItem->id, 'subject' => 'products', 'start_date' => $startDate, 'final_date' => $finalDate]) }}" class="btn btn-sm btn-info text-bold">
                                                             Detail
                                                         </a>
                                                     </td>
@@ -124,20 +124,20 @@
                                             <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
                                         </div>
                                     </div>
-                                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTableCustomer">
+                                    <table class="table table-sm table-bordered table-striped table-responsive-sm" id="dataTableCustomer">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-sales-recap-number">No</th>
                                                 <th class="align-middle">Customer</th>
-                                                <th class="align-middle th-sales-recap-invoice-count">Invoice Count</th>
-                                                <th class="align-middle th-sales-recap-subtotal">Subtotal</th>
-                                                <th class="align-middle th-sales-recap-subtotal">Invoice Discount</th>
-                                                <th class="align-middle th-sales-recap-subtotal">Tax Amount</th>
-                                                <th class="align-middle th-sales-recap-grand-total">Grand Total</th>
+                                                <th class="align-middle text-center th-sales-recap-invoice-count">Invoice Count</th>
+                                                <th class="align-middle text-center th-sales-recap-subtotal">Subtotal</th>
+                                                <th class="align-middle text-center th-sales-recap-subtotal">Invoice Discount</th>
+                                                <th class="align-middle text-center th-sales-recap-subtotal">Tax Amount</th>
+                                                <th class="align-middle text-center th-sales-recap-grand-total">Grand Total</th>
                                                 <th class="align-middle th-sales-recap-action">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="itemCustomer">
+                                        <tbody class="text-bold text-dark" id="itemCustomer">
                                         </tbody>
                                     </table>
                                 </div>
@@ -296,9 +296,9 @@
 
                         let rows = [];
                         $.each(salesItems, function(index, item) {
-                            let detailUrl = '{{ route('report.sales-recap.show', ':id') }}'.replace(':id', item.id);
-
                             if (subject === 'products') {
+                                let detailUrl = '{{ route('report.sales-recap.show', ['sales_recap' => ':id', 'subject' => 'products', 'start_date' => $startDate, 'final_date' => $finalDate]) }}'.replace(':id', item.id);
+
                                 rows.push({
                                     rowNumber: index + 1,
                                     product_sku: item.product_sku,
@@ -310,6 +310,8 @@
                                     action: `<a href="${detailUrl}" class="btn btn-sm btn-info">Detail</a>`
                                 });
                             } else if (subject === 'customers') {
+                                let detailUrl = '{{ route('report.sales-recap.show', ['sales_recap' => ':id', 'subject' => 'customers', 'start_date' => $startDate, 'final_date' => $finalDate]) }}'.replace(':id', item.id);
+
                                 rows.push({
                                     rowNumber: index + 1,
                                     customer_name: item.customer_name,

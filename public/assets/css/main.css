@@ -1533,3 +1533,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-sales-recap-grand-total {
     width: 110px;
 }
+
+.th-sales-recap-detail-date {
+    width: 75px;
+}
+
+.th-sales-recap-detail-number {
+    width: 80px;
+}
+
+.th-sales-recap-detail-quantity {
+    width: 35px;
+}
+
+.th-sales-recap-detail-unit {
+    width: 70px;
+}
+
+.th-sales-recap-detail-price {
+    width: 55px;
+}
+
+.th-sales-recap-detail-total {
+    width: 75px;
+}
+
+.th-sales-recap-detail-discount {
+    width: 75px;
+}
+
+.th-sales-recap-detail-discount-amount {
+    width: 75px;
+}
+
+.th-sales-recap-detail-final-amount {
+    width: 80px;
+}

@@ -4,6 +4,8 @@ namespace App\Utilities\Services;
 
 use App\Models\Customer;
 use App\Models\Product;
+use App\Models\SalesOrder;
+use App\Models\SalesOrderItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +26,7 @@ class SalesRecapService
                 DB::table('sales_order_items')
                     ->select(
                         'sales_order_items.product_id',
-                        DB::raw('COUNT(sales_orders.id) AS invoice_count'),
+                        DB::raw('COUNT(DISTINCT(sales_orders.id)) AS invoice_count'),
                         DB::raw('SUM(sales_order_items.actual_quantity) AS total_quantity'),
                         DB::raw('SUM(sales_order_items.final_amount) AS grand_total'),
                     )
@@ -44,6 +46,59 @@ class SalesRecapService
             ->get();
     }
 
+    public static function getBaseQueryProductDetail($id, $startDate, $finalDate, $customerId) {
+        $baseQuery = SalesOrder::query()
+            ->select(
+                'sales_orders.id AS order_id',
+                'sales_orders.date AS order_date',
+                'sales_orders.number AS order_number',
+                'customers.id AS customer_id',
+                'customers.name AS customer_name',
+                'sales_order_items.unit_name AS unit_name',
+                'sales_order_items.quantity AS quantity',
+                'sales_order_items.price AS price',
+                'sales_order_items.total AS total',
+                'sales_order_items.discount AS discount',
+                'sales_order_items.discount_amount AS discount_amount',
+                'sales_order_items.final_amount AS final_amount',
+            )
+            ->joinSub(
+                DB::table('sales_order_items')
+                    ->select(
+                        'sales_order_items.sales_order_id',
+                        DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
+                        DB::raw('MAX(sales_order_items.price) AS price'),
+                        DB::raw('SUM(sales_order_items.total) AS total'),
+                        DB::raw('MAX(sales_order_items.discount) AS discount'),
+                        DB::raw('SUM(sales_order_items.discount_amount) AS discount_amount'),
+                        DB::raw('SUM(sales_order_items.final_amount) AS final_amount'),
+                        DB::raw('MAX(units.name) AS unit_name')
+                    )
+                    ->join('products', 'products.id', '=', 'sales_order_items.product_id')
+                    ->join('units', 'units.id', '=', 'products.unit_id')
+                    ->where('products.id', $id)
+                    ->whereNull('sales_order_items.deleted_at')
+                    ->groupBy('sales_order_items.sales_order_id'),
+                'sales_order_items',
+                'sales_orders.id',
+                'sales_order_items.sales_order_id'
+            )
+            ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
+            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->where('sales_orders.status', '!=', 'CANCELLED');
+
+        if($customerId) {
+            $baseQuery->where('customers.id', $customerId);
+        }
+
+        return $baseQuery
+            ->whereNull('sales_orders.deleted_at')
+            ->orderByDesc('sales_orders.date')
+            ->orderByDesc('sales_orders.id')
+            ->get();
+    }
+
     public static function getBaseQueryCustomerIndex($startDate, $finalDate) {
         return Customer::query()
             ->select(
@@ -59,7 +114,7 @@ class SalesRecapService
                 DB::table('sales_orders')
                     ->select(
                         'sales_orders.customer_id',
-                        DB::raw('COUNT(sales_orders.id) AS invoice_count'),
+                        DB::raw('COUNT(DISTINCT(sales_orders.id)) AS invoice_count'),
                         DB::raw('SUM(sales_orders.subtotal) AS subtotal'),
                         DB::raw('SUM(sales_orders.discount_amount) AS invoice_discount'),
                         DB::raw('SUM(sales_orders.tax_amount) AS tax_amount'),
@@ -75,6 +130,63 @@ class SalesRecapService
                 'sales_orders.customer_id'
             )
             ->orderBy('customers.name')
+            ->get();
+    }
+
+    public static function getBaseQueryCustomerDetail($id, $startDate, $finalDate, $productId) {
+        $baseQuery = SalesOrder::query()
+            ->select(
+                'sales_orders.id AS order_id',
+                'sales_orders.date AS order_date',
+                'sales_orders.number AS order_number',
+                'products.id AS product_id',
+                'products.sku AS product_sku',
+                'products.name AS product_name',
+                'sales_order_items.unit_name AS unit_name',
+                'sales_order_items.quantity AS quantity',
+                'sales_order_items.price AS price',
+                'sales_order_items.total AS total',
+                'sales_order_items.discount AS discount',
+                'sales_order_items.discount_amount AS discount_amount',
+                'sales_order_items.final_amount AS final_amount',
+            )
+            ->joinSub(
+                DB::table('sales_order_items')
+                    ->select(
+                        'sales_order_items.sales_order_id',
+                        'sales_order_items.product_id',
+                        DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
+                        DB::raw('MAX(sales_order_items.price) AS price'),
+                        DB::raw('SUM(sales_order_items.total) AS total'),
+                        DB::raw('MAX(sales_order_items.discount) AS discount'),
+                        DB::raw('SUM(sales_order_items.discount_amount) AS discount_amount'),
+                        DB::raw('SUM(sales_order_items.final_amount) AS final_amount'),
+                        DB::raw('MAX(units.name) AS unit_name')
+                    )
+                    ->join('products', 'products.id', '=', 'sales_order_items.product_id')
+                    ->join('units', 'units.id', '=', 'products.unit_id')
+                    ->whereNull('sales_order_items.deleted_at')
+                    ->groupBy('sales_order_items.sales_order_id')
+                    ->groupBy('sales_order_items.product_id'),
+                'sales_order_items',
+                'sales_orders.id',
+                'sales_order_items.sales_order_id'
+            )
+            ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
+            ->join('products', 'products.id', '=', 'sales_order_items.product_id')
+            ->where('customers.id', $id)
+            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->where('sales_orders.status', '!=', 'CANCELLED');
+
+        if($productId) {
+            $baseQuery->where('products.id', $productId);
+        }
+
+        return $baseQuery
+            ->whereNull('sales_orders.deleted_at')
+            ->orderByDesc('sales_orders.date')
+            ->orderByDesc('sales_orders.id')
             ->get();
     }
 }
