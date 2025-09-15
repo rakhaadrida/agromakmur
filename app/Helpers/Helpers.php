@@ -106,6 +106,27 @@ function getReturnRoute() : array
     ];
 }
 
+function getProductReportRoute() : array
+{
+    return [
+        'report.product-histories.*',
+        'report.price-lists.*',
+        'report.incoming-items.*',
+        'report.outgoing-items.*',
+        'report.stock-recap.*',
+        'report.value-recap.*',
+        'report.marketing-recap.*',
+    ];
+}
+
+function getTransactionReportRoute() : array
+{
+    return [
+        'report.sales-recap.*',
+        'report.purchase-recap.*',
+    ];
+}
+
 function getReceivableRoute() : array
 {
     return [

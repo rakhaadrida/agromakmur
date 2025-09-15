@@ -1569,3 +1569,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-sales-recap-detail-final-amount {
     width: 80px;
 }
+
+.th-purchase-recap-detail-price {
+    width: 65px;
+}
+
+.th-purchase-recap-detail-total {
+    width: 85px;
+}

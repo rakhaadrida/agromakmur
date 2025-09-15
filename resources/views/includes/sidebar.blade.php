@@ -127,16 +127,14 @@
     </li>
 
     @if(isUserAdmin())
-        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('report.*') ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport" aria-expanded="true" aria-controls="collapseReport">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Report</span>
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getProductReportRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProductReport" aria-expanded="true" aria-controls="collapseProductReport">
+                <i class="fas fa-fw fa-boxes"></i>
+                <span>Product Report</span>
             </a>
-            <div id="collapseReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseProductReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('report.product-histories.index') }}">Product History</a>
-                    <a class="collapse-item" href="{{ route('report.sales-recap.index') }}">Sales Recap</a>
-
                     <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</a>
                     <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
                     <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Outgoing Items</a>
@@ -146,6 +144,19 @@
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Marketing Qty Recap</a>
                     @endif
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getTransactionReportRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransactionReport" aria-expanded="true" aria-controls="collapseTransactionReport">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Transaction Report</span>
+            </a>
+            <div id="collapseTransactionReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('report.sales-recap.index') }}">Sales Recap</a>
+                    <a class="collapse-item" href="{{ route('report.purchase-recap.index') }}">Purchase Recap</a>
                 </div>
             </div>
         </li>
