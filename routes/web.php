@@ -153,6 +153,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::group(['namespace' => 'Report', 'prefix' => 'report', 'as' => 'report.'], function () {
             Route::resource('product-histories', 'ProductHistoryController')->only(['index', 'show']);
 
+            Route::resource('sales-recap', 'SalesRecapController')->only(['index', 'show']);
+            Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');
+
             Route::resource('price-lists', 'PriceListController')->only(['index']);
             Route::resource('incoming-items', 'IncomingItemController')->only(['index']);
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);

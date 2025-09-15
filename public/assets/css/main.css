@@ -1497,3 +1497,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-product-history-detail-total {
     width: 90px;
 }
+
+.th-sales-recap-number {
+    width: 35px;
+}
+
+.th-sales-recap-product-sku {
+    width: 90px;
+}
+
+.th-sales-recap-invoice-count {
+    width: 80px;
+}
+
+.th-sales-recap-quantity {
+    width: 85px;
+}
+
+.th-sales-recap-unit {
+    width: 90px;
+}
+
+.th-sales-recap-total {
+    width: 120px;
+}
+
+.th-sales-recap-action {
+    width: 80px;
+}
+
+.th-sales-recap-subtotal {
+    width: 90px;
+}
+
+.th-sales-recap-grand-total {
+    width: 110px;
+}

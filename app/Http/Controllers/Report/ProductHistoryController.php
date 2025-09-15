@@ -23,7 +23,7 @@ class ProductHistoryController extends Controller
                 'goods_receipts.number AS latest_number',
                 'suppliers.name AS latest_supplier',
                 'units.name AS latest_unit',
-                'goods_receipt_items.quantity AS latest_quantity',
+                'goods_receipt_items.actual_quantity AS latest_quantity',
                 'goods_receipt_items.price AS latest_price'
             )
             ->joinSub(
@@ -81,7 +81,7 @@ class ProductHistoryController extends Controller
                 'suppliers.id AS supplier_id',
                 'suppliers.name AS supplier_name',
                 'units.name AS unit_name',
-                'goods_receipt_items.quantity AS quantity',
+                'goods_receipt_items.actual_quantity AS quantity',
                 'goods_receipt_items.price AS price',
                 'goods_receipt_items.wages AS wages',
                 'goods_receipt_items.shipping_cost AS shipping_cost',
@@ -90,7 +90,7 @@ class ProductHistoryController extends Controller
             ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
-            ->join('units', 'units.id', '=', 'goods_receipt_items.unit_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
             ->where('products.id', $product->id)
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
