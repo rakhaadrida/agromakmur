@@ -152,19 +152,19 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
         Route::group(['namespace' => 'Report', 'prefix' => 'report', 'as' => 'report.'], function () {
             Route::resource('product-histories', 'ProductHistoryController')->only(['index', 'show']);
-
-            Route::resource('sales-recap', 'SalesRecapController')->only(['index', 'show']);
-            Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');
-
-            Route::resource('purchase-recap', 'PurchaseRecapController')->only(['index', 'show']);
-            Route::get('purchase-recap-ajax', 'PurchaseRecapController@indexAjax')->name('purchase-recap.index-ajax');
-
+            Route::resource('low-stocks', 'LowStockController')->only(['index']);
             Route::resource('price-lists', 'PriceListController')->only(['index']);
             Route::resource('incoming-items', 'IncomingItemController')->only(['index']);
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);
             Route::resource('stock-recap', 'StockRecapController')->only(['index']);
             Route::resource('value-recap', 'ValueRecapController')->only(['index']);
             Route::resource('marketing-recap', 'MarketingRecapController')->only(['index']);
+
+            Route::resource('sales-recap', 'SalesRecapController')->only(['index', 'show']);
+            Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');
+
+            Route::resource('purchase-recap', 'PurchaseRecapController')->only(['index', 'show']);
+            Route::get('purchase-recap-ajax', 'PurchaseRecapController@indexAjax')->name('purchase-recap.index-ajax');
         });
     });
 

@@ -1577,3 +1577,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-purchase-recap-detail-total {
     width: 85px;
 }
+
+.th-low-stock-number {
+    width: 40px;
+}
+
+.th-low-stock-product-sku {
+    width: 75px;
+}
+
+.th-low-stock-category {
+    width: 270px;
+}
+
+.th-low-stock-unit {
+    width: 70px;
+}
+
+.th-low-stock-amount {
+    width: 80px;
+    background: yellow;
+}
+
+.th-low-stock-limit {
+    width: 80px;
+}
+
+.td-low-stock-amount {
+    background: yellow;
+    padding: 0.1rem !important;
+}
+
+.a-low-stock-amount {
+    font-size: 16px !important;
+}
