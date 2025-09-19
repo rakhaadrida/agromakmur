@@ -114,6 +114,8 @@ class ProductTransferController extends Controller
                         $productId,
                         $destinationWarehouseStock,
                         $actualQuantity,
+                        $destinationWarehouseId,
+                        $productTransfer->id,
                         $destinationWarehouseId
                     );
                 }

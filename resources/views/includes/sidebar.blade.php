@@ -136,10 +136,10 @@
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('report.product-histories.index') }}">Product History</a>
                     <a class="collapse-item" href="{{ route('report.low-stocks.index') }}">Low Stock</a>
-                    <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</a>
+                    <a class="collapse-item" href="#">Stock Card</a>
                     <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
                     <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Outgoing Items</a>
-                    <a class="collapse-item" href="#">Stock Card</a>
+                    <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</a>
                     <a class="collapse-item" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</a>
                     <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Value Recap</a>
                     @if(isUserSuperAdmin())

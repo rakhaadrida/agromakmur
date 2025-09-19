@@ -382,7 +382,7 @@ class ProductController extends Controller
         return response()->json([
             'data' => $product,
             'units' => $units,
-            'prices' => $prices,
+            'prices' => $prices ?? [],
             'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
             'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
             'product_stocks' => $productStocks,

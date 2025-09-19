@@ -2,9 +2,14 @@
 
 namespace App\Utilities\Services;
 
+use App\Models\GoodsReceipt;
 use App\Models\ProductConversion;
 use App\Models\ProductPrice;
 use App\Models\ProductStock;
+use App\Models\ProductStockLog;
+use App\Models\ProductTransfer;
+use App\Utilities\Constant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductService
@@ -28,7 +33,9 @@ class ProductService
             ->get();
     }
 
-    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $warehouseId) {
+    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $warehouseId, $supplierId = null, $finalAmount = null) {
+        $initialStock = $productStock ? $productStock->stock : 0;
+
         if($productStock) {
             $productStock->increment('stock', $actualQuantity);
         } else {
@@ -37,6 +44,44 @@ class ProductService
                 'warehouse_id' => $warehouseId,
                 'stock' => $actualQuantity
             ]);
+        }
+
+        static::createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId, $finalAmount);
+
+        return true;
+    }
+
+    public static function createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null) {
+        $subjectType = $supplierId ? GoodsReceipt::class : ProductTransfer::class;
+        $type = $supplierId ? Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT : Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
+
+        ProductStockLog::create([
+            'subject_type' => $subjectType,
+            'subject_id' => $transactionId,
+            'type' => $type,
+            'product_id' => $productId,
+            'warehouse_id' => $warehouseId,
+            'supplier_id' => $supplierId,
+            'initial_stock' => $initialStock,
+            'quantity' => $actualQuantity,
+            'final_amount' => $finalAmount,
+            'user_id' => Auth::user()->id
+        ]);
+
+        return true;
+    }
+
+    public static function deleteProductStockLog($transactionId, $productId, $warehouseId, $type) {
+        $stockLog = ProductStockLog::query()
+            ->where('subject_id', $transactionId)
+            ->where('type', $type)
+            ->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if($stockLog) {
+            $stockLog->delete();
         }
 
         return true;

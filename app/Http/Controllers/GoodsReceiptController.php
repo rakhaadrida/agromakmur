@@ -144,7 +144,10 @@ class GoodsReceiptController extends Controller
                         $productId,
                         $productStock,
                         $actualQuantity,
-                        $goodsReceipt->warehouse_id
+                        $goodsReceipt->id,
+                        $goodsReceipt->warehouse_id,
+                        $goodsReceipt->supplier_id,
+                        $total
                     );
                 }
             }
