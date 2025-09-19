@@ -8,6 +8,7 @@ use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\ProductStockLog;
 use App\Models\ProductTransfer;
+use App\Models\SalesOrder;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,9 +52,17 @@ class ProductService
         return true;
     }
 
-    public static function createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null) {
-        $subjectType = $supplierId ? GoodsReceipt::class : ProductTransfer::class;
-        $type = $supplierId ? Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT : Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
+    public static function createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null, $customerId = null) {
+        $subjectType = ProductTransfer::class;
+        $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
+
+        if($supplierId) {
+            $subjectType = GoodsReceipt::class;
+            $type = Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT;
+        } else if($customerId) {
+            $subjectType = SalesOrder::class;
+            $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER;
+        }
 
         ProductStockLog::create([
             'subject_type' => $subjectType,
@@ -61,6 +70,7 @@ class ProductService
             'type' => $type,
             'product_id' => $productId,
             'warehouse_id' => $warehouseId,
+            'customer_id' => $customerId,
             'supplier_id' => $supplierId,
             'initial_stock' => $initialStock,
             'quantity' => $actualQuantity,

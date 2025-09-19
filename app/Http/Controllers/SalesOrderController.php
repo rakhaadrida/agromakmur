@@ -210,8 +210,20 @@ class SalesOrderController extends Controller
                         'final_amount' => $finalAmount
                     ]);
 
-                    ProductService::getProductStockQuery($item['product_id'], $warehouseId)
-                        ->decrement('stock', $actualQuantity);
+                    $productStock = ProductService::getProductStockQuery($item['product_id'], $warehouseId);
+
+                    ProductService::createProductStockLog(
+                        $salesOrder->id,
+                        $item['product_id'],
+                        $warehouseId,
+                        $productStock ? $productStock->stock : 0,
+                        -$actualQuantity,
+                        null,
+                        $finalAmount,
+                        $salesOrder->customer_id
+                    );
+
+                    $productStock->decrement('stock', $actualQuantity);
 
                     DeliveryOrderService::createItemData($deliveryOrder, $salesOrderItem);
                 }

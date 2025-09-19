@@ -5,7 +5,6 @@ namespace App\Utilities\Services;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderItem;
 use App\Utilities\Constant;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalesOrderService
@@ -132,12 +131,32 @@ class SalesOrderService
                 $approvalItem->warehouse_id
             );
 
+            ProductService::deleteProductStockLog(
+                $salesOrder->id,
+                $approvalItem->product_id,
+                $approvalItem->warehouse_id,
+                Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER
+            );
+
             if($approval->type == Constant::APPROVAL_TYPE_CANCEL) {
                 $productStock?->increment('stock', $approvalItem->actual_quantity);
             } else {
                 $orderItem = $salesOrder->salesOrderItems
                     ->where('product_id', $approvalItem->product_id)
                     ->first();
+
+                $initialStock = $productStock ? $productStock->stock + ($orderItem ? $orderItem->actual_quantity : 0) : 0;
+
+                ProductService::createProductStockLog(
+                    $salesOrder->id,
+                    $approvalItem->product_id,
+                    $approvalItem->warehouse_id,
+                    $initialStock,
+                    -$approvalItem->actual_quantity,
+                    null,
+                    $approvalItem->total,
+                    $approval->customer_id
+                );
 
                 if(!$orderItem) {
                     $productStock?->decrement('stock', $approvalItem->actual_quantity);
