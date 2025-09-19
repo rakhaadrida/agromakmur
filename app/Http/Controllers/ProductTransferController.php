@@ -103,6 +103,16 @@ class ProductTransferController extends Controller
                         $sourceWarehouseId
                     );
 
+                    ProductService::createProductStockLog(
+                        $productTransfer->id,
+                        $productId,
+                        $sourceWarehouseId,
+                        $sourceWarehouseStock?->stock ?? 0,
+                        -$actualQuantity,
+                        null,
+                        null
+                    );
+
                     $sourceWarehouseStock?->decrement('stock', $actualQuantity);
 
                     $destinationWarehouseStock = ProductService::getProductStockQuery(
@@ -114,7 +124,6 @@ class ProductTransferController extends Controller
                         $productId,
                         $destinationWarehouseStock,
                         $actualQuantity,
-                        $destinationWarehouseId,
                         $productTransfer->id,
                         $destinationWarehouseId
                     );

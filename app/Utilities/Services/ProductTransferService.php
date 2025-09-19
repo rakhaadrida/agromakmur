@@ -30,12 +30,26 @@ class ProductTransferService
 
             $sourceWarehouseStock?->increment('stock', $productTransferItem->actual_quantity);
 
+            ProductService::deleteProductStockLog(
+                $productTransfer->id,
+                $productTransferItem->product_id,
+                $productTransferItem->source_warehouse_id,
+                Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER
+            );
+
             $destinationWarehouseStock = ProductService::getProductStockQuery(
                 $productTransferItem->product_id,
                 $productTransferItem->destination_warehouse_id
             );
 
             $destinationWarehouseStock?->decrement('stock', $productTransferItem->actual_quantity);
+
+            ProductService::deleteProductStockLog(
+                $productTransfer->id,
+                $productTransferItem->product_id,
+                $productTransferItem->destination_warehouse_id,
+                Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER
+            );
         }
 
         return true;
