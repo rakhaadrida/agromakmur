@@ -9,6 +9,7 @@ use App\Models\ProductStock;
 use App\Models\ProductStockLog;
 use App\Models\ProductTransfer;
 use App\Models\SalesOrder;
+use App\Models\SalesReturn;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class ProductService
             ->get();
     }
 
-    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $warehouseId, $supplierId = null, $finalAmount = null) {
+    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $warehouseId, $supplierId = null, $finalAmount = null, $isReturn = false) {
         $initialStock = $productStock ? $productStock->stock : 0;
 
         if($productStock) {
@@ -47,7 +48,9 @@ class ProductService
             ]);
         }
 
-        static::createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId, $finalAmount);
+        if(!$isReturn) {
+            static::createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId, $finalAmount);
+        }
 
         return true;
     }
@@ -60,8 +63,13 @@ class ProductService
             $subjectType = GoodsReceipt::class;
             $type = Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT;
         } else if($customerId) {
-            $subjectType = SalesOrder::class;
-            $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER;
+            if($finalAmount) {
+                $subjectType = SalesOrder::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER;
+            } else {
+                $subjectType = SalesReturn::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN;
+            }
         }
 
         ProductStockLog::create([
@@ -82,16 +90,18 @@ class ProductService
     }
 
     public static function deleteProductStockLog($transactionId, $productId, $warehouseId, $type) {
-        $stockLog = ProductStockLog::query()
+        $stockLogs = ProductStockLog::query()
             ->where('subject_id', $transactionId)
             ->where('type', $type)
             ->where('product_id', $productId)
             ->where('warehouse_id', $warehouseId)
             ->whereNull('deleted_at')
-            ->first();
+            ->get();
 
-        if($stockLog) {
-            $stockLog->delete();
+        if($stockLogs) {
+            foreach ($stockLogs as $stockLog) {
+                $stockLog->delete();
+            }
         }
 
         return true;

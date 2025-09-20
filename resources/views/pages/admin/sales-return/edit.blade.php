@@ -40,7 +40,7 @@
                                                 <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesReturn->date, 'd-M-y') }}" readonly>
+                                                    <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesReturn->date, 'd-m-Y') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +55,7 @@
                                         <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $salesReturn->delivery_date ? formatDate($salesReturn->delivery_date, 'd-M-y') : '' }}">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $salesReturn->delivery_date ? formatDate($salesReturn->delivery_date, 'd-m-Y') : '' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">

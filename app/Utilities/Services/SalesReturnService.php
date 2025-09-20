@@ -63,6 +63,40 @@ class SalesReturnService
                         $returnWarehouse->id
                     );
 
+                    ProductService::deleteProductStockLog(
+                        $salesReturn->id,
+                        $productId,
+                        $returnWarehouse->id,
+                        Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN
+                    );
+
+                    $initialStock = $productStock ? $productStock->stock : 0;
+                    $initialDelivered = $initialStock + $actualQuantity;
+
+                    ProductService::createProductStockLog(
+                        $salesReturn->id,
+                        $productId,
+                        $returnWarehouse->id,
+                        $initialStock,
+                        $actualQuantity,
+                        null,
+                        0,
+                        $salesReturn->customer_id
+                    );
+
+                    if($actualDeliveredQuantity > 0) {
+                        ProductService::createProductStockLog(
+                            $salesReturn->id,
+                            $productId,
+                            $returnWarehouse->id,
+                            $initialDelivered,
+                            -$actualDeliveredQuantity,
+                            null,
+                            0,
+                            $salesReturn->customer_id
+                        );
+                    }
+
                     $productStock?->increment('stock', $actualQuantity - $actualDeliveredQuantity);
 
                     if($cutBillQuantity > 0) {
@@ -121,7 +155,7 @@ class SalesReturnService
                 $returnWarehouse->id
             );
 
-            $productStock?->decrement('stock', $item->actualQuantity - $actualDeliveredQuantity);
+            $productStock?->decrement('stock', $item->actual_quantity - $actualDeliveredQuantity);
 
             $item->delete();
         }
@@ -140,13 +174,22 @@ class SalesReturnService
                 $returnWarehouse->id
             );
 
+            $returnWarehouse = WarehouseService::getReturnWarehouse();
+
+            ProductService::deleteProductStockLog(
+                $salesReturn->id,
+                $salesReturnItem->product_id,
+                $returnWarehouse->id,
+                Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN
+            );
+
             $realQuantity = $salesReturnItem->actual_quantity / $salesReturnItem->quantity;
             $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
 
             $productStock?->decrement('stock', $salesReturnItem->actual_quantity - $actualDeliveredQuantity);
         }
 
-        $salesReturn->accountReceivableReturn()->delete();
+        $salesReturn->accountReceivableReturns()->delete();
 
         return true;
     }
