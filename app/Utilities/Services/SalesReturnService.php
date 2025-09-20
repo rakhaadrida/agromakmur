@@ -81,7 +81,8 @@ class SalesReturnService
                         $actualQuantity,
                         null,
                         0,
-                        $salesReturn->customer_id
+                        $salesReturn->customer_id,
+                        true
                     );
 
                     if($actualDeliveredQuantity > 0) {
@@ -93,7 +94,8 @@ class SalesReturnService
                             -$actualDeliveredQuantity,
                             null,
                             0,
-                            $salesReturn->customer_id
+                            $salesReturn->customer_id,
+                            true
                         );
                     }
 

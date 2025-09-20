@@ -64,6 +64,42 @@ class PurchaseReturnService
                         $returnWarehouse->id
                     );
 
+                    ProductService::deleteProductStockLog(
+                        $purchaseReturn->id,
+                        $productId,
+                        $returnWarehouse->id,
+                        Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN
+                    );
+
+                    $initialStock = $productStock ? $productStock->stock : 0;
+                    $initialDelivered = $initialStock - $actualQuantity;
+
+                    ProductService::createProductStockLog(
+                        $purchaseReturn->id,
+                        $productId,
+                        $returnWarehouse->id,
+                        $initialStock,
+                        -$actualQuantity,
+                        $purchaseReturn->supplier_id,
+                        0,
+                        null,
+                        true
+                    );
+
+                    if($actualReceivedQuantity > 0) {
+                        ProductService::createProductStockLog(
+                            $purchaseReturn->id,
+                            $productId,
+                            $returnWarehouse->id,
+                            $initialDelivered,
+                            $actualReceivedQuantity,
+                            $purchaseReturn->supplier_id,
+                            0,
+                            null,
+                            true
+                        );
+                    }
+
                     $productStock?->decrement('stock', $actualQuantity - $actualReceivedQuantity);
 
                     if($cutBillQuantity > 0) {
@@ -122,7 +158,7 @@ class PurchaseReturnService
                 $returnWarehouse->id
             );
 
-            $productStock?->increment('stock', $item->actualQuantity - $actualReceivedQuantity);
+            $productStock?->increment('stock', $item->actual_quantity - $actualReceivedQuantity);
 
             $item->delete();
         }
@@ -139,6 +175,15 @@ class PurchaseReturnService
             $productStock = ProductService::getProductStockQuery(
                 $purchaseReturnItem->product_id,
                 $returnWarehouse->id
+            );
+
+            $returnWarehouse = WarehouseService::getReturnWarehouse();
+
+            ProductService::deleteProductStockLog(
+                $purchaseReturn->id,
+                $purchaseReturnItem->product_id,
+                $returnWarehouse->id,
+                Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN
             );
 
             $realQuantity = $purchaseReturnItem->actual_quantity / $purchaseReturnItem->quantity;

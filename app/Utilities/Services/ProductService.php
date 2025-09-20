@@ -8,6 +8,7 @@ use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\ProductStockLog;
 use App\Models\ProductTransfer;
+use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
 use App\Utilities\Constant;
@@ -55,15 +56,20 @@ class ProductService
         return true;
     }
 
-    public static function createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null, $customerId = null) {
+    public static function createProductStockLog($transactionId, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false) {
         $subjectType = ProductTransfer::class;
         $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
 
         if($supplierId) {
-            $subjectType = GoodsReceipt::class;
-            $type = Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT;
+            if(!$isReturn) {
+                $subjectType = GoodsReceipt::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT;
+            } else {
+                $subjectType = PurchaseReturn::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN;
+            }
         } else if($customerId) {
-            if($finalAmount) {
+            if(!$isReturn) {
                 $subjectType = SalesOrder::class;
                 $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER;
             } else {
