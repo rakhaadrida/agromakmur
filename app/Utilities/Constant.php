@@ -259,4 +259,13 @@ class Constant
         self::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN => 'Sales Return',
         self::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT => 'Manual Edit',
     ];
+
+    const PRODUCT_STOCK_LOG_TYPE_ROUTE = [
+        self::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT => 'goods-receipts',
+        self::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER => 'product-transfers',
+        self::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER => 'sales-orders',
+        self::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN => 'purchase-returns',
+        self::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN => 'sales-returns',
+        self::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT => 'products',
+    ];
 }

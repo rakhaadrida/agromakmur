@@ -68,7 +68,7 @@
                     <a class="collapse-item" href="{{ route('categories.index') }}">Category</a>
                     <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Category</a>
                     <a class="collapse-item" href="{{ route('units.index') }}">Unit</a>
-                    <a class="collapse-item" id="menuProduct" href="{{ route('products.index') }}">Product</a>
+                    <button class="collapse-item product-menu-button" id="menuProduct" href="{{ route('products.index') }}">Product</button>
                 </div>
             </div>
         </li>
@@ -139,8 +139,8 @@
                     <a class="collapse-item" href="{{ route('report.stock-cards.index') }}">Stock Card</a>
                     <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
                     <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Outgoing Items</a>
-                    <a class="collapse-item" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</a>
-                    <a class="collapse-item" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</a>
+                    <button class="collapse-item price-list-menu-button" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</button>
+                    <button class="collapse-item price-list-menu-button" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</button>
                     <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Value Recap</a>
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Marketing Qty Recap</a>

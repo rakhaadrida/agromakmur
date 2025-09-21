@@ -81,63 +81,79 @@
                                 </div>
                                 <br>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover table-stock-card">
-                                    <thead class="text-center text-bold text-dark" style="background-color: yellow">
+                                    <thead class="text-center text-bold text-dark th-stock-card-background">
                                         <tr>
-                                            <td rowspan="2" style="width: 30px" class="align-middle">No</td>
-                                            <td rowspan="2" style="width: 80px" class="align-middle">Date</td>
-                                            <td rowspan="2" style="width: 60px" class="align-middle">Transaction Number</td>
-                                            <td rowspan="2" style="width: 60px" class="align-middle">Type</td>
-                                            <td rowspan="2" style="width: 120px" class="align-middle">Customer / Supplier</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-number">No</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-date">Date</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-transaction-number">Transaction Number</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-type">Type</td>
+                                            <td rowspan="2" class="align-middle">Customer / Supplier</td>
                                             <td colspan="3" class="align-middle">Incoming</td>
-                                            <td colspan="3">Outgoing</td>
-                                            <td rowspan="2" style="width: 65px" class="align-middle">Admin</td>
+                                            <td colspan="3" class="align-middle">Outgoing</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-user">Admin</td>
                                         </tr>
                                         <tr>
-                                            <td style="width: 40px" class="align-middle">{{ $product ? $product->unit->name : 'Unit' }}</td>
-                                            <td style="width: 40px" class="align-middle">Warehouse</td>
-                                            <td style="width: 70px" class="align-middle">Amount</td>
-                                            <td style="width: 40px" class="align-middle">{{ $product ? $product->unit->name : 'Unit' }}</td>
-                                            <td style="width: 40px" class="align-middle">Warehouse</td>
-                                            <td style="width: 70px" class="align-middle">Amount</td>
+                                            <td class="align-middle th-stock-card-quantity">{{ $product ? $product->unit->name : 'Unit' }}</td>
+                                            <td class="align-middle th-stock-card-warehouse">Warehouse</td>
+                                            <td class="align-middle th-stock-card-amount">Amount</td>
+                                            <td class="align-middle th-stock-card-quantity">{{ $product ? $product->unit->name : 'Unit' }}</td>
+                                            <td class="align-middle th-stock-card-warehouse">Warehouse</td>
+                                            <td class="align-middle th-stock-card-amount">Amount</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if($stockLogs->count() > 0)
                                             <tr>
                                                 <td colspan="5" class="text-bold text-dark text-center">Initial Stock</td>
-                                                <td class="text-bold text-dark text-right">{{ $initialStock }}</td>
+                                                <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock) }}</td>
                                                 <td colspan="6"></td>
                                             </tr>
                                             @foreach($stockLogs as $index => $stockLog)
                                                 <tr class="text-dark">
                                                     <td class="align-middle text-center">{{ $index + 1 }}</td>
                                                     <td class="align-middle text-center">{{ formatDate($stockLog->subject->date, 'd-M-y') }}</td>
-                                                    <td class="align-middle text-center">{{ $stockLog->subject->number }}</td>
+                                                    @if(isTransactionLog($stockLog->type))
+                                                        <td class="align-middle text-center">
+                                                            <a href="{{ route(''. getProductStockLogTypeRoute($stockLog->type) .'.detail', $stockLog->subject_id) }}" class="btn btn-sm btn-link text-bold">
+                                                                {{ $stockLog->subject->number }}
+                                                            </a>
+                                                        </td>
+                                                    @elseif(isReturnLog($stockLog->type))
+                                                        <td class="align-middle text-center">
+                                                            <a href="{{ route(''. getProductStockLogTypeRoute($stockLog->type) .'.show', $stockLog->subject_id) }}" class="btn btn-sm btn-link text-bold">
+                                                                {{ $stockLog->subject->number }}
+                                                            </a>
+                                                        </td>
+                                                    @else
+                                                        <td class="align-middle text-center">
+                                                            <a href="{{ route('products.edit', $stockLog->subject_id) }}" class="btn btn-sm btn-link text-bold">
+                                                                {{ $stockLog->subject->number }}
+                                                            </a>
+                                                        </td>
+                                                    @endif
                                                     <td class="align-middle">{{ getProductStockLogTypeLabel($stockLog->type) }}</td>
                                                     <td class="align-middle">
                                                         @if(isSupplierLog($stockLog->type)) {{ $stockLog->supplier_name }} @elseif(isCustomerLog($stockLog->type)) {{ $stockLog->customer_name }} @else - @endif
                                                     </td>
-                                                    <td class="align-middle text-right">
-                                                        {{ $stockLog->quantity >= 0 ? formatQuantity($stockLog->quantity) : '' }}
-                                                    </td>
-                                                    <td class="align-middle">{{ $stockLog->warehouse->name }}</td>
-                                                    <td class="align-middle text-right">{{ formatPrice($stockLog->final_amount) }}</td>
-                                                    <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatQuantity($stockLog->quantity) : '' }}</td>
-                                                    <td class="align-middle">{{ $stockLog->warehouse_name }}</td>
-                                                    <td class="align-middle text-right">{{ formatPrice($stockLog->final_amount) }}</td>
-                                                    <td class="align-middle text-center">{{ $stockLog->user->username }} - {{ formatDate($stockLog->subject->created_at, 'H:i:s') }}</td>
+                                                    <td class="align-middle text-right">{{ $stockLog->quantity >= 0 ? formatQuantity($stockLog->quantity) : '' }}</td>
+                                                    <td class="align-middle">{{ $stockLog->quantity >= 0 ? $stockLog->warehouse->name : '' }}</td>
+                                                    <td class="align-middle text-right">{{ $stockLog->quantity >= 0 ? formatPrice($stockLog->final_amount) : '' }}</td>
+                                                    <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatQuantity($stockLog->quantity * -1) : '' }}</td>
+                                                    <td class="align-middle">{{ $stockLog->quantity < 0 ? $stockLog->warehouse_name : '' }}</td>
+                                                    <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatPrice($stockLog->final_amount) : '' }}</td>
+                                                    <td class="align-middle text-center">{{ $stockLog->user->username }} {{ formatDate($stockLog->subject->created_at, 'H:i:s') }}</td>
                                                 </tr>
                                             @endforeach
                                             <tr>
                                                 <td colspan="5" class="text-bold text-dark text-center">Total</td>
-                                                <td class="text-bold text-dark text-right">{{ $initialStock + $totalIncomingQuantity }}</td>
+                                                <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock + $totalIncomingQuantity) }}</td>
                                                 <td colspan="2"></td>
-                                                <td class="text-bold text-dark text-right">{{ $totalOutgoingQuantity }}</td>
+                                                <td class="text-bold text-dark text-right">{{ formatQuantity($totalOutgoingQuantity * -1) }}</td>
                                                 <td colspan="3"></td>
                                             </tr>
                                             <tr style="background-color: yellow">
                                                 <td colspan="5" class="text-bold text-dark text-center">Final Stock</td>
-                                                <td class="text-bold text-dark text-right">{{ $initialStock + $totalIncomingQuantity - $totalOutgoingQuantity }}</td>
+                                                <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock + $totalIncomingQuantity - ($totalOutgoingQuantity * -1)) }}</td>
                                                 <td colspan="6"></td>
                                             </tr>
                                         @else
@@ -176,6 +192,20 @@
             autoclose: true,
             todayHighlight: true,
             language: 'id',
+        });
+
+        $(document).ready(function() {
+            $('#productSku').change(function() {
+                let productId = $(this).val();
+
+                $('#productName').selectpicker('val', productId);
+            });
+
+            $('#productName').change(function() {
+                let productId = $(this).val();
+
+                $('#productSku').selectpicker('val', productId);
+            });
         });
     </script>
 @endpush

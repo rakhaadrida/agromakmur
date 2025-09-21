@@ -1635,3 +1635,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .filter-final-date-stock-card {
     width: 8.2rem !important;
 }
+
+.th-stock-card-background {
+    background-color: #f8f824;
+}
+
+.th-stock-card-number {
+    width: 30px;
+}
+
+.th-stock-card-date {
+    width: 80px;
+}
+
+.th-stock-card-transaction-number {
+    width: 90px;
+}
+
+.th-stock-card-type {
+    width: 115px;
+}
+
+.th-stock-card-quantity {
+    width: 55px;
+}
+
+.th-stock-card-warehouse {
+    width: 105px;
+}
+
+.th-stock-card-amount {
+    width: 95px;
+}
+
+.th-stock-card-user {
+    width: 100px;
+}
+
+.product-menu-button {
+    border: none !important;
+}
+
+.price-list-menu-button {
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+}
+
+.product-menu-button,
+.price-list-menu-button {
+    background: none !important;
+    width: 90% !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+}
+
+.product-menu-button:hover,
+.price-list-menu-button:hover {
+    background-color: #eaecf4 !important;
+}
+
+.product-menu-button:focus,
+.price-list-menu-button:focus {
+    outline: none !important;
+}
