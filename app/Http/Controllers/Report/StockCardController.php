@@ -23,14 +23,13 @@ class StockCardController extends Controller
 
         if($productId) {
             $product = Product::query()->findOrFail($productId);
+            $stockLogs = StockCardService::getBaseQueryProductIndex($startDate, $finalDate, $productId);
+
+            $initialStock = $stockLogs->first() ? $stockLogs->first()->initial_stock : 0;
+
+            $totalIncomingQuantity = $stockLogs->where('quantity', '>=', 0)->sum('quantity');
+            $totalOutgoingQuantity = $stockLogs->where('quantity', '<', 0)->sum('quantity');
         }
-
-        $stockLogs = StockCardService::getBaseQueryProductIndex($startDate, $finalDate, $productId);
-
-        $initialStock = $stockLogs->first() ? $stockLogs->first()->initial_stock : 0;
-
-        $totalIncomingQuantity = $stockLogs->where('quantity', '>=', 0)->sum('quantity');
-        $totalOutgoingQuantity = $stockLogs->where('quantity', '<', 0)->sum('quantity');
 
         $data = [
             'startDate' => $startDate,
@@ -38,10 +37,10 @@ class StockCardController extends Controller
             'productId' => $productId,
             'products' => $products ?? [],
             'product' => $product ?? null,
-            'stockLogs' => $stockLogs,
-            'initialStock' => $initialStock,
-            'totalIncomingQuantity' => $totalIncomingQuantity,
-            'totalOutgoingQuantity' => $totalOutgoingQuantity,
+            'stockLogs' => $stockLogs ?? collect([]),
+            'initialStock' => $initialStock ?? 0,
+            'totalIncomingQuantity' => $totalIncomingQuantity ?? 0,
+            'totalOutgoingQuantity' => $totalOutgoingQuantity ?? 0,
         ];
 
         return view('pages.admin.report.stock-card.index', $data);

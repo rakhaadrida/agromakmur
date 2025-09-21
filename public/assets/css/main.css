@@ -1636,8 +1636,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 8.2rem !important;
 }
 
+.stock-card-report-date {
+    margin-top: -5px !important;
+}
+
+.stock-card-export-button {
+    margin-top: -55px !important;
+}
+
 .th-stock-card-background {
-    background-color: #f8f824;
+    background-color: #f8f824 !important;
 }
 
 .th-stock-card-number {

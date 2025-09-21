@@ -14,6 +14,7 @@ use App\Models\Subcategory;
 use App\Models\Unit;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
+use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -252,6 +253,17 @@ class ProductController extends Controller
                     'warehouse_id' => $request->get('warehouse_id')[$index],
                     'stock' => $stock
                 ]);
+
+                /* ProductService::createProductStockLog(
+                    $product->id,
+                    Carbon::now(),
+                    $product->id,
+                    $request->get('warehouse_id')[$index],
+                    0,
+                    $stock,
+                    null,
+                    null
+                ); */
             }
 
             DB::commit();

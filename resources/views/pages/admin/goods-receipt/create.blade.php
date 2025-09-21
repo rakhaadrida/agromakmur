@@ -159,6 +159,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
@@ -294,10 +295,13 @@
             table.on('change', 'select[name="unit[]"]', function () {
                 const index = $(this).closest('tr').index();
                 const selected = $(this).find(':selected');
+                const actualPriceValue = $(`#actualPrice-${index}`).val();
+                const realQuantity = selected.data('foo');
 
                 $(`#unitValue-${index}`).val(this.value);
-                $(`#realQuantity-${index}`).val(selected.data('foo'));
+                $(`#realQuantity-${index}`).val(realQuantity);
 
+                $(`#price-${index}`).val(thousandSeparator(numberFormat(actualPriceValue) * realQuantity));
                 calculateTotal(index);
             });
 
@@ -443,6 +447,7 @@
                         }
 
                         let price = $(`#price-${index}`);
+                        let actualPrice = $(`#actualPrice-${index}`);
                         let wages = $(`#wages-${index}`);
                         let shippingCost = $(`#shippingCost-${index}`);
                         let quantity = $(`#quantity-${index}`);
@@ -451,6 +456,7 @@
 
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
+                        actualPrice.val(productPrice);
 
                         let elements = [price, quantity];
                         handleRequiredReadonlyAttribute(elements);
@@ -499,7 +505,6 @@
                 let shippingCost = document.getElementById(`shippingCost-${index}`);
                 let total = document.getElementById(`total-${index}`);
 
-                let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
                 let currentTotal = 0;
 
                 if(quantity.value === "") {
@@ -512,17 +517,11 @@
                     let totalExpenses = wagesAmount + shippingCostAmount;
 
                     currentTotal = numberFormat(total.value);
-                    total.value = thousandSeparator((realQuantity * numberFormat(price.value) + totalExpenses));
+                    total.value = thousandSeparator((numberFormat(quantity.value) * numberFormat(price.value) + totalExpenses));
                     calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
                 }
 
                 calculateTax(numberFormat(subtotal.value));
-            }
-
-            function getRealQuantity(quantity, index) {
-                let realQuantity = $(`#realQuantity-${index}`).val();
-
-                return +quantity * +realQuantity;
             }
 
             function calculateSubtotal(previousAmount, currentAmount, subtotal) {

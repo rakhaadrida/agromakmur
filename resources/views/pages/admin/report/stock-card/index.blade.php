@@ -70,10 +70,10 @@
                                             Product Name : {{ $product->name ?? '' }}
                                         </h5>
                                     </div>
-                                    <div class="row justify-content-center" style="margin-top: -5px">
+                                    <div class="row justify-content-center stock-card-report-date">
                                         <h5 class="text-bold text-dark">Report Date : {{ formatDate($startDate, 'd-M-y') }} s/d {{ formatDate($finalDate, 'd-M-y') }}</h5>
                                     </div>
-                                    <div class="row justify-content-end" style="margin-top: -55px">
+                                    <div class="row justify-content-end stock-card-export-button">
                                         <div class="col-2">
                                             <button type="submit" formaction="" formmethod="POST"  class="btn btn-success btn-block text-bold">Download Excel</button>
                                         </div>
@@ -151,7 +151,7 @@
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($totalOutgoingQuantity * -1) }}</td>
                                                 <td colspan="3"></td>
                                             </tr>
-                                            <tr style="background-color: yellow">
+                                            <tr class="th-stock-card-background">
                                                 <td colspan="5" class="text-bold text-dark text-center">Final Stock</td>
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock + $totalIncomingQuantity - ($totalOutgoingQuantity * -1)) }}</td>
                                                 <td colspan="6"></td>
