@@ -91,6 +91,7 @@ class GoodsReceiptService
                         $productStock,
                         $approvalItem->actual_quantity,
                         $goodsReceipt->id,
+                        $goodsReceipt->date,
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
                         $approvalItem->total
@@ -98,6 +99,7 @@ class GoodsReceiptService
                 } else {
                     ProductService::createProductStockLog(
                         $goodsReceipt->id,
+                        $goodsReceipt->date,
                         $approvalItem->product_id,
                         $goodsReceipt->warehouse_id,
                         $productStock ? $productStock->stock - $receiptItem->actual_quantity : 0,

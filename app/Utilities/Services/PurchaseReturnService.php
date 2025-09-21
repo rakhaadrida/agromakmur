@@ -76,6 +76,7 @@ class PurchaseReturnService
 
                     ProductService::createProductStockLog(
                         $purchaseReturn->id,
+                        $purchaseReturn->date,
                         $productId,
                         $returnWarehouse->id,
                         $initialStock,
@@ -89,6 +90,7 @@ class PurchaseReturnService
                     if($actualReceivedQuantity > 0) {
                         ProductService::createProductStockLog(
                             $purchaseReturn->id,
+                            $purchaseReturn->date,
                             $productId,
                             $returnWarehouse->id,
                             $initialDelivered,

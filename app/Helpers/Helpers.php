@@ -221,6 +221,11 @@ function getApprovalTypeLabel($type): string
     return Constant::APPROVAL_TYPE_LABELS[$type];
 }
 
+function getProductStockLogTypeLabel($type): string
+{
+    return Constant::PRODUCT_STOCK_LOG_TYPE_LABELS[$type];
+}
+
 function isWaitingApproval($status): bool
 {
     return in_array($status, [
@@ -358,6 +363,22 @@ function isAccountReceivablePaid($status): bool
     return $status == Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
 }
 
+function isSupplierLog($type): bool
+{
+    return in_array($type, [
+        Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT,
+        Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN,
+    ]);
+}
+
+function isCustomerLog($type): bool
+{
+    return in_array($type, [
+        Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER,
+        Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN,
+    ]);
+}
+
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';
@@ -423,5 +444,5 @@ function formatPrice($amount)
 
 function formatQuantity($amount)
 {
-    return number_format($amount, 0, ',', '.');
+    return abs(number_format($amount, 0, ',', '.'));
 }

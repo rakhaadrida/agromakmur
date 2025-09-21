@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_stock_logs', function (Blueprint $table) {
             $table->id();
             $table->morphs('subject');
+            $table->dateTime('subject_date');
             $table->enum('type', [
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT,
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER,

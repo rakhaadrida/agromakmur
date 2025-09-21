@@ -153,7 +153,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::group(['namespace' => 'Report', 'prefix' => 'report', 'as' => 'report.'], function () {
             Route::resource('product-histories', 'ProductHistoryController')->only(['index', 'show']);
             Route::resource('low-stocks', 'LowStockController')->only(['index']);
-//            Route::resource('stock-cards', 'StockCardController')->only(['index']);
+            Route::resource('stock-cards', 'StockCardController')->only(['index']);
             Route::resource('incoming-items', 'IncomingItemController')->only(['index']);
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);
             Route::resource('price-lists', 'PriceListController')->only(['index']);

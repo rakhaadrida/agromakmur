@@ -1,0 +1,181 @@
+@extends('layouts.admin')
+
+@push('addon-style')
+    <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+@endpush
+
+@section('content')
+    <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-between mb-0">
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Stock Card</h1>
+        </div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="row">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="card show">
+                        <div class="card-body">
+                            <form action="{{ route('report.stock-cards.index') }}" method="GET">
+                                <div class="container so-container">
+                                    <div class="form-group row">
+                                        <label for="productSKU" class="col-2 col-form-label text-bold text-right filter-supplier-receipt">Product SKU</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <select class="selectpicker stock-card-sku-select-picker" name="product_id" id="productSku" data-live-search="true" data-size="6" title="Choose SKU">
+                                                @foreach($products as $item)
+                                                    <option value="{{ $item->id }}" data-tokens="{{ $item->sku }}" @if($productId == $item->id) selected @endif>{{ $item->sku }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <label for="productName" class="col-auto col-form-label text-bold text-right filter-product-name-stock-card">Product Name</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4">
+                                            <select class="selectpicker product-history-select-picker" name="product_name" id="productName" data-live-search="true" data-size="6" title="Choose Product Name">
+                                                @foreach($products as $item)
+                                                    <option value="{{ $item->id }}" data-tokens="{{ $item->name }}" @if($productId == $item->id) selected @endif>{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row filter-date-marketing-report">
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
+                                        </div>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-stock-card">Final Date</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
+                                        </div>
+                                        <div class="col-1 mt-1 btn-search-receipt">
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <h5 class="text-bold text-dark">
+                                            Product Name : {{ $product->name ?? '' }}
+                                        </h5>
+                                    </div>
+                                    <div class="row justify-content-center" style="margin-top: -5px">
+                                        <h5 class="text-bold text-dark">Report Date : {{ formatDate($startDate, 'd-M-y') }} s/d {{ formatDate($finalDate, 'd-M-y') }}</h5>
+                                    </div>
+                                    <div class="row justify-content-end" style="margin-top: -55px">
+                                        <div class="col-2">
+                                            <button type="submit" formaction="" formmethod="POST"  class="btn btn-success btn-block text-bold">Download Excel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover table-stock-card">
+                                    <thead class="text-center text-bold text-dark" style="background-color: yellow">
+                                        <tr>
+                                            <td rowspan="2" style="width: 30px" class="align-middle">No</td>
+                                            <td rowspan="2" style="width: 80px" class="align-middle">Date</td>
+                                            <td rowspan="2" style="width: 60px" class="align-middle">Transaction Number</td>
+                                            <td rowspan="2" style="width: 60px" class="align-middle">Type</td>
+                                            <td rowspan="2" style="width: 120px" class="align-middle">Customer / Supplier</td>
+                                            <td colspan="3" class="align-middle">Incoming</td>
+                                            <td colspan="3">Outgoing</td>
+                                            <td rowspan="2" style="width: 65px" class="align-middle">Admin</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 40px" class="align-middle">{{ $product ? $product->unit->name : 'Unit' }}</td>
+                                            <td style="width: 40px" class="align-middle">Warehouse</td>
+                                            <td style="width: 70px" class="align-middle">Amount</td>
+                                            <td style="width: 40px" class="align-middle">{{ $product ? $product->unit->name : 'Unit' }}</td>
+                                            <td style="width: 40px" class="align-middle">Warehouse</td>
+                                            <td style="width: 70px" class="align-middle">Amount</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($stockLogs->count() > 0)
+                                            <tr>
+                                                <td colspan="5" class="text-bold text-dark text-center">Initial Stock</td>
+                                                <td class="text-bold text-dark text-right">{{ $initialStock }}</td>
+                                                <td colspan="6"></td>
+                                            </tr>
+                                            @foreach($stockLogs as $index => $stockLog)
+                                                <tr class="text-dark">
+                                                    <td class="align-middle text-center">{{ $index + 1 }}</td>
+                                                    <td class="align-middle text-center">{{ formatDate($stockLog->subject->date, 'd-M-y') }}</td>
+                                                    <td class="align-middle text-center">{{ $stockLog->subject->number }}</td>
+                                                    <td class="align-middle">{{ getProductStockLogTypeLabel($stockLog->type) }}</td>
+                                                    <td class="align-middle">
+                                                        @if(isSupplierLog($stockLog->type)) {{ $stockLog->supplier_name }} @elseif(isCustomerLog($stockLog->type)) {{ $stockLog->customer_name }} @else - @endif
+                                                    </td>
+                                                    <td class="align-middle text-right">
+                                                        {{ $stockLog->quantity >= 0 ? formatQuantity($stockLog->quantity) : '' }}
+                                                    </td>
+                                                    <td class="align-middle">{{ $stockLog->warehouse->name }}</td>
+                                                    <td class="align-middle text-right">{{ formatPrice($stockLog->final_amount) }}</td>
+                                                    <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatQuantity($stockLog->quantity) : '' }}</td>
+                                                    <td class="align-middle">{{ $stockLog->warehouse_name }}</td>
+                                                    <td class="align-middle text-right">{{ formatPrice($stockLog->final_amount) }}</td>
+                                                    <td class="align-middle text-center">{{ $stockLog->user->username }} - {{ formatDate($stockLog->subject->created_at, 'H:i:s') }}</td>
+                                                </tr>
+                                            @endforeach
+                                            <tr>
+                                                <td colspan="5" class="text-bold text-dark text-center">Total</td>
+                                                <td class="text-bold text-dark text-right">{{ $initialStock + $totalIncomingQuantity }}</td>
+                                                <td colspan="2"></td>
+                                                <td class="text-bold text-dark text-right">{{ $totalOutgoingQuantity }}</td>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            <tr style="background-color: yellow">
+                                                <td colspan="5" class="text-bold text-dark text-center">Final Stock</td>
+                                                <td class="text-bold text-dark text-right">{{ $initialStock + $totalIncomingQuantity - $totalOutgoingQuantity }}</td>
+                                                <td colspan="6"></td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="12" class="text-center text-bold text-dark h4 p-2">No Data Available</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('addon-script')
+    <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript">
+        $.fn.datepicker.dates['id'] = {
+            days:["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"],
+            daysShort:["Mgu","Sen","Sel","Rab","Kam","Jum","Sab"],
+            daysMin:["Min","Sen","Sel","Rab","Kam","Jum","Sab"],
+            months:["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
+            monthsShort:["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
+            today:"Hari Ini",
+            clear:"Kosongkan"
+        };
+
+        $('.datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'id',
+        });
+    </script>
+@endpush

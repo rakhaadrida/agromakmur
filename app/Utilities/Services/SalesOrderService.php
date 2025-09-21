@@ -149,6 +149,7 @@ class SalesOrderService
 
                 ProductService::createProductStockLog(
                     $salesOrder->id,
+                    $salesOrder->date,
                     $approvalItem->product_id,
                     $approvalItem->warehouse_id,
                     $initialStock,

@@ -214,6 +214,7 @@ class SalesOrderController extends Controller
 
                     ProductService::createProductStockLog(
                         $salesOrder->id,
+                        $salesOrder->date,
                         $item['product_id'],
                         $warehouseId,
                         $productStock ? $productStock->stock : 0,

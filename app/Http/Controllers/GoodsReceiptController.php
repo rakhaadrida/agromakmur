@@ -145,6 +145,7 @@ class GoodsReceiptController extends Controller
                         $productStock,
                         $actualQuantity,
                         $goodsReceipt->id,
+                        $goodsReceipt->date,
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
                         $total

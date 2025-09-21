@@ -105,6 +105,7 @@ class ProductTransferController extends Controller
 
                     ProductService::createProductStockLog(
                         $productTransfer->id,
+                        $productTransfer->date,
                         $productId,
                         $sourceWarehouseId,
                         $sourceWarehouseStock?->stock ?? 0,
@@ -125,6 +126,7 @@ class ProductTransferController extends Controller
                         $destinationWarehouseStock,
                         $actualQuantity,
                         $productTransfer->id,
+                        $productTransfer->date,
                         $destinationWarehouseId
                     );
                 }

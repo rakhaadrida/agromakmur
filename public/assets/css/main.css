@@ -457,9 +457,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: 0px 0px ;
 }
 
-.table-kartu-stok {
+.table-stock-card {
     font-size: 14px;
     font-weight: 600;
+    margin-top: 0.5rem;
 }
 
 .password-eye-icon {
@@ -1610,4 +1611,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .a-low-stock-amount {
     font-size: 16px !important;
+}
+
+.stock-card-sku-select-picker {
+    width: 10.1rem !important;
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 0.35rem;
+    padding: 0 !important;
+}
+
+.stock-card-sku-select-picker .dropdown-toggle {
+    padding: 0.25rem 0.35rem !important;
+    background: none !important;
+    font-weight: bold !important;
+    font-size: 0.875rem !important;
+    color: #6e707e !important;
+}
+
+.filter-product-name-stock-card {
+    width: 8.2rem !important;
+}
+
+.filter-final-date-stock-card {
+    width: 8.2rem !important;
 }

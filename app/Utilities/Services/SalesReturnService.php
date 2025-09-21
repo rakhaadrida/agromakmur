@@ -75,6 +75,7 @@ class SalesReturnService
 
                     ProductService::createProductStockLog(
                         $salesReturn->id,
+                        $salesReturn->date,
                         $productId,
                         $returnWarehouse->id,
                         $initialStock,
@@ -88,6 +89,7 @@ class SalesReturnService
                     if($actualDeliveredQuantity > 0) {
                         ProductService::createProductStockLog(
                             $salesReturn->id,
+                            $salesReturn->date,
                             $productId,
                             $returnWarehouse->id,
                             $initialDelivered,

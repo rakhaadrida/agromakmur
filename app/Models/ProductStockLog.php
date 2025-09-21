@@ -12,6 +12,7 @@ class ProductStockLog extends Model
     protected $fillable = [
         'subject_type',
         'subject_id',
+        'subject_date',
         'type',
         'product_id',
         'warehouse_id',
