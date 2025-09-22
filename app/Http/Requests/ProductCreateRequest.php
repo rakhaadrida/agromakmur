@@ -16,7 +16,7 @@ class ProductCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'category_id' => ['nullable', 'exists:categories,id,deleted_at,NULL'],
+            'category_id' => ['required', 'exists:categories,id,deleted_at,NULL'],
             'subcategory_id' => ['nullable', new ValidProductSubcategory(
                 $this->input('category_id'),
                 $this->input('subcategory_id')

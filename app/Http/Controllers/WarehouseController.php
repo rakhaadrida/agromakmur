@@ -7,6 +7,7 @@ use App\Http\Requests\WarehouseCreateRequest;
 use App\Http\Requests\WarehouseUpdateRequest;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
+use App\Utilities\Services\ProductStockService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +45,9 @@ class WarehouseController extends Controller
         try {
             DB::beginTransaction();
 
-            Warehouse::create($request->all());
+            $warehouse = Warehouse::create($request->all());
+
+            ProductStockService::createStockByWarehouse($warehouse);
 
             DB::commit();
 

@@ -37,7 +37,7 @@
                                     <label for="category" class="col-2 col-form-label text-bold text-right">Category</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="category_id" id="category" data-live-search="true">
+                                        <select class="selectpicker custom-select-picker" name="category_id" id="category" data-live-search="true" data-size="6" title="Enter or Choose Category" required>
                                             @foreach($categories as $category)
                                                 <option value="{{ $category->id }}" data-tokens="{{ $category->name }}">{{ $category->name }}</option>
                                             @endforeach
@@ -53,7 +53,7 @@
                                     <label for="subcategory" class="col-2 col-form-label text-bold text-right">Subcategory</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First" disabled>
+                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" data-size="6" title="Select Category First" required disabled>
                                         </select>
                                         @error('subcategory_id')
                                         <span class="invalid-feedback" role="alert">
@@ -180,7 +180,7 @@
 
                             if(!index) {
                                 subcategory.selectpicker({
-                                    title: 'Choose Subcategory'
+                                    title: 'Enter or Choose Subcategory'
                                 });
                             }
 
@@ -230,6 +230,12 @@
 
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
+
+                let checkForm = document.getElementById('form').checkValidity();
+                if(!checkForm) {
+                    document.getElementById('form').reportValidity();
+                    return false;
+                }
 
                 $('input[name="price[]"]').each(function() {
                     this.value = numberFormat(this.value);

@@ -15,6 +15,7 @@ use App\Models\Unit;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\ProductStockService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -92,6 +93,8 @@ class ProductController extends Controller
                     'price' => $price
                 ]);
             }
+
+            ProductStockService::createStockByProduct($product);
 
             DB::commit();
 
