@@ -74,8 +74,8 @@
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
-                                                <td class="text-center align-middle">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
-                                                <td class="text-right align-middle">{{ formatCurrency($goodsReceipt->grand_total) }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }}">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
+                                                <td class="text-right align-middle" data-sort="{{ $goodsReceipt->grand_total }}">{{ formatPrice($goodsReceipt->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}</td>
                                             </tr>
                                         @empty

@@ -83,8 +83,8 @@
                                             <td>{{ $planOrderItem->product->sku }} </td>
                                             <td>{{ $planOrderItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($planOrderItem->quantity) }}</td>
-                                            <td class="text-right">{{ formatCurrency($planOrderItem->price) }}</td>
-                                            <td class="text-right">{{ formatCurrency($planOrderItem->total) }}</td>
+                                            <td class="text-right">{{ formatPrice($planOrderItem->price) }}</td>
+                                            <td class="text-right">{{ formatPrice($planOrderItem->total) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

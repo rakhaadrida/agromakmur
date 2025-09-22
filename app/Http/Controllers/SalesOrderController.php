@@ -356,7 +356,7 @@ class SalesOrderController extends Controller
         foreach($salesOrderItems as $salesOrderItem) {
             $units[$salesOrderItem->product_id][] = [
                 'id' => $salesOrderItem->product_unit_id,
-                'name' => $salesOrderItem->unit_name,
+                'name' => $salesOrderItem->product_unit_name,
                 'quantity' => 1
             ];
         }

@@ -74,9 +74,9 @@
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $salesOrder->customer_name }}</td>
-                                                <td class="text-center align-middle">{{ $salesOrder->tempo }} Day(s)</td>
-                                                <td class="text-center align-middle">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
-                                                <td class="text-right align-middle">{{ formatCurrency($salesOrder->grand_total) }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ $salesOrder->tempo }}">{{ $salesOrder->tempo }} Day(s)</td>
+                                                <td class="text-center align-middle" data-sort="{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }}">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
+                                                <td class="text-right align-middle" data-sort="{{ $salesOrder->grand_total }}">{{ formatPrice($salesOrder->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>
                                                 <td class="text-center align-middle">{{ $salesOrder->user_name }}</td>
                                             </tr>

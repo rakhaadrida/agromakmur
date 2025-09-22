@@ -71,8 +71,8 @@
                                                 </td>
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
                                                 <td class="align-middle">{{ $planOrder->supplier_name }}</td>
-                                                <td class="align-middle text-center">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
-                                                <td class="align-middle text-right">{{ formatCurrency($planOrder->grand_total) }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
+                                                <td class="align-middle text-right" data-sort="{{ $planOrder->grand_total }}">{{ formatPrice($planOrder->grand_total) }}</td>
                                             </tr>
                                         @empty
                                             <tr>

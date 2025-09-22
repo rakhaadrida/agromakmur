@@ -169,10 +169,10 @@
                                                                 <td>{{ $goodsReceiptItem->product->sku }} </td>
                                                                 <td>{{ $goodsReceiptItem->product->name }}</td>
                                                                 <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->wages) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->shipping_cost) }}</td>
-                                                                <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
+                                                                <td class="text-right">{{ formatPrice($goodsReceiptItem->price) }}</td>
+                                                                <td class="text-right">{{ formatPrice($goodsReceiptItem->wages) }}</td>
+                                                                <td class="text-right">{{ formatPrice($goodsReceiptItem->shipping_cost) }}</td>
+                                                                <td class="text-right">{{ formatPrice($goodsReceiptItem->total) }}</td>
                                                             </tr>
                                                         @empty
                                                             <tr>
@@ -185,21 +185,21 @@
                                                     <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->subtotal) }}" readonly>
+                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->subtotal) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">
                                                     <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatCurrency($goodsReceipt->tax_amount) }}" readonly>
+                                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->tax_amount) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end grandtotal-so">
                                                     <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatCurrency($goodsReceipt->grand_total) }}" readonly>
+                                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->grand_total) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <hr>

@@ -118,10 +118,10 @@
                                             <td>{{ $goodsReceiptItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
                                             <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
-                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->price) }}</td>
-                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->wages) }}</td>
-                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->shipping_cost) }}</td>
-                                            <td class="text-right">{{ formatCurrency($goodsReceiptItem->total) }}</td>
+                                            <td class="text-right">{{ formatPrice($goodsReceiptItem->price) }}</td>
+                                            <td class="text-right">{{ formatPrice($goodsReceiptItem->wages) }}</td>
+                                            <td class="text-right">{{ formatPrice($goodsReceiptItem->shipping_cost) }}</td>
+                                            <td class="text-right">{{ formatPrice($goodsReceiptItem->total) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

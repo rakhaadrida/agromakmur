@@ -428,7 +428,7 @@ function getDueDate($date, $tempo, $format): string
     return formatDate($dueDate, $format);
 }
 
-function getInvoiceAge($date, $tempo): string
+function getInvoiceAge($date, $tempo): int
 {
     $now = \Carbon\Carbon::now();
     $invoiceDate = \Carbon\Carbon::parse($date);
@@ -448,6 +448,12 @@ function getTotalArray($array)
     return formatQuantity(array_sum($array));
 }
 
+function getActualPrice($quantity, $actualQuantity, $price)
+{
+    $realQuantity = $actualQuantity / $quantity;
+
+    return $price / $realQuantity;
+}
 
 function formatDate($date, $format)
 {

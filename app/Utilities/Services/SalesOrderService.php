@@ -73,12 +73,16 @@ class SalesOrderService
 
                 $discountPercentage = number_format((($totalDiscount - 100) * -1), 2, ",", "");
 
+                $realQuantity = $items->sum('actual_quantity') / $items->sum('quantity');
+                $actualPrice = $items->first()->price / $realQuantity;
+
                 return (object) [
                     'id' => $items->first()->id,
                     'product_id' => $productId,
                     'product_sku' => $items->first()->product->sku,
                     'product_name' => $items->first()->product->name,
                     'product_unit_id' => $items->first()->product->unit_id,
+                    'product_unit_name' => $items->first()->product->unit->name,
                     'warehouse_ids' => $items->pluck('warehouse_id')->unique()->implode(','),
                     'warehouse_stocks' => $items->pluck('quantity')->unique()->implode(','),
                     'quantity' => $items->sum('quantity'),
@@ -87,6 +91,7 @@ class SalesOrderService
                     'unit_name' => $items->first()->unit->name,
                     'price_id' => $items->first()->price_id,
                     'price' => $items->first()->price,
+                    'actual_price' => $actualPrice,
                     'total' => $items->sum('total'),
                     'discount' => $items->first()->discount,
                     'discount_percentage' => $discountPercentage,
