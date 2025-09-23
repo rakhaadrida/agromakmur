@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\Price;
+use App\Models\ProductPrice;
 use App\Utilities\Constant;
 
 class PriceService
@@ -31,5 +32,14 @@ class PriceService
                 'type' => Constant::PRICE_TYPE_GENERAL
             ]);
         }
+    }
+
+    public static function restoreProductPricesByPriceId($priceId) {
+        $prices = ProductPrice::onlyTrashed()
+            ->where('price_id', $priceId);
+
+        $prices->restore();
+
+        return true;
     }
 }

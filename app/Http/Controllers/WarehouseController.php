@@ -106,6 +106,8 @@ class WarehouseController extends Controller
             DB::beginTransaction();
 
             $warehouse = Warehouse::query()->findOrFail($id);
+
+            $warehouse->productStocks()->delete();
             $warehouse->delete();
 
             DB::commit();
@@ -141,6 +143,8 @@ class WarehouseController extends Controller
             }
 
             $warehouses->restore();
+
+            ProductStockService::restoreStockByWarehouseId($id);
 
             DB::commit();
 

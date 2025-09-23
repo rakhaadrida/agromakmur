@@ -127,4 +127,22 @@ class ProductService
             ->whereNull('deleted_at')
             ->get();
     }
+
+    public static function restoreProductPricesByProductId($productId) {
+        $prices = ProductPrice::onlyTrashed()
+            ->where('product_id', $productId);
+
+        $prices->restore();
+
+        return true;
+    }
+
+    public static function restoreProductConversionsByProductId($productId) {
+        $conversions = ProductConversion::onlyTrashed()
+            ->where('product_id', $productId);
+
+        $conversions->restore();
+
+        return true;
+    }
 }

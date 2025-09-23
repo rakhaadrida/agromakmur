@@ -14,4 +14,8 @@ class Price extends Model
         'code',
         'type',
     ];
+
+    public function productPrices() {
+        return $this->hasMany(ProductPrice::class, 'price_id', 'id');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\Warehouse;
 
 class ProductStockService
@@ -32,6 +33,24 @@ class ProductStockService
                 'deleted_at' => $product->deleted_at
             ]);
         }
+
+        return true;
+    }
+
+    public static function restoreStockByWarehouseId($warehouseId) {
+        $productStocks = ProductStock::onlyTrashed()
+            ->where('warehouse_id', $warehouseId);
+
+        $productStocks->restore();
+
+        return true;
+    }
+
+    public static function restoreStockByProductId($productId) {
+        $productStocks = ProductStock::onlyTrashed()
+            ->where('product_id', $productId);
+
+        $productStocks->restore();
 
         return true;
     }

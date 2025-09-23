@@ -95,6 +95,7 @@ class PriceController extends Controller
             DB::beginTransaction();
 
             $price = Price::query()->findOrFail($id);
+            $price->productPrices()->delete();
             $price->delete();
 
             DB::commit();
@@ -130,6 +131,8 @@ class PriceController extends Controller
             }
 
             $prices->restore();
+
+            PriceService::restoreProductPricesByPriceId($id);
 
             DB::commit();
 

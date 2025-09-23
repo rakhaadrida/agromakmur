@@ -192,6 +192,7 @@ class ProductController extends Controller
             $product = Product::query()->findOrFail($id);
             $product->productPrices()->delete();
             $product->productConversions()->delete();
+            $product->productStocks()->delete();
             $product->delete();
 
             DB::commit();
@@ -313,6 +314,10 @@ class ProductController extends Controller
             }
 
             $products->restore();
+
+            ProductStockService::restoreStockByProductId($id);
+            ProductService::restoreProductPricesByProductId($id);
+            ProductService::restoreProductConversionsByProductId($id);
 
             DB::commit();
 

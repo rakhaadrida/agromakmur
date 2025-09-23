@@ -1156,11 +1156,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-product-stock {
-    width: 110px;
+    width: 90px;
 }
 
 .th-product-action {
-    width: 120px;
+    width: 150px;
 }
 
 .validate-password-eye-icon {
