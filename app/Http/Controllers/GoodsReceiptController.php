@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GoodsReceiptExport;
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
@@ -23,6 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GoodsReceiptController extends Controller
 {
@@ -469,6 +471,12 @@ class GoodsReceiptController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new GoodsReceiptExport($request), 'Goods_Receipt_Data_'.$fileDate.'.xlsx');
     }
 
     public function indexAjax(Request $request) {

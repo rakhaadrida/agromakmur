@@ -1,0 +1,44 @@
+<html lang="en">
+    <body>
+        <div>
+            <h2>Goods Receipt Items</h2>
+            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
+            <h5>Export Date : {{ $exportDate }}</h5>
+        </div>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Receipt Number</th>
+                    <th>Product SKU</th>
+                    <th>Product Name</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Wages</th>
+                    <th>Shipping Cost</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($goodsReceiptItems as $index => $goodsReceiptItem)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $goodsReceiptItem->receipt_number }}</td>
+                        <td>{{ $goodsReceiptItem->product_sku }}</td>
+                        <td>{{ $goodsReceiptItem->product_name }}</td>
+                        <td>{{ $goodsReceiptItem->quantity }}</td>
+                        <td>{{ $goodsReceiptItem->unit_name }}</td>
+                        <td>{{ $goodsReceiptItem->price }}</td>
+                        <td>{{ $goodsReceiptItem->wages }}</td>
+                        <td>{{ $goodsReceiptItem->shipping_cost }}</td>
+                        <td>{{ $goodsReceiptItem->total }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <br>
+        <h4>Copyright &copy; 2020 - {{ \Carbon\Carbon::now()->format('Y') }}  | {{ env('APP_DEVELOPER') }}</h4>
+    </body>
+</html>

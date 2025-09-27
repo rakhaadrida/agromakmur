@@ -22,6 +22,22 @@ class GoodsReceiptService
             ->leftJoin('users', 'users.id', 'goods_receipts.user_id');
     }
 
+    public static function getBaseQueryExportItem() {
+        return GoodsReceiptItem::query()
+            ->select(
+                'goods_receipt_items.*',
+                'goods_receipts.number AS receipt_number',
+                'products.sku AS product_sku',
+                'products.name AS product_name',
+                'units.name AS unit_name'
+            )
+            ->join('goods_receipts', 'goods_receipts.id', 'goods_receipt_items.goods_receipt_id')
+            ->join('products', 'products.id', 'goods_receipt_items.product_id')
+            ->join('units', 'units.id', 'goods_receipt_items.unit_id')
+            ->whereNull('goods_receipt_items.deleted_at')
+            ->whereNull('goods_receipts.deleted_at');
+    }
+
     public static function mapGoodsReceiptIndex($goodsReceipts) {
         foreach ($goodsReceipts as $goodsReceipt) {
             if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
