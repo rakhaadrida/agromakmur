@@ -23,6 +23,22 @@ class SalesOrderService
             ->leftJoin('users', 'users.id', 'sales_orders.user_id');
     }
 
+    public static function getBaseQueryExportItem() {
+        return SalesOrderItem::query()
+            ->select(
+                'sales_order_items.*',
+                'sales_orders.number AS order_number',
+                'products.sku AS product_sku',
+                'products.name AS product_name',
+                'units.name AS unit_name'
+            )
+            ->join('sales_orders', 'sales_orders.id', 'sales_order_items.sales_order_id')
+            ->join('products', 'products.id', 'sales_order_items.product_id')
+            ->join('units', 'units.id', 'sales_order_items.unit_id')
+            ->whereNull('sales_order_items.deleted_at')
+            ->whereNull('sales_orders.deleted_at');
+    }
+
     public static function mapSalesOrderIndex($salesOrders, $isIndexEdit = false) {
         foreach ($salesOrders as $salesOrder) {
             if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
@@ -97,6 +113,51 @@ class SalesOrderService
                     'discount_percentage' => $discountPercentage,
                     'discount_amount' => $items->sum('discount_amount'),
                     'final_amount' => $items->sum('final_amount'),
+                ];
+            })
+            ->values();
+    }
+
+    public static function mapSalesOrderItemExport($salesOrderItems) {
+        return $salesOrderItems
+            ->groupBy(function ($item) {
+                return $item->sales_order_id . '-' . $item->product_id;
+            })
+            ->map(function ($items, $key) {
+                $first = $items->first();
+
+                $totalDiscount = 100;
+                $discount = str_replace(',', '.', $first->discount);
+                $arrayDiscounts = explode('+', $discount);
+
+                foreach ($arrayDiscounts as $arrayDiscount) {
+                    $arrayDiscount = (float) $arrayDiscount;
+                    $totalDiscount -= ($arrayDiscount * $totalDiscount) / 100;
+                }
+
+                $discountPercentage = number_format((($totalDiscount - 100) * -1), 2, ",", "");
+
+                $realQuantity = $items->sum('actual_quantity') / max(1, $items->sum('quantity'));
+                $actualPrice = $first->price / $realQuantity;
+
+                return (object) [
+                    'id'                  => $first->id,
+                    'order_number'        => $first->salesOrder->number,
+                    'product_id'          => $first->product_id,
+                    'product_sku'         => $first->product->sku,
+                    'product_name'        => $first->product->name,
+                    'quantity'            => $items->sum('quantity'),
+                    'actual_quantity'     => $items->sum('actual_quantity'),
+                    'unit_id'             => $first->unit_id,
+                    'unit_name'           => $first->unit->name,
+                    'price_id'            => $first->price_id,
+                    'price'               => $first->price,
+                    'actual_price'        => $actualPrice,
+                    'total'               => $items->sum('total'),
+                    'discount'            => $first->discount,
+                    'discount_percentage' => $discountPercentage,
+                    'discount_amount'     => $items->sum('discount_amount'),
+                    'final_amount'        => $items->sum('final_amount'),
                 ];
             })
             ->values();

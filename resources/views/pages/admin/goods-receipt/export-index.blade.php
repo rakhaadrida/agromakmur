@@ -32,7 +32,7 @@
                         <td>{{ $goodsReceipt->tempo }} Day(s)</td>
                         <td>{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
                         <td>{{ $goodsReceipt->grand_total }}</td>
-                        <td>{{ getGoodsReceiptstatusLabel($goodsReceipt->status) }}</td>
+                        <td>{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}</td>
                         <td>{{ $goodsReceipt->user_name }}</td>
                     </tr>
                 @endforeach

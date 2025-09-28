@@ -143,6 +143,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
         Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
+        Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');
 
         Route::resource('delivery-orders', 'DeliveryOrderController');
         Route::get('delivery-orders/{id}/detail', 'DeliveryOrderController@detail')->name('delivery-orders.detail');

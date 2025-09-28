@@ -13,4 +13,11 @@ class WarehouseService
             ->whereNull('deleted_at')
             ->first();
     }
+
+    public static function getGeneralWarehouse() {
+        return Warehouse::query()
+            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
+            ->whereNull('deleted_at')
+            ->get();
+    }
 }

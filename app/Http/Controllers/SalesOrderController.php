@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SalesOrderExport;
 use App\Http\Requests\SalesOrderCancelRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
 use App\Http\Requests\SalesOrderUpdateRequest;
@@ -19,12 +20,14 @@ use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
+use App\Utilities\Services\WarehouseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesOrderController extends Controller
 {
@@ -79,9 +82,7 @@ class SalesOrderController extends Controller
 
         $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
 
-        $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
-            ->get();
+        $warehouses = WarehouseService::getGeneralWarehouse();
 
         $data = [
             'id' => $id,
@@ -629,6 +630,12 @@ class SalesOrderController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new SalesOrderExport($request), 'Sales_Order_Data_'.$fileDate.'.xlsx');
     }
 
     public function indexAjax(Request $request) {
