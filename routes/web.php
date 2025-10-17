@@ -180,6 +180,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('account-receivables/{id}/detail', 'AccountReceivableController@detail')->name('account-receivables.detail');
         Route::get('account-receivables/{id}/payment', 'AccountReceivableController@payment')->name('account-receivables.payment');
         Route::get('account-receivables/{id}/return', 'AccountReceivableController@return')->name('account-receivables.return');
+        Route::get('account-receivables/{id}/export', 'AccountReceivableController@exportDetail')->name('account-receivables.export-detail');
         Route::get('export-account-receivables', 'AccountReceivableController@export')->name('account-receivables.export');
         Route::get('check-invoices', 'AccountReceivableController@checkInvoice')->name('account-receivables.check-invoice');
 

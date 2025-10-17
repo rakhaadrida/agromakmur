@@ -2,10 +2,13 @@
 
 namespace App\Exports;
 
+use App\Models\Customer;
+use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
@@ -16,12 +19,16 @@ use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
+class AccountReceivableDetailExport extends DefaultValueBinder  implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
+    use Exportable;
+
+    protected $id;
     protected Request $request;
 
-    public function __construct(Request $request)
+    public function __construct($id, Request $request)
     {
+        $this->id = $id;
         $this->request = $request;
     }
 
@@ -29,21 +36,23 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
     {
         $receivableItems = $this->getReceivableItemsData();
 
+        $customer = Customer::query()->find($this->request->id);
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
             'startDate' => $this->request->start_date,
             'finalDate' => $this->request->final_date,
             'receivableItems' => $receivableItems,
+            'customer' => $customer,
             'exportDate' => $exportDate,
         ];
 
-        return view('pages.finance.account-receivable.export-item', $data);
+        return view('pages.finance.account-receivable.export-detail', $data);
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Receivable_Items');
+        $sheet->setTitle('Account_Receivable');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -57,22 +66,22 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
 
         $range = 5 + $receivableItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'M'.$rangeStr;
+        $rangeTab = 'L'.$rangeStr;
 
-        $header = 'A5:M5';
+        $header = 'A5:L5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:M1');
-        $sheet->mergeCells('A2:M2');
-        $sheet->mergeCells('A3:M3');
+        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A2:L2');
+        $sheet->mergeCells('A3:L3');
 
-        $title = 'A1:M3';
+        $title = 'A1:L3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:M3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:L3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -89,30 +98,27 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
         $rangeIsiTable = 'A6:'.$rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        $rangeNumberCell = 'A6:A'.$rangeStr;
+        $rangeNumberCell = 'A6:E'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'C6:F'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'D6:E'.$rangeStr;
+        $rangeNumberCell = 'C6:D'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mm-yyyy');
 
-        $rangeNumberCell = 'H6:H'.$rangeStr;
+        $rangeNumberCell = 'G6:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'I6:L'.$rangeStr;
+        $rangeNumberCell = 'H6:K'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'M6:M'.$rangeStr;
+        $rangeNumberCell = 'L6:L'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['I', 'J', 'K', 'L'];
-        $dateColumns = ['D', 'E'];
+        $numericalColumns = ['H', 'I', 'J', 'K'];
+        $dateColumns = ['C', 'D'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);
@@ -141,16 +147,20 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
         $startDate = $this->request->start_date;
         $finalDate = $this->request->final_date;
 
-        $accountReceivables = AccountReceivableService::getExportIndexData($this->request);
-        $customerIds = $accountReceivables->pluck('customer_id')->unique()->values()->all();
+        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
+        $status = $accountReceivableStatuses;
+
+        if(!empty($this->request->status)) {
+            $status = [$this->request->status];
+        }
 
         $baseQuery = AccountReceivableService::getBaseQueryDetail();
 
         $accountReceivables = $baseQuery
+            ->where('sales_orders.customer_id', $this->request->id)
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->whereIn('sales_orders.customer_id', $customerIds)
-            ->orderBy('customers.name')
+            ->whereIn('account_receivables.status', $status)
             ->orderBy('sales_orders.date')
             ->orderBy('sales_orders.id')
             ->get();

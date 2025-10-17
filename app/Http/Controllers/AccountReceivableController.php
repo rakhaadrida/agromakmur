@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AccountReceivableDetailExport;
 use App\Exports\AccountReceivableExport;
 use App\Http\Requests\AccountReceivableCreateRequest;
 use App\Http\Requests\AccountReceivableUpdateRequest;
@@ -297,6 +298,15 @@ class AccountReceivableController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new AccountReceivableExport($request), 'Receivable_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function exportDetail(Request $request, $id) {
+        $customer = Customer::query()->findOrFail($id);
+        $customerName = preg_replace('/\s+/', '_', $customer->name);
+
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new AccountReceivableDetailExport($id, $request), 'Receivable_'.$customerName.'_'.$fileDate.'.xlsx');
     }
 
     public function checkInvoice(Request $request) {
