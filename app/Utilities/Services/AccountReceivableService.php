@@ -4,6 +4,7 @@ namespace App\Utilities\Services;
 
 use App\Models\AccountReceivable;
 use App\Utilities\Constant;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AccountReceivableService
@@ -92,6 +93,47 @@ class AccountReceivableService
                 'account_receivables.id'
             )
             ->groupBy('account_receivables.id');
+    }
+
+    public static function getExportIndexData($filter) {
+        $startDate = $filter->start_date;
+        $finalDate = $filter->final_date;
+
+        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
+        $status = $accountReceivableStatuses;
+
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $baseQuery = static::getBaseQueryIndex();
+
+        $accountReceivables = $baseQuery
+            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('customers.name')
+            ->get();
+
+        foreach($accountReceivables as $accountReceivable) {
+            $paymentAmount = $accountReceivable->payment_amount ?? 0;
+            $returnAmount = $accountReceivable->return_amount ?? 0;
+
+            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
+            $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID;
+
+            if($outstandingAmount <= 0) {
+                $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
+            } else if($paymentAmount > 0 || $returnAmount > 0) {
+                $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
+            }
+
+            $accountReceivable->outstanding_amount = $outstandingAmount;
+            $accountReceivable->status = $receivableStatus;
+        }
+
+        return $accountReceivables->filter(function ($item) use ($status) {
+            return in_array($item->status, $status);
+        });
     }
 
     public static function createData($salesOrder) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AccountReceivableExport;
 use App\Http\Requests\AccountReceivableCreateRequest;
 use App\Http\Requests\AccountReceivableUpdateRequest;
 use App\Models\AccountReceivable;
@@ -16,6 +17,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountReceivableController extends Controller
 {
@@ -289,6 +291,12 @@ class AccountReceivableController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new AccountReceivableExport($request), 'Receivable_Data_'.$fileDate.'.xlsx');
     }
 
     public function checkInvoice(Request $request) {
