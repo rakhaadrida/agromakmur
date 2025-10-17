@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AccountPayableExport;
+use App\Exports\AccountReceivableDetailExport;
 use App\Http\Requests\AccountPayableCreateRequest;
 use App\Http\Requests\AccountPayableUpdateRequest;
 use App\Models\AccountPayable;
+use App\Models\Customer;
 use App\Models\Supplier;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
@@ -13,6 +16,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountPayableController extends Controller
 {
@@ -265,5 +269,20 @@ class AccountPayableController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new AccountPayableExport($request), 'Payable_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function exportDetail(Request $request, $id) {
+        $customer = Customer::query()->findOrFail($id);
+        $customerName = preg_replace('/\s+/', '_', $customer->name);
+
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new AccountReceivableDetailExport($id, $request), 'Receivable_'.$customerName.'_'.$fileDate.'.xlsx');
     }
 }
