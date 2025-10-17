@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DeliveryOrderExport;
 use App\Http\Requests\DeliveryOrderCancelRequest;
 use App\Http\Requests\DeliveryOrderCreateRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DeliveryOrderController extends Controller
 {
@@ -461,5 +463,11 @@ class DeliveryOrderController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new DeliveryOrderExport($request), 'Delivery_Order_Data_'.$fileDate.'.xlsx');
     }
 }

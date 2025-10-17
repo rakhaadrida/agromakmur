@@ -24,6 +24,22 @@ class DeliveryOrderService
             ->leftJoin('users', 'users.id', 'delivery_orders.user_id');
     }
 
+    public static function getBaseQueryExportItem() {
+        return DeliveryOrderItem::query()
+            ->select(
+                'delivery_order_items.*',
+                'delivery_orders.number AS delivery_number',
+                'products.sku AS product_sku',
+                'products.name AS product_name',
+                'units.name AS unit_name'
+            )
+            ->join('delivery_orders', 'delivery_orders.id', 'delivery_order_items.delivery_order_id')
+            ->join('products', 'products.id', 'delivery_order_items.product_id')
+            ->join('units', 'units.id', 'delivery_order_items.unit_id')
+            ->whereNull('delivery_order_items.deleted_at')
+            ->whereNull('delivery_orders.deleted_at');
+    }
+
     public static function createData($salesOrder) {
         return DeliveryOrder::create([
             'sales_order_id' => $salesOrder->id,

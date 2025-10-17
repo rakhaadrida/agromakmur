@@ -42,7 +42,7 @@
                                             <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
                                         </div>
                                         <div class="col-1 mt-1 ml-n3">
-                                            <button type="button" class="btn btn-success btn-sm btn-block text-bold">Export</button>
+                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold" formaction="{{ route('delivery-orders.export') }}" formmethod="GET">Export</button>
                                         </div>
                                     </div>
                                 </div>
