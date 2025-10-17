@@ -52,6 +52,9 @@
                                         <div class="col-1 mt-1 ml-n2">
                                             <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
                                         </div>
+                                        <div class="col-1 mt-1 ml-n3">
+                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold" formaction="{{ route('account-payables.export-detail', $id) }}" formmethod="GET">Export</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AccountPayableDetailExport;
 use App\Exports\AccountPayableExport;
-use App\Exports\AccountReceivableDetailExport;
 use App\Http\Requests\AccountPayableCreateRequest;
 use App\Http\Requests\AccountPayableUpdateRequest;
 use App\Models\AccountPayable;
-use App\Models\Customer;
 use App\Models\Supplier;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
@@ -278,11 +277,11 @@ class AccountPayableController extends Controller
     }
 
     public function exportDetail(Request $request, $id) {
-        $customer = Customer::query()->findOrFail($id);
-        $customerName = preg_replace('/\s+/', '_', $customer->name);
+        $supplier = Supplier::query()->findOrFail($id);
+        $supplierName = preg_replace('/\s+/', '_', $supplier->name);
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountReceivableDetailExport($id, $request), 'Receivable_'.$customerName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountPayableDetailExport($id, $request), 'Payable'.$supplierName.'_'.$fileDate.'.xlsx');
     }
 }
