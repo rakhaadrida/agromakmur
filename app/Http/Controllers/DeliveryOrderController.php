@@ -34,29 +34,29 @@ class DeliveryOrderController extends Controller
             $finalDate = $startDate;
         }
 
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
 
         if($startDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
+            $baseQuery = $baseQuery->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
         }
 
         if($finalDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
+            $baseQuery = $baseQuery->where('delivery_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
         }
 
-        $salesOrders = $baseQuery
-            ->orderBy('sales_orders.date')
+        $deliveryOrders = $baseQuery
+            ->orderBy('delivery_orders.date')
             ->get();
 
-        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders);
+        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders);
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'salesOrders' => $salesOrders
+            'deliveryOrders' => $deliveryOrders
         ];
 
-        return view('pages.admin.sales-order.index', $data);
+        return view('pages.admin.delivery-order.index', $data);
     }
 
     public function detail($id) {

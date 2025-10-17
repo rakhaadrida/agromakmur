@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Sales Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Delivery Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -26,10 +26,10 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('sales-orders.index') }}" method="GET" id="form">
+                            <form action="{{ route('delivery-orders.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startDate" class="col-auto col-form-label text-bold">Order Date</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">Delivery Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
@@ -53,34 +53,34 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-code-transaction-index">Invoice Number</th>
                                             <th class="align-middle th-name-transaction-index">Customer</th>
-                                            <th class="align-middle th-tempo-transaction-index">Tempo</th>
-                                            <th class="align-middle th-tempo-transaction-index">Invoice Age</th>
-                                            <th class="align-middle th-total-transaction-index">Grand Total</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
                                             <th class="align-middle th-status-transaction-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($salesOrders as $key => $salesOrder)
+                                        @forelse ($deliveryOrders as $key => $deliveryOrder)
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td class="align-middle">
-                                                    <a href="{{ route('sales-orders.detail', $salesOrder->id) }}" class="btn btn-sm btn-link text-bold">
-                                                        {{ $salesOrder->number }}
+                                                    <a href="{{ route('delivery-orders.detail', $deliveryOrder->id) }}" class="btn btn-sm btn-link text-bold">
+                                                        {{ $deliveryOrder->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
-                                                <td class="align-middle">{{ $salesOrder->customer_name }}</td>
-                                                <td class="text-center align-middle">{{ $salesOrder->tempo }} Day(s)</td>
-                                                <td class="text-center align-middle">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
-                                                <td class="text-right align-middle">{{ formatCurrency($salesOrder->grand_total) }}</td>
-                                                <td class="text-center align-middle">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>
-                                                <td class="text-center align-middle">{{ $salesOrder->user_name }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
+                                                <td class="text-center align-middle">
+                                                    <a href="{{ route('sales-orders.detail', $deliveryOrder->sales_order_id) }}" class="btn btn-sm btn-link text-bold">
+                                                        {{ $deliveryOrder->sales_order_number }}
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
+                                                <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
+                                                <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="7" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

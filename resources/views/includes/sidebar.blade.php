@@ -105,6 +105,7 @@
                     <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Delivery Order</a>
                     <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Print Delivery Order</a>
                     <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Edit Delivery Order</a>
+                    <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Daily Delivery Order</a>
                 </div>
             </div>
         </li>
