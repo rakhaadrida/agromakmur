@@ -30,7 +30,7 @@ class SalesOrderItemSheet extends DefaultValueBinder  implements FromView, Shoul
 
         $productWarehouses = [];
         foreach($salesOrderItems as $salesOrderItem) {
-            $productWarehouses[$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
+            $productWarehouses[$salesOrderItem->sales_order_id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
         }
 
         $salesOrderItems = SalesOrderService::mapSalesOrderItemExport($salesOrderItems);
@@ -64,9 +64,10 @@ class SalesOrderItemSheet extends DefaultValueBinder  implements FromView, Shoul
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
         $salesOrderItems = $this->getOrderItemData();
+        $salesOrderItems = SalesOrderService::mapSalesOrderItemExport($salesOrderItems);
         $warehouses = WarehouseService::getGeneralWarehouse();
 
-        $range = 5 + $salesOrderItems->count();
+        $range = 6 + $salesOrderItems->count();
         $rangeStr = strval($range);
         $rangeColumn = $this->numberToExcelColumn(11 + $warehouses->count());
         $rangeTab = $rangeColumn.$rangeStr;
@@ -107,16 +108,32 @@ class SalesOrderItemSheet extends DefaultValueBinder  implements FromView, Shoul
         $rangeNumberCell = 'B7:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'E7:E'.$rangeStr;
+        $rangeQuantityColumn = $this->numberToExcelColumn(5 + $warehouses->count());
+        $rangeTab = $rangeQuantityColumn.$rangeStr;
+
+        $rangeNumberCell = 'E7:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'F7:F'.$rangeStr;
+        $rangeUnitColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 1);
+        $rangeTab = $rangeUnitColumn.$rangeStr;
+
+        $rangeNumberCell = $rangeUnitColumn.'7:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'G7:J'.$rangeStr;
+        $rangePriceColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 2);
+        $rangeFinalAmountColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 6);
+        $rangeTab = $rangeFinalAmountColumn.$rangeStr;
+
+        $rangeNumberCell = $rangePriceColumn.'7:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
+
+        $rangeDiscountColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 4);
+        $rangeTab = $rangeDiscountColumn.$rangeStr;
+
+        $rangeNumberCell = $rangeDiscountColumn.'7:'.$rangeTab;
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('@');
     }
 
     public function bindValue(Cell $cell, $value)

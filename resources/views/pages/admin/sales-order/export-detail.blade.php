@@ -38,7 +38,7 @@
                         <td>{{ $salesOrderItem->product_name }}</td>
                         <td>{{ $salesOrderItem->quantity }}</td>
                         @foreach($warehouses as $warehouse)
-                            <td>{{ $productWarehouses[$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
+                            <td>{{ $productWarehouses[$salesOrderItem->sales_order_id][$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
                         @endforeach
                         <td>{{ $salesOrderItem->unit_name }}</td>
                         <td>{{ $salesOrderItem->price }}</td>

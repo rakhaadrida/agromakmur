@@ -142,6 +142,7 @@ class SalesOrderService
 
                 return (object) [
                     'id'                  => $first->id,
+                    'sales_order_id'      => $first->sales_order_id,
                     'order_number'        => $first->salesOrder->number,
                     'product_id'          => $first->product_id,
                     'product_sku'         => $first->product->sku,
