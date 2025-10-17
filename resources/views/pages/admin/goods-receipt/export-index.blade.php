@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $goodsReceipt->number }}</td>
-                        <td>{{ formatDate($goodsReceipt->date, 'd M Y') }}</td>
+                        <td>{{ $goodsReceipt->date }}</td>
                         <td>{{ $goodsReceipt->supplier_name }}</td>
                         <td>{{ $goodsReceipt->warehouse_name }}</td>
                         <td>{{ $goodsReceipt->tempo }} Day(s)</td>

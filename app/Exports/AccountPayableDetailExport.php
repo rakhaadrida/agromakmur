@@ -102,7 +102,7 @@ class AccountPayableDetailExport extends DefaultValueBinder  implements FromView
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
         $rangeNumberCell = 'C6:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mm-yyyy');
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
         $rangeNumberCell = 'F6:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
@@ -133,7 +133,6 @@ class AccountPayableDetailExport extends DefaultValueBinder  implements FromView
                 return true;
             }
         }
-
 
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
 

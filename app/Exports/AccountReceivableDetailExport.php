@@ -102,7 +102,7 @@ class AccountReceivableDetailExport extends DefaultValueBinder  implements FromV
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
         $rangeNumberCell = 'C6:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mm-yyyy');
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
         $rangeNumberCell = 'G6:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
@@ -136,7 +136,6 @@ class AccountReceivableDetailExport extends DefaultValueBinder  implements FromV
                 return true;
             }
         }
-
 
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
 

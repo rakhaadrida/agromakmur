@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $deliveryOrder->number }}</td>
-                        <td>{{ formatDate($deliveryOrder->date, 'd M Y') }}</td>
+                        <td>{{ $deliveryOrder->date }}</td>
                         <td>{{ $deliveryOrder->sales_order_number }}</td>
                         <td>{{ $deliveryOrder->customer_name }}</td>
                         <td>{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>

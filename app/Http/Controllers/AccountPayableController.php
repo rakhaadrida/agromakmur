@@ -282,6 +282,6 @@ class AccountPayableController extends Controller
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountPayableDetailExport($id, $request), 'Payable'.$supplierName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountPayableDetailExport($id, $request), 'Payable_'.$supplierName.'_'.$fileDate.'.xlsx');
     }
 }

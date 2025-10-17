@@ -20,7 +20,7 @@ class AccountPayableExport implements WithMultipleSheets
     {
         return [
             new AccountPayableSheet($this->request),
-            new AccountPayableItemSheet($id, $this->request),
+            new AccountPayableItemSheet($this->request),
         ];
     }
 }

@@ -96,7 +96,7 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
         $rangeNumberCell = 'D6:E'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mm-yyyy');
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
         $rangeNumberCell = 'H6:H'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
@@ -130,7 +130,6 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
                 return true;
             }
         }
-
 
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
 

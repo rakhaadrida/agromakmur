@@ -8,13 +8,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles
+class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
     protected Request $request;
 
@@ -93,6 +95,9 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
         $rangeNumberCell = 'B6:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
+        $rangeNumberCell = 'C6:C'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
+
         $rangeNumberCell = 'E6:E'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
@@ -112,9 +117,23 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
     public function bindValue(Cell $cell, $value)
     {
         $numericalColumns = ['H'];
+        $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);
+        }
+
+        if (in_array($cell->getColumn(), $dateColumns) && !empty($value)) {
+            try {
+                $excelDate = Date::PHPToExcel(\Carbon\Carbon::parse($value));
+                $cell->setValueExplicit($excelDate, DataType::TYPE_NUMERIC);
+
+                return true;
+            } catch (\Exception $e) {
+                $cell->setValueExplicit($value, DataType::TYPE_STRING2);
+
+                return true;
+            }
         }
 
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);

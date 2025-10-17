@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $salesOrder->number }}</td>
-                        <td>{{ formatDate($salesOrder->date, 'd M Y') }}</td>
+                        <td>{{ $salesOrder->date }}</td>
                         <td>{{ $salesOrder->customer_name }}</td>
                         <td>{{ $salesOrder->marketing_name }}</td>
                         <td>{{ $salesOrder->tempo }} Day(s)</td>

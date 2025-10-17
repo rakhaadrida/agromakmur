@@ -8,10 +8,15 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class DeliveryOrderSheet implements FromView, ShouldAutoSize, WithStyles
+class DeliveryOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
     protected Request $request;
 
@@ -88,8 +93,33 @@ class DeliveryOrderSheet implements FromView, ShouldAutoSize, WithStyles
         $rangeNumberCell = 'A6:D'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
+        $rangeNumberCell = 'C6:C'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
+
         $rangeNumberCell = 'F6:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
+    }
+
+    public function bindValue(Cell $cell, $value)
+    {
+        $dateColumns = ['C'];
+
+        if (in_array($cell->getColumn(), $dateColumns) && !empty($value)) {
+            try {
+                $excelDate = Date::PHPToExcel(\Carbon\Carbon::parse($value));
+                $cell->setValueExplicit($excelDate, DataType::TYPE_NUMERIC);
+
+                return true;
+            } catch (\Exception $e) {
+                $cell->setValueExplicit($value, DataType::TYPE_STRING2);
+
+                return true;
+            }
+        }
+
+        $cell->setValueExplicit($value, DataType::TYPE_STRING2);
+
+        return true;
     }
 
     protected function getDeliveryData() {
