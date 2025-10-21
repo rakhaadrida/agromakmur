@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SalesOrderItemSheet extends DefaultValueBinder  implements FromView, ShouldAutoSize, WithStyles
+class SalesOrderItemSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles
 {
     protected $request;
 

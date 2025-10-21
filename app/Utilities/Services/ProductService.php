@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\GoodsReceipt;
+use App\Models\Product;
 use App\Models\ProductConversion;
 use App\Models\ProductPrice;
 use App\Models\ProductStock;
@@ -142,6 +143,19 @@ class ProductService
             ->where('product_id', $productId);
 
         $conversions->restore();
+
+        return true;
+    }
+
+    public static function updateProductCategoryBySubcategory($subcategory) {
+        $products = Product::query()
+            ->where('subcategory_id', $subcategory->id)
+            ->get();
+
+        foreach($products as $product) {
+            $product->category_id = $subcategory->category_id;
+            $product->save();
+        }
 
         return true;
     }

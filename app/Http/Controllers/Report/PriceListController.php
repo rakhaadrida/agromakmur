@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\PriceListExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Price;
@@ -9,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Subcategory;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PriceListController extends Controller
 {
@@ -46,5 +48,11 @@ class PriceListController extends Controller
         ];
 
         return view('pages.admin.report.price-list.index', $data);
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new PriceListExport(), 'Price_List_'.$fileDate.'.xlsx');
     }
 }

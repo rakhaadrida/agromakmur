@@ -7,6 +7,7 @@ use App\Http\Requests\SubcategoryCreateRequest;
 use App\Http\Requests\SubcategoryUpdateRequest;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -81,6 +82,8 @@ class SubcategoryController extends Controller
             $data = $request->all();
             $subcategory = Subcategory::query()->findOrFail($id);
             $subcategory->update($data);
+
+            ProductService::updateProductCategoryBySubcategory($subcategory);
 
             DB::commit();
 
