@@ -166,6 +166,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
             Route::get('export-price-lists', 'PriceListController@export')->name('price-lists.export');
             Route::get('export-stock-recap', 'StockRecapController@export')->name('stock-recap.export');
+            Route::get('export-value-recap', 'ValueRecapController@export')->name('value-recap.export');
 
             Route::resource('sales-recap', 'SalesRecapController')->only(['index', 'show']);
             Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');

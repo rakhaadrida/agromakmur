@@ -129,6 +129,17 @@ class ProductService
             ->get();
     }
 
+    public static function findExportProductsByCategoryId($categoryId) {
+        return Product::query()
+            ->select('products.*', 'subcategories.name AS subcategory_name')
+            ->leftJoin('subcategories', 'subcategories.id', '=', 'products.subcategory_id')
+            ->where('products.category_id', $categoryId)
+            ->whereNull('products.deleted_at')
+            ->orderBy('subcategories.id')
+            ->orderBy('products.name')
+            ->get();
+    }
+
     public static function restoreProductPricesByProductId($productId) {
         $prices = ProductPrice::onlyTrashed()
             ->where('product_id', $productId);

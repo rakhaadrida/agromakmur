@@ -27,7 +27,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
 
     public function view(): View
     {
-        $products = $this->getPriceListItemData($this->category->id);
+        $products = ProductService::findExportProductsByCategoryId($this->category->id);
 
         $productIds = $products->pluck('id')->toArray();
         $productPrices = ProductService::findProductPrices($productIds);
@@ -63,12 +63,12 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
         $drawing->setWorksheet($sheet);
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
-        $products = $this->getPriceListItemData($this->category->id);
+        $products = ProductService::findExportProductsByCategoryId($this->category->id);
         $prices = Price::all();
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeColumn = $this->numberToExcelColumn(3 + $prices->count());
+        $rangeColumn = $this->numberToExcelColumn(4 + $prices->count());
         $rangeTab = $rangeColumn.$rangeStr;
 
         $header = 'A4:'.$rangeColumn.'4';
@@ -103,10 +103,13 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
         $rangeNumberCell = 'A5:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeQuantityColumn = $this->numberToExcelColumn(3 + $prices->count());
+        $rangeNumberCell = 'D5:D'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
+
+        $rangeQuantityColumn = $this->numberToExcelColumn(4 + $prices->count());
         $rangeTab = $rangeQuantityColumn.$rangeStr;
 
-        $rangeNumberCell = 'D5:'.$rangeTab;
+        $rangeNumberCell = 'E5:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
@@ -114,7 +117,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
     public function bindValue(Cell $cell, $value)
     {
         $prices = Price::all();
-        $numbers = range(3, 3 + $prices->count());
+        $numbers = range(4, 4 + $prices->count());
         $columns = $this->convertNumbersToLetters($numbers);
 
         $numericalColumns = $columns;
@@ -126,14 +129,6 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
 
         return true;
-    }
-
-    protected function getPriceListItemData($categoryId) {
-        return Product::query()
-            ->where('products.category_id', $categoryId)
-            ->whereNull('products.deleted_at')
-            ->orderBy('products.name')
-            ->get();
     }
 
     protected function numberToExcelColumn($num) {

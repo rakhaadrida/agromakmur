@@ -11,6 +11,7 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Product Name</th>
+                    <th>Subcategory</th>
                     @foreach($prices as $price)
                         <td>{{ $price->name }}</td>
                     @endforeach
@@ -22,6 +23,7 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
+                        <td>{{ $product->subcategory_name }}</td>
                         @foreach($prices as $price)
                             <td>{{ $mapPriceByProduct[$product->id][$price->id] ?? 0 }}</td>
                         @endforeach

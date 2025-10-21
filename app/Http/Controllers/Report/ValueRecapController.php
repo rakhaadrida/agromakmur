@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\ValueRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Subcategory;
-use App\Models\Warehouse;
 use App\Utilities\Services\ProductService;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ValueRecapController extends Controller
 {
@@ -39,7 +40,6 @@ class ValueRecapController extends Controller
             $mapProductBySubcategory[$product->subcategory_id][] = $product;
         }
 
-        $warehouses = Warehouse::all();
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
@@ -47,10 +47,15 @@ class ValueRecapController extends Controller
             'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
             'mapProductBySubcategory' => $mapProductBySubcategory,
             'mapStockByProduct' => $mapStockByProduct,
-            'warehouses' => $warehouses,
             'reportDate' => $reportDate,
         ];
 
         return view('pages.admin.report.value-recap.index', $data);
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new ValueRecapExport(), 'Value_Recap'.$fileDate.'.xlsx');
     }
 }
