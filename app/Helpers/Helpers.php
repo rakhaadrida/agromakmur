@@ -448,6 +448,11 @@ function getTotalArray($array)
     return formatQuantity(array_sum($array));
 }
 
+function getTotalArrayExport($array)
+{
+    return array_sum($array);
+}
+
 function getActualPrice($quantity, $actualQuantity, $price)
 {
     $realQuantity = $actualQuantity / $quantity;

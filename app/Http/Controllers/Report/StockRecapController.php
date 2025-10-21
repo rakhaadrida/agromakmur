@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\StockRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -9,6 +10,7 @@ use App\Models\ProductStock;
 use App\Models\Subcategory;
 use App\Models\Warehouse;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StockRecapController extends Controller
 {
@@ -46,5 +48,11 @@ class StockRecapController extends Controller
         ];
 
         return view('pages.admin.report.stock-recap.index', $data);
+    }
+
+    public function export() {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new StockRecapExport(), 'Stock_Recap_'.$fileDate.'.xlsx');
     }
 }

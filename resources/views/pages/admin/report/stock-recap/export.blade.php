@@ -1,7 +1,7 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Price List - {{ $category->name }}</h2>
+            <h2 class="text-bold text-dark">Stock Recap - {{ $category->name }}</h2>
             <h5>Export Date : {{ $exportDate }}</h5>
         </div>
         <br>
@@ -11,8 +11,9 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Product Name</th>
-                    @foreach($prices as $price)
-                        <td>{{ $price->name }}</td>
+                    <th>Total Stock</th>
+                    @foreach($warehouses as $warehouse)
+                        <td>{{ $warehouse->name }}</td>
                     @endforeach
                 </tr>
             </thead>
@@ -22,8 +23,9 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
-                        @foreach($prices as $price)
-                            <td>{{ $mapPriceByProduct[$product->id][$price->id] ?? 0 }}</td>
+                        <td>{{ getTotalArrayExport($mapStockByProduct[$product->id] ?? []) }}</td>
+                        @foreach($warehouses as $warehouse)
+                            <td>{{ $mapStockByProduct[$product->id][$warehouse->id] ?? 0 }}</td>
                         @endforeach
                     </tr>
                 @endforeach

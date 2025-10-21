@@ -54,4 +54,11 @@ class ProductStockService
 
         return true;
     }
+
+    public static function findProductStocksByProductIds($productIds) {
+        return ProductStock::query()
+            ->whereIn('product_id', $productIds)
+            ->whereNull('deleted_at')
+            ->get();
+    }
 }
