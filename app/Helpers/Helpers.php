@@ -111,6 +111,7 @@ function getProductReportRoute() : array
     return [
         'report.product-histories.*',
         'report.low-stocks.*',
+        'report.stock-cards.*',
         'report.price-lists.*',
         'report.incoming-items.*',
         'report.outgoing-items.*',
