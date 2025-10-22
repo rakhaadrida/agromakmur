@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Report;
 
 use App\Exports\IncomingItemExport;
 use App\Http\Controllers\Controller;
-use App\Models\GoodsReceiptItem;
 use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class IncomingItemController extends Controller

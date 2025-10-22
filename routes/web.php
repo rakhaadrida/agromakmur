@@ -165,6 +165,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::resource('marketing-recap', 'MarketingRecapController')->only(['index']);
 
             Route::get('export-incoming-items', 'IncomingItemController@export')->name('incoming-items.export');
+            Route::get('export-outgoing-items', 'OutgoingItemController@export')->name('outgoing-items.export');
             Route::get('export-price-lists', 'PriceListController@export')->name('price-lists.export');
             Route::get('export-stock-recap', 'StockRecapController@export')->name('stock-recap.export');
             Route::get('export-value-recap', 'ValueRecapController@export')->name('value-recap.export');
