@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\StockCardExport;
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use App\Models\Product;
-use App\Utilities\Services\SalesRecapService;
 use App\Utilities\Services\StockCardService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StockCardController extends Controller
 {
@@ -46,43 +46,9 @@ class StockCardController extends Controller
         return view('pages.admin.report.stock-card.index', $data);
     }
 
-    public function show(Request $request, $id) {
-        $filter = (object) $request->all();
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
 
-        $startDate = $filter->start_date ?? Carbon::now()->startOfMonth()->format('d-m-Y');
-        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $subject = $filter->subject ?? null;
-        $customerId = $filter->customer_id ?? null;
-        $productId = $filter->product_id ?? null;
-
-        $customers = Customer::all();
-        $products = Product::all();
-
-        $salesItems = [];
-        if($subject == 'products') {
-            $salesItems = SalesRecapService::getBaseQueryProductDetail($id, $startDate, $finalDate, $customerId);
-            $item = Product::query()->find($id);
-        } elseif ($subject == 'customers') {
-            $salesItems = SalesRecapService::getBaseQueryCustomerDetail($id, $startDate, $finalDate, $productId);
-            $item = Customer::query()->find($id);
-        }
-
-        $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
-
-        $data = [
-            'id' => $id,
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'subject' => $subject,
-            'customerId' => $customerId,
-            'productId' => $productId,
-            'customers' => $customers ?? [],
-            'products' => $products ?? [],
-            'salesItems' => $salesItems,
-            'item' => $item ?? null,
-            'reportDate' => $reportDate,
-        ];
-
-        return view('pages.admin.report.sales-recap.detail', $data);
+        return Excel::download(new StockCardExport($request), 'Stock_Card_'.$fileDate.'.xlsx');
     }
 }
