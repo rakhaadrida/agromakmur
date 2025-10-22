@@ -148,7 +148,7 @@ class StockRecapItemSheet extends DefaultValueBinder implements FromView, Should
         return $result;
     }
 
-    function convertNumbersToLetters(array $numbers) {
+    protected function convertNumbersToLetters(array $numbers) {
         return array_map('numberToExcelColumn', $numbers);
     }
 }

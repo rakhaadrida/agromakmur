@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\IncomingItemExport;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceiptItem;
+use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IncomingItemController extends Controller
 {
@@ -16,29 +19,7 @@ class IncomingItemController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->subDays(30)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
-        $receiptItems = GoodsReceiptItem::query()
-            ->select(
-                'suppliers.id AS supplier_id',
-                'suppliers.name AS supplier_name',
-                'products.sku AS product_sku',
-                'products.name AS product_name',
-                'units.name AS unit_name',
-                'warehouses.name AS warehouse_name',
-                DB::raw('SUM(goods_receipt_items.actual_quantity) AS total_quantity')
-            )
-            ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
-            ->join('units', 'units.id', '=', 'products.unit_id')
-            ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
-            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
-            ->join('warehouses', 'warehouses.id', '=', 'goods_receipts.warehouse_id')
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('goods_receipts.status', '!=', 'CANCELLED')
-            ->groupBy('suppliers.id', 'products.id', 'warehouses.id')
-            ->orderBy('suppliers.name')
-            ->orderBy('products.name')
-            ->orderBy('warehouses.name')
-            ->get();
+        $receiptItems = ReportService::getIncomingItemsData($startDate, $finalDate);
 
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
@@ -50,5 +31,11 @@ class IncomingItemController extends Controller
         ];
 
         return view('pages.admin.report.incoming-item.index', $data);
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new IncomingItemExport($request), 'Incoming_Items_'.$fileDate.'.xlsx');
     }
 }

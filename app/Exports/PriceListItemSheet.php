@@ -141,7 +141,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
         return $result;
     }
 
-    function convertNumbersToLetters(array $numbers) {
+    protected function convertNumbersToLetters(array $numbers) {
         return array_map('numberToExcelColumn', $numbers);
     }
 }
