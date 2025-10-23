@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\SalesRecapDetailExport;
 use App\Exports\SalesRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
@@ -102,5 +103,21 @@ class SalesRecapController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new SalesRecapExport($request), 'Sales_Recap_'.$fileDate.'.xlsx');
+    }
+
+    public function exportDetail(Request $request, $id) {
+        $subjectName = 'Detail';
+
+        if(isSubjectProduct($request->subject)) {
+            $product = Product::query()->findOrFail($id);
+            $subjectName = preg_replace('/\s+/', '_', $product->name);
+        } else if(isSubjectCustomer($request->subject)) {
+            $customer = Customer::query()->findOrFail($id);
+            $subjectName = preg_replace('/\s+/', '_', $customer->name);
+        }
+
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new SalesRecapDetailExport($id, $request), 'Sales_Recap_'.$subjectName.'_'.$fileDate.'.xlsx');
     }
 }
