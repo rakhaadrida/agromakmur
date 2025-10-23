@@ -157,53 +157,7 @@ class SalesRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
         $salesItems = collect([]);
         if($subject == 'product') {
-            $salesItems = SalesOrder::query()
-                ->select(
-                    'sales_orders.id AS order_id',
-                    'sales_orders.date AS order_date',
-                    'sales_orders.number AS order_number',
-                    'customers.id AS customer_id',
-                    'customers.name AS customer_name',
-                    'sales_order_items.product_name AS product_name',
-                    'sales_order_items.unit_name AS unit_name',
-                    'sales_order_items.quantity AS quantity',
-                    'sales_order_items.price AS price',
-                    'sales_order_items.total AS total',
-                    'sales_order_items.discount AS discount',
-                    'sales_order_items.discount_amount AS discount_amount',
-                    'sales_order_items.final_amount AS final_amount',
-                )
-                ->joinSub(
-                    DB::table('sales_order_items')
-                        ->select(
-                            'sales_order_items.sales_order_id',
-                            DB::raw('MAX(products.name) AS product_name'),
-                            DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
-                            DB::raw('MAX(sales_order_items.price) AS price'),
-                            DB::raw('SUM(sales_order_items.total) AS total'),
-                            DB::raw('MAX(sales_order_items.discount) AS discount'),
-                            DB::raw('SUM(sales_order_items.discount_amount) AS discount_amount'),
-                            DB::raw('SUM(sales_order_items.final_amount) AS final_amount'),
-                            DB::raw('MAX(units.name) AS unit_name')
-                        )
-                        ->join('products', 'products.id', '=', 'sales_order_items.product_id')
-                        ->join('units', 'units.id', '=', 'products.unit_id')
-                        ->whereNull('sales_order_items.deleted_at')
-                        ->groupBy('sales_order_items.sales_order_id')
-                        ->groupBy('sales_order_items.product_id'),
-                    'sales_order_items',
-                    'sales_orders.id',
-                    'sales_order_items.sales_order_id'
-                )
-                ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
-                ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-                ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-                ->where('sales_orders.status', '!=', 'CANCELLED')
-                ->whereNull('sales_orders.deleted_at')
-                ->orderBy('sales_order_items.product_name')
-                ->orderByDesc('sales_orders.date')
-                ->orderByDesc('sales_orders.id')
-                ->get();
+            $salesItems = SalesRecapService::getBaseQueryProductDetail(0, $startDate, $finalDate, null);
         }
         else if($subject == 'customer') {
             $salesItems = SalesRecapService::getBaseQueryCustomerDetail(0, $startDate, $finalDate, null);

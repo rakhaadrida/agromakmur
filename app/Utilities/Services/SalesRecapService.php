@@ -54,6 +54,7 @@ class SalesRecapService
                 'sales_orders.number AS order_number',
                 'customers.id AS customer_id',
                 'customers.name AS customer_name',
+                'sales_order_items.product_name AS product_name',
                 'sales_order_items.unit_name AS unit_name',
                 'sales_order_items.quantity AS quantity',
                 'sales_order_items.price AS price',
@@ -66,6 +67,7 @@ class SalesRecapService
                 DB::table('sales_order_items')
                     ->select(
                         'sales_order_items.sales_order_id',
+                        DB::raw('MAX(products.name) AS product_name'),
                         DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
                         DB::raw('MAX(sales_order_items.price) AS price'),
                         DB::raw('SUM(sales_order_items.total) AS total'),
@@ -76,9 +78,14 @@ class SalesRecapService
                     )
                     ->join('products', 'products.id', '=', 'sales_order_items.product_id')
                     ->join('units', 'units.id', '=', 'products.unit_id')
-                    ->where('products.id', $id)
+                    ->where(function ($query) use ($id) {
+                        if($id) {
+                            $query->where('products.id', $id);
+                        }
+                    })
                     ->whereNull('sales_order_items.deleted_at')
-                    ->groupBy('sales_order_items.sales_order_id'),
+                    ->groupBy('sales_order_items.sales_order_id')
+                    ->groupBy('sales_order_items.product_id'),
                 'sales_order_items',
                 'sales_orders.id',
                 'sales_order_items.sales_order_id'
@@ -86,14 +93,18 @@ class SalesRecapService
             ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('sales_orders.status', '!=', 'CANCELLED');
+            ->where('sales_orders.status', '!=', 'CANCELLED')
+            ->whereNull('sales_orders.deleted_at');
 
         if($customerId) {
             $baseQuery->where('customers.id', $customerId);
         }
 
+        if(!$id) {
+            $baseQuery = $baseQuery->orderBy('sales_order_items.product_name');
+        }
+
         return $baseQuery
-            ->whereNull('sales_orders.deleted_at')
             ->orderByDesc('sales_orders.date')
             ->orderByDesc('sales_orders.id')
             ->get();
