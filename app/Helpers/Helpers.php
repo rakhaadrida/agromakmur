@@ -419,7 +419,12 @@ function isNotEmptyMarketingRecap($items): bool
 
 function isSubjectProduct($subject): bool
 {
-    return $subject == 'products';
+    return $subject == 'products' || $subject == 'product';
+}
+
+function isSubjectCustomer($subject): bool
+{
+    return $subject == 'customers' || $subject == 'customer';
 }
 
 function getDueDate($date, $tempo, $format): string

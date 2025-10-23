@@ -139,6 +139,7 @@ class SalesRecapService
                 'sales_orders.id AS order_id',
                 'sales_orders.date AS order_date',
                 'sales_orders.number AS order_number',
+                'customers.name AS customer_name',
                 'products.id AS product_id',
                 'products.sku AS product_sku',
                 'products.name AS product_name',
@@ -174,10 +175,13 @@ class SalesRecapService
             )
             ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
             ->join('products', 'products.id', '=', 'sales_order_items.product_id')
-            ->where('customers.id', $id)
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->where('sales_orders.status', '!=', 'CANCELLED');
+
+        if($id) {
+            $baseQuery->where('customers.id', $id);
+        }
 
         if($productId) {
             $baseQuery->where('products.id', $productId);
