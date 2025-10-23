@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\PurchaseRecapDetailExport;
 use App\Exports\PurchaseRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -102,5 +103,21 @@ class PurchaseRecapController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new PurchaseRecapExport($request), 'Purchase_Recap_'.$fileDate.'.xlsx');
+    }
+
+    public function exportDetail(Request $request, $id) {
+        $subjectName = 'Detail';
+
+        if(isSubjectProduct($request->subject)) {
+            $product = Product::query()->findOrFail($id);
+            $subjectName = preg_replace('/\s+/', '_', $product->name);
+        } else if(isSubjectSupplier($request->subject)) {
+            $supplier = Supplier::query()->findOrFail($id);
+            $subjectName = preg_replace('/\s+/', '_', $supplier->name);
+        }
+
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new PurchaseRecapDetailExport($id, $request), 'Purchase_Recap_'.$subjectName.'_'.$fileDate.'.xlsx');
     }
 }

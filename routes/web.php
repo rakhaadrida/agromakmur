@@ -180,6 +180,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');
 
             Route::resource('purchase-recap', 'PurchaseRecapController')->only(['index', 'show']);
+            Route::get('purchase-recap/{id}/export', 'PurchaseRecapController@exportDetail')->name('purchase-recap.export-detail');
             Route::get('export-purchase-recap', 'PurchaseRecapController@export')->name('purchase-recap.export');
             Route::get('purchase-recap-ajax', 'PurchaseRecapController@indexAjax')->name('purchase-recap.index-ajax');
         });

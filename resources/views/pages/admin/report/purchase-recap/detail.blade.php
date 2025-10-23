@@ -78,6 +78,12 @@
                                     <div class="row justify-content-center mb-2">
                                         <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
                                     </div>
+                                    <div class="row justify-content-end product-history-detail-export-button">
+                                        <div class="col-2 product-history-col">
+                                            <input type="hidden" name="subject" value="{{ $subject }}">
+                                            <button type="submit" formaction="{{ route('report.purchase-recap.export-detail', $item->id) }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                     @if(isSubjectProduct($subject))
