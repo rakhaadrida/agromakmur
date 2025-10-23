@@ -177,7 +177,8 @@ class SalesRecapService
             ->join('products', 'products.id', '=', 'sales_order_items.product_id')
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('sales_orders.status', '!=', 'CANCELLED');
+            ->where('sales_orders.status', '!=', 'CANCELLED')
+            ->whereNull('sales_orders.deleted_at');
 
         if($id) {
             $baseQuery->where('customers.id', $id);
@@ -187,8 +188,11 @@ class SalesRecapService
             $baseQuery->where('products.id', $productId);
         }
 
+        if(!$id) {
+            $baseQuery = $baseQuery->orderBy('customers.name');
+        }
+
         return $baseQuery
-            ->whereNull('sales_orders.deleted_at')
             ->orderByDesc('sales_orders.date')
             ->orderByDesc('sales_orders.id')
             ->get();
