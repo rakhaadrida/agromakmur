@@ -1,8 +1,7 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Product History - {{ $product->name }}</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
+            <h2>Product History Items</h2>
             <h5>Export Date : {{ $exportDate }}</h5>
         </div>
         <br>
@@ -10,6 +9,7 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Product Name</th>
                     <th>Receipt Date</th>
                     <th>Receipt Number</th>
                     <th>Supplier</th>
@@ -25,6 +25,7 @@
                 @foreach($receiptItems as $index => $receiptItem)
                     <tr>
                         <td>{{ $index + 1 }}</td>
+                        <td>{{ $receiptItem->product_name }}</td>
                         <td>{{ $receiptItem->receipt_date }}</td>
                         <td>{{ $receiptItem->receipt_number }}</td>
                         <td>{{ $receiptItem->supplier_name }}</td>

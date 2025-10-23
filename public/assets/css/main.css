@@ -1488,6 +1488,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #6e707e !important;
 }
 
+.product-history-detail-export-button {
+    margin-top: -70px !important;
+    margin-bottom: 1rem !important;
+}
+
 .th-product-history-detail-supplier {
     width: 270px;
 }

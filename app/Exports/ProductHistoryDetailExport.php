@@ -2,9 +2,12 @@
 
 namespace App\Exports;
 
-use App\Models\GoodsReceiptItem;
+use App\Models\Product;
+use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
@@ -15,25 +18,40 @@ use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
+class ProductHistoryDetailExport extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
+    use Exportable;
+
+    protected $id;
+    protected $request;
+
+    public function __construct($id, Request $request)
+    {
+        $this->id = $id;
+        $this->request = $request;
+    }
+
     public function view(): View
     {
-        $receiptItems = $this->getProductHistoryItemData();
+        $receiptItems = $this->getProductHistoryItemsData();
 
+        $product = Product::query()->findOrFail($this->id);
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
+            'startDate' => $this->request->start_date,
+            'finalDate' => $this->request->final_date,
             'receiptItems' => $receiptItems,
+            'product' => $product,
             'exportDate' => $exportDate,
         ];
 
-        return view('pages.admin.report.product-history.export-item', $data);
+        return view('pages.admin.report.product-history.export-detail', $data);
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Product_History_Items');
+        $sheet->setTitle('Product_History');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -43,25 +61,26 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
         $drawing->setWorksheet($sheet);
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
-        $receiptItems = $this->getProductHistoryItemData();
+        $receiptItems = $this->getProductHistoryItemsData();
 
-        $range = 4 + $receiptItems->count();
+        $range = 5 + $receiptItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'K'.$rangeStr;
+        $rangeTab = 'J' . $rangeStr;
 
-        $header = 'A4:K4';
+        $header = 'A5:J5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:K1');
-        $sheet->mergeCells('A2:K2');
+        $sheet->mergeCells('A1:J1');
+        $sheet->mergeCells('A2:J2');
+        $sheet->mergeCells('A3:J3');
 
-        $title = 'A1:K2';
+        $title = 'A1:J3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:K2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:J3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -72,40 +91,37 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
             ],
         ];
 
-        $rangeTable = 'A4:'.$rangeTab;
+        $rangeTable = 'A5:' . $rangeTab;
         $sheet->getStyle($rangeTable)->applyFromArray($styleArray);
 
-        $rangeIsiTable = 'A5:'.$rangeTab;
+        $rangeIsiTable = 'A6:' . $rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        $rangeNumberCell = 'A5:A'.$rangeStr;
+        $rangeNumberCell = 'A6:C' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'C5:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'C5:C'.$rangeStr;
+        $rangeNumberCell = 'B6:B' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'F5:G'.$rangeStr;
+        $rangeNumberCell = 'E5:F' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'H5:H'.$rangeStr;
+        $rangeNumberCell = 'G5:G' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'I5:K'.$rangeStr;
+        $rangeNumberCell = 'H5:J' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['F', 'G', 'I', 'J', 'K'];
-        $dateColumns = ['C'];
+        $numericalColumns = ['E', 'F', 'H', 'I', 'J'];
+        $dateColumns = ['B'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
-            return parent::bindValue($cell, (float) $value);
+            return parent::bindValue($cell, (float)$value);
         }
 
         if (in_array($cell->getColumn(), $dateColumns) && !empty($value)) {
@@ -126,31 +142,14 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
         return true;
     }
 
-    protected function getProductHistoryItemData() {
-        return GoodsReceiptItem::query()
-            ->select(
-                'goods_receipts.id AS receipt_id',
-                'goods_receipts.date AS receipt_date',
-                'goods_receipts.number AS receipt_number',
-                'suppliers.id AS supplier_id',
-                'suppliers.name AS supplier_name',
-                'products.name AS product_name',
-                'units.name AS unit_name',
-                'goods_receipt_items.actual_quantity AS quantity',
-                'goods_receipt_items.price AS price',
-                'goods_receipt_items.wages AS wages',
-                'goods_receipt_items.shipping_cost AS shipping_cost',
-                'goods_receipt_items.total AS total',
-            )
-            ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
-            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
-            ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
-            ->join('units', 'units.id', '=', 'products.unit_id')
-            ->whereNull('goods_receipt_items.deleted_at')
-            ->whereNull('goods_receipts.deleted_at')
-            ->orderBy('products.name')
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->get();
+    protected function getProductHistoryItemsData()
+    {
+        $startDate = $this->request->start_date;
+        $finalDate = $this->request->final_date;
+        $supplierId = $this->request->supplier_id ?? null;
+
+        $product = Product::query()->findOrFail($this->id);
+
+        return ReportService::getProductHistoryDetail($startDate, $finalDate, $product->id, $supplierId);
     }
 }

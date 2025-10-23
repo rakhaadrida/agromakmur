@@ -172,6 +172,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::get('export-stock-recap', 'StockRecapController@export')->name('stock-recap.export');
             Route::get('export-value-recap', 'ValueRecapController@export')->name('value-recap.export');
 
+            Route::get('product-histories/{id}/export', 'ProductHistoryController@exportDetail')->name('product-histories.export-detail');
+
             Route::resource('sales-recap', 'SalesRecapController')->only(['index', 'show']);
             Route::get('sales-recap-ajax', 'SalesRecapController@indexAjax')->name('sales-recap.index-ajax');
 

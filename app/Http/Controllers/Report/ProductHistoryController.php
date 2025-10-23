@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\ProductHistoryDetailExport;
 use App\Exports\ProductHistoryExport;
 use App\Http\Controllers\Controller;
 use App\Models\GoodsReceiptItem;
@@ -10,7 +11,6 @@ use App\Models\Supplier;
 use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductHistoryController extends Controller
@@ -38,39 +38,7 @@ class ProductHistoryController extends Controller
         $suppliers = Supplier::all();
         $product = Product::query()->findOrFail($id);
 
-        $baseQuery = GoodsReceiptItem::query()
-            ->select(
-                'goods_receipts.id AS receipt_id',
-                'goods_receipts.date AS receipt_date',
-                'goods_receipts.number AS receipt_number',
-                'suppliers.id AS supplier_id',
-                'suppliers.name AS supplier_name',
-                'units.name AS unit_name',
-                'goods_receipt_items.actual_quantity AS quantity',
-                'goods_receipt_items.price AS price',
-                'goods_receipt_items.wages AS wages',
-                'goods_receipt_items.shipping_cost AS shipping_cost',
-                'goods_receipt_items.total AS total',
-            )
-            ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
-            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
-            ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
-            ->join('units', 'units.id', '=', 'products.unit_id')
-            ->where('products.id', $product->id)
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->whereNull('goods_receipt_items.deleted_at')
-            ->whereNull('goods_receipts.deleted_at');
-
-
-        if($supplierId) {
-            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
-        }
-
-        $receiptItems = $baseQuery
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->get();
+        $receiptItems = ReportService::getProductHistoryDetail($startDate, $finalDate, $product->id, $supplierId);
 
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
@@ -91,5 +59,14 @@ class ProductHistoryController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new ProductHistoryExport(), 'Product_History_'.$fileDate.'.xlsx');
+    }
+
+    public function exportDetail(Request $request, $id) {
+        $product = Product::query()->findOrFail($id);
+        $productName = preg_replace('/\s+/', '_', $product->name);
+
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new ProductHistoryDetailExport($id, $request), 'Product_History_'.$productName.'_'.$fileDate.'.xlsx');
     }
 }

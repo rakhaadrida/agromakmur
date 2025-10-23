@@ -52,6 +52,42 @@ class ReportService
             ->get();
     }
 
+    public static function getProductHistoryDetail($startDate, $finalDate, $productId, $supplierId = null) {
+        $baseQuery = GoodsReceiptItem::query()
+            ->select(
+                'goods_receipts.id AS receipt_id',
+                'goods_receipts.date AS receipt_date',
+                'goods_receipts.number AS receipt_number',
+                'suppliers.id AS supplier_id',
+                'suppliers.name AS supplier_name',
+                'units.name AS unit_name',
+                'goods_receipt_items.actual_quantity AS quantity',
+                'goods_receipt_items.price AS price',
+                'goods_receipt_items.wages AS wages',
+                'goods_receipt_items.shipping_cost AS shipping_cost',
+                'goods_receipt_items.total AS total',
+            )
+            ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
+            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
+            ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
+            ->where('products.id', $productId)
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->whereNull('goods_receipt_items.deleted_at')
+            ->whereNull('goods_receipts.deleted_at');
+
+
+        if($supplierId) {
+            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        }
+
+        return $baseQuery
+            ->orderByDesc('goods_receipts.date')
+            ->orderByDesc('goods_receipts.id')
+            ->get();
+    }
+
     public static function getIncomingItemsData($startDate, $finalDate) {
         return GoodsReceiptItem::query()
             ->select(

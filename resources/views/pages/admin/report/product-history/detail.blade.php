@@ -56,12 +56,17 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="container" style="margin-bottom: 0">
+                                <div class="container">
                                     <div class="row justify-content-center">
                                         <h4 class="text-bold text-dark">History {{ $product->name }} ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center mb-2">
                                         <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                    </div>
+                                    <div class="row justify-content-end product-history-detail-export-button">
+                                        <div class="col-2 product-history-col">
+                                            <button type="submit" formaction="{{ route('report.product-histories.export-detail', $product->id) }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
