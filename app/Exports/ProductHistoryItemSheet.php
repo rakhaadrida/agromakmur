@@ -2,51 +2,38 @@
 
 namespace App\Exports;
 
-use App\Utilities\Services\SalesOrderService;
-use App\Utilities\Services\WarehouseService;
+use App\Models\GoodsReceiptItem;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles
+class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
     public function view(): View
     {
-        $salesOrderItems = $this->getOrderItemData();
-
-        $productWarehouses = [];
-        foreach($salesOrderItems as $salesOrderItem) {
-            $productWarehouses[$salesOrderItem->sales_order_id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
-        }
-
-        $salesOrderItems = SalesOrderService::mapSalesOrderItemExport($salesOrderItems);
-        $warehouses = WarehouseService::getGeneralWarehouse();
+        $receiptItems = $this->getProductHistoryItemData();
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
-            'startDate' => $this->request->start_date,
-            'finalDate' => $this->request->final_date,
-            'productWarehouses' => $productWarehouses,
-            'salesOrderItems' => $salesOrderItems,
-            'warehouses' => $warehouses,
-            'totalWarehouses' => $warehouses->count(),
+            'receiptItems' => $receiptItems,
             'exportDate' => $exportDate,
         ];
 
-        return view('pages.admin.sales-order.export-detail', $data);
+        return view('pages.admin.report.product-history.export-detail', $data);
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Sales_Order_Items');
+        $sheet->setTitle('Product_History_Items');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -56,29 +43,25 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
         $drawing->setWorksheet($sheet);
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
-        $salesOrderItems = $this->getOrderItemData();
-        $salesOrderItems = SalesOrderService::mapSalesOrderItemExport($salesOrderItems);
-        $warehouses = WarehouseService::getGeneralWarehouse();
+        $receiptItems = $this->getProductHistoryItemData();
 
-        $range = 6 + $salesOrderItems->count();
+        $range = 4 + $receiptItems->count();
         $rangeStr = strval($range);
-        $rangeColumn = $this->numberToExcelColumn(11 + $warehouses->count());
-        $rangeTab = $rangeColumn.$rangeStr;
+        $rangeTab = 'K'.$rangeStr;
 
-        $header = 'A5:'.$rangeColumn.'6';
+        $header = 'A4:K4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:'.$rangeColumn.'1');
-        $sheet->mergeCells('A2:'.$rangeColumn.'2');
-        $sheet->mergeCells('A3:'.$rangeColumn.'3');
+        $sheet->mergeCells('A1:K1');
+        $sheet->mergeCells('A2:K2');
 
-        $title = 'A1:'.$rangeColumn.'3';
+        $title = 'A1:K2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:'.$rangeColumn.'3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:K2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -89,56 +72,53 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
             ],
         ];
 
-        $rangeTable = 'A5:'.$rangeTab;
+        $rangeTable = 'A4:'.$rangeTab;
         $sheet->getStyle($rangeTable)->applyFromArray($styleArray);
 
-        $rangeIsiTable = 'A7:'.$rangeTab;
+        $rangeIsiTable = 'A5:'.$rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        $rangeNumberCell = 'A7:A'.$rangeStr;
+        $rangeNumberCell = 'A5:A'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'B7:C'.$rangeStr;
+        $rangeNumberCell = 'C5:D'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeQuantityColumn = $this->numberToExcelColumn(5 + $warehouses->count());
-        $rangeTab = $rangeQuantityColumn.$rangeStr;
+        $rangeNumberCell = 'C5:C'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'E7:'.$rangeTab;
+        $rangeNumberCell = 'F5:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeUnitColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 1);
-        $rangeTab = $rangeUnitColumn.$rangeStr;
-
-        $rangeNumberCell = $rangeUnitColumn.'7:'.$rangeTab;
+        $rangeNumberCell = 'H5:H'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangePriceColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 2);
-        $rangeFinalAmountColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 6);
-        $rangeTab = $rangeFinalAmountColumn.$rangeStr;
-
-        $rangeNumberCell = $rangePriceColumn.'7:'.$rangeTab;
+        $rangeNumberCell = 'I5:K'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
-
-        $rangeDiscountColumn = $this->numberToExcelColumn(5 + $warehouses->count() + 4);
-        $rangeTab = $rangeDiscountColumn.$rangeStr;
-
-        $rangeNumberCell = $rangeDiscountColumn.'7:'.$rangeTab;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('@');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $warehouses = WarehouseService::getGeneralWarehouse();
-        $numbers = range(5, 5 + $warehouses->count());
-        $columns = $this->convertNumbersToLetters($numbers);
-
-        $numericalColumns = $columns;
+        $numericalColumns = ['F', 'G', 'I', 'J', 'K'];
+        $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);
+        }
+
+        if (in_array($cell->getColumn(), $dateColumns) && !empty($value)) {
+            try {
+                $excelDate = Date::PHPToExcel(\Carbon\Carbon::parse($value));
+                $cell->setValueExplicit($excelDate, DataType::TYPE_NUMERIC);
+
+                return true;
+            } catch (\Exception $e) {
+                $cell->setValueExplicit($value, DataType::TYPE_STRING2);
+
+                return true;
+            }
         }
 
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
@@ -146,30 +126,31 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
         return true;
     }
 
-    protected function getOrderItemData() {
-        $startDate = $this->request->start_date;
-        $finalDate = $this->request->final_date;
-
-        $baseQuery = SalesOrderService::getBaseQueryExportItem();
-
-        return $baseQuery
-            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('sales_orders.date')
+    protected function getProductHistoryItemData() {
+        return GoodsReceiptItem::query()
+            ->select(
+                'goods_receipts.id AS receipt_id',
+                'goods_receipts.date AS receipt_date',
+                'goods_receipts.number AS receipt_number',
+                'suppliers.id AS supplier_id',
+                'suppliers.name AS supplier_name',
+                'products.name AS product_name',
+                'units.name AS unit_name',
+                'goods_receipt_items.actual_quantity AS quantity',
+                'goods_receipt_items.price AS price',
+                'goods_receipt_items.wages AS wages',
+                'goods_receipt_items.shipping_cost AS shipping_cost',
+                'goods_receipt_items.total AS total',
+            )
+            ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
+            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
+            ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
+            ->whereNull('goods_receipt_items.deleted_at')
+            ->whereNull('goods_receipts.deleted_at')
+            ->orderBy('products.name')
+            ->orderByDesc('goods_receipts.date')
+            ->orderByDesc('goods_receipts.id')
             ->get();
-    }
-
-    protected function numberToExcelColumn($num) {
-        $result = '';
-        while ($num > 0) {
-            $mod = ($num - 1) % 26;
-            $result = chr(65 + $mod) . $result;
-            $num = intval(($num - $mod) / 26);
-        }
-        return $result;
-    }
-
-    protected function convertNumbersToLetters(array $numbers) {
-        return array_map('numberToExcelColumn', $numbers);
     }
 }

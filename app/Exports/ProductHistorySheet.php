@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Utilities\Services\ReportService;
-use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -29,7 +28,7 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
             'exportDate' => $exportDate,
         ];
 
-        return view('pages.admin.product-history.export-index', $data);
+        return view('pages.admin.report.product-history.export-index', $data);
     }
 
     public function styles(Worksheet $sheet)
@@ -46,7 +45,7 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
 
         $products = ReportService::getProductHistoryData();
 
-        $range = 5 + $products->count();
+        $range = 4 + $products->count();
         $rangeStr = strval($range);
         $rangeTab = 'J'.$rangeStr;
 
@@ -73,41 +72,37 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
             ],
         ];
 
-        $rangeTable = 'A5:'.$rangeTab;
+        $rangeTable = 'A4:'.$rangeTab;
         $sheet->getStyle($rangeTable)->applyFromArray($styleArray);
 
-        $rangeIsiTable = 'A6:'.$rangeTab;
+        $rangeIsiTable = 'A5:'.$rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        $rangeNumberCell = 'A6:A'.$rangeStr;
+        $rangeNumberCell = 'A5:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'B6:C'.$rangeStr;
+        $rangeNumberCell = 'E5:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'C6:C'.$rangeStr;
+        $rangeNumberCell = 'E5:E'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'E6:E'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'F6:H'.$rangeStr;
+        $rangeNumberCell = 'G5:H'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
+        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'I6:I'.$rangeStr;
+        $rangeNumberCell = 'I5:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'K6:L'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'H6:H'.$rangeStr;
+        $rangeNumberCell = 'J5:J'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['H'];
-        $dateColumns = ['C'];
+        $numericalColumns = ['G', 'H', 'J'];
+        $dateColumns = ['E'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);
@@ -129,18 +124,5 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
         $cell->setValueExplicit($value, DataType::TYPE_STRING2);
 
         return true;
-    }
-
-    protected function getSalesOrderData() {
-        $startDate = $this->request->start_date;
-        $finalDate = $this->request->final_date;
-
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
-
-        return $baseQuery
-            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('sales_orders.date')
-            ->get();
     }
 }
