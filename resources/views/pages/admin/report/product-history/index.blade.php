@@ -18,6 +18,11 @@
                                 <div class="row justify-content-center mb-2">
                                     <h4 class="text-dark text-bold">Report Time : {{ $reportDate }}</h4>
                                 </div>
+                                <div class="row justify-content-end product-history-export-button">
+                                    <div class="col-2 product-history-col">
+                                        <button type="submit" formaction="{{ route('report.stock-cards.export') }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
+                                    </div>
+                                </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                 <thead class="text-center text-bold text-dark">

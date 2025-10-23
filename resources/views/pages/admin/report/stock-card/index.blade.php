@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="row justify-content-end stock-card-export-button">
                                         <div class="col-2">
-                                            <button type="submit" formaction="{{ route('report.stock-cards.export') }}" formmethod="GET" class="btn btn-success btn-block text-bold">Download Excel</button>
+                                            <button type="submit" formaction="{{ route('report.stock-cards.export') }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
                                         </div>
                                     </div>
                                 </div>

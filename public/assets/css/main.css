@@ -1422,6 +1422,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 80px;
 }
 
+.product-history-export-button {
+    margin-top: -45px !important;
+    margin-bottom: 1rem !important;
+}
+
+.product-history-col {
+    margin-right: -1.4rem !important;
+}
+
 .th-product-history-number {
     width: 35px;
 }

@@ -3,12 +3,55 @@
 namespace App\Utilities\Services;
 
 use App\Models\GoodsReceiptItem;
+use App\Models\Product;
 use App\Models\SalesOrderItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ReportService
 {
+    public static function getProductHistoryData() {
+        return Product::query()
+            ->select(
+                'products.id AS product_id',
+                'products.sku AS product_sku',
+                'products.name AS product_name',
+                'goods_receipts.id AS latest_id',
+                'goods_receipts.date AS latest_date',
+                'goods_receipts.number AS latest_number',
+                'suppliers.name AS latest_supplier',
+                'units.name AS latest_unit',
+                'goods_receipt_items.actual_quantity AS latest_quantity',
+                'goods_receipt_items.price AS latest_price'
+            )
+            ->joinSub(
+                DB::table('goods_receipt_items')
+                    ->select(
+                        'goods_receipt_items.product_id',
+                        DB::raw('MAX(goods_receipts.date) AS latest_date'),
+                        DB::raw('MAX(goods_receipts.id) AS latest_id')
+                    )
+                    ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
+                    ->where('goods_receipts.status', '!=', 'CANCELLED')
+                    ->whereNull('goods_receipt_items.deleted_at')
+                    ->whereNull('goods_receipts.deleted_at')
+                    ->groupBy('goods_receipt_items.product_id'),
+                'latest_items',
+                'products.id',
+                'latest_items.product_id'
+            )
+            ->join('goods_receipt_items', function ($join) {
+                $join->on('goods_receipt_items.product_id', '=', 'products.id')
+                    ->on('goods_receipt_items.goods_receipt_id', '=', 'latest_items.latest_id')
+                    ->whereNull('goods_receipt_items.deleted_at');
+            })
+            ->join('goods_receipts', 'goods_receipts.id', '=', 'latest_items.latest_id')
+            ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
+            ->orderBy('products.name')
+            ->get();
+    }
+
     public static function getIncomingItemsData($startDate, $finalDate) {
         return GoodsReceiptItem::query()
             ->select(
