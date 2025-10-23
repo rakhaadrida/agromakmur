@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Utilities\Services\SalesRecapService;
+use App\Utilities\Services\PurchaseRecapService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
+class PurchaseRecapSheet extends DefaultValueBinder implements FromView, ShouldAutoSize, WithStyles, WithCustomValueBinder
 {
     protected Request $request;
 
@@ -26,7 +26,7 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
 
     public function view(): View
     {
-        $salesItems = $this->getSalesRecapData();
+        $purchaseItems = $this->getPurchaseRecapData();
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
@@ -35,16 +35,16 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
             'finalDate' => $this->request->final_date,
             'subject' => $this->request->subject,
             'subjectLabel' => ucfirst($this->request->subject),
-            'salesItems' => $salesItems,
+            'purchaseItems' => $purchaseItems,
             'exportDate' => $exportDate,
         ];
 
-        return view('pages.admin.report.sales-recap.export-index', $data);
+        return view('pages.admin.report.purchase-recap.export-index', $data);
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Sales_Recap');
+        $sheet->setTitle('Purchase_Recap');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -54,26 +54,32 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
         $drawing->setWorksheet($sheet);
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
-        $salesItems = $this->getSalesRecapData();
+        $purchaseItems = $this->getPurchaseRecapData();
 
-        $range = 5 + $salesItems->count();
+        $range = 5 + $purchaseItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'G'.$rangeStr;
+        $rangeColumn = 'G';
 
-        $header = 'A5:G5';
+        if(isSubjectSupplier($this->request->subject)) {
+            $rangeColumn = 'F';
+        }
+
+        $rangeTab = $rangeColumn.$rangeStr;
+
+        $header = 'A5:'.$rangeColumn.'5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:G1');
-        $sheet->mergeCells('A2:G2');
-        $sheet->mergeCells('A3:G3');
+        $sheet->mergeCells('A1:'.$rangeColumn.'1');
+        $sheet->mergeCells('A2:'.$rangeColumn.'2');
+        $sheet->mergeCells('A3:'.$rangeColumn.'3');
 
-        $title = 'A1:G3';
+        $title = 'A1:'.$rangeColumn.'3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:G3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:'.$rangeColumn.'3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -90,8 +96,8 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
         $rangeIsiTable = 'A6:'.$rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        if(!$salesItems->count()) {
-            $rangeIsiTable = 'A6:G6';
+        if(!$purchaseItems->count()) {
+            $rangeIsiTable = 'A6:'.$rangeColumn.'6';
             $sheet->getStyle($rangeIsiTable)->getAlignment()->setHorizontal('center');
             $sheet->getStyle($rangeIsiTable)->getFont()->setBold(true);
         }
@@ -137,19 +143,19 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
         return true;
     }
 
-    protected function getSalesRecapData() {
+    protected function getPurchaseRecapData() {
         $startDate = $this->request->start_date;
         $finalDate = $this->request->final_date;
         $subject = $this->request->subject ?? null;
 
-        $salesItems = collect([]);
+        $purchaseItems = collect([]);
         if($subject == 'product') {
-            $salesItems = SalesRecapService::getBaseQueryProductIndex($startDate, $finalDate);
+            $purchaseItems = PurchaseRecapService::getBaseQueryProductIndex($startDate, $finalDate);
         }
-        else if($subject == 'customer') {
-            $salesItems = SalesRecapService::getBaseQueryCustomerIndex($startDate, $finalDate);
+        else if($subject == 'supplier') {
+            $purchaseItems = PurchaseRecapService::getBaseQuerySupplierIndex($startDate, $finalDate);
         }
 
-        return $salesItems;
+        return $purchaseItems;
     }
 }

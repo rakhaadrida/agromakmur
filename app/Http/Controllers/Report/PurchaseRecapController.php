@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\PurchaseRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Services\PurchaseRecapService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseRecapController extends Controller
 {
@@ -94,5 +96,11 @@ class PurchaseRecapController extends Controller
         ];
 
         return view('pages.admin.report.purchase-recap.detail', $data);
+    }
+
+    public function export(Request $request) {
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        return Excel::download(new PurchaseRecapExport($request), 'Purchase_Recap_'.$fileDate.'.xlsx');
     }
 }

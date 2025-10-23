@@ -427,6 +427,11 @@ function isSubjectCustomer($subject): bool
     return $subject == 'customers' || $subject == 'customer';
 }
 
+function isSubjectSupplier($subject): bool
+{
+    return $subject == 'suppliers' || $subject == 'supplier';
+}
+
 function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');

@@ -53,6 +53,7 @@ class PurchaseRecapService
                 'goods_receipts.number AS receipt_number',
                 'suppliers.id AS supplier_id',
                 'suppliers.name AS supplier_name',
+                'goods_receipt_items.product_name AS product_name',
                 'goods_receipt_items.unit_name AS unit_name',
                 'goods_receipt_items.quantity AS quantity',
                 'goods_receipt_items.price AS price',
@@ -64,6 +65,7 @@ class PurchaseRecapService
                 DB::table('goods_receipt_items')
                     ->select(
                         'goods_receipt_items.goods_receipt_id',
+                        DB::raw('MAX(products.name) AS product_name'),
                         DB::raw('SUM(goods_receipt_items.actual_quantity) AS quantity'),
                         DB::raw('MAX(goods_receipt_items.price) AS price'),
                         DB::raw('SUM(goods_receipt_items.wages) AS wages'),
@@ -73,9 +75,14 @@ class PurchaseRecapService
                     )
                     ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
                     ->join('units', 'units.id', '=', 'products.unit_id')
-                    ->where('products.id', $id)
+                    ->where(function ($query) use ($id) {
+                        if($id) {
+                            $query->where('products.id', $id);
+                        }
+                    })
                     ->whereNull('goods_receipt_items.deleted_at')
-                    ->groupBy('goods_receipt_items.goods_receipt_id'),
+                    ->groupBy('goods_receipt_items.goods_receipt_id')
+                    ->groupBy('goods_receipt_items.product_id'),
                 'goods_receipt_items',
                 'goods_receipts.id',
                 'goods_receipt_items.goods_receipt_id'
@@ -83,14 +90,18 @@ class PurchaseRecapService
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('goods_receipts.status', '!=', 'CANCELLED');
+            ->where('goods_receipts.status', '!=', 'CANCELLED')
+            ->whereNull('goods_receipts.deleted_at');
 
         if($supplierId) {
             $baseQuery->where('suppliers.id', $supplierId);
         }
 
+        if(!$id) {
+            $baseQuery = $baseQuery->orderBy('goods_receipt_items.product_name');
+        }
+
         return $baseQuery
-            ->whereNull('goods_receipts.deleted_at')
             ->orderByDesc('goods_receipts.date')
             ->orderByDesc('goods_receipts.id')
             ->get();
@@ -134,6 +145,7 @@ class PurchaseRecapService
                 'goods_receipts.id AS receipt_id',
                 'goods_receipts.date AS receipt_date',
                 'goods_receipts.number AS receipt_number',
+                'suppliers.name AS supplier_name',
                 'products.id AS product_id',
                 'products.sku AS product_sku',
                 'products.name AS product_name',
@@ -167,17 +179,24 @@ class PurchaseRecapService
             )
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
-            ->where('suppliers.id', $id)
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('goods_receipts.status', '!=', 'CANCELLED');
+            ->where('goods_receipts.status', '!=', 'CANCELLED')
+            ->whereNull('goods_receipts.deleted_at');
+
+        if($id) {
+            $baseQuery->where('suppliers.id', $id);
+        }
 
         if($productId) {
             $baseQuery->where('products.id', $productId);
         }
 
+        if(!$id) {
+            $baseQuery = $baseQuery->orderBy('suppliers.name');
+        }
+
         return $baseQuery
-            ->whereNull('goods_receipts.deleted_at')
             ->orderByDesc('goods_receipts.date')
             ->orderByDesc('goods_receipts.id')
             ->get();

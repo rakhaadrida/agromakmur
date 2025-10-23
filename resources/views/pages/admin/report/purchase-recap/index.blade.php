@@ -53,16 +53,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                                <h4 class="text-bold text-dark">Purchase Recap By Product ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                            </div>
+                                            <div class="row justify-content-center mb-2">
+                                                <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                            </div>
+                                            <div class="row justify-content-end product-history-detail-export-button">
+                                                <div class="col-2 product-history-col">
+                                                    <input type="hidden" name="subject" value="product">
+                                                    <button type="submit" formaction="{{ route('report.purchase-recap.export') }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
-                                    <hr>
-                                    <div class="container">
-                                        <div class="row justify-content-center">
-                                            <h4 class="text-bold text-dark">Purchase Recap By Product ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
-                                        </div>
-                                        <div class="row justify-content-center mb-2">
-                                            <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
-                                        </div>
-                                    </div>
                                     <table class="table table-sm table-bordered table-striped table-responsive-sm" id="dataTableProduct">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
@@ -114,16 +120,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                                <h4 class="text-bold text-dark">Sales Recap By Supplier ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                            </div>
+                                            <div class="row justify-content-center mb-2">
+                                                <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                            </div>
+                                            <div class="row justify-content-end product-history-detail-export-button">
+                                                <div class="col-2 product-history-col">
+                                                    <input type="hidden" name="subject" value="supplier">
+                                                    <button type="submit" formaction="{{ route('report.purchase-recap.export') }}" formmethod="GET" class="btn btn-success btn-block text-bold">Export Excel</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
-                                    <hr>
-                                    <div class="container">
-                                        <div class="row justify-content-center">
-                                            <h4 class="text-bold text-dark">Sales Recap By Supplier ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
-                                        </div>
-                                        <div class="row justify-content-center mb-2">
-                                            <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
-                                        </div>
-                                    </div>
                                     <table class="table table-sm table-bordered table-striped table-responsive-sm" id="dataTableSupplier">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
