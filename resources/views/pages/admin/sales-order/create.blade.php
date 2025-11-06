@@ -425,6 +425,10 @@
                 $('#tempo').val(selected.data('tempo'));
             });
 
+            $('input[name="is_taxable"]').change(function() {
+                calculateTax((numberFormat(subtotal.value)));
+            });
+
             $('input[name="type"]').change(function() {
                 $('#itemContent').removeAttr('hidden');
 
@@ -936,10 +940,15 @@
             }
 
             function calculateTax(subtotalAmount) {
+                let isTaxable = $('input[name="is_taxable"]:checked').val();
+
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
 
-                let taxValue = (subtotalAmount * 0.1).toFixed(0);
+                let taxValue = 0;
+                if(isTaxable === '1') {
+                    taxValue = (subtotalAmount * 0.1).toFixed(0);
+                }
 
                 taxAmount.value = thousandSeparator(taxValue);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));

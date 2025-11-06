@@ -94,6 +94,7 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
+                                            <input type="hidden" name="is_taxable" id="isTaxable" value="{{ $salesOrder->is_taxable }}">
                                             <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         </div>
                                     </div>
@@ -873,10 +874,14 @@
             }
 
             function calculateTax(subtotalAmount) {
+                let isTaxable = document.getElementById('isTaxable');
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
 
-                let taxValue = (subtotalAmount * 0.1).toFixed(0);
+                let taxValue = 0;
+                if(isTaxable.value === '1') {
+                    taxValue = (subtotalAmount * 0.1).toFixed(0);
+                }
 
                 taxAmount.value = thousandSeparator(taxValue);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));

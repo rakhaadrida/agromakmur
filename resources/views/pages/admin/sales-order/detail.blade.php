@@ -104,6 +104,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="user" class="col-5 text-right text-bold mt-2">Is Taxable</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="isTaxable" value="{{ $salesOrder->is_taxable ? 'Yes' : 'No' }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                 <thead class="text-center text-bold text-dark">

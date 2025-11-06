@@ -132,6 +132,8 @@ class SalesOrderController extends Controller
             $deliveryDate = $request->get('delivery_date');
             $deliveryDate = Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d');
 
+            $isTaxable = $request->get('is_taxable', 1);
+
             $request->merge([
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
@@ -233,7 +235,12 @@ class SalesOrderController extends Controller
             }
 
             $totalAfterDiscount = $subtotal - $salesOrder->discount_amount;
-            $taxAmount = round($totalAfterDiscount * (10 / 100));
+
+            $taxAmount = 0;
+            if($isTaxable) {
+                $taxAmount = round($totalAfterDiscount * (10 / 100));
+            }
+
             $grandTotal = (int) $totalAfterDiscount + $taxAmount;
 
             $salesOrder->update([

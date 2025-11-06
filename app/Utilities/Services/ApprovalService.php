@@ -58,7 +58,12 @@ class ApprovalService
         }
 
         $totalAfterDiscount = $subtotal - $approval->discount_amount;
-        $taxAmount = round($totalAfterDiscount * (10 / 100));
+
+        $taxAmount = 0;
+        if($subject->is_taxable) {
+            $taxAmount = round($totalAfterDiscount * (10 / 100));
+        }
+
         $grandTotal = (int) $totalAfterDiscount + $taxAmount;
 
         $approval->update([
@@ -91,7 +96,12 @@ class ApprovalService
         $subtotal = static::createChildItemSalesOrders($approval, $subjectItems);
 
         $totalAfterDiscount = $subtotal - $approval->discount_amount;
-        $taxAmount = round($totalAfterDiscount * (10 / 100));
+
+        $taxAmount = 0;
+        if($subject->is_taxable) {
+            $taxAmount = round($totalAfterDiscount * (10 / 100));
+        }
+
         $grandTotal = (int) $totalAfterDiscount + $taxAmount;
 
         $approval->update([
