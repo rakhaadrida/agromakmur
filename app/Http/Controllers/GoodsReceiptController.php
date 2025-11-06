@@ -18,6 +18,7 @@ use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\UserService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -32,7 +33,11 @@ class GoodsReceiptController extends Controller
         $filter = (object) $request->all();
 
         $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
-        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
 
         $baseQuery = GoodsReceiptService::getBaseQueryIndex();
 
@@ -477,6 +482,42 @@ class GoodsReceiptController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new GoodsReceiptExport($request), 'Goods_Receipt_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        $goodsReceipts = $baseQuery
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('goods_receipts.date')
+            ->get();
+
+        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'goodsReceipts' => $goodsReceipts,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.goods-receipt.pdf', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Goods_Receipt_Data_'.$fileDate.'.pdf');
     }
 
     public function indexAjax(Request $request) {

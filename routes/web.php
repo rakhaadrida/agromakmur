@@ -128,6 +128,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
         Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
         Route::get('export-goods-receipts', 'GoodsReceiptController@export')->name('goods-receipts.export');
+        Route::get('pdf-goods-receipts', 'GoodsReceiptController@pdf')->name('goods-receipts.pdf');
 
         Route::resource('product-transfers', 'ProductTransferController')->except(['edit', 'update']);
         Route::get('product-transfers/{id}/detail', 'ProductTransferController@detail')->name('product-transfers.detail');
