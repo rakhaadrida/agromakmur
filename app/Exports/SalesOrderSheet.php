@@ -145,6 +145,10 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
         $startDate = $this->request->start_date;
         $finalDate = $this->request->final_date;
 
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
         $baseQuery = SalesOrderService::getBaseQueryIndex();
 
         return $baseQuery

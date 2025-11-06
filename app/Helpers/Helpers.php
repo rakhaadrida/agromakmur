@@ -459,6 +459,11 @@ function getTotalArray($array)
     return formatQuantity(array_sum($array));
 }
 
+function getGrandTotal($object)
+{
+    return formatPrice($object->sum('grand_total'));
+}
+
 function getTotalArrayExport($array)
 {
     return array_sum($array);

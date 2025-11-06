@@ -21,6 +21,7 @@ use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
 use App\Utilities\Services\WarehouseService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -636,6 +637,40 @@ class SalesOrderController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new SalesOrderExport($request), 'Sales_Order_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+
+        $salesOrders = $baseQuery
+            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('sales_orders.date')
+            ->get();
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'salesOrders' => $salesOrders,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.sales-order.pdf', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Sales_Order_Data_'.$fileDate.'.pdf');
     }
 
     public function indexAjax(Request $request) {
