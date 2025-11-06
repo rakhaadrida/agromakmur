@@ -137,7 +137,7 @@
                 width: 95px;
             }
 
-            .td-order-status {
+            .td-receipt-status {
                 width: 95px;
             }
 
@@ -170,7 +170,7 @@
                         <th class="align-middle td-tempo">Tempo</th>
                         <th class="align-middle td-invoice-age">Invoice Age</th>
                         <th class="align-middle td-grand-total">Grand Total</th>
-                        <th class="align-middle td-order-status">Status</th>
+                        <th class="align-middle td-receipt-status">Status</th>
                         <th class="align-middle td-admin">Admin</th>
                     </tr>
                 </thead>
@@ -193,7 +193,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="7" class="text-bold text-dark text-center">GRAND TOTAL</th>
-                        <th class="text-bold text-dark text-right">{{ getGrandTotal($goodsReceipts) }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($goodsReceipts, 'grand_total') }}</th>
                         <th colspan="2"></th>
                     </tr>
                 </tfoot>

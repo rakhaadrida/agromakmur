@@ -133,17 +133,8 @@
                 width: 70px;
             }
 
-            .td-warehouse {
-                width: 95px;
-            }
-
             .td-order-status {
                 width: 95px;
-            }
-
-            .td-tempo,
-            .td-invoice-age {
-                width: 70px;
             }
 
             .td-grand-total {
@@ -189,7 +180,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL QTY</th>
-                        <th class="text-bold text-dark text-right">{{ getTotalQuantity($deliveryOrders) }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($deliveryOrders, 'total_quantity') }}</th>
                         <th colspan="2"></th>
                     </tr>
                 </tfoot>

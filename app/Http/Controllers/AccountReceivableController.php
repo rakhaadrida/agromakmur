@@ -13,6 +13,7 @@ use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -27,46 +28,13 @@ class AccountReceivableController extends Controller
 
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
-        $status = $accountReceivableStatuses;
 
-        if(!empty($filter->status)) {
-            $status = [$filter->status];
-        }
-
-        $baseQuery = AccountReceivableService::getBaseQueryIndex();
-
-        $accountReceivables = $baseQuery
-            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('customers.name')
-            ->get();
-
-        foreach($accountReceivables as $accountReceivable) {
-            $paymentAmount = $accountReceivable->payment_amount ?? 0;
-            $returnAmount = $accountReceivable->return_amount ?? 0;
-
-            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
-            $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID;
-
-            if($outstandingAmount <= 0) {
-                $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
-            } else if($paymentAmount > 0 || $returnAmount > 0) {
-                $receivableStatus = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
-            }
-
-            $accountReceivable->outstanding_amount = $outstandingAmount;
-            $accountReceivable->status = $receivableStatus;
-        }
-
-        $accountReceivables = $accountReceivables->filter(function ($item) use ($status) {
-            return in_array($item->status, $status);
-        });
+        $accountReceivables = AccountReceivableService::getIndexData($filter);
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'accountReceivableStatuses' => $accountReceivableStatuses,
+            'accountReceivableStatuses' => Constant::ACCOUNT_RECEIVABLE_STATUSES,
             'status' => $filter->status ?? 0,
             'accountReceivables' => $accountReceivables
         ];
@@ -298,6 +266,30 @@ class AccountReceivableController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new AccountReceivableExport($request), 'Receivable_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+
+        $accountReceivables = AccountReceivableService::getIndexData($filter);
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'accountReceivables' => $accountReceivables,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.finance.account-receivable.pdf', $data)
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Receivable_Data_'.$fileDate.'.pdf');
     }
 
     public function exportDetail(Request $request, $id) {

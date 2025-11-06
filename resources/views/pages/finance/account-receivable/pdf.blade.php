@@ -124,45 +124,23 @@
                 width: 10px;
             }
 
-            .td-order-number,
-            .td-admin {
-                width: 70px;
+            .td-invoice-count {
+                width: 50px;
             }
 
-            .td-order-date  {
-                width: 60px;
-            }
-
-            .td-marketing {
-                width: 85px;
-            }
-
-            .td-order-type {
-                width: 55px;
-            }
-
-            .td-order-status {
-                width: 85px;
-            }
-
-            .td-tempo,
-            .td-invoice-age {
+            .td-status {
                 width: 60px;
             }
 
             .td-grand-total {
-                width: 70px;
-            }
-
-            .td-note {
-                width: 100px;
+                width: 75px;
             }
         </style>
     </head>
     <body>
         <div class="pdf-section">
             <div class="header-section text-center">
-                <h5 class="text-bold text-dark">Sales Order Data</h5>
+                <h5 class="text-bold text-dark">Account Receivable Data</h5>
                 <h6 class="text-dark report-date">Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h6>
                 <h6 class="text-dark report-date">Export Date : {{ $exportDate }}</h6>
             </div>
@@ -171,42 +149,38 @@
                 <thead class="text-center text-dark text-bold" >
                     <tr>
                         <th class="align-middle td-number">No</th>
-                        <th class="align-middle td-order-number">Number</th>
-                        <th class="align-middle td-order-date">Date</th>
                         <th class="align-middle">Customer</th>
-                        <th class="align-middle td-marketing">Marketing</th>
-                        <th class="align-middle td-tempo">Tempo</th>
-                        <th class="align-middle td-invoice-age">Invoice Age</th>
-                        <th class="align-middle td-order-type">Type</th>
-                        <th class="align-middle td-grand-total">Grand Total</th>
-                        <th class="align-middle td-order-status">Status</th>
-                        <th class="align-middle td-admin">Admin</th>
-                        <th class="align-middle td-note">Note</th>
+                        <th class="align-middle td-invoice-count">Invoice Count</th>
+                        <th class="align-middle td-grand-total">Total Amount</th>
+                        <th class="align-middle td-grand-total">Payment</th>
+                        <th class="align-middle td-grand-total">Return Amount</th>
+                        <th class="align-middle td-grand-total">Outstanding Amount</th>
+                        <th class="align-middle td-status">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($salesOrders as $index => $salesOrder)
+                    @foreach($accountReceivables as $index => $accountReceivable)
                         <tr class="text-dark">
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
-                            <td class="align-middle text-center">{{ $salesOrder->number }}</td>
-                            <td class="align-middle text-center">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
-                            <td class="align-middle">{{ $salesOrder->customer_name }}</td>
-                            <td class="align-middle text-center">{{ $salesOrder->marketing_name }}</td>
-                            <td class="align-middle text-center">{{ $salesOrder->tempo }} Day(s)</td>
-                            <td class="align-middle text-center">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
-                            <td class="align-middle text-center">{{ getSalesOrderTypeLabel($salesOrder->type) }}</td>
-                            <td class="align-middle text-right">{{ formatPrice($salesOrder->grand_total) }}</td>
-                            <td class="align-middle text-center">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>
-                            <td class="align-middle text-center">{{ $salesOrder->user_name }}</td>
-                            <td class="align-middle">{{ $salesOrder->note }}</td>
+                            <td class="align-middle">{{ $accountReceivable->customer_name }}</td>
+                            <td class="align-middle text-center">{{ $accountReceivable->invoice_count }}</td>
+                            <td class="align-middle text-right">{{ formatPrice($accountReceivable->grand_total) }}</td>
+                            <td class="align-middle text-right">{{ formatPrice($accountReceivable->payment_amount) }}</td>
+                            <td class="align-middle text-right">{{ formatPrice($accountReceivable->return_amount) }}</td>
+                            <td class="align-middle text-right">{{ formatPrice($accountReceivable->outstanding_amount) }}</td>
+                            <td class="align-middle text-center">{{ getAccountReceivableStatusLabel($accountReceivable->status) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="8" class="text-bold text-dark text-center">GRAND TOTAL</th>
-                        <th class="text-bold text-dark text-right">{{ getGrandTotal($salesOrders, 'grand_total') }}</th>
-                        <th colspan="3"></th>
+                        <th colspan="2" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                        <th class="text-bold text-dark text-center">{{ getGrandTotal($accountReceivables, 'invoice_count') }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($accountReceivables, 'grand_total') }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($accountReceivables, 'payment_amount') }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($accountReceivables, 'return_amount') }}</th>
+                        <th class="text-bold text-dark text-right">{{ getGrandTotal($accountReceivables, 'outstanding_amount') }}</th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
