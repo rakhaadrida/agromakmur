@@ -40,6 +40,23 @@ class DeliveryOrderService
             ->whereNull('delivery_orders.deleted_at');
     }
 
+    public static function getAdditionalQueryIndex($baseQuery) {
+        return $baseQuery
+            ->addSelect(DB::raw('delivery_order_items.quantity AS total_quantity'))
+            ->leftJoinSub(
+                DB::table('delivery_order_items')
+                    ->select(
+                        'delivery_order_items.delivery_order_id',
+                        DB::raw('SUM(delivery_order_items.quantity) AS quantity')
+                    )
+                    ->whereNull('delivery_order_items.deleted_at')
+                    ->groupBy('delivery_order_items.delivery_order_id'),
+                'delivery_order_items',
+                'delivery_orders.id',
+                'delivery_order_items.delivery_order_id'
+            );
+    }
+
     public static function createData($salesOrder) {
         return DeliveryOrder::create([
             'sales_order_id' => $salesOrder->id,

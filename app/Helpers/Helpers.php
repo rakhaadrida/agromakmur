@@ -459,14 +459,19 @@ function getTotalArray($array)
     return formatQuantity(array_sum($array));
 }
 
+function getTotalArrayExport($array)
+{
+    return array_sum($array);
+}
+
 function getGrandTotal($object)
 {
     return formatPrice($object->sum('grand_total'));
 }
 
-function getTotalArrayExport($array)
+function getTotalQuantity($object)
 {
-    return array_sum($array);
+    return formatPrice($object->sum('total_quantity'));
 }
 
 function getActualPrice($quantity, $actualQuantity, $price)

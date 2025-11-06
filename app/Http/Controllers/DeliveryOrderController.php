@@ -16,6 +16,7 @@ use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -469,5 +470,41 @@ class DeliveryOrderController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new DeliveryOrderExport($request), 'Delivery_Order_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
+
+        $baseQuery = DeliveryOrderService::getAdditionalQueryIndex($baseQuery);
+
+        $deliveryOrders = $baseQuery
+            ->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('delivery_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('delivery_orders.date')
+            ->get();
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'deliveryOrders' => $deliveryOrders,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.delivery-order.pdf', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Delivery_Order_Data_'.$fileDate.'.pdf');
     }
 }
