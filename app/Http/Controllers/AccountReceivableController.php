@@ -47,7 +47,6 @@ class AccountReceivableController extends Controller
 
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
 
         $customer = Customer::query()->findOrFail($id);
         $accountReceivables = AccountReceivableService::getDetailData($id, $filter);
@@ -56,7 +55,7 @@ class AccountReceivableController extends Controller
             'id' => $id,
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'accountReceivableStatuses' => $accountReceivableStatuses,
+            'accountReceivableStatuses' => Constant::ACCOUNT_RECEIVABLE_STATUSES,
             'status' => $filter->status ?? null,
             'accountReceivables' => $accountReceivables,
             'customer' => $customer

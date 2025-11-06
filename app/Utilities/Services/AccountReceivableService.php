@@ -98,8 +98,7 @@ class AccountReceivableService
     public static function getIndexData($filter) {
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
-        $status = $accountReceivableStatuses;
+        $status = Constant::ACCOUNT_RECEIVABLE_STATUSES;
 
         if(!empty($filter->status)) {
             $status = [$filter->status];
@@ -138,8 +137,7 @@ class AccountReceivableService
     public static function getDetailData($id, $filter) {
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
-        $status = $accountReceivableStatuses;
+        $status = Constant::ACCOUNT_RECEIVABLE_STATUSES;
 
         if(!empty($filter->status)) {
             $status = [$filter->status];

@@ -92,6 +92,45 @@ class AccountPayableService
             ->groupBy('account_payables.id');
     }
 
+    public static function getIndexData($filter) {
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $status = Constant::ACCOUNT_PAYABLE_STATUSES;
+
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $baseQuery = AccountPayableService::getBaseQueryIndex();
+
+        $accountPayables = $baseQuery
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderBy('suppliers.name')
+            ->get();
+
+        foreach($accountPayables as $accountPayable) {
+            $paymentAmount = $accountPayable->payment_amount ?? 0;
+            $returnAmount = $accountPayable->return_amount ?? 0;
+
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
+            $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
+
+            if($outstandingAmount <= 0) {
+                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+            } else if($paymentAmount > 0 || $returnAmount > 0) {
+                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+            }
+
+            $accountPayable->outstanding_amount = $outstandingAmount;
+            $accountPayable->status = $payableStatus;
+        }
+
+        return $accountPayables->filter(function ($item) use ($status) {
+            return in_array($item->status, $status);
+        });
+    }
+
     public static function getExportIndexData($filter) {
         $startDate = $filter->start_date;
         $finalDate = $filter->final_date;

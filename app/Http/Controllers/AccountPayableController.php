@@ -10,6 +10,7 @@ use App\Models\AccountPayable;
 use App\Models\Supplier;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,46 +25,13 @@ class AccountPayableController extends Controller
 
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountPayableStatuses = Constant::ACCOUNT_PAYABLE_STATUSES;
-        $status = $accountPayableStatuses;
 
-        if(!empty($filter->status)) {
-            $status = [$filter->status];
-        }
-
-        $baseQuery = AccountPayableService::getBaseQueryIndex();
-
-        $accountPayables = $baseQuery
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('suppliers.name')
-            ->get();
-
-        foreach($accountPayables as $accountPayable) {
-            $paymentAmount = $accountPayable->payment_amount ?? 0;
-            $returnAmount = $accountPayable->return_amount ?? 0;
-
-            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
-            $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_UNPAID;
-
-            if($outstandingAmount <= 0) {
-                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
-            } else if($paymentAmount > 0 || $returnAmount > 0) {
-                $payableStatus = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
-            }
-
-            $accountPayable->outstanding_amount = $outstandingAmount;
-            $accountPayable->status = $payableStatus;
-        }
-
-        $accountPayables = $accountPayables->filter(function ($item) use ($status) {
-            return in_array($item->status, $status);
-        });
+        $accountPayables = AccountPayableService::getIndexData($filter);
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'accountPayableStatuses' => $accountPayableStatuses,
+            'accountPayableStatuses' => Constant::ACCOUNT_PAYABLE_STATUSES,
             'status' => $filter->status ?? 0,
             'accountPayables' => $accountPayables
         ];
@@ -274,6 +242,30 @@ class AccountPayableController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new AccountPayableExport($request), 'Payable_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+
+        $accountPayables = AccountPayableService::getIndexData($filter);
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'accountPayables' => $accountPayables,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.finance.account-payable.pdf', $data)
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Payable_Data_'.$fileDate.'.pdf');
     }
 
     public function exportDetail(Request $request, $id) {

@@ -209,6 +209,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('account-payables/{id}/return', 'AccountPayableController@return')->name('account-payables.return');
         Route::get('account-payables/{id}/export', 'AccountPayableController@exportDetail')->name('account-payables.export-detail');
         Route::get('export-account-payables', 'AccountPayableController@export')->name('account-payables.export');
+        Route::get('pdf-account-payables', 'AccountPayableController@pdf')->name('account-payables.pdf');
     });
 
     Route::group(['roles' => [
