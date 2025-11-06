@@ -135,6 +135,38 @@ class AccountReceivableService
         });
     }
 
+    public static function getDetailData($id, $filter) {
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
+        $status = $accountReceivableStatuses;
+
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $baseQuery = AccountReceivableService::getBaseQueryDetail();
+
+        $accountReceivables = $baseQuery
+            ->where('sales_orders.customer_id', $id)
+            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->whereIn('account_receivables.status', $status)
+            ->orderByDesc('sales_orders.date')
+            ->orderBy('sales_orders.id')
+            ->get();
+
+        foreach($accountReceivables as $accountReceivable) {
+            $paymentAmount = $accountReceivable->payment_amount ?? 0;
+            $returnAmount = $accountReceivable->return_amount ?? 0;
+            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
+
+            $accountReceivable->outstanding_amount = $outstandingAmount;
+        }
+
+        return $accountReceivables;
+    }
+
     public static function getExportIndexData($filter) {
         $startDate = $filter->start_date;
         $finalDate = $filter->final_date;

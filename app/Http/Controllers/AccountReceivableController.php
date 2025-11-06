@@ -48,31 +48,9 @@ class AccountReceivableController extends Controller
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
         $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
-        $status = $accountReceivableStatuses;
-
-        if(!empty($filter->status)) {
-            $status = [$filter->status];
-        }
 
         $customer = Customer::query()->findOrFail($id);
-        $baseQuery = AccountReceivableService::getBaseQueryDetail();
-
-        $accountReceivables = $baseQuery
-            ->where('sales_orders.customer_id', $id)
-            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->whereIn('account_receivables.status', $status)
-            ->orderByDesc('sales_orders.date')
-            ->orderBy('sales_orders.id')
-            ->get();
-
-        foreach($accountReceivables as $accountReceivable) {
-            $paymentAmount = $accountReceivable->payment_amount ?? 0;
-            $returnAmount = $accountReceivable->return_amount ?? 0;
-            $outstandingAmount = $accountReceivable->grand_total - $paymentAmount - $returnAmount;
-
-            $accountReceivable->outstanding_amount = $outstandingAmount;
-        }
+        $accountReceivables = AccountReceivableService::getDetailData($id, $filter);
 
         $data = [
             'id' => $id,
@@ -299,6 +277,34 @@ class AccountReceivableController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new AccountReceivableDetailExport($id, $request), 'Receivable_'.$customerName.'_'.$fileDate.'.xlsx');
+    }
+
+    public function pdfDetail(Request $request, $id) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+
+        $accountReceivables = AccountReceivableService::getDetailData($id, $filter);
+
+        $customer = Customer::query()->findOrFail($id);
+        $customerName = preg_replace('/\s+/', '_', $customer->name);
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'accountReceivables' => $accountReceivables,
+            'customer' => $customer,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.finance.account-receivable.pdf-detail', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Receivable_'.$customerName.'_'.$fileDate.'.pdf');
     }
 
     public function checkInvoice(Request $request) {
