@@ -44,38 +44,15 @@ class AccountPayableController extends Controller
 
         $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
-        $accountPayableStatuses = Constant::ACCOUNT_PAYABLE_STATUSES;
-        $status = $accountPayableStatuses;
-
-        if(!empty($filter->status)) {
-            $status = [$filter->status];
-        }
 
         $supplier = Supplier::query()->findOrFail($id);
-        $baseQuery = AccountPayableService::getBaseQueryDetail();
-
-        $accountPayables = $baseQuery
-            ->where('goods_receipts.supplier_id', $id)
-            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->whereIn('account_payables.status', $status)
-            ->orderByDesc('goods_receipts.date')
-            ->orderBy('goods_receipts.id')
-            ->get();
-
-        foreach($accountPayables as $accountPayable) {
-            $paymentAmount = $accountPayable->payment_amount ?? 0;
-            $returnAmount = $accountPayable->return_amount ?? 0;
-            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
-
-            $accountPayable->outstanding_amount = $outstandingAmount;
-        }
+        $accountPayables = AccountPayableService::getDetailData($id, $filter);
 
         $data = [
             'id' => $id,
             'startDate' => $startDate,
             'finalDate' => $finalDate,
-            'accountPayableStatuses' => $accountPayableStatuses,
+            'accountPayableStatuses' => Constant::ACCOUNT_PAYABLE_STATUSES,
             'status' => $filter->status ?? null,
             'accountPayables' => $accountPayables,
             'supplier' => $supplier
@@ -275,5 +252,33 @@ class AccountPayableController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new AccountPayableDetailExport($id, $request), 'Payable_'.$supplierName.'_'.$fileDate.'.xlsx');
+    }
+
+    public function pdfDetail(Request $request, $id) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+
+        $accountPayables = AccountPayableService::getDetailData($id, $filter);
+
+        $supplier = Supplier::query()->findOrFail($id);
+        $supplierName = preg_replace('/\s+/', '_', $supplier->name);
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'accountPayables' => $accountPayables,
+            'supplier' => $supplier,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.finance.account-payable.pdf-detail', $data)
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Payable_'.$supplierName.'_'.$fileDate.'.pdf');
     }
 }

@@ -131,6 +131,37 @@ class AccountPayableService
         });
     }
 
+    public static function getDetailData($id, $filter) {
+        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $status = Constant::ACCOUNT_PAYABLE_STATUSES;
+
+        if(!empty($filter->status)) {
+            $status = [$filter->status];
+        }
+
+        $baseQuery = AccountPayableService::getBaseQueryDetail();
+
+        $accountPayables = $baseQuery
+            ->where('goods_receipts.supplier_id', $id)
+            ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->whereIn('account_payables.status', $status)
+            ->orderByDesc('goods_receipts.date')
+            ->orderBy('goods_receipts.id')
+            ->get();
+
+        foreach($accountPayables as $accountPayable) {
+            $paymentAmount = $accountPayable->payment_amount ?? 0;
+            $returnAmount = $accountPayable->return_amount ?? 0;
+            $outstandingAmount = $accountPayable->grand_total - $paymentAmount - $returnAmount;
+
+            $accountPayable->outstanding_amount = $outstandingAmount;
+        }
+
+        return $accountPayables;
+    }
+
     public static function getExportIndexData($filter) {
         $startDate = $filter->start_date;
         $finalDate = $filter->final_date;
