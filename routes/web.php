@@ -72,6 +72,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::put('deleted-customers/{id}/restore', 'CustomerController@restore')->name('customers.restore');
         Route::put('deleted-customers/{id}/remove', 'CustomerController@remove')->name('customers.remove');
         Route::get('export-customers', 'CustomerController@export')->name('customers.export');
+        Route::get('customer-limit-ajax', 'CustomerController@customerLimitAjax')->name('customers.customer-limit-ajax');
 
         Route::resource('warehouses', 'WarehouseController');
         Route::get('deleted-warehouses', 'WarehouseController@indexDeleted')->name('warehouses.deleted');

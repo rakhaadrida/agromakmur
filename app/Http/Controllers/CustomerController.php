@@ -7,8 +7,10 @@ use App\Http\Requests\CustomerCreateRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\Customer;
 use App\Models\Marketing;
+use App\Utilities\Services\AccountReceivableService;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -183,5 +185,28 @@ class CustomerController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new CustomerExport(), 'Customer_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function customerLimitAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $customer = Customer::query()->findOrFail($filter->customer_id);
+
+        $baseQuery = AccountReceivableService::getBaseQueryIndex();
+        $accountReceivable = $baseQuery
+            ->where('sales_orders.customer_id', $filter->customer_id)
+            ->where('account_receivables.status', '!=', 'PAID')
+            ->first();
+
+        $grandTotal = $accountReceivable ? $accountReceivable->grand_total : 0;
+        $paymentAmount = $accountReceivable ? ($accountReceivable->payment_amount ?? 0) : 0;
+        $returnAmount = $accountReceivable ? ($accountReceivable->return_amount ?? 0) : 0;
+        $outstandingAmount = $grandTotal - $paymentAmount - $returnAmount;
+
+        return response()->json([
+            'tax_number' => $customer->tax_number,
+            'credit_limit' => $customer->credit_limit,
+            'outstanding_amount' => $outstandingAmount,
+        ]);
     }
 }

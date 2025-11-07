@@ -1017,6 +1017,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-right: 50px;
 }
 
+.total-credit-label {
+    margin-top: -10px;
+}
+
+.invoice-amount-label {
+    margin-top: -30px;
+}
+
+.total-bills-label {
+    margin-top: -20px;
+}
+
 .table-head-number-delivery-order {
     width: 60px;
 }

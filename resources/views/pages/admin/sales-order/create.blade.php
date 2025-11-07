@@ -133,6 +133,8 @@
                                             <input type="text" class="form-control form-control-sm text-bold" name="note" id="note" value="{{ old('note') }}" tabindex="8">
                                         </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
+                                        <input type="hidden" name="credit_limit" id="creditLimit">
+                                        <input type="hidden" name="outstanding_amount" id="outstandingAmount">
                                     </div>
                                 </div>
                                 <hr>
@@ -295,6 +297,49 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="modal" id="modalLimit" tabindex="-1" role="dialog" aria-labelledby="modalLimitConfirmation" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Credit Limit Confirmation</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Total invoice for this customer exceeds the limit of <span class="col-form-label text-bold" id="creditLimitLabel"></span>.</p>
+                                                <hr>
+                                                <div class="form-group row total-credit-label">
+                                                    <label for="totalCredit" class="col-4 col-form-label text-bold">Total Credit</label>
+                                                    <span class="col-auto col-form-label text-bold">:</span>
+                                                    <span class="col-3 col-form-label text-bold text-right" id="totalCredit"></span>
+                                                </div>
+                                                <div class="form-group row invoice-amount-label">
+                                                    <label for="invoiceAmount" class="col-4 col-form-label text-bold">Invoice Amount</label>
+                                                    <span class="col-auto col-form-label text-bold">:</span>
+                                                    <span class="col-3 col-form-label text-bold text-right" id="invoiceAmount"></span>
+                                                </div>
+                                                <div class="form-group row total-bills-label">
+                                                    <label for="totalBills" class="col-4 col-form-label text-bold">Total Bills</label>
+                                                    <span class="col-auto col-form-label text-bold">:</span>
+                                                    <span class="col-3 col-form-label text-bold text-right" id="totalBills"></span>
+                                                    <input type="hidden" name="is_limit" id="isLimit" value="0">
+                                                </div>
+                                                <hr>
+                                                <p>Please choose to submit or cancel</p>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary btn-block text-bold">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -421,8 +466,9 @@
                 marketing.selectpicker('val', selected.data('foo'));
                 marketing.selectpicker('refresh');
 
-                $('#taxNumber').val(selected.data('tax'));
                 $('#tempo').val(selected.data('tempo'));
+
+                displayCreditLimit(selected.val());
             });
 
             $('input[name="is_taxable"]').change(function() {
@@ -549,7 +595,7 @@
                 event.preventDefault();
 
                 let checkForm = document.getElementById('form').checkValidity();
-                if(!checkForm) {
+                if (!checkForm) {
                     document.getElementById('form').reportValidity();
                     return false;
                 }
@@ -569,12 +615,26 @@
                 let invoiceDiscount = $('#invoiceDiscount');
                 invoiceDiscount.val(numberFormat(invoiceDiscount.val()));
 
+                let creditLimit = $('#creditLimit').val();
+                let outstandingAmount = $('#outstandingAmount').val();
+                let grandTotal = numberFormat($('#grandTotal').val());
+
                 let duplicateCodes = checkDuplicateProduct();
-                if(duplicateCodes.length) {
+                if (duplicateCodes.length) {
                     let duplicateCode = duplicateCodes.join(', ');
 
                     $('#duplicateCode').text(duplicateCode);
                     $('#modalDuplicate').modal('show');
+
+                    return false;
+                } else if(outstandingAmount + grandTotal > creditLimit) {
+                    $('#creditLimitLabel').text(thousandSeparator(creditLimit));
+                    $('#totalCredit').text(thousandSeparator(outstandingAmount));
+                    $('#invoiceAmount').text(thousandSeparator(grandTotal));
+                    $('#totalBills').text(thousandSeparator(+outstandingAmount + +grandTotal));
+                    $('#isLimit').val(1);
+
+                    $('#modalLimit').modal('show');
 
                     return false;
                 } else {
@@ -622,6 +682,22 @@
                     $(this).attr('disabled', false);
                 });
             });
+
+            function displayCreditLimit(customerId) {
+                $.ajax({
+                    url: '{{ route('customers.customer-limit-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        customer_id: customerId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#taxNumber').val(data.tax_number);
+                        $('#creditLimit').val(data.credit_limit);
+                        $('#outstandingAmount').val(data.outstanding_amount);
+                    },
+                })
+            }
 
             function changePriceType(salesOrderType) {
                 let prices = $('select[name="price_type[]"]');
@@ -1222,6 +1298,5 @@
                 `;
             }
         });
-
     </script>
 @endpush
