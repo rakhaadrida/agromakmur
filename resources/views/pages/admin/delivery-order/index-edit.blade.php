@@ -26,7 +26,6 @@
                     <div class="card show">
                         <div class="card-body">
                             <form action="{{ route('delivery-orders.index-edit') }}" method="GET" id="form">
-                                @csrf
                                 <div class="container so-container">
                                     <div class="form-group row">
                                         <label for="number" class="col-2 col-form-label text-bold text-right">DO Number</label>
@@ -182,7 +181,8 @@
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelDelivery" data-id="{{ $deliveryOrder->id }}" data-number="{{ $deliveryOrder->number }}" tabindex="6">Cancel Delivery</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" class="btn btn-info btn-block text-bold edit-order" id="btnEdit-{{ $key }}">Edit</a>
+                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Edit</button>
+{{--                                                            <a href="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" class="btn btn-info btn-block text-bold edit-order" id="btnEdit-{{ $key }}">Edit</a>--}}
                                                         </div>
                                                     </div>
                                                 @endif
@@ -278,11 +278,15 @@
             const modalCancelDelivery = $('#modalCancelDelivery');
 
             form.on('click', '.edit-order', function (e) {
-                e.preventDefault();
+                if(!$(this).attr('data-validated')) {
+                    e.preventDefault();
 
-                let sourceMenu = $(this).attr('href');
-                $('#targetRoute').val(sourceMenu);
-                $('#modalPassword').modal('show');
+                    let subjectIndex = $(this).data('index');
+                    $('#subjectIndex').val(subjectIndex);
+                    $('#modalPasswordEdit').modal('show');
+                } else {
+                    $(this).removeAttr('data-validated');
+                }
             });
 
             form.on('click', '.cancel-order', function () {
@@ -314,5 +318,11 @@
                 $('#deleteForm').submit();
             });
         });
+
+        function submitForm(index) {
+            const sourceButton = $('#btnEdit-' + index);
+            sourceButton.attr('data-validated', 'true');
+            sourceButton.trigger('click');
+        }
     </script>
 @endpush

@@ -92,7 +92,7 @@
                             <span class="col-form-label text-bold">:</span>
                             <div class="col-6">
                                 <input type="password" class="form-control col-form-label-sm" name="password" id="passwordEdit" required autofocus>
-                                <i class="far fa-eye password-eye-icon validate-password-eye-icon" id="togglePassword"></i>
+                                <i class="far fa-eye password-eye-icon validate-password-eye-icon" id="togglePasswordEdit"></i>
                             </div>
                         </div>
                         <div class="form-group row input-password-modal-body">

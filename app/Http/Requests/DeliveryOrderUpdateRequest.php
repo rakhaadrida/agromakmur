@@ -16,6 +16,10 @@ class DeliveryOrderUpdateRequest extends FormRequest
         return [
             'date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'description' => ['required', 'string'],
+            'start_date' => ['nullable', 'date', 'date_format:d-m-Y'],
+            'final_date' => ['nullable', 'date', 'date_format:d-m-Y'],
+            'delivery_number' => ['nullable', 'string'],
+            'customer_id' => ['nullable', 'exists:customers,id,deleted_at,NULL'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],

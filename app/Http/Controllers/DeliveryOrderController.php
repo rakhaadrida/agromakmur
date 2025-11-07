@@ -222,7 +222,7 @@ class DeliveryOrderController extends Controller
         return view('pages.admin.delivery-order.index-edit', $data);
     }
 
-    public function edit($id) {
+    public function edit(Request $request, $id) {
         $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
         $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
 
@@ -262,6 +262,10 @@ class DeliveryOrderController extends Controller
             'deliveryOrder' => $deliveryOrder,
             'deliveryOrderItems' => $deliveryOrderItems,
             'rowNumbers' => $rowNumbers,
+            'startDate' => $request->start_date ?? null,
+            'finalDate' => $request->final_date ?? null,
+            'number' => $request->number ?? null,
+            'customerId' => $request->customer_id ?? null,
         ];
 
         return view('pages.admin.delivery-order.edit', $data);
@@ -304,7 +308,14 @@ class DeliveryOrderController extends Controller
                 $user->notify(new UpdateDeliveryOrderNotification($deliveryOrder->number, $parentApproval->id));
             }
 
-            return redirect()->route('delivery-orders.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('delivery_number', null),
+                'customer_id' => $request->get('customer_id', null),
+            ];
+
+            return redirect()->route('delivery-orders.index-edit', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

@@ -38,6 +38,14 @@
             this.classList.toggle('fa-eye-slash');
         });
 
+        $('#togglePasswordEdit').on('click', function(e) {
+            let password = document.getElementById('passwordEdit');
+            let type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
         $('#btnSubmitPassword').on('click', function(event) {
             event.preventDefault();
 
