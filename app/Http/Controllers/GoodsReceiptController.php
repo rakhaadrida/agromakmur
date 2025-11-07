@@ -243,7 +243,7 @@ class GoodsReceiptController extends Controller
         return view('pages.admin.goods-receipt.index-edit', $data);
     }
 
-    public function edit($id) {
+    public function edit(Request $request, $id) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
         $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
 
@@ -281,6 +281,10 @@ class GoodsReceiptController extends Controller
             'products' => $products,
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],
+            'startDate' => $request->start_date ?? null,
+            'finalDate' => $request->final_date ?? null,
+            'number' => $request->number ?? null,
+            'supplierId' => $request->supplier_id ?? null,
         ];
 
         return view('pages.admin.goods-receipt.edit', $data);
@@ -323,7 +327,14 @@ class GoodsReceiptController extends Controller
                 $user->notify(new UpdateGoodsReceiptNotification($goodsReceipt->number, $parentApproval->id));
             }
 
-            return redirect()->route('goods-receipts.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('receipt_number', null),
+                'supplier_id' => $request->get('supplier_id', null),
+            ];
+
+            return redirect()->route('goods-receipts.index-edit', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

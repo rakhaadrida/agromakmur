@@ -26,7 +26,6 @@
                     <div class="card show">
                         <div class="card-body">
                             <form action="{{ route('goods-receipts.index-edit') }}" method="GET" id="form">
-                                @csrf
                                 <div class="container so-container">
                                     <div class="form-group row">
                                         <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
@@ -209,7 +208,7 @@
                                                             <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <a href="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" class="btn btn-info btn-block text-bold edit-receipt" id="btnEdit-{{ $key }}">Edit</a>
+                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-receipt" formaction="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Edit</button>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -305,11 +304,15 @@
             const modalCancelReceipt = $('#modalCancelReceipt');
 
             form.on('click', '.edit-receipt', function (e) {
-                e.preventDefault();
+                if(!$(this).attr('data-validated')) {
+                    e.preventDefault();
 
-                let sourceMenu = $(this).attr('href');
-                $('#targetRoute').val(sourceMenu);
-                $('#modalPassword').modal('show');
+                    let subjectIndex = $(this).data('index');
+                    $('#subjectIndex').val(subjectIndex);
+                    $('#modalPasswordEdit').modal('show');
+                } else {
+                    $(this).removeAttr('data-validated');
+                }
             });
 
             form.on('click', '.cancel-receipt', function () {
@@ -341,5 +344,11 @@
                 $('#deleteForm').submit();
             });
         });
+
+        function submitForm(index) {
+            const sourceButton = $('#btnEdit-' + index);
+            sourceButton.attr('data-validated', 'true');
+            sourceButton.trigger('click');
+        }
     </script>
 @endpush

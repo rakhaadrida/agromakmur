@@ -67,5 +67,36 @@
                 }
             })
         });
+
+        $('#btnSubmitPasswordEdit').on('click', function(event) {
+            event.preventDefault();
+
+            $('#passwordErrorMessage').css('display', 'none');
+            let password = $('#passwordEdit').val();
+
+            $.ajax({
+                url: '{{ route('validate-password-ajax') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    password: password
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#passwordEdit').val('');
+                    $('#modalPasswordEdit').modal('hide');
+
+                    submitForm($('#subjectIndex').val());
+                },
+                error: function(xhr) {
+                    if(xhr.status === 422) {
+                        let errors = xhr.responseJSON;
+                        $('#passwordErrorMessage').text(errors.message).css('display', 'block');
+                    } else {
+                        $('#passwordErrorMessage').text('An error occurred. Please try again.');
+                    }
+                }
+            })
+        });
     });
 </script>

@@ -80,6 +80,38 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modalPasswordEdit" tabindex="-1" role="dialog" aria-labelledby="modalPassword" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Input Your Password</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row input-password-modal-body">
+                            <label for="password" class="col-3 col-form-label text-bold text-right">Password</label>
+                            <span class="col-form-label text-bold">:</span>
+                            <div class="col-6">
+                                <input type="password" class="form-control col-form-label-sm" name="password" id="passwordEdit" required autofocus>
+                                <i class="far fa-eye password-eye-icon validate-password-eye-icon" id="togglePassword"></i>
+                            </div>
+                        </div>
+                        <div class="form-group row input-password-modal-body">
+                            <label class="col-3 col-form-label text-bold text-right"></label>
+                            <span class="col-form-label text-bold"></span>
+                            <div class="col-6">
+                                <input type="hidden" id="subjectIndex">
+                                <strong><span class="invalid-feedback ml-2" role="alert" id="passwordErrorMessage"></span></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" id="btnSubmitPasswordEdit">Submit</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @stack('prepend-script')
         @include('includes.script')
         @stack('addon-script')
