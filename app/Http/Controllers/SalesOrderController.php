@@ -342,7 +342,7 @@ class SalesOrderController extends Controller
         return view('pages.admin.sales-order.index-edit', $data);
     }
 
-    public function edit($id) {
+    public function edit(Request $request, $id) {
         $salesOrder = SalesOrder::query()->findOrFail($id);
         $salesOrderItems = $salesOrder->salesOrderItems;
 
@@ -401,6 +401,10 @@ class SalesOrderController extends Controller
             'units' => $units ?? [],
             'prices' => $prices ?? [],
             'warehouses' => $warehouses,
+            'startDate' => $request->start_date ?? null,
+            'finalDate' => $request->final_date ?? null,
+            'number' => $request->number ?? null,
+            'customerId' => $request->customer_id ?? null,
         ];
 
         return view('pages.admin.sales-order.edit', $data);
@@ -475,7 +479,14 @@ class SalesOrderController extends Controller
                 $user->notify(new UpdateSalesOrderNotification($salesOrder->number, $parentApproval->id));
             }
 
-            return redirect()->route('sales-orders.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('order_number', null),
+                'customer_id' => $request->get('filter_customer_id', null),
+            ];
+
+            return redirect()->route('sales-orders.index-edit', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
