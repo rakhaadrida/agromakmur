@@ -37,9 +37,11 @@ class UserService
                     END as branch_name
                 '),
             )
-            ->leftJoin('user_branches', 'user_branches.user_id', 'users.id')
+            ->leftJoin('user_branches', function ($join) {
+                $join->on('user_branches.user_id', 'users.id')
+                     ->whereNull('user_branches.deleted_at');
+            })
             ->leftJoin('branches', 'branches.id', 'user_branches.branch_id')
-            ->whereNull('user_branches.deleted_at')
             ->groupBy('users.id')
             ->get();
     }

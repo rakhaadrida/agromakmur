@@ -18,6 +18,20 @@ use Illuminate\Support\Facades\DB;
 
 class ProductService
 {
+    public static function getBaseQueryIndex() {
+        return Product::query()
+            ->select(
+                'products.*',
+                'categories.name AS category_name',
+                'subcategories.name AS subcategory_name',
+                'units.name AS unit_name'
+            )
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
+            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
+            ->leftJoin('units', 'units.id', 'products.unit_id')
+            ->get();
+    }
+
     public static function getProductStockQuery($productId, $warehouseId) {
         return ProductStock::query()
             ->where('product_id', $productId)

@@ -62,7 +62,7 @@
                                     <div class="col-3">
                                         <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple>
                                             @foreach($branches as $key => $branch)
-                                                <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}">{{ $branch->name }}</option>
+                                                <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('branch_ids[]')

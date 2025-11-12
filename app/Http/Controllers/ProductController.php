@@ -26,17 +26,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProductController extends Controller
 {
     public function index() {
-        $products = Product::query()
-            ->select(
-                'products.*',
-                'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
-                'units.name AS unit_name'
-            )
-            ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
-            ->leftJoin('units', 'units.id', 'products.unit_id')
-            ->get();
+        $products = ProductService::getBaseQueryIndex();
 
         $warehouses = Warehouse::all();
         $productStocks = ProductStock::query()

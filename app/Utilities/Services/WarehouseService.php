@@ -24,26 +24,31 @@ class WarehouseService
     }
 
     public static function getBaseQueryIndex() {
-        return Warehouse::query()
-            ->select(
-                'warehouses.*',
-                DB::raw('
-                    CASE
-                        WHEN COUNT(branches.id) > 2
-                            THEN CONCAT(
-                                SUBSTRING_INDEX(GROUP_CONCAT(branches.name ORDER BY branches.name SEPARATOR ", "), ", ", 2),
-                                ", +", COUNT(branches.id) - 2
-                            )
-                        ELSE
-                            GROUP_CONCAT(branches.name ORDER BY branches.name SEPARATOR ", ")
-                    END as branch_name
-                '),
-            )
-            ->leftJoin('branch_warehouses', 'branch_warehouses.warehouse_id', 'warehouses.id')
-            ->leftJoin('branches', 'branches.id', 'branch_warehouses.branch_id')
-            ->whereNull('branch_warehouses.deleted_at')
-            ->groupBy('warehouses.id')
-            ->get();
+        $baseQuery = Warehouse::query();
+
+        if(isUserSuperAdmin()) {
+            $baseQuery = $baseQuery
+                ->select(
+                    'warehouses.*',
+                    DB::raw('
+                        CASE
+                            WHEN COUNT(branches.id) > 2
+                                THEN CONCAT(
+                                    SUBSTRING_INDEX(GROUP_CONCAT(branches.name ORDER BY branches.name SEPARATOR ", "), ", ", 2),
+                                    ", +", COUNT(branches.id) - 2
+                                )
+                            ELSE
+                                GROUP_CONCAT(branches.name ORDER BY branches.name SEPARATOR ", ")
+                        END as branch_name
+                    ')
+                )
+                ->leftJoin('branch_warehouses', 'branch_warehouses.warehouse_id', 'warehouses.id')
+                ->leftJoin('branches', 'branches.id', 'branch_warehouses.branch_id')
+                ->whereNull('branch_warehouses.deleted_at')
+                ->groupBy('warehouses.id');
+        }
+
+        return $baseQuery->get();
     }
 
     public static function createBranchWarehouseByWarehouse($warehouse, $branchIds, $isUpdate = false) {

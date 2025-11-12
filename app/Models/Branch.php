@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterByUserBranchTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Branch extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterByUserBranchTable;
 
     protected $fillable = [
         'name',
