@@ -86,7 +86,7 @@
                                     <label for="conversion" class="col-2 col-form-label text-bold text-right"></label>
                                     <span class="col-form-label text-bold"></span>
                                     <div class="col-6 ml-1">
-                                        <input class="form-check-input product-check-input" type="checkbox" name="conversion" id="conversion" {{ $product->productConversions->count() ? 'checked' : '' }}>
+                                        <input class="form-check-input product-check-input" type="checkbox" name="has_conversion" id="conversion" {{ $product->productConversions->count() ? 'checked' : '' }}>
                                         <label class="col-form-label product-check-label ml-4" for="remember">Does this product have unit conversion?</label>
                                     </div>
                                 </div>

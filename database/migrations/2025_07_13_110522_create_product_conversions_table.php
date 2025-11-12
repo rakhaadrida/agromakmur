@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->float('quantity');
+            $table->boolean('is_updated')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

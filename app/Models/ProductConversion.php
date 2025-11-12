@@ -12,7 +12,8 @@ class ProductConversion extends Model
     protected $fillable = [
         'product_id',
         'unit_id',
-        'quantity'
+        'quantity',
+        'is_updated'
     ];
 
     public function product() {

@@ -15,6 +15,7 @@ class ProductPrice extends Model
         'base_price',
         'tax_amount',
         'price',
+        'is_updated'
     ];
 
     public function product() {

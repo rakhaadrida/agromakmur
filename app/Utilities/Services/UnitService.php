@@ -8,6 +8,7 @@ class UnitService
 {
     public static function restoreProductConversionByUnitId($unitId) {
         $conversions = ProductConversion::onlyTrashed()
+            ->where('is_updated', 0)
             ->whereHas('unit', function($query) {
                 $query->where('is_destroy', 0);
             });

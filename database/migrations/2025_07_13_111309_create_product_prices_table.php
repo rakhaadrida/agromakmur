@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('base_price');
             $table->double('tax_amount');
             $table->double('price');
+            $table->boolean('is_updated')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

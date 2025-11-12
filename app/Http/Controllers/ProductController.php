@@ -78,21 +78,18 @@ class ProductController extends Controller
             $product = Product::create($request->all());
 
             if($request->get('has_conversion')) {
-                $product->productConversions()->create([
-                    'unit_id' => $request->get('unit_conversion_id'),
-                    'quantity' => $request->get('quantity')
-                ]);
+                ProductService::createProductConversionByProduct(
+                    $product,
+                    $request->get('unit_conversion_id'),
+                    $request->get('quantity')
+                );
             }
 
-            $prices = $request->get('price', []);
-            foreach ($prices as $index => $price) {
-                $product->productPrices()->create([
-                    'price_id' => $request->get('price_id')[$index],
-                    'base_price' => $request->get('base_price')[$index],
-                    'tax_amount' => $request->get('tax_amount')[$index],
-                    'price' => $price
-                ]);
-            }
+            ProductService::createProductPriceByProduct(
+                $product,
+                $request->get('price', []),
+                $request
+            );
 
             ProductStockService::createStockByProduct($product);
 
@@ -111,9 +108,11 @@ class ProductController extends Controller
 
     public function edit($id) {
         $product = Product::query()->findOrFail($id);
+
         $categories = Category::all();
         $units = Unit::all();
         $prices = Price::all();
+
         $subcategories = Subcategory::query()
             ->where('category_id', $product->category_id)
             ->get();
@@ -153,24 +152,21 @@ class ProductController extends Controller
             $product = Product::query()->findOrFail($id);
             $product->update($data);
 
-            $product->productConversions()->delete();
             if($request->get('has_conversion')) {
-                $product->productConversions()->create([
-                    'unit_id' => $request->get('unit_conversion_id'),
-                    'quantity' => $request->get('quantity')
-                ]);
+                ProductService::createProductConversionByProduct(
+                    $product,
+                    $request->get('unit_conversion_id'),
+                    $request->get('quantity'),
+                    true
+                );
             }
 
-            $prices = $request->get('price', []);
-            $product->productPrices()->delete();
-            foreach ($prices as $index => $price) {
-                $product->productPrices()->create([
-                    'price_id' => $request->get('price_id')[$index],
-                    'base_price' => $request->get('base_price')[$index],
-                    'tax_amount' => $request->get('tax_amount')[$index],
-                    'price' => $price
-                ]);
-            }
+            ProductService::createProductPriceByProduct(
+                $product,
+                $request->get('price', []),
+                $request,
+                true
+            );
 
             DB::commit();
 
@@ -190,9 +186,11 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $product = Product::query()->findOrFail($id);
+
             $product->productPrices()->delete();
             $product->productConversions()->delete();
             $product->productStocks()->delete();
+
             $product->delete();
 
             DB::commit();
@@ -250,25 +248,12 @@ class ProductController extends Controller
 
             $product = Product::query()->findOrFail($id);
 
-            $stocks = $request->get('stock', []);
-            $product->productStocks()->delete();
-            foreach ($stocks as $index => $stock) {
-                $product->productStocks()->create([
-                    'warehouse_id' => $request->get('warehouse_id')[$index],
-                    'stock' => $stock
-                ]);
-
-                /* ProductService::createProductStockLog(
-                    $product->id,
-                    Carbon::now(),
-                    $product->id,
-                    $request->get('warehouse_id')[$index],
-                    0,
-                    $stock,
-                    null,
-                    null
-                ); */
-            }
+            ProductService::createProductStockByProduct(
+                $product,
+                $request->get('stock', []),
+                $request,
+                true
+            );
 
             DB::commit();
 
@@ -308,7 +293,8 @@ class ProductController extends Controller
         try {
             DB::beginTransaction();
 
-            $products = Product::onlyTrashed();
+            $products = Product::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $products = $products->where('id', $id);
             }

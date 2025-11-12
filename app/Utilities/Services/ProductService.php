@@ -37,6 +37,137 @@ class ProductService
             ->get();
     }
 
+    public static function createProductConversionByProduct($product, $unitId, $quantity, $isUpdate = false) {
+        if($isUpdate) {
+            static::updateProductConversionByProduct($product);
+        }
+
+        $product->productConversions()->create([
+            'unit_id' => $unitId,
+            'quantity' => $quantity
+        ]);
+
+        return true;
+    }
+
+    public static function createProductPriceByProduct($product, $prices, $data, $isUpdate = false) {
+        if($isUpdate) {
+            static::updateProductPriceByProduct($product);
+        }
+
+        foreach ($prices as $index => $price) {
+            $product->productPrices()->create([
+                'price_id' => $data->get('price_id')[$index],
+                'base_price' => $data->get('base_price')[$index],
+                'tax_amount' => $data->get('tax_amount')[$index],
+                'price' => $price
+            ]);
+        }
+
+        return true;
+    }
+
+    public static function createProductStockByProduct($product, $stocks, $data, $isUpdate = false) {
+        if($isUpdate) {
+            static::updateProductStockByProduct($product);
+        }
+
+        foreach ($stocks as $index => $stock) {
+            $product->productStocks()->create([
+                'warehouse_id' => $data->get('warehouse_id')[$index],
+                'stock' => $stock
+            ]);
+
+            /* ProductService::createProductStockLog(
+                $product->id,
+                Carbon::now(),
+                $product->id,
+                $request->get('warehouse_id')[$index],
+                0,
+                $stock,
+                null,
+                null
+            ); */
+        }
+
+        return true;
+    }
+
+    public static function updateProductConversionByProduct($product) {
+        $product->productConversions()->update([
+            'is_updated' => 1
+        ]);
+
+        $product->productConversions()->delete();
+
+        return true;
+    }
+
+    public static function updateProductPriceByProduct($product) {
+        $product->productPrices()->update([
+            'is_updated' => 1
+        ]);
+
+        $product->productPrices()->delete();
+
+        return true;
+    }
+
+    public static function updateProductStockByProduct($product) {
+        $product->productStocks()->update([
+            'is_updated' => 1
+        ]);
+
+        $product->productStocks()->delete();
+
+        return true;
+    }
+
+    public static function restoreProductPricesByProductId($productId) {
+        $prices = ProductPrice::onlyTrashed()
+            ->where('is_updated', 0)
+            ->whereHas('product', function($query) {
+                $query->where('is_destroy', 0);
+            });
+
+        if($productId) {
+            $prices->where('product_id', $productId);
+        }
+
+        $prices->restore();
+
+        return true;
+    }
+
+    public static function restoreProductConversionsByProductId($productId) {
+        $conversions = ProductConversion::onlyTrashed()
+            ->where('is_updated', 0)
+            ->whereHas('product', function($query) {
+                $query->where('is_destroy', 0);
+            });
+
+        if($productId) {
+            $conversions->where('product_id', $productId);
+        }
+
+        $conversions->restore();
+
+        return true;
+    }
+
+    public static function updateProductCategoryBySubcategory($subcategory) {
+        $products = Product::query()
+            ->where('subcategory_id', $subcategory->id)
+            ->get();
+
+        foreach($products as $product) {
+            $product->category_id = $subcategory->category_id;
+            $product->save();
+        }
+
+        return true;
+    }
+
     public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $finalAmount = null, $isReturn = false) {
         $initialStock = $productStock ? $productStock->stock : 0;
 
@@ -138,36 +269,5 @@ class ProductService
             ->orderBy('subcategories.id')
             ->orderBy('products.name')
             ->get();
-    }
-
-    public static function restoreProductPricesByProductId($productId) {
-        $prices = ProductPrice::onlyTrashed()
-            ->where('product_id', $productId);
-
-        $prices->restore();
-
-        return true;
-    }
-
-    public static function restoreProductConversionsByProductId($productId) {
-        $conversions = ProductConversion::onlyTrashed()
-            ->where('product_id', $productId);
-
-        $conversions->restore();
-
-        return true;
-    }
-
-    public static function updateProductCategoryBySubcategory($subcategory) {
-        $products = Product::query()
-            ->where('subcategory_id', $subcategory->id)
-            ->get();
-
-        foreach($products as $product) {
-            $product->category_id = $subcategory->category_id;
-            $product->save();
-        }
-
-        return true;
     }
 }
