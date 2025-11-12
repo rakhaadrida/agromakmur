@@ -147,8 +147,7 @@ class BranchController extends Controller
         try {
             DB::beginTransaction();
 
-            $branches = Branch::onlyTrashed()
-                ->where('is_destroy', 0);
+            $branches = Branch::onlyTrashed()->where('is_destroy', 0);
 
             if($id) {
                 $branches = $branches->where('id', $id);

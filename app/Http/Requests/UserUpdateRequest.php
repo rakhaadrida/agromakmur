@@ -18,6 +18,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($this->route('user'))],
             'role' => ['required', 'string', new ValidUserRole()],
+            'branch_ids' => ['nullable', 'array']
         ];
     }
 }

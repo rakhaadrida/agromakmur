@@ -534,6 +534,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 80px;
 }
 
+.table-head-user-role {
+    width: 200px;
+}
+
+.table-head-user-branch {
+    width: 300px;
+}
+
 .table-row-text {
     padding-left: 0.6rem !important;
 }

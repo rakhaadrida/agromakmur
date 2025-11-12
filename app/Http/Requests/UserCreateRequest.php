@@ -18,6 +18,7 @@ class UserCreateRequest extends FormRequest
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'password' => ['required', 'confirmed', 'string', 'min:6'],
             'role' => ['required', 'string', new ValidUserRole()],
+            'branch_ids' => ['nullable', 'array']
         ];
     }
 }

@@ -26,7 +26,8 @@
                             <tr>
                                 <th class="table-head-number">No</th>
                                 <th>Username</th>
-                                <th>Role</th>
+                                <th class="table-head-user-role">Role</th>
+                                <th class="table-head-user-branch">Branch</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $user->username }}</td>
                                     <td class="align-middle table-row-text">{{ getUserRoleLabel($user->role) }}</td>
+                                    <td class="align-middle table-row-text">{{ $user->branch_name }}</td>
                                     <td class="align-middle text-center">
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
@@ -47,7 +49,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="5" class="text-center text-bold h4 p-2">No Data Available</td>
                                 </tr>
                             @endforelse
                         </tbody>

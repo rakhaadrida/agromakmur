@@ -6,8 +6,10 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Branch;
 use App\Models\User;
 use App\Utilities\Constant;
+use App\Utilities\Services\UserService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::all();
+        $users = UserService::getBaseQueryIndex();
 
         $data = [
             'users' => $users
@@ -27,9 +29,11 @@ class UserController extends Controller
 
     public function create() {
         $userRoles = Constant::USER_ROLE_LABELS;
+        $branches = Branch::all();
 
         $data = [
             'userRoles' => $userRoles,
+            'branches' => $branches,
         ];
 
         return view('pages.admin.user.create', $data);
@@ -43,7 +47,9 @@ class UserController extends Controller
                 'status' => Constant::USER_STATUS_ACTIVE,
             ]);
 
-            User::create($request->all());
+            $user = User::create($request->all());
+
+            UserService::createUserBranchByUser($user, $request->get('branch_ids', []));
 
             DB::commit();
 
@@ -62,10 +68,17 @@ class UserController extends Controller
         $user = User::query()->findOrFail($id);
         $userRoles = Constant::USER_ROLE_LABELS;
 
+        $branchIds = UserService::findBranchIdsByUserId($id);
+        $branchIds = implode(',', $branchIds);
+
+        $branches = Branch::all();
+
         $data = [
             'id' => $id,
             'user' => $user,
             'userRoles' => $userRoles,
+            'branchIds' => $branchIds,
+            'branches' => $branches,
         ];
 
         return view('pages.admin.user.edit', $data);
@@ -78,6 +91,8 @@ class UserController extends Controller
             $data = $request->all();
             $user = User::query()->findOrFail($id);
             $user->update($data);
+
+            UserService::createUserBranchByUser($user, $request->get('branch_ids', []), true);
 
             DB::commit();
 
@@ -97,6 +112,8 @@ class UserController extends Controller
             DB::beginTransaction();
 
             $user = User::query()->findOrFail($id);
+
+            $user->userBranches()->delete();
             $user->delete();
 
             DB::commit();
@@ -126,12 +143,15 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $users = User::onlyTrashed();
+            $users = User::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $users = $users->where('id', $id);
             }
 
             $users->restore();
+
+            UserService::restoreUserBranchByUserId($id);
 
             DB::commit();
 

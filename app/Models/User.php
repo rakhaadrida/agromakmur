@@ -34,6 +34,10 @@ class User extends Authenticatable
         return $this->unreadNotifications()->count();
     }
 
+    public function userBranches() {
+        return $this->hasMany(UserBranch::class, 'user_id', 'id');
+    }
+
     public function hasRole($roles): bool
     {
         if(is_array($roles)) {
@@ -46,10 +50,6 @@ class User extends Authenticatable
             return $this->checkUserRole($roles);
         }
         return false;
-    }
-
-    public function userBranches() {
-        return $this->hasMany(UserBranch::class, 'user_id', 'id');
     }
 
     private function checkUserRole($role): bool

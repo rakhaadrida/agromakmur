@@ -38,6 +38,11 @@ function isUserWarehouse(): string
     return in_array($userRole, [Constant::USER_ROLE_WAREHOUSE]);
 }
 
+function isUserDetailSuperAdmin($userRole): string
+{
+    return $userRole == Constant::USER_ROLE_SUPER_ADMIN;
+}
+
 function getApprovalRoute() : array
 {
     return [
