@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Exports\WarehouseExport;
 use App\Http\Requests\WarehouseCreateRequest;
 use App\Http\Requests\WarehouseUpdateRequest;
+use App\Models\Branch;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\ProductStockService;
+use App\Utilities\Services\WarehouseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class WarehouseController extends Controller
 {
     public function index() {
-        $warehouses = Warehouse::all();
+        $warehouses = WarehouseService::getBaseQueryIndex();
 
         $data = [
             'warehouses' => $warehouses
@@ -34,8 +36,11 @@ class WarehouseController extends Controller
             unset($warehouseTypes[Constant::WAREHOUSE_TYPE_PRIMARY]);
         }
 
+        $branches = Branch::all();
+
         $data = [
-            'warehouseTypes' => $warehouseTypes
+            'warehouseTypes' => $warehouseTypes,
+            'branches' => $branches,
         ];
 
         return view('pages.admin.warehouse.create', $data);
@@ -47,6 +52,7 @@ class WarehouseController extends Controller
 
             $warehouse = Warehouse::create($request->all());
 
+            WarehouseService::createBranchWarehouseByWarehouse($warehouse, $request->get('branch_ids', []));
             ProductStockService::createStockByWarehouse($warehouse);
 
             DB::commit();
@@ -71,10 +77,17 @@ class WarehouseController extends Controller
             unset($warehouseTypes[Constant::WAREHOUSE_TYPE_PRIMARY]);
         }
 
+        $branchIds = WarehouseService::findBranchIdsByWarehouseId($id);
+        $branchIds = implode(',', $branchIds);
+
+        $branches = Branch::all();
+
         $data = [
             'id' => $id,
             'warehouse' => $warehouse,
-            'warehouseTypes' => $warehouseTypes
+            'warehouseTypes' => $warehouseTypes,
+            'branchIds' => $branchIds,
+            'branches' => $branches,
         ];
 
         return view('pages.admin.warehouse.edit', $data);
@@ -87,6 +100,8 @@ class WarehouseController extends Controller
             $data = $request->all();
             $warehouse = Warehouse::query()->findOrFail($id);
             $warehouse->update($data);
+
+            WarehouseService::createBranchWarehouseByWarehouse($warehouse, $request->get('branch_ids', []), true);
 
             DB::commit();
 
@@ -107,7 +122,9 @@ class WarehouseController extends Controller
 
             $warehouse = Warehouse::query()->findOrFail($id);
 
+            $warehouse->branchWarehouses()->delete();
             $warehouse->productStocks()->delete();
+
             $warehouse->delete();
 
             DB::commit();
@@ -137,13 +154,15 @@ class WarehouseController extends Controller
         try {
             DB::beginTransaction();
 
-            $warehouses = Warehouse::onlyTrashed();
+            $warehouses = Warehouse::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $warehouses = $warehouses->where('id', $id);
             }
 
             $warehouses->restore();
 
+            WarehouseService::restoreBranchWarehouseByWarehouseId($id);
             ProductStockService::restoreStockByWarehouseId($id);
 
             DB::commit();

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->float('stock')->default(0);
+            $table->boolean('is_updated')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

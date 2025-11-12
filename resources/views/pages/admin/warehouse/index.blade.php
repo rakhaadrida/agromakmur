@@ -28,10 +28,11 @@
                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                         <thead class="text-center text-bold text-dark">
                             <tr>
-                                <th class="table-head-number">No</th>
-                                <th>Name</th>
+                                <th class="table-head-warehouse-number">No</th>
+                                <th class="table-head-warehouse-name">Name</th>
                                 <th>Address</th>
-                                <th>Type</th>
+                                <th class="table-head-warehouse-type">Type</th>
+                                <th class="table-head-warehouse-branch">Branch</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,6 +43,7 @@
                                     <td class="align-middle table-row-text">{{ $warehouse->name }}</td>
                                     <td class="align-middle table-row-text">{{ $warehouse->address }}</td>
                                     <td class="align-middle table-row-text">{{ getWarehouseTypeLabel($warehouse->type) }}</td>
+                                    <td class="align-middle table-row-text">{{ $warehouse->branch_name }}</td>
                                     <td class="align-middle text-center">
                                         <a href="{{ route('warehouses.edit', $warehouse->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
@@ -53,7 +55,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="6" class="text-center text-bold h4 p-2">No Data Available</td>
                                 </tr>
                             @endforelse
                         </tbody>

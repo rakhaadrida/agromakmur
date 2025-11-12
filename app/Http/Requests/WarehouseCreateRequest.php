@@ -17,7 +17,8 @@ class WarehouseCreateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string'],
-            'type' => ['required', 'string', new ValidWarehouseType()]
+            'type' => ['required', 'string', new ValidWarehouseType()],
+            'branch_ids' => ['array']
         ];
     }
 }

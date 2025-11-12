@@ -113,7 +113,8 @@ class MarketingController extends Controller
         try {
             DB::beginTransaction();
 
-            $marketings = Marketing::onlyTrashed();
+            $marketings = Marketing::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $marketings = $marketings->where('id', $id);
             }
@@ -138,6 +139,7 @@ class MarketingController extends Controller
             DB::beginTransaction();
 
             $marketings = Marketing::onlyTrashed();
+
             if($id) {
                 $marketings = $marketings->where('id', $id);
             }

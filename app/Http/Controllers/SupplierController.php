@@ -113,7 +113,8 @@ class SupplierController extends Controller
         try {
             DB::beginTransaction();
 
-            $suppliers = Supplier::onlyTrashed();
+            $suppliers = Supplier::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $suppliers = $suppliers->where('id', $id);
             }
@@ -138,6 +139,7 @@ class SupplierController extends Controller
             DB::beginTransaction();
 
             $suppliers = Supplier::onlyTrashed();
+
             if($id) {
                 $suppliers = $suppliers->where('id', $id);
             }

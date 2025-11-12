@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@push('addon-style')
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
@@ -46,9 +50,25 @@
                                             @endforeach
                                         </select>
                                         @error('type')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="branchIds" class="col-2 col-form-label text-md-right">Branch</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-3">
+                                        <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple>
+                                            @foreach($branches as $key => $branch)
+                                                <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}">{{ $branch->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('branch_ids[]')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -74,4 +94,10 @@
 @endsection
 
 @push('addon-script')
+    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#branchIds').selectpicker();
+        });
+    </script>
 @endpush

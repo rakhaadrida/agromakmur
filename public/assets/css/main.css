@@ -542,6 +542,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 300px;
 }
 
+.table-head-warehouse-number {
+    width: 60px;
+}
+
+.table-head-warehouse-name {
+    width: 160px;
+}
+
+.table-head-warehouse-type {
+    width: 80px;
+}
+
+.table-head-warehouse-branch {
+    width: 280px;
+}
+
 .table-row-text {
     padding-left: 0.6rem !important;
 }

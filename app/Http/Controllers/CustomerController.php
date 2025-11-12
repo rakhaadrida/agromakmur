@@ -137,7 +137,8 @@ class CustomerController extends Controller
         try {
             DB::beginTransaction();
 
-            $customers = Customer::onlyTrashed();
+            $customers = Customer::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $customers = $customers->where('id', $id);
             }
@@ -162,6 +163,7 @@ class CustomerController extends Controller
             DB::beginTransaction();
 
             $customers = Customer::onlyTrashed();
+
             if($id) {
                 $customers = $customers->where('id', $id);
             }

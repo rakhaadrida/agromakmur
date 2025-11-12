@@ -13,6 +13,7 @@ class ProductStock extends Model
         'product_id',
         'warehouse_id',
         'stock',
+        'is_updated'
     ];
 
     public function product() {

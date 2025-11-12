@@ -38,8 +38,11 @@ class ProductStockService
     }
 
     public static function restoreStockByWarehouseId($warehouseId) {
-        $productStocks = ProductStock::onlyTrashed()
-            ->where('warehouse_id', $warehouseId);
+        $productStocks = ProductStock::onlyTrashed()->where('is_updated', 0);
+
+        if($warehouseId) {
+            $productStocks->where('warehouse_id', $warehouseId);
+        }
 
         $productStocks->restore();
 
