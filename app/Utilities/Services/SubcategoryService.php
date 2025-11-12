@@ -8,7 +8,14 @@ class SubcategoryService
 {
     public static function restoreSubcategoryByCategoryId($categoryId) {
         $subcategories = Subcategory::onlyTrashed()
-            ->where('category_id', $categoryId);
+            ->where('is_destroy', 0)
+            ->whereHas('category', function($query) {
+                $query->where('is_destroy', 0);
+            });
+
+        if($categoryId) {
+            $subcategories->where('category_id', $categoryId);
+        }
 
         $subcategories->restore();
 

@@ -125,7 +125,8 @@ class PriceController extends Controller
         try {
             DB::beginTransaction();
 
-            $prices = Price::onlyTrashed();
+            $prices = Price::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $prices = $prices->where('id', $id);
             }
@@ -152,6 +153,7 @@ class PriceController extends Controller
             DB::beginTransaction();
 
             $prices = Price::onlyTrashed();
+
             if($id) {
                 $prices = $prices->where('id', $id);
             }

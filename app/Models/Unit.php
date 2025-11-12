@@ -12,4 +12,8 @@ class Unit extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function productConversions() {
+        return $this->hasMany(ProductConversion::class, 'unit_id', 'id');
+    }
 }

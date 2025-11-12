@@ -36,7 +36,13 @@ class PriceService
 
     public static function restoreProductPricesByPriceId($priceId) {
         $prices = ProductPrice::onlyTrashed()
-            ->where('price_id', $priceId);
+            ->whereHas('pricing', function($query) {
+                $query->where('is_destroy', 0);
+            });;
+
+        if($priceId) {
+            $prices->where('price_id', $priceId);
+        }
 
         $prices->restore();
 

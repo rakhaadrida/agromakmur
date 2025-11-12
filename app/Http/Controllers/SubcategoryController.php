@@ -139,7 +139,8 @@ class SubcategoryController extends Controller
         try {
             DB::beginTransaction();
 
-            $subcategories = Subcategory::onlyTrashed();
+            $subcategories = Subcategory::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $subcategories = $subcategories->where('id', $id);
             }
@@ -164,6 +165,7 @@ class SubcategoryController extends Controller
             DB::beginTransaction();
 
             $subcategories = Subcategory::onlyTrashed();
+
             if($id) {
                 $subcategories = $subcategories->where('id', $id);
             }

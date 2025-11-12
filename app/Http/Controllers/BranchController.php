@@ -176,6 +176,7 @@ class BranchController extends Controller
             DB::beginTransaction();
 
             $branches = Branch::onlyTrashed();
+
             if($id) {
                 $branches = $branches->where('id', $id);
             }

@@ -115,7 +115,8 @@ class CategoryController extends Controller
         try {
             DB::beginTransaction();
 
-            $categories = Category::onlyTrashed();
+            $categories = Category::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $categories = $categories->where('id', $id);
             }
@@ -142,6 +143,7 @@ class CategoryController extends Controller
             DB::beginTransaction();
 
             $categories = Category::onlyTrashed();
+
             if($id) {
                 $categories = $categories->where('id', $id);
             }

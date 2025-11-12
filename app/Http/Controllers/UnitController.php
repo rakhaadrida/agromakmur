@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UnitCreateRequest;
 use App\Http\Requests\UnitUpdateRequest;
 use App\Models\Unit;
+use App\Utilities\Services\UnitService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -81,6 +82,7 @@ class UnitController extends Controller
             DB::beginTransaction();
 
             $unit = Unit::query()->findOrFail($id);
+            $unit->productConversions()->delete();
             $unit->delete();
 
             DB::commit();
@@ -110,12 +112,15 @@ class UnitController extends Controller
         try {
             DB::beginTransaction();
 
-            $units = Unit::onlyTrashed();
+            $units = Unit::onlyTrashed()->where('is_destroy', 0);
+
             if($id) {
                 $units = $units->where('id', $id);
             }
 
             $units->restore();
+
+            UnitService::restoreProductConversionByUnitId($id);
 
             DB::commit();
 
@@ -135,6 +140,7 @@ class UnitController extends Controller
             DB::beginTransaction();
 
             $units = Unit::onlyTrashed();
+
             if($id) {
                 $units = $units->where('id', $id);
             }
