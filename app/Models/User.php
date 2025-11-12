@@ -48,6 +48,10 @@ class User extends Authenticatable
         return false;
     }
 
+    public function userBranches() {
+        return $this->hasMany(UserBranch::class, 'user_id', 'id');
+    }
+
     private function checkUserRole($role): bool
     {
         return $role === $this->role;

@@ -7,17 +7,17 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Warehouse List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Branch List</h1>
             <div class="justify-content-end">
-                <a href="{{ route('warehouses.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Warehouse
+                <a href="{{ route('branches.create') }}" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Branch
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
-                <a href="{{ route('warehouses.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Warehouses
+                <a href="{{ route('branches.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Branches
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
-                <a href="{{ route('warehouses.export') }}" class="btn btn-sm btn-success shadow-sm">
+                <a href="{{ route('branches.export') }}" class="btn btn-sm btn-success shadow-sm">
                     <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Download Excel
                 </a>
             </div>
@@ -31,22 +31,22 @@
                                 <th class="table-head-number">No</th>
                                 <th>Name</th>
                                 <th>Address</th>
-                                <th>Type</th>
+                                <th>Phone Number</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($warehouses as $key => $warehouse)
+                            @forelse ($branches as $key => $branch)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle table-row-text">{{ $warehouse->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $warehouse->address }}</td>
-                                    <td class="align-middle table-row-text">{{ getWarehouseTypeLabel($warehouse->type) }}</td>
+                                    <td class="align-middle table-row-text">{{ $branch->name }}</td>
+                                    <td class="align-middle table-row-text">{{ $branch->address }}</td>
+                                    <td class="align-middle table-row-text">{{ $branch->phone_number }}</td>
                                     <td class="align-middle text-center">
-                                        <a href="{{ route('warehouses.edit', $warehouse->id) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('branches.edit', $branch->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteWarehouseModal" data-id="{{ $warehouse->id }}">
+                                        <a href="#" class="btn btn-sm btn-danger btn-delete" data-toggle="modal" data-target="#deleteBranchModal" data-id="{{ $branch->id }}">
                                             <i class="fas fa-fw fa-trash"></i>
                                         </a>
                                     </td>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deleteWarehouseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteBranchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,8 +99,8 @@
         });
 
         $(document).on('click', '.btn-delete', function () {
-            const warehouseId = $(this).data('id');
-            const url = `{{ route('warehouses.destroy', '') }}` + '/' + warehouseId;
+            const branchId = $(this).data('id');
+            const url = `{{ route('branches.destroy', '') }}` + '/' + branchId;
 
             $('#deleteForm').attr('action', url);
         });

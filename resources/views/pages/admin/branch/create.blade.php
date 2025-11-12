@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Add New Customer</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Add New Branch</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger alert-input-section">
@@ -24,7 +24,7 @@
                 <div class="table-responsive">
                     <div class="card show">
                         <div class="card-body">
-                            <form action="{{ route('customers.store') }}" method="POST">
+                            <form action="{{ route('branches.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
                                     <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
@@ -41,44 +41,39 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Contact Number</label>
+                                    <label for="phoneNumber" class="col-2 col-form-label text-bold text-right">Phone Number</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ old('contact_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="text" class="form-control col-form-label-sm" name="phone_number" id="phoneNumber" value="{{ old('phone_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="taxNumber" class="col-2 col-form-label text-bold text-right">Tax Number / NPWP</label>
+                                    <label for="userIds" class="col-2 col-form-label text-right">Users</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="tax_number" id="taxNumber" value="{{ old('tax_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="creditLimit" class="col-2 col-form-label text-bold text-right">Credit Limit</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <input type="number" min="0" class="form-control col-form-label-sm" name="credit_limit" id="creditLimit" value="{{ old('credit_limit') ?? 0 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="tempo" class="col-2 col-form-label text-bold text-right">Tempo</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <input type="number" min="0" class="form-control col-form-label-sm" name="tempo" id="tempo" value="{{ old('tempo') ?? 0 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="marketing_id" id="marketing" data-live-search="true">
-                                            @foreach($marketings as $marketing)
-                                                <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}">{{ $marketing->name }}</option>
+                                        <select class="selectpicker custom-select-picker" name="user_ids[]" id="userIds" data-live-search="true" data-selected-text-format="count > 3" multiple>
+                                            @foreach($users as $key => $user)
+                                                <option value="{{ $user->id }}" data-tokens="{{ $user->username }}">{{ $user->username }}</option>
                                             @endforeach
                                         </select>
-                                        @error('marketing')
+                                        @error('user_ids[]')
                                             <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="warehouseIds" class="col-2 col-form-label text-right">Warehouses</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-3">
+                                        <select class="selectpicker custom-select-picker" name="warehouse_ids[]" id="warehouseIds" data-live-search="true" data-selected-text-format="count > 3" multiple>
+                                            @foreach($warehouses as $key => $warehouse)
+                                                <option value="{{ $warehouse->id }}" data-tokens="{{ $warehouse->name }}">{{ $warehouse->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('warehouse_ids[]')
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -109,35 +104,15 @@
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#contactNumber').on('keypress', function(event) {
+            $('#phoneNumber').on('keypress', function(event) {
                 if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    $('#contactNumber').tooltip('show');
+                    $('#phoneNumber').tooltip('show');
                     event.preventDefault();
                 }
             });
 
-            $('#taxNumber').on('keypress', function(event) {
-                if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    $('#taxNumber').tooltip('show');
-                    event.preventDefault();
-                }
-            });
-
-            $('#creditLimit').on('keypress', function(event) {
-                if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    $('#creditLimit').tooltip('show');
-                    event.preventDefault();
-                }
-            });
-
-            $('#tempo').on('keypress', function(event) {
-                if (event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    $('#tempo').tooltip('show');
-                    event.preventDefault();
-                }
-            });
-
-            $('#marketing').selectpicker();
+            $('#userIds').selectpicker();
+            $('#warehouseIds').selectpicker();
         });
     </script>
 @endpush

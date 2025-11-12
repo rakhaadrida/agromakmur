@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Warehouse extends Model
+class Branch extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
         'name',
         'address',
-        'type',
+        'phone_number',
     ];
 
-    public function productStocks() {
-        return $this->hasMany(ProductStock::class, 'warehouse_id', 'id');
+    public function userBranches() {
+        return $this->hasMany(UserBranch::class, 'branch_id', 'id');
     }
 
     public function branchWarehouses() {
-        return $this->hasMany(BranchWarehouse::class, 'warehouse_id', 'id');
+        return $this->hasMany(BranchWarehouse::class, 'branch_id', 'id');
     }
 }

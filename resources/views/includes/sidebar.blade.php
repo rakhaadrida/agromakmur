@@ -59,6 +59,7 @@
                 <div class="py-2 collapse-inner rounded">
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('users.index') }}">User</a>
+                        <a class="collapse-item" href="{{ route('branches.index') }}">Branch</a>
                     @endif
                     <a class="collapse-item" href="{{ route('marketings.index') }}">Marketing</a>
                     <a class="collapse-item" href="{{ route('suppliers.index') }}">Supplier</a>

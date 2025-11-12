@@ -50,6 +50,7 @@ function getMasterRoute() : array
 {
     return [
         'users.*',
+        'branches.*',
         'marketings.*',
         'suppliers.*',
         'customers.*',
