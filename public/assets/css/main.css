@@ -194,6 +194,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -95px;
 }
 
+.so-update-branch {
+    margin-top: -15px;
+}
+
 .so-update-input {
     margin-top: -15px;
 }
@@ -884,7 +888,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-plan-order-branch-index,
-.th-goods-receipt-branch-index {
+.th-goods-receipt-branch-index,
+.th-sales-order-branch-index{
     width: 150px;
 }
 
@@ -892,7 +897,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-plan-order-grand-total-index,
 .th-goods-receipt-invoice-age-index,
 .th-goods-receipt-grand-total-index,
-.th-goods-receipt-status-index {
+.th-goods-receipt-status-index,
+.th-sales-order-invoice-age-index,
+.th-sales-order-grand-total-index,
+.th-sales-order-status-index{
     width: 100px;
 }
 

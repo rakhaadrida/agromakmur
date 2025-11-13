@@ -173,6 +173,7 @@
                         <th class="align-middle td-number">No</th>
                         <th class="align-middle td-order-number">Number</th>
                         <th class="align-middle td-order-date">Date</th>
+                        <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle">Customer</th>
                         <th class="align-middle td-marketing">Marketing</th>
                         <th class="align-middle td-tempo">Tempo</th>
@@ -190,6 +191,7 @@
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
+                            <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                             <td class="align-middle">{{ $salesOrder->customer_name }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->marketing_name }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->tempo }} Day(s)</td>
@@ -204,7 +206,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="8" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                        <th colspan="9" class="text-bold text-dark text-center">GRAND TOTAL</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($salesOrders, 'grand_total') }}</th>
                         <th colspan="3"></th>
                     </tr>

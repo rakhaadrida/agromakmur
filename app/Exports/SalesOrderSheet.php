@@ -57,22 +57,22 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
 
         $range = 5 + $salesOrders->count();
         $rangeStr = strval($range);
-        $rangeTab = 'L'.$rangeStr;
+        $rangeTab = 'M'.$rangeStr;
 
-        $header = 'A5:L5';
+        $header = 'A5:M5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:L1');
-        $sheet->mergeCells('A2:L2');
-        $sheet->mergeCells('A3:L3');
+        $sheet->mergeCells('A1:M1');
+        $sheet->mergeCells('A2:M2');
+        $sheet->mergeCells('A3:M3');
 
-        $title = 'A1:L3';
+        $title = 'A1:M3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:L3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:M3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -98,25 +98,25 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
         $rangeNumberCell = 'C6:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'E6:E'.$rangeStr;
+        $rangeNumberCell = 'F6:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'F6:H'.$rangeStr;
+        $rangeNumberCell = 'G6:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
 
+        $rangeNumberCell = 'J6:J'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
+
+        $rangeNumberCell = 'L6:M'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
+
         $rangeNumberCell = 'I6:I'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'K6:L'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'H6:H'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['H'];
+        $numericalColumns = ['I'];
         $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
@@ -154,7 +154,7 @@ class SalesOrderSheet extends DefaultValueBinder implements FromView, ShouldAuto
         return $baseQuery
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('sales_orders.date')
+            ->orderByDesc('sales_orders.date')
             ->get();
     }
 }

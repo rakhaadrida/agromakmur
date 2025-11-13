@@ -393,6 +393,13 @@ class ProductController extends Controller
             ->findOrFail($filter->product_id);
 
         $productStocks = $product->productStocks;
+
+        if($filter->branch_id) {
+            $productStocks = $productStocks->filter(function($stock) use ($filter) {
+                return $stock->warehouse->branchWarehouses->contains('branch_id', $filter->branch_id);
+            });
+        }
+
         $totalStock = $productStocks->sum('stock');
 
         $primaryWarehouse = [];
@@ -411,6 +418,10 @@ class ProductController extends Controller
                     'stock' => $productStock->stock
                 ];
             }
+        }
+
+        if (empty($primaryWarehouse) && !empty($otherWarehouses)) {
+            $primaryWarehouse = array_shift($otherWarehouses);
         }
 
         return response()->json([

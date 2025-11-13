@@ -13,11 +13,13 @@ class SalesOrderService
         return SalesOrder::query()
             ->select(
                 'sales_orders.*',
+                'branches.name AS branch_name',
                 'customers.name AS customer_name',
                 'customers.address AS customer_address',
                 'marketings.name AS marketing_name',
                 'users.username AS user_name'
             )
+            ->leftJoin('branches', 'branches.id', 'sales_orders.branch_id')
             ->leftJoin('customers', 'customers.id', 'sales_orders.customer_id')
             ->leftJoin('marketings', 'marketings.id', 'sales_orders.marketing_id')
             ->leftJoin('users', 'users.id', 'sales_orders.user_id');

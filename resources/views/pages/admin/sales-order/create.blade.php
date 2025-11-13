@@ -85,6 +85,27 @@
                                         </div>
                                     </div>
                                     <div class="form-group row sales-order-customer-input">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch" tabindex="3" required>
+                                                @foreach($branches as $branch)
+                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('branch')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tax Number</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" name="tax_number" id="taxNumber" class="form-control form-control-sm text-bold" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
@@ -99,10 +120,10 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tax Number</label>
+                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <input type="text" name="tax_number" id="taxNumber" class="form-control form-control-sm text-bold" readonly>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $date }}" tabindex="5" required>
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
@@ -119,11 +140,6 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
-                                        </div>
-                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-2 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $date }}" tabindex="5" required>
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
@@ -397,7 +413,7 @@
                     </div>
                     <label style="margin-bottom: -5px">Choose Another Warehouse</label>
                     @foreach($warehouses as $key => $warehouse)
-                        <div class="row">
+                        <div class="row other-warehouse-row" id="otherWarehouse-{{ $warehouse->id }}">
                             <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
                             <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
                             <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
@@ -812,23 +828,31 @@
             }
 
             function checkProductStock(index, quantity) {
+                let branchId = $(`#branch option:selected`).val();
                 let productId = $(`#productId-${index} option:selected`).val();
                 let productName = $(`#productName-${index} option:selected`).text();
                 let selectedUnit = $(`#unit-${index} option:selected`);
                 let conversionUnit = $(`#unit-${index} option:not(:selected):first`);
                 let warehouseIds = $(`#warehouseIds-${index}`);
                 let warehouseStocks = $(`#warehouseStocks-${index}`);
+                let otherWarehouseRow = $('.other-warehouse-row');
 
                 let totalStock = 0;
                 let productStocks;
                 quantity = numberFormat(quantity);
+
+                otherWarehouseRow.each(function() {
+                    $(this).removeAttr('data-value');
+                    $(this).show();
+                });
 
                 $.ajax({
                     url: '{{ route('products.check-stock-ajax') }}',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        product_id: productId
+                        product_id: productId,
+                        branch_id: branchId
                     },
                     dataType: 'json',
                     success: function(data) {
@@ -842,9 +866,10 @@
                         warehouseStocks.val(quantity);
 
                         let conversionStock = +totalStock / +conversionUnit.data('foo');
+                        conversionStock = hasDecimal(conversionStock) ? conversionStock.toFixed(2) : conversionStock;
                         if(+quantity > +totalStock) {
                             totalStock = thousandSeparator(totalStock) + ` ${selectedUnit.text()}`;
-                            conversionStock = thousandSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+                            conversionStock = decimalSeparator(conversionStock) + ` ${conversionUnit.text()}`;
 
                             $('#stockProductName').text(productName);
                             $('#totalStock').text(totalStock);
@@ -853,18 +878,24 @@
                         } else if(+quantity > +primaryWarehouse.stock && +quantity <= +totalStock) {
                             let originalQuantity = thousandSeparator(quantity) + ` ${selectedUnit.text()}`
                             let orderConversion = +quantity / +conversionUnit.data('foo');
-                            let conversionQuantity = ` (${thousandSeparator(orderConversion)} ${conversionUnit.text()})`;
+                            orderConversion = hasDecimal(orderConversion) ? orderConversion.toFixed(2) : orderConversion;
+
+                            let conversionQuantity = ` (${decimalSeparator(orderConversion)} ${conversionUnit.text()})`;
                             let orderQuantity = originalQuantity + conversionQuantity;
 
                             let primaryQuantity = thousandSeparator(primaryWarehouse.stock) + ` ${selectedUnit.text()}`;
                             let primaryConversionStock = +primaryWarehouse.stock / +conversionUnit.data('foo');
-                            let primaryConversion = ` (${thousandSeparator(primaryConversionStock)} ${conversionUnit.text()})`;
+                            primaryConversionStock = hasDecimal(primaryConversionStock) ? primaryConversionStock.toFixed(2) : primaryConversionStock;
+
+                            let primaryConversion = ` (${decimalSeparator(primaryConversionStock)} ${conversionUnit.text()})`;
                             let primaryStock = primaryQuantity + primaryConversion;
 
                             let remainingStockValue = +quantity - +primaryWarehouse.stock;
                             let remainingQuantity = thousandSeparator(remainingStockValue) + ` ${selectedUnit.text()}`;
                             let remainingConversionStock = +remainingStockValue / +conversionUnit.data('foo');
-                            let remainingConversion = ` (${thousandSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
+                            remainingConversionStock = hasDecimal(remainingConversionStock) ? remainingConversionStock.toFixed(2) : remainingConversionStock;
+
+                            let remainingConversion = ` (${decimalSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
                             let remainingStock = remainingQuantity + remainingConversion;
 
                             $('#warehouseName').text(primaryWarehouse.name);
@@ -880,10 +911,19 @@
                             $.each(otherWarehouses, function(key, item) {
                                 let otherStock = thousandSeparator(item.stock) + ` ${selectedUnit.text()} / `;
                                 let otherConversionStock = +item.stock / +conversionUnit.data('foo');
-                                let otherConversion = `${thousandSeparator(otherConversionStock)} ${conversionUnit.text()}`;
+                                otherConversionStock = hasDecimal(otherConversionStock) ? otherConversionStock.toFixed(2) : otherConversionStock;
+
+                                let otherConversion = `${decimalSeparator(otherConversionStock)} ${conversionUnit.text()}`;
 
                                 $(`#warehouseStock-${item.id}`).text(otherStock + otherConversion);
                                 $(`#warehouseOriginalStock-${item.id}`).val(item.stock);
+                                $(`#otherWarehouse-${item.id}`).attr('data-value', 1);
+                            });
+
+                            otherWarehouseRow.each(function() {
+                                if(!$(this).attr('data-value')) {
+                                    $(this).hide();
+                                }
                             });
 
                             warehouseStocks.val(primaryWarehouse.stock);
@@ -916,9 +956,10 @@
 
                     let newRemainingStock = +remainingStock - +warehouseStock;
                     let newRemainingConversion = +newRemainingStock / +remainingConversion;
+                    newRemainingConversion = hasDecimal(newRemainingConversion) ? newRemainingConversion.toFixed(2) : newRemainingConversion;
 
                     let remainingQuantityText = thousandSeparator(newRemainingStock) + ` ${remainingStockUnit.val()}`;
-                    let remainingConversionText = ` (${thousandSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
+                    let remainingConversionText = ` (${decimalSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
                     let newRemainingQuantity = remainingQuantityText + remainingConversionText;
 
                     warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
@@ -1051,6 +1092,20 @@
                     x1 = x1.replace(rgx, '$1' + '.' + '$2');
                 }
                 return x1 + x2;
+            }
+
+            function decimalSeparator(num) {
+                const parts = num.toString().split('.');
+
+                if (parts.length > 1) {
+                    return parts[0] + ',' + parts[1];
+                }
+
+                return parts[0];
+            }
+
+            function hasDecimal(num) {
+                return num % 1 !== 0;
             }
 
             function changeReadonlyRequired(element) {

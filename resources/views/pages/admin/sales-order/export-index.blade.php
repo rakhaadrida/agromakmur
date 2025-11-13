@@ -12,6 +12,7 @@
                     <th>No</th>
                     <th>Number</th>
                     <th>Date</th>
+                    <th>Branch</th>
                     <th>Customer</th>
                     <th>Marketing</th>
                     <th>Tempo</th>
@@ -29,6 +30,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $salesOrder->number }}</td>
                         <td>{{ $salesOrder->date }}</td>
+                        <td>{{ $salesOrder->branch_name }}</td>
                         <td>{{ $salesOrder->customer_name }}</td>
                         <td>{{ $salesOrder->marketing_name }}</td>
                         <td>{{ $salesOrder->tempo }} Day(s)</td>

@@ -34,8 +34,8 @@
                                             <div class="form-group row">
                                                 <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="number" id="number" value="{{ $salesOrder->number }}" readonly>
+                                                <div class="col-2">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $salesOrder->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,6 +83,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-date">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $salesOrder->branch->name }}" readonly>
+                                            <input type="hidden" id="branchId" value="{{ $salesOrder->branch_id }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row so-update-branch">
                                         <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
@@ -300,7 +308,7 @@
                     </div>
                     <label style="margin-bottom: -5px">Choose Another Warehouse</label>
                     @foreach($warehouses as $key => $warehouse)
-                        <div class="row">
+                        <div class="row other-warehouse-row" id="otherWarehouse-{{ $warehouse->id }}">
                             <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
                             <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
                             <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
@@ -637,6 +645,7 @@
             }
 
             function checkProductStock(index, quantity, baseQuantity) {
+                let branchId = $(`#branchId`).val();
                 let productId = $(`#productId-${index} option:selected`).val();
                 let productName = $(`#productName-${index} option:selected`).text();
                 let selectedUnit = $(`#unit-${index} option:selected`);
@@ -645,6 +654,7 @@
                 let warehouseStocks = $(`#warehouseStocks-${index}`);
                 let baseWarehouseIds = $(`#baseWarehouseIds-${index}`) || [];
                 let baseWarehouseStocks = $(`#baseWarehouseStocks-${index}`) || [];
+                let otherWarehouseRow = $('.other-warehouse-row');
 
                 let totalStock = 0;
                 let productStocks;
@@ -652,12 +662,18 @@
 
                 quantity = numberFormat(quantity) - +baseQuantity;
 
+                otherWarehouseRow.each(function() {
+                    $(this).removeAttr('data-value');
+                    $(this).show();
+                });
+
                 $.ajax({
                     url: '{{ route('products.check-stock-ajax') }}',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        product_id: productId
+                        product_id: productId,
+                        branch_id: branchId
                     },
                     dataType: 'json',
                     success: function(data) {
@@ -667,6 +683,7 @@
                         let arrayWarehouseStocks = baseWarehouseStocks.length ? baseWarehouseStocks.val().split(',') : [];
                         let primaryWarehouseStock = arrayWarehouseStocks[0] || 0;
                         let primaryWarehouseConversion = +primaryWarehouseStock / +conversionUnit.data('foo');
+                        primaryWarehouseConversion = hasDecimal(primaryWarehouseConversion) ? primaryWarehouseConversion.toFixed(2) : primaryWarehouseConversion;
 
                         totalStock = data.total_stock;
                         productStocks = data.product_stocks;
@@ -676,10 +693,12 @@
 
                         let baseConversionStock = +baseQuantity / +conversionUnit.data('foo');
                         let conversionStock = +totalStock / +conversionUnit.data('foo');
+                        baseConversionStock = hasDecimal(baseConversionStock) ? baseConversionStock.toFixed(2) : baseConversionStock;
+                        conversionStock = hasDecimal(conversionStock) ? conversionStock.toFixed(2) : conversionStock;
 
                         if(+quantity > +totalStock) {
                             totalStock = thousandSeparator(+totalStock + +baseQuantity) + ` ${selectedUnit.text()}`;
-                            conversionStock = thousandSeparator(+conversionStock + +baseConversionStock) + ` ${conversionUnit.text()}`;
+                            conversionStock = decimalSeparator(+conversionStock + +baseConversionStock) + ` ${conversionUnit.text()}`;
 
                             $('#stockProductName').text(productName);
                             $('#totalStock').text(totalStock);
@@ -688,18 +707,24 @@
                         } else if(+quantity > +primaryWarehouse.stock) {
                             let originalQuantity = thousandSeparator(+quantity + +baseQuantity) + ` ${selectedUnit.text()}`
                             let orderConversion = +quantity / +conversionUnit.data('foo');
-                            let conversionQuantity = ` (${thousandSeparator(+orderConversion + +baseConversionStock)} ${conversionUnit.text()})`;
+                            orderConversion = hasDecimal(orderConversion) ? orderConversion.toFixed(2) : orderConversion;
+
+                            let conversionQuantity = ` (${decimalSeparator(+orderConversion + +baseConversionStock)} ${conversionUnit.text()})`;
                             let orderQuantity = originalQuantity + conversionQuantity;
 
                             let primaryQuantity = thousandSeparator(+primaryWarehouse.stock + +primaryWarehouseStock) + ` ${selectedUnit.text()}`;
                             let primaryConversionStock = +primaryWarehouse.stock / +conversionUnit.data('foo');
-                            let primaryConversion = ` (${thousandSeparator(+primaryConversionStock + +primaryWarehouseConversion)} ${conversionUnit.text()})`;
+                            primaryConversionStock = hasDecimal(primaryConversionStock) ? primaryConversionStock.toFixed(2) : primaryConversionStock;
+
+                            let primaryConversion = ` (${decimalSeparator(+primaryConversionStock + +primaryWarehouseConversion)} ${conversionUnit.text()})`;
                             let primaryStock = primaryQuantity + primaryConversion;
 
                             let remainingStockValue = (+quantity + +baseQuantity) - (+primaryWarehouse.stock + +primaryWarehouseStock);
                             let remainingQuantity = thousandSeparator(remainingStockValue) + ` ${selectedUnit.text()}`;
                             let remainingConversionStock = +remainingStockValue / +conversionUnit.data('foo');
-                            let remainingConversion = ` (${thousandSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
+                            remainingConversionStock = hasDecimal(remainingConversionStock) ? remainingConversionStock.toFixed(2) : remainingConversionStock;
+
+                            let remainingConversion = ` (${decimalSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
                             let remainingStock = remainingQuantity + remainingConversion;
 
                             $('#warehouseName').text(primaryWarehouse.name);
@@ -720,14 +745,24 @@
                                 if(existingWarehouseId > 0) {
                                     existingWarehouseStock = arrayWarehouseStocks[existingWarehouseId];
                                     existingWarehouseConversion = existingWarehouseStock / +conversionUnit.data('foo');
+                                    existingWarehouseConversion = hasDecimal(existingWarehouseConversion) ? existingWarehouseConversion.toFixed(2) : existingWarehouseConversion;
                                 }
 
                                 let otherStock = thousandSeparator(+item.stock + +existingWarehouseStock) + ` ${selectedUnit.text()} / `;
                                 let otherConversionStock = +item.stock / +conversionUnit.data('foo');
-                                let otherConversion = `${thousandSeparator(+otherConversionStock + +existingWarehouseConversion)} ${conversionUnit.text()}`;
+                                otherConversionStock = hasDecimal(otherConversionStock) ? otherConversionStock.toFixed(2) : otherConversionStock;
+
+                                let otherConversion = `${decimalSeparator(+otherConversionStock + +existingWarehouseConversion)} ${conversionUnit.text()}`;
 
                                 $(`#warehouseStock-${item.id}`).text(otherStock + otherConversion);
                                 $(`#warehouseOriginalStock-${item.id}`).val(+item.stock + +existingWarehouseStock);
+                                $(`#otherWarehouse-${item.id}`).attr('data-value', 1);
+                            });
+
+                            otherWarehouseRow.each(function() {
+                                if(!$(this).attr('data-value')) {
+                                    $(this).hide();
+                                }
                             });
 
                             $('#rowIndex').val(index);
@@ -788,9 +823,10 @@
 
                     let newRemainingStock = +remainingStock - +warehouseStock;
                     let newRemainingConversion = +newRemainingStock / +remainingConversion;
+                    newRemainingConversion = hasDecimal(newRemainingConversion) ? newRemainingConversion.toFixed(2) : newRemainingConversion;
 
                     let remainingQuantityText = thousandSeparator(newRemainingStock) + ` ${remainingStockUnit.val()}`;
-                    let remainingConversionText = ` (${thousandSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
+                    let remainingConversionText = ` (${decimalSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
                     let newRemainingQuantity = remainingQuantityText + remainingConversionText;
 
                     warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
@@ -922,6 +958,20 @@
                     x1 = x1.replace(rgx, '$1' + '.' + '$2');
                 }
                 return x1 + x2;
+            }
+
+            function decimalSeparator(num) {
+                const parts = num.toString().split('.');
+
+                if (parts.length > 1) {
+                    return parts[0] + ',' + parts[1];
+                }
+
+                return parts[0];
+            }
+
+            function hasDecimal(num) {
+                return num % 1 !== 0;
             }
 
             function changeReadonlyRequired(element) {

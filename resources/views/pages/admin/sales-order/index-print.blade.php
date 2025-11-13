@@ -55,12 +55,12 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-sales-order-branch-index">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Customer</th>
-                                            <th class="align-middle th-tempo-transaction-index">Tempo</th>
-                                            <th class="align-middle th-tempo-transaction-index">Invoice Age</th>
-                                            <th class="align-middle th-total-transaction-index">Grand Total</th>
-                                            <th class="align-middle th-status-transaction-index">Status</th>
-                                            <th class="align-middle th-status-transaction-index">Admin</th>
+                                            <th class="align-middle th-sales-order-invoice-age-index">Invoice Age</th>
+                                            <th class="align-middle th-sales-order-grand-total-index">Grand Total</th>
+                                            <th class="align-middle th-sales-order-status-index">Status</th>
+                                            <th class="align-middle th-sales-order-status-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -73,8 +73,8 @@
                                                     </a>
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $salesOrder->customer_name }}</td>
-                                                <td class="text-center align-middle" data-sort="{{ $salesOrder->tempo }}">{{ $salesOrder->tempo }} Day(s)</td>
                                                 <td class="text-center align-middle" data-sort="{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }}">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
                                                 <td class="text-right align-middle" data-sort="{{ $salesOrder->grand_total }}">{{ formatPrice($salesOrder->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>

@@ -16,6 +16,7 @@ class SalesOrderCreateRequest extends FormRequest
     {
         return [
             'number' => ['required', 'string', 'max:255', new ValidUniqueSalesOrderNumber(0)],
+            'branch_id' => ['required', 'exists:branches,id,deleted_at,NULL'],
             'customer_id' => ['required', 'exists:customers,id,deleted_at,NULL'],
             'marketing_id' => ['required', 'exists:marketings,id,deleted_at,NULL'],
             'date' => ['required', 'date', 'date_format:d-m-Y'],

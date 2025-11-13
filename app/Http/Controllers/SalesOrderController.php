@@ -6,6 +6,7 @@ use App\Exports\SalesOrderExport;
 use App\Http\Requests\SalesOrderCancelRequest;
 use App\Http\Requests\SalesOrderCreateRequest;
 use App\Http\Requests\SalesOrderUpdateRequest;
+use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Marketing;
 use App\Models\Product;
@@ -56,7 +57,7 @@ class SalesOrderController extends Controller
             ->orderBy('sales_orders.date')
             ->get();
 
-        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders);
+        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
 
         $data = [
             'startDate' => $startDate,
@@ -99,9 +100,12 @@ class SalesOrderController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
+
+        $branches = Branch::all();
         $customers = Customer::all();
         $marketings = Marketing::all();
         $products = Product::all();
+
         $warehouses = Warehouse::query()
             ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
             ->get();
@@ -111,6 +115,7 @@ class SalesOrderController extends Controller
 
         $data = [
             'date' => $date,
+            'branches' => $branches,
             'customers' => $customers,
             'marketings' => $marketings,
             'products' => $products,
@@ -353,6 +358,7 @@ class SalesOrderController extends Controller
 
         $salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrderItems);
 
+        $branches = Branch::all();
         $customers = Customer::all();
         $marketings = Marketing::all();
         $products = Product::all();
@@ -394,6 +400,7 @@ class SalesOrderController extends Controller
             'id' => $id,
             'salesOrder' => $salesOrder,
             'salesOrderItems' => $salesOrderItems,
+            'branches' => $branches,
             'customers' => $customers,
             'marketings' => $marketings,
             'products' => $products,
@@ -672,7 +679,7 @@ class SalesOrderController extends Controller
         $salesOrders = $baseQuery
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('sales_orders.date')
+            ->orderByDesc('sales_orders.date')
             ->get();
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');

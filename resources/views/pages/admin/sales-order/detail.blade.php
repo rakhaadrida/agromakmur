@@ -36,10 +36,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <label for="customer" class="col-3 text-right text-bold mt-2">Customer</label>
+                                            <label for="branch" class="col-3 text-right text-bold mt-2">Branch</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="customer" value="{{ $salesOrder->customer->name }}" readonly>
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $salesOrder->branch->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -56,10 +56,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="marketing" class="col-3 text-right text-bold mt-2">Marketing</label>
+                                            <label for="customer" class="col-3 text-right text-bold mt-2">Customer</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="marketing" value="{{ $salesOrder->marketing->name }}" readonly>
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="customer" value="{{ $salesOrder->customer->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -76,10 +76,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="dueDate" class="col-3 text-right text-bold mt-2">Due Date</label>
+                                            <label for="marketing" class="col-3 text-right text-bold mt-2">Marketing</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="marketing" value="{{ $salesOrder->marketing->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -96,10 +96,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="note" class="col-3 text-right text-bold mt-2">Note</label>
+                                            <label for="dueDate" class="col-3 text-right text-bold mt-2">Due Date</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -111,6 +111,15 @@
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="isTaxable" value="{{ $salesOrder->is_taxable ? 'Yes' : 'No' }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="note" class="col-3 text-right text-bold mt-2">Note</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-7">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
                                             </div>
                                         </div>
                                     </div>
