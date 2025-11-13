@@ -16,6 +16,7 @@ class GoodsReceiptCreateRequest extends FormRequest
     {
         return [
             'number' => ['required', 'string', 'max:255', new ValidUniqueGoodsReceiptNumber(0)],
+            'branch_id' => ['required', 'exists:branches,id,deleted_at,NULL'],
             'warehouse_id' => ['required', 'exists:warehouses,id,deleted_at,NULL'],
             'supplier_id' => ['required', 'exists:suppliers,id,deleted_at,NULL'],
             'date' => ['required', 'date', 'date_format:d-m-Y'],

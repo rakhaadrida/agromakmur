@@ -72,15 +72,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so" style="margin-top: -68px">
-                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Warehouse</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" data-size="6" title="Enter or Choose Warehouse" tabindex="3" required>
-                                                @foreach($warehouses as $warehouse)
-                                                    <option value="{{ $warehouse->id }}" data-tokens="{{ $warehouse->name }}">{{ $warehouse->name }}</option>
+                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch" tabindex="3" required>
+                                                @foreach($branches as $branch)
+                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('warehouse')
+                                            @error('branch')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -94,6 +94,19 @@
                                         <span class="col-form-label text-bold"> Day(s)</span>
                                     </div>
                                     <div class="form-group row subtotal-so">
+                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Warehouse</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-3 mt-1">
+                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" data-size="6" title="Select Branch First" tabindex="3" required disabled>
+                                            </select>
+                                            @error('warehouse')
+                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
                                         <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
@@ -103,7 +116,7 @@
                                                 @endforeach
                                             </select>
                                             @error('supplier')
-                                                <span class="invalid-feedback" role="alert">
+                                            <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
@@ -262,7 +275,21 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+            let branch = $('#branch');
             let subtotal = document.getElementById('subtotal');
+
+            if($('#branch option').length === 1) {
+                const selected = branch.find(':selected');
+                displayWarehouseItems(selected.val());
+            }
+
+            branch.on('change', function(event) {
+                event.preventDefault();
+
+                const selected = $(this).find(':selected');
+
+                displayWarehouseItems(selected.val());
+            });
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
@@ -431,6 +458,43 @@
                 $(`#productId-${rowId}`).selectpicker();
                 $(`#productName-${rowId}`).selectpicker();
             });
+
+            function displayWarehouseItems(branchId) {
+                $.ajax({
+                    url: '{{ route('branches.branch-warehouse-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        branch_id: branchId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let warehouses = data.warehouses;
+                        let warehouse = $(`#warehouse`);
+                        warehouse.empty();
+
+                        $.each(warehouses, function(index, item) {
+                            warehouse.append(
+                                $('<option></option>', {
+                                    value: item.id,
+                                    text: item.name,
+                                    'data-tokens': item.name,
+                                })
+                            );
+
+                            if(!index) {
+                                warehouse.selectpicker({
+                                    title: 'Enter or Choose Warehouse'
+                                });
+
+                                warehouse.selectpicker('render');
+                            }
+
+                            warehouse.attr('disabled', false);
+                            warehouse.selectpicker('refresh');
+                        });
+                    },
+                })
+            }
 
             function displayPrice(productId, index, isProductName) {
                 $.ajax({

@@ -11,6 +11,7 @@ use App\Models\Warehouse;
 use App\Utilities\Services\BranchService;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
@@ -200,5 +201,16 @@ class BranchController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new BranchExport(), 'Branch_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function branchWarehouseAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $branch = Branch::query()->findOrFail($filter->branch_id);
+        $warehouses = $branch->warehouses;
+
+        return response()->json([
+            'warehouses' => $warehouses
+        ]);
     }
 }

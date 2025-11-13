@@ -133,6 +133,10 @@
                 width: 70px;
             }
 
+            .td-branch {
+                width: 95px;
+            }
+
             .td-warehouse {
                 width: 95px;
             }
@@ -165,6 +169,7 @@
                         <th class="align-middle td-number">No</th>
                         <th class="align-middle td-receipt-number">Number</th>
                         <th class="align-middle td-receipt-date">Date</th>
+                        <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle">Supplier</th>
                         <th class="align-middle td-warehouse">Warehouse</th>
                         <th class="align-middle td-tempo">Tempo</th>
@@ -180,6 +185,7 @@
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                            <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                             <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->warehouse_name }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->tempo }} Day(s)</td>
@@ -192,7 +198,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="7" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                        <th colspan="8" class="text-bold text-dark text-center">GRAND TOTAL</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($goodsReceipts, 'grand_total') }}</th>
                         <th colspan="2"></th>
                     </tr>

@@ -30,16 +30,16 @@
                                             <label for="number" class="col-5 text-right mt-2">Number</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="number" value="{{ $goodsReceipt->number }}">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="number" value="{{ $goodsReceipt->number }}" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <label for="supplier" class="col-3 text-right text-bold mt-2">Supplier</label>
+                                            <label for="branch" class="col-3 text-right text-bold mt-2">Branch</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $goodsReceipt->supplier->name }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $goodsReceipt->branch->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -50,16 +50,16 @@
                                             <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="warehouse" class="col-3 text-right text-bold mt-2">Warehouse</label>
+                                            <label for="supplier" class="col-3 text-right text-bold mt-2">Supplier</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse->name }}">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $goodsReceipt->supplier->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -70,16 +70,16 @@
                                             <label for="status" class="col-5 text-right text-bold mt-2">Status</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="status" value="{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="status" value="{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="dueDate" class="col-3 text-right text-bold mt-2">Due Date</label>
+                                            <label for="warehouse" class="col-3 text-right text-bold mt-2">Warehouse</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,16 @@
                                             <label for="user" class="col-5 text-right text-bold mt-2">Admin</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="user" value="{{ $goodsReceipt->user->username }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="user" value="{{ $goodsReceipt->user->username }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="dueDate" class="col-3 text-right text-bold mt-2">Due Date</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-7">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
                                             </div>
                                         </div>
                                     </div>

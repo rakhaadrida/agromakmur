@@ -77,6 +77,26 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
+                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-4">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $goodsReceipt->branch_name }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Date</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-2">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col edit-receipt-general-info-right">
+                                                            <div class="form-group row customer-detail">
                                                                 <label for="warehouse" class="col-3 form-control-sm text-bold text-right mt-1">Warehouse</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
@@ -85,26 +105,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="form-group row customer-detail">
-                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Date</label>
-                                                            <span class="col-form-label text-bold">:</span>
-                                                            <div class="col-2">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col edit-receipt-general-info-right">
-                                                        <div class="form-group row customer-detail">
-                                                            <label for="supplier" class="col-3 form-control-sm text-bold text-right mt-1">Supplier</label>
-                                                            <span class="col-form-label text-bold">:</span>
-                                                            <div class="col-8">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="supplier" value="{{ $goodsReceipt->supplier_name }}" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
@@ -117,10 +117,10 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="status" class="col-3 form-control-sm text-bold text-right mt-1">Status</label>
+                                                                <label for="supplier" class="col-3 form-control-sm text-bold text-right mt-1">Supplier</label>
                                                                 <span class="col-form-label text-bold">:</span>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}" readonly>
+                                                                <div class="col-8">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="supplier" value="{{ $goodsReceipt->supplier_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -128,25 +128,36 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="user" class="col-2 form-control-sm text-bold text-right mt-1">Admin</label>
+                                                                <label for="status" class="col-2 form-control-sm text-bold text-right mt-1">Status</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-6">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col edit-receipt-general-info-right">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="user" class="col-3 form-control-sm text-bold text-right mt-1">Admin</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-3">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="user" value="{{ $goodsReceipt->user_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if(isWaitingApproval($goodsReceipt->status))
-                                                            <div class="col edit-receipt-general-info-right">
+                                                    </div>
+                                                    @if(isWaitingApproval($goodsReceipt->status))
+                                                        <div class="row">
+                                                            <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Approval Type</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($goodsReceipt->pendingApproval->type) }}" readonly>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @endif
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">

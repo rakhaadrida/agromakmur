@@ -23,4 +23,8 @@ class Branch extends Model
     public function branchWarehouses() {
         return $this->hasMany(BranchWarehouse::class, 'branch_id', 'id');
     }
+
+    public function warehouses() {
+        return $this->belongsToMany(Warehouse::class, 'branch_warehouses')->wherePivot('deleted_at', null);
+    }
 }

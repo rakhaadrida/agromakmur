@@ -61,6 +61,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
     ]], function() {
         Route::get('approval-histories/{id}', 'ApprovalController@detail')->name('approvals.detail');
 
+        Route::get('branch-warehouse-ajax', 'BranchController@branchWarehouseAjax')->name('branches.branch-warehouse-ajax');
+
         Route::resource('marketings', 'MarketingController');
         Route::get('deleted-marketings', 'MarketingController@indexDeleted')->name('marketings.deleted');
         Route::put('deleted-marketings/{id}/restore', 'MarketingController@restore')->name('marketings.restore');

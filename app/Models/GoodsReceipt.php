@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use App\Utilities\Constant;
+use App\Utilities\Traits\FilterByUserBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GoodsReceipt extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterByUserBranch;
 
     protected $fillable = [
+        'branch_id',
         'supplier_id',
         'warehouse_id',
         'number',
@@ -23,6 +25,10 @@ class GoodsReceipt extends Model
         'status',
         'user_id',
     ];
+
+    public function branch() {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
+    }
 
     public function supplier() {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'id');

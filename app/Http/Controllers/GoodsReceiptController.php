@@ -6,6 +6,7 @@ use App\Exports\GoodsReceiptExport;
 use App\Http\Requests\GoodsReceiptCancelRequest;
 use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
+use App\Models\Branch;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -44,7 +45,7 @@ class GoodsReceiptController extends Controller
         $goodsReceipts = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+            ->orderByDesc('goods_receipts.date')
             ->get();
 
         $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
@@ -78,14 +79,18 @@ class GoodsReceiptController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
+
+        $branches = Branch::all();
         $suppliers = Supplier::all();
         $warehouses = Warehouse::all();
         $products = Product::all();
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
         $data = [
             'date' => $date,
+            'branches' => $branches,
             'suppliers' => $suppliers,
             'warehouses' => $warehouses,
             'products' => $products,
@@ -510,7 +515,7 @@ class GoodsReceiptController extends Controller
         $goodsReceipts = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('goods_receipts.date')
+            ->orderByDesc('goods_receipts.date')
             ->get();
 
         $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);

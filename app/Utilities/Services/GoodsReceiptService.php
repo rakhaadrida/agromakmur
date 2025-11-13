@@ -13,10 +13,12 @@ class GoodsReceiptService
         return GoodsReceipt::query()
             ->select(
                 'goods_receipts.*',
+                'branches.name AS branch_name',
                 'warehouses.name AS warehouse_name',
                 'suppliers.name AS supplier_name',
                 'users.username AS user_name'
             )
+            ->leftJoin('branches', 'branches.id', 'goods_receipts.branch_id')
             ->leftJoin('warehouses', 'warehouses.id', 'goods_receipts.warehouse_id')
             ->leftJoin('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
             ->leftJoin('users', 'users.id', 'goods_receipts.user_id');

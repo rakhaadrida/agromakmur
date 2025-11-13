@@ -12,6 +12,7 @@
                     <th>No</th>
                     <th>Number</th>
                     <th>Date</th>
+                    <th>Branch</th>
                     <th>Supplier</th>
                     <th>Warehouse</th>
                     <th>Tempo</th>
@@ -27,6 +28,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $goodsReceipt->number }}</td>
                         <td>{{ $goodsReceipt->date }}</td>
+                        <td>{{ $goodsReceipt->branch_name }}</td>
                         <td>{{ $goodsReceipt->supplier_name }}</td>
                         <td>{{ $goodsReceipt->warehouse_name }}</td>
                         <td>{{ $goodsReceipt->tempo }} Day(s)</td>

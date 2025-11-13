@@ -55,11 +55,12 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-warehouse-transaction-index">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
-                                            <th class="align-middle th-status-transaction-index">Invoice Age</th>
-                                            <th class="align-middle th-total-transaction-index">Grand Total</th>
-                                            <th class="align-middle th-status-transaction-index">Status</th>
+                                            <th class="align-middle th-goods-receipt-invoice-age-index">Invoice Age</th>
+                                            <th class="align-middle th-goods-receipt-grand-total-index">Grand Total</th>
+                                            <th class="align-middle th-goods-receipt-status-index">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,6 +73,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
                                                 <td class="text-center align-middle" data-sort="{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }}">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>

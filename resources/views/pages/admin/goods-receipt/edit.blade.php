@@ -33,8 +33,8 @@
                                             <div class="form-group row">
                                                 <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="number" id="number" value="{{ $goodsReceipt->number }}" readonly>
+                                                <div class="col-2">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $goodsReceipt->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,8 +65,15 @@
                                     <div class="form-group row so-update-left">
                                         <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-2 mt-1">
-                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row gr-update-branch">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $goodsReceipt->branch->name }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row gr-update-input">

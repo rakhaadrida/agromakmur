@@ -56,13 +56,13 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-status-transaction-index">Date</th>
+                                            <th class="align-middle th-goods-receipt-branch-index">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
-                                            <th class="align-middle th-code-transaction-index">Tempo</th>
-                                            <th class="align-middle th-status-transaction-index">Invoice Age</th>
-                                            <th class="align-middle th-total-transaction-index">Grand Total</th>
-                                            <th class="align-middle th-status-transaction-index">Status</th>
-                                            <th class="align-middle th-code-transaction-index">Admin</th>
+                                            <th class="align-middle th-goods-receipt-invoice-age-index">Invoice Age</th>
+                                            <th class="align-middle th-goods-receipt-grand-total-index">Grand Total</th>
+                                            <th class="align-middle th-goods-receipt-status-index">Status</th>
+                                            <th class="align-middle th-goods-receipt-status-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,9 +75,9 @@
                                                     </a>
                                                 </td>
                                                 <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
-                                                <td class="text-center align-middle" data-sort="{{ $goodsReceipt->tempo }}">{{ $goodsReceipt->tempo }} Day(s)</td>
                                                 <td class="text-center align-middle" data-sort="{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }}">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
                                                 <td class="text-right align-middle" data-sort="{{ $goodsReceipt->grand_total }}">{{ formatPrice($goodsReceipt->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}</td>
@@ -125,6 +125,15 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "order": [
+                [2, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0],
+                    orderable: false
+                }
+            ],
         });
     </script>
 @endpush
