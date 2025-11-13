@@ -30,7 +30,7 @@
                                             <label for="number" class="col-5 text-right mt-2">Number</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="number" value="{{ $planOrder->number }}">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="number" value="{{ $planOrder->number }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -39,7 +39,27 @@
                                             <label for="supplier" class="col-3 text-right text-bold mt-2">Supplier</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $planOrder->supplier->name }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="supplier" value="{{ $planOrder->supplier->name }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="branch" class="col-5 text-right text-bold mt-2">Branch</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $planOrder->branch->name }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="user" class="col-3 text-right text-bold mt-2">Admin</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="user" value="{{ $planOrder->user->username }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -50,16 +70,7 @@
                                             <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($planOrder->date, 'd-m-Y') }}" >
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group row detail-po-information-row">
-                                            <label for="user" class="col-3 text-right text-bold mt-2">Admin</label>
-                                            <span class="col-form-label text-bold">:</span>
-                                            <div class="col-6">
-                                                <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="user" value="{{ $planOrder->user->username }}" >
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($planOrder->date, 'd-m-Y') }}" readonly>
                                             </div>
                                         </div>
                                     </div>

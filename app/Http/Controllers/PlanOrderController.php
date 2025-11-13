@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlanOrderCreateRequest;
+use App\Models\Branch;
 use App\Models\PlanOrder;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -32,13 +33,17 @@ class PlanOrderController extends Controller
 
     public function create() {
         $date = Carbon::now()->format('d-m-Y');
+
+        $branches = Branch::all();
         $suppliers = Supplier::all();
         $products = Product::all();
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
         $data = [
             'date' => $date,
+            'branches' => $branches,
             'suppliers' => $suppliers,
             'products' => $products,
             'rows' => $rows,

@@ -55,9 +55,10 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-plan-order-branch-index">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
-                                            <th class="align-middle th-total-transaction-index">Total Items</th>
-                                            <th class="align-middle th-total-transaction-index">Grand Total</th>
+                                            <th class="align-middle th-plan-order-total-items-index">Total Items</th>
+                                            <th class="align-middle th-plan-order-grand-total-index">Grand Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -70,6 +71,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
+                                                <td class="align-middle text-center">{{ $planOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $planOrder->grand_total }}">{{ formatPrice($planOrder->grand_total) }}</td>

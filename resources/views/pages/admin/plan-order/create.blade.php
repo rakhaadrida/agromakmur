@@ -72,6 +72,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so" style="margin-top: -68px">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-3 mt-1">
+                                            <select class="selectpicker branch-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch Name" tabindex="5" required>
+                                                @foreach($branches as $branch)
+                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('branch')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
                                         <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
@@ -81,7 +97,7 @@
                                                 @endforeach
                                             </select>
                                             @error('supplier')
-                                            <span class="invalid-feedback" role="alert">
+                                                <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror

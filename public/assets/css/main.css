@@ -625,14 +625,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 22rem !important;
 }
 
-.supplier-params-select-picker {
+.branch-select-picker,
+.branch-params-select-picker {
+    width: 14rem !important;
+}
+
+.supplier-params-select-picker,
+.branch-params-select-picker {
     border: 1px solid #d1d3e2 !important;
     border-radius: 0.35rem;
 }
 
 .warehouse-select-picker,
 .supplier-select-picker,
-.marketing-select-picker{
+.marketing-select-picker,
+.branch-select-picker {
     border: 1px solid #d1d3e2 !important;
     border-radius: 0.35rem;
     margin-top: -0.1rem !important;
@@ -641,7 +648,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .warehouse-select-picker .dropdown-toggle,
 .supplier-select-picker .dropdown-toggle,
 .supplier-params-select-picker .dropdown-toggle,
-.marketing-select-picker .dropdown-toggle {
+.marketing-select-picker .dropdown-toggle,
+.branch-select-picker .dropdown-toggle {
     padding: 0.25rem 0.35rem !important;
     background: none !important;
     font-weight: bold !important;
@@ -868,6 +876,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-tempo-transaction-index {
+    width: 100px;
+}
+
+.th-plan-order-branch-index {
+    width: 150px;
+}
+
+.th-plan-order-total-items-index,
+.th-plan-order-grand-total-index {
     width: 100px;
 }
 
