@@ -56,9 +56,10 @@
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
                                             <th class="align-middle th-code-transaction-index">Invoice Number</th>
+                                            <th class="align-middle th-sales-order-branch-index">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Customer</th>
-                                            <th class="align-middle th-status-transaction-index">Status</th>
-                                            <th class="align-middle th-status-transaction-index">Admin</th>
+                                            <th class="align-middle th-sales-order-status-index">Status</th>
+                                            <th class="align-middle th-sales-order-status-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -76,6 +77,7 @@
                                                         {{ $deliveryOrder->sales_order_number }}
                                                     </a>
                                                 </td>
+                                                <td class="align-middle">{{ $deliveryOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
                                                 <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
                                                 <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>

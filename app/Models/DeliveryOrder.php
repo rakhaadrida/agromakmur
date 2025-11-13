@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use App\Utilities\Constant;
+use App\Utilities\Traits\FilterByUserBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DeliveryOrder extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterByUserBranch;
 
     protected $fillable = [
         'sales_order_id',
+        'branch_id',
         'customer_id',
         'number',
         'date',
@@ -24,6 +26,10 @@ class DeliveryOrder extends Model
 
     public function salesOrder() {
         return $this->belongsTo(SalesOrder::class, 'sales_order_id', 'id');
+    }
+
+    public function branch() {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 
     public function customer() {

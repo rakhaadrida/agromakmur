@@ -16,10 +16,12 @@ class DeliveryOrderService
             ->select(
                 'delivery_orders.*',
                 'sales_orders.number AS sales_order_number',
+                'branches.name AS branch_name',
                 'customers.name AS customer_name',
                 'users.username AS user_name'
             )
             ->leftJoin('sales_orders', 'sales_orders.id', 'delivery_orders.sales_order_id')
+            ->leftJoin('branches', 'branches.id', 'delivery_orders.branch_id')
             ->leftJoin('customers', 'customers.id', 'delivery_orders.customer_id')
             ->leftJoin('users', 'users.id', 'delivery_orders.user_id');
     }

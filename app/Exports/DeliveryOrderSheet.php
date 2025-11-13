@@ -58,22 +58,22 @@ class DeliveryOrderSheet extends DefaultValueBinder implements FromView, ShouldA
 
         $range = 5 + $deliveryOrders->count();
         $rangeStr = strval($range);
-        $rangeTab = 'G'.$rangeStr;
+        $rangeTab = 'H'.$rangeStr;
 
-        $header = 'A5:G5';
+        $header = 'A5:H5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:G1');
-        $sheet->mergeCells('A2:G2');
-        $sheet->mergeCells('A3:G3');
+        $sheet->mergeCells('A1:H1');
+        $sheet->mergeCells('A2:H2');
+        $sheet->mergeCells('A3:H3');
 
-        $title = 'A1:G3';
+        $title = 'A1:H3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:G3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:H3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -96,7 +96,7 @@ class DeliveryOrderSheet extends DefaultValueBinder implements FromView, ShouldA
         $rangeNumberCell = 'C6:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'F6:G'.$rangeStr;
+        $rangeNumberCell = 'G6:H'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
     }
 
@@ -131,7 +131,7 @@ class DeliveryOrderSheet extends DefaultValueBinder implements FromView, ShouldA
         return $baseQuery
             ->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('delivery_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('delivery_orders.date')
+            ->orderByDesc('delivery_orders.date')
             ->get();
     }
 }

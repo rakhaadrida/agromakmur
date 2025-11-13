@@ -129,6 +129,10 @@
                 width: 80px;
             }
 
+            .td-branch {
+                width: 95px;
+            }
+
             .td-receipt-date  {
                 width: 70px;
             }
@@ -157,6 +161,7 @@
                         <th class="align-middle td-receipt-number">Number</th>
                         <th class="align-middle td-receipt-date">Date</th>
                         <th class="align-middle td-receipt-number">Invoice Number</th>
+                        <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle">Customer</th>
                         <th class="align-middle td-grand-total">Total Qty</th>
                         <th class="align-middle td-order-status">Status</th>
@@ -170,6 +175,7 @@
                             <td class="align-middle text-center">{{ $deliveryOrder->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
                             <td class="align-middle text-center">{{ $deliveryOrder->sales_order_number }}</td>
+                            <td class="align-middle">{{ $deliveryOrder->branch_name }}</td>
                             <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
                             <td class="align-middle text-right">{{ formatQuantity($deliveryOrder->total_quantity ?? 0) }}</td>
                             <td class="align-middle text-center">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
@@ -179,7 +185,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL QTY</th>
+                        <th colspan="6" class="text-bold text-dark text-center">GRAND TOTAL QTY</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($deliveryOrders, 'total_quantity') }}</th>
                         <th colspan="2"></th>
                     </tr>

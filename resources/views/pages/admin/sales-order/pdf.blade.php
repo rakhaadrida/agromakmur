@@ -150,6 +150,10 @@
                 width: 60px;
             }
 
+            .td-branch {
+                width: 80px;
+            }
+
             .td-grand-total {
                 width: 70px;
             }
@@ -176,7 +180,6 @@
                         <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle">Customer</th>
                         <th class="align-middle td-marketing">Marketing</th>
-                        <th class="align-middle td-tempo">Tempo</th>
                         <th class="align-middle td-invoice-age">Invoice Age</th>
                         <th class="align-middle td-order-type">Type</th>
                         <th class="align-middle td-grand-total">Grand Total</th>
@@ -194,7 +197,6 @@
                             <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                             <td class="align-middle">{{ $salesOrder->customer_name }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->marketing_name }}</td>
-                            <td class="align-middle text-center">{{ $salesOrder->tempo }} Day(s)</td>
                             <td class="align-middle text-center">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
                             <td class="align-middle text-center">{{ getSalesOrderTypeLabel($salesOrder->type) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($salesOrder->grand_total) }}</td>
@@ -206,7 +208,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="9" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                        <th colspan="8" class="text-bold text-dark text-center">GRAND TOTAL</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($salesOrders, 'grand_total') }}</th>
                         <th colspan="3"></th>
                     </tr>

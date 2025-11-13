@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterDeliveryItemByDeliveryOrderBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DeliveryOrderItem extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterDeliveryItemByDeliveryOrderBranch;
 
     protected $fillable = [
         'delivery_order_id',

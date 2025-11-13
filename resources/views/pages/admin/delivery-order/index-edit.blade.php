@@ -97,10 +97,10 @@
                                                     </div>
                                                     <div class="col edit-receipt-general-info-right">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="customer" class="col-3 form-control-sm text-bold text-right mt-1">Customer</label>
+                                                            <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-4">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="customer" value="{{ $deliveryOrder->customer_name }}" readonly>
+                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $deliveryOrder->branch_name }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -117,10 +117,10 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="address" class="col-3 form-control-sm text-bold text-right mt-1">Address</label>
+                                                                <label for="customer" class="col-3 form-control-sm text-bold text-right mt-1">Customer</label>
                                                                 <span class="col-form-label text-bold">:</span>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="address" value="{{ $deliveryOrder->address }}" readonly>
+                                                                <div class="col-4">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="customer" value="{{ $deliveryOrder->customer_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -135,18 +135,29 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if(isWaitingApproval($deliveryOrder->status))
-                                                            <div class="col edit-receipt-general-info-right">
+                                                        <div class="col edit-receipt-general-info-right">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="address" class="col-3 form-control-sm text-bold text-right mt-1">Address</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-6">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="address" value="{{ $deliveryOrder->address }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @if(isWaitingApproval($deliveryOrder->status))
+                                                        <div class="row">
+                                                            <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Approval Type</label>
                                                                     <span class="col-form-label text-bold">:</span>
-                                                                    <div class="col-6">
+                                                                    <div class="col-3">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($deliveryOrder->pendingApproval->type) }}" readonly>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @endif
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">

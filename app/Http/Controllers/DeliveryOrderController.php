@@ -48,7 +48,7 @@ class DeliveryOrderController extends Controller
         }
 
         $deliveryOrders = $baseQuery
-            ->orderBy('delivery_orders.date')
+            ->orderByDesc('delivery_orders.date')
             ->get();
 
         $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders);
@@ -500,7 +500,7 @@ class DeliveryOrderController extends Controller
         $deliveryOrders = $baseQuery
             ->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('delivery_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('delivery_orders.date')
+            ->orderByDesc('delivery_orders.date')
             ->get();
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');

@@ -13,6 +13,7 @@
                     <th>Number</th>
                     <th>Date</th>
                     <th>Invoice Number</th>
+                    <th>Branch</th>
                     <th>Customer</th>
                     <th>Status</th>
                     <th>Admin</th>
@@ -25,6 +26,7 @@
                         <td>{{ $deliveryOrder->number }}</td>
                         <td>{{ $deliveryOrder->date }}</td>
                         <td>{{ $deliveryOrder->sales_order_number }}</td>
+                        <td>{{ $deliveryOrder->branch_name }}</td>
                         <td>{{ $deliveryOrder->customer_name }}</td>
                         <td>{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
                         <td>{{ $deliveryOrder->user_name }}</td>

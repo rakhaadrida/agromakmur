@@ -56,10 +56,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="customer" class="col-4 text-right text-bold mt-2">Customer</label>
+                                            <label for="branch" class="col-4 text-right text-bold mt-2">Branch</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="customer" value="{{ $deliveryOrder->customer->name }}" readonly>
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $deliveryOrder->branch->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -76,10 +76,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="address" class="col-4 text-right text-bold mt-2">Address</label>
+                                            <label for="customer" class="col-4 text-right text-bold mt-2">Customer</label>
                                             <span class="col-form-label text-bold">:</span>
-                                            <div class="col-6">
-                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
+                                            <div class="col-7">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="customer" value="{{ $deliveryOrder->customer->name }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -91,6 +91,15 @@
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="user" value="{{ $deliveryOrder->user->username }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row detail-po-information-row">
+                                            <label for="address" class="col-4 text-right text-bold mt-2">Address</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
                                             </div>
                                         </div>
                                     </div>

@@ -211,7 +211,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .do-update-date {
-    margin-top: -90px;
+    margin-top: -20px;
+}
+
+.do-update-branch {
+    margin-top: -95px;
 }
 
 .do-update-input {

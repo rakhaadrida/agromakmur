@@ -59,6 +59,12 @@
                                                 </span>
                                             @enderror
                                         </div>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control form-control-sm text-bold" name="branch" id="branch" tabindex="2" readonly>
+                                            <input type="hidden" name="branch_id" id="branchId">
+                                        </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
@@ -240,6 +246,8 @@
                     },
                     dataType: 'json',
                     success: function(data) {
+                        $('#branchId').val(data.data.branch_id);
+                        $('#branch').val(data.data.branch_name);
                         $('#customerId').val(data.data.customer_id);
                         $('#customer').val(data.data.customer_name);
                         $('#address').val(data.data.customer_address);

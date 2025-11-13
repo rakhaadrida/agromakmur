@@ -34,8 +34,8 @@
                                             <div class="form-group row">
                                                 <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark" name="number" id="number" value="{{ $deliveryOrder->number }}" readonly>
+                                                <div class="col-2">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $deliveryOrder->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -61,6 +61,13 @@
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row do-update-branch">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $deliveryOrder->branch->name }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row do-update-date">
