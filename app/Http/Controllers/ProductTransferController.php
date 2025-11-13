@@ -30,10 +30,18 @@ class ProductTransferController extends Controller
 
         $baseQuery = ProductTransferService::getBaseQueryIndex();
 
+        if(!isUserSuperAdmin()) {
+            $baseQuery = $baseQuery
+                ->where(function ($where) {
+                    $where->where('product_transfers.user_id', Auth::id())
+                        ->orHas('productTransferItems');
+                });
+        }
+
         $productTransfers = $baseQuery
             ->where('product_transfers.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('product_transfers.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->orderBy('product_transfers.date')
+            ->orderByDesc('product_transfers.date')
             ->get();
 
         $data = [
@@ -204,6 +212,14 @@ class ProductTransferController extends Controller
 
     public function indexPrint() {
         $baseQuery = ProductTransferService::getBaseQueryIndex();
+
+        if(!isUserSuperAdmin()) {
+            $baseQuery = $baseQuery
+                ->where(function ($where) {
+                    $where->where('product_transfers.user_id', Auth::id())
+                        ->orHas('productTransferItems');
+                });
+        }
 
         $productTransfers = $baseQuery
             ->where('product_transfers.is_printed', 0)

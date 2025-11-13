@@ -87,9 +87,9 @@
                                                 <td>{{ $productTransferItem->product->sku }} </td>
                                                 <td>{{ $productTransferItem->product->name }}</td>
                                                 <td>{{ $productTransferItem->unit->name }}</td>
-                                                <td class="text-center">{{ $productTransferItem->sourceWarehouse->name }}</td>
+                                                <td class="text-center">{{ $productTransferItem->sourceWarehouse ? $productTransferItem->sourceWarehouse->name : 'Unknown' }}</td>
                                                 <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
-                                                <td class="text-center">{{ $productTransferItem->destinationWarehouse->name }}</td>
+                                                <td class="text-center">{{ $productTransferItem->destinationWarehouse ? $productTransferItem->destinationWarehouse->name : 'Unknown' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

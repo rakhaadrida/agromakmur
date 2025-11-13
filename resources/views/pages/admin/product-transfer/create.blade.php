@@ -204,12 +204,12 @@
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index, false);
+                displayStock(this.value, index, false);
             });
 
             table.on('change', 'select[name="product_name[]"]', function () {
                 const index = $(this).closest('tr').index();
-                displayPrice(this.value, index, true);
+                displayStock(this.value, index, true);
             });
 
             table.on('change', 'select[name="unit[]"]', function () {
@@ -322,7 +322,7 @@
                 $(`#productName-${rowId}`).selectpicker();
             });
 
-            function displayPrice(productId, index, isProductName) {
+            function displayStock(productId, index, isProductName) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterProductTransferByWarehouse;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductTransferItem extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterProductTransferByWarehouse;
 
     protected $fillable = [
         'product_transfer_id',
