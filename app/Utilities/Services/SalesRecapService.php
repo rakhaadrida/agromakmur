@@ -5,13 +5,15 @@ namespace App\Utilities\Services;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\SalesOrder;
-use App\Models\SalesOrderItem;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalesRecapService
 {
     public static function getBaseQueryProductIndex($startDate, $finalDate) {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return Product::query()
             ->select(
                 'products.id AS id',
@@ -34,6 +36,9 @@ class SalesRecapService
                     ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
                     ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
                     ->where('sales_orders.status', '!=', 'CANCELLED')
+                    ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                        $q->whereIn('sales_orders.branch_id', $branchIds);
+                    })
                     ->whereNull('sales_order_items.deleted_at')
                     ->whereNull('sales_orders.deleted_at')
                     ->groupBy('sales_order_items.product_id'),
@@ -111,6 +116,8 @@ class SalesRecapService
     }
 
     public static function getBaseQueryCustomerIndex($startDate, $finalDate) {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return Customer::query()
             ->select(
                 'customers.id AS id',
@@ -134,6 +141,9 @@ class SalesRecapService
                     ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
                     ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
                     ->where('sales_orders.status', '!=', 'CANCELLED')
+                    ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                        $q->whereIn('sales_orders.branch_id', $branchIds);
+                    })
                     ->whereNull('sales_orders.deleted_at')
                     ->groupBy('sales_orders.customer_id'),
                 'sales_orders',
