@@ -6,11 +6,14 @@ use App\Models\GoodsReceipt;
 use App\Models\Product;
 use App\Models\Supplier;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseRecapService
 {
     public static function getBaseQueryProductIndex($startDate, $finalDate) {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return Product::query()
             ->select(
                 'products.id AS id',
@@ -33,6 +36,9 @@ class PurchaseRecapService
                     ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
                     ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
                     ->where('goods_receipts.status', '!=', 'CANCELLED')
+                    ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                        $q->whereIn('goods_receipts.branch_id', $branchIds);
+                    })
                     ->whereNull('goods_receipt_items.deleted_at')
                     ->whereNull('goods_receipts.deleted_at')
                     ->groupBy('goods_receipt_items.product_id'),
@@ -108,6 +114,8 @@ class PurchaseRecapService
     }
 
     public static function getBaseQuerySupplierIndex($startDate, $finalDate) {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return Supplier::query()
             ->select(
                 'suppliers.id AS id',
@@ -129,6 +137,9 @@ class PurchaseRecapService
                     ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
                     ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
                     ->where('goods_receipts.status', '!=', 'CANCELLED')
+                    ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                        $q->whereIn('goods_receipts.branch_id', $branchIds);
+                    })
                     ->whereNull('goods_receipts.deleted_at')
                     ->groupBy('goods_receipts.supplier_id'),
                 'goods_receipts',
