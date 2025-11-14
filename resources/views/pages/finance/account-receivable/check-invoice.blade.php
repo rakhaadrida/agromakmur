@@ -78,10 +78,10 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="customer" class="col-3 form-control-sm text-bold text-right mt-1">Customer</label>
+                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="customer" value="{{ $salesOrder->customer_name }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $salesOrder->branch_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -98,10 +98,10 @@
                                                     </div>
                                                     <div class="col edit-receipt-general-info-right">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="marketing" class="col-3 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                            <label for="customer" class="col-3 form-control-sm text-bold text-right mt-1">Customer</label>
                                                             <span class="col-form-label text-bold">:</span>
-                                                            <div class="col-8">
-                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="marketing" value="{{ $salesOrder->marketing_name }}" readonly>
+                                                            <div class="col-4">
+                                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="customer" value="{{ $salesOrder->customer_name }}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -118,10 +118,10 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="status" class="col-3 form-control-sm text-bold text-right mt-1">Status</label>
+                                                                <label for="marketing" class="col-3 form-control-sm text-bold text-right mt-1">Marketing</label>
                                                                 <span class="col-form-label text-bold">:</span>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getSalesOrderStatusLabel($salesOrder->status) }}" readonly>
+                                                                <div class="col-8">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="marketing" value="{{ $salesOrder->marketing_name }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -136,6 +136,26 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col edit-receipt-general-info-right">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="status" class="col-3 form-control-sm text-bold text-right mt-1">Status</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-6">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="status" value="{{ getSalesOrderStatusLabel($salesOrder->status) }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group row customer-detail">
+                                                                <label for="note" class="col-2 form-control-sm text-bold text-right mt-1">Note</label>
+                                                                <span class="col-form-label text-bold">:</span>
+                                                                <div class="col-3">
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         @if(isWaitingApproval($salesOrder->status))
                                                             <div class="col edit-receipt-general-info-right">
                                                                 <div class="form-group row customer-detail">
@@ -146,31 +166,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @else
-                                                            <div class="col edit-receipt-general-info-right">
-                                                                <div class="form-group row customer-detail">
-                                                                    <label for="note" class="col-3 form-control-sm text-bold text-right mt-1">Note</label>
-                                                                    <span class="col-form-label text-bold">:</span>
-                                                                    <div class="col-6">
-                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         @endif
                                                     </div>
-                                                    @if(isWaitingApproval($salesOrder->status))
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="form-group row customer-detail">
-                                                                    <label for="note" class="col-2 form-control-sm text-bold text-right mt-1">Note</label>
-                                                                    <span class="col-form-label text-bold">:</span>
-                                                                    <div class="col-3">
-                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="note" value="{{ $salesOrder->note }}" readonly>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endif
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">

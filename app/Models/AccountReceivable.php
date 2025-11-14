@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterItemBySalesOrderBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountReceivable extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterItemBySalesOrderBranch;
 
     protected $fillable = [
         'sales_order_id',

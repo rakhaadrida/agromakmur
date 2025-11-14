@@ -150,7 +150,7 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->whereIn('sales_orders.customer_id', $customerIds)
             ->orderBy('customers.name')
-            ->orderBy('sales_orders.date')
+            ->orderByDesc('sales_orders.date')
             ->orderBy('sales_orders.id')
             ->get();
 

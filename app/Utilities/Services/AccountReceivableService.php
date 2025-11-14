@@ -58,6 +58,7 @@ class AccountReceivableService
                 'sales_orders.tempo',
                 'sales_orders.type',
                 'sales_orders.grand_total',
+                'branches.name AS branch_name',
                 'customers.name AS customer_name',
                 'marketings.name AS marketing_name',
                 DB::raw('SUM(payments.total_payment) AS payment_amount'),
@@ -65,6 +66,7 @@ class AccountReceivableService
                 DB::raw('SUM(returns.total_quantity) AS total_quantity'),
             )
             ->join('sales_orders', 'sales_orders.id', 'account_receivables.sales_order_id')
+            ->join('branches', 'branches.id', 'sales_orders.branch_id')
             ->join('customers', 'customers.id', 'sales_orders.customer_id')
             ->join('marketings', 'marketings.id', 'sales_orders.marketing_id')
             ->leftJoinSub(

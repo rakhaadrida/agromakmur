@@ -65,11 +65,11 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-receivable-number">No</th>
-                                            <th class="align-middle th-receivable-receipt-number">Order Number</th>
+                                            <th class="align-middle">Order Number</th>
                                             <th class="align-middle th-receivable-date">Order Date</th>
                                             <th class="align-middle th-receivable-date">Due Date</th>
                                             <th class="align-middle th-receivable-invoice-age">Invoice Age</th>
-                                            <th class="align-middle th-receivable-marketing">Marketing</th>
+                                            <th class="align-middle th-receivable-branch">Branch</th>
                                             <th class="align-middle th-receivable-type">Type</th>
                                             <th class="align-middle th-receivable-grand-total">Grand Total</th>
                                             <th class="align-middle th-receivable-amount">Payment</th>
@@ -88,7 +88,7 @@
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($accountReceivable->date, 'Ymd') }}">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'Ymd') }}">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
                                                 <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Day(s)</td>
-                                                <td class="align-middle">{{ $accountReceivable->marketing_name }}</td>
+                                                <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                                                 <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->grand_total }}">{{ formatPrice($accountReceivable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->payment_amount }}">{{ formatPrice($accountReceivable->payment_amount) }}</td>
@@ -152,9 +152,12 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "order": [
+                [2, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [5, 6, 11],
+                    targets: [0, 4, 5, 6, 11],
                     orderable: false
                 }
             ],

@@ -56,7 +56,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row" style="margin-top: -7px">
+                                    <div class="form-group row" style="margin-top: -15px">
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 mt-1">
+                                            <input type="text" class="form-control form-control-sm text-bold text-dark" name="branch" id="branch" value="{{ $accountReceivable->branch_name }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" style="margin-top: -15px">
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 mt-1">

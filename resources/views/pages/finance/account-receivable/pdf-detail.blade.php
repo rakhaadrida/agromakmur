@@ -169,7 +169,7 @@
                         <th class="align-middle td-order-date">Order Date</th>
                         <th class="align-middle td-order-date">Due Date</th>
                         <th class="align-middle td-invoice-age">Invoice Age</th>
-                        <th class="align-middle td-marketing">Marketing</th>
+                        <th class="align-middle td-marketing">Branch</th>
                         <th class="align-middle td-order-type">Type</th>
                         <th class="align-middle td-grand-total">Total Amount</th>
                         <th class="align-middle td-grand-total">Payment</th>
@@ -186,7 +186,7 @@
                             <td class="align-middle text-center">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Day(s)</td>
-                            <td class="align-middle">{{ $accountReceivable->marketing_name }}</td>
+                            <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                             <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountReceivable->grand_total) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountReceivable->payment_amount) }}</td>

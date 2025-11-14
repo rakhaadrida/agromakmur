@@ -14,7 +14,7 @@
                     <th>Order Date</th>
                     <th>Due Date</th>
                     <th>Invoice Age</th>
-                    <th>Marketing</th>
+                    <th>Branch</th>
                     <th>Type</th>
                     <th>Grand Total</th>
                     <th>Payment</th>
@@ -31,7 +31,7 @@
                         <td>{{ $receivableItem->date }}</td>
                         <td>{{ getDueDate($receivableItem->date, $receivableItem->tempo, 'd-m-Y') }}</td>
                         <td>{{ getInvoiceAge($receivableItem->date, $receivableItem->tempo) }} Day(s)</td>
-                        <td>{{ $receivableItem->marketing_name }}</td>
+                        <td>{{ $receivableItem->branch_name }}</td>
                         <td>{{ getSalesOrderTypeLabel($receivableItem->type) }}</td>
                         <td>{{ $receivableItem->grand_total ?? 0 }}</td>
                         <td>{{ $receivableItem->payment_amount ?? 0 }}</td>

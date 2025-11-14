@@ -160,7 +160,7 @@ class AccountReceivableDetailExport extends DefaultValueBinder  implements FromV
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->whereIn('account_receivables.status', $status)
-            ->orderBy('sales_orders.date')
+            ->orderByDesc('sales_orders.date')
             ->orderBy('sales_orders.id')
             ->get();
 
