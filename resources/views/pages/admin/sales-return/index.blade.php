@@ -75,14 +75,15 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-sales-return-number">No</th>
-                                            <th class="align-middle th-sales-return-return-number">Return Number</th>
-                                            <th class="align-middle th-sales-return-date">Return Date</th>
-                                            <th class="align-middle th-sales-return-customer">Customer</th>
+                                            <th class="align-middle th-sales-return-return-number">Number</th>
+                                            <th class="align-middle th-sales-return-date">Date</th>
+                                            <th class="align-middle th-sales-return-branch">Branch</th>
+                                            <th class="align-middle">Customer</th>
                                             <th class="align-middle th-sales-return-order-number">Order Number</th>
                                             <th class="align-middle th-sales-return-quantity">Qty</th>
-                                            <th class="align-middle th-sales-return-quantity">Delivered Qty</th>
-                                            <th class="align-middle th-sales-return-quantity">Cut Bill Qty</th>
-                                            <th class="align-middle th-sales-return-quantity">Remaining Qty</th>
+                                            <th class="align-middle th-sales-return-quantity">Qty Sent</th>
+                                            <th class="align-middle th-sales-return-quantity">Cut Bills</th>
+                                            <th class="align-middle th-sales-return-quantity">Qty Left</th>
                                             <th class="align-middle th-sales-return-status">Status</th>
                                             <th class="align-middle th-sales-return-status">Delivery Status</th>
                                         </tr>
@@ -92,7 +93,8 @@
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td class="align-middle text-center">{{ $salesReturn->number }}</td>
-                                                <td class="align-middle text-center" data-sort="{{ formatDate($salesReturn->date, 'Ymd') }}">{{ formatDate($salesReturn->date, 'd-M-Y') }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ formatDate($salesReturn->date, 'Ymd') }}">{{ formatDate($salesReturn->date, 'd-M-y') }}</td>
+                                                <td class="align-middle">{{ $salesReturn->branch_name }}</td>
                                                 <td class="align-middle">{{ $salesReturn->customer_name }}</td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('sales-orders.detail', $salesReturn->sales_order_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ $salesReturn->sales_order_number }}</a>
@@ -108,13 +110,13 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="11" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                     <tfoot>
                                         <tr class="text-right text-bold text-dark tfoot-account-payable">
-                                            <td colspan="5" class="text-center">Total</td>
+                                            <td colspan="6" class="text-center">Total</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -157,18 +159,15 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "order": [
+                [2, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [9, 10],
+                    targets: [0, 3, 5, 10, 11],
                     orderable: false
                 }
             ],
-            "drawCallback": function(settings) {
-                var api = this.api();
-                api.column(0, { page: 'current' }).nodes().each(function(cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            },
             "footerCallback": function (row, data, start, end, display) {
                 let api = this.api();
 
@@ -180,8 +179,8 @@
                 };
 
                 let column;
-                $.each([5, 6, 7, 8], function(index, value) {
-                    if((value === 5) || (value === 6) || (value === 7) || (value === 8)) {
+                $.each([6, 7, 8, 9], function(index, value) {
+                    if((value === 6) || (value === 7) || (value === 8) || (value === 9)) {
                         column = api
                             .column(value, {
                                 page: 'current'

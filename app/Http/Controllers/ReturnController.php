@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Utilities\Constant;
-use Illuminate\Support\Facades\DB;
+use App\Utilities\Services\BranchService;
+use App\Utilities\Services\ReturnService;
+use App\Utilities\Services\UserService;
+use Illuminate\Support\Facades\Auth;
 
 class ReturnController extends Controller
 {
     public function index() {
-        $products = Product::query()
-            ->select(
-                'products.*',
-                DB::raw('SUM(product_stocks.stock) AS stock')
-            )
-            ->leftJoin('product_stocks', 'product_stocks.product_id', 'products.id')
-            ->leftJoin('warehouses', 'warehouses.id', 'product_stocks.warehouse_id')
-            ->where('warehouses.type', Constant::WAREHOUSE_TYPE_RETURN)
-            ->whereNull('product_stocks.deleted_at')
-            ->whereNull('warehouses.deleted_at')
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+        $warehouseIds = BranchService::findWarehouseIdsByBranchIds($branchIds);
+
+        $baseQuery = ReturnService::getBaseQueryIndex();
+
+        if(!isUserSuperAdmin()) {
+            $baseQuery = $baseQuery->whereIn('warehouses.id', $warehouseIds);
+        }
+
+        $products = $baseQuery
             ->groupBy('products.id')
             ->get();
 

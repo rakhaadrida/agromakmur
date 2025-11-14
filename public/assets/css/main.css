@@ -1339,14 +1339,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-sales-return-number {
-    width: 30px;
+    width: 25px;
 }
 
 .th-sales-return-return-number {
-    width: 80px;
+    width: 50px;
 }
 
 .th-sales-return-date {
+    width: 55px;
+}
+
+.th-sales-return-branch {
     width: 100px;
 }
 
@@ -1355,11 +1359,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-sales-return-order-number {
-    width: 80px;
+    width: 100px;
 }
 
 .th-sales-return-quantity {
-    width: 60px;
+    width: 20px;
 }
 
 .th-sales-return-status {

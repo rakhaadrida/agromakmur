@@ -68,7 +68,7 @@
                                     <div class="form-group row subtotal-so">
                                         <label for="customerId" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
+                                        <div class="col-2 mt-1">
                                             <select class="selectpicker warehouse-select-picker" name="customer_id" id="customerId" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="5" required>
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}">{{ $customer->name }}</option>
@@ -79,6 +79,11 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control form-control-sm text-bold" name="branch" id="branch" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +166,9 @@
             const table = $('#itemTable');
 
             $('#customerId').change(function() {
+                $('#branch').val('');
                 let customerId = $(this).val();
+
                 displaySalesOrderList(customerId);
             });
 
@@ -405,7 +412,7 @@
                     success: function(data) {
                         $('#customerId').val(data.data.customer_id);
                         $('#customer').val(data.data.customer_name);
-                        $('#address').val(data.data.customer_address);
+                        $('#branch').val(data.data.branch_name);
 
                         let salesOrderItems = data.sales_order_items;
                         let rowId = 0;
@@ -499,6 +506,5 @@
                 return x1 + x2;
             }
         });
-
     </script>
 @endpush

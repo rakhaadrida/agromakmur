@@ -68,7 +68,7 @@ class BranchController extends Controller
         $userIds = BranchService::findUserIdsByBranchId($id);
         $userIds = implode(',', $userIds);
 
-        $warehouseIds = BranchService::findWarehouseIdsByBranchId($id);
+        $warehouseIds = BranchService::findWarehouseIdsByBranchIds([$id]);
         $warehouseIds = implode(',', $warehouseIds);
 
         $users = User::all();

@@ -58,15 +58,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="customer" id="customer" value="{{ $salesReturn->customer->name }}" readonly>
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="branch" id="branch" value="{{ $salesReturn->salesOrder->branch->name }}" readonly>
                                         </div>
                                         <label for="deliveryStatus" class="col-2 col-form-label text-bold text-right sales-order-middle-last-input">Delivery Status</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_status" id="deliveryStatus" value="{{ getSalesReturnDeliveryStatusLabel($salesReturn->delivery_status) }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
+                                        <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-3 mt-1">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="customer" id="customer" value="{{ $salesReturn->customer->name }}" readonly>
                                         </div>
                                     </div>
                                 </div>

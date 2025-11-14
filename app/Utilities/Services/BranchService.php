@@ -94,9 +94,9 @@ class BranchService
             ->toArray();
     }
 
-    public static function findWarehouseIdsByBranchId($branchId) {
+    public static function findWarehouseIdsByBranchIds($branchIds) {
         return BranchWarehouse::query()
-            ->where('branch_id', $branchId)
+            ->whereIn('branch_id', $branchIds)
             ->pluck('warehouse_id')
             ->toArray();
     }

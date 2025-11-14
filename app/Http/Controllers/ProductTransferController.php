@@ -31,11 +31,7 @@ class ProductTransferController extends Controller
         $baseQuery = ProductTransferService::getBaseQueryIndex();
 
         if(!isUserSuperAdmin()) {
-            $baseQuery = $baseQuery
-                ->where(function ($where) {
-                    $where->where('product_transfers.user_id', Auth::id())
-                        ->orHas('productTransferItems');
-                });
+            $baseQuery = $baseQuery->has('productTransferItems');
         }
 
         $productTransfers = $baseQuery
