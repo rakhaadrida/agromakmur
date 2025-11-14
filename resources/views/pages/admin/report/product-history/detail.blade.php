@@ -72,10 +72,11 @@
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                     <thead class="text-center text-dark text-bold">
                                         <tr class="bg-light">
-                                            <td class="align-middle th-marketing-recap-number">No</td>
+                                            <th class="align-middle th-marketing-recap-number">No</th>
                                             <th class="align-middle th-product-history-date">Receipt Date</th>
                                             <th class="align-middle th-product-history-latest-number">Receipt Number</th>
                                             <th class="align-middle th-product-history-detail-supplier">Supplier</th>
+                                            <th class="align-middle th-product-history-detail-branch">Branch</th>
                                             <th class="align-middle th-product-history-detail-price">Price</th>
                                             <th class="align-middle th-product-history-detail-quantity">Qty</th>
                                             <th class="align-middle th-product-history-detail-unit">Unit</th>
@@ -95,6 +96,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="align-middle">{{ $receiptItem->supplier_name }}</td>
+                                                <td class="align-middle">{{ $receiptItem->branch_name }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $receiptItem->price }}">{{ formatPrice($receiptItem->price) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $receiptItem->quantity }}">{{ formatQuantity($receiptItem->quantity) }}</td>
                                                 <td class="align-middle text-center">{{ $receiptItem->unit_name }}</td>
@@ -104,7 +106,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="10" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                <td colspan="11" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -150,7 +152,7 @@
             ],
             "columnDefs": [
                 {
-                    targets: [0, 2, 3, 6],
+                    targets: [0, 2, 3, 4, 7],
                     orderable: false
                 }
             ],

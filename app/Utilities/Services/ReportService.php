@@ -6,11 +6,14 @@ use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\SalesOrderItem;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReportService
 {
     public static function getProductHistoryData() {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return Product::query()
             ->select(
                 'products.id AS product_id',
@@ -19,6 +22,7 @@ class ReportService
                 'goods_receipts.id AS latest_id',
                 'goods_receipts.date AS latest_date',
                 'goods_receipts.number AS latest_number',
+                'branches.name AS latest_branch',
                 'suppliers.name AS latest_supplier',
                 'units.name AS latest_unit',
                 'goods_receipt_items.actual_quantity AS latest_quantity',
@@ -33,6 +37,9 @@ class ReportService
                     )
                     ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
                     ->where('goods_receipts.status', '!=', 'CANCELLED')
+                    ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                        $q->whereIn('goods_receipts.branch_id', $branchIds);
+                    })
                     ->whereNull('goods_receipt_items.deleted_at')
                     ->whereNull('goods_receipts.deleted_at')
                     ->groupBy('goods_receipt_items.product_id'),
@@ -46,6 +53,7 @@ class ReportService
                     ->whereNull('goods_receipt_items.deleted_at');
             })
             ->join('goods_receipts', 'goods_receipts.id', '=', 'latest_items.latest_id')
+            ->join('branches', 'branches.id', '=', 'goods_receipts.branch_id')
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
             ->orderBy('products.name')
@@ -58,6 +66,7 @@ class ReportService
                 'goods_receipts.id AS receipt_id',
                 'goods_receipts.date AS receipt_date',
                 'goods_receipts.number AS receipt_number',
+                'branches.name AS branch_name',
                 'suppliers.id AS supplier_id',
                 'suppliers.name AS supplier_name',
                 'units.name AS unit_name',
@@ -68,6 +77,7 @@ class ReportService
                 'goods_receipt_items.total AS total',
             )
             ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
+            ->join('branches', 'branches.id', '=', 'goods_receipts.branch_id')
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
@@ -80,6 +90,11 @@ class ReportService
 
         if($supplierId) {
             $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        }
+
+        if(!isUserSuperAdmin()) {
+            $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+            $baseQuery = $baseQuery->whereIn('goods_receipts.branch_id', $branchIds);
         }
 
         return $baseQuery

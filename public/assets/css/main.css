@@ -1513,11 +1513,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-product-history-number {
-    width: 35px;
+    width: 25px;
 }
 
 .th-product-history-supplier {
-    width: 190px;
+    width: 150px;
+}
+
+.th-product-history-branch {
+    width: 105px;
 }
 
 .th-product-history-product-sku {
@@ -1525,7 +1529,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-product-history-date {
-    width: 80px;
+    width: 70px;
 }
 
 .th-product-history-latest-number {
@@ -1537,11 +1541,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-product-history-quantity {
-    width: 65px;
+    width: 60px;
 }
 
 .th-product-history-unit {
-    width: 60px;
+    width: 50px;
 }
 
 .th-product-history-total {
@@ -1576,6 +1580,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .th-product-history-detail-supplier {
     width: 270px;
+}
+
+.th-product-history-detail-branch {
+    width: 140px;
 }
 
 .th-product-history-detail-price {

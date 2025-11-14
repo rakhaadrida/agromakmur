@@ -65,22 +65,22 @@ class ProductHistoryDetailExport extends DefaultValueBinder implements FromView,
 
         $range = 5 + $receiptItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'J' . $rangeStr;
+        $rangeTab = 'K' . $rangeStr;
 
-        $header = 'A5:J5';
+        $header = 'A5:K5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:J1');
-        $sheet->mergeCells('A2:J2');
-        $sheet->mergeCells('A3:J3');
+        $sheet->mergeCells('A1:K1');
+        $sheet->mergeCells('A2:K2');
+        $sheet->mergeCells('A3:K3');
 
-        $title = 'A1:J3';
+        $title = 'A1:K3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:J3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:K3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -103,21 +103,21 @@ class ProductHistoryDetailExport extends DefaultValueBinder implements FromView,
         $rangeNumberCell = 'B6:B' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'E5:F' . $rangeStr;
+        $rangeNumberCell = 'F5:G' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'G5:G' . $rangeStr;
+        $rangeNumberCell = 'H5:H' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'H5:J' . $rangeStr;
+        $rangeNumberCell = 'I5:K' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['E', 'F', 'H', 'I', 'J'];
+        $numericalColumns = ['F', 'G', 'I', 'J', 'K'];
         $dateColumns = ['B'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {

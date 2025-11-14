@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Report;
 use App\Exports\ProductHistoryDetailExport;
 use App\Exports\ProductHistoryExport;
 use App\Http\Controllers\Controller;
-use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Services\ReportService;

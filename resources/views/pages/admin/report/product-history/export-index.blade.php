@@ -11,6 +11,7 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Product Name</th>
+                    <th>Latest Branch</th>
                     <th>Latest Supplier</th>
                     <th>Latest Receipt Date</th>
                     <th>Latest Receipt Number</th>
@@ -26,6 +27,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $product->product_sku }}</td>
                         <td>{{ $product->product_name }}</td>
+                        <td>{{ $product->latest_branch }}</td>
                         <td>{{ $product->latest_supplier }}</td>
                         <td>{{ $product->latest_date }}</td>
                         <td>{{ $product->latest_number }}</td>

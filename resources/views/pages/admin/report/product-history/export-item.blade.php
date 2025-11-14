@@ -13,6 +13,7 @@
                     <th>Receipt Date</th>
                     <th>Receipt Number</th>
                     <th>Supplier</th>
+                    <th>Branch</th>
                     <th>Price</th>
                     <th>Qty</th>
                     <th>Unit</th>
@@ -29,6 +30,7 @@
                         <td>{{ $receiptItem->receipt_date }}</td>
                         <td>{{ $receiptItem->receipt_number }}</td>
                         <td>{{ $receiptItem->supplier_name }}</td>
+                        <td>{{ $receiptItem->branch_name }}</td>
                         <td>{{ $receiptItem->price }}</td>
                         <td>{{ $receiptItem->quantity }}</td>
                         <td>{{ $receiptItem->unit_name }}</td>

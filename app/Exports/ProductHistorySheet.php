@@ -47,21 +47,21 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeTab = 'J'.$rangeStr;
+        $rangeTab = 'K'.$rangeStr;
 
-        $header = 'A4:J4';
+        $header = 'A4:K4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:J1');
-        $sheet->mergeCells('A2:J2');
+        $sheet->mergeCells('A1:K1');
+        $sheet->mergeCells('A2:K2');
 
-        $title = 'A1:J2';
+        $title = 'A1:K2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:J2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:K2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -81,28 +81,28 @@ class ProductHistorySheet extends DefaultValueBinder implements FromView, Should
         $rangeNumberCell = 'A5:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'E5:F'.$rangeStr;
+        $rangeNumberCell = 'F5:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'E5:E'.$rangeStr;
+        $rangeNumberCell = 'F5:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'G5:H'.$rangeStr;
+        $rangeNumberCell = 'H5:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'I5:I'.$rangeStr;
+        $rangeNumberCell = 'J5:J'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'J5:J'.$rangeStr;
+        $rangeNumberCell = 'K5:K'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['G', 'H', 'J'];
-        $dateColumns = ['E'];
+        $numericalColumns = ['H', 'I', 'K'];
+        $dateColumns = ['F'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);

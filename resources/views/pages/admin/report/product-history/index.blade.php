@@ -32,6 +32,7 @@
                                         <th class="align-middle th-product-history-number">No</th>
                                         <th class="align-middle th-product-history-product-sku">Product SKU</th>
                                         <th class="align-middle">Product Name</th>
+                                        <th class="align-middle th-product-history-branch">Latest Branch</th>
                                         <th class="align-middle th-product-history-supplier">Latest Supplier</th>
                                         <th class="align-middle th-product-history-date">Latest Receipt Date</th>
                                         <th class="align-middle th-product-history-latest-number">Latest Receipt Number</th>
@@ -48,6 +49,7 @@
                                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                                             <td class="align-middle text-center">{{ $product->product_sku }}</td>
                                             <td class="align-middle">{{ $product->product_name }}</td>
+                                            <td class="align-middle">{{ $product->latest_branch }}</td>
                                             <td class="align-middle">{{ $product->latest_supplier }}</td>
                                             <td class="align-middle text-center" data-sort="{{ formatDate($product->latest_date, 'Ymd') }}">{{ formatDate($product->latest_date, 'd-m-Y') }}</td>
                                             <td class="align-middle text-center">
@@ -67,7 +69,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="10" class="text-center text-bold h4 p-2">No Data Available</td>
+                                            <td colspan="12" class="text-center text-bold h4 p-2">No Data Available</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -93,7 +95,7 @@
             ],
             "columnDefs": [
                 {
-                    targets: [0, 1, 3, 5, 6, 7, 8, 9, 10],
+                    targets: [0, 1, 3, 4, 6, 7, 8, 9, 10, 11],
                     orderable: false
                 }
             ],
