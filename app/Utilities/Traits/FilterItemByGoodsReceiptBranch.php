@@ -6,11 +6,11 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
-trait FilterOrderItemBySalesOrderBranch
+trait FilterItemByGoodsReceiptBranch
 {
-    protected static function bootFilterOrderItemBySalesOrderBranch(): void
+    protected static function bootFilterItemByGoodsReceiptBranch(): void
     {
-        static::addGlobalScope('order_item_by_order_branch', function (Builder $builder) {
+        static::addGlobalScope('item_by_receipt_branch', function (Builder $builder) {
             $user = User::query()->findOrFail(Auth::id());
 
             if (!$user) return;
@@ -18,7 +18,7 @@ trait FilterOrderItemBySalesOrderBranch
             $branchIds = $user->userBranches?->pluck('branch_id') ?? collect([]);
 
             if (!isUserSuperAdmin() || $branchIds->isNotEmpty()) {
-                $builder->whereHas('salesOrder', function ($q) use ($branchIds) {
+                $builder->whereHas('goodsReceipt', function ($q) use ($branchIds) {
                     $q->whereIn('branch_id', $branchIds);
                 });
             }

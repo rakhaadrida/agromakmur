@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Utilities\Constant;
+use App\Utilities\Traits\FilterItemByGoodsReceiptBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PurchaseReturn extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterItemByGoodsReceiptBranch;
 
     protected $fillable = [
         'supplier_id',

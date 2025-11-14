@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Utilities\Constant;
-use App\Utilities\Traits\FilterOrderItemBySalesOrderBranch;
+use App\Utilities\Traits\FilterItemBySalesOrderBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SalesReturn extends Model
 {
-    use SoftDeletes, FilterOrderItemBySalesOrderBranch;
+    use SoftDeletes, FilterItemBySalesOrderBranch;
 
     protected $fillable = [
         'customer_id',

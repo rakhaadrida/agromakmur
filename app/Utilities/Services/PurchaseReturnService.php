@@ -15,12 +15,14 @@ class PurchaseReturnService
             ->select(
                 'purchase_returns.*',
                 'goods_receipts.number AS goods_receipt_number',
+                'branches.name AS branch_name',
                 'suppliers.name AS supplier_name',
                 DB::raw('SUM(purchase_return_items.quantity) AS quantity'),
                 DB::raw('SUM(purchase_return_items.received_quantity) AS received_quantity'),
                 DB::raw('SUM(purchase_return_items.cut_bill_quantity) AS cut_bill_quantity'),
             )
             ->join('goods_receipts', 'goods_receipts.id', 'purchase_returns.goods_receipt_id')
+            ->join('branches', 'branches.id', 'goods_receipts.branch_id')
             ->join('suppliers', 'suppliers.id', 'purchase_returns.supplier_id')
             ->leftJoin('purchase_return_items', 'purchase_return_items.purchase_return_id', 'purchase_returns.id')
             ->whereNull('purchase_return_items.deleted_at')

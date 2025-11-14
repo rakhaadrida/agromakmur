@@ -59,16 +59,23 @@
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="supplier" id="supplier" value="{{ $purchaseReturn->supplier->name }}" readonly>
-                                            <input type="hidden" name="supplier_id" value="{{ $purchaseReturn->supplier_id }}">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="branch" id="branch" value="{{ $purchaseReturn->goodsReceipt->branch->name }}" readonly>
                                         </div>
                                         <label for="receiptStatus" class="col-2 col-form-label text-bold text-right sales-order-middle-last-input">Receipt Status</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="receipt_status" id="receiptStatus" value="{{ getPurchaseReturnReceiptStatusLabel($purchaseReturn->receipt_status) }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row subtotal-so">
+                                        <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-3 mt-1">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold" name="supplier" id="supplier" value="{{ $purchaseReturn->supplier->name }}" readonly>
+                                            <input type="hidden" name="supplier_id" value="{{ $purchaseReturn->supplier_id }}">
                                         </div>
                                     </div>
                                 </div>

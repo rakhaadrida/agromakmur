@@ -68,7 +68,7 @@
                                     <div class="form-group row subtotal-so">
                                         <label for="supplierId" class="col-2 col-form-label text-bold text-right">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-3 mt-1">
+                                        <div class="col-2 mt-1">
                                             <select class="selectpicker warehouse-select-picker" name="supplier_id" id="supplierId" data-live-search="true" data-size="6" title="Enter or Choose Supplier" tabindex="5" required>
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}">{{ $supplier->name }}</option>
@@ -79,6 +79,11 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Branch</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-2 mt-1">
+                                            <input type="text" class="form-control form-control-sm text-bold" name="branch" id="branch" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +166,9 @@
             const table = $('#itemTable');
 
             $('#supplierId').change(function() {
+                $('#branch').val('');
                 let supplierId = $(this).val();
+
                 displayGoodsReceiptList(supplierId);
             });
 
@@ -405,6 +412,7 @@
                     success: function(data) {
                         $('#supplierId').val(data.data.supplier_id);
                         $('#supplier').val(data.data.supplier_name);
+                        $('#branch').val(data.data.branch_name);
 
                         let goodsReceiptItems = data.goods_receipt_items;
                         let rowId = 0;
