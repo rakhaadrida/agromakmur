@@ -57,20 +57,20 @@ class AccountPayableItemSheet extends DefaultValueBinder  implements FromView, S
 
         $range = 5 + $payableItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'K'.$rangeStr;
+        $rangeTab = 'L'.$rangeStr;
 
-        $header = 'A5:K5';
+        $header = 'A5:L5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:K1');
-        $sheet->mergeCells('A2:K2');
-        $sheet->mergeCells('A3:K3');
+        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A2:L2');
+        $sheet->mergeCells('A3:L3');
 
-        $title = 'A1:K3';
+        $title = 'A1:L3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
         $sheet->getStyle('A2:K3')->getFont()->setBold(false)->setSize(12);
 
@@ -98,17 +98,17 @@ class AccountPayableItemSheet extends DefaultValueBinder  implements FromView, S
         $rangeNumberCell = 'D6:E'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'G6:J'.$rangeStr;
+        $rangeNumberCell = 'H6:K'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'K6:K'.$rangeStr;
+        $rangeNumberCell = 'L6:L'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['G', 'H', 'I', 'J'];
+        $numericalColumns = ['H', 'I', 'J', 'K'];
         $dateColumns = ['D', 'E'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
@@ -147,7 +147,7 @@ class AccountPayableItemSheet extends DefaultValueBinder  implements FromView, S
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
             ->whereIn('goods_receipts.supplier_id', $supplierIds)
             ->orderBy('suppliers.name')
-            ->orderBy('goods_receipts.date')
+            ->orderByDesc('goods_receipts.date')
             ->orderBy('goods_receipts.id')
             ->get();
 

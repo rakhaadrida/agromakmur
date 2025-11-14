@@ -57,12 +57,14 @@ class AccountPayableService
                 'goods_receipts.supplier_id',
                 'goods_receipts.tempo',
                 'goods_receipts.grand_total',
+                'branches.name AS branch_name',
                 'suppliers.name AS supplier_name',
                 DB::raw('SUM(payments.total_payment) AS payment_amount'),
                 DB::raw('SUM(returns.total_return) AS return_amount'),
                 DB::raw('SUM(returns.total_quantity) AS total_quantity'),
             )
             ->join('goods_receipts', 'goods_receipts.id', 'account_payables.goods_receipt_id')
+            ->join('branches', 'branches.id', 'goods_receipts.branch_id')
             ->join('suppliers', 'suppliers.id', 'goods_receipts.supplier_id')
             ->leftJoinSub(
                 DB::table('account_payable_payments')

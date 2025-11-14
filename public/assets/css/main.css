@@ -1139,11 +1139,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-payable-date {
-    width: 80px;
+    width: 70px;
 }
 
 .th-payable-invoice-age {
-    width: 90px;
+    width: 85px;
+}
+
+.th-payable-branch {
+    width: 110px;
 }
 
 .th-payable-invoice-count {
@@ -1151,7 +1155,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-payable-grand-total {
-    width: 75px;
+    width: 70px;
 }
 
 .th-payable-amount {
@@ -1159,7 +1163,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-payable-status {
-    width: 75px;
+    width: 90px;
 }
 
 .tbody-payable-status {

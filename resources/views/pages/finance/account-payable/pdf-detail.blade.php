@@ -136,12 +136,16 @@
                 width: 65px;
             }
 
+            .td-branch {
+                width: 85px;
+            }
+
             .td-status {
                 width: 65px;
             }
 
             .td-grand-total {
-                width: 80px;
+                width: 70px;
             }
         </style>
     </head>
@@ -161,6 +165,7 @@
                         <th class="align-middle td-order-date">Receipt Date</th>
                         <th class="align-middle td-order-date">Due Date</th>
                         <th class="align-middle td-invoice-age">Invoice Age</th>
+                        <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle td-grand-total">Total Amount</th>
                         <th class="align-middle td-grand-total">Payment</th>
                         <th class="align-middle td-grand-total">Return Amount</th>
@@ -176,6 +181,7 @@
                             <td class="align-middle text-center">{{ formatDate($accountPayable->date, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Day(s)</td>
+                            <td class="align-middle">{{ $accountPayable->branch_name }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountPayable->grand_total) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountPayable->payment_amount) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountPayable->return_amount) }}</td>
@@ -186,7 +192,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                        <th colspan="6" class="text-bold text-dark text-center">GRAND TOTAL</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($accountPayables, 'grand_total') }}</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($accountPayables, 'payment_amount') }}</th>
                         <th class="text-bold text-dark text-right">{{ getGrandTotal($accountPayables, 'return_amount') }}</th>

@@ -14,6 +14,7 @@
                     <th>Receipt Date</th>
                     <th>Due Date</th>
                     <th>Invoice Age</th>
+                    <th>Branch</th>
                     <th>Grand Total</th>
                     <th>Payment</th>
                     <th>Return Amount</th>
@@ -29,6 +30,7 @@
                         <td>{{ $payableItem->date }}</td>
                         <td>{{ getDueDate($payableItem->date, $payableItem->tempo, 'd-m-Y') }}</td>
                         <td>{{ getInvoiceAge($payableItem->date, $payableItem->tempo) }} Day(s)</td>
+                        <td>{{ $payableItem->branch_name }}</td>
                         <td>{{ $payableItem->grand_total ?? 0 }}</td>
                         <td>{{ $payableItem->payment_amount ?? 0 }}</td>
                         <td>{{ $payableItem->return_amount ?? 0 }}</td>

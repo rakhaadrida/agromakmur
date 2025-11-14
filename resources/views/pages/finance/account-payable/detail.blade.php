@@ -65,10 +65,11 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-payable-number">No</th>
-                                            <th class="align-middle th-payable-receipt-number">Receipt Number</th>
+                                            <th class="align-middle">Receipt Number</th>
                                             <th class="align-middle th-payable-date">Receipt Date</th>
                                             <th class="align-middle th-payable-date">Due Date</th>
                                             <th class="align-middle th-payable-invoice-age">Invoice Age</th>
+                                            <th class="align-middle th-payable-branch">Branch</th>
                                             <th class="align-middle th-payable-grand-total">Grand Total</th>
                                             <th class="align-middle th-payable-amount">Payment</th>
                                             <th class="align-middle th-payable-amount">Return Amount</th>
@@ -86,6 +87,7 @@
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($accountPayable->date, 'Ymd') }}">{{ formatDate($accountPayable->date, 'd-m-Y') }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'Ymd') }}">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'd-m-Y') }}</td>
                                                 <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Day(s)</td>
+                                                <td class="align-middle">{{ $accountPayable->branch_name }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->payment_amount }}">{{ formatPrice($accountPayable->payment_amount) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->return_amount }}">
@@ -99,13 +101,13 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="10" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="11" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                     <tfoot>
                                         <tr class="text-right text-bold text-dark tfoot-account-payable">
-                                            <td colspan="5" class="text-center">Total</td>
+                                            <td colspan="6" class="text-center">Total</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -148,6 +150,15 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "order": [
+                [2, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 5, 10],
+                    orderable: false
+                }
+            ],
             "footerCallback": function (row, data, start, end, display) {
                 let api = this.api();
 
@@ -159,8 +170,8 @@
                 };
 
                 let column;
-                $.each([5, 6, 7, 8], function(index, value) {
-                    if((value === 5) || (value === 6) || (value === 8)) {
+                $.each([6, 7, 8, 9], function(index, value) {
+                    if((value === 6) || (value === 7) || (value === 9)) {
                         column = api
                             .column(value, {
                                 page: 'current'

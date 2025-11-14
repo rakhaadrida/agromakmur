@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterItemByGoodsReceiptBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountPayable extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterItemByGoodsReceiptBranch;
 
     protected $fillable = [
         'goods_receipt_id',
