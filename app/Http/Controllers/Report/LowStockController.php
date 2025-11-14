@@ -6,13 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Utilities\Services\BranchService;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LowStockController extends Controller
 {
     public function index(Request $request) {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+        $warehouseIds = BranchService::findWarehouseIdsByBranchIds($branchIds);
+
         $products = Product::query()
             ->select(
                 'products.id AS id',
@@ -30,6 +36,9 @@ class LowStockController extends Controller
                         'product_stocks.product_id',
                         DB::raw('SUM(product_stocks.stock) AS current_stock')
                     )
+                    ->when(!isUserSuperAdmin(), function ($q) use ($warehouseIds) {
+                        $q->whereIn('product_stocks.warehouse_id', $warehouseIds);
+                    })
                     ->whereNull('product_stocks.deleted_at')
                     ->groupBy('product_stocks.product_id'),
                 'product_stocks',
