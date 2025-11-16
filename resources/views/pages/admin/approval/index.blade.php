@@ -232,12 +232,9 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
-            "order": [
-                [3, "desc"]
-            ],
             "columnDefs": [
                 {
-                    targets: [0, 4, 6, 7, 8, 9],
+                    targets: [4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -249,12 +246,9 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
-            "order": [
-                [3, "desc"]
-            ],
             "columnDefs": [
                 {
-                    targets: [0, 4, 6, 7, 8, 9],
+                    targets: [4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -266,12 +260,9 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
-            "order": [
-                [3, "desc"]
-            ],
             "columnDefs": [
                 {
-                    targets: [0, 4, 6, 7, 8, 9],
+                    targets: [4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -291,12 +282,9 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
-            "order": [
-                [3, "desc"]
-            ],
             "columnDefs": [
                 {
-                    targets: [0, 4, 6, 7, 8, 9],
+                    targets: [4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -308,12 +296,9 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
-            "order": [
-                [3, "desc"]
-            ],
             "columnDefs": [
                 {
-                    targets: [0, 4, 6, 7, 8, 9],
+                    targets: [4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
