@@ -42,6 +42,26 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row">
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->salesOrder->branch->name }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row">
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->goodsReceipt->branch->name }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @else
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row">
@@ -75,7 +95,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
+                                    @if(!isApprovalSubjectTypeProductTransfer($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
                                                 <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
@@ -85,33 +105,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @elseif(isApprovalSubjectTypeProductTransfer($approval->subject_label) && isApprovalTypeCancel($approval->type))
+                                    @elseif(isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
                                                 <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Order Number</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->salesOrder->number }}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Receipt Number</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->goodsReceipt->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -157,13 +157,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))
+                                    @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Order Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->salesOrder->number }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row approval-detail-row">
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Receipt Number</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->goodsReceipt->number }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -231,15 +241,23 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                        @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))
+                                            <div class="form-group row approval-sales-order-description-cancel">
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
+                                                </div>
+                                            </div>
                                         @endif
                                     </div>
                                     @if(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row approval-sales-return-type">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
                                                 <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
