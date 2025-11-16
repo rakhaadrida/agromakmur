@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubcategorySeeder::class,
             UnitSeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            UserBranchSeeder::class,
+            BranchWarehouseSeeder::class
         ]);
     }
 }
