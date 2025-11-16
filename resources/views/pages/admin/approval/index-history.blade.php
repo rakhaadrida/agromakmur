@@ -52,14 +52,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Order Number</th>
-                                                <th class="align-middle th-code-transaction-index">Order Date</th>
-                                                <th class="align-middle th-status-transaction-index">Request Date</th>
-                                                <th class="align-middle th-name-transaction-index">Customer</th>
-                                                <th class="align-middle th-status-transaction-index">Type</th>
-                                                <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                                <th class="align-middle th-code-transaction-index">Updated By</th>
-                                                <th class="align-middle th-code-transaction-index">Action</th>
+                                                <th class="align-middle th-approval-number">Order Number</th>
+                                                <th class="align-middle th-approval-date">Order Date</th>
+                                                <th class="align-middle th-approval-date">Request Date</th>
+                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle">Customer</th>
+                                                <th class="align-middle th-approval-type">Type</th>
+                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-admin">Admin</th>
+                                                <th class="align-middle th-approval-action">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,6 +74,7 @@
                                                     </td>
                                                     <td class="align-middle text-center" data-sort="{{ formatDate($approval->subject->date, 'Ymd') }}">{{ formatDate($approval->subject->date, 'd-M-y')  }}</td>
                                                     <td class="align-middle text-center" data-sort="{{ formatDate($approval->date, 'Ymd') }}">{{ formatDate($approval->date, 'd-M-y')  }}</td>
+                                                    <td class="align-middle">{{ $approval->subject->branch->name }}</td>
                                                     <td class="align-middle">{{ $approval->subject->customer->name }}</td>
                                                     <td class="align-middle text-center">{{ getApprovalTypeLabel($approval->type) }}</td>
                                                     <td class="align-middle text-center">{{ $approval->description }}</td>
@@ -92,14 +94,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Receipt Number</th>
-                                                <th class="align-middle th-code-transaction-index">Receipt Date</th>
-                                                <th class="align-middle th-status-transaction-index">Request Date</th>
-                                                <th class="align-middle th-name-transaction-index">Supplier</th>
-                                                <th class="align-middle th-status-transaction-index">Type</th>
-                                                <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                                <th class="align-middle th-code-transaction-index">Updated By</th>
-                                                <th class="align-middle th-code-transaction-index">Action</th>
+                                                <th class="align-middle th-approval-number">Receipt Number</th>
+                                                <th class="align-middle th-approval-date">Receipt Date</th>
+                                                <th class="align-middle th-approval-date">Request Date</th>
+                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle">Supplier</th>
+                                                <th class="align-middle th-approval-type">Type</th>
+                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-admin">Admin</th>
+                                                <th class="align-middle th-approval-action">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="itemGoodsReceipt">
@@ -111,14 +114,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Delivery Number</th>
-                                                <th class="align-middle th-code-transaction-index">Delivery Date</th>
-                                                <th class="align-middle th-status-transaction-index">Request Date</th>
-                                                <th class="align-middle th-name-transaction-index">Customer</th>
-                                                <th class="align-middle th-status-transaction-index">Type</th>
-                                                <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                                <th class="align-middle th-code-transaction-index">Updated By</th>
-                                                <th class="align-middle th-code-transaction-index">Action</th>
+                                                <th class="align-middle th-approval-number">Delivery Number</th>
+                                                <th class="align-middle th-approval-date">Delivery Date</th>
+                                                <th class="align-middle th-approval-date">Request Date</th>
+                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle">Customer</th>
+                                                <th class="align-middle th-approval-type">Type</th>
+                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-admin">Admin</th>
+                                                <th class="align-middle th-approval-action">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="itemDeliveryOrder">
@@ -148,14 +152,15 @@
                                         <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Return Number</th>
-                                            <th class="align-middle th-code-transaction-index">Return Date</th>
-                                            <th class="align-middle th-status-transaction-index">Request Date</th>
-                                            <th class="align-middle th-name-transaction-index">Customer</th>
-                                            <th class="align-middle th-status-transaction-index">Type</th>
-                                            <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                            <th class="align-middle th-code-transaction-index">Admin</th>
-                                            <th class="align-middle th-code-transaction-index">Action</th>
+                                            <th class="align-middle th-approval-number">Return Number</th>
+                                            <th class="align-middle th-approval-date">Return Date</th>
+                                            <th class="align-middle th-approval-date">Request Date</th>
+                                            <th class="align-middle th-approval-branch">Branch</th>
+                                            <th class="align-middle">Customer</th>
+                                            <th class="align-middle th-approval-type">Type</th>
+                                            <th class="align-middle th-approval-description">Description</th>
+                                            <th class="align-middle th-approval-admin">Admin</th>
+                                            <th class="align-middle th-approval-action">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody id="itemSalesReturn">
@@ -167,14 +172,15 @@
                                         <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Return Number</th>
-                                            <th class="align-middle th-code-transaction-index">Return Date</th>
-                                            <th class="align-middle th-status-transaction-index">Request Date</th>
-                                            <th class="align-middle th-name-transaction-index">Supplier</th>
-                                            <th class="align-middle th-status-transaction-index">Type</th>
-                                            <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                            <th class="align-middle th-code-transaction-index">Admin</th>
-                                            <th class="align-middle th-code-transaction-index">Action</th>
+                                            <th class="align-middle th-approval-number">Return Number</th>
+                                            <th class="align-middle th-approval-date">Return Date</th>
+                                            <th class="align-middle th-approval-date">Request Date</th>
+                                            <th class="align-middle th-approval-branch">Branch</th>
+                                            <th class="align-middle">Supplier</th>
+                                            <th class="align-middle th-approval-type">Type</th>
+                                            <th class="align-middle th-approval-description">Description</th>
+                                            <th class="align-middle th-approval-admin">Admin</th>
+                                            <th class="align-middle th-approval-action">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody id="itemPurchaseReturn">
@@ -202,6 +208,15 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
+                    orderable: false
+                }
+            ],
         });
 
         let datatableGoodsReceipt = $('#dataTableGoodsReceipt').DataTable({
@@ -210,6 +225,15 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
+                    orderable: false
+                }
+            ],
         });
 
         let datatableDeliveryOrder = $('#dataTableDeliveryOrder').DataTable({
@@ -218,6 +242,15 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
+                    orderable: false
+                }
+            ],
         });
 
         let datatableProductTransfer = $('#dataTableProductTransfer').DataTable({
@@ -234,6 +267,15 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
+                    orderable: false
+                }
+            ],
         });
 
         let datatablePurchaseReturn = $('#dataTablePurchaseReturn').DataTable({
@@ -242,6 +284,15 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
+                    orderable: false
+                }
+            ],
         });
 
         $(document).ready(function() {
@@ -250,7 +301,7 @@
 
                 let table = $('#itemGoodsReceipt');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'goods-receipts', 9, datatableGoodsReceipt);
+                    displayApprovalData(table, 'goods-receipts', 10, datatableGoodsReceipt);
                 }
             });
 
@@ -259,7 +310,7 @@
 
                 let table = $('#itemDeliveryOrder');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'delivery-orders', 9, datatableDeliveryOrder);
+                    displayApprovalData(table, 'delivery-orders', 10, datatableDeliveryOrder);
                 }
             });
 
@@ -277,7 +328,7 @@
 
                 let table = $('#itemSalesReturn');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'sales-returns', 9, datatableSalesReturn);
+                    displayApprovalData(table, 'sales-returns', 10, datatableSalesReturn);
                 }
             });
 
@@ -286,7 +337,7 @@
 
                 let table = $('#itemPurchaseReturn');
                 if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'purchase-returns', 9, datatablePurchaseReturn);
+                    displayApprovalData(table, 'purchase-returns', 10, datatablePurchaseReturn);
                 }
             });
 
@@ -371,6 +422,7 @@
                         </td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.branch.name}</td>
                         <td class="align-middle">${item.subject.supplier.name}</td>
                         <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
                         <td class="align-middle text-center">${item.description}</td>
@@ -399,6 +451,7 @@
                         </td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.branch.name}</td>
                         <td class="align-middle">${item.subject.customer.name}</td>
                         <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
                         <td class="align-middle text-center">${item.description}</td>
@@ -454,6 +507,7 @@
                         </td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.sales_order.branch.name}</td>
                         <td class="align-middle">${item.subject.customer.name}</td>
                         <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
                         <td class="align-middle text-center">${item.description}</td>
@@ -482,6 +536,7 @@
                         </td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
                         <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">${item.subject.goods_receipt.branch.name}</td>
                         <td class="align-middle">${item.subject.supplier.name}</td>
                         <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
                         <td class="align-middle text-center">${item.description}</td>

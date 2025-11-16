@@ -234,7 +234,7 @@
                                                 </div>
                                             @elseif(isApprovalTypeCancel($approval->type))
                                                 <div class="form-group row approval-sales-order-description-cancel">
-                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1" style="font-size: 16px">Description</label>
+                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Description</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-dark text-bold" name="description" id="description" value="{{ $approval->description }}" readonly>

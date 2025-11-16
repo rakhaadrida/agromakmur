@@ -417,7 +417,7 @@ class ApprovalController extends Controller
 
         $approvals = $baseQuery
             ->where('approvals.status', '!=', Constant::APPROVAL_STATUS_PENDING)
-            ->orderBy('approvals.date')
+            ->orderByDesc('approvals.date')
             ->get();
 
         $data = [
@@ -458,12 +458,16 @@ class ApprovalController extends Controller
         $approvals = $baseQuery
             ->with(['subject'])
             ->where('approvals.status', '!=', Constant::APPROVAL_STATUS_PENDING)
-            ->orderBy('approvals.date');
+            ->orderByDesc('approvals.date');
 
-        if(in_array($filter->subject, ['goods-receipts', 'purchase-returns'])) {
-            $approvals = $approvals->with(['subject.supplier']);
-        } else if(in_array($filter->subject,  ['delivery-orders', 'sales-returns'])) {
-            $approvals = $approvals->with(['subject.customer']);
+        if($filter->subject == 'goods-receipts') {
+            $approvals = $approvals->with(['subject.supplier', 'subject.branch']);
+        } else if(in_array($filter->subject, ['sales-orders', 'delivery-orders'])) {
+            $approvals = $approvals->with(['subject.customer', 'subject.branch']);
+        } else if($filter->subject == 'purchase-returns') {
+            $approvals = $approvals->with(['subject.supplier', 'subject.goodsReceipt.branch']);
+        } else if($filter->subject == 'sales-returns') {
+            $approvals = $approvals->with(['subject.customer', 'subject.salesOrder.branch']);
         }
 
         $approvals = $approvals->get();
