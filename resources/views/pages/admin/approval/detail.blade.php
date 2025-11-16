@@ -32,16 +32,28 @@
                                         </div>
                                     </div>
                                     @if(!isApprovalSubjectTypeProductTransfer($approval->subject_label))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row">
-                                                <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
+                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row">
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->branch->name }}" readonly>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @elseif(isApprovalSubjectTypeProductTransfer($approval->subject_label) && isApprovalTypeCancel($approval->type))
+                                        @else
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row">
+                                                    <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @elseif(isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row">
                                                 <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
@@ -63,48 +75,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
+                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="marketing" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="marketing" id="marketing" value="{{ $approval->subject->marketing->name }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
-                                    @elseif(isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="warehouse" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Warehouse</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="warehouse" id="warehouse" value="{{ $approval->subject->warehouse->name }}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
-                                        @if(isApprovalTypeCancel($approval->type))
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row approval-detail-row">
-                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @else
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row approval-detail-row">
-                                                    <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
                                     @elseif(isApprovalSubjectTypeProductTransfer($approval->subject_label) && isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
@@ -148,38 +128,26 @@
                                         </div>
                                     </div>
                                     @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
-                                        <div class="col-12 col-lg-6" >
+                                        <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                <label for="marketing" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Marketing</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-M-y') }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="marketing" id="marketing" value="{{ $approval->subject->marketing->name }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     @elseif(isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
-                                        @if(isApprovalTypeCancel($approval->type))
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row approval-detail-row">
-                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
-                                                    </div>
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row approval-detail-row">
+                                                <label for="warehouse" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Warehouse</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="warehouse" id="warehouse" value="{{ $approval->subject->warehouse->name }}" readonly>
                                                 </div>
                                             </div>
-                                        @else
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row approval-detail-row">
-                                                    <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label) && isApprovalTypeCancel($approval->type))
+                                        </div>
+                                    @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
                                                 <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
@@ -203,7 +171,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-lg-6">
-                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || (isApprovalTypeCancel($approval->type) && isApprovalSubjectTypeGoodsReceipt($approval->subject_label)))
+                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
                                             <div class="form-group row approval-detail-row approval-sales-order-description">
                                                 <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
                                                 <span class="col-form-label text-bold">:</span>
@@ -211,11 +179,29 @@
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
                                                 </div>
                                             </div>
+                                        @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label) && isApprovalTypeCancel($approval->type))
+                                            <div class="form-group row approval-detail-row approval-sales-order-description">
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
+                                                </div>
+                                            </div>
                                         @endif
                                     </div>
-                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) && (isApprovalTypeApprovalLimit($approval->type) || isApprovalTypeCancel($approval->type)))
+                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row approval-sales-order-description">
+                                            <div class="form-group row approval-detail-row-lg">
+                                                <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-M-y') }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif(isApprovalSubjectTypeGoodsReceipt($approval->subject_label) && isApprovalTypeCancel($approval->type))
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row approval-detail-row-lg">
                                                 <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
@@ -227,14 +213,24 @@
                                 </div>
                                 <div class="row" style="margin-top: 5px;">
                                     <div class="col-12 col-lg-6">
-                                        @if(isApprovalTypeApprovalLimit($approval->type))
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="limit" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1" style="font-size: 16px">Limit</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-md bg-warning text-danger text-bold text-lg" name="limit" id="limit" value="{{ formatPrice($approval->subject->customer->credit_limit) }}" readonly>
+                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
+                                            @if(isApprovalTypeApprovalLimit($approval->type))
+                                                <div class="form-group row approval-detail-row">
+                                                    <label for="limit" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1" style="font-size: 16px">Limit</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-md bg-warning text-danger text-bold text-lg" name="limit" id="limit" value="{{ formatPrice($approval->subject->customer->credit_limit) }}" readonly>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @elseif(isApprovalTypeCancel($approval->type))
+                                                <div class="form-group row approval-sales-order-description-cancel">
+                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1" style="font-size: 16px">Description</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-dark text-bold" name="description" id="description" value="{{ $approval->description }}" readonly>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         @endif
                                     </div>
                                     @if(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))

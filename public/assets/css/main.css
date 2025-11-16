@@ -119,12 +119,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -25px;
 }
 
+.approval-detail-row-lg {
+    margin-top: -30px;
+}
+
 .approval-delivery-order-description {
     margin-top: -60px;
 }
 
 .approval-sales-order-description {
     margin-top: -30px;
+}
+
+.approval-sales-order-description-cancel {
+    margin-top: -35px;
 }
 
 .approval-sales-return-type {
@@ -1809,4 +1817,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .product-menu-button:focus,
 .price-list-menu-button:focus {
     outline: none !important;
+}
+
+.th-approval-number,
+.th-approval-date {
+    width: 70px;
+}
+
+.th-approval-branch {
+    width: 110px;
+}
+
+.th-approval-type {
+    width: 90px;
+}
+
+.th-approval-description {
+    width: 130px;
+}
+
+.th-approval-admin {
+    width: 100px;
+}
+
+.th-approval-action {
+    width: 60px;
 }
