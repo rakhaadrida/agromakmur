@@ -17,6 +17,8 @@ class DeliveryOrderService
                 'delivery_orders.*',
                 'sales_orders.number AS sales_order_number',
                 'branches.name AS branch_name',
+                'branches.address AS branch_address',
+                'branches.phone_number AS branch_phone_number',
                 'customers.name AS customer_name',
                 'users.username AS user_name'
             )
