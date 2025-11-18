@@ -14,6 +14,7 @@ class GoodsReceiptService
             ->select(
                 'goods_receipts.*',
                 'branches.name AS branch_name',
+                'branches.address AS branch_address',
                 'warehouses.name AS warehouse_name',
                 'suppliers.name AS supplier_name',
                 'users.username AS user_name'

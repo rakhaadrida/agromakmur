@@ -506,3 +506,8 @@ function formatQuantity($amount)
 {
     return number_format($amount, 0, ',', '.');
 }
+
+function formatUppercase($text)
+{
+    return strtoupper($text);
+}

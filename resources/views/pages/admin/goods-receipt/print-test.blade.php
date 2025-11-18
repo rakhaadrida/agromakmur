@@ -135,7 +135,7 @@
             .print-logo img {
                 width: 170px;
                 height: 70px;
-                margin-left: -135px;
+                margin-left: -115px;
             }
 
             .address-info {
@@ -144,8 +144,14 @@
                 font-size: 16px;
                 font-family: 'Courier New', Courier, monospace;
                 text-align: left;
-                width: 290px;
+                width: 270px;
                 height: 39px;
+            }
+
+            .address-info-region {
+                font-size: 16px;
+                margin-top: -8px !important;
+                text-align: left;
             }
 
             .print-time-info {
