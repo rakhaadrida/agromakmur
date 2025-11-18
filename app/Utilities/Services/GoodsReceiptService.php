@@ -112,6 +112,7 @@ class GoodsReceiptService
                         $goodsReceipt->date,
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
+                        $goodsReceipt->branch_id,
                         $approvalItem->total
                     );
                 } else {
@@ -122,6 +123,7 @@ class GoodsReceiptService
                         $goodsReceipt->warehouse_id,
                         $productStock ? $productStock->stock - $receiptItem->actual_quantity : 0,
                         $approvalItem->actual_quantity,
+                        $goodsReceipt->branch_id,
                         $goodsReceipt->supplier_id,
                         $approvalItem->total
                     );

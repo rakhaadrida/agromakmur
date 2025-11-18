@@ -14,6 +14,7 @@ class ProductStockLog extends Model
         'subject_id',
         'subject_date',
         'type',
+        'branch_id',
         'product_id',
         'warehouse_id',
         'customer_id',
@@ -26,6 +27,10 @@ class ProductStockLog extends Model
 
     public function subject() {
         return $this->morphTo();
+    }
+
+    public function branch() {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 
     public function product() {

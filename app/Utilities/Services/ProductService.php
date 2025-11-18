@@ -182,7 +182,7 @@ class ProductService
         return true;
     }
 
-    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $finalAmount = null, $isReturn = false) {
+    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $branchId = null, $finalAmount = null, $isReturn = false) {
         $initialStock = $productStock ? $productStock->stock : 0;
 
         if($productStock) {
@@ -196,13 +196,13 @@ class ProductService
         }
 
         if(!$isReturn) {
-            static::createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId, $finalAmount);
+            static::createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId, $supplierId, $finalAmount);
         }
 
         return true;
     }
 
-    public static function createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false) {
+    public static function createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId = null, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false) {
         $subjectType = ProductTransfer::class;
         $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
 
@@ -229,6 +229,7 @@ class ProductService
             'subject_id' => $transactionId,
             'subject_date' => $transactionDate,
             'type' => $type,
+            'branch_id' => $branchId,
             'product_id' => $productId,
             'warehouse_id' => $warehouseId,
             'customer_id' => $customerId,

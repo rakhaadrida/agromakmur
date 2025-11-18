@@ -160,6 +160,7 @@ class GoodsReceiptController extends Controller
                         $goodsReceipt->date,
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
+                        $goodsReceipt->branch_id,
                         $total
                     );
                 }

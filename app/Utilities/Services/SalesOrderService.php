@@ -223,6 +223,7 @@ class SalesOrderService
                     $approvalItem->warehouse_id,
                     $initialStock,
                     -$approvalItem->actual_quantity,
+                    $salesOrder->branch_id,
                     null,
                     $approvalItem->total,
                     $approval->customer_id

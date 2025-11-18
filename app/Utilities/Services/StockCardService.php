@@ -3,7 +3,9 @@
 namespace App\Utilities\Services;
 
 use App\Models\ProductStockLog;
+use App\Utilities\Constant;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StockCardService
 {
@@ -23,6 +25,20 @@ class StockCardService
 
         if($productId) {
             $baseQuery->where('product_stock_logs.product_id', $productId);
+        }
+
+        if(!isUserSuperAdmin()) {
+            $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+            $warehouseIds = BranchService::findWarehouseIdsByBranchIds($branchIds);
+
+            $baseQuery->where(function ($query) use ($branchIds, $warehouseIds) {
+                $query->whereIn('product_stock_logs.branch_id', $branchIds)
+                    ->orWhere(function ($subQuery) use ($warehouseIds) {
+                        $subQuery->where('product_stock_logs.type', Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER)
+                            ->whereIn('product_stock_logs.warehouse_id', $warehouseIds);
+                    });
+            });
+
         }
 
         return $baseQuery

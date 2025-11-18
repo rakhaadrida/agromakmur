@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('sales_returns', function (Blueprint $table) {
-            $table->unsignedBigInteger('branch_id')->after('sales_order_id');
+        Schema::table('product_stock_logs', function (Blueprint $table) {
+            $table->unsignedBigInteger('branch_id')->nullable()->after('type');
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
         });
     }
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('sales_returns', function (Blueprint $table) {
+        Schema::table('product_stock_logs', function (Blueprint $table) {
             $table->dropForeign(['branch_id']);
             $table->dropColumn(['branch_id']);
         });

@@ -228,6 +228,7 @@ class SalesOrderController extends Controller
                         $warehouseId,
                         $productStock ? $productStock->stock : 0,
                         -$actualQuantity,
+                        $salesOrder->branch_id,
                         null,
                         $finalAmount,
                         $salesOrder->customer_id

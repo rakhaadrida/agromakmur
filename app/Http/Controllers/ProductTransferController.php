@@ -113,9 +113,7 @@ class ProductTransferController extends Controller
                         $productId,
                         $sourceWarehouseId,
                         $sourceWarehouseStock?->stock ?? 0,
-                        -$actualQuantity,
-                        null,
-                        null
+                        -$actualQuantity
                     );
 
                     $sourceWarehouseStock?->decrement('stock', $actualQuantity);
