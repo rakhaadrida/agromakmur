@@ -250,6 +250,7 @@
                 margin-left: 10px;
                 margin-top: 2px;
                 margin-bottom: 2px;
+                width: 215px;
             }
 
             .customer-section {
@@ -492,9 +493,8 @@
                                 </div>
                                 <div class="float-left logo-section">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="logo-section-phone-info">Jl Raya Curup, Lubuk Linggau, Cawang Baru</h6>
-                                    <h6 class="logo-section-phone-info">Kec. Selupu Rejang - Bengkulu</h6>
-                                    <span class="logo-section-phone-info">Phone : +62822-8239-3930 / +62823-7896-1876</span>
+                                    <h6 class="logo-section-phone-info">{{ $planOrder->branch_address }}</h6>
+                                    <span class="logo-section-phone-info">Phone : {{ $planOrder->branch_phone_number }}</span>
                                 </div>
                                 <div class="float-right customer-section">
                                     <span class="customer-section-greetings">Dear :</span>

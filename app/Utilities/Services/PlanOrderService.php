@@ -11,6 +11,8 @@ class PlanOrderService
             ->select(
                 'plan_orders.*',
                 'branches.name AS branch_name',
+                'branches.address AS branch_address',
+                'branches.phone_number AS branch_phone_number',
                 'suppliers.name AS supplier_name',
                 'suppliers.address AS supplier_address',
                 'users.username AS user_name'
