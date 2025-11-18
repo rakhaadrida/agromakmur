@@ -14,6 +14,8 @@ class SalesOrderService
             ->select(
                 'sales_orders.*',
                 'branches.name AS branch_name',
+                'branches.address AS branch_address',
+                'branches.phone_number AS branch_phone_number',
                 'customers.name AS customer_name',
                 'customers.address AS customer_address',
                 'marketings.name AS marketing_name',
