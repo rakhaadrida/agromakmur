@@ -15,9 +15,14 @@ class UserService
             ->get();
     }
 
-    public static function getAdminUsers() {
+    public static function getAdminUsers($branchId) {
         return User::query()
             ->where('role', Constant::USER_ROLE_ADMIN)
+            ->when($branchId, function($query) use ($branchId) {
+                $query->whereHas('userBranches', function($query) use ($branchId) {
+                    $query->where('branch_id', $branchId);
+                });
+            })
             ->get();
     }
 

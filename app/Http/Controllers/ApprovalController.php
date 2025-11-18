@@ -9,11 +9,9 @@ use App\Models\ProductTransfer;
 use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
-use App\Models\User;
 use App\Models\Warehouse;
 use App\Notifications\RejectApprovalNotification;
 use App\Notifications\RequestApprovedNotification;
-use App\Notifications\UpdateSalesOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
@@ -278,6 +276,7 @@ class ApprovalController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
 
+            $branchId = $approval->subject->branch_id ?? null;
             $subjectType = $approval->subject_type;
             switch ($approval->subject_type) {
                 case SalesOrder::class:
@@ -311,10 +310,14 @@ class ApprovalController extends Controller
                 case SalesReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     SalesReturnService::handleApprovalData($approval->subject_id);
+                    $branchId = $approval->subject->salesOrder->branch_id;
+
                     break;
                 case PurchaseReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
                     PurchaseReturnService::handleApprovalData($approval->subject_id);
+                    $branchId = $approval->subject->goodsReceipt->branch_id;
+
                     break;
                 default:
                     abort(404, 'Invalid subject type');
@@ -325,7 +328,7 @@ class ApprovalController extends Controller
 
             DB::commit();
 
-            $users = UserService::getAdminUsers();
+            $users = UserService::getAdminUsers($branchId);
 
             foreach($users as $user) {
                 $user->notify(new RequestApprovedNotification($approval->subject->number, $subjectLabel, $parentApproval->id));
@@ -370,6 +373,7 @@ class ApprovalController extends Controller
 
             $approval = Approval::query()->findOrFail($id);
 
+            $branchId = $approval->subject->branch_id ?? null;
             $subjectType = $approval->subject_type;
             switch ($approval->subject_type) {
                 case SalesOrder::class:
@@ -386,16 +390,18 @@ class ApprovalController extends Controller
                     break;
                 case SalesReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
+                    $branchId = $approval->subject->salesOrder->branch_id;
                     break;
                 case PurchaseReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN;
+                    $branchId = $approval->subject->goodsReceipt->branch_id;
                     break;
                 default:
                     abort(404, 'Invalid subject type');
             }
 
             $subjectLabel = Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType] ?? 'Unknown Subject';
-            $users = UserService::getAdminUsers();
+            $users = UserService::getAdminUsers($branchId);
 
             foreach($users as $user) {
                 $user->notify(new RejectApprovalNotification($approval->subject->number, $subjectLabel, $approval->id));

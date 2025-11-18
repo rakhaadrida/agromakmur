@@ -12,7 +12,6 @@ use App\Notifications\CancelSalesReturnNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Notifications\UpdateGoodsReceiptNotification;
 use App\Notifications\UpdateSalesOrderNotification;
-use App\Utilities\Constant;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationService
