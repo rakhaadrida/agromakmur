@@ -127,6 +127,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('plan-orders/{id}/after-print', 'PlanOrderController@afterPrint')->name('plan-orders.after-print');
         Route::get('print-plan-orders', 'PlanOrderController@indexPrint')->name('plan-orders.index-print');
         Route::get('export-plan-orders', 'PlanOrderController@export')->name('plan-orders.export');
+        Route::get('pdf-plan-orders', 'PlanOrderController@pdf')->name('plan-orders.pdf');
 
         Route::resource('goods-receipts', 'GoodsReceiptController');
         Route::get('goods-receipts/{id}/detail', 'GoodsReceiptController@detail')->name('goods-receipts.detail');

@@ -9,6 +9,7 @@ use App\Models\PlanOrder;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Services\PlanOrderService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -267,5 +268,39 @@ class PlanOrderController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new PlanOrderExport($request), 'Plan_Order_Data_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
+        $baseQuery = PlanOrderService::getBaseQueryIndex();
+
+        $planOrders = $baseQuery
+            ->where('plan_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('plan_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderByDesc('plan_orders.date')
+            ->get();
+
+        $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'planOrders' => $planOrders,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.plan-order.pdf', $data)
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Plan_Order_Data_'.$fileDate.'.pdf');
     }
 }
