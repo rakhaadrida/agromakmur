@@ -163,6 +163,11 @@ function getSalesOrderTypeLabel($type): string
     return Constant::SALES_ORDER_TYPE_LABELS[$type];
 }
 
+function getPlanOrderStatusLabel($status): string
+{
+    return Constant::PLAN_ORDER_STATUS_LABELS[$status];
+}
+
 function getGoodsReceiptStatusLabel($status): string
 {
     return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];

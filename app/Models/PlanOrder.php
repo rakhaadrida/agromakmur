@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Utilities\Constant;
 use App\Utilities\Traits\FilterByUserBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,6 +18,7 @@ class PlanOrder extends Model
         'subtotal',
         'tax_amount',
         'grand_total',
+        'status',
         'is_printed',
         'user_id',
     ];

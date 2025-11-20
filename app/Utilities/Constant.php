@@ -57,6 +57,15 @@ class Constant
         self::PRICE_TYPE_WHOLESALE => 'Wholesale'
     ];
 
+    const PLAN_ORDER_STATUS_ACTIVE = 'ACTIVE';
+    const PLAN_ORDER_STATUS_UPDATED = 'UPDATED';
+    const PLAN_ORDER_STATUS_CANCELLED = 'CANCELLED';
+    const PLAN_ORDER_STATUS_LABELS = [
+        self::PLAN_ORDER_STATUS_ACTIVE => 'Active',
+        self::PLAN_ORDER_STATUS_UPDATED => 'Updated',
+        self::PLAN_ORDER_STATUS_CANCELLED => 'Cancelled',
+    ];
+
     const GOODS_RECEIPT_STATUS_ACTIVE = 'ACTIVE';
     const GOODS_RECEIPT_STATUS_WAITING_APPROVAL = 'WAITING_APPROVAL';
     const GOODS_RECEIPT_STATUS_UPDATED = 'UPDATED';

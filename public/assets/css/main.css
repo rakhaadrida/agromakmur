@@ -883,7 +883,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 130px;
 }
 
-.th-unit-transaction {
+.th-unit-transaction,
+.th-plan-order-total-item-index {
     width: 70px;
 }
 
@@ -913,6 +914,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-sales-order-invoice-age-index,
 .th-sales-order-grand-total-index,
 .th-sales-order-status-index{
+    width: 100px;
+}
+
+.th-plan-order-number-index {
+    width: 80px;
+}
+
+.th-plan-order-date-index {
+    width: 90px;
+}
+
+.th-plan-order-branch-index {
     width: 100px;
 }
 

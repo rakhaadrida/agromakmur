@@ -7,7 +7,6 @@ use App\Models\Branch;
 use App\Models\PlanOrder;
 use App\Models\Product;
 use App\Models\Supplier;
-use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\PlanOrderService;
 use Carbon\Carbon;
 use Exception;
@@ -18,6 +17,33 @@ use Illuminate\Support\Facades\Log;
 
 class PlanOrderController extends Controller
 {
+    public function index(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
+        $finalDate = $filter->final_date ?? null;
+
+        if(!$finalDate) {
+            $finalDate = $startDate;
+        }
+
+        $baseQuery = PlanOrderService::getBaseQueryIndex();
+
+        $planOrders = $baseQuery
+            ->where('plan_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
+            ->where('plan_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->orderByDesc('plan_orders.date')
+            ->get();
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'planOrders' => $planOrders
+        ];
+
+        return view('pages.admin.plan-order.index', $data);
+    }
+
     public function detail($id) {
         $planOrder = PlanOrder::query()->findOrFail($id);
         $planOrderItems = $planOrder->planOrderItems;
