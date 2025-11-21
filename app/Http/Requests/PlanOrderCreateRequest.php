@@ -19,6 +19,7 @@ class PlanOrderCreateRequest extends FormRequest
             'branch_id' => ['required', 'exists:branches,id,deleted_at,NULL'],
             'supplier_id' => ['required', 'exists:suppliers,id,deleted_at,NULL'],
             'date' => ['required', 'date', 'date_format:d-m-Y'],
+            'note' => ['nullable', 'string'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],

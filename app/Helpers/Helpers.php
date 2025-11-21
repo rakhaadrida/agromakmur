@@ -516,3 +516,10 @@ function formatUppercase($text)
 {
     return strtoupper($text);
 }
+
+function formatHtmlText($text)
+{
+    $text = str_replace("<p>", "<span>", $text);
+
+    return str_replace("</p>", "</span><br>", $text);
+}

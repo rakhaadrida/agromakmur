@@ -1860,3 +1860,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-approval-action {
     width: 60px;
 }
+
+.po-note {
+    margin-top: -17px;
+}
+
+.note-editable {
+    font-weight: normal !important;
+}

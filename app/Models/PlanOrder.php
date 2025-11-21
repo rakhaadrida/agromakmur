@@ -19,6 +19,7 @@ class PlanOrder extends Model
         'tax_amount',
         'grand_total',
         'status',
+        'note',
         'is_printed',
         'user_id',
     ];

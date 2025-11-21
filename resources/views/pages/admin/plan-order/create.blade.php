@@ -3,6 +3,7 @@
 @push('addon-style')
   <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
   <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+  <link href="{{ url('assets/vendor/summernote/summernote-lite.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -101,6 +102,14 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row po-note">
+                                        <label for="note" class="col-2 col-form-label text-bold text-right">Note</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-6">
+                                            <textarea class="form-control form-control-sm mt-1 text-dark" name="note" id="note"></textarea>
+{{--                                            <input type="text" class="form-control form-control-sm mt-1 text-dark" name="note" id="note">--}}
                                         </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                     </div>
@@ -227,6 +236,7 @@
 @push('addon-script')
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/summernote/summernote-lite.js') }}"></script>
     <script type="text/javascript">
         $.fn.datepicker.dates['id'] = {
           days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
@@ -246,6 +256,19 @@
         });
 
         $(document).ready(function() {
+            $('#note').summernote({
+                height: 60,
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+
+            $('.note-btn-bold').removeClass('active');
+
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
 
@@ -666,6 +689,5 @@
                 `;
             }
         });
-
     </script>
 @endpush

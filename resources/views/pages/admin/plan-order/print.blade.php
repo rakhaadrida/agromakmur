@@ -544,9 +544,13 @@
                                                         <div class="payment-info">
                                                             <span>Note:</span>
                                                             <br>
-                                                            <span>1. Apabila ada perubahan harga, harap konfirmasi terlebih dahulu</span>
-                                                            <br>
-                                                            <span>2. Harap kirimkan barang hanya sesuai pesanan</span>
+                                                            @if(!empty($planOrder->note))
+                                                                <span>{!! formatHtmlText($planOrder->note) !!}</span>
+                                                            @else
+                                                                <span>1. Apabila ada perubahan harga, harap konfirmasi terlebih dahulu</span>
+                                                                <br>
+                                                                <span>2. Harap kirimkan barang hanya sesuai pesanan</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>
