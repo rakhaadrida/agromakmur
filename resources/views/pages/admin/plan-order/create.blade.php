@@ -256,7 +256,8 @@
         });
 
         $(document).ready(function() {
-            $('#note').summernote({
+            const note = $('#note');
+            note.summernote({
                 height: 60,
                 toolbar: [
                     ['style', ['bold', 'italic', 'underline', 'clear']],
@@ -267,7 +268,9 @@
                 ]
             });
 
-            $('.note-btn-bold').removeClass('active');
+            note.summernote('fontSize', 14);
+
+            $('.note-btn-bold').removeClass('active').style('font-size', '12px');
 
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
