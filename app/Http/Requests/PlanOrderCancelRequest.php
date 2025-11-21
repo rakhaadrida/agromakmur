@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GoodsReceiptCancelRequest extends FormRequest
+class PlanOrderCancelRequest extends FormRequest
 {
     public function authorize()
     {

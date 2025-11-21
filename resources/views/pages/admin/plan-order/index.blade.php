@@ -69,7 +69,7 @@
                                             <tr class="text-dark">
                                                 <td class="align-middle text-center">{{ ++$key }}</td>
                                                 <td class="align-middle">
-                                                    <a href="{{ route('goods-receipts.detail', $planOrder->id) }}" class="btn btn-sm btn-link text-bold">
+                                                    <a href="{{ route('plan-orders.detail', $planOrder->id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $planOrder->number }}
                                                     </a>
                                                 </td>

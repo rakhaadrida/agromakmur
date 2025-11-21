@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Exports\PlanOrderExport;
+use App\Http\Requests\PlanOrderCancelRequest;
 use App\Http\Requests\PlanOrderCreateRequest;
+use App\Http\Requests\PlanOrderUpdateRequest;
 use App\Models\Branch;
 use App\Models\PlanOrder;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Utilities\Constant;
 use App\Utilities\Services\PlanOrderService;
+use App\Utilities\Services\ProductService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
@@ -99,38 +103,7 @@ class PlanOrderController extends Controller
 
             $planOrder = PlanOrder::create($request->all());
 
-            $subtotal = 0;
-            $productIds = $request->get('product_id', []);
-            foreach ($productIds as $index => $productId) {
-                if(!empty($productId)) {
-                    $unitId = $request->get('unit_id')[$index];
-                    $quantity = $request->get('quantity')[$index];
-                    $realQuantity = $request->get('real_quantity')[$index];
-                    $price = $request->get('price')[$index];
-
-                    $actualQuantity = $quantity * $realQuantity;
-                    $total = $quantity * $price;
-                    $subtotal += $total;
-
-                    $planOrder->planOrderItems()->create([
-                        'product_id' => $productId,
-                        'unit_id' => $unitId,
-                        'quantity' => $quantity,
-                        'actual_quantity' => $actualQuantity,
-                        'price' => $price,
-                        'total' => $total
-                    ]);
-                }
-            }
-
-            $taxAmount = $subtotal * (10 / 100);
-            $grandTotal = $subtotal + $taxAmount;
-
-            $planOrder->update([
-                'subtotal' => $subtotal,
-                'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
-            ]);
+            PlanOrderService::createItemData($planOrder, $request);
 
             $parameters = [];
             $route = 'plan-orders.create';
@@ -149,6 +122,157 @@ class PlanOrderController extends Controller
 
             return redirect()->back()->withInput()->withErrors([
                 'message' => 'An error occurred while saving data'
+            ]);
+        }
+    }
+
+    public function indexEdit(Request $request) {
+        $filter = (object) $request->all();
+
+        $startDate = $filter->start_date ?? null;
+        $finalDate = $filter->final_date ?? null;
+        $number = $filter->number ?? null;
+        $supplierId = $filter->supplier_id ?? null;
+
+        if(!$number && !$supplierId && !$startDate && !$finalDate) {
+            $startDate = Carbon::now()->format('d-m-Y');
+            $finalDate = Carbon::now()->format('d-m-Y');
+        }
+
+        $suppliers = Supplier::all();
+        $baseQuery = PlanOrderService::getBaseQueryIndex();
+
+        if($startDate) {
+            $baseQuery = $baseQuery->where('plan_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
+        }
+
+        if($finalDate) {
+            $baseQuery = $baseQuery->where('plan_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
+        }
+
+        if($number) {
+            $baseQuery = $baseQuery->where('plan_orders.number', $number);
+        }
+
+        if($supplierId) {
+            $baseQuery = $baseQuery->where('plan_orders.supplier_id', $supplierId);
+        }
+
+        $planOrders = $baseQuery
+            ->orderByDesc('plan_orders.date')
+            ->orderByDesc('plan_orders.id')
+            ->get();
+
+        $data = [
+            'startDate' => $startDate,
+            'finalDate' => $finalDate,
+            'number' => $number,
+            'supplierId' => $supplierId,
+            'suppliers' => $suppliers,
+            'planOrders' => $planOrders,
+        ];
+
+        return view('pages.admin.plan-order.index-edit', $data);
+    }
+
+    public function edit(Request $request, $id) {
+        $planOrder = PlanOrder::query()->findOrFail($id);
+        $planOrderItems = $planOrder->planOrderItems;
+
+        $products = Product::all();
+        $rowNumbers = count($planOrderItems);
+
+        $productIds = $planOrderItems->pluck('product_id')->toArray();
+        $productConversions = ProductService::findProductConversions($productIds);
+
+        foreach($planOrderItems as $planOrderItem) {
+            $units[$planOrderItem->product_id][] = [
+                'id' => $planOrderItem->product->unit_id,
+                'name' => $planOrderItem->product->unit->name,
+                'quantity' => 1
+            ];
+        }
+
+        foreach($productConversions as $conversion) {
+            $units[$conversion->product_id][] = [
+                'id' => $conversion->unit_id,
+                'name' => $conversion->unit->name,
+                'quantity' => $conversion->quantity
+            ];
+        }
+
+        $data = [
+            'id' => $id,
+            'planOrder' => $planOrder,
+            'planOrderItems' => $planOrderItems,
+            'products' => $products,
+            'rowNumbers' => $rowNumbers,
+            'units' => $units ?? [],
+            'startDate' => $request->start_date ?? null,
+            'finalDate' => $request->final_date ?? null,
+            'number' => $request->number ?? null,
+            'supplierId' => $request->supplier_id ?? null,
+        ];
+
+        return view('pages.admin.plan-order.edit', $data);
+    }
+
+    public function update(PlanOrderUpdateRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $planOrder = PlanOrder::query()->findOrFail($id);
+            $planOrder->update([
+                'status' => Constant::PLAN_ORDER_STATUS_UPDATED
+            ]);
+
+            PlanOrderService::createItemData($planOrder, $request, true);
+
+            DB::commit();
+
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('order_number', null),
+                'supplier_id' => $request->get('supplier_id', null),
+            ];
+
+            return redirect()->route('plan-orders.index-edit', $params);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
+            ]);
+        }
+    }
+
+    public function destroy(PlanOrderCancelRequest $request, $id) {
+        try {
+            DB::beginTransaction();
+
+            $planOrder = PlanOrder::query()->findOrFail($id);
+            $planOrder->update([
+                'status' => Constant::PLAN_ORDER_STATUS_CANCELLED
+            ]);
+
+            DB::commit();
+
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('number', null),
+                'supplier_id' => $request->get('supplier_id', null),
+            ];
+
+            return redirect()->route('plan-orders.index-edit', $params);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while deleting data'
             ]);
         }
     }

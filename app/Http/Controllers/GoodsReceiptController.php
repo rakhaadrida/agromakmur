@@ -377,7 +377,14 @@ class GoodsReceiptController extends Controller
                 $user->notify(new CancelGoodsReceiptNotification($goodsReceipt->number, $approval->id));
             }
 
-            return redirect()->route('goods-receipts.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'number' => $request->get('number', null),
+                'supplier_id' => $request->get('supplier_id', null),
+            ];
+
+            return redirect()->route('goods-receipts.index-edit', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

@@ -38,4 +38,45 @@ class PlanOrderService
             ->whereNull('plan_order_items.deleted_at')
             ->whereNull('plan_orders.deleted_at');
     }
+
+    public static function createItemData($planOrder, $request, $isUpdate = false): bool {
+        if($isUpdate) {
+            $planOrder->planOrderItems()->delete();
+        }
+
+        $subtotal = 0;
+        $productIds = $request->get('product_id', []);
+        foreach ($productIds as $index => $productId) {
+            if(!empty($productId)) {
+                $unitId = $request->get('unit_id')[$index];
+                $quantity = $request->get('quantity')[$index];
+                $realQuantity = $request->get('real_quantity')[$index];
+                $price = $request->get('price')[$index];
+
+                $actualQuantity = $quantity * $realQuantity;
+                $total = $quantity * $price;
+                $subtotal += $total;
+
+                $planOrder->planOrderItems()->create([
+                    'product_id' => $productId,
+                    'unit_id' => $unitId,
+                    'quantity' => $quantity,
+                    'actual_quantity' => $actualQuantity,
+                    'price' => $price,
+                    'total' => $total
+                ]);
+            }
+        }
+
+        $taxAmount = $subtotal * (10 / 100);
+        $grandTotal = $subtotal + $taxAmount;
+
+        $planOrder->update([
+            'subtotal' => $subtotal,
+            'tax_amount' => $taxAmount,
+            'grand_total' => $grandTotal
+        ]);
+
+        return true;
+    }
 }

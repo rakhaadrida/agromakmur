@@ -230,6 +230,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -18px;
 }
 
+.po-update-left {
+    margin-top: -50px;
+}
+
 .title-rekap {
     margin-top: -25px;
 }
