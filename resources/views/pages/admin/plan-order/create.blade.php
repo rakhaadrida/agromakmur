@@ -35,7 +35,7 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" autofocus required >
+                                                    <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" required>
                                                 </div>
                                                 <div class="col-1"></div>
                                                 <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
@@ -77,8 +77,8 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
                                             <select class="selectpicker branch-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch Name" tabindex="5" required>
-                                                @foreach($branches as $branch)
-                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
+                                                @foreach($branches as $key => $branch)
+                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if(!$key) selected @endif>{{ $branch->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('branch')
@@ -109,9 +109,9 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-6">
                                             <textarea class="form-control form-control-sm mt-1 text-dark" name="note" id="note"></textarea>
-{{--                                            <input type="text" class="form-control form-control-sm mt-1 text-dark" name="note" id="note">--}}
                                         </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
+                                        <input type="hidden" name="is_generated_number" id="isGeneratedNumber" value="1">
                                     </div>
                                 </div>
                                 <hr>
@@ -257,6 +257,12 @@
 
         $(document).ready(function() {
             const note = $('#note');
+            const table = $('#itemTable');
+
+            let number = $('#number');
+            let branch = $('#branch');
+            let subtotal = document.getElementById('subtotal');
+
             note.summernote({
                 height: 60,
                 toolbar: [
@@ -267,13 +273,31 @@
                     ['height', ['height']]
                 ]
             });
+            note.summernote('blur');
+            $('.note-btn-bold').removeClass('active');
 
-            note.summernote('fontSize', 14);
+            number.focus();
 
-            $('.note-btn-bold').removeClass('active').style('font-size', '12px');
+            number.on('blur', function(event) {
+                event.preventDefault();
 
-            const table = $('#itemTable');
-            let subtotal = document.getElementById('subtotal');
+                let oldValue = $(this).data('old-value');
+                let currentValue = this.value;
+
+                if(oldValue !== currentValue) {
+                    $('#isGeneratedNumber').val(0);
+                } else {
+                    $('#isGeneratedNumber').val(1);
+                }
+            });
+
+            branch.on('change', function(event) {
+                event.preventDefault();
+
+                const selected = $(this).find(':selected');
+
+                generateAutoNumber(selected.val());
+            });
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
@@ -364,6 +388,10 @@
                         this.value = numberFormat(this.value);
                     });
 
+                    if(note.summernote('isEmpty')) {
+                        note.val('');
+                    }
+
                     $('#modalConfirmation').modal('show');
 
                     return false;
@@ -395,6 +423,23 @@
                 $(`#productId-${rowId}`).selectpicker();
                 $(`#productName-${rowId}`).selectpicker();
             });
+
+            function generateAutoNumber(branchId) {
+                $.ajax({
+                    url: '{{ route('plan-orders.generate-number-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        branch_id: branchId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let number = $('#number');
+
+                        number.val(data.number);
+                        number.data('old-value', data.number);
+                    },
+                })
+            }
 
             function displayPrice(productId, index, isProductName) {
                 $.ajax({

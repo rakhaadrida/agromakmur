@@ -11,6 +11,7 @@ use App\Models\PlanOrder;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Constant;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\PlanOrderService;
 use App\Utilities\Services\ProductService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -71,6 +72,10 @@ class PlanOrderController extends Controller
         $suppliers = Supplier::all();
         $products = Product::all();
 
+        if($branches->count()) {
+            $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_PLAN_ORDER, $branches->first()->id);
+        }
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
@@ -79,6 +84,7 @@ class PlanOrderController extends Controller
             'branches' => $branches,
             'suppliers' => $suppliers,
             'products' => $products,
+            'number' => $number ?? '',
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
@@ -90,10 +96,16 @@ class PlanOrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_PLAN_ORDER, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'subtotal' => 0,
                 'tax_amount' => 0,
@@ -426,5 +438,15 @@ class PlanOrderController extends Controller
             ->setPaper('a4', 'portrait');
 
         return $pdf->stream('Plan_Order_Data_'.$fileDate.'.pdf');
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_PLAN_ORDER, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
+        ]);
     }
 }

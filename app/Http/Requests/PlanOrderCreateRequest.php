@@ -26,6 +26,7 @@ class PlanOrderCreateRequest extends FormRequest
             'price.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],
             'is_print' => ['nullable', 'boolean'],
+            'is_generated_number' => ['nullable', 'boolean']
         ];
     }
 }
