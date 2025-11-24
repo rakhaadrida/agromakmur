@@ -55,9 +55,9 @@
                                             <th class="align-middle th-number-transaction-index">No</th>
                                             <th class="align-middle th-code-transaction-index">Number</th>
                                             <th class="align-middle th-date-transaction-index">Date</th>
-                                            <th class="align-middle th-plan-order-branch-index">Branch</th>
+                                            <th class="align-middle th-plan-order-branch-index-print">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
-                                            <th class="align-middle th-plan-order-total-items-index">Total Items</th>
+                                            <th class="align-middle th-plan-order-total-items-index-print">Total Items</th>
                                             <th class="align-middle th-plan-order-grand-total-index">Grand Total</th>
                                         </tr>
                                     </thead>

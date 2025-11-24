@@ -888,8 +888,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-unit-transaction,
-.th-plan-order-total-item-index {
-    width: 70px;
+.th-plan-order-total-items-index {
+    width: 60px;
 }
 
 .th-status-transaction-index {
@@ -904,16 +904,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100px;
 }
 
-.th-plan-order-branch-index,
-.th-goods-receipt-branch-index,
-.th-sales-order-branch-index{
+.th-sales-order-branch-index {
     width: 150px;
 }
 
-.th-plan-order-total-items-index,
+.th-plan-order-total-items-index-print,
 .th-plan-order-grand-total-index,
-.th-goods-receipt-invoice-age-index,
-.th-goods-receipt-grand-total-index,
 .th-goods-receipt-status-index,
 .th-sales-order-invoice-age-index,
 .th-sales-order-grand-total-index,
@@ -921,16 +917,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100px;
 }
 
-.th-plan-order-number-index {
-    width: 80px;
+.th-plan-order-number-index,
+.th-goods-receipt-number-index {
+    width: 110px;
 }
 
-.th-plan-order-date-index {
+.th-plan-order-date-index,
+.th-goods-receipt-date-index {
+    width: 70px;
+}
+
+.th-plan-order-branch-index,
+.th-goods-receipt-branch-index-print,
+.th-goods-receipt-warehouse-index-print {
     width: 90px;
 }
 
-.th-plan-order-branch-index {
+.th-plan-order-branch-index-print {
     width: 100px;
+}
+
+.th-goods-receipt-branch-index,
+.th-goods-receipt-warehouse-index {
+    width: 110px;
+}
+
+.th-goods-receipt-invoice-age-index {
+    width: 75px;
+}
+
+.th-goods-receipt-grand-total-index {
+    width: 80px;
 }
 
 .detail-po-information-row {

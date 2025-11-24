@@ -28,6 +28,10 @@ class ValidUniqueGoodsReceiptNumber implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(request()->input('is_generated_number')) {
+            return true;
+        }
+
         $uniqueNumber = GoodsReceipt::query()
             ->where('number', $value)
             ->where('id', '!=', $this->id)

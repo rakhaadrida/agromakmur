@@ -54,11 +54,11 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-status-transaction-index">Date</th>
+                                            <th class="align-middle th-goods-receipt-number-index">Number</th>
+                                            <th class="align-middle th-goods-receipt-date-index">Date</th>
                                             <th class="align-middle th-goods-receipt-branch-index">Branch</th>
-                                            <th class="align-middle th-name-transaction-index">Supplier</th>
-                                            <th class="align-middle th-warehouse-transaction-index">Warehouse</th>
+                                            <th class="align-middle">Supplier</th>
+                                            <th class="align-middle th-goods-receipt-warehouse-index">Warehouse</th>
                                             <th class="align-middle th-goods-receipt-invoice-age-index">Invoice Age</th>
                                             <th class="align-middle th-goods-receipt-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-goods-receipt-status-index">Status</th>
@@ -130,7 +130,7 @@
             ],
             "columnDefs": [
                 {
-                    targets: [0],
+                    targets: [0, 3, 5, 8, 9],
                     orderable: false
                 }
             ],

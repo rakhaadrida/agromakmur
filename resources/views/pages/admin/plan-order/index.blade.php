@@ -58,7 +58,7 @@
                                             <th class="align-middle th-plan-order-date-index">Date</th>
                                             <th class="align-middle th-plan-order-branch-index">Branch</th>
                                             <th class="align-middle">Supplier</th>
-                                            <th class="align-middle th-plan-order-total-item-index">Total Items</th>
+                                            <th class="align-middle th-plan-order-total-items-index">Total Items</th>
                                             <th class="align-middle th-goods-receipt-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-goods-receipt-status-index">Status</th>
                                             <th class="align-middle th-goods-receipt-status-index">Admin</th>

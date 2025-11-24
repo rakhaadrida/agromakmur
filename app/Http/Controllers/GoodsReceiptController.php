@@ -17,6 +17,7 @@ use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\GoodsReceiptService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\UserService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -85,6 +86,10 @@ class GoodsReceiptController extends Controller
         $warehouses = Warehouse::all();
         $products = Product::all();
 
+        if($branches->count()) {
+            $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_GOODS_RECEIPT, $branches->first()->id);
+        }
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
@@ -94,6 +99,7 @@ class GoodsReceiptController extends Controller
             'suppliers' => $suppliers,
             'warehouses' => $warehouses,
             'products' => $products,
+            'number' => $number ?? '',
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
@@ -105,10 +111,16 @@ class GoodsReceiptController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_GOODS_RECEIPT, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'tempo' => $request->get('tempo') || 0,
                 'subtotal' => 0,
@@ -629,6 +641,16 @@ class GoodsReceiptController extends Controller
         return response()->json([
             'data' => $goodsReceipt,
             'goods_receipt_items' => $goodsReceiptItems,
+        ]);
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_GOODS_RECEIPT, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
         ]);
     }
 }
