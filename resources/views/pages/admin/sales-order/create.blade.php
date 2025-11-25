@@ -34,7 +34,7 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" autofocus required >
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" tabindex="1" autofocus required >
                                                 </div>
                                                 <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Order Date</label>
                                                 <span class="col-form-label text-bold">:</span>
@@ -89,8 +89,8 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch" tabindex="3" required>
-                                                @foreach($branches as $branch)
-                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if($branches->count() == 1) selected @endif>{{ $branch->name }}</option>
+                                                @foreach($branches as $key => $branch)
+                                                    <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if(!$key) selected @endif>{{ $branch->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('branch')
@@ -151,6 +151,7 @@
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         <input type="hidden" name="credit_limit" id="creditLimit">
                                         <input type="hidden" name="outstanding_amount" id="outstandingAmount">
+                                        <input type="hidden" name="is_generated_number" id="isGeneratedNumber" value="1">
                                     </div>
                                 </div>
                                 <hr>
@@ -469,9 +470,32 @@
             const table = $('#itemTable');
             const modalWarehouseStock = $('#modalWarehouseStock');
 
+            let number = $('#number');
+            let branch = $('#branch');
             let invoiceDiscount = $('#invoiceDiscount');
             let totalAmount = document.getElementById('totalAmount');
             let subtotal = document.getElementById('subtotal');
+
+            number.on('blur', function(event) {
+                event.preventDefault();
+
+                let oldValue = $(this).data('old-value');
+                let currentValue = this.value;
+
+                if(oldValue !== currentValue) {
+                    $('#isGeneratedNumber').val(0);
+                } else {
+                    $('#isGeneratedNumber').val(1);
+                }
+            });
+
+            branch.on('change', function(event) {
+                event.preventDefault();
+
+                const selected = $(this).find(':selected');
+
+                generateAutoNumber(selected.val());
+            });
 
             $('#customer').on('change', function(event) {
                 event.preventDefault();
@@ -698,6 +722,23 @@
                     $(this).attr('disabled', false);
                 });
             });
+
+            function generateAutoNumber(branchId) {
+                $.ajax({
+                    url: '{{ route('sales-orders.generate-number-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        branch_id: branchId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let number = $('#number');
+
+                        number.val(data.number);
+                        number.data('old-value', data.number);
+                    },
+                })
+            }
 
             function displayCreditLimit(customerId) {
                 $.ajax({

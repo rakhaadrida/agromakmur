@@ -53,10 +53,10 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-date-transaction-index">Date</th>
-                                            <th class="align-middle th-sales-order-branch-index">Branch</th>
-                                            <th class="align-middle th-name-transaction-index">Customer</th>
+                                            <th class="align-middle th-sales-order-number-index">Number</th>
+                                            <th class="align-middle th-sales-order-date-index">Date</th>
+                                            <th class="align-middle th-sales-order-branch-index-print">Branch</th>
+                                            <th class="align-middle">Customer</th>
                                             <th class="align-middle th-sales-order-invoice-age-index">Invoice Age</th>
                                             <th class="align-middle th-sales-order-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-sales-order-status-index">Status</th>
@@ -104,6 +104,12 @@
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "columnDefs": [
+                {
+                    targets: [7, 8],
+                    orderable: false
+                }
+            ],
         });
 
         $(document).ready(function() {

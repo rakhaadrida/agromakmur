@@ -911,25 +911,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .th-plan-order-total-items-index-print,
 .th-plan-order-grand-total-index,
 .th-goods-receipt-status-index,
-.th-sales-order-invoice-age-index,
-.th-sales-order-grand-total-index,
-.th-sales-order-status-index{
+.th-sales-order-status-index {
     width: 100px;
 }
 
 .th-plan-order-number-index,
-.th-goods-receipt-number-index {
+.th-goods-receipt-number-index,
+.th-sales-order-number-index {
     width: 110px;
 }
 
 .th-plan-order-date-index,
-.th-goods-receipt-date-index {
+.th-goods-receipt-date-index,
+.th-sales-order-date-index {
     width: 70px;
 }
 
 .th-plan-order-branch-index,
 .th-goods-receipt-branch-index-print,
-.th-goods-receipt-warehouse-index-print {
+.th-goods-receipt-warehouse-index-print,
+.th-sales-order-branch-index-print {
     width: 90px;
 }
 
@@ -942,11 +943,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 110px;
 }
 
-.th-goods-receipt-invoice-age-index {
+.th-goods-receipt-invoice-age-index,
+.th-sales-order-invoice-age-index {
     width: 75px;
 }
 
-.th-goods-receipt-grand-total-index {
+.th-goods-receipt-grand-total-index,
+.th-sales-order-grand-total-index {
     width: 80px;
 }
 

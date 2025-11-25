@@ -36,6 +36,7 @@ class SalesOrderCreateRequest extends FormRequest
             'warehouse_stocks.*' => ['nullable', 'string'],
             'invoice_discount' => ['nullable', 'integer'],
             'is_print' => ['nullable', 'boolean'],
+            'is_generated_number' => ['nullable', 'boolean'],
         ];
     }
 }

@@ -156,6 +156,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
         Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
         Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
+        Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
         Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
         Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');

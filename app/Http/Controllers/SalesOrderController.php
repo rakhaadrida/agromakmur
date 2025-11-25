@@ -18,6 +18,7 @@ use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
@@ -106,6 +107,10 @@ class SalesOrderController extends Controller
         $marketings = Marketing::all();
         $products = Product::all();
 
+        if($branches->count()) {
+            $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_SALES_ORDER, $branches->first()->id);
+        }
+
         $warehouses = Warehouse::query()
             ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
             ->get();
@@ -119,6 +124,7 @@ class SalesOrderController extends Controller
             'customers' => $customers,
             'marketings' => $marketings,
             'products' => $products,
+            'number' => $number ?? '',
             'warehouses' => $warehouses,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
@@ -131,6 +137,11 @@ class SalesOrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_SALES_ORDER, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
@@ -140,6 +151,7 @@ class SalesOrderController extends Controller
             $isTaxable = $request->get('is_taxable', 1);
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
                 'discount_amount' => $request->get('invoice_discount') ?? 0,
@@ -752,6 +764,16 @@ class SalesOrderController extends Controller
 
         return response()->json([
             'data' => $salesOrders,
+        ]);
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_SALES_ORDER, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
         ]);
     }
 }
