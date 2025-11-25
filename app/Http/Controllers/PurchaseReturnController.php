@@ -214,7 +214,7 @@ class PurchaseReturnController extends Controller
                 'status' => Constant::PURCHASE_RETURN_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($purchaseReturn->approvals);
+            ApprovalService::deleteData($purchaseReturn->pendingApprovals);
             $approval = ApprovalService::createData(
                 $purchaseReturn,
                 $purchaseReturn->purchaseReturnItems,

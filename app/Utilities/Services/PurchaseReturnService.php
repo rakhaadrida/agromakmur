@@ -218,7 +218,7 @@ class PurchaseReturnService
                 'status' => Constant::SALES_RETURN_STATUS_CANCELLED
             ]);
 
-            ApprovalService::deleteData($salesReturn->approvals);
+            ApprovalService::deleteData($salesReturn->pendingApprovals);
 
             $approval = ApprovalService::createData(
                 $salesReturn,

@@ -225,7 +225,7 @@ class SalesReturnController extends Controller
                 'status' => Constant::SALES_RETURN_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($salesReturn->approvals);
+            ApprovalService::deleteData($salesReturn->pendingApprovals);
             $approval = ApprovalService::createData(
                 $salesReturn,
                 $salesReturn->salesReturnItems,
