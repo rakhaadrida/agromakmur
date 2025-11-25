@@ -13,6 +13,7 @@ use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
 use App\Utilities\Constant;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -86,22 +87,41 @@ class ProductService
             static::updateProductStockByProduct($product);
         }
 
+        $currentStocks = ProductStockService::findProductStocksByProductIds([$product->id]);
+        $mapStockByWarehouseId = [];
+        foreach($currentStocks as $currentStock) {
+            $mapStockByWarehouseId[$currentStock->warehouse_id] = $currentStock->stock;
+        }
+
         foreach ($stocks as $index => $stock) {
+            $warehouseId = $data->get('warehouse_id')[$index];
+
+            $initialStock = 0;
+            $stockDifference = $stock;
+            if(isset($mapStockByWarehouseId[$warehouseId])) {
+                $initialStock = $mapStockByWarehouseId[$warehouseId];
+                $stockDifference = $stock - $mapStockByWarehouseId[$warehouseId];
+            }
+
+            $product->productStocks()->where('warehouse_id', $warehouseId)->delete();
             $product->productStocks()->create([
-                'warehouse_id' => $data->get('warehouse_id')[$index],
+                'warehouse_id' => $warehouseId,
                 'stock' => $stock
             ]);
 
-            /* ProductService::createProductStockLog(
+            ProductService::createProductStockLog(
                 $product->id,
                 Carbon::now(),
                 $product->id,
-                $request->get('warehouse_id')[$index],
-                0,
-                $stock,
+                $warehouseId,
+                $initialStock,
+                $stockDifference,
                 null,
-                null
-            ); */
+                null,
+                null,
+                null,
+                true
+            );
         }
 
         return true;
@@ -131,8 +151,6 @@ class ProductService
         $product->productStocks()->update([
             'is_updated' => 1
         ]);
-
-        $product->productStocks()->delete();
 
         return true;
     }
@@ -203,9 +221,6 @@ class ProductService
     }
 
     public static function createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId = null, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false) {
-        $subjectType = ProductTransfer::class;
-        $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
-
         if($supplierId) {
             if(!$isReturn) {
                 $subjectType = GoodsReceipt::class;
@@ -221,6 +236,14 @@ class ProductService
             } else {
                 $subjectType = SalesReturn::class;
                 $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN;
+            }
+        } else {
+            if($isReturn) {
+                $subjectType = Product::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT;
+            } else {
+                $subjectType = ProductTransfer::class;
+                $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
             }
         }
 
