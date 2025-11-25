@@ -222,6 +222,9 @@ class ApprovalController extends Controller
                 case SalesOrder::class:
                     $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
 
+                    $revision = ApprovalService::getRevisionCountBySubject(SalesOrder::class, [$childData->subject_id]);
+                    $childData->revision = $revision + 1;
+
                     foreach($childData->approvalItems as $approvalItem) {
                         $childProductWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
                     }
@@ -232,10 +235,18 @@ class ApprovalController extends Controller
                 case GoodsReceipt::class:
                     $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT;
                     $childData->approvalItems = $childItems;
+
+                    $revision = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, [$childData->subject_id]);
+                    $childData->revision = $revision + 1;
+
                     break;
                 case DeliveryOrder::class:
                     $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                     $childData->approvalItems = $childItems;
+
+                    $revision = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, [$childData->subject_id]);
+                    $childData->revision = $revision + 1;
+
                     break;
                 default:
                     abort(404, 'Invalid subject type');

@@ -537,6 +537,16 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        @else
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row approval-detail-row">
+                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $childData->revision }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endif
                                     </div>
                                     @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
@@ -567,6 +577,15 @@
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->tempo, $approval->subject->tempo)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="due_date_child" id="dueDateChild" value="{{ getDueDate($childData->subject_date, $childData->tempo, 'd-M-y') }}" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form-group row approval-detail-row">
+                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-6 col-sm-5 col-md-7">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $childData->revision }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
