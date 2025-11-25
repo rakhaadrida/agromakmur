@@ -13,6 +13,7 @@ use App\Notifications\CancelPurchaseReturnNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\PurchaseReturnService;
 use App\Utilities\Services\UserService;
 use Carbon\Carbon;
@@ -117,6 +118,11 @@ class PurchaseReturnController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_PURCHASE_RETURN, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
@@ -124,6 +130,7 @@ class PurchaseReturnController extends Controller
             $receivedDate = $receivedDate ? Carbon::createFromFormat('d-m-Y', $receivedDate)->format('Y-m-d') : null;
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'received_date' => $receivedDate,
                 'status' => Constant::PURCHASE_RETURN_STATUS_ACTIVE,
@@ -347,5 +354,15 @@ class PurchaseReturnController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_PURCHASE_RETURN, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
+        ]);
     }
 }

@@ -28,6 +28,10 @@ class ValidUniquePurchaseReturnNumber implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(request()->input('is_generated_number')) {
+            return true;
+        }
+
         $uniqueNumber = PurchaseReturn::query()
             ->where('number', $value)
             ->where('id', '!=', $this->id)

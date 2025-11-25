@@ -247,6 +247,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-returns-generate-number-ajax', 'SalesReturnController@generateNumberAjax')->name('sales-returns.generate-number-ajax');
 
         Route::resource('purchase-returns', 'PurchaseReturnController');
+        Route::get('purchase-returns-generate-number-ajax', 'PurchaseReturnController@generateNumberAjax')->name('purchase-returns.generate-number-ajax');
     });
 });
 

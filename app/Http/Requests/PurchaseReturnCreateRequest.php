@@ -27,6 +27,7 @@ class PurchaseReturnCreateRequest extends FormRequest
             'real_quantity.*' => ['nullable', 'integer'],
             'received_quantity.*' => ['nullable', 'integer'],
             'cut_bill_quantity.*' => ['nullable', 'integer'],
+            'is_generated_number' => ['nullable', 'boolean'],
         ];
     }
 }
