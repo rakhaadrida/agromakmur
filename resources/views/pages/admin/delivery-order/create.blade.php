@@ -34,7 +34,7 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">DO Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" autofocus required >
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" data-old-value="{{ old('number') }}" tabindex="1" disabled required>
                                                 </div>
                                                 <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
                                                 <span class="col-form-label text-bold">:</span>
@@ -48,7 +48,7 @@
                                         <label for="salesOrderId" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" data-size="5" title="Enter or Choose Number" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" data-size="5" title="Enter or Choose Number" tabindex="3" autofocus required>
                                                 @foreach($salesOrders as $salesOrder)
                                                     <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}">{{ $salesOrder->number }}</option>
                                                 @endforeach
@@ -81,6 +81,7 @@
                                             <input type="text" class="form-control form-control-sm text-bold" name="address" id="address" value="{{ old('address') }}" tabindex="4" required>
                                         </div>
                                         <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
+                                        <input type="hidden" name="is_generated_number" id="isGeneratedNumber" value="1">
                                     </div>
                                 </div>
                                 <hr>
@@ -177,6 +178,23 @@
                 displaySalesOrderData(salesOrderId);
             });
 
+            $('#branchId').change(function() {
+                generateAutoNumber($(this).val());
+            });
+
+            $('#number').on('blur', function(event) {
+                event.preventDefault();
+
+                let oldValue = $(this).data('old-value');
+                let currentValue = this.value;
+
+                if(oldValue !== currentValue) {
+                    $('#isGeneratedNumber').val(0);
+                } else {
+                    $('#isGeneratedNumber').val(1);
+                }
+            });
+
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
@@ -246,7 +264,7 @@
                     },
                     dataType: 'json',
                     success: function(data) {
-                        $('#branchId').val(data.data.branch_id);
+                        $('#branchId').val(data.data.branch_id).trigger('change');;
                         $('#branch').val(data.data.branch_name);
                         $('#customerId').val(data.data.customer_id);
                         $('#customer').val(data.data.customer_name);
@@ -266,6 +284,24 @@
                             rowNumber++;
                             rowNumbers++;
                         });
+                    },
+                })
+            }
+
+            function generateAutoNumber(branchId) {
+                $.ajax({
+                    url: '{{ route('delivery-orders.generate-number-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        branch_id: branchId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let number = $('#number');
+
+                        number.val(data.number);
+                        number.data('old-value', data.number);
+                        number.removeAttr('disabled');
                     },
                 })
             }

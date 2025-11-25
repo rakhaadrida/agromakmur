@@ -26,6 +26,7 @@ class DeliveryOrderCreateRequest extends FormRequest
             'order_quantity.*' => ['nullable', 'integer'],
             'quantity.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],
+            'is_generated_number' => ['nullable', 'boolean'],
         ];
     }
 }

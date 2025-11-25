@@ -53,13 +53,13 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-date-transaction-index">Date</th>
-                                            <th class="align-middle th-code-transaction-index">Invoice Number</th>
-                                            <th class="align-middle th-sales-order-branch-index">Branch</th>
-                                            <th class="align-middle th-name-transaction-index">Customer</th>
-                                            <th class="align-middle th-sales-order-status-index">Status</th>
-                                            <th class="align-middle th-sales-order-status-index">Admin</th>
+                                            <th class="align-middle th-delivery-order-number-index">Number</th>
+                                            <th class="align-middle th-delivery-order-date-index">Date</th>
+                                            <th class="align-middle th-delivery-order-number-index">Invoice Number</th>
+                                            <th class="align-middle th-delivery-order-branch-index-print">Branch</th>
+                                            <th class="align-middle">Customer</th>
+                                            <th class="align-middle th-delivery-order-status-index">Status</th>
+                                            <th class="align-middle th-delivery-order-status-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>

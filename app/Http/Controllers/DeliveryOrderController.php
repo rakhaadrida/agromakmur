@@ -14,6 +14,7 @@ use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\UserService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -104,10 +105,16 @@ class DeliveryOrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_DELIVERY_ORDER, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'status' => Constant::DELIVERY_ORDER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
@@ -517,5 +524,15 @@ class DeliveryOrderController extends Controller
             ->setPaper('a4', 'landscape');
 
         return $pdf->stream('Delivery_Order_Data_'.$fileDate.'.pdf');
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_DELIVERY_ORDER, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
+        ]);
     }
 }
