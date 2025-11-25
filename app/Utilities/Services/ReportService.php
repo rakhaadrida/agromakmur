@@ -154,4 +154,40 @@ class ReportService
             ->orderBy('warehouses.name')
             ->get();
     }
+
+    public static function getValueRecapMapSubcategory($subcategories, $mapSubcategoryByCategory): array {
+        foreach($subcategories as $subcategory) {
+            $mapSubcategoryByCategory[$subcategory->category_id][] = $subcategory;
+        }
+
+        return $mapSubcategoryByCategory;
+    }
+
+    public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory): array {
+        $productStocks = ProductService::getTotalProductStock();
+
+        foreach($productStocks as $productStock) {
+            $mapStockByProduct[$productStock->product_id] = $productStock->total_stock;
+            $mapTotalStockByCategory[$productStock->product->category_id] = ($mapTotalStockByCategory[$productStock->product->category_id] ?? 0) + $productStock->total_stock;
+        }
+
+        return [$mapStockByProduct, $mapTotalStockByCategory];
+    }
+
+    public static function getValueRecapMapProduct($mapStockByProduct, $mapProductBySubcategory, $mapTotalValueByCategory): array {
+        $products = Product::all();
+
+        foreach($products as $product) {
+            $productPrice = $product->mainPrice ? $product->mainPrice->price : 0;
+            $totalValue = $productPrice * ($mapStockByProduct[$product->id] ?? 0);
+
+            $product->price = $productPrice;
+            $product->total_value = $totalValue;
+
+            $mapProductBySubcategory[$product->subcategory_id][] = $product;
+            $mapTotalValueByCategory[$product->category_id] = ($mapTotalValueByCategory[$product->category_id] ?? 0) + $totalValue;
+        }
+
+        return [$mapProductBySubcategory, $mapTotalValueByCategory];
+    }
 }

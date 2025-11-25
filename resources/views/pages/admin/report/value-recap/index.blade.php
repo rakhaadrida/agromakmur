@@ -27,7 +27,7 @@
                             <form>
                                 <div class="row justify-content-center" style="margin-bottom: 15px">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <button type="submit" formaction="" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
+                                        <button type="submit" formaction="{{ route('report.value-recap.pdf') }}" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <button type="submit" formaction="{{ route('report.value-recap.export') }}" formmethod="GET" class="btn btn-danger btn-block text-bold">Export Excel</button>
@@ -84,6 +84,13 @@
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="4" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                                                            <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalStockByCategory[$category->id] ?? 0) }}</th>
+                                                            <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalValueByCategory[$category->id] ?? 0) }}</th>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         @endforeach
