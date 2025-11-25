@@ -22,7 +22,7 @@ return new class extends Migration
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_SALES_RETURN,
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_PURCHASE_RETURN,
             ]);
-            $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->integer('year');
             $table->integer('month');
             $table->integer('last_number')->default(0);

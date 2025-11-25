@@ -34,7 +34,7 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">Transfer Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" autofocus required >
+                                                    <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" autofocus required >
                                                 </div>
                                                 <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
@@ -42,6 +42,7 @@
                                                     <input type="text" tabindex="2" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" required>
                                                 </div>
                                                 <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
+                                                <input type="hidden" name="is_generated_number" id="isGeneratedNumber" value="1">
                                             </div>
                                         </div>
                                     </div>
@@ -200,7 +201,21 @@
 
         $(document).ready(function() {
             let warehouses = @json($warehouses);
+            let number = $('#number');
             const table = $('#itemTable');
+
+            number.on('blur', function(event) {
+                event.preventDefault();
+
+                let oldValue = $(this).data('old-value');
+                let currentValue = this.value;
+
+                if(oldValue !== currentValue) {
+                    $('#isGeneratedNumber').val(0);
+                } else {
+                    $('#isGeneratedNumber').val(1);
+                }
+            });
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();

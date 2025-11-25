@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class NumberSettingService
 {
-    public static function currentNumber($key, $branchId): string {
-        return DB::transaction(function () use ($key, $branchId) {
+    public static function currentNumber($key, $branchId, $isProductTransfer = false): string {
+        return DB::transaction(function () use ($key, $branchId, $isProductTransfer) {
             $year = intval(now()->format('y'));
             $month = intval(now()->format('m'));
 
@@ -24,7 +24,7 @@ class NumberSettingService
 
             $seq->last_number += 1;
 
-            $branch = static::padNumber($branchId, 2);
+            $branch = !$isProductTransfer ? static::padNumber($branchId, 2) : '';
             $yy     = static::padNumber($year, 2);
             $mm     = static::padNumber($month, 2);
             $num    = static::padNumber($seq->last_number, 4);
@@ -33,8 +33,8 @@ class NumberSettingService
         });
     }
 
-    public static function generateNumber($key, $branchId) {
-        return DB::transaction(function () use ($key, $branchId) {
+    public static function generateNumber($key, $branchId, $isProductTransfer = false) {
+        return DB::transaction(function () use ($key, $branchId, $isProductTransfer) {
             $year = intval(now()->format('y'));
             $month = intval(now()->format('m'));
 
@@ -52,7 +52,7 @@ class NumberSettingService
             $seq->last_number += 1;
             $seq->save();
 
-            $branch = static::padNumber($branchId, 2);
+            $branch = !$isProductTransfer ? static::padNumber($branchId, 2) : '';
             $yy     = static::padNumber($year, 2);
             $mm     = static::padNumber($month, 2);
             $num    = static::padNumber($seq->last_number, 4);

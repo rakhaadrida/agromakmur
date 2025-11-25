@@ -24,6 +24,7 @@ class ProductTransferCreateRequest extends FormRequest
             'quantity.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],
             'is_print' => ['nullable', 'boolean'],
+            'is_generated_number' => ['nullable', 'boolean'],
         ];
     }
 }

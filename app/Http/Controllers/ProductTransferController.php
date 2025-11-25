@@ -10,6 +10,7 @@ use App\Models\Warehouse;
 use App\Notifications\CancelProductTransferNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductTransferService;
 use App\Utilities\Services\UserService;
@@ -53,6 +54,9 @@ class ProductTransferController extends Controller
         $date = Carbon::now()->format('d-m-Y');
         $warehouses = Warehouse::all();
         $products = Product::all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_PRODUCT_TRANSFER, 0, true);
+
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
@@ -60,6 +64,7 @@ class ProductTransferController extends Controller
             'date' => $date,
             'warehouses' => $warehouses,
             'products' => $products,
+            'number' => $number,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
@@ -71,10 +76,16 @@ class ProductTransferController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_PRODUCT_TRANSFER, 0, true);
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'status' => Constant::PRODUCT_TRANSFER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
