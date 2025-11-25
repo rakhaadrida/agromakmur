@@ -191,8 +191,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::get('export-stock-recap', 'StockRecapController@export')->name('stock-recap.export');
             Route::get('export-value-recap', 'ValueRecapController@export')->name('value-recap.export');
 
-            Route::get('pdf-value-recap', 'ValueRecapController@pdf')->name('value-recap.pdf');
             Route::get('pdf-price-lists', 'PriceListController@pdf')->name('price-lists.pdf');
+            Route::get('pdf-stock-recap', 'StockRecapController@pdf')->name('stock-recap.pdf');
+            Route::get('pdf-value-recap', 'ValueRecapController@pdf')->name('value-recap.pdf');
 
             Route::get('product-histories/{id}/export', 'ProductHistoryController@exportDetail')->name('product-histories.export-detail');
 

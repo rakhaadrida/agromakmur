@@ -27,7 +27,7 @@
                             <form>
                                 <div class="row justify-content-center" style="margin-bottom: 15px">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <button type="submit" formaction="" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
+                                        <button type="submit" formaction="{{ route('report.stock-recap.pdf') }}" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <button type="submit" formaction="{{ route('report.stock-recap.export') }}" formmethod="GET"  class="btn btn-danger btn-block text-bold">Export Excel</button>
@@ -48,11 +48,11 @@
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                                     <thead class="text-center text-dark text-bold">
-                                                        <tr>
+                                                        <tr style="background-color: lightgreen">
                                                             <td class="align-middle th-price-list-number">No</td>
                                                             <td class="align-middle th-price-list-product-sku">SKU</td>
                                                             <td class="align-middle">Product Name</td>
-                                                            <td class="align-middle th-price-list-price">Total Stock</td>
+                                                            <td class="align-middle th-price-list-price" style="background-color: yellow">Total Stock</td>
                                                             @foreach($warehouses as $warehouse)
                                                                 <td class="align-middle th-price-list-price">{{ $warehouse->name }}</td>
                                                             @endforeach
@@ -86,6 +86,15 @@
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
+                                                    <tfoot>
+                                                    <tr style="background-color: lightgreen">
+                                                        <th colspan="3" class="text-bold text-dark text-center">GRAND TOTAL</th>
+                                                        <th class="text-bold text-dark text-right" style="background-color: yellow">{{ formatQuantity($mapTotalStockByCategory[$category->id] ?? 0) }}</th>
+                                                        @foreach($warehouses as $warehouse)
+                                                            <th class="text-bold text-dark text-right">{{ formatQuantity($mapTotalStockByCategoryWarehouse[$category->id][$warehouse->id] ?? 0) }}</th>
+                                                        @endforeach
+                                                    </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         @endforeach

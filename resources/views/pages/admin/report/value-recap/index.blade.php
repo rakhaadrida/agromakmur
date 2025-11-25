@@ -48,7 +48,7 @@
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                                     <thead class="text-center text-dark text-bold">
-                                                        <tr>
+                                                        <tr style="background-color: lightgreen">
                                                             <td class="align-middle th-price-list-number">No</td>
                                                             <td class="align-middle th-price-list-product-sku">SKU</td>
                                                             <td class="align-middle">Product Name</td>
@@ -85,7 +85,7 @@
                                                         @endforelse
                                                     </tbody>
                                                     <tfoot>
-                                                        <tr>
+                                                        <tr style="background-color: lightgreen">
                                                             <th colspan="4" class="text-bold text-dark text-center">GRAND TOTAL</th>
                                                             <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalStockByCategory[$category->id] ?? 0) }}</th>
                                                             <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalValueByCategory[$category->id] ?? 0) }}</th>

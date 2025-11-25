@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Report;
 use App\Exports\StockRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductStock;
 use App\Models\Subcategory;
 use App\Models\Warehouse;
+use App\Utilities\Services\ReportService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,22 +18,9 @@ class StockRecapController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = [];
-        foreach($subcategories as $subcategory) {
-            $mapSubcategoryByCategory[$subcategory->category_id][] = $subcategory;
-        }
-
-        $products = Product::all();
-        $mapProductBySubcategory = [];
-        foreach($products as $product) {
-            $mapProductBySubcategory[$product->subcategory_id][] = $product;
-        }
-
-        $productStocks = ProductStock::query()->whereNull('deleted_at')->get();
-        $mapStockByProduct = [];
-        foreach($productStocks as $productStock) {
-            $mapStockByProduct[$productStock->product_id][$productStock->warehouse_id] = $productStock->stock;
-        }
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
+        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
 
         $warehouses = Warehouse::all();
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
@@ -43,6 +30,8 @@ class StockRecapController extends Controller
             'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
             'mapProductBySubcategory' => $mapProductBySubcategory,
             'mapStockByProduct' => $mapStockByProduct,
+            'mapTotalStockByCategory' => $mapTotalStockByCategory,
+            'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,
             'warehouses' => $warehouses,
             'reportDate' => $reportDate,
         ];
@@ -54,5 +43,34 @@ class StockRecapController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new StockRecapExport(), 'Stock_Recap_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf() {
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
+        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
+
+        $warehouses = Warehouse::all();
+        $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'categories' => $categories,
+            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
+            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapStockByProduct' => $mapStockByProduct,
+            'mapTotalStockByCategory' => $mapTotalStockByCategory,
+            'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,
+            'warehouses' => $warehouses,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.report.stock-recap.pdf', $data)
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Stock_Recap'.$fileDate.'.pdf');
     }
 }

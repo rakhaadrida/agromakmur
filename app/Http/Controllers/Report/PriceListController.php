@@ -19,7 +19,7 @@ class PriceListController extends Controller
         $subcategories = Subcategory::all();
 
         $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getPriceListMapProduct([]);
+        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -48,7 +48,7 @@ class PriceListController extends Controller
         $subcategories = Subcategory::all();
 
         $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getPriceListMapProduct([]);
+        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -67,6 +67,6 @@ class PriceListController extends Controller
         $pdf = PDF::loadview('pages.admin.report.price-list.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Value_Recap'.$fileDate.'.pdf');
+        return $pdf->stream('Price_List'.$fileDate.'.pdf');
     }
 }

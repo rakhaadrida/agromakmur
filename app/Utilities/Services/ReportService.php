@@ -5,6 +5,7 @@ namespace App\Utilities\Services;
 use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\ProductPrice;
+use App\Models\ProductStock;
 use App\Models\SalesOrderItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -164,7 +165,7 @@ class ReportService
         return $mapSubcategoryByCategory;
     }
 
-    public static function getPriceListMapProduct($mapProductBySubcategory): array {
+    public static function getCommonRecapMapProduct($mapProductBySubcategory): array {
         $products = Product::all();
 
         foreach($products as $product) {
@@ -182,6 +183,18 @@ class ReportService
         }
 
         return $mapPriceByProduct;
+    }
+
+    public static function getStockRecapMapStock($mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse): array {
+        $productStocks = ProductStock::query()->whereNull('deleted_at')->get();
+
+        foreach($productStocks as $productStock) {
+            $mapStockByProduct[$productStock->product_id][$productStock->warehouse_id] = $productStock->stock;
+            $mapTotalStockByCategory[$productStock->product->category_id] = ($mapTotalStockByCategory[$productStock->product->category_id] ?? 0) + $productStock->stock;
+            $mapTotalStockByCategoryWarehouse[$productStock->product->category_id][$productStock->warehouse_id] = ($mapTotalStockByCategoryWarehouse[$productStock->product->category_id][$productStock->warehouse_id] ?? 0) + $productStock->stock;
+        }
+
+        return [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse];
     }
 
     public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory): array {
