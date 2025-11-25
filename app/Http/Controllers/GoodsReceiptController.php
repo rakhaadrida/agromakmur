@@ -384,7 +384,7 @@ class GoodsReceiptController extends Controller
                 'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($goodsReceipt->approvals);
+            ApprovalService::deleteData($goodsReceipt->pendingApprovals);
             $approval = ApprovalService::createData(
                 $goodsReceipt,
                 $goodsReceipt->goodsReceiptItems,

@@ -64,7 +64,7 @@
                                                 <label for="revision" class="col-5 col-form-label text-bold text-right text-dark">Revision</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-5">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $goodsReceipt->revision }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $goodsReceipt->revision ?? 0 }}" readonly>
                                                 </div>
                                             </div>
                                         </div>

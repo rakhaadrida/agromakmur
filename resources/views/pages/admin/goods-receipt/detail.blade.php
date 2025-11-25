@@ -111,7 +111,7 @@
                                                 <label for="revision" class="col-5 text-right text-bold mt-2">Revision</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
-                                                    <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $goodsReceipt->revision }}" readonly>
+                                                    <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $goodsReceipt->revision ?? 0 }}" readonly>
                                                 </div>
                                             </div>
                                         </div>

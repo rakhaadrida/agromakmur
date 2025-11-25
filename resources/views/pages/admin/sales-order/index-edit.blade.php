@@ -155,7 +155,17 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if(isWaitingApproval($salesOrder->status))
+                                                        @if(isUpdated($salesOrder->status))
+                                                            <div class="col edit-receipt-general-info-right">
+                                                                <div class="form-group row customer-detail">
+                                                                    <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                    <span class="col-form-label text-bold">:</span>
+                                                                    <div class="col-6">
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionBySalesOrderId[$salesOrder->id] }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @elseif(isWaitingApproval($salesOrder->status))
                                                             <div class="col edit-receipt-general-info-right">
                                                                 <div class="form-group row customer-detail">
                                                                     <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
@@ -167,6 +177,21 @@
                                                             </div>
                                                         @endif
                                                     </div>
+                                                    @if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type))
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                            </div>
+                                                            <div class="col edit-receipt-general-info-right">
+                                                                <div class="form-group row customer-detail">
+                                                                    <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                    <span class="col-form-label text-bold">:</span>
+                                                                    <div class="col-6">
+                                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionBySalesOrderId[$salesOrder->id] ?? 0 }}" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">

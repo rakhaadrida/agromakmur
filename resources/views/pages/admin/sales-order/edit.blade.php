@@ -80,6 +80,13 @@
                                                 </div>
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
+                                            <div class="form-group row so-update-input">
+                                                <label for="revision" class="col-3 col-form-label text-bold text-right text-dark">Revision</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-3">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $salesOrder->revision ?? 0 }}" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-date">

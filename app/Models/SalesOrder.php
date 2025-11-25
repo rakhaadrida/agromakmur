@@ -66,6 +66,13 @@ class SalesOrder extends Model
         return $this->morphMany(Approval::class, 'subject');
     }
 
+    public function pendingApprovals()
+    {
+        return $this->morphMany(Approval::class, 'subject')
+            ->where('status', Constant::APPROVAL_STATUS_PENDING)
+            ->orderByDesc('id');
+    }
+
     public function pendingApproval()
     {
         return $this->morphOne(Approval::class, 'subject')

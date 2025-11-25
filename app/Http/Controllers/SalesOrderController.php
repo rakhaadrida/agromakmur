@@ -71,6 +71,7 @@ class SalesOrderController extends Controller
 
     public function detail($id) {
         $salesOrder = SalesOrder::query()->findOrFail($id);
+        $salesOrder->revision = ApprovalService::getRevisionCountBySubject(SalesOrder::class, [$salesOrder->id]);
         $salesOrderItems = $salesOrder->salesOrderItems;
 
         if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
@@ -330,6 +331,14 @@ class SalesOrderController extends Controller
 
         $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
 
+        $salesOrderIds = $salesOrders->pluck('id')->toArray();
+        $salesOrderRevisions = ApprovalService::getRevisionCountBySubject(SalesOrder::class, $salesOrderIds, true);
+
+        $mapRevisionBySalesOrderId = [];
+        foreach ($salesOrderRevisions as $revision) {
+            $mapRevisionBySalesOrderId[$revision->subject_id] = $revision->revision_count;
+        }
+
         $productWarehouses = [];
         foreach ($salesOrders as $salesOrder) {
             foreach($salesOrder->salesOrderItems as $salesOrderItem) {
@@ -352,6 +361,7 @@ class SalesOrderController extends Controller
             'customerId' => $customerId,
             'customers' => $customers,
             'salesOrders' => $salesOrders,
+            'mapRevisionBySalesOrderId' => $mapRevisionBySalesOrderId,
             'productWarehouses' => $productWarehouses,
             'warehouses' => $warehouses,
             'totalWarehouses' => $warehouses->count(),
@@ -362,6 +372,7 @@ class SalesOrderController extends Controller
 
     public function edit(Request $request, $id) {
         $salesOrder = SalesOrder::query()->findOrFail($id);
+        $salesOrder->revision = ApprovalService::getRevisionCountBySubject(SalesOrder::class, [$salesOrder->id]);
         $salesOrderItems = $salesOrder->salesOrderItems;
 
         if(isWaitingApproval($salesOrder->status) && isApprovalTypeEdit($salesOrder->pendingApproval->type)) {
@@ -471,7 +482,7 @@ class SalesOrderController extends Controller
                 })
                 ->filter();
 
-            ApprovalService::deleteData($salesOrder->approvals);
+            ApprovalService::deleteData($salesOrder->pendingApprovals);
 
             $parentApproval = ApprovalService::createData(
                 $salesOrder,
@@ -526,7 +537,7 @@ class SalesOrderController extends Controller
                 'status' => Constant::SALES_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($salesOrder->approvals);
+            ApprovalService::deleteData($salesOrder->pendingApprovals);
             $approval = ApprovalService::createData(
                 $salesOrder,
                 $salesOrder->salesOrderItems,
