@@ -104,6 +104,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if(isUpdated($goodsReceipt->status) || (isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)))
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group row detail-po-information-row">
+                                                <label for="revision" class="col-5 text-right text-bold mt-2">Revision</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $goodsReceipt->revision }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                 <thead class="text-center text-bold text-dark">

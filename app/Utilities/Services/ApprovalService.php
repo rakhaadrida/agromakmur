@@ -40,6 +40,28 @@ class ApprovalService
             ->groupBy('subject_type');
     }
 
+    public static function getRevisionCountBySubject($subjectType, $subjectIds, $isIndex = false) {
+        $baseQuery = Approval::query()
+            ->where('subject_type', $subjectType)
+            ->whereIn('subject_id', $subjectIds)
+            ->where('type', Constant::APPROVAL_TYPE_EDIT)
+            ->where('status', Constant::APPROVAL_STATUS_APPROVED)
+            ->whereNull('parent_id')
+            ->whereNull('deleted_at');
+
+        if(!$isIndex) {
+            return $baseQuery->count('id');
+        }
+
+        return $baseQuery
+            ->select(
+                'subject_id',
+                DB::raw('COUNT(id) AS revision_count')
+            )
+            ->groupBy('subject_id')
+            ->get();
+    }
+
     public static function createData($subject, $subjectItems, $type, $status, $description, $parentId = null) {
         $approval = $subject->approvals()->create([
             'parent_id' => $parentId,

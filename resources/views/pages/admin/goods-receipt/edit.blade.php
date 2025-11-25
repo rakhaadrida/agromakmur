@@ -60,6 +60,13 @@
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
                                                 </div>
                                             </div>
+                                            <div class="form-group row sj-after-first">
+                                                <label for="revision" class="col-5 col-form-label text-bold text-right text-dark">Revision</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-5">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $goodsReceipt->revision }}" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-left">

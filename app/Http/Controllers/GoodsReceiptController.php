@@ -62,10 +62,12 @@ class GoodsReceiptController extends Controller
 
     public function detail($id) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceipt->revision = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, [$goodsReceipt->id]);
         $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
 
         if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
             $goodsReceipt = GoodsReceiptService::mapGoodsReceiptApproval($goodsReceipt);
+
             $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
         }
 
@@ -249,6 +251,14 @@ class GoodsReceiptController extends Controller
 
         $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
 
+        $goodsReceiptIds = $goodsReceipts->pluck('id')->toArray();
+        $goodsReceiptRevisions = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, $goodsReceiptIds, true);
+
+        $mapRevisionByGoodsReceiptId = [];
+        foreach ($goodsReceiptRevisions as $revision) {
+            $mapRevisionByGoodsReceiptId[$revision->subject_id] = $revision->revision_count;
+        }
+
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
@@ -256,6 +266,7 @@ class GoodsReceiptController extends Controller
             'supplierId' => $supplierId,
             'suppliers' => $suppliers,
             'goodsReceipts' => $goodsReceipts,
+            'mapRevisionByGoodsReceiptId' => $mapRevisionByGoodsReceiptId
         ];
 
         return view('pages.admin.goods-receipt.index-edit', $data);
@@ -263,6 +274,7 @@ class GoodsReceiptController extends Controller
 
     public function edit(Request $request, $id) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
+        $goodsReceipt->revision = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, [$goodsReceipt->id]);
         $goodsReceiptItems = $goodsReceipt->goodsReceiptItems;
 
         if(isWaitingApproval($goodsReceipt->status) && isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) {
@@ -318,7 +330,7 @@ class GoodsReceiptController extends Controller
                 'status' => Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($goodsReceipt->approvals);
+            ApprovalService::deleteData($goodsReceipt->pendingApprovals);
 
             $parentApproval = ApprovalService::createData(
                 $goodsReceipt,

@@ -254,6 +254,17 @@ function isWaitingApproval($status): bool
     ]);
 }
 
+function isUpdated($status): bool
+{
+    return in_array($status, [
+        Constant::GOODS_RECEIPT_STATUS_UPDATED,
+        Constant::SALES_ORDER_STATUS_UPDATED,
+        Constant::DELIVERY_ORDER_STATUS_UPDATED,
+        Constant::SALES_RETURN_STATUS_UPDATED,
+        Constant::PURCHASE_RETURN_STATUS_UPDATED
+    ]);
+}
+
 function isCancelled($status): bool
 {
     return in_array($status, [
