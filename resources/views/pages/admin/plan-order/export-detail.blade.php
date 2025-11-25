@@ -15,8 +15,6 @@
                     <th>Product Name</th>
                     <th>Qty</th>
                     <th>Unit</th>
-                    <th>Price</th>
-                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +26,6 @@
                         <td>{{ $planOrderItem->product_name }}</td>
                         <td>{{ $planOrderItem->quantity }}</td>
                         <td>{{ $planOrderItem->unit_name }}</td>
-                        <td>{{ $planOrderItem->price }}</td>
-                        <td>{{ $planOrderItem->total }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -16,9 +16,6 @@ return new class extends Migration
             $table->foreignId('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->string('number');
             $table->dateTime('date');
-            $table->double('subtotal')->default(0);
-            $table->double('tax_amount')->default(0);
-            $table->double('grand_total')->default(0);
             $table->boolean('is_printed')->default(false);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

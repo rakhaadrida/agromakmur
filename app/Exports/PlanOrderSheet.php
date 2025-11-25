@@ -57,22 +57,22 @@ class PlanOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoS
 
         $range = 5 + $planOrders->count();
         $rangeStr = strval($range);
-        $rangeTab = 'I'.$rangeStr;
+        $rangeTab = 'H'.$rangeStr;
 
-        $header = 'A5:I5';
+        $header = 'A5:H5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:I1');
-        $sheet->mergeCells('A2:I2');
-        $sheet->mergeCells('A3:I3');
+        $sheet->mergeCells('A1:H1');
+        $sheet->mergeCells('A2:H2');
+        $sheet->mergeCells('A3:H3');
 
-        $title = 'A1:I3';
+        $title = 'A1:H3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:I3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:H3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -98,17 +98,17 @@ class PlanOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoS
         $rangeNumberCell = 'C6:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'F6:G'.$rangeStr;
+        $rangeNumberCell = 'F6:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'H6:I'.$rangeStr;
+        $rangeNumberCell = 'G6:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['F, G'];
+        $numericalColumns = ['F'];
         $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {

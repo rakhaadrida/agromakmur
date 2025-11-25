@@ -59,7 +59,6 @@
                                             <th class="align-middle th-plan-order-branch-index">Branch</th>
                                             <th class="align-middle">Supplier</th>
                                             <th class="align-middle th-plan-order-total-items-index">Total Items</th>
-                                            <th class="align-middle th-goods-receipt-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-goods-receipt-status-index">Status</th>
                                             <th class="align-middle th-goods-receipt-status-index">Admin</th>
                                         </tr>
@@ -77,13 +76,12 @@
                                                 <td class="align-middle">{{ $planOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
-                                                <td class="text-right align-middle" data-sort="{{ $planOrder->grand_total }}">{{ formatPrice($planOrder->grand_total) }}</td>
                                                 <td class="text-center align-middle">{{ getPlanOrderStatusLabel($planOrder->status) }}</td>
                                                 <td class="text-center align-middle">{{ $planOrder->user_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="8" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -128,7 +126,7 @@
             ],
             "columnDefs": [
                 {
-                    targets: [0, 7, 8],
+                    targets: [0, 6, 7],
                     orderable: false
                 }
             ],

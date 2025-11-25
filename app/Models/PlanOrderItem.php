@@ -15,8 +15,6 @@ class PlanOrderItem extends Model
         'unit_id',
         'quantity',
         'actual_quantity',
-        'price',
-        'total',
     ];
 
     public function planOrder() {

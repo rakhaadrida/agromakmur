@@ -306,15 +306,6 @@
                 width: 70px;
             }
 
-            .table-order-item-head-price {
-                width: 70px;
-            }
-
-            .table-order-item-head-total {
-                width: 110px;
-                border-right: 1px dotted;
-            }
-
             .table-order-item-body {
                 line-height: 7px;
             }
@@ -423,17 +414,6 @@
                 line-height: 6px;
             }
 
-            .invoice-amount-label {
-                font-size: 14px;
-                width: 100px;
-            }
-
-            .invoice-amount-number {
-                width: 157px;
-                font-size: 16px;
-                padding-right: 0.01rem !important;
-            }
-
             .print-time-section {
                 font-weight: 700;
                 margin-top: 5px;
@@ -511,8 +491,6 @@
                             <td class="table-order-item-head-product">Product Name</td>
                             <td class="table-order-item-head-quantity">Qty</td>
                             <td class="table-order-item-head-unit">Unit</td>
-                            <td class="table-order-item-head-price">Price</td>
-                            <td class="table-order-item-head-total">Total</td>
                         </tr>
                     </thead>
                     <tbody class="table-order-item-body">
@@ -522,8 +500,6 @@
                                 <td>{{ $planOrderItem->product->name }}</td>
                                 <td class="text-right">{{ $planOrderItem->quantity }}</td>
                                 <td class="text-center">{{ $planOrderItem->unit->name }}</td>
-                                <td class="text-right">{{ formatPrice($planOrderItem->price) }}</td>
-                                <td class="text-right">{{ formatPrice($planOrderItem->total) }}</td>
                             </tr>
                         @endforeach
                         @for($i = $planOrder->total_rows; $i < ($planOrder->total_page * 15); $i++)
@@ -587,16 +563,7 @@
                                                         </table>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div class="invoice-amount-section">
-                                                        <table class="invoice-amount-table">
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label">Total</td>
-                                                                <td class="text-right invoice-amount-number">{{ formatPrice($planOrder->subtotal) }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
+                                                <td></td>
                                             </tr>
                                         </thead>
                                     </table>

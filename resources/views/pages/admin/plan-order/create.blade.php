@@ -45,34 +45,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col" style="margin-left: -320px">
-                                            <div class="form-group row subtotal-po">
-                                                <label for="subtotal" class="col-5 col-form-label text-bold ">Sub Total</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="subtotal" id="subtotal">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="taxAmount" class="col-5 col-form-label text-bold ">Tax Amount</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="tax_amount" id="taxAmount">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row" style="margin-top: -25px">
-                                                <label for="grandTotal" class="col-5 col-form-label text-bold ">Grand Total</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <span class="col-form-label text-bold ml-2">Rp</span>
-                                                <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext text-bold text-right text-danger" name="grand_total" id="grandTotal">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-group row subtotal-so" style="margin-top: -68px">
+                                    <div class="form-group row subtotal-so" style="margin-top: -15px">
                                         <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
@@ -126,8 +100,6 @@
                                             <td class="align-middle table-head-name-transaction">Product Name</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-price-transaction">Price</td>
-                                            <td class="align-middle table-head-total-transaction">Total</td>
                                             <td class="align-middle table-head-delete-transaction">Delete</td>
                                         </tr>
                                     </thead>
@@ -157,12 +129,6 @@
                                                     <select class="selectpicker product-unit-plan-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
@@ -261,7 +227,6 @@
 
             let number = $('#number');
             let branch = $('#branch');
-            let subtotal = document.getElementById('subtotal');
 
             note.summernote({
                 height: 60,
@@ -322,37 +287,12 @@
                 this.value = currencyFormat(this.value);
             });
 
-            table.on('blur', 'input[name="quantity[]"]', function () {
-                const index = $(this).closest('tr').index();
-                calculateTotal(index);
-            });
-
             table.on('change', 'select[name="unit[]"]', function () {
                 const index = $(this).closest('tr').index();
                 const selected = $(this).find(':selected');
 
                 $(`#unitValue-${index}`).val(this.value);
                 $(`#realQuantity-${index}`).val(selected.data('foo'));
-
-                calculateTotal(index);
-            });
-
-            table.on('keypress', 'input[name="price[]"]', function (event) {
-                if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
-                    const index = $(this).closest('tr').index();
-                    $(`#price-${index}`).tooltip('show');
-
-                    event.preventDefault();
-                }
-            });
-
-            table.on('keyup', 'input[name="price[]"]', function () {
-                this.value = currencyFormat(this.value);
-            });
-
-            table.on('blur', 'input[name="price[]"]', function () {
-                const index = $(this).closest('tr').index();
-                calculateTotal(index);
             });
 
             table.on('click', '.remove-transaction-table', function () {
@@ -381,10 +321,6 @@
                     return false;
                 } else {
                     $('input[name="quantity[]"]').each(function() {
-                        this.value = numberFormat(this.value);
-                    });
-
-                    $('input[name="price[]"]').each(function() {
                         this.value = numberFormat(this.value);
                     });
 
@@ -456,19 +392,10 @@
                             productName = $(`#productId-${index}`);
                         }
 
-                        let productSku = $(`#productId-${index} option[value="${data.data.id}"]`);
-                        let price = $(`#price-${index}`);
                         let quantity = $(`#quantity-${index}`);
-                        let supplierId = $('#supplier').val();
-
-                        let productPrice = thousandSeparator(data.main_price);
-                        productSku.attr(`data-supplier-${supplierId}`, data.main_price);
                         let productUnitId = data.data.unit_id;
 
                         productName.selectpicker('val', productId);
-                        price.val(productPrice);
-                        price.attr('readonly', false);
-                        price.attr('required', true);
                         quantity.attr('readonly', false);
                         quantity.attr('required', true);
 
@@ -493,55 +420,8 @@
                         });
 
                         $(`#realQuantity-${index}`).val(1);
-
-                        calculateTotal(index);
                     },
                 })
-            }
-
-            function calculateTotal(index) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let price = document.getElementById(`price-${index}`);
-                let total = document.getElementById(`total-${index}`);
-
-                let realQuantity = getRealQuantity(numberFormat(quantity.value), index);
-                let currentTotal = 0;
-
-                if(quantity.value === "") {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                    total.value = '';
-                }
-                else {
-                    currentTotal = numberFormat(total.value);
-                    total.value = thousandSeparator(realQuantity * numberFormat(price.value));
-                    calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
-                }
-
-                calculateTax(numberFormat(subtotal.value));
-            }
-
-            function getRealQuantity(quantity, index) {
-                let realQuantity = $(`#realQuantity-${index}`).val();
-
-                return +quantity * +realQuantity;
-            }
-
-            function calculateSubtotal(previousAmount, currentAmount, subtotal) {
-                if(previousAmount > currentAmount) {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - (+previousAmount - +currentAmount));
-                } else {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + (+currentAmount - +previousAmount));
-                }
-            }
-
-            function calculateTax(subtotalAmount) {
-                let taxAmount = document.getElementById('taxAmount');
-                let grandTotal = document.getElementById('grandTotal');
-
-                let taxValue = (subtotalAmount * 0.1).toFixed(0);
-
-                taxAmount.value = thousandSeparator(taxValue);
-                grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
             }
 
             function currencyFormat(value) {
@@ -555,31 +435,9 @@
                 return +value.replace(/\./g, "");
             }
 
-            function thousandSeparator(nStr) {
-                nStr += '';
-                x = nStr.split(',');
-                x1 = x[0];
-                x2 = x.length > 1 ? ',' + x[1] : '';
-                var rgx = /(\d+)(\d{3})/;
-                while (rgx.test(x1)) {
-                    x1 = x1.replace(rgx, '$1' + '.' + '$2');
-                }
-                return x1 + x2;
-            }
-
             function updateAllRowIndexes(index, deleteRow) {
-                let quantity = document.getElementById(`quantity-${index}`);
-                let total = document.getElementById(`total-${index}`);
-
-                if(quantity.value !== '') {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
-                    calculateTax(numberFormat(subtotal.value));
-                }
-
                 for(let i = index; i < deleteRow.length; i++) {
                     let quantity = document.getElementById(`quantity-${i}`);
-                    let price = document.getElementById(`price-${i}`);
-                    let total = document.getElementById(`total-${i}`);
                     let realQuantity = document.getElementById(`realQuantity-${i}`);
                     let unitValue = document.getElementById(`unitValue-${i}`);
 
@@ -587,15 +445,11 @@
                     let newProductId = document.getElementById(`productId-${rowNumber}`);
                     let newProductName = document.getElementById(`productId-${rowNumber}`);
                     let newQuantity = document.getElementById(`quantity-${rowNumber}`);
-                    let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newUnit = document.getElementById(`unit-${rowNumber}`);
-                    let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
                     let newUnitValue = document.getElementById(`unitValue-${rowNumber}`);
 
                     if(rowNumber !== deleteRow.length) {
-                        total.value = newTotal.value;
-                        price.value = newPrice.value;
                         quantity.value = newQuantity.value;
                         realQuantity.value = newRealQuantity.value;
                         unitValue.value = newUnitValue.value;
@@ -605,16 +459,14 @@
                         changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
 
                         if(newProductId.value === '') {
-                            handleDeletedQuantityPrice(quantity, price);
+                            handleDeletedQuantity(quantity);
                             updateDeletedRowValue([], i);
                         } else {
                             newQuantity.removeAttribute('required');
-                            newPrice.removeAttribute('required');
                             quantity.removeAttribute('readonly');
-                            price.removeAttribute('readonly');
                         }
 
-                        let elements = [newTotal, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        let elements = [newQuantity, newRealQuantity, newUnitValue];
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
                         let totalRow = $('#rowNumber').val();
@@ -622,9 +474,9 @@
                             $(`#${i}`).remove();
                         }
 
-                        handleDeletedQuantityPrice(quantity, price);
+                        handleDeletedQuantity(quantity);
 
-                        let elements = [total, price, quantity, realQuantity, unitValue];
+                        let elements = [quantity, realQuantity, unitValue];
                         updateDeletedRowValue(elements, i);
                     }
                 }
@@ -667,11 +519,9 @@
                 removeSelectPickerOption($(`#productId-${index}`), false);
             }
 
-            function handleDeletedQuantityPrice(quantity, price) {
+            function handleDeletedQuantity(quantity) {
                 quantity.removeAttribute('required');
-                price.removeAttribute('required');
                 quantity.readOnly = true;
-                price.readOnly = true;
             }
 
             function checkDuplicateProduct() {
@@ -721,12 +571,6 @@
                             <select class="selectpicker product-unit-plan-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
-                        </td>
-                        <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
-                        </td>
-                        <td>
-                            <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                         </td>
                         <td class="align-middle text-center">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">

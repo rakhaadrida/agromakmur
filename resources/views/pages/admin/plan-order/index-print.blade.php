@@ -58,7 +58,7 @@
                                             <th class="align-middle th-plan-order-branch-index-print">Branch</th>
                                             <th class="align-middle th-name-transaction-index">Supplier</th>
                                             <th class="align-middle th-plan-order-total-items-index-print">Total Items</th>
-                                            <th class="align-middle th-plan-order-grand-total-index">Grand Total</th>
+                                            <th class="align-middle th-plan-order-grand-total-index">Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,7 +74,7 @@
                                                 <td class="align-middle">{{ $planOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
-                                                <td class="align-middle text-right" data-sort="{{ $planOrder->grand_total }}">{{ formatPrice($planOrder->grand_total) }}</td>
+                                                <td class="align-middle text-center">{{ $planOrder->user_name }}</td>
                                             </tr>
                                         @empty
                                             <tr>

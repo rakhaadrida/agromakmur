@@ -15,7 +15,6 @@
                     <th>Branch</th>
                     <th>Supplier</th>
                     <th>Total Items</th>
-                    <th>Grand Total</th>
                     <th>Status</th>
                     <th>Admin</th>
                 </tr>
@@ -29,7 +28,6 @@
                         <td>{{ $planOrder->branch_name }}</td>
                         <td>{{ $planOrder->supplier_name }}</td>
                         <td>{{ $planOrder->planOrderItems->count() }}</td>
-                        <td>{{ $planOrder->grand_total }}</td>
                         <td>{{ getPlanOrderStatusLabel($planOrder->status) }}</td>
                         <td>{{ $planOrder->user_name }}</td>
                     </tr>

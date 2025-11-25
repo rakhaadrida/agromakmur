@@ -83,8 +83,7 @@
                                         <td>SKU</td>
                                         <td>Product Name</td>
                                         <td>Qty</td>
-                                        <td>Price</td>
-                                        <td>Total</td>
+                                        <td>Unit</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,33 +93,11 @@
                                             <td>{{ $planOrderItem->product->sku }} </td>
                                             <td>{{ $planOrderItem->product->name }}</td>
                                             <td class="text-right">{{ formatQuantity($planOrderItem->quantity) }}</td>
-                                            <td class="text-right">{{ formatPrice($planOrderItem->price) }}</td>
-                                            <td class="text-right">{{ formatPrice($planOrderItem->total) }}</td>
+                                            <td class="text-center">{{ $planOrderItem->unit->name }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="form-group row justify-content-end subtotal-so">
-                                <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-2 mr-1">
-                                    <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($planOrder->subtotal) }}" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row justify-content-end total-so">
-                                <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-2 mr-1">
-                                    <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($planOrder->tax_amount) }}" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group row justify-content-end grandtotal-so">
-                                <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-2 mr-1">
-                                    <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($planOrder->grand_total) }}" readonly>
-                                </div>
-                            </div>
                             <hr>
                             <div class="form-row justify-content-center">
                                 <div class="col-2">

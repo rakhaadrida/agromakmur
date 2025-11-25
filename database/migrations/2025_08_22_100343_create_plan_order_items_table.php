@@ -18,8 +18,6 @@ return new class extends Migration
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->integer('quantity')->default(0);
             $table->integer('actual_quantity')->default(0);
-            $table->double('price')->default(0);
-            $table->double('total')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

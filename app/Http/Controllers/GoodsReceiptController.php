@@ -572,27 +572,7 @@ class GoodsReceiptController extends Controller
         $filter = (object) $request->all();
 
         $product = Product::query()
-            ->with(['mainPrice'])
             ->findOrFail($filter->product_id);
-
-        $mainPrice = $product->mainPrice ? $product->mainPrice->price : 0;
-
-        $latestReceiptPrice = GoodsReceipt::query()
-            ->select(
-                'goods_receipt_items.product_id',
-                'goods_receipt_items.price',
-            )
-            ->leftJoin('goods_receipt_items', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')
-            ->where('supplier_id', $filter->supplier_id)
-            ->where('goods_receipt_items.product_id', $filter->product_id)
-            ->whereNull('goods_receipt_items.deleted_at')
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->first();
-
-        if($latestReceiptPrice) {
-            $mainPrice = $latestReceiptPrice->price;
-        }
 
         $units[] = [
             'id' => $product->unit_id,
@@ -611,8 +591,6 @@ class GoodsReceiptController extends Controller
         return response()->json([
             'data' => $product,
             'units' => $units,
-            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
-            'main_price' => $mainPrice,
         ]);
     }
 

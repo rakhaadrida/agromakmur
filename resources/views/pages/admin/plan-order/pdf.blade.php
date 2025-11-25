@@ -125,7 +125,7 @@
             }
 
             .td-receipt-number {
-                width: 70px;
+                width: 90px;
             }
 
             .td-admin {
@@ -170,7 +170,6 @@
                         <th class="align-middle td-branch">Branch</th>
                         <th class="align-middle">Supplier</th>
                         <th class="align-middle td-total-items">Total Items</th>
-                        <th class="align-middle td-grand-total">Grand Total</th>
                         <th class="align-middle td-receipt-status">Status</th>
                         <th class="align-middle td-admin">Admin</th>
                     </tr>
@@ -183,8 +182,7 @@
                             <td class="align-middle text-center">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
                             <td class="align-middle">{{ $planOrder->branch_name }}</td>
                             <td class="align-middle">{{ $planOrder->supplier_name }}</td>
-                            <td class="align-middle text-center">{{ $planOrder->planOrderItems->count() }}</td>
-                            <td class="align-middle text-right">{{ formatPrice($planOrder->grand_total) }}</td>
+                            <td class="align-middle text-center">{{ $planOrder->total_items }}</td>
                             <td class="align-middle text-center">{{ getPlanOrderStatusLabel($planOrder->status) }}</td>
                             <td class="align-middle text-center">{{ $planOrder->user_name }}</td>
                         </tr>
@@ -192,8 +190,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="6" class="text-bold text-dark text-center">GRAND TOTAL</th>
-                        <th class="text-bold text-dark text-right">{{ getGrandTotal($planOrders, 'grand_total') }}</th>
+                        <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL ITEMS</th>
+                        <th class="text-bold text-dark text-center">{{ formatPrice($grandTotalItems) }}</th>
                         <th colspan="2"></th>
                     </tr>
                 </tfoot>

@@ -55,22 +55,22 @@ class PlanOrderItemSheet extends DefaultValueBinder  implements FromView, Should
 
         $range = 5 + $planOrderItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'H'.$rangeStr;
+        $rangeTab = 'F'.$rangeStr;
 
-        $header = 'A5:H5';
+        $header = 'A5:F5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:H1');
-        $sheet->mergeCells('A2:H2');
-        $sheet->mergeCells('A3:H3');
+        $sheet->mergeCells('A1:F1');
+        $sheet->mergeCells('A2:F2');
+        $sheet->mergeCells('A3:F3');
 
-        $title = 'A1:H3';
+        $title = 'A1:F3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:H3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:F3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -99,15 +99,11 @@ class PlanOrderItemSheet extends DefaultValueBinder  implements FromView, Should
 
         $rangeNumberCell = 'F6:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'G6:H'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['E', 'G', 'H'];
+        $numericalColumns = ['E'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);

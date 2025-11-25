@@ -16,7 +16,7 @@ return new class extends Migration
                 \App\Utilities\Constant::PLAN_ORDER_STATUS_ACTIVE,
                 \App\Utilities\Constant::PLAN_ORDER_STATUS_UPDATED,
                 \App\Utilities\Constant::PLAN_ORDER_STATUS_CANCELLED
-            ])->after('grand_total');
+            ])->after('date');
         });
     }
 

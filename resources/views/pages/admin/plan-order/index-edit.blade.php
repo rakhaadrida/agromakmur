@@ -134,8 +134,6 @@
                                                             <td class="table-head-name-transaction">Product Name</td>
                                                             <td class="table-head-quantity-transaction">Qty</td>
                                                             <td class="table-head-quantity-transaction">Unit</td>
-                                                            <td class="table-head-price-transaction">Price</td>
-                                                            <td class="table-head-total-transaction">Total</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -145,38 +143,15 @@
                                                                 <td>{{ $planOrderItem->product->sku }} </td>
                                                                 <td>{{ $planOrderItem->product->name }}</td>
                                                                 <td class="text-right">{{ formatQuantity($planOrderItem->quantity) }}</td>
-                                                                <td>{{ $planOrderItem->unit->name }}</td>
-                                                                <td class="text-right">{{ formatPrice($planOrderItem->price) }}</td>
-                                                                <td class="text-right">{{ formatPrice($planOrderItem->total) }}</td>
+                                                                <td class="text-center">{{ $planOrderItem->unit->name }}</td>
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="7" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
+                                                                <td colspan="5" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
                                                 </table>
-                                                <div class="form-group row justify-content-end subtotal-so">
-                                                    <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-2 mr-1">
-                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($planOrder->subtotal) }}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row justify-content-end total-so">
-                                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-2 mr-1">
-                                                        <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($planOrder->tax_amount) }}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row justify-content-end grandtotal-so">
-                                                    <label for="grandTotal" class="col-2 col-form-label text-bold text-right text-dark">Grand Total</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-2 mr-1">
-                                                        <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($planOrder->grand_total) }}" readonly>
-                                                    </div>
-                                                </div>
                                                 <hr>
                                                 @if(!isCancelled($planOrder->status))
                                                     <div class="form-row justify-content-center">

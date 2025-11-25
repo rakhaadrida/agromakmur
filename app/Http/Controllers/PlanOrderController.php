@@ -107,9 +107,6 @@ class PlanOrderController extends Controller
             $request->merge([
                 'number' => $number,
                 'date' => $date,
-                'subtotal' => 0,
-                'tax_amount' => 0,
-                'grand_total' => 0,
                 'user_id' => Auth::user()->id,
             ]);
 
@@ -424,6 +421,12 @@ class PlanOrderController extends Controller
             ->orderByDesc('plan_orders.date')
             ->get();
 
+        $grandTotalItems = 0;
+        foreach($planOrders as $planOrder) {
+            $planOrder->total_items = $planOrder->planOrderItems->count();
+            $grandTotalItems += $planOrder->total_items;
+        }
+
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         $fileDate = Carbon::now()->format('Y_m_d');
 
@@ -431,6 +434,7 @@ class PlanOrderController extends Controller
             'startDate' => $startDate,
             'finalDate' => $finalDate,
             'planOrders' => $planOrders,
+            'grandTotalItems' => $grandTotalItems,
             'exportDate' => $exportDate,
         ];
 

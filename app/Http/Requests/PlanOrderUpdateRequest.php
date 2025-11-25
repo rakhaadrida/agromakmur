@@ -22,7 +22,6 @@ class PlanOrderUpdateRequest extends FormRequest
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],
-            'price.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],
         ];
     }
