@@ -27,7 +27,7 @@
                             <form>
                                 <div class="row justify-content-center" style="margin-bottom: 15px">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                                        <button type="submit" formaction="" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
+                                        <button type="submit" formaction="{{ route('report.price-lists.pdf') }}" formmethod="GET" formtarget="_blank" class="btn btn-primary btn-block text-bold">Export PDF</button>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <button type="submit" formaction="{{ route('report.price-lists.export') }}" formmethod="GET"  class="btn btn-danger btn-block text-bold">Export Excel</button>

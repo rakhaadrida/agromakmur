@@ -17,7 +17,7 @@ class ValueRecapController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getValueRecapMapSubcategory($subcategories, []);
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
         [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
         [$mapProductBySubcategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
@@ -46,7 +46,7 @@ class ValueRecapController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getValueRecapMapSubcategory($subcategories, []);
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
         [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
         [$mapProductBySubcategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 

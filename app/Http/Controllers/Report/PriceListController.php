@@ -6,9 +6,9 @@ use App\Exports\PriceListExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Price;
-use App\Models\Product;
-use App\Models\ProductPrice;
 use App\Models\Subcategory;
+use App\Utilities\Services\ReportService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,22 +18,9 @@ class PriceListController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = [];
-        foreach($subcategories as $subcategory) {
-            $mapSubcategoryByCategory[$subcategory->category_id][] = $subcategory;
-        }
-
-        $products = Product::all();
-        $mapProductBySubcategory = [];
-        foreach($products as $product) {
-            $mapProductBySubcategory[$product->subcategory_id][] = $product;
-        }
-
-        $productPrices = ProductPrice::query()->whereNull('deleted_at')->get();
-        $mapPriceByProduct = [];
-        foreach($productPrices as $productPrice) {
-            $mapPriceByProduct[$productPrice->product_id][$productPrice->price_id] = $productPrice->price;
-        }
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
+        $mapProductBySubcategory = ReportService::getPriceListMapProduct([]);
+        $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
@@ -54,5 +41,32 @@ class PriceListController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         return Excel::download(new PriceListExport(), 'Price_List_'.$fileDate.'.xlsx');
+    }
+
+    public function pdf() {
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+
+        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
+        $mapProductBySubcategory = ReportService::getPriceListMapProduct([]);
+        $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
+
+        $prices = Price::all();
+        $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
+        $fileDate = Carbon::now()->format('Y_m_d');
+
+        $data = [
+            'categories' => $categories,
+            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
+            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapPriceByProduct' => $mapPriceByProduct,
+            'prices' => $prices,
+            'exportDate' => $exportDate,
+        ];
+
+        $pdf = PDF::loadview('pages.admin.report.price-list.pdf', $data)
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Value_Recap'.$fileDate.'.pdf');
     }
 }

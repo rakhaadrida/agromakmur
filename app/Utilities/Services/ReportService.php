@@ -4,6 +4,7 @@ namespace App\Utilities\Services;
 
 use App\Models\GoodsReceiptItem;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\SalesOrderItem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -155,12 +156,32 @@ class ReportService
             ->get();
     }
 
-    public static function getValueRecapMapSubcategory($subcategories, $mapSubcategoryByCategory): array {
+    public static function getCommonRecapMapSubcategory($subcategories, $mapSubcategoryByCategory): array {
         foreach($subcategories as $subcategory) {
             $mapSubcategoryByCategory[$subcategory->category_id][] = $subcategory;
         }
 
         return $mapSubcategoryByCategory;
+    }
+
+    public static function getPriceListMapProduct($mapProductBySubcategory): array {
+        $products = Product::all();
+
+        foreach($products as $product) {
+            $mapProductBySubcategory[$product->subcategory_id][] = $product;
+        }
+
+        return $mapProductBySubcategory;
+    }
+
+    public static function getPriceListMapPrice($mapPriceByProduct): array {
+        $productPrices = ProductPrice::query()->whereNull('deleted_at')->get();
+
+        foreach($productPrices as $productPrice) {
+            $mapPriceByProduct[$productPrice->product_id][$productPrice->price_id] = $productPrice->price;
+        }
+
+        return $mapPriceByProduct;
     }
 
     public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory): array {
