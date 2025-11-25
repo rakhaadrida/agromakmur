@@ -179,7 +179,7 @@ class DeliveryOrderService
                 'status' => Constant::DELIVERY_ORDER_STATUS_CANCELLED
             ]);
 
-            ApprovalService::deleteData($deliveryOrder->approvals);
+            ApprovalService::deleteData($deliveryOrder->pendingApprovals);
 
             $approval = ApprovalService::createData(
                 $deliveryOrder,

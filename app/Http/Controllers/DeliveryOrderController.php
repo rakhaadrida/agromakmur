@@ -65,6 +65,7 @@ class DeliveryOrderController extends Controller
 
     public function detail($id) {
         $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+        $deliveryOrder->revision = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, [$deliveryOrder->id]);
         $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
 
         if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
@@ -215,7 +216,15 @@ class DeliveryOrderController extends Controller
             ->orderByDesc('delivery_orders.id')
             ->get();
 
-        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders, true);
+        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders);
+
+        $deliveryOrderIds = $deliveryOrders->pluck('id')->toArray();
+        $deliveryOrderRevisions = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, $deliveryOrderIds, true);
+
+        $mapRevisionByDeliveryOrderId = [];
+        foreach ($deliveryOrderRevisions as $revision) {
+            $mapRevisionByDeliveryOrderId[$revision->subject_id] = $revision->revision_count;
+        }
 
         $data = [
             'startDate' => $startDate,
@@ -224,6 +233,7 @@ class DeliveryOrderController extends Controller
             'customerId' => $customerId,
             'customers' => $customers,
             'deliveryOrders' => $deliveryOrders,
+            'mapRevisionByDeliveryOrderId' => $mapRevisionByDeliveryOrderId,
         ];
 
         return view('pages.admin.delivery-order.index-edit', $data);
@@ -231,6 +241,7 @@ class DeliveryOrderController extends Controller
 
     public function edit(Request $request, $id) {
         $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
+        $deliveryOrder->revision = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, [$deliveryOrder->id]);
         $deliveryOrderItems = $deliveryOrder->deliveryOrderItems;
 
         if(isWaitingApproval($deliveryOrder->status) && isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) {
@@ -288,7 +299,7 @@ class DeliveryOrderController extends Controller
                 'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($deliveryOrder->approvals);
+            ApprovalService::deleteData($deliveryOrder->pendingApprovals);
 
             $parentApproval = ApprovalService::createData(
                 $deliveryOrder,
@@ -342,7 +353,7 @@ class DeliveryOrderController extends Controller
                 'status' => Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL
             ]);
 
-            ApprovalService::deleteData($deliveryOrder->approvals);
+            ApprovalService::deleteData($deliveryOrder->pendingApprovals);
             $approval = ApprovalService::createData(
                 $deliveryOrder,
                 $deliveryOrder->deliveryOrderItems,

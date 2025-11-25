@@ -61,6 +61,13 @@
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
                                                 </div>
                                             </div>
+                                            <div class="form-group row do-update-input">
+                                                <label for="revision" class="col-4 text-right text-bold text-dark mt-2">Revision</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $deliveryOrder->revision ?? 0 }}" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row do-update-branch">
