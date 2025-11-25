@@ -124,7 +124,10 @@
                 width: 10px;
             }
 
-            .td-order-number,
+            .td-order-number {
+                width: 90px;
+            }
+
             .td-admin {
                 width: 70px;
             }
@@ -145,7 +148,6 @@
                 width: 85px;
             }
 
-            .td-tempo,
             .td-invoice-age {
                 width: 60px;
             }
@@ -159,7 +161,7 @@
             }
 
             .td-note {
-                width: 100px;
+                width: 90px;
             }
         </style>
     </head>

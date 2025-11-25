@@ -124,7 +124,10 @@
                 width: 10px;
             }
 
-            .td-receipt-number,
+            .td-receipt-number {
+                width: 90px;
+            }
+
             .td-admin {
                 width: 80px;
             }
