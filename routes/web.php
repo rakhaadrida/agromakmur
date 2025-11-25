@@ -244,6 +244,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_WAREHOUSE
     ]], function() {
         Route::resource('sales-returns', 'SalesReturnController');
+        Route::get('sales-returns-generate-number-ajax', 'SalesReturnController@generateNumberAjax')->name('sales-returns.generate-number-ajax');
+
         Route::resource('purchase-returns', 'PurchaseReturnController');
     });
 });

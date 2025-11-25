@@ -34,7 +34,7 @@
                                                 <label for="number" class="col-2 col-form-label text-bold text-right">Return Number</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" autofocus required >
+                                                    <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ old('number') }}" tabindex="1" disabled required>
                                                 </div>
                                                 <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Date</label>
                                                 <span class="col-form-label text-bold">:</span>
@@ -48,7 +48,7 @@
                                         <label for="salesOrderId" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" title="Enter or Choose Number" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="sales_order_id" id="salesOrderId" data-live-search="true" data-size="6" title="Enter or Choose Number" tabindex="3" autofocus required>
                                                 @foreach($salesOrders as $salesOrder)
                                                     <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}" data-customer="{{ $salesOrder->customer_id }}">{{ $salesOrder->number }}</option>
                                                 @endforeach
@@ -84,6 +84,8 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control form-control-sm text-bold" name="branch" id="branch" disabled>
+                                            <input type="hidden" name="branch_id" id="branchId">
+                                            <input type="hidden" name="is_generated_number" id="isGeneratedNumber" value="1">
                                         </div>
                                     </div>
                                 </div>
@@ -180,6 +182,23 @@
 
                 $('#customerId').selectpicker('val', customerId);
                 displaySalesOrderData(salesOrderId);
+            });
+
+            $('#branchId').change(function() {
+                generateAutoNumber($(this).val());
+            });
+
+            $('#number').on('blur', function(event) {
+                event.preventDefault();
+
+                let oldValue = $(this).data('old-value');
+                let currentValue = this.value;
+
+                if(oldValue !== currentValue) {
+                    $('#isGeneratedNumber').val(0);
+                } else {
+                    $('#isGeneratedNumber').val(1);
+                }
             });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
@@ -397,6 +416,11 @@
                             salesOrder.selectpicker('refresh');
                             salesOrder.selectpicker('render');
                         });
+
+                        let number = $('#number');
+                        number.val('');
+                        number.data('old-value', '');
+                        number.attr('disabled', 'disabled');
                     },
                 })
             }
@@ -413,6 +437,7 @@
                         $('#customerId').val(data.data.customer_id);
                         $('#customer').val(data.data.customer_name);
                         $('#branch').val(data.data.branch_name);
+                        $('#branchId').val(data.data.branch_id).trigger('change');
 
                         let salesOrderItems = data.sales_order_items;
                         let rowId = 0;
@@ -428,6 +453,24 @@
                             rowNumber++;
                             rowNumbers += 4;
                         });
+                    },
+                })
+            }
+
+            function generateAutoNumber(branchId) {
+                $.ajax({
+                    url: '{{ route('sales-returns.generate-number-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        branch_id: branchId,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        let number = $('#number');
+
+                        number.val(data.number);
+                        number.data('old-value', data.number);
+                        number.removeAttr('disabled');
                     },
                 })
             }

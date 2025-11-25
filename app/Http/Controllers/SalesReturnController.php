@@ -13,6 +13,7 @@ use App\Notifications\CancelSalesReturnNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\SalesReturnService;
 use App\Utilities\Services\UserService;
@@ -120,6 +121,11 @@ class SalesReturnController extends Controller
         try {
             DB::beginTransaction();
 
+            $number = $request->get('number');
+            if($request->get('is_generated_number')) {
+                $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_SALES_RETURN, $request->get('branch_id'));
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
@@ -127,6 +133,7 @@ class SalesReturnController extends Controller
             $deliveryDate = $deliveryDate ? Carbon::createFromFormat('d-m-Y', $deliveryDate)->format('Y-m-d') : null;
 
             $request->merge([
+                'number' => $number,
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
                 'status' => Constant::SALES_RETURN_STATUS_ACTIVE,
@@ -358,5 +365,15 @@ class SalesReturnController extends Controller
                 'message' => 'An error occurred while updating data'
             ]);
         }
+    }
+
+    public function generateNumberAjax(Request $request) {
+        $filter = (object) $request->all();
+
+        $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_SALES_RETURN, $filter->branch_id);
+
+        return response()->json([
+            'number' => $number
+        ]);
     }
 }

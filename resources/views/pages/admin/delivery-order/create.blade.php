@@ -264,7 +264,7 @@
                     },
                     dataType: 'json',
                     success: function(data) {
-                        $('#branchId').val(data.data.branch_id).trigger('change');;
+                        $('#branchId').val(data.data.branch_id).trigger('change');
                         $('#branch').val(data.data.branch_name);
                         $('#customerId').val(data.data.customer_id);
                         $('#customer').val(data.data.customer_name);
