@@ -7,14 +7,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">User List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar User</h1>
             <div class="justify-content-end">
                 <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New User
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Tambah User Baru
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('users.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Users
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  User yang Dihapus
                 </a>
             </div>
         </div>
@@ -26,9 +26,9 @@
                             <tr>
                                 <th class="table-head-number">No</th>
                                 <th>Username</th>
-                                <th class="table-head-user-role">Role</th>
-                                <th class="table-head-user-branch">Branch</th>
-                                <th>Action</th>
+                                <th class="table-head-user-role">Peran</th>
+                                <th class="table-head-user-branch">Cabang</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,15 +63,15 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Konfirmasi</h5>
                 </div>
-                <div class="modal-body text-dark">Are you sure you want to delete this data?</div>
+                <div class="modal-body text-dark">Apakah Anda yakin ingin menghapus data ini?</div>
                 <div class="modal-footer">
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
-                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-md btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Batal</button>
                     </form>
                 </div>
             </div>

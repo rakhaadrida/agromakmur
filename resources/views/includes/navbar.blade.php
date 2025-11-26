@@ -30,7 +30,7 @@
 
                 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                     <h6 class="dropdown-header">
-                        Notification
+                        Notifikasi
                     </h6>
                     @forelse($notificationLists as $notification)
                         <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="dropdown-item d-flex align-items-center">
@@ -45,13 +45,13 @@
                             </div>
                         </a>
                     @empty
-                        <a class="dropdown-item text-center text-dark-600" href="#">No Notifications</a>
+                        <a class="dropdown-item text-center text-dark-600" href="#">Tidak Ada Notifikasi</a>
                     @endforelse
                     @if($notificationLists->count() > 0)
                         @if(isUserSuperAdmin())
-                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">See All Notifications</a>
+                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">Lihat Semua Notifikasi</a>
                         @elseif(isUserAdminOnly())
-                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('notifications.index') }}">See All Notifications</a>
+                            <a class="dropdown-item text-center small text-dark-600" href="{{ route('notifications.index') }}">Lihat Semua Notifikasi</a>
                         @endif
                     @endif
                 </div>
@@ -65,7 +65,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="{{ route('change-password') }}">
-                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>Change Password
+                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>Ganti Password
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

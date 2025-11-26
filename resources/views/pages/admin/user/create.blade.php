@@ -9,7 +9,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-dark text-bold">Add New User</div>
+                    <div class="card-header text-dark text-bold">Tambah User Baru</div>
                     <div class="card-body">
                         <form action="{{ route('users.store') }}" method="POST" role="form">
                             @csrf
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="passwordConfirmationUser" class="col-md-4 col-form-label text-md-right">Password Confirmation</label>
+                                <label for="passwordConfirmationUser" class="col-md-4 col-form-label text-md-right">Konfirmasi Password</label>
                                 <div class="col-md-6">
                                     <input type="password" class="form-control @error('password') is-invalid user-invalid-no-icon @enderror" name="password_confirmation" id="passwordConfirmationUser" required>
                                     <i class="far fa-eye password-eye-icon" id="togglePasswordConfirmationUser"></i>
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="role" class="col-md-4 col-form-label text-md-right">Role</label>
+                                <label for="role" class="col-md-4 col-form-label text-md-right">Peran</label>
                                 <div class="col-md-6">
                                     <select class="custom-select mr-sm-2" name="role" id="role">
                                         @foreach($userRoles as $key => $userRole)
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="branchIds" class="col-md-4 col-form-label text-md-right">Branch</label>
+                                <label for="branchIds" class="col-md-4 col-form-label text-md-right">Cabang</label>
                                 <div class="col-md-6">
                                     <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple disabled>
                                         @foreach($branches as $key => $branch)
@@ -80,11 +80,11 @@
                             </div>
                             <div class="form-group row mb-0">
                                 <div class="col-md-auto offset-md-4">
-                                    <button type="submit" class="btn btn-primary text-bold">Submit</button>
+                                    <button type="submit" class="btn btn-primary text-bold">Simpan</button>
                                 </div>
                                 <div class="col-md-2 user-button-cancel">
                                     <a href="{{ route('users.index') }}" class="btn btn-outline-danger text-bold">
-                                        Cancel
+                                        Batal
                                     </a>
                                 </div>
                             </div>

@@ -19,8 +19,8 @@
             </a>
             <div id="collapseApproval" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('approvals.index') }}">Need Approval</a>
-                    <a class="collapse-item" href="{{ route('approvals.index-history') }}">Approval History</a>
+                    <a class="collapse-item" href="{{ route('approvals.index') }}">Butuh Approval</a>
+                    <a class="collapse-item" href="{{ route('approvals.index-history') }}">Histori Approval</a>
                 </div>
             </div>
         </li>
@@ -30,7 +30,7 @@
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('notifications.index') }}">
                 <i class="fas fa-fw fa-bell"></i>
-                <span>Notification</span>
+                <span>Notifikasi</span>
             </a>
         </li>
     @endif
@@ -41,14 +41,14 @@
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs('stocks.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('stocks.index') }}">
                 <i class="fas fa-fw fa-warehouse"></i>
-                <span>Stock</span>
+                <span>Stok</span>
             </a>
         </li>
     @endif
 
     @if(isUserAdmin())
         <div class="sidebar-heading sidebar-heading-title text-white">
-            Sales and Purchases
+            Transaksi
         </div>
         <li class="nav-item sidebar-first-icon {{ request()->routeIs(getMasterRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
@@ -59,56 +59,56 @@
                 <div class="py-2 collapse-inner rounded">
                     @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('users.index') }}">User</a>
-                        <a class="collapse-item" href="{{ route('branches.index') }}">Branch</a>
+                        <a class="collapse-item" href="{{ route('branches.index') }}">Cabang</a>
                     @endif
-                    <a class="collapse-item" href="{{ route('marketings.index') }}">Marketing</a>
+                    <a class="collapse-item" href="{{ route('marketings.index') }}">Sales</a>
                     <a class="collapse-item" href="{{ route('suppliers.index') }}">Supplier</a>
                     <a class="collapse-item" href="{{ route('customers.index') }}">Customer</a>
-                    <a class="collapse-item" href="{{ route('warehouses.index') }}">Warehouse</a>
-                    <a class="collapse-item" href="{{ route('prices.index') }}">Price</a>
-                    <a class="collapse-item" href="{{ route('categories.index') }}">Category</a>
-                    <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Category</a>
+                    <a class="collapse-item" href="{{ route('warehouses.index') }}">Gudang</a>
+                    <a class="collapse-item" href="{{ route('prices.index') }}">Harga</a>
+                    <a class="collapse-item" href="{{ route('categories.index') }}">Kategori</a>
+                    <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Kategori</a>
                     <a class="collapse-item" href="{{ route('units.index') }}">Unit</a>
-                    <button class="collapse-item product-menu-button" id="menuProduct" href="{{ route('products.index') }}">Product</button>
+                    <button class="collapse-item product-menu-button" id="menuProduct" href="{{ route('products.index') }}">Produk</button>
                 </div>
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getPurchaseRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePurchase" aria-expanded="true" aria-controls="collapsePurchase">
                 <i class="fas fa-fw fa-shopping-cart"></i>
-                <span>Purchase</span>
+                <span>Pembelian</span>
             </a>
             <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('plan-orders.create') }}">Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Print Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index-edit') }}">Edit Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index') }}">Daily Plan Order</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Goods Receipt</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Print Goods Receipt</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Edit Goods Receipt</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Daily Goods Receipt</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.create') }}">Product Transfer</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.index-print') }}">Print Product Transfer</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.index') }}">List Product Transfer</a>
+                    <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Cetak Plan Order</a>
+                    <a class="collapse-item" href="{{ route('plan-orders.index-edit') }}">Ubah Plan Order</a>
+                    <a class="collapse-item" href="{{ route('plan-orders.index') }}">Plan Order Harian</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Barang Masuk</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Ubah Barang Masuk</a>
+                    <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Barang Masuk Harian</a>
+                    <a class="collapse-item" href="{{ route('product-transfers.create') }}">Transfer Produk</a>
+                    <a class="collapse-item" href="{{ route('product-transfers.index-print') }}">Cetak Transfer Produk</a>
+                    <a class="collapse-item" href="{{ route('product-transfers.index') }}">Daftar Transfer Produk</a>
                 </div>
             </div>
         </li>
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getSalesRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapseSales">
                 <i class="fas fa-fw fa-shipping-fast"></i>
-                <span>Sales</span>
+                <span>Penjualan</span>
             </a>
             <div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('sales-orders.create') }}">Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Print Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index-edit') }}">Edit Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index') }}">Daily Sales Order</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Delivery Order</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Print Delivery Order</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Edit Delivery Order</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Daily Delivery Order</a>
+                    <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Cetak Sales Order</a>
+                    <a class="collapse-item" href="{{ route('sales-orders.index-edit') }}">Ubah Sales Order</a>
+                    <a class="collapse-item" href="{{ route('sales-orders.index') }}">Sales Order Harian</a>
+                    <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>
+                    <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
+                    <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Ubah Surat Jalan</a>
+                    <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
                 </div>
             </div>
         </li>
@@ -117,15 +117,15 @@
     <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getReturnRoute()) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReturn" aria-expanded="true" aria-controls="collapseReturn">
           <i class="fas fa-fw fa-recycle"></i>
-          <span>Return</span>
+          <span>Retur</span>
         </a>
         <div id="collapseReturn" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 @if(isUserAdmin() || isUserWarehouse())
-                    <a class="collapse-item" href="{{ route('returns.index') }}">Return Stock</a>
+                    <a class="collapse-item" href="{{ route('returns.index') }}">Stok Retur</a>
                 @endif
-                <a class="collapse-item" href="{{ route('sales-returns.index') }}">Sales Return</a>
-                <a class="collapse-item" href="{{ route('purchase-returns.index') }}">Purchase Return</a>
+                <a class="collapse-item" href="{{ route('sales-returns.index') }}">Retur Penjualan</a>
+                <a class="collapse-item" href="{{ route('purchase-returns.index') }}">Retur Pembelian</a>
             </div>
         </div>
     </li>
@@ -134,7 +134,7 @@
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getProductReportRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProductReport" aria-expanded="true" aria-controls="collapseProductReport">
                 <i class="fas fa-fw fa-boxes"></i>
-                <span>Product Report</span>
+                <span>Laporan Produk</span>
             </a>
             <div id="collapseProductReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -156,7 +156,7 @@
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getTransactionReportRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransactionReport" aria-expanded="true" aria-controls="collapseTransactionReport">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Transaction Report</span>
+                <span>Laporan Transaksi</span>
             </a>
             <div id="collapseTransactionReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -171,12 +171,12 @@
 
     @if(isUserSuperAdmin() || isUserFinance())
         <div class="sidebar-heading sidebar-heading-title text-white">
-            Finance
+            Keuangan
         </div>
         <li class="nav-item sidebar-first-icon {{ request()->routeIs(getReceivableRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReceivables" aria-expanded="true" aria-controls="collapseReceivables">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>Account Receivable</span>
+                <span>Piutang</span>
             </a>
             <div id="collapseReceivables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
@@ -188,7 +188,7 @@
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs('account-payables.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('account-payables.index') }}">
                 <i class="fas fa-fw fa-chart-area"></i>
-                <span>Account Payable</span>
+                <span>Hutang</span>
             </a>
         </li>
     @endif
@@ -197,7 +197,7 @@
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFinancialReport" aria-expanded="true" aria-controls="collapseFinancialReport">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Report</span>
+                <span>Laporan</span>
             </a>
             <div id="collapseFinancialReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">

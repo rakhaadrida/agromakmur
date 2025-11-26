@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="role" class="col-md-4 col-form-label text-md-right">Role</label>
+                                <label for="role" class="col-md-4 col-form-label text-md-right">Peran</label>
                                 <div class="col-md-6">
                                     <select class="custom-select mr-sm-2" name="role" id="role">
                                         @foreach($userRoles as $key => $userRole)
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="branchIds" class="col-md-4 col-form-label text-md-right">Branch</label>
+                                <label for="branchIds" class="col-md-4 col-form-label text-md-right">Cabang</label>
                                 <div class="col-md-6">
                                     <input type="hidden" name="branch_id_values[]" id="branchIdValues" value="{{ $branchIds }}">
                                     <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple @if(isUserDetailSuperAdmin($user->role)) disabled @endif>
@@ -58,11 +58,11 @@
                             </div>
                             <div class="form-group row mb-0">
                                 <div class="col-md-auto offset-md-4">
-                                    <button type="submit" class="btn btn-primary text-bold">Submit</button>
+                                    <button type="submit" class="btn btn-primary text-bold">Simpan</button>
                                 </div>
                                 <div class="col-md-2 user-button-cancel">
                                     <a href="{{ route('users.index') }}" class="btn btn-outline-danger text-bold">
-                                        Cancel
+                                        Batal
                                     </a>
                                 </div>
                             </div>
