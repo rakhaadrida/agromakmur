@@ -1860,7 +1860,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     outline: none !important;
 }
 
-.th-approval-number,
+.th-approval-number {
+    width: 90px;
+}
+
 .th-approval-date {
     width: 70px;
 }

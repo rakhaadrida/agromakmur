@@ -226,15 +226,27 @@
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
+        $.fn.dataTable.ext.order['dom-data-sort'] = function (settings, col) {
+            return this.api()
+                .column(col, { order: 'index' })
+                .nodes()
+                .map(function (td) {
+                    return $(td).data('sort');
+                });
+        };
+
         let datatableSalesOrder = $('#dataTableSalesOrder').DataTable({
             "responsive": true,
             "autoWidth": false,
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [4, 6, 7, 8, 9],
+                    targets: [0, 4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -246,9 +258,16 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [4, 6, 7, 8, 9],
+                    targets: [2, 3],
+                    orderDataType: 'dom-data-sort'
+                },
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -260,9 +279,16 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [4, 6, 7, 8, 9],
+                    targets: [2, 3],
+                    orderDataType: 'dom-data-sort'
+                },
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -274,6 +300,19 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
+            "columnDefs": [
+                {
+                    targets: [2, 3],
+                    orderDataType: 'dom-data-sort'
+                },
+                {
+                    targets: [0, 4, 5, 6, 7],
+                    orderable: false
+                }
+            ],
         });
 
         let datatableSalesReturn = $('#dataTableSalesReturn').DataTable({
@@ -282,9 +321,16 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [4, 6, 7, 8, 9],
+                    targets: [2, 3],
+                    orderDataType: 'dom-data-sort'
+                },
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
@@ -296,9 +342,16 @@
             "language": {
                 "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
             },
+            "order": [
+                [3, "desc"]
+            ],
             "columnDefs": [
                 {
-                    targets: [4, 6, 7, 8, 9],
+                    targets: [2, 3],
+                    orderDataType: 'dom-data-sort'
+                },
+                {
+                    targets: [0, 4, 6, 7, 8, 9],
                     orderable: false
                 }
             ],
