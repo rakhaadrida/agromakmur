@@ -1,18 +1,18 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Supplier Data</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Daftar Supplier</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
             <thead class="text-center text-dark text-bold">
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Contact Number</th>
-                    <th>Tax Number</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>No. Telepon</th>
+                    <th>NPWP</th>
                     <th>Status</th>
                 </tr>
             </thead>

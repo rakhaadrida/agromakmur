@@ -186,7 +186,7 @@ class CustomerController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new CustomerExport(), 'Customer_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new CustomerExport(), 'Daftar_Customer_'.$fileDate.'.xlsx');
     }
 
     public function customerLimitAjax(Request $request) {

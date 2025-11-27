@@ -200,7 +200,7 @@ class BranchController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new BranchExport(), 'Branch_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new BranchExport(), 'Daftar_Cabang_'.$fileDate.'.xlsx');
     }
 
     public function branchWarehouseAjax(Request $request) {

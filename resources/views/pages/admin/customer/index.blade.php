@@ -7,18 +7,18 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Customer List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Customer</h1>
             <div class="justify-content-end">
                 <a href="{{ route('customers.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Customer
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Tambah Customer Baru
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('customers.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Customers
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Customer yang Dihapus
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('customers.export') }}" class="btn btn-sm btn-success shadow-sm">
-                    <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Download Excel
+                    <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Export Excel
                 </a>
             </div>
         </div>
@@ -29,11 +29,11 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Address</th>
-                                <th>Contact Number</th>
-                                <th>Marketing</th>
-                                <th>Action</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>No. Telepon</th>
+                                <th>Sales</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,7 +55,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="6" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -69,15 +69,15 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Konfirmasi</h5>
                 </div>
-                <div class="modal-body text-dark">Are you sure you want to delete this data?</div>
+                <div class="modal-body text-dark">Apakah Anda yakin ingin menghapus data ini?</div>
                 <div class="modal-footer">
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
-                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-md btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Batal</button>
                     </form>
                 </div>
             </div>

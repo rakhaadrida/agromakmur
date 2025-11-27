@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Add New Customer</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Tambah Customer Baru</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger alert-input-section">
@@ -27,35 +27,35 @@
                             <form action="{{ route('customers.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ old('name') }}" required autofocus>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address" class="col-2 col-form-label text-bold text-right">Address</label>
+                                    <label for="address" class="col-2 col-form-label text-bold text-right">Alamat</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-8">
                                         <textarea class="form-control col-form-label-sm" name="address" id="address" required>{{ old('address') }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Contact Number</label>
+                                    <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Nomor Telepon</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ old('contact_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="taxNumber" class="col-2 col-form-label text-bold text-right">Tax Number / NPWP</label>
+                                    <label for="taxNumber" class="col-2 col-form-label text-bold text-right">NPWP</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="tax_number" id="taxNumber" value="{{ old('tax_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="creditLimit" class="col-2 col-form-label text-bold text-right">Credit Limit</label>
+                                    <label for="creditLimit" class="col-2 col-form-label text-bold text-right">Limit Kredit</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="number" min="0" class="form-control col-form-label-sm" name="credit_limit" id="creditLimit" value="{{ old('credit_limit') ?? 0 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
+                                    <label for="marketing" class="col-2 col-form-label text-bold text-right">Sales</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <select class="selectpicker custom-select-picker" name="marketing_id" id="marketing" data-live-search="true">
@@ -87,13 +87,13 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-danger btn-block text-bold">Reset</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

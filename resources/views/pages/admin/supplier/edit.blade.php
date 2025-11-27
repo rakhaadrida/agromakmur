@@ -24,28 +24,28 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ $supplier->name }}" required autofocus>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address" class="col-2 col-form-label text-bold text-right">Address</label>
+                                    <label for="address" class="col-2 col-form-label text-bold text-right">Alamat</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-8">
                                         <textarea class="form-control col-form-label-sm" name="address" id="address" required>{{ $supplier->address }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Contact Number</label>
+                                    <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Nomor Telepon</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ $supplier->contact_number }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="taxNumber" class="col-2 col-form-label text-bold text-right">Tax Number / NPWP</label>
+                                    <label for="taxNumber" class="col-2 col-form-label text-bold text-right">NPWP</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="tax_number" id="taxNumber" value="{{ $supplier->tax_number }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
@@ -54,10 +54,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

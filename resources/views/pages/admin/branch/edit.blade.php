@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Branch - {{ $branch->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Cabang - {{ $branch->name }}</h1>
         </div>
         @if($errors->any())
             <div class="alert alert-danger alert-input-section">
@@ -28,28 +28,28 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ $branch->name }}" required autofocus>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="address" class="col-2 col-form-label text-bold text-right">Address</label>
+                                    <label for="address" class="col-2 col-form-label text-bold text-right">Alamat</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-8">
                                         <textarea class="form-control col-form-label-sm" name="address" id="address" required>{{ $branch->address }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="phoneNumber" class="col-2 col-form-label text-bold text-right">Phone Number</label>
+                                    <label for="phoneNumber" class="col-2 col-form-label text-bold text-right">Nomor Telepon</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="phone_number" id="phoneNumber" value="{{ $branch->phone_number }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="userIds" class="col-2 col-form-label text-right">Users</label>
+                                    <label for="userIds" class="col-2 col-form-label text-right">User</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="hidden" name="user_id_values[]" id="userIdValues" value="{{ $userIds }}">
@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="warehouseIds" class="col-2 col-form-label text-right">Warehouses</label>
+                                    <label for="warehouseIds" class="col-2 col-form-label text-right">Gudang</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="hidden" name="warehouse_id_values[]" id="warehouseIdValues" value="{{ $warehouseIds }}">
@@ -85,10 +85,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

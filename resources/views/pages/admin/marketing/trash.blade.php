@@ -8,20 +8,20 @@
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
             <div>
-                <h1 class="h3 mb-0 text-gray-800 menu-title">List of Deleted Marketings</h1>
+                <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Sales yang Dihapus</h1>
             </div>
             <div class="row">
                 <form action="{{ route('marketings.restore', 0) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <button type="submit" class="btn btn-sm btn-primary shadow-sm mr-2" title="Restore All Marketings">
-                        Restore All Marketings
+                        Kembalikan Semua Sales
                     </button>
                 </form>
                 <a href="#" class="btn btn-sm btn-outline-danger shadow-sm mr-2 btn-delete" data-toggle="modal" data-target="#deleteMarketingModal" data-id="0">
-                    Permanently Delete All Marketings
+                    Hapus Permanen Semua Sales
                 </a>
-                <a href="{{ route('marketings.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Back to Marketings List</a>
+                <a href="{{ route('marketings.index') }}" class="btn btn-sm btn-outline-primary shadow-sm">Kembali ke Daftar Sales</a>
             </div>
         </div>
         <div class="row">
@@ -31,7 +31,7 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="table-head-number">No</th>
-                                <th>Name</th>
+                                <th>Nama</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -59,7 +59,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center">No Data Available</td>
+                                    <td colspan="3" class="text-center">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -73,15 +73,15 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Konfirmasi</h5>
                 </div>
-                <div class="modal-body text-dark">Are you sure you want to permanently delete this data?</div>
+                <div class="modal-body text-dark">Apakah Anda yakin ingin menghapus data ini secara permanen?</div>
                 <div class="modal-footer">
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('PUT')
-                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
-                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-md btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Batal</button>
                     </form>
                 </div>
             </div>
