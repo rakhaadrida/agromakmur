@@ -685,7 +685,7 @@ class SalesOrderController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new SalesOrderExport($request), 'Sales_Order_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new SalesOrderExport($request), 'Daftar_Sales_Order_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -719,7 +719,7 @@ class SalesOrderController extends Controller
         $pdf = PDF::loadview('pages.admin.sales-order.pdf', $data)
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Sales_Order_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Sales_Order_'.$fileDate.'.pdf');
     }
 
     public function indexAjax(Request $request) {

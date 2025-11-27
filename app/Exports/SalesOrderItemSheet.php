@@ -53,7 +53,7 @@ class SalesOrderItemSheet extends DefaultValueBinder implements FromView, Should
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Sales_Order_Items');
+        $sheet->setTitle('Item_Sales_Order');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -31,12 +31,12 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor Order</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" tabindex="1" autofocus required >
                                                 </div>
-                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Order Date</label>
+                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tanggal Order</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" tabindex="2" required>
@@ -53,42 +53,42 @@
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
                                             <div class="form-group row sales-order-is-taxable-input">
-                                                <label for="isTaxable" class="col-5 col-form-label text-bold text-right">Is Taxable</label>
+                                                <label for="isTaxable" class="col-5 col-form-label text-bold text-right">PKP</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2"></span>
                                                 <div class="col-3 pkp-check">
                                                     <div class="form-check mt-2">
                                                         <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableYes" value="1" tabindex="7" checked>
-                                                        <label class="form-check-label text-bold text-dark" for="isTaxableYes">Yes</label>
+                                                        <label class="form-check-label text-bold text-dark" for="isTaxableYes">Ya</label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="is_taxable" id="isTaxableNo" value="0" tabindex="7">
-                                                        <label class="form-check-label text-bold text-dark" for="isTaxableNo">No</label>
+                                                        <label class="form-check-label text-bold text-dark" for="isTaxableNo">Tidak</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row sales-order-type-input">
-                                                <label for="type" class="col-5 col-form-label text-bold text-right">Type</label>
+                                                <label for="type" class="col-5 col-form-label text-bold text-right">Tipe</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2"></span>
                                                 <div class="col-3 pkp-check">
                                                     <div class="form-check mt-2">
                                                         <input class="form-check-input" type="radio" name="type" id="typeRetail" value="{{ \App\Utilities\Constant::SALES_ORDER_TYPE_RETAIL }}" tabindex="7" required>
-                                                        <label class="form-check-label text-bold text-dark" for="typeRetail">Retail</label>
+                                                        <label class="form-check-label text-bold text-dark" for="typeRetail">Eceran</label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="type" id="typeWholesale" value="{{ \App\Utilities\Constant::SALES_ORDER_TYPE_WHOLESALE }}" tabindex="7">
-                                                        <label class="form-check-label text-bold text-dark" for="typeWholesale">Wholesale</label>
+                                                        <label class="form-check-label text-bold text-dark" for="typeWholesale">Grosir</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row sales-order-customer-input">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Input atau Pilih Cabang" tabindex="3" required>
                                                 @foreach($branches as $key => $branch)
                                                     <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if(!$key) selected @endif>{{ $branch->name }}</option>
                                                 @endforeach
@@ -99,7 +99,7 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tax Number</label>
+                                        <label for="taxNumber" class="col-2 col-form-label text-bold text-right sales-order-middle-input">NPWP</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" name="tax_number" id="taxNumber" class="form-control form-control-sm text-bold" readonly>
@@ -109,7 +109,7 @@
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="3" required>
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}">{{ $customer->name }}</option>
                                                 @endforeach
@@ -120,17 +120,17 @@
                                                 </span>
                                             @enderror
                                         </div>
-                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tanggal Kirim</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $date }}" tabindex="5" required>
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
+                                        <label for="marketing" class="col-2 col-form-label text-bold text-right">Sales</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Enter or Choose Marketing" tabindex="4" required>
+                                            <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Input atau Pilih Sales" tabindex="4" required>
                                                 @foreach($marketings as $marketing)
                                                     <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}">{{ $marketing->name }}</option>
                                                 @endforeach
@@ -157,22 +157,22 @@
                                 <hr>
                                 <div id="itemContent" hidden>
                                     <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                        Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                        Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                     </span>
                                     <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
                                                 <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
-                                                <td rowspan="2" class="align-middle">Product Name</td>
+                                                <td rowspan="2" class="align-middle">Nama Produk</td>
                                                 <td rowspan="2" class="align-middle table-head-quantity-sales-order">Qty</td>
                                                 <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
-                                                <td rowspan="2" class="align-middle table-head-price-type-sales-order">Price Type</td>
-                                                <td rowspan="2" class="align-middle table-head-price-sales-order">Price</td>
+                                                <td rowspan="2" class="align-middle table-head-price-type-sales-order">Tipe Harga</td>
+                                                <td rowspan="2" class="align-middle table-head-price-sales-order">Harga</td>
                                                 <td rowspan="2" class="align-middle table-head-total-sales-order">Total</td>
-                                                <td colspan="2" class="align-middle">Discount</td>
-                                                <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Final Amount</td>
-                                                <td rowspan="2" class="align-middle table-head-delete-transaction">Delete</td>
+                                                <td colspan="2" class="align-middle">Diskon</td>
+                                                <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Netto</td>
+                                                <td rowspan="2" class="align-middle table-head-delete-transaction">Hapus</td>
                                             </tr>
                                             <tr>
                                                 <td class="table-head-discount-percentage-sales-order">%</td>
@@ -184,7 +184,7 @@
                                                 <tr class="text-bold text-dark" id="{{ $key }}">
                                                     <td class="align-middle text-center">{{ $row }}</td>
                                                     <td>
-                                                        <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
+                                                        <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 3 }}" @if($key == 0) required @endif>
                                                             @foreach($products as $product)
                                                                 <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                             @endforeach
@@ -192,7 +192,7 @@
                                                         <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                     </td>
                                                     <td>
-                                                        <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
+                                                        <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
                                                             @foreach($products as $product)
                                                                 <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                             @endforeach
@@ -221,7 +221,7 @@
                                                         <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja and plus sign" readonly @if($key == 0) required @endif>
+                                                        <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka dan tanda tambah saja" readonly @if($key == 0) required @endif>
                                                     </td>
                                                     <td>
                                                         <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly>
@@ -247,11 +247,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                        <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                        <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <span class="col-form-label text-bold ml-2">Rp</span>
                                         <div class="col-2">
-                                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Enter Discount" tabindex="9999">
+                                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" placeholder="Input Diskon" tabindex="9999">
                                         </div>
                                     </div>
                                     <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -263,7 +263,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                        <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                        <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">PPN</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <span class="col-form-label text-bold ml-2">Rp</span>
                                         <div class="col-2">
@@ -281,7 +281,7 @@
                                     <hr>
                                     <div class="form-row justify-content-center">
                                         <div class="col-2">
-                                             <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                             <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                         </div>
                                         <div class="col-2">
                                             <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
@@ -296,18 +296,18 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Sales Order Confirmation</h4>
+                                                <h4 class="modal-title">Konfirmasi Sales Order</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>The Sales Order data will be saved. Please select print or re-enter the sales order.</p>
+                                                <p>Data Sales Order akan disimpan. Silakan pilih cetak atau input kembali Sales Order.</p>
                                                 <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
+                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Lagi</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -322,35 +322,35 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Credit Limit Confirmation</h4>
+                                                <h4 class="modal-title">Konfirmasi Limit Kredit</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Total invoice for this customer exceeds the limit of <span class="col-form-label text-bold" id="creditLimitLabel"></span>.</p>
+                                                <p>Total faktur untuk customer ini melebihi batas <span class="col-form-label text-bold" id="creditLimitLabel"></span>.</p>
                                                 <hr>
                                                 <div class="form-group row total-credit-label">
-                                                    <label for="totalCredit" class="col-4 col-form-label text-bold">Total Credit</label>
+                                                    <label for="totalCredit" class="col-4 col-form-label text-bold">Total Kredit</label>
                                                     <span class="col-auto col-form-label text-bold">:</span>
                                                     <span class="col-3 col-form-label text-bold text-right" id="totalCredit"></span>
                                                 </div>
                                                 <div class="form-group row invoice-amount-label">
-                                                    <label for="invoiceAmount" class="col-4 col-form-label text-bold">Invoice Amount</label>
+                                                    <label for="invoiceAmount" class="col-4 col-form-label text-bold">Jumlah Faktur</label>
                                                     <span class="col-auto col-form-label text-bold">:</span>
                                                     <span class="col-3 col-form-label text-bold text-right" id="invoiceAmount"></span>
                                                 </div>
                                                 <div class="form-group row total-bills-label">
-                                                    <label for="totalBills" class="col-4 col-form-label text-bold">Total Bills</label>
+                                                    <label for="totalBills" class="col-4 col-form-label text-bold">Total Tagihan</label>
                                                     <span class="col-auto col-form-label text-bold">:</span>
                                                     <span class="col-3 col-form-label text-bold text-right" id="totalBills"></span>
                                                     <input type="hidden" name="is_limit" id="isLimit" value="0">
                                                 </div>
                                                 <hr>
-                                                <p>Please choose to submit or cancel</p>
+                                                <p>Silahkan pilih untuk simpan atau batal</p>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                                     </div>
                                                     <div class="col-3">
-                                                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary btn-block text-bold">Cancel</button>
+                                                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary btn-block text-bold">Batal</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,10 +372,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Stock Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Stok Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>The input quantity cannot exceed the total stock. The total stock for the item <span class="col-form-label text-bold" id="stockProductName"></span> is <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
+                    <h5>Jumlah qty input tidak boleh melebihi total stok. Total stok untuk produk <span class="col-form-label text-bold" id="stockProductName"></span> adalah <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
                 </div>
             </div>
         </div>
@@ -388,23 +388,23 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" id="closeModal" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Choose Warehouse Stock</h4>
+                    <h4 class="modal-title text-bold">Pilih Stok Gudang</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <p>Order quantity exceeds stock in warehouse <span class="text-bold" id="warehouseName"></span>. Select another warehouse to fulfill the order quantity.</p>
+                    <p>Jumlah qty input melebihi stok di gudang <span class="text-bold" id="warehouseName"></span>. Pilih gudang lain untuk memenuhi jumlah pesanan.</p>
                     <div class="form-group row" style="margin-top: -10px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Order Quantity</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Qty Order</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="orderQuantity"></span>
                         <input type="hidden" id="rowIndex">
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Primary Warehouse Stock</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Stok Gudang Utama</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="primaryStock"></span>
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Remaining Order Quantity</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Sisa Qty Order</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="remainingQuantity"></span>
                         <input type="hidden" id="remainingQuantityValue">
@@ -412,14 +412,14 @@
                         <input type="hidden" id="remainingConversionValue">
                         <input type="hidden" id="remainingConversionUnit">
                     </div>
-                    <label style="margin-bottom: -5px">Choose Another Warehouse</label>
+                    <label style="margin-bottom: -5px">Pilih Gudang Lain</label>
                     @foreach($warehouses as $key => $warehouse)
                         <div class="row other-warehouse-row" id="otherWarehouse-{{ $warehouse->id }}">
-                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
+                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stok : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
                             <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
                             <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
                             <div class="col-3">
-                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Select</button>
+                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Pilih</button>
                             </div>
                         </div>
                     @endforeach
@@ -435,10 +435,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>Ada kode produk yang duplikat seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah kode produk.</h5>
                 </div>
             </div>
         </div>
@@ -1340,7 +1340,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -1348,7 +1348,7 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach

@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Daily Sales Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Sales Order Harian</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,17 +29,17 @@
                             <form action="{{ route('sales-orders.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startDate" class="col-auto col-form-label text-bold">Order Date</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Order</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold ">s / d</label>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                         </div>
                                         <div class="col-1 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                         <div class="col-1 mt-1 ml-n3">
                                             <button type="submit" class="btn btn-success btn-sm btn-block text-bold" formaction="{{ route('sales-orders.export') }}" formmethod="GET">Export</button>
@@ -54,11 +54,11 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-sales-order-number-index">Number</th>
-                                            <th class="align-middle th-sales-order-date-index">Date</th>
-                                            <th class="align-middle th-sales-order-branch-index-print">Branch</th>
+                                            <th class="align-middle th-sales-order-number-index">Nomor</th>
+                                            <th class="align-middle th-sales-order-date-index">Tanggal</th>
+                                            <th class="align-middle th-sales-order-branch-index-print">Cabang</th>
                                             <th class="align-middle">Customer</th>
-                                            <th class="align-middle th-sales-order-invoice-age-index">Invoice Age</th>
+                                            <th class="align-middle th-sales-order-invoice-age-index">Umur Nota</th>
                                             <th class="align-middle th-sales-order-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-sales-order-status-index">Status</th>
                                             <th class="align-middle th-sales-order-status-index">Admin</th>
@@ -83,7 +83,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

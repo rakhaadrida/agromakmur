@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Sales Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Sales Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Nomor</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $salesOrder->number }}" readonly>
@@ -44,7 +44,7 @@
                                                 <label for="customer" class="col-3 col-form-label text-bold text-right text-dark">Customer</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Enter or Choose Customer" tabindex="4" required>
+                                                    <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="4" required>
                                                         @foreach($customers as $customer)
                                                             <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}" @if($salesOrder->customer_id == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                         @endforeach
@@ -57,10 +57,10 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row so-update-input">
-                                                <label for="marketing" class="col-3 col-form-label text-bold text-right text-dark">Marketing</label>
+                                                <label for="marketing" class="col-3 col-form-label text-bold text-right text-dark">Sales</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
-                                                    <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Enter or Choose Marketing" tabindex="5" required>
+                                                    <select class="selectpicker marketing-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Input atau Pilih Sales" tabindex="5" required>
                                                         @foreach($marketings as $marketing)
                                                             <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}" @if($salesOrder->marketing_id == $marketing->id) selected @endif>{{ $marketing->name }}</option>
                                                         @endforeach
@@ -81,7 +81,7 @@
                                                 <span class="col-form-label text-bold"> Day(s)</span>
                                             </div>
                                             <div class="form-group row so-update-input">
-                                                <label for="revision" class="col-3 col-form-label text-bold text-right text-dark">Revision</label>
+                                                <label for="revision" class="col-3 col-form-label text-bold text-right text-dark">Revisi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-3">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $salesOrder->revision ?? 0 }}" readonly>
@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-date">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $salesOrder->branch->name }}" readonly>
@@ -98,14 +98,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-branch">
-                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Tanggal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" tabindex="3" required>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">
-                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Deskripsi</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
@@ -120,22 +120,22 @@
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" >
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
                                             <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
-                                            <td rowspan="2" class="align-middle">Product Name</td>
+                                            <td rowspan="2" class="align-middle">Nama Produk</td>
                                             <td rowspan="2" class="align-middle table-head-quantity-sales-order">Qty</td>
                                             <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
-                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Price Type</td>
-                                            <td rowspan="2" class="align-middle table-head-price-sales-order">Price</td>
+                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Tipe Harga</td>
+                                            <td rowspan="2" class="align-middle table-head-price-sales-order">Harga</td>
                                             <td rowspan="2" class="align-middle table-head-total-sales-order">Total</td>
-                                            <td colspan="2" class="align-middle">Discount</td>
-                                            <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Final Amount</td>
-                                            <td rowspan="2" class="align-middle table-head-delete-transaction">Delete</td>
+                                            <td colspan="2" class="align-middle">Diskon</td>
+                                            <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Netto</td>
+                                            <td rowspan="2" class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                         <tr>
                                             <td class="table-head-discount-percentage-sales-order">%</td>
@@ -147,7 +147,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
@@ -155,7 +155,7 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($salesOrderItem->quantity, $salesOrderItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 6 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 6 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
@@ -192,7 +192,7 @@
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja and plus sign" @if($key == 0) required @endif>
+                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka dan tanda tambah saja" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->discount_amount) }}" title="" readonly>
@@ -218,7 +218,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                    <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
@@ -234,7 +234,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                    <label for="taxAmount" class="col-3 col-form-label text-bold text-right text-dark">PPN</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
@@ -252,7 +252,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>
@@ -273,10 +273,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Stock Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Stok Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>The input quantity cannot exceed the total stock. The total stock for the item <span class="col-form-label text-bold" id="stockProductName"></span> is <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
+                    <h5>Jumlah qty input tidak boleh melebihi total stok. Total stok untuk produk <span class="col-form-label text-bold" id="stockProductName"></span> adalah <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
                 </div>
             </div>
         </div>
@@ -289,23 +289,23 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" id="closeModal" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Choose Warehouse Stock</h4>
+                    <h4 class="modal-title text-bold">Pilih Stok Gudang</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <p>Order quantity exceeds stock in warehouse <span class="text-bold" id="warehouseName"></span>. Select another warehouse to fulfill the order quantity.</p>
+                    <p>Jumlah qty input melebihi stok di gudang <span class="text-bold" id="warehouseName"></span>. Pilih gudang lain untuk memenuhi jumlah pesanan.</p>
                     <div class="form-group row" style="margin-top: -10px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Order Quantity</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Qty Order</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="orderQuantity"></span>
                         <input type="hidden" id="rowIndex">
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Primary Warehouse Stock</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Stok Gudang Utama</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="primaryStock"></span>
                     </div>
                     <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Remaining Order Quantity</label>
+                        <label for="kode" class="col-6 col-form-label text-bold">Sisa Qty Order</label>
                         <span class="col-auto col-form-label text-bold">:</span>
                         <span class="col-form-label text-bold" id="remainingQuantity"></span>
                         <input type="hidden" id="remainingQuantityValue">
@@ -313,14 +313,14 @@
                         <input type="hidden" id="remainingConversionValue">
                         <input type="hidden" id="remainingConversionUnit">
                     </div>
-                    <label style="margin-bottom: -5px">Choose Another Warehouse</label>
+                    <label style="margin-bottom: -5px">Pilih Gudang Lain</label>
                     @foreach($warehouses as $key => $warehouse)
                         <div class="row other-warehouse-row" id="otherWarehouse-{{ $warehouse->id }}">
-                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stock : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
+                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stok : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
                             <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
                             <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
                             <div class="col-3">
-                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Select</button>
+                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Pilih</button>
                             </div>
                         </div>
                     @endforeach
@@ -336,10 +336,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>Ada kode produk yang duplikat seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah kode produk.</h5>
                 </div>
             </div>
         </div>
@@ -1173,7 +1173,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -1181,7 +1181,7 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach

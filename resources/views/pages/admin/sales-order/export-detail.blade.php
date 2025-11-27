@@ -1,25 +1,25 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Sales Order Items</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Item Sales Order</h2>
+            <h5>Tanggal Laporan : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th rowspan="2">No</th>
-                    <th rowspan="2">Order Number</th>
-                    <th rowspan="2">Product SKU</th>
-                    <th rowspan="2">Product Name</th>
+                    <th rowspan="2">Nomor Order</th>
+                    <th rowspan="2">SKU Produk</th>
+                    <th rowspan="2">Nama Produk</th>
                     <th rowspan="2">Qty</th>
-                    <th colspan="{{ $totalWarehouses }}">Warehouse</th>
+                    <th colspan="{{ $totalWarehouses }}">Gudang</th>
                     <th rowspan="2">Unit</th>
-                    <th rowspan="2">Price</th>
+                    <th rowspan="2">Harga</th>
                     <th rowspan="2">Total</th>
-                    <th colspan="2">Discount</th>
-                    <th rowspan="2">Final Amount</th>
+                    <th colspan="2">Diskon</th>
+                    <th rowspan="2">Netto</th>
                 </tr>
                 <tr>
                     @foreach($warehouses as $key => $warehouse)

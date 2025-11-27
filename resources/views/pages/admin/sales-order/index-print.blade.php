@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Print Sales Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Cetak Sales Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,22 +29,22 @@
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startNumber" class="col-auto col-form-label text-bold">Order Number</label>
+                                        <label for="startNumber" class="col-auto col-form-label text-bold">Nomor Order</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" data-size="6" title="Select Start Number" required>
+                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" data-size="6" title="Pilih Nomor Awal" required>
                                                 @foreach($salesOrders as $salesOrder)
                                                     <option value="{{ $salesOrder->id }}" data-tokens="{{ $salesOrder->number }}">{{ $salesOrder->number }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="finalNumber" class="col-auto col-form-label text-bold ">up to</label>
+                                        <label for="finalNumber" class="col-auto col-form-label text-bold ">s / d</label>
                                         <div class="col-2">
-                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" data-size="6" title="Select Final Number" disabled>
+                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" data-size="6" title="Pilih Nomor Akhir" disabled>
                                             </select>
                                         </div>
                                         <div class="col-2 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Print</button>
+                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
                                         </div>
                                     </div>
                                 </div>
@@ -53,11 +53,11 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-sales-order-number-index">Number</th>
-                                            <th class="align-middle th-sales-order-date-index">Date</th>
-                                            <th class="align-middle th-sales-order-branch-index-print">Branch</th>
+                                            <th class="align-middle th-sales-order-number-index">Nomor</th>
+                                            <th class="align-middle th-sales-order-date-index">Tanggal</th>
+                                            <th class="align-middle th-sales-order-branch-index-print">Cabang</th>
                                             <th class="align-middle">Customer</th>
-                                            <th class="align-middle th-sales-order-invoice-age-index">Invoice Age</th>
+                                            <th class="align-middle th-sales-order-invoice-age-index">Umur Nota</th>
                                             <th class="align-middle th-sales-order-grand-total-index">Grand Total</th>
                                             <th class="align-middle th-sales-order-status-index">Status</th>
                                             <th class="align-middle th-sales-order-status-index">Admin</th>
@@ -82,7 +82,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

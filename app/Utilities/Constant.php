@@ -91,10 +91,10 @@ class Constant
     const SALES_ORDER_STATUS_UPDATED = 'UPDATED';
     const SALES_ORDER_STATUS_CANCELLED = 'CANCELLED';
     const SALES_ORDER_STATUS_LABELS = [
-        self::SALES_ORDER_STATUS_ACTIVE => 'Active',
-        self::SALES_ORDER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
-        self::SALES_ORDER_STATUS_UPDATED => 'Updated',
-        self::SALES_ORDER_STATUS_CANCELLED => 'Cancelled',
+        self::SALES_ORDER_STATUS_ACTIVE => 'Aktif',
+        self::SALES_ORDER_STATUS_WAITING_APPROVAL => 'Menunggu Approval',
+        self::SALES_ORDER_STATUS_UPDATED => 'Update',
+        self::SALES_ORDER_STATUS_CANCELLED => 'Batal',
     ];
 
     const SALES_ORDER_DELIVERY_STATUS_ACTIVE = 'ACTIVE';
@@ -109,8 +109,8 @@ class Constant
     const SALES_ORDER_TYPE_RETAIL = 'RETAIL';
     const SALES_ORDER_TYPE_WHOLESALE = 'WHOLESALE';
     const SALES_ORDER_TYPE_LABELS = [
-        self::SALES_ORDER_TYPE_RETAIL => 'Retail',
-        self::SALES_ORDER_TYPE_WHOLESALE => 'Wholesale',
+        self::SALES_ORDER_TYPE_RETAIL => 'Eceran',
+        self::SALES_ORDER_TYPE_WHOLESALE => 'Grosir',
     ];
 
     const DELIVERY_ORDER_STATUS_ACTIVE = 'ACTIVE';
