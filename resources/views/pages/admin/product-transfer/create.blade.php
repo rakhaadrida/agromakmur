@@ -107,7 +107,7 @@
                                                     <input type="text" name="destination_stock[]" id="destinationStock-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
@@ -679,7 +679,7 @@
                             <input type="text" name="destination_stock[]" id="destinationStock-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" title="" readonly >
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td class="align-middle text-center">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">

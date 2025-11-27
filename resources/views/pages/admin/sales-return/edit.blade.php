@@ -115,14 +115,14 @@
                                                         <input type="hidden" name="unit_id[]" id="unitId-{{ $index }}" value="{{ $salesReturnItem->unit_id }}">
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                                         <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $index }}" value="{{ $salesReturnItem->actual_quantity / $salesReturnItem->quantity }}">
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->delivered_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->delivered_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->cut_bill_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->cut_bill_quantity) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                     </td>
                                                     <td>
                                                         <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-{{ $index }}" value="{{ formatQuantity($salesReturnItem->remaining_quantity) }}" title="" readonly>
@@ -244,8 +244,8 @@
                     const index = $(this).closest('tr').index();
 
                     let quantity = $(`#quantity-${index}`);
-                    quantity.attr('title', 'Only allowed to input numbers');
-                    quantity.attr('data-original-title', 'Only allowed to input numbers');
+                    quantity.attr('title', 'Hanya masukkan angka saja');
+                    quantity.attr('data-original-title', 'Hanya masukkan angka saja');
                     quantity.tooltip('show');
 
                     event.preventDefault();
@@ -267,8 +267,8 @@
                     const index = $(this).closest('tr').index();
 
                     let deliveredQuantity = $(`#deliveredQuantity-${index}`);
-                    deliveredQuantity.attr('title', 'Only allowed to input numbers');
-                    deliveredQuantity.attr('data-original-title', 'Only allowed to input numbers');
+                    deliveredQuantity.attr('title', 'Hanya masukkan angka saja');
+                    deliveredQuantity.attr('data-original-title', 'Hanya masukkan angka saja');
                     deliveredQuantity.tooltip('show');
 
                     event.preventDefault();
@@ -290,8 +290,8 @@
                     const index = $(this).closest('tr').index();
 
                     let cutBillQuantity = $(`#cutBillQuantity-${index}`);
-                    cutBillQuantity.attr('title', 'Only allowed to input numbers');
-                    cutBillQuantity.attr('data-original-title', 'Only allowed to input numbers');
+                    cutBillQuantity.attr('title', 'Hanya masukkan angka saja');
+                    cutBillQuantity.attr('data-original-title', 'Hanya masukkan angka saja');
                     cutBillQuantity.tooltip('show');
 
                     event.preventDefault();

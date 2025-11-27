@@ -200,8 +200,8 @@
                     const index = $(this).closest('tr').index();
 
                     let quantity = $(`#quantity-${index}`);
-                    quantity.attr('title', 'Only allowed to input numbers');
-                    quantity.attr('data-original-title', 'Only allowed to input numbers');
+                    quantity.attr('title', 'Hanya masukkan angka saja');
+                    quantity.attr('data-original-title', 'Hanya masukkan angka saja');
                     quantity.tooltip('show');
 
                     event.preventDefault();
@@ -327,7 +327,7 @@
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" title="" readonly>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" tabindex="${rowNumbers += 1}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                            <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" tabindex="${rowNumbers += 1}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity}">
                         </td>
                         <td>

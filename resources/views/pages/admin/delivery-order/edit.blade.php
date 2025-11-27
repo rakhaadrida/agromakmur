@@ -132,7 +132,7 @@
                                                     <input type="text" name="remaining_quantity[]" id="remainingQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->remaining_quantity) }}" title="" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ $deliveryOrderItem->actual_quantity / $deliveryOrderItem->quantity }}">
                                                 </td>
                                                 <td class="align-middle text-center">
@@ -200,8 +200,8 @@
                     const index = $(this).closest('tr').index();
 
                     let quantity = $(`#quantity-${index}`);
-                    quantity.attr('title', 'Only allowed to input numbers');
-                    quantity.attr('data-original-title', 'Only allowed to input numbers');
+                    quantity.attr('title', 'Hanya masukkan angka saja');
+                    quantity.attr('data-original-title', 'Hanya masukkan angka saja');
                     quantity.tooltip('show');
 
                     event.preventDefault();

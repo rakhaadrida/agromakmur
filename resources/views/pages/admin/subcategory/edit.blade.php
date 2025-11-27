@@ -54,7 +54,7 @@
                                     <label for="reminderLimit" class="col-2 col-form-label text-bold text-right">Batas Pengingat Stok</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="number" min="0" class="form-control col-form-label-sm" name="reminder_limit" id="reminderLimit" value="{{ $subcategory->reminder_limit }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="number" min="0" class="form-control col-form-label-sm" name="reminder_limit" id="reminderLimit" value="{{ $subcategory->reminder_limit }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                     </div>
                                 </div>
                                 <hr>

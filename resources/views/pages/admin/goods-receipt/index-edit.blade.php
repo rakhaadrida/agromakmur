@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Barang Masuk</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -28,7 +28,7 @@
                             <form action="{{ route('goods-receipts.index-edit') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
+                                        <label for="number" class="col-2 col-form-label text-bold text-right">Nomor BM</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
@@ -36,7 +36,7 @@
                                         <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
-                                            <select class="selectpicker supplier-params-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Enter or Choose Supplier Name" tabindex="2">
+                                            <select class="selectpicker supplier-params-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Input atau Pilih Supplier" tabindex="2">
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}" @if($supplierId == $supplier->id) selected @endif>{{ $supplier->name }}</option>
                                                 @endforeach
@@ -44,18 +44,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-receipt">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Number</label>
+                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">Nomor BM</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="receiptNumber" value="{{ $goodsReceipt->number }}" readonly>
@@ -77,7 +77,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $goodsReceipt->branch_name }}" readonly>
@@ -88,7 +88,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Receipt Date</label>
+                                                                <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Tanggal BM</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
@@ -97,7 +97,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="warehouse" class="col-3 form-control-sm text-bold text-right mt-1">Warehouse</label>
+                                                                <label for="warehouse" class="col-3 form-control-sm text-bold text-right mt-1">Gudang</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="warehouse" value="{{ $goodsReceipt->warehouse_name }}" readonly>
@@ -108,7 +108,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                                <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
@@ -149,7 +149,7 @@
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="revision" class="col-2 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                    <label for="revision" class="col-2 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionByGoodsReceiptId[$goodsReceipt->id] }}" readonly>
@@ -161,7 +161,7 @@
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Tipe Approval</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($goodsReceipt->pendingApproval->type) }}" readonly>
@@ -171,7 +171,7 @@
                                                             @if(isApprovalTypeEdit($goodsReceipt->pendingApproval->type))
                                                                 <div class="col edit-receipt-general-info-right">
                                                                     <div class="form-group row customer-detail">
-                                                                        <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                        <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                                         <span class="col-form-label text-bold">:</span>
                                                                         <div class="col-3">
                                                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionByGoodsReceiptId[$goodsReceipt->id] ?? 0 }}" readonly>
@@ -187,11 +187,11 @@
                                                         <tr>
                                                             <td class="table-head-delete-transaction">No</td>
                                                             <td class="table-head-code-transaction">SKU</td>
-                                                            <td class="table-head-name-transaction">Product Name</td>
+                                                            <td class="table-head-name-transaction">Nama Produk</td>
                                                             <td class="table-head-quantity-transaction">Qty</td>
-                                                            <td class="table-head-price-transaction">Price</td>
-                                                            <td class="table-head-price-transaction">Wages</td>
-                                                            <td class="table-head-price-transaction">Shipping Cost</td>
+                                                            <td class="table-head-price-transaction">Harga</td>
+                                                            <td class="table-head-price-transaction">Upah</td>
+                                                            <td class="table-head-price-transaction">Ongkos Kirim</td>
                                                             <td class="table-head-total-transaction">Total</td>
                                                         </tr>
                                                     </thead>
@@ -209,7 +209,7 @@
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="6" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
+                                                                <td colspan="6" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
@@ -222,7 +222,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">
-                                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Pajak</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
                                                         <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->tax_amount) }}" readonly>
@@ -239,10 +239,10 @@
                                                 @if((!isWaitingApproval($goodsReceipt->status) || isApprovalTypeEdit($goodsReceipt->pendingApproval->type)) && !isCancelled($goodsReceipt->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
-                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Cancel Receipt</button>
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-receipt" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelReceipt" data-id="{{ $goodsReceipt->id }}" data-number="{{ $goodsReceipt->number }}" tabindex="6">Batalkan</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-receipt" formaction="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Edit</button>
+                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-receipt" formaction="{{ route('goods-receipts.edit', $goodsReceipt->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>
                                                         </div>
                                                     </div>
                                                 @endif

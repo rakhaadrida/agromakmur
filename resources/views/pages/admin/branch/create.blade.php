@@ -44,7 +44,7 @@
                                     <label for="phoneNumber" class="col-2 col-form-label text-bold text-right">Nomor Telepon</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="phone_number" id="phoneNumber" value="{{ old('phone_number') }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="text" class="form-control col-form-label-sm" name="phone_number" id="phoneNumber" value="{{ old('phone_number') }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">

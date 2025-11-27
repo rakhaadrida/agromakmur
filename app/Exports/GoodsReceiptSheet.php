@@ -44,7 +44,7 @@ class GoodsReceiptSheet extends DefaultValueBinder implements FromView, ShouldAu
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Goods_Receipts');
+        $sheet->setTitle('Barang_Masuk');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

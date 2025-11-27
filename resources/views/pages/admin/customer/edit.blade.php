@@ -45,28 +45,28 @@
                                     <label for="contactNumber" class="col-2 col-form-label text-bold text-right">Nomor Telepon</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ $customer->contact_number }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="text" class="form-control col-form-label-sm" name="contact_number" id="contactNumber" value="{{ $customer->contact_number }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="taxNumber" class="col-2 col-form-label text-bold text-right">NPWP</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="tax_number" id="taxNumber" value="{{ $customer->tax_number }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                        <input type="text" class="form-control col-form-label-sm" name="tax_number" id="taxNumber" value="{{ $customer->tax_number }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="creditLimit" class="col-2 col-form-label text-bold text-right">Limit Kredit</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="number" min="0" class="form-control col-form-label-sm" name="credit_limit" id="creditLimit" value="{{ $customer->credit_limit }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="number" min="0" class="form-control col-form-label-sm" name="credit_limit" id="creditLimit" value="{{ $customer->credit_limit }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="tempo" class="col-2 col-form-label text-bold text-right">Tempo</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <input type="number" min="0" class="form-control col-form-label-sm" name="tempo" id="tempo" value="{{ $customer->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                        <input type="number" min="0" class="form-control col-form-label-sm" name="tempo" id="tempo" value="{{ $customer->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">

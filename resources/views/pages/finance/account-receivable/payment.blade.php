@@ -105,7 +105,7 @@
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold text-dark text-center" name="payment_date[]" id="paymentDate-{{ $index }}" value="{{ formatDate($accountReceivablePayment->date, 'd-m-Y') }}" title="" style="font-size: 16px">
                                                 </td>
                                                 <td class="text-right">
-                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right" name="payment_amount[]" id="paymentAmount-{{ $index }}" value="{{ formatPrice($accountReceivablePayment->amount) }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" style="font-size: 16px">
+                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right" name="payment_amount[]" id="paymentAmount-{{ $index }}" value="{{ formatPrice($accountReceivablePayment->amount) }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" style="font-size: 16px">
                                                     <input type="hidden" name="base_payment_amount[]" id="basePaymentAmount-{{ $index }}" value="{{ $accountReceivablePayment->amount }}">
                                                 </td>
                                                 <td class="text-right align-middle text-bold">

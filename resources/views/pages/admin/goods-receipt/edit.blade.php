@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Barang Masuk</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Nomor BM</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $goodsReceipt->number }}" readonly>
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="col edit-receipt-general-info-right">
                                             <div class="form-group row sj-first-line">
-                                                <label for="warehouse" class="col-5 col-form-label text-bold text-right text-dark">Warehouse</label>
+                                                <label for="warehouse" class="col-5 col-form-label text-bold text-right text-dark">Gudang</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-5">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="warehouse" id="warehouse" value="{{ $goodsReceipt->warehouse->name }}" readonly>
@@ -54,14 +54,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row sj-after-first">
-                                                <label for="dueDate" class="col-5 col-form-label text-bold text-right text-dark">Due Date</label>
+                                                <label for="dueDate" class="col-5 col-form-label text-bold text-right text-dark">Jatuh Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-5">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($goodsReceipt->date, $goodsReceipt->tempo, 'd-m-Y') }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row sj-after-first">
-                                                <label for="revision" class="col-5 col-form-label text-bold text-right text-dark">Revision</label>
+                                                <label for="revision" class="col-5 col-form-label text-bold text-right text-dark">Revisi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-5">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $goodsReceipt->revision ?? 0 }}" readonly>
@@ -70,21 +70,21 @@
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-left">
-                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Tanggal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($goodsReceipt->date, 'd-m-Y') }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row gr-update-branch">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $goodsReceipt->branch->name }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row gr-update-input">
-                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Deskripsi</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-5">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
@@ -98,21 +98,21 @@
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" >
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-price-transaction">Price</td>
-                                            <td class="align-middle table-head-price-transaction">Wages</td>
-                                            <td class="align-middle table-head-price-transaction">Shipping Cost</td>
+                                            <td class="align-middle table-head-price-transaction">Harga</td>
+                                            <td class="align-middle table-head-price-transaction">Upah</td>
+                                            <td class="align-middle table-head-price-transaction">Ongkos Kirim</td>
                                             <td class="align-middle table-head-total-transaction">Total</td>
-                                            <td class="align-middle table-head-delete-transaction">Delete</td>
+                                            <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
@@ -120,7 +120,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
@@ -128,14 +128,14 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($goodsReceiptItem->quantity, $goodsReceiptItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($goodsReceiptItem->quantity) }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($goodsReceiptItem->quantity) }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
@@ -146,14 +146,14 @@
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}" value="{{ $goodsReceiptItem->unit_id }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->price) }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->price) }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                     <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}" value="{{ getActualPrice($goodsReceiptItem->quantity, $goodsReceiptItem->actual_quantity, $goodsReceiptItem->price) }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->wages) }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                    <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->wages) }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->shipping_cost) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                                    <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->shipping_cost) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($goodsReceiptItem->total) }}" title="" readonly >
@@ -175,7 +175,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so">
-                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Pajak</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-2 mr-1">
                                         <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->tax_amount) }}" readonly>
@@ -191,7 +191,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>
@@ -212,10 +212,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>Ada kode produk yang duplikat seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah kode produk.</h5>
                 </div>
             </div>
         </div>
@@ -672,7 +672,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -680,14 +680,14 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
                             <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
@@ -695,14 +695,14 @@
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
-                            <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >

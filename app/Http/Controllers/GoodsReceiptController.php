@@ -529,7 +529,7 @@ class GoodsReceiptController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new GoodsReceiptExport($request), 'Goods_Receipt_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new GoodsReceiptExport($request), 'Daftar_Barang_Masuk_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -565,7 +565,7 @@ class GoodsReceiptController extends Controller
         $pdf = PDF::loadview('pages.admin.goods-receipt.pdf', $data)
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Goods_Receipt_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Barang_Masuk_'.$fileDate.'.pdf');
     }
 
     public function indexAjax(Request $request) {

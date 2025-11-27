@@ -125,13 +125,13 @@
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $index }}" value="{{ $return->price_id }}">
                                                 </td>
                                                 <td class="align-middle">
-                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="price[]" id="price-{{ $index }}" value="{{ formatPrice($return->price) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" required>
+                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="price[]" id="price-{{ $index }}" value="{{ formatPrice($return->price) }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                                 </td>
                                                 <td class="align-middle">
                                                     <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="total[]" id="total-{{ $index }}" value="{{ formatPrice($return->total) }}" title="" readonly>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="discount[]" id="discount-{{ $index }}" value="{{ $return->discount }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers and plus sign">
+                                                    <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="discount[]" id="discount-{{ $index }}" value="{{ $return->discount }}" tabindex="{{ $rowNumbers += 1 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja and plus sign">
                                                 </td>
                                                 <td class="align-middle">
                                                     <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="discount_product[]" id="discountProduct-{{ $index }}" value="{{ formatPrice($return->discount_amount) }}" title="" readonly>

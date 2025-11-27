@@ -1,23 +1,23 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Goods Receipt Items</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Item Barang Masuk</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Receipt Number</th>
-                    <th>Product SKU</th>
-                    <th>Product Name</th>
+                    <th>Nomor BM</th>
+                    <th>SKU Produk</th>
+                    <th>Nama Produk</th>
                     <th>Qty</th>
                     <th>Unit</th>
-                    <th>Price</th>
-                    <th>Wages</th>
-                    <th>Shipping Cost</th>
+                    <th>Harga</th>
+                    <th>Upah</th>
+                    <th>Ongkos Kirim</th>
                     <th>Total</th>
                 </tr>
             </thead>

@@ -41,7 +41,7 @@ class GoodsReceiptItemSheet extends DefaultValueBinder  implements FromView, Sho
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Goods_Receipt_Items');
+        $sheet->setTitle('Item_Barang_Masuk');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

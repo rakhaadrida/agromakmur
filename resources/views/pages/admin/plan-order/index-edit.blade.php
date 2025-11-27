@@ -156,7 +156,7 @@
                                                 @if(!isCancelled($planOrder->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
-                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $planOrder->id }}" data-number="{{ $planOrder->number }}" tabindex="6">Batalkan Order</button>
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $planOrder->id }}" data-number="{{ $planOrder->number }}" tabindex="6">Batalkan</button>
                                                         </div>
                                                         <div class="col-2">
                                                             <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('plan-orders.edit', $planOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>

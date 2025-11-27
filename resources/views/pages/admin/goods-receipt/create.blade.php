@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Goods Receipt</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Barang Masuk</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -31,13 +31,13 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Receipt Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor BM</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" autofocus required>
                                                 </div>
                                                 <div class="col-1"></div>
-                                                <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
+                                                <label for="date" class="col-1 col-form-label text-bold text-right">Tanggal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="2" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" required>
@@ -46,7 +46,7 @@
                                         </div>
                                         <div class="col" style="margin-left: -320px">
                                             <div class="form-group row subtotal-po">
-                                                <label for="subtotal" class="col-5 col-form-label text-bold ">Sub Total</label>
+                                                <label for="subtotal" class="col-5 col-form-label text-bold">Sub Total</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
@@ -54,7 +54,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
-                                                <label for="taxAmount" class="col-5 col-form-label text-bold ">Tax Amount</label>
+                                                <label for="taxAmount" class="col-5 col-form-label text-bold">PPN</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
@@ -72,10 +72,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so" style="margin-top: -68px">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Enter or Choose Branch" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="branch_id" id="branch" data-live-search="true" data-size="6" title="Input atau Pilih Cabang" tabindex="3" required>
                                                 @foreach($branches as $key => $branch)
                                                     <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if(!$key) selected @endif>{{ $branch->name }}</option>
                                                 @endforeach
@@ -89,15 +89,15 @@
                                         <label for="tempo" class="col-1 col-form-label text-bold text-right">Tempo</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-1 mt-1">
-                                            <input type="text" tabindex="4" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers">
+                                            <input type="text" tabindex="4" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                         </div>
                                         <span class="col-form-label text-bold"> Day(s)</span>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Warehouse</label>
+                                        <label for="warehouse" class="col-2 col-form-label text-bold text-right">Gudang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" data-size="6" title="Select Branch First" tabindex="3" required disabled>
+                                            <select class="selectpicker warehouse-select-picker" name="warehouse_id" id="warehouse" data-live-search="true" data-size="6" title="Silahkan Pilih Cabang" tabindex="3" required disabled>
                                             </select>
                                             @error('warehouse')
                                             <span class="invalid-feedback" role="alert">
@@ -110,7 +110,7 @@
                                         <label for="supplier" class="col-2 col-form-label text-bold text-right">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
-                                            <select class="selectpicker supplier-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Enter or Choose Supplier Name" tabindex="5" required>
+                                            <select class="selectpicker supplier-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Input atau Pilih Supplier" tabindex="5" required>
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}">{{ $supplier->name }}</option>
                                                 @endforeach
@@ -127,21 +127,21 @@
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-price-transaction">Price</td>
-                                            <td class="align-middle table-head-price-transaction">Wages</td>
-                                            <td class="align-middle table-head-price-transaction">Shipping Cost</td>
+                                            <td class="align-middle table-head-price-transaction">Harga</td>
+                                            <td class="align-middle table-head-price-transaction">Upah</td>
+                                            <td class="align-middle table-head-price-transaction">Ongkos Kirim</td>
                                             <td class="align-middle table-head-total-transaction">Total</td>
-                                            <td class="align-middle table-head-delete-transaction">Delete</td>
+                                            <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
@@ -149,7 +149,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -157,14 +157,14 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly @if($key == 0) required @endif>
                                                 </td>
                                                 <td>
                                                     <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 4 }}" disabled @if($key == 0) required @endif>
@@ -172,14 +172,14 @@
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly @if($key == 0) required @endif>
+                                                    <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly @if($key == 0) required @endif>
                                                     <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                                                    <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                                                    <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
@@ -196,7 +196,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
@@ -210,18 +210,18 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Goods Receipt Confirmation</h4>
+                                                <h4 class="modal-title">Konfirmasi Barang Masuk</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>The Goods Receipt data will be saved. Please select print or re-enter the incoming goods.</p>
+                                                <p>Data Barang Masuk akan disimpan. Silakan pilih cetak atau input kembali Barang Masuk.</p>
                                                 <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
+                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Lagi</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,10 +243,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>Ada kode produk yang duplikat seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah kode produk.</h5>
                 </div>
             </div>
         </div>
@@ -280,7 +280,7 @@
             let branch = $('#branch');
             let subtotal = document.getElementById('subtotal');
 
-            if($('#branch option').length === 1) {
+            if(($('#branch option').length === 1) || ($("#branch option:selected").length > 0)) {
                 const selected = branch.find(':selected');
                 displayWarehouseItems(selected.val());
             }
@@ -809,7 +809,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -817,14 +817,14 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
                             <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
@@ -832,14 +832,14 @@
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
                         </td>
                         <td>
-                            <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
-                            <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shippingCost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Only allowed to input numbers" readonly>
+                            <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shippingCost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
