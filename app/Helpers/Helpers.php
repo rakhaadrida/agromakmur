@@ -508,6 +508,11 @@ function formatDate($date, $format)
     return \Carbon\Carbon::parse($date)->format($format);
 }
 
+function formatDateIso($date, $format)
+{
+    return \Carbon\Carbon::parse($date)->isoFormat($format);
+}
+
 function formatCurrency($amount)
 {
     return number_format($amount, 0, '', ',');

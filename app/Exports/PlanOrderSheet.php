@@ -43,7 +43,7 @@ class PlanOrderSheet extends DefaultValueBinder implements FromView, ShouldAutoS
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Plan_Orders');
+        $sheet->setTitle('Plan_Ordes');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

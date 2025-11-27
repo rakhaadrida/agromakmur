@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <label for="number" class="col-5 text-right mt-2">Number</label>
+                                            <label for="number" class="col-5 text-right mt-2">Nomor</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="number" value="{{ $planOrder->number }}" readonly>
@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="branch" class="col-5 text-right text-bold mt-2">Branch</label>
+                                            <label for="branch" class="col-5 text-right text-bold mt-2">Cabang</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $planOrder->branch->name }}" readonly>
@@ -67,7 +67,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
+                                            <label for="date" class="col-5 text-right text-bold mt-2">Tanggal</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($planOrder->date, 'd-m-Y') }}" readonly>
@@ -81,7 +81,7 @@
                                     <tr>
                                         <td>No</td>
                                         <td>SKU</td>
-                                        <td>Product Name</td>
+                                        <td>Nama Produk</td>
                                         <td>Qty</td>
                                         <td>Unit</td>
                                     </tr>
@@ -101,7 +101,7 @@
                             <hr>
                             <div class="form-row justify-content-center">
                                 <div class="col-2">
-                                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                 </div>
                             </div>
                         </div>

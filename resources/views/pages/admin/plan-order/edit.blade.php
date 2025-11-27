@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Plan Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Plan Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -31,7 +31,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Nomor</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $planOrder->number }}" readonly>
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="col edit-receipt-general-info-right">
                                             <div class="form-group row sj-first-line">
-                                                <label for="branch" class="col-5 col-form-label text-bold text-right text-dark">Branch</label>
+                                                <label for="branch" class="col-5 col-form-label text-bold text-right text-dark">Cabang</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-5">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $planOrder->branch->name }}" readonly>
@@ -56,14 +56,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group row po-update-left">
-                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Tanggal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($planOrder->date, 'd-m-Y') }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row gr-update-input">
-                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Deskripsi</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-5">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
@@ -77,17 +77,17 @@
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" >
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-delete-transaction">Delete</td>
+                                            <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
@@ -95,7 +95,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $key + 1 }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-plan-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU Produk" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($planOrderItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
                                                         @endforeach
@@ -103,7 +103,7 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($planOrderItem->quantity, $planOrderItem->actual_quantity) }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-plan-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($planOrderItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
@@ -132,7 +132,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>
@@ -153,10 +153,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the item code.</h5>
+                    <h5>Ada kode produk yang duplikat seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah kode produk.</h5>
                 </div>
             </div>
         </div>
@@ -435,7 +435,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-plan-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter Product SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-plan-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU Produk" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -443,7 +443,7 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-plan-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-plan-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach

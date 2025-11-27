@@ -251,7 +251,7 @@ class PlanOrderController extends Controller
             DB::rollBack();
             Log::error($e->getMessage());
 
-            return redirect()->route('goods-receipts.edit', $id)->withInput()->withErrors([
+            return redirect()->route('plan-orders.edit', $id)->withInput()->withErrors([
                 'message' => 'An error occurred while updating data'
             ]);
         }
@@ -400,7 +400,7 @@ class PlanOrderController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new PlanOrderExport($request), 'Plan_Order_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new PlanOrderExport($request), 'Daftar_Plan_Order_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -441,7 +441,7 @@ class PlanOrderController extends Controller
         $pdf = PDF::loadview('pages.admin.plan-order.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Plan_Order_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Plan_Order_'.$fileDate.'.pdf');
     }
 
     public function generateNumberAjax(Request $request) {

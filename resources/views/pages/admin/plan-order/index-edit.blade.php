@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Plan Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Plan Order</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -28,7 +28,7 @@
                             <form action="{{ route('plan-orders.index-edit') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="number" class="col-2 col-form-label text-bold text-right">PO Number</label>
+                                        <label for="number" class="col-2 col-form-label text-bold text-right">Nomor PO</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
@@ -36,7 +36,7 @@
                                         <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
-                                            <select class="selectpicker supplier-params-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Enter or Choose Supplier Name" tabindex="2">
+                                            <select class="selectpicker supplier-params-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Input atau Pilih Supplier" tabindex="2">
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}" @if($supplierId == $supplier->id) selected @endif>{{ $supplier->name }}</option>
                                                 @endforeach
@@ -44,18 +44,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-receipt">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">PO Number</label>
+                                                                <label for="receiptNumber" class="col-2 form-control-sm text-bold text-right mt-1">Nomor PO</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="orderNumber" value="{{ $planOrder->number }}" readonly>
@@ -77,7 +77,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $planOrder->branch_name }}" readonly>
@@ -88,7 +88,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">PO Date</label>
+                                                                <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Tanggal PO</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($planOrder->date, 'd-m-Y') }}" readonly>
@@ -131,7 +131,7 @@
                                                         <tr>
                                                             <td class="table-head-delete-transaction">No</td>
                                                             <td class="table-head-code-transaction">SKU</td>
-                                                            <td class="table-head-name-transaction">Product Name</td>
+                                                            <td class="table-head-name-transaction">Nama Produk</td>
                                                             <td class="table-head-quantity-transaction">Qty</td>
                                                             <td class="table-head-quantity-transaction">Unit</td>
                                                         </tr>
@@ -147,7 +147,7 @@
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="5" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
+                                                                <td colspan="5" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
@@ -156,17 +156,17 @@
                                                 @if(!isCancelled($planOrder->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
-                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $planOrder->id }}" data-number="{{ $planOrder->number }}" tabindex="6">Cancel Order</button>
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $planOrder->id }}" data-number="{{ $planOrder->number }}" tabindex="6">Batalkan Order</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('plan-orders.edit', $planOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Edit</button>
+                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('plan-orders.edit', $planOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>
                                                         </div>
                                                     </div>
                                                 @endif
                                             </div>
                                         @empty
                                             <div class="container so-update-container text-dark mt-2">
-                                                <h3 class="text-center text-bold text-dark">No Data Available</h3>
+                                                <h3 class="text-center text-bold text-dark">Tidak Ada Data</h3>
                                             </div>
                                         @endforelse
                                     </div>
@@ -190,7 +190,7 @@
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                             </button>
-                                            <h4 class="modal-title">Cancel Plan Order - <span id="modalOrderNumber"></span></h4>
+                                            <h4 class="modal-title">Batalkan Plan Order - <span id="modalOrderNumber"></span></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST" id="deleteForm">
@@ -204,7 +204,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group subtotal-so">
-                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <label for="description" class="col-form-label">Deskripsi</label>
                                                     <input type="text" class="form-control" name="description" id="description">
                                                     <input type="hidden" class="form-control" name="number" value="{{ $number }}">
                                                     <input type="hidden" class="form-control" name="supplier_id" value="{{ $supplierId }}">
@@ -214,10 +214,10 @@
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                                     </div>
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                 </div>
                                             </form>

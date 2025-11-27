@@ -84,7 +84,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Input Your Password</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Masukkan Password Anda</h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group row input-password-modal-body">
@@ -105,8 +105,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit" id="btnSubmitPasswordEdit">Submit</button>
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit" id="btnSubmitPasswordEdit">Simpan</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                     </div>
                 </div>
             </div>

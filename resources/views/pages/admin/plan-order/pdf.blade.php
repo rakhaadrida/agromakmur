@@ -156,20 +156,20 @@
     <body>
         <div class="pdf-section">
             <div class="header-section text-center">
-                <h5 class="text-bold text-dark">Plan Order Data</h5>
-                <h6 class="text-dark report-date">Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h6>
-                <h6 class="text-dark report-date">Export Date : {{ $exportDate }}</h6>
+                <h5 class="text-bold text-dark">Daftar Plan Order</h5>
+                <h6 class="text-dark report-date">Tanggal Laporan : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h6>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
 
             <table class="table table-sm table-bordered table-items">
                 <thead class="text-center text-dark text-bold" >
                     <tr>
                         <th class="align-middle td-number">No</th>
-                        <th class="align-middle td-receipt-number">Number</th>
-                        <th class="align-middle td-receipt-date">Date</th>
-                        <th class="align-middle td-branch">Branch</th>
+                        <th class="align-middle td-receipt-number">Nomor PO</th>
+                        <th class="align-middle td-receipt-date">Tanggal</th>
+                        <th class="align-middle td-branch">Cabang</th>
                         <th class="align-middle">Supplier</th>
-                        <th class="align-middle td-total-items">Total Items</th>
+                        <th class="align-middle td-total-items">Total Barang</th>
                         <th class="align-middle td-receipt-status">Status</th>
                         <th class="align-middle td-admin">Admin</th>
                     </tr>
@@ -190,7 +190,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL ITEMS</th>
+                        <th colspan="5" class="text-bold text-dark text-center">GRAND TOTAL BARANG</th>
                         <th class="text-bold text-dark text-center">{{ formatPrice($grandTotalItems) }}</th>
                         <th colspan="2"></th>
                     </tr>

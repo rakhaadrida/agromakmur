@@ -1,18 +1,18 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Plan Order Items</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Item Plan Order</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>PO Number</th>
-                    <th>Product SKU</th>
-                    <th>Product Name</th>
+                    <th>Nomor PO</th>
+                    <th>SKU Produk</th>
+                    <th>Nama Produk</th>
                     <th>Qty</th>
                     <th>Unit</th>
                 </tr>

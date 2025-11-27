@@ -969,12 +969,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: -10px !important;
 }
 
-.filter-final-date-receipt {
-    width: 6.5rem !important;
-}
-
+.filter-final-date-receipt,
 .filter-supplier-receipt {
-    width: 6.5rem !important;
+    width: 8.1rem !important;
 }
 
 .btn-search-receipt {
