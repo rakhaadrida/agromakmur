@@ -25,7 +25,7 @@ class Constant
     const USER_STATUS_ACTIVE = 'ACTIVE';
     const USER_STATUS_LABELS = [
         self::USER_STATUS_PENDING => 'Pending',
-        self::USER_STATUS_ACTIVE => 'Active'
+        self::USER_STATUS_ACTIVE => 'Aktif'
     ];
 
     const WAREHOUSE_TYPE_PRIMARY = 'PRIMARY';
@@ -61,9 +61,9 @@ class Constant
     const PLAN_ORDER_STATUS_UPDATED = 'UPDATED';
     const PLAN_ORDER_STATUS_CANCELLED = 'CANCELLED';
     const PLAN_ORDER_STATUS_LABELS = [
-        self::PLAN_ORDER_STATUS_ACTIVE => 'Active',
-        self::PLAN_ORDER_STATUS_UPDATED => 'Updated',
-        self::PLAN_ORDER_STATUS_CANCELLED => 'Cancelled',
+        self::PLAN_ORDER_STATUS_ACTIVE => 'Aktif',
+        self::PLAN_ORDER_STATUS_UPDATED => 'Update',
+        self::PLAN_ORDER_STATUS_CANCELLED => 'Batal',
     ];
 
     const GOODS_RECEIPT_STATUS_ACTIVE = 'ACTIVE';
@@ -71,19 +71,19 @@ class Constant
     const GOODS_RECEIPT_STATUS_UPDATED = 'UPDATED';
     const GOODS_RECEIPT_STATUS_CANCELLED = 'CANCELLED';
     const GOODS_RECEIPT_STATUS_LABELS = [
-        self::GOODS_RECEIPT_STATUS_ACTIVE => 'Active',
-        self::GOODS_RECEIPT_STATUS_WAITING_APPROVAL => 'Waiting Approval',
-        self::GOODS_RECEIPT_STATUS_UPDATED => 'Updated',
-        self::GOODS_RECEIPT_STATUS_CANCELLED => 'Cancelled',
+        self::GOODS_RECEIPT_STATUS_ACTIVE => 'Aktif',
+        self::GOODS_RECEIPT_STATUS_WAITING_APPROVAL => 'Menunggu Approval',
+        self::GOODS_RECEIPT_STATUS_UPDATED => 'Update',
+        self::GOODS_RECEIPT_STATUS_CANCELLED => 'Batal',
     ];
 
     const PRODUCT_TRANSFER_STATUS_ACTIVE = 'ACTIVE';
     const PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL = 'WAITING_APPROVAL';
     const PRODUCT_TRANSFER_STATUS_CANCELLED = 'CANCELLED';
     const PRODUCT_TRANSFER_STATUS_LABELS = [
-        self::PRODUCT_TRANSFER_STATUS_ACTIVE => 'Active',
-        self::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
-        self::PRODUCT_TRANSFER_STATUS_CANCELLED => 'Cancelled',
+        self::PRODUCT_TRANSFER_STATUS_ACTIVE => 'Aktif',
+        self::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL => 'Menunggu Approval',
+        self::PRODUCT_TRANSFER_STATUS_CANCELLED => 'Batal',
     ];
 
     const SALES_ORDER_STATUS_ACTIVE = 'ACTIVE';

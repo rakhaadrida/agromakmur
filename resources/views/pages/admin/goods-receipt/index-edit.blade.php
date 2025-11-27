@@ -273,7 +273,7 @@
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                             </button>
-                                            <h4 class="modal-title">Cancel Goods Receipt - <span id="modalReceiptNumber"></span></h4>
+                                            <h4 class="modal-title">Batalkan Barang Masuk - <span id="modalReceiptNumber"></span></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST" id="deleteForm">
@@ -287,7 +287,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group subtotal-so">
-                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <label for="description" class="col-form-label">Deskripsi</label>
                                                     <input type="text" class="form-control" name="description" id="description">
                                                     <input type="hidden" class="form-control" name="number" value="{{ $number }}">
                                                     <input type="hidden" class="form-control" name="supplier_id" value="{{ $supplierId }}">
@@ -297,10 +297,10 @@
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                                     </div>
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                 </div>
                                             </form>

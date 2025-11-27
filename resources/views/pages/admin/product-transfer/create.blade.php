@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product Transfer</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Transfer Produk</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -31,12 +31,12 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Transfer Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor Transfer</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="1" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $number }}" data-old-value="{{ $number }}" autofocus required >
                                                 </div>
-                                                <label for="date" class="col-1 col-form-label text-bold text-right">Date</label>
+                                                <label for="date" class="col-1 col-form-label text-bold text-right">Tanggal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" tabindex="2" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ $date }}" required>
@@ -49,21 +49,21 @@
                                 </div>
                                 <hr>
                                 <span class="float-right mb-3 mr-2" id="addRow"><a href="#" class="text-primary text-bold">
-                                    Add Row <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
+                                    Tambah Baris <i class="fas fa-plus fa-lg ml-2" aria-hidden="true"></i></a>
                                 </span>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-warehouse-transaction">Source Warehouse</td>
-                                            <td class="align-middle table-head-quantity-transaction">Original Stock</td>
-                                            <td class="align-middle table-head-warehouse-transaction">Destination Warehouse</td>
-                                            <td class="align-middle table-head-quantity-transaction">Destination Stock</td>
-                                            <td class="align-middle table-head-quantity-transaction">Quantity Sent</td>
-                                            <td class="align-middle table-head-delete-transaction">Delete</td>
+                                            <td class="align-middle table-head-warehouse-transaction">Gudang Asal</td>
+                                            <td class="align-middle table-head-quantity-transaction">Stok Asal</td>
+                                            <td class="align-middle table-head-warehouse-transaction">Gudang Tujuan</td>
+                                            <td class="align-middle table-head-quantity-transaction">Stok Tujuan</td>
+                                            <td class="align-middle table-head-quantity-transaction">Qty Dikirim</td>
+                                            <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
@@ -71,7 +71,7 @@
                                             <tr class="text-bold text-dark" id="{{ $key }}">
                                                 <td class="align-middle text-center">{{ $row }}</td>
                                                 <td>
-                                                    <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                         @endforeach
@@ -79,7 +79,7 @@
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                 </td>
                                                 <td>
-                                                    <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
+                                                    <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                         @endforeach
@@ -121,7 +121,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                         <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-danger btn-block text-bold" id="btnReset" tabindex="10001">Reset</button>
@@ -135,18 +135,18 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Product Transfer Confirmation</h4>
+                                                <h4 class="modal-title">Konfirmasi Transfer Produk</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <p>The Product Transfer data will be saved. Please select print or re-enter the product transfer.</p>
+                                                <p>Data Transfer Produk akan disimpan. Silakan pilih cetak atau input kembali Transfer Produk.</p>
                                                 <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Print</button>
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Another</button>
+                                                        <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Lagi</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -168,10 +168,10 @@
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="h2 text-bold">&times;</span>
                     </button>
-                    <h4 class="modal-title text-bold">Product Notification</h4>
+                    <h4 class="modal-title text-bold">Notifikasi Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>There are identical item codes with the same source and destination warehouses such as - (<span class="text-bold" id="duplicateCode"></span>). Please add up the quantities of the same item codes or change the warehouse selection of the similar item codes.</h5>
+                    <h5>Ada kode produk yang duplikat dengan gudang asal dan tujuan yang sama seperti - (<span class="text-bold" id="duplicateCode"></span>). Harap tambahkan jumlah kode produk yang sama atau ubah pilihan gudang dari kode produk yang serupa.</h5>
                 </div>
             </div>
         </div>
@@ -643,7 +643,7 @@
                     <tr class="text-bold text-dark" id="${rowId}">
                         <td class="align-middle text-center">${rowNumber}</td>
                         <td>
-                            <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Enter SKU" tabindex="${rowNumbers += 1}">
+                            <select class="selectpicker product-sku-transfer-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                 @endforeach
@@ -651,7 +651,7 @@
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
                         <td>
-                            <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Or Product Name..." tabindex="${rowNumbers += 2}">
+                            <select class="selectpicker product-name-transfer-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach

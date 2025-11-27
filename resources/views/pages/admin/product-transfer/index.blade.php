@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product Transfer List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Transfer Produk</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,17 +29,17 @@
                             <form action="{{ route('product-transfers.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startDate" class="col-auto col-form-label text-bold">Transfer Date</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Transfer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold">s / d</label>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                         </div>
                                         <div class="col-1 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -48,8 +48,8 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-code-transaction-index">Number</th>
-                                            <th class="align-middle th-date-transaction-index">Date</th>
+                                            <th class="align-middle th-code-transaction-index">Nomor</th>
+                                            <th class="align-middle th-date-transaction-index">Tanggal</th>
                                             <th class="align-middle th-status-transaction-index">Status</th>
                                             <th class="align-middle th-status-transaction-index">Admin</th>
                                         </tr>
@@ -69,7 +69,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="5" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

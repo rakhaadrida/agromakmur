@@ -6,7 +6,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Product Transfer</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Transfer Produk</h1>
         </div>
          @if ($errors->any())
             <div class="alert alert-danger">
@@ -30,7 +30,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group row">
-                                                <label for="number" class="col-5 text-right mt-2">Number</label>
+                                                <label for="number" class="col-5 text-right mt-2">Nomor</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="number" value="{{ $productTransfer->number }}">
@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group row detail-po-information-row">
-                                                <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
+                                                <label for="date" class="col-5 text-right text-bold mt-2">Tanggal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" readonly class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($productTransfer->date, 'd-m-Y') }}" >
@@ -73,11 +73,11 @@
                                         <tr>
                                             <td class="table-head-number-transaction">No</td>
                                             <td class="table-head-code-transaction">SKU</td>
-                                            <td class="table-head-name-transaction">Product Name</td>
+                                            <td class="table-head-name-transaction">Nama Produk</td>
                                             <td class="table-head-unit-transaction">Unit</td>
-                                            <td>Source Warehouse</td>
-                                            <td>Transferred Qty</td>
-                                            <td>Destination Warehouse</td>
+                                            <td>Gudang Asal</td>
+                                            <td>Qty Dikirim</td>
+                                            <td>Gudang Tujuan</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -86,7 +86,7 @@
                                                 <td class="text-center">{{ ++$key }}</td>
                                                 <td>{{ $productTransferItem->product->sku }} </td>
                                                 <td>{{ $productTransferItem->product->name }}</td>
-                                                <td>{{ $productTransferItem->unit->name }}</td>
+                                                <td class="text-center">{{ $productTransferItem->unit->name }}</td>
                                                 <td class="text-center">{{ $productTransferItem->sourceWarehouse ? $productTransferItem->sourceWarehouse->name : 'Unknown' }}</td>
                                                 <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
                                                 <td class="text-center">{{ $productTransferItem->destinationWarehouse ? $productTransferItem->destinationWarehouse->name : 'Unknown' }}</td>
@@ -98,11 +98,11 @@
                                 <div class="form-row justify-content-center">
                                     @if(!isWaitingApproval($productTransfer->status))
                                         <div class="col-2">
-                                            <a href="" class="btn btn-danger btn-block text-bold"  data-toggle="modal" data-target="#modalCancelTransfer">Cancel Transfer</a>
+                                            <a href="" class="btn btn-danger btn-block text-bold"  data-toggle="modal" data-target="#modalCancelTransfer">Batalkan Transfer</a>
                                         </div>
                                     @endif
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                     </div>
                                 </div>
 
@@ -113,7 +113,7 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title">Cancel Product Transfer - {{ $productTransfer->number }}</h4>
+                                                <h4 class="modal-title">Batalkan Transfer Produk - {{ $productTransfer->number }}</h4>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="form-group row">
@@ -124,16 +124,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group subtotal-so">
-                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <label for="description" class="col-form-label">Deskripsi</label>
                                                     <input type="text" class="form-control" name="description" id="description">
                                                 </div>
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                                     </div>
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                 </div>
                                             </div>
