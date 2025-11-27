@@ -24,7 +24,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ $unit->name }}" required autofocus>
@@ -33,10 +33,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

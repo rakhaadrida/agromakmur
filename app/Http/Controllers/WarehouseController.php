@@ -205,6 +205,6 @@ class WarehouseController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new WarehouseExport(), 'Warehouse_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new WarehouseExport(), 'Daftar_Gudang_'.$fileDate.'.xlsx');
     }
 }

@@ -1,20 +1,20 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Product Data</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Daftar Produk</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
             <thead class="text-center text-dark text-bold">
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Subcategory</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Sub Kategori</th>
                     <th>Unit</th>
-                    <th>Secondary Unit</th>
-                    <th>Quantity</th>
+                    <th>Unit Konversi</th>
+                    <th>Qty</th>
                     <th>Status</th>
                 </tr>
             </thead>

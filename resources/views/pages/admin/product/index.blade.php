@@ -7,18 +7,18 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Produk</h1>
             <div class="justify-content-end">
                 <a href="{{ route('products.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Product
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Tambah Produk Baru
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('products.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Products
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Produk yang Dihapus
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('products.export') }}" class="btn btn-sm btn-success shadow-sm">
-                    <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Download Excel
+                    <i class="fas fa-file-excel fa-sm text-dark-50 mr-1"></i>  Export Excel
                 </a>
             </div>
         </div>
@@ -29,12 +29,12 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="align-middle th-product-number">No</th>
-                                <th class="align-middle th-product-name">Name</th>
-                                <th class="align-middle th-product-category">Category</th>
+                                <th class="align-middle th-product-name">Nama</th>
+                                <th class="align-middle th-product-category">Kategori</th>
                                 @foreach($warehouses as $warehouse)
                                     <th class="align-middle th-product-stock">{{ $warehouse->name }}</th>
                                 @endforeach
-                                <th class="align-middle th-product-action">Action</th>
+                                <th class="align-middle th-product-action">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,7 +60,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="5" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -74,15 +74,15 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Konfirmasi</h5>
                 </div>
-                <div class="modal-body text-dark">Are you sure you want to delete this data?</div>
+                <div class="modal-body text-dark">Apakah Anda yakin ingin menghapus data ini secara permanen?</div>
                 <div class="modal-footer">
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
-                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-md btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Batal</button>
                     </form>
                 </div>
             </div>

@@ -34,9 +34,9 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Selesai Sesi?</h5>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Pilih "Logout" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
                     <div class="modal-footer">
                         <form action="{{ url('logout') }}" method="POST">
                             @csrf
@@ -52,7 +52,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Input Your Password</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Masukkan Password Anda</h5>
                     </div>
                     <div class="modal-body">
                         <div class="form-group row input-password-modal-body">
@@ -73,8 +73,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit" id="btnSubmitPassword">Submit</button>
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit" id="btnSubmitPassword">Simpan</button>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                     </div>
                 </div>
             </div>

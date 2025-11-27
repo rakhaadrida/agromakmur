@@ -335,7 +335,7 @@ class ProductController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new ProductExport(), 'Product_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new ProductExport(), 'Daftar_Produk_'.$fileDate.'.xlsx');
     }
 
     public function indexAjax(Request $request) {

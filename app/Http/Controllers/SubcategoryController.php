@@ -188,7 +188,7 @@ class SubcategoryController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new SubcategoryExport(), 'Subcategory_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new SubcategoryExport(), 'Daftar_Sub_Kategori_'.$fileDate.'.xlsx');
     }
 
     public function indexAjax(Request $request) {

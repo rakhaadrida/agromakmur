@@ -38,9 +38,9 @@ class Constant
         self::WAREHOUSE_TYPE_RETURN,
     ];
     const WAREHOUSE_TYPE_LABELS = [
-        self::WAREHOUSE_TYPE_PRIMARY => 'Primary',
-        self::WAREHOUSE_TYPE_SECONDARY => 'Secondary',
-        self::WAREHOUSE_TYPE_RETURN => 'Return'
+        self::WAREHOUSE_TYPE_PRIMARY => 'Utama',
+        self::WAREHOUSE_TYPE_SECONDARY => 'Tambahan',
+        self::WAREHOUSE_TYPE_RETURN => 'Retur'
     ];
 
     const PRICE_TYPE_GENERAL = 'GENERAL';
@@ -52,9 +52,9 @@ class Constant
         self::PRICE_TYPE_WHOLESALE,
     ];
     const PRICE_TYPE_LABELS = [
-        self::PRICE_TYPE_GENERAL => 'General',
-        self::PRICE_TYPE_RETAIL => 'Retail',
-        self::PRICE_TYPE_WHOLESALE => 'Wholesale'
+        self::PRICE_TYPE_GENERAL => 'Umum',
+        self::PRICE_TYPE_RETAIL => 'Eceran',
+        self::PRICE_TYPE_WHOLESALE => 'Grosir'
     ];
 
     const PLAN_ORDER_STATUS_ACTIVE = 'ACTIVE';

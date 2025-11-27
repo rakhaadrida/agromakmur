@@ -7,14 +7,14 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Price List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Harga</h1>
             <div class="justify-content-end">
                 <a href="{{ route('prices.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Price
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Tambah Harga Baru
                 </a>
                 <span class="vertical-hr mr-2 ml-1"></span>
                 <a href="{{ route('prices.deleted') }}" class="btn btn-sm btn-outline-danger shadow-sm">
-                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Deleted Prices
+                    <i class="fas fa-trash-alt fa-sm text-dark-50 mr-1"></i>  Harga yang Dihapus
                 </a>
             </div>
         </div>
@@ -25,10 +25,10 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="table-head-number">No</th>
-                                <th>Name</th>
-                                <th>Code</th>
-                                <th>Type</th>
-                                <th>Action</th>
+                                <th>Nama</th>
+                                <th>Kode</th>
+                                <th>Tipe</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="4" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -63,15 +63,15 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-bold" id="exampleModalLabel">Confirmation</h5>
+                    <h5 class="modal-title text-bold" id="exampleModalLabel">Konfirmasi</h5>
                 </div>
-                <div class="modal-body text-dark">Are you sure you want to delete this data?</div>
+                <div class="modal-body text-dark">Apakah Anda yakin ingin menghapus data ini?</div>
                 <div class="modal-footer">
                     <form action="" method="POST" id="deleteForm">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-md btn-danger">Delete</button>
-                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-md btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-md btn-outline-primary text-sm" data-dismiss="modal">Batal</button>
                     </form>
                 </div>
             </div>

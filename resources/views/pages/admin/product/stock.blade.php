@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Stock Data - {{ $product->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Stok - {{ $product->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -24,14 +24,14 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold">Product Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold">Nama Produk</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-2">
                                         <input type="text" class="form-control col-form-label-sm text-bold" name="name" id="name" value="{{ $product->name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="category" class="col-2 col-form-label text-bold">Category</label>
+                                    <label for="category" class="col-2 col-form-label text-bold">Kategori</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-4">
                                         <input type="text" class="form-control col-form-label-sm text-bold" name="category" id="category" value="{{ $product->category_name }}" readonly>
@@ -52,10 +52,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold">Simpan</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

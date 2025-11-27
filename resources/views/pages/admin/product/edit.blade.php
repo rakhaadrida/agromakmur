@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Product - {{ $product->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Produk - {{ $product->name }}</h1>
         </div>
         @if($errors->any())
             <div class="alert alert-danger alert-input-section">
@@ -28,14 +28,14 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ $product->name }}" required autofocus>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="category" class="col-2 col-form-label text-bold text-right">Category</label>
+                                    <label for="category" class="col-2 col-form-label text-bold text-right">Kategori</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <select class="selectpicker custom-select-picker" name="category_id" id="category" data-live-search="true">
@@ -51,10 +51,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Subcategory</label>
+                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Sub Kategori</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Select Category First">
+                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" title="Silahkan Pilih Kategori">
                                             @foreach($subcategories as $subcategory)
                                                 <option value="{{ $subcategory->id }}" data-tokens="{{ $subcategory->name }}" @if($product->subcategory_id == $subcategory->id) selected @endif>{{ $subcategory->name }}</option>
                                             @endforeach
@@ -87,13 +87,13 @@
                                     <span class="col-form-label text-bold"></span>
                                     <div class="col-6 ml-1">
                                         <input class="form-check-input product-check-input" type="checkbox" name="has_conversion" id="conversion" {{ $product->productConversions->count() ? 'checked' : '' }}>
-                                        <label class="col-form-label product-check-label ml-4" for="remember">Does this product have unit conversion?</label>
+                                        <label class="col-form-label product-check-label ml-4" for="remember">Apakah produk ini memiliki konversi unit?</label>
                                     </div>
                                 </div>
                                 <div id="conversionSection" @if(empty($product->productConversions)) hidden @endif>
                                     @foreach($product->productConversions as $conversion)
                                         <div class="form-group row">
-                                            <label for="unitConversion" class="col-2 col-form-label text-bold text-right">Unit Conversion</label>
+                                            <label for="unitConversion" class="col-2 col-form-label text-bold text-right">Konversi Unit</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-3">
                                                 <select class="selectpicker custom-select-picker" name="unit_conversion_id" id="unitConversion" data-live-search="true">
@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="quantity" class="col-2 col-form-label text-bold text-right">Quantity</label>
+                                            <label for="quantity" class="col-2 col-form-label text-bold text-right">Qty</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-2">
                                                 <input type="number" min="1" class="form-control col-form-label-sm" name="quantity" id="quantity" value="{{ $conversion->quantity }}">
@@ -120,21 +120,21 @@
                                 </div>
                                 <hr>
                                 @if(!empty($prices) && $prices->count() > 0)
-                                    <h5 class="h5 mb-3 text-gray-800 menu-title">Price List</h5>
+                                    <h5 class="h5 mb-3 text-gray-800 menu-title">Daftar Harga</h5>
                                 @endif
                                 @foreach($prices as $key => $price)
                                     <div class="form-row">
                                         <div class="form-group col-2">
-                                            <label for="basePrice-{{ $key }}" class="col-form-label text-bold">Base Price</label>
+                                            <label for="basePrice-{{ $key }}" class="col-form-label text-bold">Harga Dasar</label>
                                             <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="basePrice-{{ $key }}" name="base_price[]" value="{{ $productPrices[$price->id]['base_price'] }}" readonly/>
                                         </div>
                                         <div class="form-group col-2 ml-2">
-                                            <label for="tax-{{ $key }}" class="col-form-label text-bold">Tax</label>
+                                            <label for="tax-{{ $key }}" class="col-form-label text-bold">PPN</label>
                                             <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="tax-{{ $key }}" name="tax_amount[]" value="{{ $productPrices[$price->id]['tax_amount'] }}" readonly/>
                                         </div>
                                         <div class="form-group col-2 ml-2">
                                             <label for="price-{{ $key }}" class="col-form-label text-bold">{{ $price->name }}</label>
-                                            <input type="text" class="form-control col-form-label-sm" id="price-{{ $key }}" name="price[]" value="{{ $productPrices[$price->id]['price'] }}" data-toogle="tooltip" data-placement="right" title="Only allowed to input numbers" required>
+                                            <input type="text" class="form-control col-form-label-sm" id="price-{{ $key }}" name="price[]" value="{{ $productPrices[$price->id]['price'] }}" data-toogle="tooltip" data-placement="right" title="Hanya masukkan angka saja" required>
                                             <input type="hidden" name="price_id[]" value="{{ $price->id }}">
                                         </div>
                                     </div>
@@ -142,10 +142,10 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                     </div>
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Cancel</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Batal</a>
                                     </div>
                                 </div>
                             </form>

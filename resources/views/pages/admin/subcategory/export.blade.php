@@ -1,17 +1,17 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Subcategory Data</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Daftar Sub Kategori</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
             <thead class="text-center text-dark text-bold">
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Reminder Limit</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Batas Pengingat Stok</th>
                     <th>Status</th>
                 </tr>
             </thead>

@@ -166,6 +166,6 @@ class CategoryController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new CategoryExport(), 'Category_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new CategoryExport(), 'Daftar_Kategori_'.$fileDate.'.xlsx');
     }
 }
