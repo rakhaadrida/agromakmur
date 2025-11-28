@@ -8,10 +8,10 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Purchase Return List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Retur Pembelian</h1>
             <div class="justify-content-end">
                 <a href="{{ route('purchase-returns.create') }}" class="btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Add New Purchase Return
+                    <i class="fas fa-plus fa-sm text-white-50 mr-1"></i>  Tambah Retur Pembelian
                 </a>
             </div>
         </div>
@@ -43,7 +43,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="receiptStatus" class="col-auto col-form-label text-right text-bold">Receipt Status</label>
+                                        <label for="receiptStatus" class="col-auto col-form-label text-right text-bold purchase-return-final-date">Status Terima</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 account-payable-filter-status">
                                             <select class="form-control form-control-sm mt-1" name="receipt_status" id="receiptStatus" tabindex="2">
@@ -55,18 +55,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group row account-payable-filter-row">
-                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-right text-bold ml-1 purchase-return-final-date">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-right text-bold purchase-return-final-date">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 ml-n2">
-                                            <button type="submit" id="btnSubmit" class="btn btn-success btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" id="btnSubmit" class="btn btn-success btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -75,17 +75,17 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-sales-return-number">No</th>
-                                            <th class="align-middle th-sales-return-return-number">Return Number</th>
-                                            <th class="align-middle th-sales-return-date">Return Date</th>
-                                            <th class="align-middle th-sales-return-branch">Branch</th>
+                                            <th class="align-middle th-sales-return-return-number">Nomor</th>
+                                            <th class="align-middle th-sales-return-date">Tanggal</th>
+                                            <th class="align-middle th-sales-return-branch">Cabang</th>
                                             <th class="align-middle">Supplier</th>
-                                            <th class="align-middle th-sales-return-order-number">Receipt Number</th>
+                                            <th class="align-middle th-sales-return-order-number">Nomor BM</th>
                                             <th class="align-middle th-sales-return-quantity">Qty</th>
-                                            <th class="align-middle th-sales-return-quantity">Qty Sent</th>
-                                            <th class="align-middle th-sales-return-quantity">Cut Bills</th>
-                                            <th class="align-middle th-sales-return-quantity">Qty Left</th>
+                                            <th class="align-middle th-sales-return-quantity">Qty Terima</th>
+                                            <th class="align-middle th-sales-return-quantity">Potong Tagihan</th>
+                                            <th class="align-middle th-sales-return-quantity">Sisa Qty</th>
                                             <th class="align-middle th-sales-return-status">Status</th>
-                                            <th class="align-middle th-sales-return-status">Receipt Status</th>
+                                            <th class="align-middle th-sales-return-status">Status Terima</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-ar">
@@ -110,7 +110,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
