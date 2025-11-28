@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Incoming Items Report</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Laporan Barang Masuk</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
@@ -11,9 +11,9 @@
                 <tr>
                     <th>No</th>
                     <th>Supplier</th>
-                    <th>Product SKU</th>
-                    <th>Product Name</th>
-                    <th>Warehouse</th>
+                    <th>SKU</th>
+                    <th>Nama Produk</th>
+                    <th>Gudang</th>
                     <th>Qty</th>
                     <th>Unit</th>
                 </tr>

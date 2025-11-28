@@ -44,7 +44,7 @@ class IncomingItemExport extends DefaultValueBinder implements FromView, ShouldA
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Incoming-Items');
+        $sheet->setTitle('Barang_Masuk');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

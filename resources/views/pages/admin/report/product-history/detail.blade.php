@@ -61,7 +61,7 @@
                                         <h4 class="text-bold text-dark">Histori {{ $product->name }} ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center mb-2">
-                                        <h6 class="text-dark">Waktu Laporan : {{ $reportDate }}</h6>
+                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                     </div>
                                     <div class="row justify-content-end product-history-detail-export-button">
                                         <div class="col-2 product-history-col">

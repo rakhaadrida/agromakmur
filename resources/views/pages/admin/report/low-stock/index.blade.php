@@ -16,7 +16,7 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="row justify-content-center mb-2">
-                                    <h4 class="text-dark text-bold">Waktu Laporan : {{ $reportDate }}</h4>
+                                    <h4 class="text-dark text-bold">Tanggal Laporan : {{ $reportDate }}</h4>
                                 </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">

@@ -17,7 +17,7 @@
                             <div class="container">
                                 <form>
                                     <div class="row justify-content-center mb-2">
-                                        <h4 class="text-dark text-bold">Waktu Laporan : {{ $reportDate }}</h4>
+                                        <h4 class="text-dark text-bold">Tanggal Laporan : {{ $reportDate }}</h4>
                                     </div>
                                     <div class="row justify-content-end product-history-export-button">
                                         <div class="col-2 product-history-col">
