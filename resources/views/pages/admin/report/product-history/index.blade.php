@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product History Report</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Laporan Histori Produk</h1>
         </div>
         <div class="row">
             <div class="card-body">
@@ -17,7 +17,7 @@
                             <div class="container">
                                 <form>
                                     <div class="row justify-content-center mb-2">
-                                        <h4 class="text-dark text-bold">Report Time : {{ $reportDate }}</h4>
+                                        <h4 class="text-dark text-bold">Waktu Laporan : {{ $reportDate }}</h4>
                                     </div>
                                     <div class="row justify-content-end product-history-export-button">
                                         <div class="col-2 product-history-col">
@@ -30,17 +30,17 @@
                                 <thead class="text-center text-bold text-dark">
                                     <tr class="bg-light">
                                         <th class="align-middle th-product-history-number">No</th>
-                                        <th class="align-middle th-product-history-product-sku">Product SKU</th>
-                                        <th class="align-middle">Product Name</th>
-                                        <th class="align-middle th-product-history-branch">Latest Branch</th>
-                                        <th class="align-middle th-product-history-supplier">Latest Supplier</th>
-                                        <th class="align-middle th-product-history-date">Latest Receipt Date</th>
-                                        <th class="align-middle th-product-history-latest-number">Latest Receipt Number</th>
-                                        <th class="align-middle th-product-history-price">Latest Price</th>
-                                        <th class="align-middle th-product-history-quantity">Latest Qty</th>
-                                        <th class="align-middle th-product-history-unit">Latest Unit</th>
-                                        <th class="align-middle th-product-history-total">Latest Total</th>
-                                        <th class="align-middle th-product-history-action">Action</th>
+                                        <th class="align-middle th-product-history-product-sku">SKU</th>
+                                        <th class="align-middle">Nama Produk</th>
+                                        <th class="align-middle th-product-history-branch">Cabang Terakhir</th>
+                                        <th class="align-middle th-product-history-supplier">Supplier Terakhir</th>
+                                        <th class="align-middle th-product-history-date">Tanggal BM Terakhir</th>
+                                        <th class="align-middle th-product-history-latest-number">Nomor BM Terakhir</th>
+                                        <th class="align-middle th-product-history-price">Harga Terakhir</th>
+                                        <th class="align-middle th-product-history-quantity">Qty Terakhir</th>
+                                        <th class="align-middle th-product-history-unit">Unit Terakhir</th>
+                                        <th class="align-middle th-product-history-total">Total Terakhir</th>
+                                        <th class="align-middle th-product-history-action">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,7 +69,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="12" class="text-center text-bold h4 p-2">No Data Available</td>
+                                            <td colspan="12" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

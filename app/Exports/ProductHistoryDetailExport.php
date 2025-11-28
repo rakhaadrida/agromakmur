@@ -51,7 +51,7 @@ class ProductHistoryDetailExport extends DefaultValueBinder implements FromView,
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Product_History');
+        $sheet->setTitle('Histori_Produk');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

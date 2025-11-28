@@ -1,8 +1,8 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Product History Report</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Laporan Histori Produk</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -10,15 +10,15 @@
                 <tr>
                     <th>No</th>
                     <th>SKU</th>
-                    <th>Product Name</th>
-                    <th>Latest Branch</th>
-                    <th>Latest Supplier</th>
-                    <th>Latest Receipt Date</th>
-                    <th>Latest Receipt Number</th>
-                    <th>Latest Price</th>
-                    <th>Latest Qty</th>
-                    <th>Latest Unit</th>
-                    <th>Latest Total</th>
+                    <th>Nama Produk</th>
+                    <th>Cabang Terakhir</th>
+                    <th>Supplier Terakhir</th>
+                    <th>Tanggal BM Terakhir</th>
+                    <th>Nomor BM Terakhir</th>
+                    <th>Harga Terakhir</th>
+                    <th>Qty Terakhir</th>
+                    <th>Unit Terakhir</th>
+                    <th>Total Terakhir</th>
                 </tr>
             </thead>
             <tbody>

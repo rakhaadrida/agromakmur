@@ -57,7 +57,7 @@ class ProductHistoryController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new ProductHistoryExport(), 'Product_History_'.$fileDate.'.xlsx');
+        return Excel::download(new ProductHistoryExport(), 'Histori_Produk_'.$fileDate.'.xlsx');
     }
 
     public function exportDetail(Request $request, $id) {
@@ -66,6 +66,6 @@ class ProductHistoryController extends Controller
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new ProductHistoryDetailExport($id, $request), 'Product_History_'.$productName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new ProductHistoryDetailExport($id, $request), 'Histori_Produk_'.$productName.'_'.$fileDate.'.xlsx');
     }
 }

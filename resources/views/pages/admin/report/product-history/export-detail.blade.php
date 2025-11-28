@@ -1,24 +1,24 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Product History - {{ $product->name }}</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Histori Produk - {{ $product->name }}</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Receipt Date</th>
-                    <th>Receipt Number</th>
+                    <th>Tanggal BM</th>
+                    <th>Nomor BM</th>
                     <th>Supplier</th>
-                    <th>Branch</th>
-                    <th>Price</th>
+                    <th>Cabang</th>
+                    <th>Harga</th>
                     <th>Qty</th>
                     <th>Unit</th>
-                    <th>Wages</th>
-                    <th>Shipping Cost</th>
+                    <th>Upah</th>
+                    <th>Ongkos Kirim</th>
                     <th>Total</th>
                 </tr>
             </thead>

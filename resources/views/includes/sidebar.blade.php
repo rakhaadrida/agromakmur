@@ -138,16 +138,16 @@
             </a>
             <div id="collapseProductReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('report.product-histories.index') }}">Product History</a>
-                    <a class="collapse-item" href="{{ route('report.low-stocks.index') }}">Low Stock</a>
-                    <a class="collapse-item" href="{{ route('report.stock-cards.index') }}">Stock Card</a>
-                    <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Incoming Items</a>
-                    <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Outgoing Items</a>
-                    <button class="collapse-item price-list-menu-button" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Price List</button>
-                    <button class="collapse-item price-list-menu-button" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Stock Recap</button>
-                    <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Value Recap</a>
+                    <a class="collapse-item" href="{{ route('report.product-histories.index') }}">Histori Produk</a>
+                    <a class="collapse-item" href="{{ route('report.low-stocks.index') }}">Stok Rendah</a>
+                    <a class="collapse-item" href="{{ route('report.stock-cards.index') }}">Kartu Stok</a>
+                    <a class="collapse-item" href="{{ route('report.incoming-items.index') }}">Barang Masuk</a>
+                    <a class="collapse-item" href="{{ route('report.outgoing-items.index') }}">Barang Keluar</a>
+                    <button class="collapse-item price-list-menu-button" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Daftar Harga</button>
+                    <button class="collapse-item price-list-menu-button" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Rekap Stok</button>
+                    <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Rekap Value</a>
                     @if(isUserSuperAdmin())
-                        <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Marketing Qty Recap</a>
+                        <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Recap Qty Sales</a>
                     @endif
                 </div>
             </div>

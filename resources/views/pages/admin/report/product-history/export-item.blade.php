@@ -1,24 +1,24 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Product History Items</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Item Histori Produk</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Product Name</th>
-                    <th>Receipt Date</th>
-                    <th>Receipt Number</th>
+                    <th>Name Produk</th>
+                    <th>Tanggal BM</th>
+                    <th>Nomor BM</th>
                     <th>Supplier</th>
-                    <th>Branch</th>
-                    <th>Price</th>
+                    <th>Cabang</th>
+                    <th>Harga</th>
                     <th>Qty</th>
                     <th>Unit</th>
-                    <th>Wages</th>
-                    <th>Shipping Cost</th>
+                    <th>Upah</th>
+                    <th>Ongkos Kirim</th>
                     <th>Total</th>
                 </tr>
             </thead>

@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product History Detail - {{ $product->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Histori Produk - {{ $product->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,7 +32,7 @@
                                         <label for="supplier" class="col-2 col-form-label text-bold text-right filter-supplier-receipt">Supplier</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-5">
-                                            <select class="selectpicker product-history-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Choose Supplier">
+                                            <select class="selectpicker product-history-select-picker" name="supplier_id" id="supplier" data-live-search="true" data-size="6" title="Pilih Supplier">
                                                 @foreach($suppliers as $supplier)
                                                     <option value="{{ $supplier->id }}" data-tokens="{{ $supplier->name }}" @if($supplierId == $supplier->id) selected @endif>{{ $supplier->name }}</option>
                                                 @endforeach
@@ -40,28 +40,28 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-marketing-report">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="container">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">History {{ $product->name }} ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Histori {{ $product->name }} ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center mb-2">
-                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                        <h6 class="text-dark">Waktu Laporan : {{ $reportDate }}</h6>
                                     </div>
                                     <div class="row justify-content-end product-history-detail-export-button">
                                         <div class="col-2 product-history-col">
@@ -73,15 +73,15 @@
                                     <thead class="text-center text-dark text-bold">
                                         <tr class="bg-light">
                                             <th class="align-middle th-marketing-recap-number">No</th>
-                                            <th class="align-middle th-product-history-date">Receipt Date</th>
-                                            <th class="align-middle th-product-history-latest-number">Receipt Number</th>
+                                            <th class="align-middle th-product-history-date">Tanggal BM</th>
+                                            <th class="align-middle th-product-history-latest-number">Nomor BM</th>
                                             <th class="align-middle th-product-history-detail-supplier">Supplier</th>
-                                            <th class="align-middle th-product-history-detail-branch">Branch</th>
-                                            <th class="align-middle th-product-history-detail-price">Price</th>
+                                            <th class="align-middle th-product-history-detail-branch">Cabang</th>
+                                            <th class="align-middle th-product-history-detail-price">Harga</th>
                                             <th class="align-middle th-product-history-detail-quantity">Qty</th>
                                             <th class="align-middle th-product-history-detail-unit">Unit</th>
-                                            <th class="align-middle th-product-history-detail-price">Wages</th>
-                                            <th class="align-middle th-product-history-detail-price">Shipping Cost</th>
+                                            <th class="align-middle th-product-history-detail-price">Upah</th>
+                                            <th class="align-middle th-product-history-detail-price">Ongkos Kirim</th>
                                             <th class="align-middle th-product-history-detail-total">Total</th>
                                         </tr>
                                     </thead>
@@ -106,7 +106,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="11" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                <td colspan="11" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
