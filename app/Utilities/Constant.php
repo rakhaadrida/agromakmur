@@ -261,12 +261,12 @@ class Constant
     const PRODUCT_STOCK_LOG_TYPE_SALES_RETURN = 'SALES_RETURN';
     const PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT = 'MANUAL_EDIT';
     const PRODUCT_STOCK_LOG_TYPE_LABELS = [
-        self::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT => 'Goods Receipt',
-        self::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER => 'Product Transfer',
+        self::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT => 'Barang Masuk',
+        self::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER => 'Transfer Produk',
         self::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER => 'Sales Order',
-        self::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN => 'Purchase Return',
-        self::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN => 'Sales Return',
-        self::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT => 'Manual Edit',
+        self::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN => 'Retur Pembelian',
+        self::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN => 'Retur Penjualan',
+        self::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT => 'Ubah Manual',
     ];
 
     const PRODUCT_STOCK_LOG_TYPE_ROUTE = [

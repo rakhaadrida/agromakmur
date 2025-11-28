@@ -424,6 +424,11 @@ function isTransactionLog($type): bool
     ]);
 }
 
+function isManualLog($type): bool
+{
+    return $type == Constant::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT;
+}
+
 function isActiveData($item): string
 {
     return empty($item->deleted_at) ? 'Active' : 'Inactive';

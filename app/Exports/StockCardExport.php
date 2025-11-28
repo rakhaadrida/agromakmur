@@ -41,10 +41,12 @@ class StockCardExport extends DefaultValueBinder implements FromView, ShouldAuto
             $product = Product::query()->findOrFail($productId);
             $stockLogs = StockCardService::getBaseQueryProductIndex($startDate, $finalDate, $productId);
 
-            $initialStock = $stockLogs->first() ? $stockLogs->first()->initial_stock : 0;
+            $currentStock = $product->productStocks()->sum('stock');
 
             $totalIncomingQuantity = $stockLogs->where('quantity', '>=', 0)->sum('quantity');
             $totalOutgoingQuantity = $stockLogs->where('quantity', '<', 0)->sum('quantity');
+
+            $initialStock = $currentStock - $totalIncomingQuantity + ($totalOutgoingQuantity * -1);
         }
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
