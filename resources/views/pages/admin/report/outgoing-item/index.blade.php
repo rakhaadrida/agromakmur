@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Outgoing Items Report</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Laporan Barang Keluar</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -28,17 +28,17 @@
                             <form action="{{ route('report.outgoing-items.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
-                                        <label for="startDate" class="col-auto col-form-label text-bold">Start Date</label>
+                                        <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold ">s / d</label>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                         </div>
                                         <div class="col-1 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                     </div>
                                     <div class="row justify-content-center" style="margin-bottom: 15px">
@@ -50,10 +50,10 @@
                                 <hr>
                                 <div class="container" style="margin-bottom: 0">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">Outgoing Items Report ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Laporan Barang Keluar ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center" style="margin-top: -5px">
-                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                     </div>
                                 </div>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
@@ -61,9 +61,9 @@
                                         <tr>
                                             <td class="align-middle th-incoming-items-number">No</td>
                                             <td class="align-middle th-incoming-items-supplier">Customer</td>
-                                            <td class="align-middle th-incoming-items-product-sku">Product SKU</td>
-                                            <td class="align-middle">Product Name</td>
-                                            <td class="align-middle th-incoming-items-warehouse">Warehouse</td>
+                                            <td class="align-middle th-incoming-items-product-sku">SKU</td>
+                                            <td class="align-middle">Nama Produk</td>
+                                            <td class="align-middle th-incoming-items-warehouse">Gudang</td>
                                             <td class="align-middle th-incoming-items-total-quantity">Qty</td>
                                             <td class="align-middle th-incoming-items-unit">Unit</td>
                                         </tr>
@@ -81,7 +81,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="7" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                <td colspan="7" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

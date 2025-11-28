@@ -34,6 +34,6 @@ class OutgoingItemController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new OutgoingItemExport($request), 'Outgoing_Items_'.$fileDate.'.xlsx');
+        return Excel::download(new OutgoingItemExport($request), 'Laporan_Barang_Keluar_'.$fileDate.'.xlsx');
     }
 }
