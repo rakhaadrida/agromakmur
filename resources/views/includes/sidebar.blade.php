@@ -160,8 +160,8 @@
             </a>
             <div id="collapseTransactionReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('report.sales-recap.index') }}">Sales Recap</a>
-                    <a class="collapse-item" href="{{ route('report.purchase-recap.index') }}">Purchase Recap</a>
+                    <a class="collapse-item" href="{{ route('report.sales-recap.index') }}">Rekap Penjualan</a>
+                    <a class="collapse-item" href="{{ route('report.purchase-recap.index') }}">Rekap Pembelian</a>
                 </div>
             </div>
         </li>

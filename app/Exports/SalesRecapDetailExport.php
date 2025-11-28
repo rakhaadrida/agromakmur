@@ -58,7 +58,7 @@ class SalesRecapDetailExport extends DefaultValueBinder implements FromView, Sho
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Sales_Recap');
+        $sheet->setTitle('Rekap_Penjualan');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -110,14 +110,14 @@ class SalesRecapDetailExport extends DefaultValueBinder implements FromView, Sho
         $rangeNumberCell = 'B6:B' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'E5:E' . $rangeStr;
+        $rangeNumberCell = 'E6:E' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
-        $rangeNumberCell = 'F5:F' . $rangeStr;
+        $rangeNumberCell = 'F6:F' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'G5:K' . $rangeStr;
+        $rangeNumberCell = 'G6:K' . $rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 

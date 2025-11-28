@@ -285,4 +285,11 @@ class Constant
     const NUMBER_SETTING_KEY_DELIVERY_ORDER = 'DO';
     const NUMBER_SETTING_KEY_SALES_RETURN = 'SR';
     const NUMBER_SETTING_KEY_PURCHASE_RETURN = 'PR';
+
+    const SALES_RECAP_TYPE_PRODUCT = 'product';
+    const SALES_RECAP_TYPE_CUSTOMER = 'customer';
+    const SALES_RECAP_TYPE_LABELS = [
+        self::SALES_RECAP_TYPE_PRODUCT => 'Produk',
+        self::SALES_RECAP_TYPE_CUSTOMER => 'Customer',
+    ];
 }

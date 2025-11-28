@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Utilities\Constant;
 use App\Utilities\Services\SalesRecapService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -34,7 +35,7 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
             'startDate' => $this->request->start_date,
             'finalDate' => $this->request->final_date,
             'subject' => $this->request->subject,
-            'subjectLabel' => ucfirst($this->request->subject),
+            'subjectLabel' => Constant::SALES_RECAP_TYPE_LABELS[$this->request->subject],
             'salesItems' => $salesItems,
             'exportDate' => $exportDate,
         ];
@@ -44,7 +45,7 @@ class SalesRecapSheet extends DefaultValueBinder implements FromView, ShouldAuto
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Sales_Recap');
+        $sheet->setTitle('Rekap_Penjualan');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

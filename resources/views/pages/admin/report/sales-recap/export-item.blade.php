@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Sales Recap Items By {{ $subjectLabel }}</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Rekap Item Penjualan Per {{ $subjectLabel }}</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -11,32 +11,32 @@
                 @if(isSubjectProduct($subject))
                     <tr>
                         <th>No</th>
-                        <th>Product Name</th>
-                        <th>Order Date</th>
-                        <th>Order Number</th>
+                        <th>Nama Produk</th>
+                        <th>Tanggal SO</th>
+                        <th>Nomor SO</th>
                         <th>Customer</th>
                         <th>Qty</th>
                         <th>Unit</th>
-                        <th>Price</th>
+                        <th>Harga</th>
                         <th>Total</th>
-                        <th>Discount (%)</th>
-                        <th>Discount Amount</th>
-                        <th>Final Amount</th>
+                        <th>Diskon (%)</th>
+                        <th>Jumlah Diskon</th>
+                        <th>Netto</th>
                     </tr>
                 @else
                     <tr>
                         <th>No</th>
                         <th>Customer</th>
-                        <th>Order Date</th>
-                        <th>Order Number</th>
-                        <th>Product Name</th>
+                        <th>Tanggal SO</th>
+                        <th>Nomor SO</th>
+                        <th>Nama Produk</th>
                         <th>Qty</th>
                         <th>Unit</th>
-                        <th>Price</th>
+                        <th>Harga</th>
                         <th>Total</th>
-                        <th>Discount (%)</th>
-                        <th>Discount Amount</th>
-                        <th>Final Amount</th>
+                        <th>Diskon (%)</th>
+                        <th>Jumlah Diskon</th>
+                        <th>Netto</th>
                     </tr>
                @endif
             </thead>
@@ -77,7 +77,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="12">No Data Available</td>
+                        <td colspan="12">Tidak Ada Data</td>
                     </tr>
                 @endif
             </tbody>

@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Sales Recap Detail - {{ $item->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Rekap Penjualan - {{ $item->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -33,7 +33,7 @@
                                             <label for="customer" class="col-2 col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-5">
-                                                <select class="selectpicker product-history-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Choose Customer">
+                                                <select class="selectpicker product-history-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Pilih Customer">
                                                     @foreach($customers as $customer)
                                                         <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" @if($customerId == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                     @endforeach
@@ -42,10 +42,10 @@
                                         </div>
                                     @else
                                         <div class="form-group row">
-                                            <label for="product" class="col-2 col-form-label text-bold text-right filter-supplier-receipt">Product</label>
+                                            <label for="product" class="col-2 col-form-label text-bold text-right filter-supplier-receipt">Produk</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-5">
-                                                <select class="selectpicker product-history-select-picker" name="product_id" id="product" data-live-search="true" data-size="6" title="Choose Product">
+                                                <select class="selectpicker product-history-select-picker" name="product_id" id="product" data-live-search="true" data-size="6" title="Pilih Produk">
                                                     @foreach($products as $product)
                                                         <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($productId == $product->id) selected @endif>{{ $product->name }}</option>
                                                     @endforeach
@@ -54,29 +54,29 @@
                                         </div>
                                     @endif
                                     <div class="form-group row filter-date-marketing-report">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <input type="hidden" name="subject" value="{{ $subject }}">
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="container" style="margin-bottom: 0">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">Recap {{ $item->name }} ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Rekap {{ $item->name }} ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center mb-2">
-                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                     </div>
                                     <div class="row justify-content-end product-history-detail-export-button">
                                         <div class="col-2 product-history-col">
@@ -90,16 +90,16 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <td class="align-middle th-sales-recap-number">No</td>
-                                                <td class="align-middle th-sales-recap-detail-date">Order Date</td>
-                                                <td class="align-middle th-sales-recap-detail-number">Order Number</td>
+                                                <td class="align-middle th-sales-recap-detail-date">Tanggal SO</td>
+                                                <td class="align-middle th-sales-recap-detail-number">Nomor SO</td>
                                                 <td class="align-middle">Customer</td>
                                                 <td class="align-middle th-sales-recap-detail-quantity">Qty</td>
                                                 <td class="align-middle th-sales-recap-detail-unit">Unit</td>
-                                                <td class="align-middle th-sales-recap-detail-price">Price</td>
+                                                <td class="align-middle th-sales-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-sales-recap-detail-total">Total</td>
-                                                <td class="align-middle th-sales-recap-detail-discount">Discount (%)</td>
-                                                <td class="align-middle th-sales-recap-detail-discount-amount">Discount Amount</td>
-                                                <td class="align-middle th-sales-recap-detail-final-amount">Final Amount</td>
+                                                <td class="align-middle th-sales-recap-detail-discount">Diskon (%)</td>
+                                                <td class="align-middle th-sales-recap-detail-discount-amount">Jumlah Diskon</td>
+                                                <td class="align-middle th-sales-recap-detail-final-amount">Netto</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -123,7 +123,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
@@ -131,16 +131,16 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <td class="align-middle th-sales-recap-number">No</td>
-                                                <td class="align-middle th-sales-recap-detail-date">Order Date</td>
-                                                <td class="align-middle th-sales-recap-detail-number">Order Number</td>
-                                                <td class="align-middle">Product Name</td>
+                                                <td class="align-middle th-sales-recap-detail-date">Tanggal SO</td>
+                                                <td class="align-middle th-sales-recap-detail-number">Nomor SO</td>
+                                                <td class="align-middle">Nama Produk</td>
                                                 <td class="align-middle th-sales-recap-detail-quantity">Qty</td>
                                                 <td class="align-middle th-sales-recap-detail-unit">Unit</td>
-                                                <td class="align-middle th-sales-recap-detail-price">Price</td>
+                                                <td class="align-middle th-sales-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-sales-recap-detail-total">Total</td>
-                                                <td class="align-middle th-sales-recap-detail-discount">Discount (%)</td>
-                                                <td class="align-middle th-sales-recap-detail-discount-amount">Discount Amount</td>
-                                                <td class="align-middle th-sales-recap-detail-final-amount">Final Amount</td>
+                                                <td class="align-middle th-sales-recap-detail-discount">Diskon (%)</td>
+                                                <td class="align-middle th-sales-recap-detail-discount-amount">Jumlah Diskon</td>
+                                                <td class="align-middle th-sales-recap-detail-final-amount">Netto</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -164,7 +164,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
