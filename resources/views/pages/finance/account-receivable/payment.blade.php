@@ -94,7 +94,7 @@
                                             <th style="width: 160px">Tanggal Bayar</th>
                                             <th style="width: 160px">Jumlah Bayar</th>
                                             <th style="width: 160px">Kurang Bayar</th>
-                                            <th style="width: 60px">Delete</th>
+                                            <th style="width: 60px">Hapus</th>
                                         </tr>
                                     </thead>
                                     <tbody class="table-ar" id="itemTable" >

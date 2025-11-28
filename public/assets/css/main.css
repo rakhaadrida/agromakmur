@@ -1209,7 +1209,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-payable-status {
-    width: 90px;
+    width: 110px;
 }
 
 .tbody-payable-status {
@@ -1234,7 +1234,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-receivable-invoice-age {
-    width: 85px;
+    width: 75px;
 }
 
 .th-receivable-branch {
@@ -1242,7 +1242,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-receivable-type {
-    width: 80px;
+    width: 70px;
 }
 
 .th-receivable-grand-total {
@@ -1254,7 +1254,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-receivable-status {
-    width: 80px;
+    width: 110px;
 }
 
 .col-product-stock {

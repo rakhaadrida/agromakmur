@@ -218,7 +218,7 @@ class AccountPayableController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountPayableExport($request), 'Payable_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountPayableExport($request), 'Daftar_Hutang_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -242,7 +242,7 @@ class AccountPayableController extends Controller
         $pdf = PDF::loadview('pages.finance.account-payable.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Payable_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Hutang_'.$fileDate.'.pdf');
     }
 
     public function exportDetail(Request $request, $id) {
@@ -251,7 +251,7 @@ class AccountPayableController extends Controller
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountPayableDetailExport($id, $request), 'Payable_'.$supplierName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountPayableDetailExport($id, $request), 'Daftar_Hutang_'.$supplierName.'_'.$fileDate.'.xlsx');
     }
 
     public function pdfDetail(Request $request, $id) {
@@ -279,6 +279,6 @@ class AccountPayableController extends Controller
         $pdf = PDF::loadview('pages.finance.account-payable.pdf-detail', $data)
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Payable_'.$supplierName.'_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Hutang_'.$supplierName.'_'.$fileDate.'.pdf');
     }
 }

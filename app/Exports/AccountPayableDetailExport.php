@@ -52,7 +52,7 @@ class AccountPayableDetailExport extends DefaultValueBinder  implements FromView
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Account_Payable');
+        $sheet->setTitle('Daftar_Hutang');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -152,24 +152,24 @@
     <body>
         <div class="pdf-section">
             <div class="header-section text-center">
-                <h5 class="text-bold text-dark">Account Payable - {{ $supplier->name }}</h5>
-                <h6 class="text-dark report-date">Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h6>
-                <h6 class="text-dark report-date">Export Date : {{ $exportDate }}</h6>
+                <h5 class="text-bold text-dark">Daftar Hutang - {{ $supplier->name }}</h5>
+                <h6 class="text-dark report-date">Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h6>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
 
             <table class="table table-sm table-bordered table-items">
                 <thead class="text-center text-dark text-bold" >
                     <tr>
                         <th class="align-middle td-number">No</th>
-                        <th class="align-middle td-order-number">Receipt Number</th>
-                        <th class="align-middle td-order-date">Receipt Date</th>
-                        <th class="align-middle td-order-date">Due Date</th>
-                        <th class="align-middle td-invoice-age">Invoice Age</th>
-                        <th class="align-middle td-branch">Branch</th>
-                        <th class="align-middle td-grand-total">Total Amount</th>
-                        <th class="align-middle td-grand-total">Payment</th>
-                        <th class="align-middle td-grand-total">Return Amount</th>
-                        <th class="align-middle td-grand-total">Outstanding Amount</th>
+                        <th class="align-middle td-order-number">Nomor BM</th>
+                        <th class="align-middle td-order-date">Tanggal BM</th>
+                        <th class="align-middle td-order-date">Jatuh Tempo</th>
+                        <th class="align-middle td-invoice-age">Umur Nota</th>
+                        <th class="align-middle td-branch">Cabang</th>
+                        <th class="align-middle td-grand-total">Grand Total</th>
+                        <th class="align-middle td-grand-total">Sudah Dibayar</th>
+                        <th class="align-middle td-grand-total">Jumlah Retur</th>
+                        <th class="align-middle td-grand-total">Belum Dibayar</th>
                         <th class="align-middle td-status">Status</th>
                     </tr>
                 </thead>

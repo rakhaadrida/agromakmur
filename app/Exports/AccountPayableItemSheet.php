@@ -43,7 +43,7 @@ class AccountPayableItemSheet extends DefaultValueBinder  implements FromView, S
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Payable_Items');
+        $sheet->setTitle('Daftar_Item_Hutang');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

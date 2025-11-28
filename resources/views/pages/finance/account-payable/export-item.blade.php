@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Account Payable Items</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Daftar Item Hutang</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -11,15 +11,15 @@
                 <tr>
                     <th>No</th>
                     <th>Supplier</th>
-                    <th>Receipt Number</th>
-                    <th>Receipt Date</th>
-                    <th>Due Date</th>
-                    <th>Invoice Age</th>
-                    <th>Branch</th>
+                    <th>Nomor BM</th>
+                    <th>Tanggal BM</th>
+                    <th>Jatuh Tempo</th>
+                    <th>Umur Nota</th>
+                    <th>Cabang</th>
                     <th>Grand Total</th>
-                    <th>Payment</th>
-                    <th>Return Amount</th>
-                    <th>Unpaid Amount</th>
+                    <th>Sudah Dibayar</th>
+                    <th>Jumlah Retur</th>
+                    <th>Belum Dibayar</th>
                     <th>Status</th>
                 </tr>
             </thead>
