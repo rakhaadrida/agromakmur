@@ -102,7 +102,7 @@ class PurchaseRecapController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new PurchaseRecapExport($request), 'Purchase_Recap_'.$fileDate.'.xlsx');
+        return Excel::download(new PurchaseRecapExport($request), 'Rekap_Pembelian_'.$fileDate.'.xlsx');
     }
 
     public function exportDetail(Request $request, $id) {
@@ -118,6 +118,6 @@ class PurchaseRecapController extends Controller
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new PurchaseRecapDetailExport($id, $request), 'Purchase_Recap_'.$subjectName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new PurchaseRecapDetailExport($id, $request), 'Rekap_Pembelian_'.$subjectName.'_'.$fileDate.'.xlsx');
     }
 }

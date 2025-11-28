@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Purchase Recap</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Rekap Pembelian</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,10 +25,10 @@
             <div class="card-body">
                 <ul class="nav nav-tabs" id="tabHeader" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive active" id="productTab" data-toggle="pill" data-target="#product" type="button" role="tab" aria-controls="product" aria-selected="true">By Product</a>
+                        <a class="nav-link nav-link-inactive active" id="productTab" data-toggle="pill" data-target="#product" type="button" role="tab" aria-controls="product" aria-selected="true">Per Produk</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="supplierTab" data-toggle="pill" data-target="#supplier" type="button" role="tab" aria-controls="supplier" aria-selected="false">By Supplier</a>
+                        <a class="nav-link nav-link-inactive" id="supplierTab" data-toggle="pill" data-target="#supplier" type="button" role="tab" aria-controls="supplier" aria-selected="false">Per Supplier</a>
                     </li>
                 </ul>
                 <div class="table-responsive">
@@ -39,27 +39,27 @@
                                     <form action="{{ route('report.purchase-recap.index') }}" method="GET" id="form">
                                         <div class="container so-container">
                                             <div class="form-group row justify-content-center">
-                                                <label for="startDate" class="col-auto col-form-label text-bold">Start Date</label>
+                                                <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Awal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                                 </div>
-                                                <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
+                                                <label for="finalDate" class="col-auto col-form-label text-bold ">s / d</label>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                                 </div>
                                                 <div class="col-1 mt-1 main-transaction-button">
-                                                    <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="container">
                                             <div class="row justify-content-center">
-                                                <h4 class="text-bold text-dark">Purchase Recap By Product ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                                <h4 class="text-bold text-dark">Rekap Pembelian Per Produk ({{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                             </div>
                                             <div class="row justify-content-center mb-2">
-                                                <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                                <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                             </div>
                                             <div class="row justify-content-end product-history-detail-export-button">
                                                 <div class="col-2 product-history-col">
@@ -73,13 +73,13 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-sales-recap-number">No</th>
-                                                <th class="align-middle th-sales-recap-product-sku">Product SKU</th>
-                                                <th class="align-middle">Product Name</th>
-                                                <th class="align-middle text-center th-sales-recap-invoice-count">Invoice Count</th>
-                                                <th class="align-middle text-center th-sales-recap-quantity">Total Quantity</th>
+                                                <th class="align-middle th-sales-recap-product-sku">SKU</th>
+                                                <th class="align-middle">Nama Produk</th>
+                                                <th class="align-middle text-center th-sales-recap-invoice-count">Total Faktur</th>
+                                                <th class="align-middle text-center th-sales-recap-quantity">Total Qty</th>
                                                 <th class="align-middle th-sales-recap-unit">Unit</th>
                                                 <th class="align-middle text-center th-sales-recap-total">Grand Total</th>
-                                                <th class="align-middle th-sales-recap-action">Action</th>
+                                                <th class="align-middle th-sales-recap-action">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-bold text-dark" id="itemProduct">
@@ -106,27 +106,27 @@
                                     <form action="{{ route('report.purchase-recap.index') }}" method="GET" id="form">
                                         <div class="container so-container">
                                             <div class="form-group row justify-content-center">
-                                                <label for="startDate" class="col-auto col-form-label text-bold">Start Date</label>
+                                                <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Awal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" required>
                                                 </div>
-                                                <label for="finalDate" class="col-auto col-form-label text-bold ">up to</label>
+                                                <label for="finalDate" class="col-auto col-form-label text-bold ">s / d</label>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                                 </div>
                                                 <div class="col-1 mt-1 main-transaction-button">
-                                                    <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="container">
                                             <div class="row justify-content-center">
-                                                <h4 class="text-bold text-dark">Sales Recap By Supplier ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                                <h4 class="text-bold text-dark">Rekap Pembelian Per Supplier ({{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                             </div>
                                             <div class="row justify-content-center mb-2">
-                                                <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                                <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                             </div>
                                             <div class="row justify-content-end product-history-detail-export-button">
                                                 <div class="col-2 product-history-col">
@@ -141,11 +141,11 @@
                                             <tr>
                                                 <th class="align-middle th-sales-recap-number">No</th>
                                                 <th class="align-middle">Supplier</th>
-                                                <th class="align-middle text-center th-sales-recap-invoice-count">Invoice Count</th>
+                                                <th class="align-middle text-center th-sales-recap-invoice-count">Total Faktur</th>
                                                 <th class="align-middle text-center th-sales-recap-subtotal">Subtotal</th>
-                                                <th class="align-middle text-center th-sales-recap-subtotal">Tax Amount</th>
+                                                <th class="align-middle text-center th-sales-recap-subtotal">PPN</th>
                                                 <th class="align-middle text-center th-sales-recap-grand-total">Grand Total</th>
-                                                <th class="align-middle th-sales-recap-action">Action</th>
+                                                <th class="align-middle th-sales-recap-action">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-bold text-dark" id="itemSupplier">
@@ -218,7 +218,7 @@
                     }
                 ],
                 "language": {
-                    "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                    "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
                 },
             });
 
@@ -254,7 +254,7 @@
                     }
                 ],
                 "language": {
-                    "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                    "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
                 },
             });
 

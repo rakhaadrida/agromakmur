@@ -292,4 +292,11 @@ class Constant
         self::SALES_RECAP_TYPE_PRODUCT => 'Produk',
         self::SALES_RECAP_TYPE_CUSTOMER => 'Customer',
     ];
+
+    const PURCHASE_RECAP_TYPE_PRODUCT = 'product';
+    const PURCHASE_RECAP_TYPE_SUPPLIER = 'supplier';
+    const PURCHASE_RECAP_TYPE_LABELS = [
+        self::PURCHASE_RECAP_TYPE_PRODUCT => 'Produk',
+        self::PURCHASE_RECAP_TYPE_SUPPLIER => 'Supplier',
+    ];
 }

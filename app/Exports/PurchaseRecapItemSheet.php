@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Utilities\Constant;
 use App\Utilities\Services\PurchaseRecapService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -35,7 +36,7 @@ class PurchaseRecapItemSheet extends DefaultValueBinder implements FromView, Sho
             'startDate' => $this->request->start_date,
             'finalDate' => $this->request->final_date,
             'subject' => $this->request->subject,
-            'subjectLabel' => ucfirst($this->request->subject),
+            'subjectLabel' => Constant::PURCHASE_RECAP_TYPE_LABELS[$this->request->subject],
             'purchaseItems' => $purchaseItems,
             'exportDate' => $exportDate,
         ];
@@ -45,7 +46,7 @@ class PurchaseRecapItemSheet extends DefaultValueBinder implements FromView, Sho
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Purchase_Recap_Items');
+        $sheet->setTitle('Rekap_Item_Pembelian');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -71,7 +71,7 @@
                                         </h5>
                                     </div>
                                     <div class="row justify-content-center stock-card-report-date">
-                                        <h5 class="text-bold text-dark">Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+                                        <h5 class="text-bold text-dark">Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
                                     </div>
                                     <div class="row justify-content-end stock-card-export-button">
                                         <div class="col-2">

@@ -2,7 +2,7 @@
     <body>
         <div class="justify-content-center">
             <h2 class="text-bold text-dark">Laporan Barang Keluar</h2>
-            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
             <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>

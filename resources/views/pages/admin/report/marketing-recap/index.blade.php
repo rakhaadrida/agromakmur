@@ -67,7 +67,7 @@
                                 <hr>
                                 <div class="container" style="margin-bottom: 0">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">Rekap Qty Sales ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Rekap Qty Sales ({{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center" style="margin-top: -5px">
                                         <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>

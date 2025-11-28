@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Purchase Recap - {{ $item->name }}</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Rekap Pembelian - {{ $item->name }}</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -11,27 +11,27 @@
                 @if(isSubjectProduct($subject))
                     <tr>
                         <th>No</th>
-                        <th>Receipt Date</th>
-                        <th>Receipt Number</th>
+                        <th>Tanggal BM</th>
+                        <th>Tanggal BM</th>
                         <th>Supplier</th>
                         <th>Qty</th>
                         <th>Unit</th>
-                        <th>Price</th>
-                        <th>Wages</th>
-                        <th>Shipping Cost</th>
+                        <th>Harga</th>
+                        <th>Upah</th>
+                        <th>Ongkos Kirim</th>
                         <th>Total</th>
                     </tr>
                 @else
                     <tr>
                         <th>No</th>
-                        <th>Receipt Date</th>
-                        <th>Receipt Number</th>
-                        <th>Product Name</th>
+                        <th>Tanggal BM</th>
+                        <th>Tanggal BM</th>
+                        <th>Nama Produk</th>
                         <th>Qty</th>
                         <th>Unit</th>
-                        <th>Price</th>
-                        <th>Wages</th>
-                        <th>Shipping Cost</th>
+                        <th>Harga</th>
+                        <th>Upah</th>
+                        <th>Ongkos Kirim</th>
                         <th>Total</th>
                     </tr>
                 @endif
@@ -69,7 +69,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="10">No Data Available</td>
+                        <td colspan="10">Tidak Ada Data</td>
                     </tr>
                 @endif
             </tbody>

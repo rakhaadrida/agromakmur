@@ -56,7 +56,7 @@
                                         <hr>
                                         <div class="container">
                                             <div class="row justify-content-center">
-                                                <h4 class="text-bold text-dark">Rekap Penjualan Per Produk ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
+                                                <h4 class="text-bold text-dark">Rekap Penjualan Per Produk ({{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                             </div>
                                             <div class="row justify-content-center mb-2">
                                                 <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
@@ -123,7 +123,7 @@
                                         <hr>
                                         <div class="container">
                                             <div class="row justify-content-center">
-                                                <h4 class="text-bold text-dark">Rekap Penjualan Per Customer ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
+                                                <h4 class="text-bold text-dark">Rekap Penjualan Per Customer ({{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                             </div>
                                             <div class="row justify-content-center mb-2">
                                                 <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>

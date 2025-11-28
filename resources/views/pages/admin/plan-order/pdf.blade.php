@@ -157,7 +157,7 @@
         <div class="pdf-section">
             <div class="header-section text-center">
                 <h5 class="text-bold text-dark">Daftar Plan Order</h5>
-                <h6 class="text-dark report-date">Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h6>
+                <h6 class="text-dark report-date">Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h6>
                 <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
 

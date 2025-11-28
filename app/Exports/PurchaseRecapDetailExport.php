@@ -58,7 +58,7 @@ class PurchaseRecapDetailExport extends DefaultValueBinder implements FromView, 
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Purchase_Recap');
+        $sheet->setTitle('Rekap_Pembelian');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -1720,6 +1720,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 80px;
 }
 
+.th-purchase-recap-detail-number {
+    width: 130px;
+}
+
 .th-purchase-recap-detail-price {
     width: 65px;
 }

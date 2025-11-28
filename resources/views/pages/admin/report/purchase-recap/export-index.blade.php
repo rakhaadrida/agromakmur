@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Purchase Recap By {{ $subjectLabel }}</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Rekap Pembelian Per {{ $subjectLabel }}</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -11,10 +11,10 @@
                 @if(isSubjectProduct($subject))
                     <tr>
                         <th>No</th>
-                        <th>Product SKU</th>
-                        <th>Product Name</th>
-                        <th>Invoice Count</th>
-                        <th>Total Quantity</th>
+                        <th>SKU</th>
+                        <th>Nama Produk</th>
+                        <th>Total Faktur</th>
+                        <th>Total Qty</th>
                         <th>Unit</th>
                         <th>Grand Total</th>
                     </tr>
@@ -22,9 +22,9 @@
                     <tr>
                         <th>No</th>
                         <th>Supplier</th>
-                        <th>Invoice Count</th>
+                        <th>Total Faktur</th>
                         <th>Subtotal</th>
-                        <th>Tax Amount</th>
+                        <th>PPN</th>
                         <th>Grand Total</th>
                     </tr>
                 @endif
@@ -55,7 +55,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="7">No Data Available</td>
+                        <td colspan="7">Tidak Ada Data</td>
                     </tr>
                 @endif
             </tbody>
