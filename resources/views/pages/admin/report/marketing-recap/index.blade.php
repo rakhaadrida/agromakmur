@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Marketing Qty Recap</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Rekap Qty Sales</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,19 +29,19 @@
                             <form action="{{ route('report.marketing-recap.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="marketing" class="col-2 col-form-label text-bold text-right">Marketing</label>
+                                        <label for="marketing" class="col-2 col-form-label text-bold text-right">Sales</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <select class="selectpicker marketing-report-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Choose Marketing" tabindex="2">
+                                            <select class="selectpicker marketing-report-select-picker" name="marketing_id" id="marketing" data-live-search="true" data-size="6" title="Pilih Sales" tabindex="2">
                                                 @foreach($marketings as $marketing)
                                                     <option value="{{ $marketing->id }}" data-tokens="{{ $marketing->name }}" @if($marketingId == $marketing->id) selected @endif>{{ $marketing->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="category" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Category</label>
+                                        <label for="category" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Kategori</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <select class="selectpicker marketing-report-select-picker" name="category_id" id="category" data-live-search="true" data-size="6" title="Choose Category" tabindex="2">
+                                            <select class="selectpicker marketing-report-select-picker" name="category_id" id="category" data-live-search="true" data-size="6" title="Pilih Kategori" tabindex="2">
                                                 @foreach($categories as $category)
                                                     <option value="{{ $category->id }}" data-tokens="{{ $category->name }}" @if($categoryId == $category->id) selected @endif>{{ $category->name }}</option>
                                                 @endforeach
@@ -49,28 +49,28 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-marketing-report">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="container" style="margin-bottom: 0">
                                     <div class="row justify-content-center">
-                                        <h4 class="text-bold text-dark">Marketing Quantity Recap ({{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}) </h4>
+                                        <h4 class="text-bold text-dark">Rekap Qty Sales ({{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}) </h4>
                                     </div>
                                     <div class="row justify-content-center" style="margin-top: -5px">
-                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                     </div>
                                 </div>
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
@@ -78,9 +78,9 @@
                                         <tr>
                                             <td class="align-middle th-marketing-recap-number">No</td>
                                             <td class="align-middle th-marketing-recap-customer">Customer</td>
-                                            <td class="align-middle th-marketing-recap-product-sku">Product SKU</td>
-                                            <td class="align-middle">Product Name</td>
-                                            <td class="align-middle th-marketing-recap-category">Category</td>
+                                            <td class="align-middle th-marketing-recap-product-sku">SKU</td>
+                                            <td class="align-middle">Nama Produk</td>
+                                            <td class="align-middle th-marketing-recap-category">Kategori</td>
                                             <td class="align-middle th-marketing-recap-total-quantity">Qty</td>
                                             <td class="align-middle th-marketing-recap-unit">Unit</td>
                                         </tr>
@@ -104,19 +104,19 @@
                                                 </tr>
                                             @empty
                                                 <tr class="collapse show" id="collapseMarketing-{{ $marketing->id }}">
-                                                    <td colspan="7" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                    <td colspan="7" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                             @if(isNotEmptyMarketingRecap($mapSalesOrderByMarketing[$marketing->id] ?? []))
                                                 <tr class="text-white text-bold bg-primary collapse show" id="collapseMarketing-{{ $marketing->id }}">
-                                                    <td class="text-right" colspan="5">Total Sales Quantity</td>
+                                                    <td class="text-right" colspan="5">Total Qty Sales</td>
                                                     <td class="text-right">{{ formatQuantity($mapTotalQuantityByMarketing[$marketing->id] ?? 0) }}</td>
                                                     <td></td>
                                                 </tr>
                                             @endif
                                         @empty
                                             <tr>
-                                                <td colspan="7" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                <td colspan="7" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

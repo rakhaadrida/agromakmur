@@ -147,7 +147,7 @@
                     <button class="collapse-item price-list-menu-button" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Rekap Stok</button>
                     <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Rekap Value</a>
                     @if(isUserSuperAdmin())
-                        <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Recap Qty Sales</a>
+                        <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Rekap Qty Sales</a>
                     @endif
                 </div>
             </div>
