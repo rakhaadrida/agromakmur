@@ -40,7 +40,7 @@ class PriceListController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new PriceListExport(), 'Price_List_'.$fileDate.'.xlsx');
+        return Excel::download(new PriceListExport(), 'Daftar_Harga_'.$fileDate.'.xlsx');
     }
 
     public function pdf() {
@@ -67,6 +67,6 @@ class PriceListController extends Controller
         $pdf = PDF::loadview('pages.admin.report.price-list.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Price_List'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Harga_'.$fileDate.'.pdf');
     }
 }

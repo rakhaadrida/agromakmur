@@ -1,8 +1,8 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Price List - {{ $category->name }}</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Daftar Harga - {{ $category->name }}</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
@@ -10,8 +10,8 @@
                 <tr>
                     <th>No</th>
                     <th>SKU</th>
-                    <th>Product Name</th>
-                    <th>Subcategory</th>
+                    <th>Nama Produk</th>
+                    <th>Sub Kategori</th>
                     @foreach($prices as $price)
                         <td>{{ $price->name }}</td>
                     @endforeach
