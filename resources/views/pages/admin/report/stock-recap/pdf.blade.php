@@ -151,8 +151,8 @@
         @foreach($categories as $key => $category)
             <div class="pdf-section">
                 <div class="header-section text-center">
-                    <h5 class="text-bold text-dark">Stock Recap {{ $category->name }}</h5>
-                    <h6 class="text-dark report-date">Export Date : {{ $exportDate }}</h6>
+                    <h5 class="text-bold text-dark">Rekap Stok {{ $category->name }}</h5>
+                    <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
                 </div>
 
                 <table class="table table-sm table-bordered table-items">
@@ -160,8 +160,8 @@
                         <tr class="th-value-recap">
                             <th class="align-middle td-number">No</th>
                             <th class="align-middle td-receipt-number">SKU</th>
-                            <th class="align-middle">Product Name</th>
-                            <th class="align-middle th-total-stock td-price">Total Stock</th>
+                            <th class="align-middle">Nama Produk</th>
+                            <th class="align-middle th-total-stock td-price">Total Stok</th>
                             @foreach($warehouses as $warehouse)
                                 <td class="align-middle td-price">{{ $warehouse->name }}</td>
                             @endforeach

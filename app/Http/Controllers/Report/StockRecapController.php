@@ -42,7 +42,7 @@ class StockRecapController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new StockRecapExport(), 'Stock_Recap_'.$fileDate.'.xlsx');
+        return Excel::download(new StockRecapExport(), 'Rekap_Stok_'.$fileDate.'.xlsx');
     }
 
     public function pdf() {
@@ -71,6 +71,6 @@ class StockRecapController extends Controller
         $pdf = PDF::loadview('pages.admin.report.stock-recap.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Stock_Recap'.$fileDate.'.pdf');
+        return $pdf->stream('Rekap_Stok_'.$fileDate.'.pdf');
     }
 }

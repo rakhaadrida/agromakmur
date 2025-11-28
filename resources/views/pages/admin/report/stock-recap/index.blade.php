@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Stock Recap</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Rekap Stok</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -40,10 +40,10 @@
                                             <div class="carousel-item @if(!$key) active @endif">
                                                 <div class="container" style="margin-bottom: 0">
                                                     <div class="row justify-content-center">
-                                                        <h4 class="text-bold text-dark">Stock Recap {{ $category->name }}</h4>
+                                                        <h4 class="text-bold text-dark">Rekap Stok {{ $category->name }}</h4>
                                                     </div>
                                                     <div class="row justify-content-center" style="margin-top: -5px">
-                                                        <h6 class="text-dark">Report Time : {{ $reportDate }}</h6>
+                                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
                                                     </div>
                                                 </div>
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
@@ -51,8 +51,8 @@
                                                         <tr style="background-color: lightgreen">
                                                             <td class="align-middle th-price-list-number">No</td>
                                                             <td class="align-middle th-price-list-product-sku">SKU</td>
-                                                            <td class="align-middle">Product Name</td>
-                                                            <td class="align-middle th-price-list-price" style="background-color: yellow">Total Stock</td>
+                                                            <td class="align-middle">Nama Produk</td>
+                                                            <td class="align-middle th-price-list-price" style="background-color: yellow">Total Stok</td>
                                                             @foreach($warehouses as $warehouse)
                                                                 <td class="align-middle th-price-list-price">{{ $warehouse->name }}</td>
                                                             @endforeach
@@ -77,12 +77,12 @@
                                                                 </tr>
                                                             @empty
                                                                 <tr>
-                                                                    <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                                    <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                                 </tr>
                                                             @endforelse
                                                         @empty
                                                             <tr>
-                                                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">No Data Available</td>
+                                                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
