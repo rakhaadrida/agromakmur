@@ -39,7 +39,7 @@ class ValueRecapController extends Controller
     public function export() {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new ValueRecapExport(), 'Value_Recap'.$fileDate.'.xlsx');
+        return Excel::download(new ValueRecapExport(), 'Rekap_Value_'.$fileDate.'.xlsx');
     }
 
     public function pdf() {
@@ -66,6 +66,6 @@ class ValueRecapController extends Controller
         $pdf = PDF::loadview('pages.admin.report.value-recap.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Value_Recap'.$fileDate.'.pdf');
+        return $pdf->stream('Rekap_Value_'.$fileDate.'.pdf');
     }
 }

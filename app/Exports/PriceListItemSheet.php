@@ -53,7 +53,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('PL-'.$this->category->name);
+        $sheet->setTitle('PL_'.$this->category->name);
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

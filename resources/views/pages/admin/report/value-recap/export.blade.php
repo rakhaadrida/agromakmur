@@ -1,8 +1,8 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Value Recap - {{ $category->name }}</h2>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2 class="text-bold text-dark">Rekap Value - {{ $category->name }}</h2>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table class="table table-sm table-bordered">
@@ -10,10 +10,10 @@
                 <tr>
                     <th>No</th>
                     <th>SKU</th>
-                    <th>Product Name</th>
-                    <th>Subcategory</th>
-                    <th>Price</th>
-                    <th>Total Stock</th>
+                    <th>Nama Produk</th>
+                    <th>Sub Kategori</th>
+                    <th>Harga</th>
+                    <th>Total Stok</th>
                     <th>Total Value</th>
                 </tr>
             </thead>

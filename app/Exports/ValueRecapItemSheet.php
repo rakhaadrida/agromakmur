@@ -59,7 +59,7 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Value-'.$this->category->name);
+        $sheet->setTitle('Value_'.$this->category->name);
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

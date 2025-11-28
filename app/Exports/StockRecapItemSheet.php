@@ -55,7 +55,7 @@ class StockRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Stok-'.$this->category->name);
+        $sheet->setTitle('Stok_'.$this->category->name);
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
