@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Receivable</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Piutang</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -40,17 +40,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group row account-payable-filter-row">
-                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ml-1"> up to </label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold ml-1"> s / d </label>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1 ml-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 ml-n2">
-                                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                         <div class="col-1 mt-1 ml-n3">
                                             <button type="submit" class="btn btn-success btn-sm btn-block text-bold" formaction="{{ route('account-receivables.export') }}" formmethod="GET">Export</button>
@@ -66,11 +66,11 @@
                                         <tr>
                                             <th class="align-middle th-payable-number">No</th>
                                             <th class="align-middle th-payable-supplier">Customer</th>
-                                            <th class="align-middle th-payable-invoice-count">Invoice Count</th>
+                                            <th class="align-middle th-payable-invoice-count">Total Faktur</th>
                                             <th class="align-middle th-payable-grand-total">Grand Total</th>
-                                            <th class="align-middle th-payable-amount">Payment</th>
-                                            <th class="align-middle th-payable-amount">Return Amount</th>
-                                            <th class="align-middle th-payable-amount">Outstanding Amount</th>
+                                            <th class="align-middle th-payable-amount">Sudah Dibayar</th>
+                                            <th class="align-middle th-payable-amount">Jumlah Retur</th>
+                                            <th class="align-middle th-payable-amount">Belum Dibayar</th>
                                             <th class="align-middle th-payable-status">Status</th>
                                         </tr>
                                     </thead>

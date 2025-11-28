@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Check Invoice</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Cek Faktur</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,7 +29,7 @@
                                 @csrf
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
+                                        <label for="number" class="col-2 col-form-label text-bold text-right">Nomor SO</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
@@ -37,7 +37,7 @@
                                         <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
-                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" title="Enter or Choose Customer Name" tabindex="2">
+                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" title="Input atau Pilih Customer" tabindex="2">
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" @if($customerId == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                 @endforeach
@@ -45,18 +45,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-receipt">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="orderNumber" class="col-2 form-control-sm text-bold text-right mt-1">Order Number</label>
+                                                                <label for="orderNumber" class="col-2 form-control-sm text-bold text-right mt-1">Nomor SO</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="orderNumber" value="{{ $salesOrder->number }}" readonly>
@@ -78,7 +78,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                                <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $salesOrder->branch_name }}" readonly>
@@ -89,7 +89,7 @@
                                                     <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Order Date</label>
+                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Tanggal Order</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-2">
                                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($salesOrder->date, 'd-m-Y') }}" readonly>
@@ -109,7 +109,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                                <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
@@ -118,7 +118,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="marketing" class="col-3 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                                <label for="marketing" class="col-3 form-control-sm text-bold text-right mt-1">Sales</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-8">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="marketing" value="{{ $salesOrder->marketing_name }}" readonly>
@@ -159,7 +159,7 @@
                                                         @if(isWaitingApproval($salesOrder->status))
                                                             <div class="col edit-receipt-general-info-right">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <label for="approvalType" class="col-3 form-control-sm text-bold text-right mt-1">Tipe Approval</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($salesOrder->pendingApproval->type) }}" readonly>
@@ -174,14 +174,14 @@
                                                         <tr>
                                                             <td rowspan="2" class="align-middle table-head-number-transaction">No</td>
                                                             <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                                            <td rowspan="2" class="align-middle table-head-name-transaction">Product Name</td>
+                                                            <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                                             <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                                            <td colspan="{{ $totalWarehouses }}">Warehouse</td>
+                                                            <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                                             <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
-                                                            <td rowspan="2" class="align-middle table-head-price-transaction">Price</td>
+                                                            <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                                             <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
-                                                            <td colspan="2">Discount</td>
-                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Final Amount</td>
+                                                            <td colspan="2">Diskon</td>
+                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                                         </tr>
                                                         <tr>
                                                             @foreach($warehouses as $warehouse)
@@ -210,7 +210,7 @@
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="6" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
+                                                                <td colspan="6" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
@@ -223,7 +223,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">
-                                                    <label for="invoiceDiscount" class="col-2 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                                    <label for="invoiceDiscount" class="col-2 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
                                                         <input type="text" id="invoiceDiscount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->discount_amount) }}" readonly>
@@ -237,7 +237,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">
-                                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                                    <label for="taxAmount" class="col-2 col-form-label text-bold text-right text-dark">PPN</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
                                                         <input type="text" id="taxAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->tax_amount) }}" readonly>
@@ -254,7 +254,7 @@
                                             </div>
                                         @empty
                                             <div class="container so-update-container text-dark mt-2">
-                                                <h3 class="text-center text-bold text-dark">No Data Available</h3>
+                                                <h3 class="text-center text-bold text-dark">Tidak Ada Data</h3>
                                             </div>
                                         @endforelse
                                     </div>

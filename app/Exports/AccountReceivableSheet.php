@@ -42,7 +42,7 @@ class AccountReceivableSheet extends DefaultValueBinder  implements FromView, Sh
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Account_Receivable');
+        $sheet->setTitle('Daftar_Piutang');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -194,9 +194,9 @@ class Constant
     const ACCOUNT_PAYABLE_STATUS_ONGOING = 'ONGOING';
     const ACCOUNT_PAYABLE_STATUS_PAID = 'PAID';
     const ACCOUNT_PAYABLE_STATUS_LABELS = [
-        self::ACCOUNT_PAYABLE_STATUS_UNPAID => 'Unpaid',
-        self::ACCOUNT_PAYABLE_STATUS_ONGOING => 'Ongoing',
-        self::ACCOUNT_PAYABLE_STATUS_PAID => 'Paid',
+        self::ACCOUNT_PAYABLE_STATUS_UNPAID => 'Belum Lunas',
+        self::ACCOUNT_PAYABLE_STATUS_ONGOING => 'Proses',
+        self::ACCOUNT_PAYABLE_STATUS_PAID => 'Lunas',
     ];
 
     const ACCOUNT_PAYABLE_STATUSES = [
@@ -209,9 +209,9 @@ class Constant
     const ACCOUNT_RECEIVABLE_STATUS_ONGOING = 'ONGOING';
     const ACCOUNT_RECEIVABLE_STATUS_PAID = 'PAID';
     const ACCOUNT_RECEIVABLE_STATUS_LABELS = [
-        self::ACCOUNT_RECEIVABLE_STATUS_UNPAID => 'Unpaid',
-        self::ACCOUNT_RECEIVABLE_STATUS_ONGOING => 'Ongoing',
-        self::ACCOUNT_RECEIVABLE_STATUS_PAID => 'Paid',
+        self::ACCOUNT_RECEIVABLE_STATUS_UNPAID => 'Belum Lunas',
+        self::ACCOUNT_RECEIVABLE_STATUS_ONGOING => 'Proses',
+        self::ACCOUNT_RECEIVABLE_STATUS_PAID => 'Lunas',
     ];
 
     const ACCOUNT_RECEIVABLE_STATUSES = [

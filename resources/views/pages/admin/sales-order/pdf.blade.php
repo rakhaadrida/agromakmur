@@ -199,7 +199,7 @@
                             <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                             <td class="align-middle">{{ $salesOrder->customer_name }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->marketing_name }}</td>
-                            <td class="align-middle text-center">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
+                            <td class="align-middle text-center">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Hari</td>
                             <td class="align-middle text-center">{{ getSalesOrderTypeLabel($salesOrder->type) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($salesOrder->grand_total) }}</td>
                             <td class="align-middle text-center">{{ getSalesOrderStatusLabel($salesOrder->status) }}</td>

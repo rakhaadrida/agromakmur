@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Receivable Return - {{ $accountReceivable->number }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Retur - {{ $accountReceivable->number }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,13 +32,13 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold text-dark" name="number" id="number" value="{{ $accountReceivable->number }}" readonly>
                                                     <input type="hidden" name="receivable_id" value="{{ $accountReceivable->id }}">
                                                 </div>
-                                                <label for="date" class="col-auto col-form-label text-bold">Order Date</label>
+                                                <label for="date" class="col-auto col-form-label text-bold">Tanggal SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($accountReceivable->date, 'd-m-Y') }}" readonly>
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: -15px">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 mt-1">
                                             <input type="text" class="form-control form-control-sm text-bold text-dark" name="branch" id="branch" value="{{ $accountReceivable->branch_name }}" readonly>
@@ -78,15 +78,15 @@
                                         <tr>
                                             <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
                                             <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
-                                            <td rowspan="2" class="align-middle">Product Name</td>
-                                            <td rowspan="2" class="align-middle th-return-number-receivable-returns">Return Number</td>
+                                            <td rowspan="2" class="align-middle">Nama Produk</td>
+                                            <td rowspan="2" class="align-middle th-return-number-receivable-returns">Nomor Retur</td>
                                             <td rowspan="2" class="align-middle th-quantity-receivable-returns">Qty</td>
                                             <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
-                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Price Type</td>
-                                            <td rowspan="2" class="align-middle th-price-receivable-returns">Price</td>
+                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Tipe Harga</td>
+                                            <td rowspan="2" class="align-middle th-price-receivable-returns">Harga</td>
                                             <td rowspan="2" class="align-middle th-total-receivable-returns">Total</td>
-                                            <td colspan="2" class="align-middle">Discount</td>
-                                            <td rowspan="2" class="align-middle th-final-amount-receivable-returns">Final Amount</td>
+                                            <td colspan="2" class="align-middle">Diskon</td>
+                                            <td rowspan="2" class="align-middle th-final-amount-receivable-returns">Netto</td>
                                         </tr>
                                         <tr>
                                             <td class="th-discount-percentage-receivable-returns">%</td>
@@ -157,11 +157,11 @@
                                 <div class="form-row justify-content-center">
                                     @if(!isAccountReceivablePaid($accountReceivable->status))
                                         <div class="col-2">
-                                            <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                            <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                         </div>
                                     @endif
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                     </div>
                                 </div>
                             </form>

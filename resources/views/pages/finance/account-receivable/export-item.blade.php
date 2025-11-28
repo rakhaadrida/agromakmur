@@ -1,9 +1,9 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Account Receivable Items</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Daftar Item Piutang</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
@@ -11,16 +11,16 @@
                 <tr>
                     <th>No</th>
                     <th>Customer</th>
-                    <th>Order Number</th>
-                    <th>Order Date</th>
-                    <th>Due Date</th>
-                    <th>Invoice Age</th>
-                    <th>Branch</th>
-                    <th>Type</th>
+                    <th>Nomor SO</th>
+                    <th>Tanggal SO</th>
+                    <th>Jatuh Tempo</th>
+                    <th>Umur Nota</th>
+                    <th>Cabang</th>
+                    <th>Tipe</th>
                     <th>Grand Total</th>
-                    <th>Payment</th>
-                    <th>Return Amount</th>
-                    <th>Unpaid Amount</th>
+                    <th>Sudah Dibayar</th>
+                    <th>Jumlah Retur</th>
+                    <th>Belum Dibayar</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -32,7 +32,7 @@
                         <td>{{ $receivableItem->number }}</td>
                         <td>{{ $receivableItem->date }}</td>
                         <td>{{ getDueDate($receivableItem->date, $receivableItem->tempo, 'd-m-Y') }}</td>
-                        <td>{{ getInvoiceAge($receivableItem->date, $receivableItem->tempo) }} Day(s)</td>
+                        <td>{{ getInvoiceAge($receivableItem->date, $receivableItem->tempo) }} Hari</td>
                         <td>{{ $receivableItem->branch_name }}</td>
                         <td>{{ getSalesOrderTypeLabel($receivableItem->type) }}</td>
                         <td>{{ $receivableItem->grand_total ?? 0 }}</td>

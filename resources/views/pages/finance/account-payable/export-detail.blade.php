@@ -29,7 +29,7 @@
                         <td>{{ $payableItem->number }}</td>
                         <td>{{ $payableItem->date }}</td>
                         <td>{{ getDueDate($payableItem->date, $payableItem->tempo, 'd-m-Y') }}</td>
-                        <td>{{ getInvoiceAge($payableItem->date, $payableItem->tempo) }} Day(s)</td>
+                        <td>{{ getInvoiceAge($payableItem->date, $payableItem->tempo) }} Hari</td>
                         <td>{{ $payableItem->branch_name }}</td>
                         <td>{{ $payableItem->grand_total ?? 0 }}</td>
                         <td>{{ $payableItem->payment_amount ?? 0 }}</td>

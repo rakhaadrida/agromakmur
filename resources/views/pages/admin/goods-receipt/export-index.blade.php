@@ -31,8 +31,8 @@
                         <td>{{ $goodsReceipt->branch_name }}</td>
                         <td>{{ $goodsReceipt->supplier_name }}</td>
                         <td>{{ $goodsReceipt->warehouse_name }}</td>
-                        <td>{{ $goodsReceipt->tempo }} Day(s)</td>
-                        <td>{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
+                        <td>{{ $goodsReceipt->tempo }} Hari</td>
+                        <td>{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Hari</td>
                         <td>{{ $goodsReceipt->grand_total }}</td>
                         <td>{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}</td>
                         <td>{{ $goodsReceipt->user_name }}</td>

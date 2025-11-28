@@ -78,7 +78,7 @@
                                                 <div class="col-3 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold" name="tempo" id="tempo" value="{{ $salesOrder->tempo }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" tabindex="6">
                                                 </div>
-                                                <span class="col-form-label text-bold"> Day(s)</span>
+                                                <span class="col-form-label text-bold"> Hari</span>
                                             </div>
                                             <div class="form-group row so-update-input">
                                                 <label for="revision" class="col-3 col-form-label text-bold text-right text-dark">Revisi</label>

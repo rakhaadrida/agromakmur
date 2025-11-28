@@ -191,8 +191,8 @@
                             <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                             <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->warehouse_name }}</td>
-                            <td class="align-middle text-center">{{ $goodsReceipt->tempo }} Day(s)</td>
-                            <td class="align-middle text-center">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Day(s)</td>
+                            <td class="align-middle text-center">{{ $goodsReceipt->tempo }} Hari</td>
+                            <td class="align-middle text-center">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Hari</td>
                             <td class="align-middle text-right">{{ formatPrice($goodsReceipt->grand_total) }}</td>
                             <td class="align-middle text-center">{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->user_name }}</td>

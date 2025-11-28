@@ -180,8 +180,8 @@
             </a>
             <div id="collapseReceivables" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('account-receivables.index') }}">Receivable List</a>
-                    <a class="collapse-item" href="{{ route('account-receivables.check-invoice') }}">Check Invoice</a>
+                    <a class="collapse-item" href="{{ route('account-receivables.index') }}">Daftar Piutang</a>
+                    <a class="collapse-item" href="{{ route('account-receivables.check-invoice') }}">Cek Faktur</a>
                 </div>
             </div>
         </li>

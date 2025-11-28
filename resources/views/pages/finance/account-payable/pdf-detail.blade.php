@@ -180,7 +180,7 @@
                             <td class="align-middle text-center">{{ $accountPayable->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($accountPayable->date, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'd-m-Y') }}</td>
-                            <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Day(s)</td>
+                            <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Hari</td>
                             <td class="align-middle">{{ $accountPayable->branch_name }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountPayable->grand_total) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountPayable->payment_amount) }}</td>

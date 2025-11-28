@@ -91,7 +91,7 @@
                                         <div class="col-1 mt-1">
                                             <input type="text" tabindex="4" name="tempo" id="tempo" class="form-control form-control-sm text-bold" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                         </div>
-                                        <span class="col-form-label text-bold"> Day(s)</span>
+                                        <span class="col-form-label text-bold"> Hari</span>
                                     </div>
                                     <div class="form-group row subtotal-so">
                                         <label for="warehouse" class="col-2 col-form-label text-bold text-right">Gudang</label>

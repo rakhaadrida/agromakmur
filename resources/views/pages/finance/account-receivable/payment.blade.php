@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Account Receivable - {{ $accountReceivable->number }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Piutang - {{ $accountReceivable->number }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -30,13 +30,13 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Order Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold text-dark" name="number" id="number" value="{{ $accountReceivable->number }}" readonly>
                                                     <input type="hidden" name="receivable_id" value="{{ $accountReceivable->id }}">
                                                 </div>
-                                                <label for="date" class="col-auto col-form-label text-bold">Order Date</label>
+                                                <label for="date" class="col-auto col-form-label text-bold">Tanggal SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($accountReceivable->date, 'd-m-Y') }}" readonly>
@@ -53,7 +53,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
-                                                <label for="returnAmount" class="col-5 col-form-label text-bold">Return Amount</label>
+                                                <label for="returnAmount" class="col-5 col-form-label text-bold">Jumlah Retur</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
@@ -61,7 +61,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
-                                                <label for="outstandingAmount" class="col-5 col-form-label text-bold">Outstanding</label>
+                                                <label for="outstandingAmount" class="col-5 col-form-label text-bold">Belum Dibayar</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row" style="margin-top: -68px">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 mt-1">
                                             <input type="text" class="form-control form-control-sm text-bold text-dark" name="branch" id="branch" value="{{ $accountReceivable->branch_name }}" readonly>
@@ -91,9 +91,9 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr class="text-center">
                                             <th style="width: 60px">No</th>
-                                            <th style="width: 160px">Payment Date</th>
-                                            <th style="width: 160px">Payment Amount</th>
-                                            <th style="width: 160px">Outstanding Amount</th>
+                                            <th style="width: 160px">Tanggal Bayar</th>
+                                            <th style="width: 160px">Jumlah Bayar</th>
+                                            <th style="width: 160px">Kurang Bayar</th>
                                             <th style="width: 60px">Delete</th>
                                         </tr>
                                     </thead>
@@ -154,13 +154,13 @@
                                 @if(!isAccountReceivablePaid($accountReceivable->status))
                                     <div class="form-row justify-content-center">
                                         <div class="col-2">
-                                            <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                            <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                         </div>
                                         <div class="col-2">
                                             <button type="reset" class="btn btn-outline-danger btn-block text-bold">Reset</button>
                                         </div>
                                         <div class="col-2">
-                                            <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                            <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                         </div>
                                     </div>
                                 @endif
@@ -172,10 +172,10 @@
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                                 </button>
-                                                <h4 class="modal-title text-bold">Payment Amount Notification</h4>
+                                                <h4 class="modal-title text-bold">Notifikasi Jumlah Pembayaran</h4>
                                             </div>
                                             <div class="modal-body text-dark">
-                                                <h5>The installment amount cannot exceed the outstanding amount. Total outstanding for the invoice is <span class="text-bold" id="totalOutstanding"></span></h5>
+                                                <h5>Jumlah bayar tidak boleh melebihi jumlah terutang. Total kurang bayar untuk faktur ini adalah <span class="text-bold" id="totalOutstanding"></span></h5>
                                             </div>
                                         </div>
                                     </div>

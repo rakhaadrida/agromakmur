@@ -156,25 +156,25 @@
     <body>
         <div class="pdf-section">
             <div class="header-section text-center">
-                <h5 class="text-bold text-dark">Account Receivable - {{ $customer->name }}</h5>
-                <h6 class="text-dark report-date">Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h6>
-                <h6 class="text-dark report-date">Export Date : {{ $exportDate }}</h6>
+                <h5 class="text-bold text-dark">Daftar Piutang - {{ $customer->name }}</h5>
+                <h6 class="text-dark report-date">Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h6>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
 
             <table class="table table-sm table-bordered table-items">
                 <thead class="text-center text-dark text-bold" >
                     <tr>
                         <th class="align-middle td-number">No</th>
-                        <th class="align-middle td-order-number">Order Number</th>
-                        <th class="align-middle td-order-date">Order Date</th>
-                        <th class="align-middle td-order-date">Due Date</th>
-                        <th class="align-middle td-invoice-age">Invoice Age</th>
-                        <th class="align-middle td-marketing">Branch</th>
-                        <th class="align-middle td-order-type">Type</th>
-                        <th class="align-middle td-grand-total">Total Amount</th>
-                        <th class="align-middle td-grand-total">Payment</th>
-                        <th class="align-middle td-grand-total">Return Amount</th>
-                        <th class="align-middle td-grand-total">Outstanding Amount</th>
+                        <th class="align-middle td-order-number">Nomor SO</th>
+                        <th class="align-middle td-order-date">Tangal SO</th>
+                        <th class="align-middle td-order-date">Jatuh Tempo</th>
+                        <th class="align-middle td-invoice-age">Umur Nota</th>
+                        <th class="align-middle td-marketing">Cabang</th>
+                        <th class="align-middle td-order-type">Tipe</th>
+                        <th class="align-middle td-grand-total">Grand Total</th>
+                        <th class="align-middle td-grand-total">Sudah Dibayar</th>
+                        <th class="align-middle td-grand-total">Jumlah Retur</th>
+                        <th class="align-middle td-grand-total">Belum Dibayar</th>
                         <th class="align-middle td-status">Status</th>
                     </tr>
                 </thead>
@@ -185,7 +185,7 @@
                             <td class="align-middle text-center">{{ $accountReceivable->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
                             <td class="align-middle text-center">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
-                            <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Day(s)</td>
+                            <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Hari</td>
                             <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                             <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
                             <td class="align-middle text-right">{{ formatPrice($accountReceivable->grand_total) }}</td>

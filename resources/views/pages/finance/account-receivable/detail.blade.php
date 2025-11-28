@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Account Receivable - {{ $customer->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Piutang - {{ $customer->name }}</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -40,17 +40,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group row account-payable-filter-row">
-                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-right text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ml-1"> up to </label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold ml-1"> s / d </label>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1 ml-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 ml-n2">
-                                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Search</button>
+                                            <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
                                         </div>
                                         <div class="col-1 mt-1 ml-n3">
                                             <button type="submit" class="btn btn-success btn-sm btn-block text-bold" formaction="{{ route('account-receivables.export-detail', $id) }}" formmethod="GET">Export</button>
@@ -65,16 +65,16 @@
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-receivable-number">No</th>
-                                            <th class="align-middle">Order Number</th>
-                                            <th class="align-middle th-receivable-date">Order Date</th>
-                                            <th class="align-middle th-receivable-date">Due Date</th>
-                                            <th class="align-middle th-receivable-invoice-age">Invoice Age</th>
-                                            <th class="align-middle th-receivable-branch">Branch</th>
-                                            <th class="align-middle th-receivable-type">Type</th>
+                                            <th class="align-middle">Nomor SO</th>
+                                            <th class="align-middle th-receivable-date">Tanggal SO</th>
+                                            <th class="align-middle th-receivable-date">Jatuh Tempo</th>
+                                            <th class="align-middle th-receivable-invoice-age">Umur Nota</th>
+                                            <th class="align-middle th-receivable-branch">Cabang</th>
+                                            <th class="align-middle th-receivable-type">Tipe</th>
                                             <th class="align-middle th-receivable-grand-total">Grand Total</th>
-                                            <th class="align-middle th-receivable-amount">Payment</th>
-                                            <th class="align-middle th-receivable-amount">Return Amount</th>
-                                            <th class="align-middle th-receivable-amount">Unpaid Amount</th>
+                                            <th class="align-middle th-receivable-amount">Sudah Dibayar</th>
+                                            <th class="align-middle th-receivable-amount">Jumlah Retur</th>
+                                            <th class="align-middle th-receivable-amount">Belum Dibayar</th>
                                             <th class="align-middle th-receivable-status">Status</th>
                                         </tr>
                                     </thead>
@@ -87,7 +87,7 @@
                                                 </td>
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($accountReceivable->date, 'Ymd') }}">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'Ymd') }}">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
-                                                <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Day(s)</td>
+                                                <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Hari</td>
                                                 <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                                                 <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->grand_total }}">{{ formatPrice($accountReceivable->grand_total) }}</td>
@@ -103,7 +103,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                                <td colspan="12" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>

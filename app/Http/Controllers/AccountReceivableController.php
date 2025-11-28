@@ -242,7 +242,7 @@ class AccountReceivableController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountReceivableExport($request), 'Receivable_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountReceivableExport($request), 'Daftar_Piutang_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -266,7 +266,7 @@ class AccountReceivableController extends Controller
         $pdf = PDF::loadview('pages.finance.account-receivable.pdf', $data)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Receivable_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Piutang_'.$fileDate.'.pdf');
     }
 
     public function exportDetail(Request $request, $id) {
@@ -275,7 +275,7 @@ class AccountReceivableController extends Controller
 
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new AccountReceivableDetailExport($id, $request), 'Receivable_'.$customerName.'_'.$fileDate.'.xlsx');
+        return Excel::download(new AccountReceivableDetailExport($id, $request), 'Daftar_Piutang_'.$customerName.'_'.$fileDate.'.xlsx');
     }
 
     public function pdfDetail(Request $request, $id) {
@@ -303,7 +303,7 @@ class AccountReceivableController extends Controller
         $pdf = PDF::loadview('pages.finance.account-receivable.pdf-detail', $data)
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Receivable_'.$customerName.'_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Piutang_'.$customerName.'_'.$fileDate.'.pdf');
     }
 
     public function checkInvoice(Request $request) {

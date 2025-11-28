@@ -50,7 +50,7 @@
                                                 <div class="col-3 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold"  name="tempo" id="tempo" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" tabindex="6">
                                                 </div>
-                                                <span class="col-form-label text-bold"> Day(s)</span>
+                                                <span class="col-form-label text-bold"> Hari</span>
                                             </div>
                                             <div class="form-group row sales-order-is-taxable-input">
                                                 <label for="isTaxable" class="col-5 col-form-label text-bold text-right">PKP</label>

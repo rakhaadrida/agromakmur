@@ -43,7 +43,7 @@ class AccountReceivableItemSheet extends DefaultValueBinder  implements FromView
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Receivable_Items');
+        $sheet->setTitle('Daftar_Item_Piutang');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

@@ -33,8 +33,8 @@
                         <td>{{ $salesOrder->branch_name }}</td>
                         <td>{{ $salesOrder->customer_name }}</td>
                         <td>{{ $salesOrder->marketing_name }}</td>
-                        <td>{{ $salesOrder->tempo }} Day(s)</td>
-                        <td>{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Day(s)</td>
+                        <td>{{ $salesOrder->tempo }} Hari</td>
+                        <td>{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Hari</td>
                         <td>{{ $salesOrder->grand_total }}</td>
                         <td>{{ getSalesOrderTypeLabel($salesOrder->type) }}</td>
                         <td>{{ $salesOrder->note }}</td>
