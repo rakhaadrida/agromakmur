@@ -118,10 +118,10 @@ class Constant
     const DELIVERY_ORDER_STATUS_UPDATED = 'UPDATED';
     const DELIVERY_ORDER_STATUS_CANCELLED = 'CANCELLED';
     const DELIVERY_ORDER_STATUS_LABELS = [
-        self::DELIVERY_ORDER_STATUS_ACTIVE => 'Active',
-        self::DELIVERY_ORDER_STATUS_WAITING_APPROVAL => 'Waiting Approval',
-        self::DELIVERY_ORDER_STATUS_UPDATED => 'Updated',
-        self::DELIVERY_ORDER_STATUS_CANCELLED => 'Cancelled',
+        self::DELIVERY_ORDER_STATUS_ACTIVE => 'Aktif',
+        self::DELIVERY_ORDER_STATUS_WAITING_APPROVAL => 'Menunggu Approval',
+        self::DELIVERY_ORDER_STATUS_UPDATED => 'Update',
+        self::DELIVERY_ORDER_STATUS_CANCELLED => 'Batal',
     ];
 
     const SALES_RETURN_STATUS_ACTIVE = 'ACTIVE';

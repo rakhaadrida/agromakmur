@@ -44,7 +44,7 @@ class DeliveryOrderSheet extends DefaultValueBinder implements FromView, ShouldA
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Delivery_Orders');
+        $sheet->setTitle('Surat_Jalan');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

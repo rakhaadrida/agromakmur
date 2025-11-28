@@ -41,7 +41,7 @@ class DeliveryOrderItemSheet extends DefaultValueBinder  implements FromView, Sh
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setTitle('Delivery_Order_Items');
+        $sheet->setTitle('Item_Surat_Jalan');
 
         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');

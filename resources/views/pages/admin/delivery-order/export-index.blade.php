@@ -1,19 +1,19 @@
 <html lang="en">
     <body>
         <div>
-            <h2>Delivery Order Data</h2>
-            <h5>Report Date : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
-            <h5>Export Date : {{ $exportDate }}</h5>
+            <h2>Daftar Surat Jalan</h2>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'D MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+            <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Number</th>
-                    <th>Date</th>
-                    <th>Invoice Number</th>
-                    <th>Branch</th>
+                    <th>Nomor</th>
+                    <th>Tanggal</th>
+                    <th>Nomor SO</th>
+                    <th>Cabang</th>
                     <th>Customer</th>
                     <th>Status</th>
                     <th>Admin</th>

@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Delivery Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Surat Jalan</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -28,7 +28,7 @@
                             <form action="{{ route('delivery-orders.index-edit') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row">
-                                        <label for="number" class="col-2 col-form-label text-bold text-right">DO Number</label>
+                                        <label for="number" class="col-2 col-form-label text-bold text-right">Nomor SJ</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
@@ -36,7 +36,7 @@
                                         <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
-                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Enter or Choose Customer Name" tabindex="2">
+                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="2">
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" @if($customerId == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                 @endforeach
@@ -44,18 +44,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group row filter-date-receipt">
-                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Start Date</label>
+                                        <label for="startDate" class="col-2 col-form-label text-bold text-right">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Final Date</label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-right filter-final-date-receipt">Tanggal Akhir</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
                                         </div>
                                         <div class="col-1 mt-1 btn-search-receipt">
-                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Search</button>
+                                            <button type="submit" id="btnSearch" class="btn btn-primary btn-sm btn-block text-bold" tabindex="5">Cari</button>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group row">
-                                                                <label for="orderNumber" class="col-2 form-control-sm text-bold text-right mt-1">DO Number</label>
+                                                                <label for="orderNumber" class="col-2 form-control-sm text-bold text-right mt-1">Nomor Surat Jalan</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-2">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="orderNumber" value="{{ $deliveryOrder->number }}" readonly>
@@ -77,7 +77,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row">
-                                                                <label for="invoiceNumber" class="col-3 form-control-sm text-bold text-right mt-1">Invoice Number</label>
+                                                                <label for="invoiceNumber" class="col-3 form-control-sm text-bold text-right mt-1">Nomor SO</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="invoiceNumber" value="{{ $deliveryOrder->salesOrder->number }}" readonly>
@@ -88,7 +88,7 @@
                                                     <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Delivery Date</label>
+                                                            <label for="date" class="col-2 form-control-sm text-bold text-right mt-1">Tanggal Kirim</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-2">
                                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="date" value="{{ formatDate($deliveryOrder->date, 'd-m-Y') }}" readonly>
@@ -97,7 +97,7 @@
                                                     </div>
                                                     <div class="col edit-receipt-general-info-right">
                                                         <div class="form-group row customer-detail">
-                                                            <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                            <label for="branch" class="col-3 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                             <span class="col-form-label text-bold">:</span>
                                                             <div class="col-4">
                                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="branch" value="{{ $deliveryOrder->branch_name }}" readonly>
@@ -137,7 +137,7 @@
                                                         </div>
                                                         <div class="col edit-receipt-general-info-right">
                                                             <div class="form-group row customer-detail">
-                                                                <label for="address" class="col-3 form-control-sm text-bold text-right mt-1">Address</label>
+                                                                <label for="address" class="col-3 form-control-sm text-bold text-right mt-1">Alamat</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-6">
                                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="address" value="{{ $deliveryOrder->address }}" readonly>
@@ -149,7 +149,7 @@
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="revision" class="col-2 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                    <label for="revision" class="col-2 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-6">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionByDeliveryOrderId[$deliveryOrder->id] }}" readonly>
@@ -161,7 +161,7 @@
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <div class="form-group row customer-detail">
-                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Approval Type</label>
+                                                                    <label for="approvalType" class="col-2 form-control-sm text-bold text-right mt-1">Tipe Approval</label>
                                                                     <span class="col-form-label text-bold">:</span>
                                                                     <div class="col-3">
                                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="approvalType" value="{{ getApprovalTypeLabel($deliveryOrder->pendingApproval->type) }}" readonly>
@@ -171,7 +171,7 @@
                                                             @if(isApprovalTypeEdit($deliveryOrder->pendingApproval->type))
                                                                 <div class="col edit-receipt-general-info-right">
                                                                     <div class="form-group row customer-detail">
-                                                                        <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                                        <label for="revision" class="col-3 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                                         <span class="col-form-label text-bold">:</span>
                                                                         <div class="col-3">
                                                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" id="revision" value="{{ $mapRevisionByDeliveryOrderId[$deliveryOrder->id] ?? 0 }}" readonly>
@@ -187,7 +187,7 @@
                                                         <tr>
                                                             <td class="align-middle table-head-number-transaction">No</td>
                                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                                             <td class="align-middle table-head-unit-transaction">Unit</td>
                                                         </tr>
@@ -203,7 +203,7 @@
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="5" class="text-center text-bold h4 p-2"><i>No Data Available</i></td>
+                                                                <td colspan="5" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
@@ -212,18 +212,17 @@
                                                 @if((!isWaitingApproval($deliveryOrder->status) || isApprovalTypeEdit($deliveryOrder->pendingApproval->type)) && !isCancelled($deliveryOrder->status))
                                                     <div class="form-row justify-content-center">
                                                         <div class="col-2">
-                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelDelivery" data-id="{{ $deliveryOrder->id }}" data-number="{{ $deliveryOrder->number }}" tabindex="6">Cancel Delivery</button>
+                                                            <button type="button" class="btn btn-danger btn-block text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelDelivery" data-id="{{ $deliveryOrder->id }}" data-number="{{ $deliveryOrder->number }}" tabindex="6">Batalkan</button>
                                                         </div>
                                                         <div class="col-2">
-                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Edit</button>
-{{--                                                            <a href="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" class="btn btn-info btn-block text-bold edit-order" id="btnEdit-{{ $key }}">Edit</a>--}}
+                                                            <button type="submit" class="btn btn-info btn-block text-bold edit-order" formaction="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>
                                                         </div>
                                                     </div>
                                                 @endif
                                             </div>
                                         @empty
                                             <div class="container so-update-container text-dark mt-2">
-                                                <h3 class="text-center text-bold text-dark">No Data Available</h3>
+                                                <h3 class="text-center text-bold text-dark">Tidak Ada Data</h3>
                                             </div>
                                         @endforelse
                                     </div>
@@ -247,7 +246,7 @@
                                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true" class="h2 text-bold">&times;</span>
                                             </button>
-                                            <h4 class="modal-title">Cancel Delivery Order - <span id="modalOrderNumber"></span></h4>
+                                            <h4 class="modal-title">Btalkan Surat Jalan - <span id="modalOrderNumber"></span></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form action="" method="POST" id="deleteForm">
@@ -261,16 +260,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group subtotal-so">
-                                                    <label for="description" class="col-form-label">Description</label>
+                                                    <label for="description" class="col-form-label">Deskripsi</label>
                                                     <input type="text" class="form-control" name="description" id="description">
                                                 </div>
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-3">
-                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Submit</button>
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
                                                     </div>
                                                     <div class="col-3">
-                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Tutup</button>
                                                     </div>
                                                 </div>
                                             </form>

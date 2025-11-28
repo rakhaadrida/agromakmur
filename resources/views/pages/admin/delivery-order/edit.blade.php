@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Edit Delivery Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Ubah Surat Jalan</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-dark text-right">Nomor</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $deliveryOrder->number }}" readonly>
@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="col edit-delivery-general-info-right">
                                             <div class="form-group row so-update-customer">
-                                                <label for="invoiceNumber" class="col-4 col-form-label text-bold text-right text-dark">Invoice Number</label>
+                                                <label for="invoiceNumber" class="col-4 col-form-label text-bold text-right text-dark">Nomor SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="invoiceNumber" value="{{ $deliveryOrder->salesOrder->number }}" readonly>
@@ -55,14 +55,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row do-update-input">
-                                                <label for="address" class="col-4 text-right text-bold text-dark mt-2">Address</label>
+                                                <label for="address" class="col-4 text-right text-bold text-dark mt-2">Alamat</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row do-update-input">
-                                                <label for="revision" class="col-4 text-right text-bold text-dark mt-2">Revision</label>
+                                                <label for="revision" class="col-4 text-right text-bold text-dark mt-2">Revisi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $deliveryOrder->revision ?? 0 }}" readonly>
@@ -71,21 +71,21 @@
                                         </div>
                                     </div>
                                     <div class="form-group row do-update-branch">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-dark text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $deliveryOrder->branch->name }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row do-update-date">
-                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Date</label>
+                                        <label for="date" class="col-2 col-form-label text-bold text-dark text-right">Tanggal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($deliveryOrder->date, 'd-m-Y') }}" tabindex="3" required>
                                         </div>
                                     </div>
                                     <div class="form-group row so-update-input">
-                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Description</label>
+                                        <label for="description" class="col-2 col-form-label text-bold text-dark text-right">Deskripsi</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
@@ -103,11 +103,11 @@
                                         <tr>
                                             <td class="align-middle table-head-number-delivery-order">No</td>
                                             <td class="align-middle table-head-code-delivery-order">SKU</td>
-                                            <td class="align-middle">Product Name</td>
-                                            <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
-                                            <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
-                                            <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
-                                            <td class="align-middle table-head-quantity-delivery-order">Qty to be Sent</td>
+                                            <td class="align-middle">Nama Produk</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Qty Order</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Qty Terkirim</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Sisa Qty</td>
+                                            <td class="align-middle table-head-quantity-delivery-order">Qty Dikirim</td>
                                             <td class="align-middle table-head-unit-delivery-order">Unit</td>
                                         </tr>
                                     </thead>
@@ -146,7 +146,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Submit</button>
+                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit" tabindex="10000">Simpan</button>
                                     </div>
                                     <div class="col-2">
                                         <button type="reset" class="btn btn-outline-secondary btn-block text-bold" tabindex="10001">Reset</button>

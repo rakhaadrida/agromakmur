@@ -498,7 +498,7 @@ class DeliveryOrderController extends Controller
     public function export(Request $request) {
         $fileDate = Carbon::now()->format('Y_m_d');
 
-        return Excel::download(new DeliveryOrderExport($request), 'Delivery_Order_Data_'.$fileDate.'.xlsx');
+        return Excel::download(new DeliveryOrderExport($request), 'Daftar_Surat_Jalan_'.$fileDate.'.xlsx');
     }
 
     public function pdf(Request $request) {
@@ -534,7 +534,7 @@ class DeliveryOrderController extends Controller
         $pdf = PDF::loadview('pages.admin.delivery-order.pdf', $data)
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Delivery_Order_Data_'.$fileDate.'.pdf');
+        return $pdf->stream('Daftar_Surat_Jalan_'.$fileDate.'.pdf');
     }
 
     public function generateNumberAjax(Request $request) {

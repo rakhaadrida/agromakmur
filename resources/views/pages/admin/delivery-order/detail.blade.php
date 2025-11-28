@@ -6,7 +6,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Delivery Order</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Surat Jalan</h1>
         </div>
          @if ($errors->any())
             <div class="alert alert-danger">
@@ -27,7 +27,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <label for="number" class="col-5 text-right mt-2">Number</label>
+                                            <label for="number" class="col-5 text-right mt-2">Nomor</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="number" value="{{ $deliveryOrder->number }}" readonly>
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <label for="invoiceNumber" class="col-4 text-right text-bold mt-2">Invoice Number</label>
+                                            <label for="invoiceNumber" class="col-4 text-right text-bold mt-2">Nomor SO</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="invoiceNumber" value="{{ $deliveryOrder->salesOrder->number }}" readonly>
@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="date" class="col-5 text-right text-bold mt-2">Date</label>
+                                            <label for="date" class="col-5 text-right text-bold mt-2">Tanggal</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="date" value="{{ formatDate($deliveryOrder->date, 'd-m-Y') }}" readonly>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="branch" class="col-4 text-right text-bold mt-2">Branch</label>
+                                            <label for="branch" class="col-4 text-right text-bold mt-2">Cabang</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-7">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="branch" value="{{ $deliveryOrder->branch->name }}" readonly>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group row detail-po-information-row">
-                                            <label for="address" class="col-4 text-right text-bold mt-2">Address</label>
+                                            <label for="address" class="col-4 text-right text-bold mt-2">Alamat</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-6">
                                                 <input type="text" class="form-control-plaintext text-bold text-dark" id="address" value="{{ $deliveryOrder->customer->address }}" readonly>
@@ -108,7 +108,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group row detail-po-information-row">
-                                                <label for="revision" class="col-5 text-right text-bold mt-2">Revision</label>
+                                                <label for="revision" class="col-5 text-right text-bold mt-2">Revisi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6">
                                                     <input type="text" class="form-control-plaintext text-bold text-dark" id="revision" value="{{ $deliveryOrder->revision ?? 0 }}" readonly>
@@ -123,7 +123,7 @@
                                     <tr>
                                         <td class="align-middle table-head-number-transaction">No</td>
                                         <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                        <td class="align-middle table-head-name-transaction">Product Name</td>
+                                        <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                         <td class="align-middle table-head-quantity-transaction">Qty</td>
                                         <td class="align-middle table-head-unit-transaction">Unit</td>
                                     </tr>
@@ -143,7 +143,7 @@
                             <hr>
                             <div class="form-row justify-content-center">
                                 <div class="col-2">
-                                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                    <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                 </div>
                             </div>
                         </div>
