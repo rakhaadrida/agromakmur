@@ -8,7 +8,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Sales Return</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Retur Penjualan</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,12 +32,12 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group row">
-                                                <label for="number" class="col-2 col-form-label text-bold text-right">Return Number</label>
+                                                <label for="number" class="col-2 col-form-label text-bold text-right">Nomor Retur</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control form-control-sm text-bold" name="number" id="number" value="{{ $salesReturn->number }}" readonly>
                                                 </div>
-                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Date</label>
+                                                <label for="date" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tanggal</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-2 mt-1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold" name="date" id="date" value="{{ formatDate($salesReturn->date, 'd-M-y') }}" readonly>
@@ -46,24 +46,24 @@
                                         </div>
                                     </div>
                                     <div class="form-group row delivery-order-customer-input">
-                                        <label for="salesOrder" class="col-2 col-form-label text-bold text-right">Invoice Number</label>
+                                        <label for="salesOrder" class="col-2 col-form-label text-bold text-right">Nomor SO</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="sales_order" id="salesOrder" value="{{ $salesReturn->salesOrder->number }}" readonly>
                                         </div>
-                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Delivery Date</label>
+                                        <label for="deliveryDate" class="col-2 col-form-label text-bold text-right sales-order-middle-input">Tanggal Kirim</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_date" id="deliveryDate" value="{{ $salesReturn->delivery_date ? formatDate($salesReturn->delivery_date, 'd-M-y') : '' }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group row subtotal-so">
-                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Branch</label>
+                                        <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="branch" id="branch" value="{{ $salesReturn->salesOrder->branch->name }}" readonly>
                                         </div>
-                                        <label for="deliveryStatus" class="col-2 col-form-label text-bold text-right sales-order-middle-last-input">Delivery Status</label>
+                                        <label for="deliveryStatus" class="col-2 col-form-label text-bold text-right sales-order-middle-last-input">Status Kirim</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
                                             <input type="text" class="form-control datepicker form-control-sm text-bold" name="delivery_status" id="deliveryStatus" value="{{ getSalesReturnDeliveryStatusLabel($salesReturn->delivery_status) }}" readonly>
@@ -84,13 +84,13 @@
                                             <tr>
                                                 <td class="align-middle table-head-number-delivery-order">No</td>
                                                 <td class="align-middle table-head-code-delivery-order">SKU</td>
-                                                <td class="align-middle">Product Name</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Order Qty</td>
+                                                <td class="align-middle">Nama Produk</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Qty Order</td>
                                                 <td class="align-middle table-head-unit-delivery-order">Unit</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Return Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Delivered Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Cut Bill Qty</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Remaining Qty</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Qty Retur</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Qty Dikirim</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Potong Tagihan</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Sisa Qty</td>
                                             </tr>
                                         </thead>
                                         <tbody id="itemTable">
@@ -128,7 +128,7 @@
                                     <hr>
                                     <div class="form-row justify-content-center">
                                         <div class="col-2">
-                                            <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to List</a>
+                                            <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                         </div>
                                     </div>
                                 </div>

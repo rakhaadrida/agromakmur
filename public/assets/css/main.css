@@ -1145,7 +1145,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .table-head-quantity-delivery-order {
-    width: 120px;
+    width: 90px;
 }
 
 .table-head-unit-delivery-order {
@@ -1365,7 +1365,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .sales-return-final-date {
-    width: 8.4rem !important;
+    width: 8.1rem !important;
 }
 
 .th-return-number {
@@ -1417,7 +1417,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-sales-return-status {
-    width: 90px;
+    width: 70px;
 }
 
 .purchase-return-final-date {

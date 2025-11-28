@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Return Stock List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Stok Retur</h1>
         </div>
         <div class="row">
             <div class="card-body">
@@ -17,8 +17,8 @@
                             <tr>
                                 <th class="align-middle th-return-number">No</th>
                                 <th class="align-middle th-return-product-sku">SKU</th>
-                                <th class="align-middle th-return-product-name">Product Name</th>
-                                <th class="align-middle th-return-stock">Stock</th>
+                                <th class="align-middle th-return-product-name">Nama Produk</th>
+                                <th class="align-middle th-return-stock">Stok</th>
                                 <th class="align-middle th-return-unit-name">Unit</th>
                             </tr>
                         </thead>
@@ -33,7 +33,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="5" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
