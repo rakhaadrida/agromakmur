@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Low Stock Report</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Laporan Stok Rendah</h1>
         </div>
         <div class="row">
             <div class="card-body">
@@ -16,19 +16,19 @@
                         <div class="card-body">
                             <div class="container">
                                 <div class="row justify-content-center mb-2">
-                                    <h4 class="text-dark text-bold">Report Time : {{ $reportDate }}</h4>
+                                    <h4 class="text-dark text-bold">Waktu Laporan : {{ $reportDate }}</h4>
                                 </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
                                 <thead class="text-center text-bold text-dark">
                                     <tr class="bg-light">
                                         <th class="align-middle th-low-stock-number">No</th>
-                                        <th class="align-middle th-low-stock-product-sku">Product SKU</th>
-                                        <th class="align-middle">Product Name</th>
-                                        <th class="align-middle th-low-stock-category">Category</th>
+                                        <th class="align-middle th-low-stock-product-sku">SKU</th>
+                                        <th class="align-middle">Nama Produk</th>
+                                        <th class="align-middle th-low-stock-category">Kategori</th>
                                         <th class="align-middle th-low-stock-unit">Unit</th>
-                                        <th class="align-middle th-low-stock-amount">Current Stock</th>
-                                        <th class="align-middle th-low-stock-limit">Stock Limit</th>
+                                        <th class="align-middle th-low-stock-amount">Stok Saat Ini</th>
+                                        <th class="align-middle th-low-stock-limit">Limit Stok</th>
                                     </tr>
                                 </thead>
                                 <tbody>
