@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Product Stock</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Stok Produk</h1>
         </div>
         <div class="row">
             <div class="card-body">
@@ -16,12 +16,12 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="align-middle th-product-number">No</th>
-                                <th class="align-middle th-product-name">Name</th>
-                                <th class="align-middle th-product-category">Category</th>
+                                <th class="align-middle th-product-name">Nama</th>
+                                <th class="align-middle th-product-category">Kategori</th>
                                 @foreach($warehouses as $warehouse)
                                     <th class="align-middle th-product-stock">{{ $warehouse->name }}</th>
                                 @endforeach
-                                <th class="align-middle th-product-action">Action</th>
+                                <th class="align-middle th-product-action">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,7 +41,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-bold h4 p-2">No Data Available</td>
+                                    <td colspan="5" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>

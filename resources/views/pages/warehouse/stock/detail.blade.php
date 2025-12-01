@@ -7,7 +7,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Product - {{ $product->name }}</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Detail Produk - {{ $product->name }}</h1>
         </div>
         @if($errors->any())
             <div class="alert alert-danger alert-input-section">
@@ -27,21 +27,21 @@
                             <form action="" method="POST" id="form">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="name" class="col-2 col-form-label text-bold text-right">Name</label>
+                                    <label for="name" class="col-2 col-form-label text-bold text-right">Nama</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-6">
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ $product->name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="category" class="col-2 col-form-label text-bold text-right">Category</label>
+                                    <label for="category" class="col-2 col-form-label text-bold text-right">Kategori</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="category" id="category" value="{{ $product->category->name }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Subcategory</label>
+                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Sub Kategori</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
                                         <input type="text" class="form-control col-form-label-sm" name="subcategory" id="subcategory" value="{{ $product->subcategory->name }}" readonly>
@@ -59,20 +59,20 @@
                                     <span class="col-form-label text-bold"></span>
                                     <div class="col-6 ml-1">
                                         <input class="form-check-input product-check-input" type="checkbox" name="conversion" id="conversion" {{ $product->productConversions->count() ? 'checked' : '' }} disabled>
-                                        <label class="col-form-label product-check-label ml-4" for="remember">Does this product have unit conversion?</label>
+                                        <label class="col-form-label product-check-label ml-4" for="remember">Apakah produk ini memiliki konversi unit?</label>
                                     </div>
                                 </div>
                                 <div id="conversionSection" @if(empty($product->productConversions)) hidden @endif>
                                     @foreach($product->productConversions as $conversion)
                                         <div class="form-group row">
-                                            <label for="unitConversion" class="col-2 col-form-label text-bold text-right">Unit Conversion</label>
+                                            <label for="unitConversion" class="col-2 col-form-label text-bold text-right">Konversi Unit</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-3">
                                                 <input type="text" class="form-control col-form-label-sm" name="unitConversion" id="unitConversion" value="{{ $conversion->unit->name }}" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="quantity" class="col-2 col-form-label text-bold text-right">Quantity</label>
+                                            <label for="quantity" class="col-2 col-form-label text-bold text-right">Qty</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-2">
                                                 <input type="number" min="1" class="form-control col-form-label-sm" name="quantity" id="quantity" value="{{ formatQuantity($conversion->quantity) }}" readonly>
@@ -82,7 +82,7 @@
                                     @endforeach
                                 </div>
                                 <hr>
-                                <h5 class="h5 mb-3 text-gray-800 menu-title">Stock List</h5>
+                                <h5 class="h5 mb-3 text-gray-800 menu-title">Daftar Stok</h5>
                                 @foreach($warehouses as $key => $warehouse)
                                     <div class="form-group row">
                                         <label for="stock-{{ $key }}" class="col-2 col-form-label text-bold text-right">{{ $warehouse->name }}</label>
@@ -96,7 +96,7 @@
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
-                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Back to list</a>
+                                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-block text-bold">Kembali ke Daftar</a>
                                     </div>
                                 </div>
                             </form>
