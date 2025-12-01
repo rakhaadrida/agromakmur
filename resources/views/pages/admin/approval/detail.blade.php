@@ -24,7 +24,7 @@
                                 <div class="row">
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group row transaction-number">
-                                            <label for="number" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Transaction Number</label>
+                                            <label for="number" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Nomor Transaksi</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-4 col-md-3">
                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $approval->subject->number }}" readonly>
@@ -35,7 +35,7 @@
                                         @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->branch->name }}" readonly>
@@ -45,7 +45,7 @@
                                         @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->salesOrder->branch->name }}" readonly>
@@ -55,7 +55,7 @@
                                         @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Branch</label>
+                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->goodsReceipt->branch->name }}" readonly>
@@ -76,7 +76,7 @@
                                     @elseif(isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deskripsi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
@@ -88,7 +88,7 @@
                                 <div class="row" style="margin-top: -5px">
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group row transaction-date approval-detail-row">
-                                            <label for="date" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Transaction Date</label>
+                                            <label for="date" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Transaksi</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-4">
                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($approval->subject->date, 'd-M-y') }}" readonly>
@@ -108,7 +108,7 @@
                                     @elseif(isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Tipe Approval</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
@@ -130,7 +130,7 @@
                                     @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="marketing" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                <label for="marketing" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Sales</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="marketing" id="marketing" value="{{ $approval->subject->marketing->name }}" readonly>
@@ -140,7 +140,7 @@
                                     @elseif(isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="warehouse" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Warehouse</label>
+                                                <label for="warehouse" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Gudang</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="warehouse" id="warehouse" value="{{ $approval->subject->warehouse->name }}" readonly>
@@ -150,7 +150,7 @@
                                     @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Tipe Approval</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
@@ -160,7 +160,7 @@
                                     @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Order Number</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Nomor SO</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->salesOrder->number }}" readonly>
@@ -170,7 +170,7 @@
                                     @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Receipt Number</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Nomor BM</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ $approval->subject->goodsReceipt->number }}" readonly>
@@ -183,7 +183,7 @@
                                     <div class="col-12 col-lg-6">
                                         @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
                                             <div class="form-group row approval-detail-row approval-sales-order-description">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Tipe Approval</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
@@ -191,7 +191,7 @@
                                             </div>
                                         @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label) && isApprovalTypeCancel($approval->type))
                                             <div class="form-group row approval-detail-row approval-sales-order-description">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deksripsi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
@@ -202,7 +202,7 @@
                                     @if(isApprovalSubjectTypeSalesOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row-lg">
-                                                <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-M-y') }}" readonly>
@@ -212,7 +212,7 @@
                                     @elseif(isApprovalSubjectTypeGoodsReceipt($approval->subject_label) && isApprovalTypeCancel($approval->type))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row-lg">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deksripsi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
@@ -234,7 +234,7 @@
                                                 </div>
                                             @elseif(isApprovalTypeCancel($approval->type))
                                                 <div class="form-group row approval-sales-order-description-cancel">
-                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Description</label>
+                                                    <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Deskripsi</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-dark text-bold" name="description" id="description" value="{{ $approval->description }}" readonly>
@@ -243,7 +243,7 @@
                                             @endif
                                         @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))
                                             <div class="form-group row approval-sales-order-description-cancel">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Approval Type</label>
+                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Tipe Approval</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
@@ -254,7 +254,7 @@
                                     @if(isApprovalSubjectTypeSalesReturn($approval->subject_label) || isApprovalSubjectTypePurchaseReturn($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row approval-sales-return-type">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deskripsi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
@@ -270,11 +270,11 @@
                                         <tr>
                                             <td class="table-head-number-transaction">No</td>
                                             <td class="table-head-code-transaction">SKU</td>
-                                            <td class="table-head-name-transaction">Product Name</td>
+                                            <td class="table-head-name-transaction">Nama Produk</td>
                                             <td class="table-head-unit-transaction">Unit</td>
-                                            <td>Source Warehouse</td>
-                                            <td>Transferred Qty</td>
-                                            <td>Destination Warehouse</td>
+                                            <td>Gudang Asal</td>
+                                            <td>Qty Dikirim</td>
+                                            <td>Gudang Tujuan</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -295,7 +295,7 @@
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
                                         </tr>
@@ -316,12 +316,12 @@
                                         <tr>
                                             <td class="table-head-number-transaction">No</td>
                                             <td class="table-head-shipping-cost-transaction">SKU</td>
-                                            <td>Product Name</td>
+                                            <td>Nama Produk</td>
                                             <td>Qty</td>
                                             <td class="table-head-unit-transaction">Unit</td>
-                                            <td class="table-head-price-transaction">Price</td>
-                                            <td class="table-head-price-transaction">Wages</td>
-                                            <td class="table-head-shipping-cost-transaction">Shipping Cost</td>
+                                            <td class="table-head-price-transaction">Harga</td>
+                                            <td class="table-head-price-transaction">Upah</td>
+                                            <td class="table-head-shipping-cost-transaction">Ongkos Kirim</td>
                                             <td class="table-head-shipping-cost-transaction">Total</td>
                                         </tr>
                                     </thead>
@@ -345,13 +345,13 @@
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Order Qty</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Order</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Return Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Delivered Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Cut Bill Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Remaining Qty</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Retur</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Dikirm</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Potong Tagihan</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Sisa Qty</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -374,13 +374,13 @@
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Receipt Qty</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Masuk</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Return Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Received Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Cut Bill Qty</td>
-                                            <td class="align-middle table-head-return-quantity-transaction">Remaining Qty</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Retur</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Qty Terima</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Potong Tagihan</td>
+                                            <td class="align-middle table-head-return-quantity-transaction">Sisa Qty</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -403,14 +403,14 @@
                                         <tr>
                                             <td rowspan="2" class="align-middle table-head-number-transaction">No</td>
                                             <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td rowspan="2" class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                            <td colspan="{{ $totalWarehouses }}">Warehouse</td>
+                                            <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                             <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
-                                            <td rowspan="2" class="align-middle table-head-price-transaction">Price</td>
+                                            <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                             <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
-                                            <td colspan="2">Discount</td>
-                                            <td rowspan="2" class="align-middle table-head-total-transaction">Final Amount</td>
+                                            <td colspan="2">Diskon</td>
+                                            <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                         </tr>
                                         <tr>
                                             @foreach($warehouses as $warehouse)
@@ -459,7 +459,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so">
-                                    <label for="invoiceDiscount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                    <label for="invoiceDiscount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-4 col-sm-4 col-md-2 mr-1">
                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="invoice_discount" id="invoiceDiscount" value="{{ formatPrice($approval->discount_amount) }}" readonly>
@@ -475,7 +475,7 @@
                             @endif
                             @if(isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeSalesOrder($approval->subject_label))
                                 <div class="form-group row justify-content-end total-so">
-                                    <label for="taxAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                    <label for="taxAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-4 col-sm-4 col-md-2 mr-1">
                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="tax_amount" id="taxAmount" value="{{ formatPrice($approval->tax_amount) }}" readonly>
@@ -500,7 +500,7 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row transaction-date approval-detail-row">
-                                                <label for="requestDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Request Date</label>
+                                                <label for="requestDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Request</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-4">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="requestDate" id="requestDate" value="{{ formatDate($childData->date, 'd-M-y') }}" readonly>
@@ -509,7 +509,7 @@
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row approval-detail-row">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Description</label>
+                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deskripsi</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
                                                     <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $childData->description }}" readonly>
@@ -540,7 +540,7 @@
                                         @else
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row approval-detail-row">
-                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $childData->revision }}" readonly>
@@ -553,7 +553,7 @@
                                         <div class="row" style="margin-top: -5px">
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row transaction-date approval-detail-row">
-                                                    <label for="dateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Transaction Date</label>
+                                                    <label for="dateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Transaksi</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-4">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->subject_date, $approval->subject->date)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="date_child" id="dateChild" value="{{ formatDate($childData->subject_date, 'd-M-y') }}" readonly>
@@ -562,7 +562,7 @@
                                             </div>
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row approval-detail-row">
-                                                    <label for="marketingChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Marketing</label>
+                                                    <label for="marketingChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Sales</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->marketing->name, $approval->subject->marketing->name)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="marketing_child" id="marketingChild" value="{{ $childData->marketing->name ?? '' }}" readonly>
@@ -573,7 +573,7 @@
                                         <div class="row" style="margin-top: -5px">
                                             <div class="col-12 col-lg-6" >
                                                 <div class="form-group row approval-detail-row">
-                                                    <label for="dueDateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Due Date</label>
+                                                    <label for="dueDateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->tempo, $approval->subject->tempo)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="due_date_child" id="dueDateChild" value="{{ getDueDate($childData->subject_date, $childData->tempo, 'd-M-y') }}" readonly>
@@ -582,7 +582,7 @@
                                             </div>
                                             <div class="col-12 col-lg-6">
                                                 <div class="form-group row approval-detail-row">
-                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revision</label>
+                                                    <label for="revision" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Revisi</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
                                                         <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="revision" id="revision" value="{{ $childData->revision }}" readonly>
@@ -598,7 +598,7 @@
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Product Name</td>
+                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
                                         </tr>
@@ -627,12 +627,12 @@
                                             <tr>
                                                 <td class="table-head-number-transaction">No</td>
                                                 <td class="table-head-shipping-cost-transaction">SKU</td>
-                                                <td>Product Name</td>
+                                                <td>Nama Produk</td>
                                                 <td>Qty</td>
                                                 <td class="table-head-unit-transaction">Unit</td>
-                                                <td class="table-head-price-transaction">Price</td>
-                                                <td class="table-head-price-transaction">Wages</td>
-                                                <td class="table-head-shipping-cost-transaction">Shipping Cost</td>
+                                                <td class="table-head-price-transaction">Harga</td>
+                                                <td class="table-head-price-transaction">Upah</td>
+                                                <td class="table-head-shipping-cost-transaction">Ongkos Kirim</td>
                                                 <td class="table-head-shipping-cost-transaction">Total</td>
                                             </tr>
                                         </thead>
@@ -672,14 +672,14 @@
                                             <tr>
                                                 <td rowspan="2" class="align-middle table-head-number-transaction">No</td>
                                                 <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                                <td rowspan="2" class="align-middle table-head-name-transaction">Product Name</td>
+                                                <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                                 <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                                <td colspan="{{ $totalWarehouses }}">Warehouse</td>
+                                                <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                                 <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
-                                                <td rowspan="2" class="align-middle table-head-price-transaction">Price</td>
+                                                <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                                 <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
-                                                <td colspan="2">Discount</td>
-                                                <td rowspan="2" class="align-middle table-head-total-transaction">Final Amount</td>
+                                                <td colspan="2">Diskon</td>
+                                                <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                             </tr>
                                             <tr>
                                                 @foreach($warehouses as $warehouse)
@@ -748,7 +748,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row justify-content-end total-so">
-                                        <label for="invoiceDiscountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Invoice Discount</label>
+                                        <label for="invoiceDiscountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 col-sm-4 col-md-2 mr-1">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->discount_amount, $approval->discount_amount)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="invoice_discount_child" id="invoiceDiscountChild" value="{{ formatPrice($childData->discount_amount) }}" readonly>
@@ -764,7 +764,7 @@
                                 @endif
                                 @if(isApprovalSubjectTypeGoodsReceipt($childData->subject_label) || isApprovalSubjectTypeSalesOrder($childData->subject_label))
                                     <div class="form-group row justify-content-end total-so">
-                                        <label for="taxAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Tax Amount</label>
+                                        <label for="taxAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 col-sm-4 col-md-2 mr-1">
                                             <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->tax_amount, $approval->tax_amount)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="tax_amount_child" id="taxAmountChild" value="{{ formatPrice($childData->tax_amount) }}" readonly>
@@ -792,7 +792,7 @@
                                     <form action="{{ route('approvals.destroy', $approval->id) }}" method="POST" id="deleteForm">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-danger btn-block text-bold">Cancel Revision</button>
+                                        <button type="submit" class="btn btn-danger btn-block text-bold">Tolak Perubahan</button>
                                     </form>
                                 </div>
                             </div>

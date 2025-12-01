@@ -229,19 +229,19 @@ class Constant
 
     const APPROVAL_SUBJECT_TYPE_LABELS = [
         self::APPROVAL_SUBJECT_TYPE_SALES_ORDER => 'Sales Order',
-        self::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT => 'Goods Receipt',
-        self::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER => 'Product Transfer',
-        self::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER => 'Delivery Order',
-        self::APPROVAL_SUBJECT_TYPE_SALES_RETURN => 'Sales Return',
-        self::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN => 'Purchase Return',
+        self::APPROVAL_SUBJECT_TYPE_GOODS_RECEIPT => 'Barang Masuk',
+        self::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER => 'Transfer Produk',
+        self::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER => 'Surat Jalan',
+        self::APPROVAL_SUBJECT_TYPE_SALES_RETURN => 'Retur Penjualan',
+        self::APPROVAL_SUBJECT_TYPE_PURCHASE_RETURN => 'Retur Pembelian',
     ];
 
     const APPROVAL_TYPE_EDIT = 'EDIT';
     const APPROVAL_TYPE_CANCEL = 'CANCEL';
     const APPROVAL_TYPE_APPROVAL_LIMIT = 'APPROVAL_LIMIT';
     const APPROVAL_TYPE_LABELS = [
-        self::APPROVAL_TYPE_EDIT => 'Edit',
-        self::APPROVAL_TYPE_CANCEL => 'Cancel',
+        self::APPROVAL_TYPE_EDIT => 'Ubah',
+        self::APPROVAL_TYPE_CANCEL => 'Batal',
         self::APPROVAL_TYPE_APPROVAL_LIMIT => 'Approval Limit',
     ];
 
@@ -250,8 +250,8 @@ class Constant
     const APPROVAL_STATUS_REJECTED = 'REJECTED';
     const APPROVAL_STATUS_LABELS = [
         self::APPROVAL_STATUS_PENDING => 'Pending',
-        self::APPROVAL_STATUS_APPROVED => 'Approved',
-        self::APPROVAL_STATUS_REJECTED => 'Rejected',
+        self::APPROVAL_STATUS_APPROVED => 'Disetujui',
+        self::APPROVAL_STATUS_REJECTED => 'Ditolak',
     ];
 
     const PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT = 'GOODS_RECEIPT';

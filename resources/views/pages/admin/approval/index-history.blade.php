@@ -9,7 +9,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Approval History</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Histori Approval</h1>
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -28,19 +28,19 @@
                         <a class="nav-link nav-link-inactive active" id="salesOrderTab" data-toggle="pill" data-target="#salesOrder" type="button" role="tab" aria-controls="sales-order" aria-selected="true">Sales Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="goodsReceiptTab" data-toggle="pill" data-target="#goodsReceipt" type="button" role="tab" aria-controls="goods-receipt" aria-selected="false">Goods Receipt</a>
+                        <a class="nav-link nav-link-inactive" id="goodsReceiptTab" data-toggle="pill" data-target="#goodsReceipt" type="button" role="tab" aria-controls="goods-receipt" aria-selected="false">Barang Masuk</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="deliveryOrderTab" data-toggle="pill" data-target="#deliveryOrder" type="button" role="tab" aria-controls="delivery-order" aria-selected="false">Delivery Order</a>
+                        <a class="nav-link nav-link-inactive" id="deliveryOrderTab" data-toggle="pill" data-target="#deliveryOrder" type="button" role="tab" aria-controls="delivery-order" aria-selected="false">Surat Jalan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="productTransferTab" data-toggle="pill" data-target="#productTransfer" type="button" role="tab" aria-controls="product-transfer" aria-selected="false">Product Transfer</a>
+                        <a class="nav-link nav-link-inactive" id="productTransferTab" data-toggle="pill" data-target="#productTransfer" type="button" role="tab" aria-controls="product-transfer" aria-selected="false">Transfer Produk</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="salesReturnTab" data-toggle="pill" data-target="#salesReturn" type="button" role="tab" aria-controls="sales-return" aria-selected="false">Sales Return</a>
+                        <a class="nav-link nav-link-inactive" id="salesReturnTab" data-toggle="pill" data-target="#salesReturn" type="button" role="tab" aria-controls="sales-return" aria-selected="false">Retur Penjualan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="purchaseReturnTab" data-toggle="pill" data-target="#purchaseReturn" type="button" role="tab" aria-controls="purchase-return" aria-selected="false">Purchase Return</a>
+                        <a class="nav-link nav-link-inactive" id="purchaseReturnTab" data-toggle="pill" data-target="#purchaseReturn" type="button" role="tab" aria-controls="purchase-return" aria-selected="false">Retur Pembelian</a>
                     </li>
                 </ul>
                 <div class="table-responsive">
@@ -52,15 +52,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-approval-number">Order Number</th>
-                                                <th class="align-middle th-approval-date">Order Date</th>
-                                                <th class="align-middle th-approval-date">Request Date</th>
-                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle th-approval-number">Nomor SO</th>
+                                                <th class="align-middle th-approval-date">Tanggal SO</th>
+                                                <th class="align-middle th-approval-date">Tanggal Request</th>
+                                                <th class="align-middle th-approval-branch">Cabang</th>
                                                 <th class="align-middle">Customer</th>
-                                                <th class="align-middle th-approval-type">Type</th>
-                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-type">Tipe</th>
+                                                <th class="align-middle th-approval-description">Deskripsi</th>
                                                 <th class="align-middle th-approval-admin">Admin</th>
-                                                <th class="align-middle th-approval-action">Action</th>
+                                                <th class="align-middle th-approval-action">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -94,15 +94,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-approval-number">Receipt Number</th>
-                                                <th class="align-middle th-approval-date">Receipt Date</th>
-                                                <th class="align-middle th-approval-date">Request Date</th>
-                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle th-approval-number">Nomor BM</th>
+                                                <th class="align-middle th-approval-date">Tanggal BM</th>
+                                                <th class="align-middle th-approval-date">Tanggal Request</th>
+                                                <th class="align-middle th-approval-branch">Cabang</th>
                                                 <th class="align-middle">Supplier</th>
-                                                <th class="align-middle th-approval-type">Type</th>
-                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-type">Tipe</th>
+                                                <th class="align-middle th-approval-description">Deskripsi</th>
                                                 <th class="align-middle th-approval-admin">Admin</th>
-                                                <th class="align-middle th-approval-action">Action</th>
+                                                <th class="align-middle th-approval-action">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="itemGoodsReceipt">
@@ -114,15 +114,15 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-approval-number">Delivery Number</th>
-                                                <th class="align-middle th-approval-date">Delivery Date</th>
-                                                <th class="align-middle th-approval-date">Request Date</th>
-                                                <th class="align-middle th-approval-branch">Branch</th>
+                                                <th class="align-middle th-approval-number">Nomor SJ</th>
+                                                <th class="align-middle th-approval-date">Tanggal SJ</th>
+                                                <th class="align-middle th-approval-date">Tanggal Request</th>
+                                                <th class="align-middle th-approval-branch">Cabang</th>
                                                 <th class="align-middle">Customer</th>
-                                                <th class="align-middle th-approval-type">Type</th>
-                                                <th class="align-middle th-approval-description">Description</th>
+                                                <th class="align-middle th-approval-type">Tipe</th>
+                                                <th class="align-middle th-approval-description">Deskripsi</th>
                                                 <th class="align-middle th-approval-admin">Admin</th>
-                                                <th class="align-middle th-approval-action">Action</th>
+                                                <th class="align-middle th-approval-action">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="itemDeliveryOrder">
@@ -134,13 +134,13 @@
                                         <thead class="text-center text-bold text-dark">
                                             <tr>
                                                 <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Transfer Number</th>
-                                                <th class="align-middle th-code-transaction-index">Transfer Date</th>
-                                                <th class="align-middle th-status-transaction-index">Request Date</th>
-                                                <th class="align-middle th-status-transaction-index">Type</th>
-                                                <th class="align-middle th-warehouse-transaction-index">Description</th>
-                                                <th class="align-middle th-code-transaction-index">Updated By</th>
-                                                <th class="align-middle th-code-transaction-index">Action</th>
+                                                <th class="align-middle th-code-transaction-index">Nomor Transfer</th>
+                                                <th class="align-middle th-code-transaction-index">Tanggal Transfer</th>
+                                                <th class="align-middle th-status-transaction-index">Tanggal Request</th>
+                                                <th class="align-middle th-status-transaction-index">Tipe</th>
+                                                <th class="align-middle th-warehouse-transaction-index">Deskripsi</th>
+                                                <th class="align-middle th-code-transaction-index">Admin</th>
+                                                <th class="align-middle th-code-transaction-index">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody id="itemProductTransfer">
@@ -152,15 +152,15 @@
                                         <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-approval-number">Return Number</th>
-                                            <th class="align-middle th-approval-date">Return Date</th>
-                                            <th class="align-middle th-approval-date">Request Date</th>
-                                            <th class="align-middle th-approval-branch">Branch</th>
+                                            <th class="align-middle th-approval-number">Nomor Retur</th>
+                                            <th class="align-middle th-approval-date">Tanggal Retur</th>
+                                            <th class="align-middle th-approval-date">Tanggal Request</th>
+                                            <th class="align-middle th-approval-branch">Cabang</th>
                                             <th class="align-middle">Customer</th>
-                                            <th class="align-middle th-approval-type">Type</th>
-                                            <th class="align-middle th-approval-description">Description</th>
+                                            <th class="align-middle th-approval-type">Tipe</th>
+                                            <th class="align-middle th-approval-description">Deskripsi</th>
                                             <th class="align-middle th-approval-admin">Admin</th>
-                                            <th class="align-middle th-approval-action">Action</th>
+                                            <th class="align-middle th-approval-action">Aksi</th>
                                         </tr>
                                         </thead>
                                         <tbody id="itemSalesReturn">
@@ -172,15 +172,15 @@
                                         <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-approval-number">Return Number</th>
-                                            <th class="align-middle th-approval-date">Return Date</th>
-                                            <th class="align-middle th-approval-date">Request Date</th>
-                                            <th class="align-middle th-approval-branch">Branch</th>
+                                            <th class="align-middle th-approval-number">Nomor Retur</th>
+                                            <th class="align-middle th-approval-date">Tanggal Retur</th>
+                                            <th class="align-middle th-approval-date">Tanggal Request</th>
+                                            <th class="align-middle th-approval-branch">Cabang</th>
                                             <th class="align-middle">Supplier</th>
-                                            <th class="align-middle th-approval-type">Type</th>
-                                            <th class="align-middle th-approval-description">Description</th>
+                                            <th class="align-middle th-approval-type">Tipe</th>
+                                            <th class="align-middle th-approval-description">Deskripsi</th>
                                             <th class="align-middle th-approval-admin">Admin</th>
-                                            <th class="align-middle th-approval-action">Action</th>
+                                            <th class="align-middle th-approval-action">Aksi</th>
                                         </tr>
                                         </thead>
                                         <tbody id="itemPurchaseReturn">
@@ -215,7 +215,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -232,7 +232,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -253,7 +253,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -274,7 +274,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -295,7 +295,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -316,7 +316,7 @@
             "responsive": true,
             "autoWidth": false,
             "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">No data available</span>`
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
             },
             "order": [
                 [3, "desc"]
@@ -622,8 +622,8 @@
 
             function getApprovalTypeLabel(type) {
                 const labels = {
-                    'EDIT': 'Edit',
-                    'CANCEL': 'Cancel',
+                    'EDIT': 'Ubah',
+                    'CANCEL': 'Batal',
                     'APPROVAL_LIMIT': 'Approval Limit'
                 };
 

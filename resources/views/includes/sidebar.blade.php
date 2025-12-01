@@ -201,8 +201,8 @@
             </a>
             <div id="collapseFinancialReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="#">Financial Statements</a>
-                  <a class="collapse-item" href="#">Marketing Commission</a>
+                  <a class="collapse-item" href="#">Laporan Keuangan</a>
+                  <a class="collapse-item" href="#">Komisi Sales</a>
                 </div>
             </div>
         </li>
