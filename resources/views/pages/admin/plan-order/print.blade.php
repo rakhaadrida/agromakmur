@@ -460,12 +460,12 @@
                                     </div>
                                     <div class="order-info-section">
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Number</span>
+                                            <span class="order-info-label">Nomor</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ $planOrder->number }}</span>
                                         </div>
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Date</span>
+                                            <span class="order-info-label">Tanggal</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ formatDate($planOrder->date, 'd-M-y') }}</span>
                                         </div>
@@ -474,10 +474,10 @@
                                 <div class="float-left logo-section">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
                                     <h6 class="logo-section-phone-info">{{ $planOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Phone : {{ $planOrder->branch_phone_number }}</span>
+                                    <span class="logo-section-phone-info">Telp : {{ $planOrder->branch_phone_number }}</span>
                                 </div>
                                 <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Dear :</span>
+                                    <span class="customer-section-greetings">Kepada :</span>
                                     <br>
                                     <span class="customer-name-info">{{ $planOrder->supplier_name }}</span>
                                     <br>
@@ -488,7 +488,7 @@
                         </tr>
                         <tr class="text-center table-order-item-head">
                             <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-product">Product Name</td>
+                            <td class="table-order-item-head-product">Nama Produk</td>
                             <td class="table-order-item-head-quantity">Qty</td>
                             <td class="table-order-item-head-unit">Unit</td>
                         </tr>
@@ -534,7 +534,7 @@
                                                     <div class="warehouse-signature">
                                                         <table class="warehouse-signature-table">
                                                             <tr>
-                                                                <td class="text-center">Warehouse</td>
+                                                                <td class="text-center">Gudang</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="warehouse-signature-table-blank"></td>
@@ -569,7 +569,7 @@
                                     </table>
                                 </div>
                                 <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
+                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
                                 </div>
                                 <div class="float-right print-time-section">
                                     <span class="print-time-section-time"><span class="page-number"></span> of {{ $planOrder->total_page }}</span>

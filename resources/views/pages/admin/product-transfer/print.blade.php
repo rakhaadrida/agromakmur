@@ -164,7 +164,7 @@
             }
 
             .info-label {
-                width: 120px;
+                width: 130px;
                 text-align: right;
                 font-weight: bold;
                 padding-right: 0.4rem;
@@ -280,6 +280,10 @@
                 width: 3.7rem;
             }
 
+            .table-head-warehouse {
+                width: 8rem;
+            }
+
             .table-head-unit {
                 width: 6rem;
             }
@@ -365,12 +369,12 @@
                                 </div>
                                 <div class="float-right print-time-info">
                                     <div class="info-row">
-                                        <span class="info-label">Print Date</span>
+                                        <span class="info-label">Tanggal Cetak</span>
                                         <span class="info-separator">:</span>
                                         <span class="info-value">{{ $printDate }}</span>
                                     </div>
                                     <div class="info-row">
-                                        <span class="info-label">Print Time</span>
+                                        <span class="info-label">Waktu Cetak</span>
                                         <span class="info-separator">:</span>
                                         <span class="info-value">{{ $printTime }}</span>
                                     </div>
@@ -387,21 +391,21 @@
                             <td colspan="7" class="header-receipt-row">
                                 <div class="container-fluid print-header">
                                     <div class="title-header text-center">
-                                        <h3 class="text-bold">Product Transfer Note</h3>
+                                        <h3 class="text-bold">Nota Transfer Produk</h3>
                                     </div>
                                     <div class="float-left">
                                         <div class="note-section">
-                                            <span class="text-right">We had transferred these following item(s):</span>
+                                            <span class="text-right">Kami telah mentransfer barang-barang berikut ini:</span>
                                         </div>
                                     </div>
                                     <div class="float-right print-transfer-info">
                                         <div class="transfer-info-row">
-                                            <span class="transfer-info-label">Transfer Date</span>
+                                            <span class="transfer-info-label">Tanggal Transfer</span>
                                             <span class="transfer-info-separator">:</span>
                                             <span class="transfer-info-value">{{ formatDate($productTransfer->date, 'd-M-y') }}</span>
                                         </div>
                                         <div class="transfer-info-row">
-                                            <span class="transfer-info-label">Transfer Number</span>
+                                            <span class="transfer-info-label">Nomor Nota</span>
                                             <span class="transfer-info-separator">:</span>
                                             <span class="transfer-info-value">{{ $productTransfer->number }}</span>
                                         </div>
@@ -414,11 +418,11 @@
                         <tr class="table-head-title">
                             <th class="table-head-number">No</th>
                             <th class="table-head-sku">SKU</th>
-                            <th class="table-head-product">Product Name</th>
-                            <th class="table-head-unit">Source Warehouse</th>
+                            <th class="table-head-product">Nama Produk</th>
+                            <th class="table-head-warehouse">Gudang Asal</th>
                             <th class="table-head-quantity">Qty</th>
                             <th class="table-head-unit">Unit</th>
-                            <th class="table-head-unit">Destination Warehouse</th>
+                            <th class="table-head-warehouse">Gudang Tujuan</th>
                         </tr>
                     </thead>
                     <tbody class="print-table-row">
@@ -427,10 +431,10 @@
                                 <td class="text-center">{{ ++$index }}</td>
                                 <td class="table-content-sku">{{ $productTransferItem->product->sku }}</td>
                                 <td class="table-content-product">{{ $productTransferItem->product->name }}</td>
-                                <td>{{ $productTransferItem->sourceWarehouse->name }}</td>
+                                <td class="text-center">{{ $productTransferItem->sourceWarehouse->name }}</td>
                                 <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
                                 <td class="text-center">{{ $productTransferItem->unit->name }}</td>
-                                <td>{{ $productTransferItem->destinationWarehouse->name }}</td>
+                                <td class="text-center">{{ $productTransferItem->destinationWarehouse->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -441,9 +445,9 @@
                                     <table class="print-table-signature">
                                         <thead>
                                             <tr>
-                                                <td class="text-center table-signature-head-warehouse">HEAD OF WAREHOUSE</td>
+                                                <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
                                                 <td class="text-center table-signature-admin">ADMIN</td>
-                                                <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
+                                                <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="table-signature-blank-row"></td>

@@ -463,21 +463,21 @@
                             <td colspan="9">
                                 <div class="container-fluid header-section">
                                     <div class="title-header text-center">
-                                        <h5 class="text-bold">DELIVERY ORDER</h5>
+                                        <h5 class="text-bold">SURAT JALAN</h5>
                                     </div>
                                     <div class="order-info-section">
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Number</span>
+                                            <span class="order-info-label">Nomor</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ $deliveryOrder->number }}</span>
                                         </div>
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Date</span>
+                                            <span class="order-info-label">Tanggal</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</span>
                                         </div>
                                         <div class="order-info-row">
-                                            <span class="order-info-label">SO Number</span>
+                                            <span class="order-info-label">Nomor SO</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ $deliveryOrder->salesOrder->number }}</span>
                                         </div>
@@ -486,10 +486,10 @@
                                 <div class="float-left logo-section">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
                                     <h6 class="logo-section-phone-info">{{ $deliveryOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Phone : {{ $deliveryOrder->branch_phone_number }}</span>
+                                    <span class="logo-section-phone-info">Telp : {{ $deliveryOrder->branch_phone_number }}</span>
                                 </div>
                                 <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Dear :</span>
+                                    <span class="customer-section-greetings">Kepada :</span>
                                     <br>
                                     <span class="customer-name-info">{{ $deliveryOrder->customer_name }}</span>
                                     <br>
@@ -501,7 +501,7 @@
                         <tr class="text-center table-order-item-head">
                             <td class="table-order-item-head-number">No</td>
                             <td class="table-order-item-head-sku">SKU</td>
-                            <td class="table-order-item-head-product">Product Name</td>
+                            <td class="table-order-item-head-product">Nama Produk</td>
                             <td class="table-order-item-head-quantity">Qty</td>
                             <td class="table-order-item-head-unit">Unit</td>
                         </tr>
@@ -533,7 +533,7 @@
                                                     <div class="recipient-signature">
                                                         <table class="recipient-signature-table">
                                                             <tr>
-                                                                <td class="text-center">Recipient</td>
+                                                                <td class="text-center">Penerima</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="recipient-signature-table-blank"></td>
@@ -546,7 +546,7 @@
                                                 </td>
                                                 <td class="table-footer-head-account-info align-middle">
                                                     <div class="payment-info">
-                                                        <span>Giro / Transfer Payment</span>
+                                                        <span>Pembayaran Transfer / Giro</span>
                                                         <br>
                                                         <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
                                                         <br>
@@ -557,7 +557,7 @@
                                                     <div class="warehouse-signature">
                                                         <table class="warehouse-signature-table">
                                                             <tr>
-                                                                <td class="text-center">Warehouse</td>
+                                                                <td class="text-center">Gudang</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="warehouse-signature-table-blank"></td>
@@ -594,7 +594,7 @@
                                     </table>
                                 </div>
                                 <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
+                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
                                 </div>
                                 <div class="float-right print-time-section">
                                     <span class="print-time-section-time"><span class="page-number"></span> of {{ $deliveryOrder->total_page }}</span>

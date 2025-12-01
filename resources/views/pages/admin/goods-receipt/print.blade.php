@@ -161,7 +161,7 @@
             }
 
             .info-label {
-                width: 120px;
+                width: 130px;
                 text-align: right;
                 font-weight: bold;
                 padding-right: 0.4rem;
@@ -366,12 +366,12 @@
                                 </div>
                                 <div class="float-right print-time-info">
                                     <div class="info-row">
-                                        <span class="info-label">Print Date</span>
+                                        <span class="info-label">Tanggal Cetak</span>
                                         <span class="info-separator">:</span>
                                         <span class="info-value">{{ $printDate }}</span>
                                     </div>
                                     <div class="info-row">
-                                        <span class="info-label">Print Time</span>
+                                        <span class="info-label">Waktu Cetak</span>
                                         <span class="info-separator">:</span>
                                         <span class="info-value">{{ $printTime }}</span>
                                     </div>
@@ -388,7 +388,7 @@
                             <td colspan="5" class="header-receipt-row">
                                 <div class="container-fluid print-header">
                                     <div class="title-header text-center">
-                                        <h3 class="text-bold">Goods Receipt Note</h3>
+                                        <h3 class="text-bold">Nota Terima Barang</h3>
                                     </div>
                                     <div class="supplier-info">
                                         <span class="text-right">Supplier</span>
@@ -396,21 +396,21 @@
                                         <span>{{ $goodsReceipt->supplier_name }}</span>
                                     </div>
                                     <div class="supplier-info supplier-info-label">
-                                        <span class="text-right">We had accepted these following item(s):</span>
+                                        <span class="text-right">Kami telah menerima barang-barang berikut ini:</span>
                                     </div>
                                     <div class="print-receipt-info">
                                         <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Receipt Date</span>
+                                            <span class="receipt-info-label">Tanggal Terima</span>
                                             <span class="receipt-info-separator">:</span>
                                             <span class="receipt-info-value">{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
                                         </div>
                                         <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Receipt Number</span>
+                                            <span class="receipt-info-label">Nomor Nota</span>
                                             <span class="receipt-info-separator">:</span>
                                             <span class="receipt-info-value">{{ $goodsReceipt->number }}</span>
                                         </div>
                                         <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Warehouse</span>
+                                            <span class="receipt-info-label">Gudang</span>
                                             <span class="receipt-info-separator">:</span>
                                             <span class="receipt-info-value">{{ $goodsReceipt->warehouse_name }}</span>
                                         </div>
@@ -422,7 +422,7 @@
                         <tr class="table-head-title">
                             <th class="table-head-number">No</th>
                             <th class="table-head-sku">SKU</th>
-                            <th class="table-head-product">Product Name</th>
+                            <th class="table-head-product">Nama Produk</th>
                             <th class="table-head-quantity">Quantity</th>
                             <th class="table-head-unit">Unit</th>
                         </tr>
@@ -445,9 +445,9 @@
                                     <table class="print-table-signature">
                                         <thead>
                                             <tr>
-                                                <td class="text-center table-signature-head-warehouse">HEAD OF WAREHOUSE</td>
+                                                <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
                                                 <td class="text-center table-signature-admin">ADMIN</td>
-                                                <td class="text-center table-signature-staff-warehouse">WAREHOUSE STAFF</td>
+                                                <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="table-signature-blank-row"></td>

@@ -441,7 +441,7 @@
             }
 
             .invoice-amount-number {
-                width: 157px;
+                width: 173px;
                 font-size: 16px;
                 padding-right: 0.01rem !important;
             }
@@ -498,16 +498,16 @@
                             <td colspan="9">
                                 <div class="container-fluid header-section">
                                     <div class="title-header text-center">
-                                        <h5 class="text-bold">SALES INVOICE</h5>
+                                        <h5 class="text-bold">FAKTUR PENJUALAN</h5>
                                     </div>
                                     <div class="order-info-section">
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Number</span>
+                                            <span class="order-info-label">Nomor</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ $salesOrder->number }}</span>
                                         </div>
                                         <div class="order-info-row">
-                                            <span class="order-info-label">Date</span>
+                                            <span class="order-info-label">Tanggal</span>
                                             <span class="order-info-separator">:</span>
                                             <span class="order-info-value">{{ formatDate($salesOrder->date, 'd-M-y') }}</span>
                                         </div>
@@ -516,10 +516,10 @@
                                 <div class="float-left logo-section">
                                     <img src="{{ url('assets/img/logo.png') }}" alt="">
                                     <h6 class="logo-section-phone-info">{{ $salesOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Phone : {{ $salesOrder->branch_phone_number }}</span>
+                                    <span class="logo-section-phone-info">Telp : {{ $salesOrder->branch_phone_number }}</span>
                                 </div>
                                 <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Dear :</span>
+                                    <span class="customer-section-greetings">Kepada :</span>
                                     <br>
                                     <span class="customer-name-info">{{ $salesOrder->customer_name }}</span>
                                     <br>
@@ -530,10 +530,10 @@
                         </tr>
                         <tr class="text-center table-order-item-head">
                             <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-product">Product Name</td>
+                            <td class="table-order-item-head-product">Nama Produk</td>
                             <td class="table-order-item-head-quantity">Qty</td>
                             <td class="table-order-item-head-unit">Unit</td>
-                            <td class="table-order-item-head-price">Price</td>
+                            <td class="table-order-item-head-price">Harga</td>
                             <td class="table-order-item-head-total">Total</td>
                         </tr>
                     </thead>
@@ -565,7 +565,7 @@
                                                     <div class="recipient-signature">
                                                         <table class="recipient-signature-table">
                                                             <tr>
-                                                                <td class="text-center">Recipient</td>
+                                                                <td class="text-center">Penerima</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="recipient-signature-table-blank"></td>
@@ -578,7 +578,7 @@
                                                 </td>
                                                 <td class="table-footer-head-account-info align-middle">
                                                     <div class="payment-info">
-                                                        <span>Giro / Transfer Payment</span>
+                                                        <span>Pembayaran Transfer / Giro</span>
                                                         <br>
                                                         <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
                                                         <br>
@@ -589,7 +589,7 @@
                                                     <div class="warehouse-signature">
                                                         <table class="warehouse-signature-table">
                                                             <tr>
-                                                                <td class="text-center">Marketing</td>
+                                                                <td class="text-center">Sales</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="warehouse-signature-table-blank"></td>
@@ -626,7 +626,7 @@
                                                                 <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="text-bold invoice-amount-label">Invoice Discount</td>
+                                                                <td class="text-bold invoice-amount-label">Diskon Faktur</td>
                                                                 <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
                                                             </tr>
                                                             <tr>
@@ -634,7 +634,7 @@
                                                                 <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="text-bold invoice-amount-label">Tax Amount</td>
+                                                                <td class="text-bold invoice-amount-label">PPN</td>
                                                                 <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
                                                             </tr>
                                                             <tr>
@@ -649,7 +649,7 @@
                                     </table>
                                 </div>
                                 <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Print Time : {{ $printDate }} {{ $printTime }}</span>
+                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
                                 </div>
                                 <div class="float-right print-time-section">
                                     <span class="print-time-section-time"><span class="page-number"></span> of {{ $salesOrder->total_page }}</span>
