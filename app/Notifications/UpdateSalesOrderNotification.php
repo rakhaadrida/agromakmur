@@ -48,8 +48,8 @@ class UpdateSalesOrderNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Update Sales Order Request - ' . $this->orderNumber,
-            'message' => 'There is a new update request for sales order with number ' .$this->orderNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Perubahan Sales Order - ' . $this->orderNumber,
+            'message' => 'Ada permintaan perubahan baru untuk sales order dengan nomor ' .$this->orderNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

@@ -50,8 +50,8 @@ class RequestApprovedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Request Approved - ' . $this->transactionNumber,
-            'message' => 'Change request for ' . $this->type . ' with number ' . $this->transactionNumber . ' has been Approved. Click here to go to details page.',
+            'subject' => 'Permintaan Disetujui - ' . $this->transactionNumber,
+            'message' => 'Perubahan untuk ' . $this->type . ' dengan nomor ' . $this->transactionNumber . ' telah disetujui. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

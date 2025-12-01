@@ -50,8 +50,8 @@ class RejectApprovalNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Approval Rejected - ' . $this->transactionNumber,
-            'message' => 'Change request for ' . $this->type . ' with number ' .$this->transactionNumber. ' has been Rejected. Click here to go to details page.',
+            'subject' => 'Permintaan Ditolak - ' . $this->transactionNumber,
+            'message' => 'Perubahan untuk ' . $this->type . ' dengan nomor ' .$this->transactionNumber. ' telah ditolak. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

@@ -49,8 +49,8 @@ class UpdateDeliveryOrderNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Update Delivery Order Request - ' . $this->deliveryNumber,
-            'message' => 'There is a new update request for delivery order with number ' .$this->deliveryNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Perubahan Surat Jalan - ' . $this->deliveryNumber,
+            'message' => 'Ada permintaan perubahan baru untuk surat jalan dengan nomor ' .$this->deliveryNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

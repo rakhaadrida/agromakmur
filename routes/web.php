@@ -45,7 +45,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_ADMIN,
     ]], function() {
-        Route::resource('notifications', 'NotificationController')->except(['create', 'edit']);
+        Route::resource('notifications', 'NotificationController')->only(['index', 'update']);
         Route::post('notifications-read-all', 'NotificationController@readAll')->name('notifications.read-all');
     });
 

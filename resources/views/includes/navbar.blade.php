@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="small text-dark-600">{{ formatDate($notification->created_at, 'd M y h:i:s') }}</div>
+                                <div class="small text-dark-600">{{ formatDateIso($notification->created_at, 'DD MMM YY hh:mm:ss') }}</div>
                                 <span class="small font-weight-bold">{{ $notification->data['message'] }}</span>
                             </div>
                         </a>

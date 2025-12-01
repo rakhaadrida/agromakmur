@@ -48,8 +48,8 @@ class CancelProductTransferNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Product Transfer Request - ' . $this->transferNumber,
-            'message' => 'There is a new cancel request for product transfer with number ' .$this->transferNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Pembatalan Produk Transfer - ' . $this->transferNumber,
+            'message' => 'Ada permintaan pembatalan baru untuk produk transfer dengan nomor ' .$this->transferNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

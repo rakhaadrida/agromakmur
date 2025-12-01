@@ -48,8 +48,8 @@ class CancelSalesOrderNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Sales Order Request - ' . $this->orderNumber,
-            'message' => 'There is a new cancel request for sales order with number ' .$this->orderNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Pembatalan Sales Order - ' . $this->orderNumber,
+            'message' => 'Ada permintaan pembatalan baru untuk sales order dengan nomor ' .$this->orderNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

@@ -9,11 +9,11 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-0">
-            <h1 class="h3 mb-0 text-gray-800 menu-title">Notification List</h1>
+            <h1 class="h3 mb-0 text-gray-800 menu-title">Daftar Notifikasi</h1>
             <div class="justify-content-end">
                 <form action="{{ route('notifications.read-all') }}" method="POST" class="d-inline-block">
                     @csrf
-                    <button class="btn btn-sm btn-success shadow-sm">Mark All As Read</button>
+                    <button class="btn btn-sm btn-success shadow-sm">Tandai Semua Sudah Dibaca</button>
                 </form>
             </div>
         </div>
@@ -34,29 +34,29 @@
                         <thead class="text-center text-bold text-dark">
                             <tr>
                                 <th class="align-middle th-number-transaction-index">No</th>
-                                <th class="align-middle th-date-notification-index">Date</th>
-                                <th class="align-middle">Message</th>
-                                <th class="align-middle th-action-notification-index">Action</th>
+                                <th class="align-middle th-date-notification-index">Tanggal</th>
+                                <th class="align-middle">Pesan</th>
+                                <th class="align-middle th-action-notification-index">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($notifications as $key => $notification)
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
-                                    <td class="align-middle text-center">{{ formatDate($notification->created_at, 'd M y h:i:s') }} </td>
+                                    <td class="align-middle text-center">{{ formatDateIso($notification->created_at, 'DD MMM YY hh:mm:ss') }} </td>
                                     <td class="align-middle">{{ $notification->data['message'] }}</td>
                                     <td class="align-middle text-center">
-                                        <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="btn btn-sm btn-info d-inline-block">See Details</a>
+                                        <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="btn btn-sm btn-info d-inline-block">Lihat Detail</a>
                                         <form action="{{ route('notifications.update', $notification->id) }}" method="POST" class="d-inline-block">
                                             @csrf
                                             @method('PUT')
-                                            <button class="btn btn-sm btn-success">Mark As Read</button>
+                                            <button class="btn btn-sm btn-success">Tandai Sudah Dibaca</button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
+                                    <td colspan="4" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -49,8 +48,8 @@ class CancelDeliveryOrderNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Delivery Order Request - ' . $this->deliveryNumber,
-            'message' => 'There is a new cancel request for delivery order with number ' .$this->deliveryNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Pembatalan Surat Jalan - ' . $this->deliveryNumber,
+            'message' => 'Ada permintaan pembatalan baru untuk surat jalan dengan nomor ' .$this->deliveryNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

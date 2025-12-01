@@ -48,8 +48,8 @@ class CancelSalesReturnNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Sales Return Request - ' . $this->returnNumber,
-            'message' => 'There is a new cancel request for sales return with number ' .$this->returnNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Pembatalan Retur Penjualan - ' . $this->returnNumber,
+            'message' => 'Ada permintaan pembatalan baru untuk retur pembelian dengan nomor ' .$this->returnNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

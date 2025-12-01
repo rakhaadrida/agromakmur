@@ -48,8 +48,8 @@ class CancelGoodsReceiptNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Cancel Goods Receipt Request - ' . $this->receiptNumber,
-            'message' => 'There is a new cancel request for goods receipt with number ' .$this->receiptNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Pembatalan Barang Masuk - ' . $this->receiptNumber,
+            'message' => 'Ada permintaan pembatalan baru untuk barang masuk dengan nomor ' .$this->receiptNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }

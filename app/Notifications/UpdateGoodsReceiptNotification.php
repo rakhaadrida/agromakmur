@@ -48,8 +48,8 @@ class UpdateGoodsReceiptNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'subject' => 'Update Goods Receipt Request - ' . $this->receiptNumber,
-            'message' => 'There is a new update request for goods receipt with number ' .$this->receiptNumber. '. Click here to go to details page.',
+            'subject' => 'Permintaan Perubahan Barang Masuk - ' . $this->receiptNumber,
+            'message' => 'Ada permintaan perubahan baru untuk barang masuk dengan nomor ' .$this->receiptNumber. '. Klik di sini untuk lihat detail.',
             'approval_id' => $this->approvalId
         ];
     }
