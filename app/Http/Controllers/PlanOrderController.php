@@ -314,7 +314,8 @@ class PlanOrderController extends Controller
         if($isPrinted) {
             $baseQuery = $baseQuery
                 ->where('plan_orders.is_printed', 1)
-                ->orderByDesc('plan_orders.date');
+                ->orderByDesc('plan_orders.date')
+                ->orderByDesc('plan_orders.id');
         } else {
             $baseQuery = $baseQuery
                 ->where('plan_orders.is_printed', 0)
@@ -336,6 +337,8 @@ class PlanOrderController extends Controller
         $isPrinted = $filter->is_printed;
         $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
         $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -345,13 +348,13 @@ class PlanOrderController extends Controller
             $baseQuery = $baseQuery->where('plan_orders.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('plan_orders.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('plan_orders.id', $startOperator, $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('plan_orders.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('plan_orders.id', $finalOperator, $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('plan_orders.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('plan_orders.id', $finalOperator, $startNumber);
             }
         }
 

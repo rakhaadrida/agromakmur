@@ -31,7 +31,7 @@
                     </li>
                 </ul>
                 <div class="table-responsive">
-                    <div class="card show">
+                    <div class="card show card-tabs">
                         <div class="card-body">
                             <form action="{{ route('goods-receipts.print', 0) }}" method="GET" id="form">
                                 @csrf
@@ -219,14 +219,14 @@
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumber');
 
-                handleNumberChange(notPrintedGoodsReceipts, selectedValue, finalNumber);
+                handleNumberChange(notPrintedGoodsReceipts, selectedValue, finalNumber, 0);
             });
 
             $('#startNumberPrinted').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumberPrinted');
 
-                handleNumberChange(printedGoodsReceipts, selectedValue, finalNumber);
+                handleNumberChange(printedGoodsReceipts, selectedValue, finalNumber, 1);
             });
 
             function displayGoodsReceiptData(table, colspan, tabItem, datatable, isPrinted) {
@@ -320,7 +320,7 @@
                         <td class="align-middle">${item.branch_name}</td>
                         <td class="align-middle">${item.supplier_name}</td>
                         <td class="align-middle">${item.warehouse_name}</td>
-                        <td class="align-middle text-center">${item.warehouse_name}</td>
+                        <td class="align-middle text-center" data-sort="${getInvoiceAge(item.date)}">${getInvoiceAge(item.date)} Hari</td>
                         <td class="align-middle text-center" data-sort="${item.grand_total}">${thousandSeparator(item.grand_total)}</td>
                         <td class="align-middle text-center">${getGoodsReceiptStatusLabel(item.status)}</td>
                     </tr>
@@ -381,8 +381,15 @@
                 $('#isPrinted').val(number);
             }
 
-            function handleNumberChange(goodsReceiptData, selectedValue, finalElement) {
-                const filteredGoodsReceipts = goodsReceiptData.filter(item => item.id > selectedValue);
+            function handleNumberChange(goodsReceiptData, selectedValue, finalElement, isPrinted) {
+                let filteredGoodsReceipts;
+
+                if(isPrinted) {
+                    filteredGoodsReceipts = goodsReceiptData.filter(item => item.id < selectedValue);
+                } else {
+                    filteredGoodsReceipts = goodsReceiptData.filter(item => item.id > selectedValue);
+                }
+
                 finalElement.empty();
 
                 if(filteredGoodsReceipts.length === 0) {
@@ -402,6 +409,14 @@
                 }
 
                 finalElement.selectpicker('refresh');
+            }
+
+            function getInvoiceAge(dateString) {
+                const now = new Date();
+                const invoiceDate = new Date(dateString);
+
+                const diffMs = Math.abs(now - invoiceDate);
+                return Math.floor(diffMs / (1000 * 60 * 60 * 24));
             }
 
             function thousandSeparator(nStr) {

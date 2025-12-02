@@ -453,7 +453,9 @@ class GoodsReceiptController extends Controller
                 ->orderBy('goods_receipts.date');
         }
 
-        $planOrders = $baseQuery->get();
+        $planOrders = $baseQuery
+            ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
+            ->get();
 
         return response()->json([
             'data' => $planOrders,
@@ -462,8 +464,12 @@ class GoodsReceiptController extends Controller
 
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
+
+        $isPrinted = $filter->is_printed;
+        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -473,18 +479,23 @@ class GoodsReceiptController extends Controller
             $baseQuery = $baseQuery->where('goods_receipts.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('goods_receipts.id', $startOperator, $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('goods_receipts.id', $finalOperator, $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('goods_receipts.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('goods_receipts.id', $finalOperator, $startNumber);
             }
         }
 
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('goods_receipts.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('goods_receipts.is_printed', 0);
+        }
+
         $goodsReceipts = $baseQuery
-            ->where('goods_receipts.is_printed', 0)
             ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
             ->get();
 

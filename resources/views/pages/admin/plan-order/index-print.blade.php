@@ -202,14 +202,14 @@
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumber');
 
-                handleNumberChange(notPrintedPlanOrders, selectedValue, finalNumber);
+                handleNumberChange(notPrintedPlanOrders, selectedValue, finalNumber, 0);
             });
 
             $('#startNumberPrinted').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumberPrinted');
 
-                handleNumberChange(printedPlanOrders, selectedValue, finalNumber);
+                handleNumberChange(printedPlanOrders, selectedValue, finalNumber, 1);
             });
 
             function displayPlanOrderData(table, colspan, tabItem, datatable, isPrinted) {
@@ -362,8 +362,15 @@
                 $('#isPrinted').val(number);
             }
 
-            function handleNumberChange(planOrderData, selectedValue, finalElement) {
-                const filteredPlanOrders = planOrderData.filter(item => item.id > selectedValue);
+            function handleNumberChange(planOrderData, selectedValue, finalElement, isPrinted) {
+                let filteredPlanOrders;
+
+                if(isPrinted) {
+                    filteredPlanOrders = planOrderData.filter(item => item.id < selectedValue);
+                } else {
+                    filteredPlanOrders = planOrderData.filter(item => item.id > selectedValue);
+                }
+
                 finalElement.empty();
 
                 if(filteredPlanOrders.length === 0) {

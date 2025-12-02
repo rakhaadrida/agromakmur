@@ -471,9 +471,7 @@ function getInvoiceAge($date, $tempo): int
     $now = \Carbon\Carbon::now();
     $invoiceDate = \Carbon\Carbon::parse($date);
 
-    $diffInDays = $now->diffInDays($invoiceDate);
-
-    return $diffInDays;
+    return $now->diffInDays($invoiceDate) + 1;
 }
 
 function getRealQuantity($quantity, $actualQuantity)
