@@ -112,10 +112,6 @@
                 background-color: rgba(59, 57, 57, 0.075);
             }
 
-            .print-container {
-                page-break-after: always;
-            }
-
             .print-table {
                 font-size: 18px;
                 margin-left: -25px;
@@ -248,9 +244,10 @@
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 18px;
                 font-weight: normal;
+                margin-top: -8px;
                 margin-right: 1rem;
                 margin-bottom: 0.1rem;
-                height: 12px;
+                height: 20px;
             }
 
             .table-head-title {
@@ -341,15 +338,10 @@
             @media print {
                 @page {
                     margin: 0.4302cm 1.27cm 0.254cm 0.381cm;
+                }
 
-                    @top-right {
-                        content: "Page " counter(page) " of " counter(pages);
-                        font-family: 'Courier New', Courier, monospace;
-                        font-size: 12px;
-                        font-weight: normal;
-                        margin-bottom: -22rem !important;
-                        margin-right: 0.44rem !important;
-                    }
+                .page-break {
+                    page-break-after: always;
                 }
             }
         </style>
@@ -357,114 +349,121 @@
     <body>
         @php $number = 1; @endphp
         @foreach($productTransfers as $key => $productTransfer)
-            <div class="print-container">
-                <table class="table table-sm table-responsive-sm print-table">
-                    <thead class="text-center text-bold print-table-head">
-                        <tr>
-                            <td colspan="7">
-                                <div class="float-left print-logo">
-                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="address-info">JL RAYA CURUP, LUBUK LINGGAU</h6>
-                                    <h6 class="address-info-region">CAWANG BARU - BENGKULU</h6>
-                                </div>
-                                <div class="float-right print-time-info">
-                                    <div class="info-row">
-                                        <span class="info-label">Tanggal Cetak</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $printDate }}</span>
+            @foreach($productTransfer->pages as $pageIndex => $pageNumber)
+                @php
+                    $start = $pageIndex * ($itemsPerPage ?? 42);
+                    $pageItems = $productTransfer->productTransferItems->slice($start, ($itemsPerPage ?? 42));
+                @endphp
+                <div class="print-container">
+                    <table class="table table-sm table-responsive-sm print-table">
+                        <thead class="text-center text-bold print-table-head">
+                            <tr>
+                                <td colspan="7">
+                                    <div class="float-left print-logo">
+                                        <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                        <h6 class="address-info">JL RAYA CURUP, LUBUK LINGGAU</h6>
+                                        <h6 class="address-info-region">CAWANG BARU - BENGKULU</h6>
                                     </div>
-                                    <div class="info-row">
-                                        <span class="info-label">Waktu Cetak</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $printTime }}</span>
-                                    </div>
-                                    <div class="info-row">
-                                        <span class="info-label">Admin</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $productTransfer->user_name }}</span>
-                                    </div>
-                                </div>
-                                <div class="print-time-info-clear"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="header-receipt-row">
-                                <div class="container-fluid print-header">
-                                    <div class="title-header text-center">
-                                        <h3 class="text-bold">Nota Transfer Produk</h3>
-                                    </div>
-                                    <div class="float-left">
-                                        <div class="note-section">
-                                            <span class="text-right">Kami telah mentransfer barang-barang berikut ini:</span>
+                                    <div class="float-right print-time-info">
+                                        <div class="info-row">
+                                            <span class="info-label">Tanggal Cetak</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $printDate }}</span>
                                         </div>
-                                    </div>
-                                    <div class="float-right print-transfer-info">
-                                        <div class="transfer-info-row">
-                                            <span class="transfer-info-label">Tanggal Transfer</span>
-                                            <span class="transfer-info-separator">:</span>
-                                            <span class="transfer-info-value">{{ formatDate($productTransfer->date, 'd-M-y') }}</span>
+                                        <div class="info-row">
+                                            <span class="info-label">Waktu Cetak</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $printTime }}</span>
                                         </div>
-                                        <div class="transfer-info-row">
-                                            <span class="transfer-info-label">Nomor Nota</span>
-                                            <span class="transfer-info-separator">:</span>
-                                            <span class="transfer-info-value">{{ $productTransfer->number }}</span>
+                                        <div class="info-row">
+                                            <span class="info-label">Admin</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $productTransfer->user_name }}</span>
                                         </div>
                                     </div>
                                     <div class="print-time-info-clear"></div>
-                                </div>
-                                <span class="page-number text-right"></span>
-                            </td>
-                        </tr>
-                        <tr class="table-head-title">
-                            <th class="table-head-number">No</th>
-                            <th class="table-head-sku">SKU</th>
-                            <th class="table-head-product">Nama Produk</th>
-                            <th class="table-head-warehouse">Gudang Asal</th>
-                            <th class="table-head-quantity">Qty</th>
-                            <th class="table-head-unit">Unit</th>
-                            <th class="table-head-warehouse">Gudang Tujuan</th>
-                        </tr>
-                    </thead>
-                    <tbody class="print-table-row">
-                        @foreach($productTransfer->productTransferItems as $index => $productTransferItem)
-                            <tr>
-                                <td class="text-center">{{ ++$index }}</td>
-                                <td class="table-content-sku">{{ $productTransferItem->product->sku }}</td>
-                                <td class="table-content-product">{{ $productTransferItem->product->name }}</td>
-                                <td class="text-center">{{ $productTransferItem->sourceWarehouse->name }}</td>
-                                <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
-                                <td class="text-center">{{ $productTransferItem->unit->name }}</td>
-                                <td class="text-center">{{ $productTransferItem->destinationWarehouse->name }}</td>
+                                </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="7">
-                                <div class="container-fluid print-footer">
-                                    <table class="print-table-signature">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
-                                                <td class="text-center table-signature-admin">ADMIN</td>
-                                                <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="table-signature-blank-row"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                            <tr>
+                                <td colspan="7" class="header-receipt-row">
+                                    <div class="container-fluid print-header">
+                                        <div class="title-header text-center">
+                                            <h3 class="text-bold">Nota Transfer Produk</h3>
+                                        </div>
+                                        <div class="float-left">
+                                            <div class="note-section">
+                                                <span class="text-right">Kami telah mentransfer barang-barang berikut ini:</span>
+                                            </div>
+                                        </div>
+                                        <div class="float-right print-transfer-info">
+                                            <div class="transfer-info-row">
+                                                <span class="transfer-info-label">Tanggal Transfer</span>
+                                                <span class="transfer-info-separator">:</span>
+                                                <span class="transfer-info-value">{{ formatDate($productTransfer->date, 'd-M-y') }}</span>
+                                            </div>
+                                            <div class="transfer-info-row">
+                                                <span class="transfer-info-label">Nomor Nota</span>
+                                                <span class="transfer-info-separator">:</span>
+                                                <span class="transfer-info-value">{{ $productTransfer->number }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="print-time-info-clear"></div>
+                                    </div>
+                                    <span class="page-number text-right">Page {{ $pageIndex + 1 }} of {{ $productTransfer->total_pages }}</span>
+                                </td>
+                            </tr>
+                            <tr class="table-head-title">
+                                <th class="table-head-number">No</th>
+                                <th class="table-head-sku">SKU</th>
+                                <th class="table-head-product">Nama Produk</th>
+                                <th class="table-head-warehouse">Gudang Asal</th>
+                                <th class="table-head-quantity">Qty</th>
+                                <th class="table-head-unit">Unit</th>
+                                <th class="table-head-warehouse">Gudang Tujuan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="print-table-row">
+                            @foreach($pageItems as $index => $productTransferItem)
+                                <tr>
+                                    <td class="text-center">{{ ++$index }}</td>
+                                    <td class="table-content-sku">{{ $productTransferItem->product->sku }}</td>
+                                    <td class="table-content-product">{{ $productTransferItem->product->name }}</td>
+                                    <td class="text-center">{{ $productTransferItem->sourceWarehouse->name }}</td>
+                                    <td class="text-right">{{ formatQuantity($productTransferItem->quantity) }}</td>
+                                    <td class="text-center">{{ $productTransferItem->unit->name }}</td>
+                                    <td class="text-center">{{ $productTransferItem->destinationWarehouse->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="container-fluid print-footer">
+                                        <table class="print-table-signature">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
+                                                    <td class="text-center table-signature-admin">ADMIN</td>
+                                                    <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="table-signature-blank-row"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endforeach
+            <div class="page-break"></div>
         @endforeach
 
         <script type="text/javascript">

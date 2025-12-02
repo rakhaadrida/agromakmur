@@ -6,6 +6,7 @@ use App\Http\Requests\ProductTransferCancelRequest;
 use App\Http\Requests\ProductTransferCreateRequest;
 use App\Models\Product;
 use App\Models\ProductTransfer;
+use App\Models\ProductTransferItem;
 use App\Models\Warehouse;
 use App\Notifications\CancelProductTransferNotification;
 use App\Utilities\Constant;
@@ -266,6 +267,15 @@ class ProductTransferController extends Controller
             ->where('product_transfers.is_printed', 0)
             ->get();
 
+        $itemsPerPage = 42;
+        foreach($productTransfers as $productTransfer) {
+            $totalItems = $productTransfer->productTransferItems->count();
+            $totalPages = ceil($totalItems / $itemsPerPage);
+
+            $productTransfer->total_pages = $totalPages;
+            $productTransfer->pages = range(1, $totalPages);
+        }
+
         $data = [
             'id' => $id,
             'productTransfers' => $productTransfers,
@@ -273,7 +283,7 @@ class ProductTransferController extends Controller
             'printTime' => $printTime,
             'startNumber' => $startNumber,
             'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
+            'itemsPerPage' => $itemsPerPage
         ];
 
         return view('pages.admin.product-transfer.print', $data);

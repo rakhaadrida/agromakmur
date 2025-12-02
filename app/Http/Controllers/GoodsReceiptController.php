@@ -465,7 +465,7 @@ class GoodsReceiptController extends Controller
             ->get();
 
         $itemsPerPage = 42;
-        foreach($goodsReceipts as $key => $goodsReceipt) {
+        foreach($goodsReceipts as $goodsReceipt) {
             $totalItems = $goodsReceipt->goodsReceiptItems->count();
             $totalPages = ceil($totalItems / $itemsPerPage);
 
