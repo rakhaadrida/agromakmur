@@ -347,7 +347,6 @@
         </style>
     </head>
     <body>
-        @php $number = 1; @endphp
         @foreach($productTransfers as $key => $productTransfer)
             @foreach($productTransfer->pages as $pageIndex => $pageNumber)
                 @php

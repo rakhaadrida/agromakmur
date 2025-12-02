@@ -151,7 +151,6 @@
 
             .print-container {
                 margin-bottom: -1.438rem;
-                page-break-after: always;
             }
 
             .table-order-item {
@@ -435,175 +434,176 @@
                     width: 21.8cm;
                     height: 13.9cm;
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
-
-                    @bottom-right {
-                        content: "Page " counter(page);
-                        font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 11px;
-                        font-weight: bold;
-                        margin-top: -26.55rem !important;
-                        margin-right: 19.3rem !important;
-                    }
                 }
 
                 body {
                     margin: 0;
                     zoom: 1.37;
                 }
+
+                .page-break {
+                    page-break-after: always;
+                }
             }
         </style>
     </head>
     <body>
-        @php $number = 1 @endphp
         @foreach($deliveryOrders as $key => $deliveryOrder)
-            <div class="print-container" id="printContainer">
-                <table class="table table-sm table-responsive-sm table-order-item">
-                    <thead class="print-header">
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid header-section">
-                                    <div class="title-header text-center">
-                                        <h5 class="text-bold">SURAT JALAN</h5>
+            @foreach($deliveryOrder->pages as $pageIndex => $pageNumber)
+                @php
+                    $start = $pageIndex * ($itemsPerPage ?? 14);
+                    $pageItems = $deliveryOrder->deliveryOrderItems->slice($start, ($itemsPerPage ?? 14));
+                @endphp
+                <div class="print-container" id="printContainer">
+                    <table class="table table-sm table-responsive-sm table-order-item">
+                        <thead class="print-header">
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid header-section">
+                                        <div class="title-header text-center">
+                                            <h5 class="text-bold">SURAT JALAN</h5>
+                                        </div>
+                                        <div class="order-info-section">
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Nomor</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ $deliveryOrder->number }}</span>
+                                            </div>
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Tanggal</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</span>
+                                            </div>
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Nomor SO</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ $deliveryOrder->salesOrder->number }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="order-info-section">
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Nomor</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $deliveryOrder->number }}</span>
-                                        </div>
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Tanggal</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</span>
-                                        </div>
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Nomor SO</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $deliveryOrder->salesOrder->number }}</span>
-                                        </div>
+                                    <div class="float-left logo-section">
+                                        <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                        <h6 class="logo-section-phone-info">{{ $deliveryOrder->branch_address }}</h6>
+                                        <span class="logo-section-phone-info">Telp : {{ $deliveryOrder->branch_phone_number }}</span>
                                     </div>
-                                </div>
-                                <div class="float-left logo-section">
-                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="logo-section-phone-info">{{ $deliveryOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Telp : {{ $deliveryOrder->branch_phone_number }}</span>
-                                </div>
-                                <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Kepada :</span>
-                                    <br>
-                                    <span class="customer-name-info">{{ $deliveryOrder->customer_name }}</span>
-                                    <br>
-                                    <span class="customer-address-info text-wrap">{{ $deliveryOrder->address }}</span>
-                                    <br>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-center table-order-item-head">
-                            <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-sku">SKU</td>
-                            <td class="table-order-item-head-product">Nama Produk</td>
-                            <td class="table-order-item-head-quantity">Qty</td>
-                            <td class="table-order-item-head-unit">Unit</td>
-                        </tr>
-                    </thead>
-                    <tbody class="table-order-item-body">
-                        @foreach($deliveryOrder->deliveryOrderItems as $index => $deliveryOrderItem)
-                            <tr class="table-order-item-body-row">
-                                <td class="text-center">{{ ++$index }}</td>
-                                <td>{{ $deliveryOrderItem->product->sku }}</td>
-                                <td>{{ $deliveryOrderItem->product->name }}</td>
-                                <td class="text-center">{{ $deliveryOrderItem->quantity }}</td>
-                                <td class="text-center">{{ $deliveryOrderItem->unit->name }}</td>
+                                    <div class="float-right customer-section">
+                                        <span class="customer-section-greetings">Kepada :</span>
+                                        <br>
+                                        <span class="customer-name-info">{{ $deliveryOrder->customer_name }}</span>
+                                        <br>
+                                        <span class="customer-address-info text-wrap">{{ $deliveryOrder->address }}</span>
+                                        <br>
+                                    </div>
+                                </td>
                             </tr>
-                        @endforeach
-                        @for($i = $deliveryOrder->total_rows; $i < ($deliveryOrder->total_page * 14); $i++)
-                            <tr class="table-order-item-body-row">
-                                <td colspan="5"></td>
+                            <tr class="text-center table-order-item-head">
+                                <td class="table-order-item-head-number">No</td>
+                                <td class="table-order-item-head-sku">SKU</td>
+                                <td class="table-order-item-head-product">Nama Produk</td>
+                                <td class="table-order-item-head-quantity">Qty</td>
+                                <td class="table-order-item-head-unit">Unit</td>
                             </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid footer-section">
-                                    <table class="table-footer">
-                                        <thead>
-                                            <tr>
-                                                <td class="table-footer-head-recipient">
-                                                    <div class="recipient-signature">
-                                                        <table class="recipient-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Penerima</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="recipient-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-account-info align-middle">
-                                                    <div class="payment-info">
-                                                        <span>Pembayaran Transfer / Giro</span>
-                                                        <br>
-                                                        <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
-                                                        <br>
-                                                        <span>2. BCA - 8455720458 - ALFIONNY DEVALIN</span>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-warehouse">
-                                                    <div class="warehouse-signature">
-                                                        <table class="warehouse-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Gudang</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="warehouse-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(___________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-admin">
-                                                    <div class="admin-signature">
-                                                        <table class="admin-signature-table">
-                                                            <tr>
-                                                                <td class="text-center admin-signature-table-date">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center admin-signature-label">Admin</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="admin-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td>
+                        </thead>
+                        <tbody class="table-order-item-body">
+                            @foreach($pageItems as $index => $deliveryOrderItem)
+                                <tr class="table-order-item-body-row">
+                                    <td class="text-center">{{ ++$index }}</td>
+                                    <td>{{ $deliveryOrderItem->product->sku }}</td>
+                                    <td>{{ $deliveryOrderItem->product->name }}</td>
+                                    <td class="text-center">{{ $deliveryOrderItem->quantity }}</td>
+                                    <td class="text-center">{{ $deliveryOrderItem->unit->name }}</td>
+                                </tr>
+                            @endforeach
+                            @for($i = $pageItems->count(); $i < 14; $i++)
+                                <tr class="table-order-item-body-row">
+                                    <td colspan="5"></td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid footer-section">
+                                        <table class="table-footer">
+                                            <thead>
+                                                <tr>
+                                                    <td class="table-footer-head-recipient">
+                                                        <div class="recipient-signature">
+                                                            <table class="recipient-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center">Penerima</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="recipient-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(__________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-account-info align-middle">
+                                                        <div class="payment-info">
+                                                            <span>Pembayaran Transfer / Giro</span>
+                                                            <br>
+                                                            <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
+                                                            <br>
+                                                            <span>2. BCA - 8455720458 - ALFIONNY DEVALIN</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-warehouse">
+                                                        <div class="warehouse-signature">
+                                                            <table class="warehouse-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center">Gudang</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="warehouse-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(___________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-admin">
+                                                        <div class="admin-signature">
+                                                            <table class="admin-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-table-date">{{ formatDate($deliveryOrder->date, 'd-M-y') }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-label">Admin</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="admin-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(__________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td>
 
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
-                                </div>
-                                <div class="float-right print-time-section">
-                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $deliveryOrder->total_page }}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="float-left print-time-section">
+                                        <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
+                                    </div>
+                                    <div class="float-right print-time-section">
+                                        <span class="print-time-section-time">Halaman {{ $pageIndex + 1 }} dari {{ $deliveryOrder->total_pages }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endforeach
+            <div class="page-break"></div>
         @endforeach
 
         <script type="text/javascript">

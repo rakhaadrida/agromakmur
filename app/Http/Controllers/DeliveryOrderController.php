@@ -8,11 +8,13 @@ use App\Http\Requests\DeliveryOrderCreateRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
+use App\Models\DeliveryOrderItem;
 use App\Models\SalesOrder;
 use App\Notifications\CancelDeliveryOrderNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\SalesOrderService;
@@ -425,10 +427,21 @@ class DeliveryOrderController extends Controller
             ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
-        foreach ($deliveryOrders as $deliveryOrder) {
-            $totalPage = ceil(($deliveryOrder->deliveryOrderItems->count()) / 15);
-            $deliveryOrder->total_page = $totalPage;
-            $deliveryOrder->total_rows = $deliveryOrder->deliveryOrderItems->count();
+        $itemsPerPage = 15;
+        foreach ($deliveryOrders as $key => $deliveryOrder) {
+            if(!$key) {
+                for($i = 0; $i < 14; $i++) {
+                    $deliveryOrder->deliveryOrderItems->push(new DeliveryOrderItem([
+                        'sales_order_item_id' => 74,
+                        'product_id' => 1,
+                        'unit_id' => 1,
+                        'quantity' => $i + 2,
+                        'actual_quantity' => $i + 2,
+                    ]));
+                }
+            }
+
+            CommonService::paginatePrintPages($deliveryOrder, $deliveryOrder->deliveryOrderItems, $itemsPerPage);
         }
 
         $data = [

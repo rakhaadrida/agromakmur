@@ -483,7 +483,6 @@
         </style>
     </head>
     <body>
-        @php $number = 1 @endphp
         @foreach($salesOrders as $key => $salesOrder)
             @foreach($salesOrder->pages as $pageIndex => $pageNumber)
                 @php
