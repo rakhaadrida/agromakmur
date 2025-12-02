@@ -16,4 +16,14 @@ class CommonService
 
         return (($maxDiscount - 100) * -1);
     }
+
+    public static function paginatePrintPages($subject, $subjectItems, $itemsPerPage) {
+        $totalItems = $subjectItems->count();
+        $totalPages = ceil($totalItems / $itemsPerPage);
+
+        $subject->total_pages = $totalPages;
+        $subject->pages = range(1, $totalPages);
+
+        return $subject;
+    }
 }

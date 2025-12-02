@@ -11,6 +11,7 @@ use App\Models\Warehouse;
 use App\Notifications\CancelProductTransferNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductTransferService;
@@ -269,11 +270,7 @@ class ProductTransferController extends Controller
 
         $itemsPerPage = 42;
         foreach($productTransfers as $productTransfer) {
-            $totalItems = $productTransfer->productTransferItems->count();
-            $totalPages = ceil($totalItems / $itemsPerPage);
-
-            $productTransfer->total_pages = $totalPages;
-            $productTransfer->pages = range(1, $totalPages);
+            CommonService::paginatePrintPages($productTransfer, $productTransfer->productTransferItems, $itemsPerPage);
         }
 
         $data = [

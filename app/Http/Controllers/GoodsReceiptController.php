@@ -17,6 +17,7 @@ use App\Notifications\UpdateGoodsReceiptNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountPayableService;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
@@ -466,11 +467,7 @@ class GoodsReceiptController extends Controller
 
         $itemsPerPage = 42;
         foreach($goodsReceipts as $goodsReceipt) {
-            $totalItems = $goodsReceipt->goodsReceiptItems->count();
-            $totalPages = ceil($totalItems / $itemsPerPage);
-
-            $goodsReceipt->total_pages = $totalPages;
-            $goodsReceipt->pages = range(1, $totalPages);
+            CommonService::paginatePrintPages($goodsReceipt, $goodsReceipt->goodsReceiptItems, $itemsPerPage);
         }
 
         $data = [

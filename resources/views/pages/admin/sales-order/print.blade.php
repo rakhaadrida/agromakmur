@@ -151,7 +151,6 @@
 
             .print-container {
                 margin-bottom: -1.438rem;
-                page-break-after: always;
             }
 
             .table-order-item {
@@ -470,20 +469,15 @@
                     width: 21.8cm;
                     height: 13.9cm;
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
-
-                    @bottom-right {
-                        content: "Page " counter(page);
-                        font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 11px;
-                        font-weight: bold;
-                        margin-top: -26.35rem !important;
-                        margin-right: 19.3rem !important;
-                    }
                 }
 
                 body {
                     margin: 0;
                     zoom: 1.37;
+                }
+
+                .page-break {
+                    page-break-after: always;
                 }
             }
         </style>
@@ -491,174 +485,181 @@
     <body>
         @php $number = 1 @endphp
         @foreach($salesOrders as $key => $salesOrder)
-            <div class="print-container" id="printContainer">
-                <table class="table table-sm table-responsive-sm table-order-item">
-                    <thead class="print-header">
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid header-section">
-                                    <div class="title-header text-center">
-                                        <h5 class="text-bold">FAKTUR PENJUALAN</h5>
-                                    </div>
-                                    <div class="order-info-section">
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Nomor</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $salesOrder->number }}</span>
+            @foreach($salesOrder->pages as $pageIndex => $pageNumber)
+                @php
+                    $start = $pageIndex * ($itemsPerPage ?? 15);
+                    $pageItems = $salesOrder->salesOrderItems->slice($start, ($itemsPerPage ?? 15));
+                @endphp
+                <div class="print-container">
+                    <table class="table table-sm table-responsive-sm table-order-item">
+                        <thead class="print-header">
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid header-section">
+                                        <div class="title-header text-center">
+                                            <h5 class="text-bold">FAKTUR PENJUALAN</h5>
                                         </div>
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Tanggal</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ formatDate($salesOrder->date, 'd-M-y') }}</span>
+                                        <div class="order-info-section">
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Nomor</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ $salesOrder->number }}</span>
+                                            </div>
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Tanggal</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ formatDate($salesOrder->date, 'd-M-y') }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="float-left logo-section">
-                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="logo-section-phone-info">{{ $salesOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Telp : {{ $salesOrder->branch_phone_number }}</span>
-                                </div>
-                                <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Kepada :</span>
-                                    <br>
-                                    <span class="customer-name-info">{{ $salesOrder->customer_name }}</span>
-                                    <br>
-                                    <span class="customer-address-info text-wrap">{{ $salesOrder->customer_address }}</span>
-                                    <br>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-center table-order-item-head">
-                            <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-product">Nama Produk</td>
-                            <td class="table-order-item-head-quantity">Qty</td>
-                            <td class="table-order-item-head-unit">Unit</td>
-                            <td class="table-order-item-head-price">Harga</td>
-                            <td class="table-order-item-head-total">Total</td>
-                        </tr>
-                    </thead>
-                    <tbody class="table-order-item-body">
-                        @foreach($salesOrder->salesOrderItems as $index => $salesOrderItem)
-                            <tr class="table-order-item-body-row">
-                                <td class="text-center">{{ ++$index }}</td>
-                                <td>{{ $salesOrderItem->product_name }}</td>
-                                <td class="text-right">{{ $salesOrderItem->quantity }}</td>
-                                <td class="text-center">{{ $salesOrderItem->unit_name }}</td>
-                                <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
-                                <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
+                                    <div class="float-left logo-section">
+                                        <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                        <h6 class="logo-section-phone-info">{{ $salesOrder->branch_address }}</h6>
+                                        <span class="logo-section-phone-info">Telp : {{ $salesOrder->branch_phone_number }}</span>
+                                    </div>
+                                    <div class="float-right customer-section">
+                                        <span class="customer-section-greetings">Kepada :</span>
+                                        <br>
+                                        <span class="customer-name-info">{{ $salesOrder->customer_name }}</span>
+                                        <br>
+                                        <span class="customer-address-info text-wrap">{{ $salesOrder->customer_address }}</span>
+                                        <br>
+                                    </div>
+                                </td>
                             </tr>
-                        @endforeach
-                        @for($i = $salesOrder->total_rows; $i < ($salesOrder->total_page * 15); $i++)
-                            <tr class="table-order-item-body-row">
-                                <td colspan="6"></td>
+                            <tr class="text-center table-order-item-head">
+                                <td class="table-order-item-head-number">No</td>
+                                <td class="table-order-item-head-product">Nama Produk</td>
+                                <td class="table-order-item-head-quantity">Qty</td>
+                                <td class="table-order-item-head-unit">Unit</td>
+                                <td class="table-order-item-head-price">Harga</td>
+                                <td class="table-order-item-head-total">Total</td>
                             </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid footer-section">
-                                    <table class="table-footer">
-                                        <thead>
-                                            <tr>
-                                                <td class="table-footer-head-recipient">
-                                                    <div class="recipient-signature">
-                                                        <table class="recipient-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Penerima</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="recipient-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-account-info align-middle">
-                                                    <div class="payment-info">
-                                                        <span>Pembayaran Transfer / Giro</span>
-                                                        <br>
-                                                        <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
-                                                        <br>
-                                                        <span>2. BCA - 8455720458 - ALFIONNY DEVALIN</span>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-warehouse">
-                                                    <div class="warehouse-signature">
-                                                        <table class="warehouse-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Sales</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="warehouse-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(___________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-admin">
-                                                    <div class="admin-signature">
-                                                        <table class="admin-signature-table">
-                                                            <tr>
-                                                                <td class="text-center admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center admin-signature-label">Admin</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="admin-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="invoice-amount-section">
-                                                        <table class="invoice-amount-table">
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label">Total</td>
-                                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label">Diskon Faktur</td>
-                                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label">Subtotal</td>
-                                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label">PPN</td>
-                                                                <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-bold invoice-amount-label invoice-amount-label-grand-total">Grand Total</td>
-                                                                <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
-                                </div>
-                                <div class="float-right print-time-section">
-                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $salesOrder->total_page }}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                        </thead>
+                        <tbody class="table-order-item-body">
+                            @foreach($pageItems as $index => $salesOrderItem)
+                                <tr class="table-order-item-body-row">
+                                    <td class="text-center">{{ ++$index }}</td>
+                                    <td>{{ $salesOrderItem->product_name }}</td>
+                                    <td class="text-right">{{ $salesOrderItem->quantity }}</td>
+                                    <td class="text-center">{{ $salesOrderItem->unit_name }}</td>
+                                    <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
+                                    <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
+                                </tr>
+                            @endforeach
+                            @for($i = $pageItems->count(); $i < 15; $i++)
+                                <tr class="table-order-item-body-row">
+                                    <td colspan="6"></td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid footer-section">
+                                        <table class="table-footer">
+                                            <thead>
+                                                <tr>
+                                                    <td class="table-footer-head-recipient">
+                                                        <div class="recipient-signature">
+                                                            <table class="recipient-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center">Penerima</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="recipient-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(__________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-account-info align-middle">
+                                                        <div class="payment-info">
+                                                            <span>Pembayaran Transfer / Giro</span>
+                                                            <br>
+                                                            <span>1. BRI -  339201026766533 - HAMAH AYUB BIN H.A</span>
+                                                            <br>
+                                                            <span>2. BCA - 8455720458 - ALFIONNY DEVALIN</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-warehouse">
+                                                        <div class="warehouse-signature">
+                                                            <table class="warehouse-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center">Sales</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="warehouse-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(___________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-admin">
+                                                        <div class="admin-signature">
+                                                            <table class="admin-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-table-date">{{ formatDate($salesOrder->date, 'd-M-y') }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-label">Admin</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="admin-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(__________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="invoice-amount-section">
+                                                            <table class="invoice-amount-table">
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label">Total</td>
+                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label">Diskon Faktur</td>
+                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label">Subtotal</td>
+                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label">PPN</td>
+                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label invoice-amount-label-grand-total">Grand Total</td>
+                                                                    <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="float-left print-time-section">
+                                        <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
+                                    </div>
+                                    <div class="float-right print-time-section">
+                                        <span class="print-time-section-time">Halaman {{ $pageIndex + 1 }} dari {{ $salesOrder->total_pages }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endforeach
+            <div class="page-break"></div>
         @endforeach
 
         <script type="text/javascript">

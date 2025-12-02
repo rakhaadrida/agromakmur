@@ -11,12 +11,14 @@ use App\Models\Customer;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
+use App\Models\SalesOrderItem;
 use App\Models\Warehouse;
 use App\Notifications\CancelSalesOrderNotification;
 use App\Notifications\UpdateSalesOrderNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
@@ -609,13 +611,11 @@ class SalesOrderController extends Controller
             ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
+        $itemsPerPage = 15;
         foreach ($salesOrders as $salesOrder) {
             $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
 
-            $totalPage = ceil(($salesOrder->salesOrderItems->count()) / 15);
-            $salesOrder->total_page = $totalPage;
-            $salesOrder->total_rows = $salesOrder->salesOrderItems->count();
-            $salesOrder->pages = range(1, $totalPage);
+            CommonService::paginatePrintPages($salesOrder, $salesOrder->salesOrderItems, $itemsPerPage);
         }
 
         $data = [
@@ -625,7 +625,7 @@ class SalesOrderController extends Controller
             'printTime' => $printTime,
             'startNumber' => $startNumber,
             'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
+            'itemsPerPage' => $itemsPerPage
         ];
 
         return view('pages.admin.sales-order.print', $data);
