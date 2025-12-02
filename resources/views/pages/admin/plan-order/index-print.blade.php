@@ -116,15 +116,15 @@
                                         <hr>
                                         <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTablePrinted">
                                             <thead class="text-center text-bold text-dark">
-                                            <tr>
-                                                <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Nomor</th>
-                                                <th class="align-middle th-date-transaction-index">Tanggal</th>
-                                                <th class="align-middle th-plan-order-branch-index-print">Cabang</th>
-                                                <th class="align-middle th-name-transaction-index">Supplier</th>
-                                                <th class="align-middle th-plan-order-total-items-index-print">Total Barang</th>
-                                                <th class="align-middle th-plan-order-grand-total-index">Admin</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="align-middle th-number-transaction-index">No</th>
+                                                    <th class="align-middle th-code-transaction-index">Nomor</th>
+                                                    <th class="align-middle th-date-transaction-index">Tanggal</th>
+                                                    <th class="align-middle th-plan-order-branch-index-print">Cabang</th>
+                                                    <th class="align-middle th-name-transaction-index">Supplier</th>
+                                                    <th class="align-middle th-plan-order-total-items-index-print">Total Barang</th>
+                                                    <th class="align-middle th-plan-order-grand-total-index">Admin</th>
+                                                </tr>
                                             </thead>
                                             <tbody id="itemPrinted">
                                             </tbody>

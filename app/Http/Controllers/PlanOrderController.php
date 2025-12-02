@@ -362,7 +362,7 @@ class PlanOrderController extends Controller
         }
 
         $planOrders = $baseQuery->get();
-        
+
         $itemsPerPage = 15;
         foreach ($planOrders as $planOrder) {
             CommonService::paginatePrintPages($planOrder, $planOrder->planOrderItems, $itemsPerPage);

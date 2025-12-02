@@ -436,6 +436,30 @@ class GoodsReceiptController extends Controller
         return view('pages.admin.goods-receipt.index-print', $data);
     }
 
+    public function indexPrintAjax(Request $request) {
+        $filter = (object) $request->all();
+        $isPrinted = $filter->is_printed;
+
+        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery
+                ->where('goods_receipts.is_printed', 1)
+                ->orderByDesc('goods_receipts.date')
+                ->orderByDesc('goods_receipts.id');
+        } else {
+            $baseQuery = $baseQuery
+                ->where('goods_receipts.is_printed', 0)
+                ->orderBy('goods_receipts.date');
+        }
+
+        $planOrders = $baseQuery->get();
+
+        return response()->json([
+            'data' => $planOrders,
+        ]);
+    }
+
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
         $startNumber = $filter->start_number ?? 0;

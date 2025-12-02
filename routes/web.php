@@ -125,12 +125,12 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('plan-orders/{id}/detail', 'PlanOrderController@detail')->name('plan-orders.detail');
         Route::get('plan-orders/{id}/print', 'PlanOrderController@print')->name('plan-orders.print');
         Route::get('plan-orders/{id}/after-print', 'PlanOrderController@afterPrint')->name('plan-orders.after-print');
+        Route::get('plan-orders-index-print-ajax', 'PlanOrderController@indexPrintAjax')->name('plan-orders.index-print-ajax');
         Route::get('plan-orders-generate-number-ajax', 'PlanOrderController@generateNumberAjax')->name('plan-orders.generate-number-ajax');
         Route::get('print-plan-orders', 'PlanOrderController@indexPrint')->name('plan-orders.index-print');
         Route::get('edit-plan-orders', 'PlanOrderController@indexEdit')->name('plan-orders.index-edit');
         Route::get('export-plan-orders', 'PlanOrderController@export')->name('plan-orders.export');
         Route::get('pdf-plan-orders', 'PlanOrderController@pdf')->name('plan-orders.pdf');
-        Route::get('plan-orders-index-print-ajax', 'PlanOrderController@indexPrintAjax')->name('plan-orders.index-print-ajax');
 
         Route::resource('goods-receipts', 'GoodsReceiptController');
         Route::get('goods-receipts/{id}/detail', 'GoodsReceiptController@detail')->name('goods-receipts.detail');
@@ -139,6 +139,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('goods-receipt-ajax', 'GoodsReceiptController@indexAjax')->name('goods-receipts.index-ajax');
         Route::get('goods-receipt-lists-ajax', 'GoodsReceiptController@indexListAjax')->name('goods-receipts.index-list-ajax');
         Route::get('goods-receipt-data-ajax', 'GoodsReceiptController@indexDataAjax')->name('goods-receipts.index-data-ajax');
+        Route::get('goods-receipt-index-print-ajax', 'GoodsReceiptController@indexPrintAjax')->name('goods-receipts.index-print-ajax');
         Route::get('goods-receipt-generate-number-ajax', 'GoodsReceiptController@generateNumberAjax')->name('goods-receipts.generate-number-ajax');
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
         Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
