@@ -112,10 +112,6 @@
                 background-color: rgba(59, 57, 57, 0.075);
             }
 
-            .print-container {
-                page-break-after: always;
-            }
-
             .print-table {
                 font-size: 18px;
                 margin-left: -25px;
@@ -339,132 +335,133 @@
             @media print {
                 @page {
                     margin: 0.4302cm 1.27cm 0.254cm 0.381cm;
+                }
 
-                    @top-right {
-                        content: "Page " counter(page) " of " counter(pages);
-                        font-family: 'Courier New', Courier, monospace;
-                        font-size: 12px;
-                        font-weight: normal;
-                        margin-bottom: -24.1rem !important;
-                        margin-right: 0.44rem !important;
-                    }
+                .page-break {
+                    page-break-after: always;
                 }
             }
         </style>
     </head>
     <body>
-        @php $number = 1; @endphp
         @foreach($goodsReceipts as $key => $goodsReceipt)
-            <div class="print-container">
-                <table class="table table-sm table-responsive-sm print-table">
-                    <thead class="text-center text-bold print-table-head">
-                        <tr class="print-header-logo">
-                            <td colspan="5">
-                                <div class="float-left print-logo">
-                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="address-info">{{ formatUppercase($goodsReceipt->branch_address) }}</h6>
-                                </div>
-                                <div class="float-right print-time-info">
-                                    <div class="info-row">
-                                        <span class="info-label">Tanggal Cetak</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $printDate }}</span>
+            @foreach($goodsReceipt->pages as $pageIndex => $pageNumber)
+                @php
+                    $start = $pageIndex * ($itemsPerPage ?? 42);
+                    $pageItems = $goodsReceipt->goodsReceiptItems->slice($start, ($itemsPerPage ?? 42));
+                @endphp
+                <div class="print-container">
+                    <table class="table table-sm table-responsive-sm print-table">
+                        <thead class="text-center text-bold print-table-head">
+                            <tr class="print-header-logo">
+                                <td colspan="5">
+                                    <div class="float-left print-logo">
+                                        <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                        <h6 class="address-info">{{ formatUppercase($goodsReceipt->branch_address) }}</h6>
                                     </div>
-                                    <div class="info-row">
-                                        <span class="info-label">Waktu Cetak</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $printTime }}</span>
-                                    </div>
-                                    <div class="info-row">
-                                        <span class="info-label">Admin</span>
-                                        <span class="info-separator">:</span>
-                                        <span class="info-value">{{ $goodsReceipt->user_name }}</span>
-                                    </div>
-                                </div>
-                                <div class="print-time-info-clear"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="header-receipt-row">
-                                <div class="container-fluid print-header">
-                                    <div class="title-header text-center">
-                                        <h3 class="text-bold">Nota Terima Barang</h3>
-                                    </div>
-                                    <div class="supplier-info">
-                                        <span class="text-right">Supplier</span>
-                                        <span>:</span>
-                                        <span>{{ $goodsReceipt->supplier_name }}</span>
-                                    </div>
-                                    <div class="supplier-info supplier-info-label">
-                                        <span class="text-right">Kami telah menerima barang-barang berikut ini:</span>
-                                    </div>
-                                    <div class="print-receipt-info">
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Tanggal Terima</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
+                                    <div class="float-right print-time-info">
+                                        <div class="info-row">
+                                            <span class="info-label">Tanggal Cetak</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $printDate }}</span>
                                         </div>
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Nomor Nota</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ $goodsReceipt->number }}</span>
+                                        <div class="info-row">
+                                            <span class="info-label">Waktu Cetak</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $printTime }}</span>
                                         </div>
-                                        <div class="receipt-info-row">
-                                            <span class="receipt-info-label">Gudang</span>
-                                            <span class="receipt-info-separator">:</span>
-                                            <span class="receipt-info-value">{{ $goodsReceipt->warehouse_name }}</span>
+                                        <div class="info-row">
+                                            <span class="info-label">Admin</span>
+                                            <span class="info-separator">:</span>
+                                            <span class="info-value">{{ $goodsReceipt->user_name }}</span>
                                         </div>
                                     </div>
-                                </div>
-                                <span class="page-number text-right"></span>
-                            </td>
-                        </tr>
-                        <tr class="table-head-title">
-                            <th class="table-head-number">No</th>
-                            <th class="table-head-sku">SKU</th>
-                            <th class="table-head-product">Nama Produk</th>
-                            <th class="table-head-quantity">Quantity</th>
-                            <th class="table-head-unit">Unit</th>
-                        </tr>
-                    </thead>
-                    <tbody class="print-table-row">
-                        @foreach($goodsReceipt->goodsReceiptItems as $index => $goodsReceiptItem)
-                            <tr>
-                                <td class="text-center">{{ ++$index }}</td>
-                                <td class="table-content-sku">{{ $goodsReceiptItem->product->sku }}</td>
-                                <td class="table-content-product">{{ $goodsReceiptItem->product->name }}</td>
-                                <td class="text-center">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
-                                <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
+                                    <div class="print-time-info-clear"></div>
+                                </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5">
-                                <div class="container-fluid print-footer">
-                                    <table class="print-table-signature">
-                                        <thead>
-                                            <tr>
-                                                <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
-                                                <td class="text-center table-signature-admin">ADMIN</td>
-                                                <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="table-signature-blank-row"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                                <td class="text-center">(<span class="signature-name"></span>)</td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                            <tr>
+                                <td colspan="5" class="header-receipt-row">
+                                    <div class="container-fluid print-header">
+                                        <div class="title-header text-center">
+                                            <h3 class="text-bold">Nota Terima Barang</h3>
+                                        </div>
+                                        <div class="supplier-info">
+                                            <span class="text-right">Supplier</span>
+                                            <span>:</span>
+                                            <span>{{ $goodsReceipt->supplier_name }}</span>
+                                        </div>
+                                        <div class="supplier-info supplier-info-label">
+                                            <span class="text-right">Kami telah menerima barang-barang berikut ini:</span>
+                                        </div>
+                                        <div class="print-receipt-info">
+                                            <div class="receipt-info-row">
+                                                <span class="receipt-info-label">Tanggal Terima</span>
+                                                <span class="receipt-info-separator">:</span>
+                                                <span class="receipt-info-value">{{ formatDate($goodsReceipt->date, 'd-M-y') }}</span>
+                                            </div>
+                                            <div class="receipt-info-row">
+                                                <span class="receipt-info-label">Nomor Nota</span>
+                                                <span class="receipt-info-separator">:</span>
+                                                <span class="receipt-info-value">{{ $goodsReceipt->number }}</span>
+                                            </div>
+                                            <div class="receipt-info-row">
+                                                <span class="receipt-info-label">Gudang</span>
+                                                <span class="receipt-info-separator">:</span>
+                                                <span class="receipt-info-value">{{ $goodsReceipt->warehouse_name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="page-number text-right">Page {{ $pageIndex + 1 }} of {{ $goodsReceipt->total_pages }}</span>
+                                </td>
+                            </tr>
+                            <tr class="table-head-title">
+                                <th class="table-head-number">No</th>
+                                <th class="table-head-sku">SKU</th>
+                                <th class="table-head-product">Nama Produk</th>
+                                <th class="table-head-quantity">Quantity</th>
+                                <th class="table-head-unit">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="print-table-row">
+                            @foreach($pageItems as $index => $goodsReceiptItem)
+                                <tr>
+                                    <td class="text-center">{{ ++$index }}</td>
+                                    <td class="table-content-sku">{{ $goodsReceiptItem->product->sku }}</td>
+                                    <td class="table-content-product">{{ $goodsReceiptItem->product->name }}</td>
+                                    <td class="text-center">{{ formatQuantity($goodsReceiptItem->quantity) }}</td>
+                                    <td class="text-center">{{ $goodsReceiptItem->unit->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="container-fluid print-footer">
+                                        <table class="print-table-signature">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-center table-signature-head-warehouse">KEPALA GUDANG</td>
+                                                    <td class="text-center table-signature-admin">ADMIN</td>
+                                                    <td class="text-center table-signature-staff-warehouse">STAFF GUDANG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="table-signature-blank-row"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                    <td class="text-center">(<span class="signature-name"></span>)</td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endforeach
+            <div class="page-break"></div>
         @endforeach
 
         <script type="text/javascript">

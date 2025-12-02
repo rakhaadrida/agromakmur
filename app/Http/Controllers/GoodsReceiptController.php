@@ -8,6 +8,7 @@ use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\Branch;
 use App\Models\GoodsReceipt;
+use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Warehouse;
@@ -463,6 +464,15 @@ class GoodsReceiptController extends Controller
             ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
             ->get();
 
+        $itemsPerPage = 42;
+        foreach($goodsReceipts as $key => $goodsReceipt) {
+            $totalItems = $goodsReceipt->goodsReceiptItems->count();
+            $totalPages = ceil($totalItems / $itemsPerPage);
+
+            $goodsReceipt->total_pages = $totalPages;
+            $goodsReceipt->pages = range(1, $totalPages);
+        }
+
         $data = [
             'id' => $id,
             'goodsReceipts' => $goodsReceipts,
@@ -470,7 +480,7 @@ class GoodsReceiptController extends Controller
             'printTime' => $printTime,
             'startNumber' => $startNumber,
             'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
+            'itemsPerPage' => $itemsPerPage
         ];
 
         return view('pages.admin.goods-receipt.print', $data);
