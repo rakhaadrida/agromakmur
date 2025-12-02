@@ -8,7 +8,6 @@ use App\Http\Requests\DeliveryOrderCreateRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
 use App\Models\Customer;
 use App\Models\DeliveryOrder;
-use App\Models\DeliveryOrderItem;
 use App\Models\SalesOrder;
 use App\Notifications\CancelDeliveryOrderNotification;
 use App\Notifications\UpdateDeliveryOrderNotification;

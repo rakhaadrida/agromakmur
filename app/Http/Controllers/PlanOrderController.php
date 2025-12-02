@@ -8,7 +8,6 @@ use App\Http\Requests\PlanOrderCreateRequest;
 use App\Http\Requests\PlanOrderUpdateRequest;
 use App\Models\Branch;
 use App\Models\PlanOrder;
-use App\Models\PlanOrderItem;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Constant;
@@ -301,6 +300,34 @@ class PlanOrderController extends Controller
         ];
 
         return view('pages.admin.plan-order.index-print', $data);
+    }
+
+    public function indexPrintAjax(Request $request) {
+        $filter = (object) $request->all();
+        $isPrinted = $filter->is_printed;
+
+        $baseQuery = PlanOrderService::getBaseQueryIndex();
+        $baseQuery = $baseQuery
+            ->addSelect(DB::raw('COUNT(plan_order_items.id) AS total_items'))
+            ->leftJoin('plan_order_items', 'plan_order_items.plan_order_id', 'plan_orders.id');
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery
+                ->where('plan_orders.is_printed', 1)
+                ->orderByDesc('plan_orders.date');
+        } else {
+            $baseQuery = $baseQuery
+                ->where('plan_orders.is_printed', 0)
+                ->orderBy('plan_orders.date');
+        }
+
+        $planOrders = $baseQuery
+            ->groupBy('plan_orders.id')
+            ->get();
+
+        return response()->json([
+            'data' => $planOrders,
+        ]);
     }
 
     public function print(Request $request, $id) {

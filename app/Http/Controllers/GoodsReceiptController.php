@@ -8,7 +8,6 @@ use App\Http\Requests\GoodsReceiptCreateRequest;
 use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\Branch;
 use App\Models\GoodsReceipt;
-use App\Models\GoodsReceiptItem;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Warehouse;

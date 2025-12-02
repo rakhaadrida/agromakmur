@@ -678,14 +678,6 @@
                 `;
             }
 
-            function emptyItemRow(colspan) {
-                return `
-                    <tr>
-                        <td colspan="${colspan}" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
-                    </tr>
-                `;
-            }
-
             function approvalDataCountElement(total) {
                 return `
                     <span class="notification-badge">${total}</span>

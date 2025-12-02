@@ -11,7 +11,6 @@ use App\Models\Customer;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
-use App\Models\SalesOrderItem;
 use App\Models\Warehouse;
 use App\Notifications\CancelSalesOrderNotification;
 use App\Notifications\UpdateSalesOrderNotification;

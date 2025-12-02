@@ -573,7 +573,7 @@
                 window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
             }
 
-            // window.print();
+            window.print();
         </script>
     </body>
 </html>

@@ -6,7 +6,6 @@ use App\Http\Requests\ProductTransferCancelRequest;
 use App\Http\Requests\ProductTransferCreateRequest;
 use App\Models\Product;
 use App\Models\ProductTransfer;
-use App\Models\ProductTransferItem;
 use App\Models\Warehouse;
 use App\Notifications\CancelProductTransferNotification;
 use App\Utilities\Constant;
