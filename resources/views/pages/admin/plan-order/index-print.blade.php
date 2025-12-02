@@ -91,13 +91,14 @@
                                             @endforelse
                                             </tbody>
                                         </table>
+                                        <input type="hidden" name="is_printed" id="isPrinted" value="0">
                                     </div>
                                     <div class="tab-pane fade" id="printed" role="tabpanel" aria-labelledby="printedTab">
                                         <div class="form-group row justify-content-center">
                                             <label for="startNumber" class="col-auto col-form-label text-bold">Nomor PO</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-2">
-                                                <select class="selectpicker print-transaction-select-picker" name="start_number_printed" id="startNumberPrinted" data-live-search="true" data-size="6" title="Pilih Nomor Awal" required>
+                                                <select class="selectpicker print-transaction-select-picker" name="start_number_printed" id="startNumberPrinted" data-live-search="true" data-size="6" title="Pilih Nomor Awal">
                                                     @foreach($planOrders as $planOrder)
                                                         <option value="{{ $planOrder->id }}" data-tokens="{{ $planOrder->number }}">{{ $planOrder->number }}</option>
                                                     @endforeach
@@ -170,7 +171,8 @@
         });
 
         $(document).ready(function() {
-            let planOrders = @json($planOrders);
+            let printedPlanOrders;
+            let notPrintedPlanOrders = @json($planOrders);
             let notPrintedTab = $('#notPrintedTab');
             let printedTab = $('#printedTab');
 
@@ -181,6 +183,8 @@
                 if(table.find('.item-row').length === 0) {
                     displayPlanOrderData(table, 7, notPrintedTab, datatableNotPrinted, 0);
                 }
+
+                removeRequiredStartNumberElement($('#startNumberPrinted'), 0);
             });
 
             printedTab.on('click', function (e) {
@@ -190,58 +194,22 @@
                 if(table.find('.item-row').length === 0) {
                     displayPlanOrderData(table, 7, printedTab, datatablePrinted, 1);
                 }
+
+                removeRequiredStartNumberElement($('#startNumber'), 1);
             });
 
             $('#startNumber').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumber');
 
-                const filteredPlanOrders = planOrders.filter(item => item.id > selectedValue);
-                finalNumber.empty();
-
-                if(filteredPlanOrders.length === 0) {
-                    finalNumber.attr('disabled', true);
-                } else {
-                    $.each(filteredPlanOrders, function(key, item) {
-                        finalNumber.append(
-                            $('<option></option>', {
-                                value: item.id,
-                                text: item.number,
-                                'data-tokens': item.number,
-                            })
-                        );
-                    });
-
-                    finalNumber.attr('disabled', false);
-                }
-
-                finalNumber.selectpicker('refresh');
+                handleNumberChange(notPrintedPlanOrders, selectedValue, finalNumber);
             });
 
             $('#startNumberPrinted').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumberPrinted');
 
-                const filteredPlanOrders = planOrders.filter(item => item.id > selectedValue);
-                finalNumber.empty();
-
-                if(filteredPlanOrders.length === 0) {
-                    finalNumber.attr('disabled', true);
-                } else {
-                    $.each(filteredPlanOrders, function(key, item) {
-                        finalNumber.append(
-                            $('<option></option>', {
-                                value: item.id,
-                                text: item.number,
-                                'data-tokens': item.number,
-                            })
-                        );
-                    });
-
-                    finalNumber.attr('disabled', false);
-                }
-
-                finalNumber.selectpicker('refresh');
+                handleNumberChange(printedPlanOrders, selectedValue, finalNumber);
             });
 
             function displayPlanOrderData(table, colspan, tabItem, datatable, isPrinted) {
@@ -262,19 +230,48 @@
                         let planOrders = data.data;
                         table.empty();
 
+                        if(isPrinted) {
+                            printedPlanOrders = planOrders;
+                        } else {
+                            notPrintedPlanOrders = planOrders;
+                        }
+
                         if(planOrders.length === 0) {
                             datatable.clear();
                             datatable.draw(false);
                         } else {
-                            let rowNumber = 1;
+                            let startNumber = $('#startNumber');
+                            let startNumberPrinted = $('#startNumberPrinted');
 
+                            if(isPrinted) {
+                                startNumberPrinted.empty();
+                            } else {
+                                startNumber.empty();
+                            }
+
+                            let rowNumber = 1;
                             let newRow;
+
                             $.each(planOrders, function(index, item) {
                                 newRow = planOrderRow(rowNumber, item);
 
                                 table.append(newRow);
                                 rowNumber++;
+
+                                if(isPrinted) {
+                                    displayNumberData(startNumberPrinted, index, item)
+                                } else {
+                                    displayNumberData(startNumber, index, item);
+                                }
                             });
+
+                            if(isPrinted) {
+                                startNumberPrinted.attr('required', true);
+                                disableFinalNumberElement($('#finalNumberPrinted'));
+                            } else {
+                                startNumber.attr('required', true);
+                                disableFinalNumberElement($('#finalNumber'));
+                            }
 
                             if (datatable) {
                                 datatable.clear();
@@ -333,6 +330,59 @@
                 }
 
                 return dateStr;
+            }
+
+            function displayNumberData(element, index, item) {
+                element.append(
+                    $('<option></option>', {
+                        value: item.id,
+                        text: item.number,
+                        'data-tokens': item.number,
+                    })
+                );
+
+                if(!index) {
+                    element.selectpicker({
+                        title: 'Pilih Nomor Awal'
+                    });
+                }
+
+                element.selectpicker('refresh');
+                element.selectpicker('render');
+            }
+
+            function disableFinalNumberElement(element) {
+                element.empty();
+                element.attr('disabled', true);
+                element.selectpicker('refresh');
+            }
+
+            function removeRequiredStartNumberElement(element, number) {
+                element.removeAttr('required');
+                $('#isPrinted').val(number);
+            }
+
+            function handleNumberChange(planOrderData, selectedValue, finalElement) {
+                const filteredPlanOrders = planOrderData.filter(item => item.id > selectedValue);
+                finalElement.empty();
+
+                if(filteredPlanOrders.length === 0) {
+                    finalElement.attr('disabled', true);
+                } else {
+                    $.each(filteredPlanOrders, function(key, item) {
+                        finalElement.append(
+                            $('<option></option>', {
+                                value: item.id,
+                                text: item.number,
+                                'data-tokens': item.number,
+                            })
+                        );
+                    });
+
+                    finalElement.attr('disabled', false);
+                }
+
+                finalElement.selectpicker('refresh');
             }
         });
     </script>

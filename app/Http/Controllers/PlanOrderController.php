@@ -332,8 +332,10 @@ class PlanOrderController extends Controller
 
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
+
+        $isPrinted = $filter->is_printed;
+        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -353,10 +355,14 @@ class PlanOrderController extends Controller
             }
         }
 
-        $planOrders = $baseQuery
-            ->where('plan_orders.is_printed', 0)
-            ->get();
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('plan_orders.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('plan_orders.is_printed', 0);
+        }
 
+        $planOrders = $baseQuery->get();
+        
         $itemsPerPage = 15;
         foreach ($planOrders as $planOrder) {
             CommonService::paginatePrintPages($planOrder, $planOrder->planOrderItems, $itemsPerPage);

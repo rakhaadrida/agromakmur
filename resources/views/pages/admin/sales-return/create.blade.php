@@ -409,7 +409,7 @@
 
                             if(!index) {
                                 salesOrder.selectpicker({
-                                    title: 'Enter or Choose Number'
+                                    title: 'Input atau Pilih Nomor'
                                 });
                             }
 
