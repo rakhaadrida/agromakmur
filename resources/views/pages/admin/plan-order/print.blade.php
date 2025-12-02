@@ -96,10 +96,6 @@
                 float: left !important;
             }
 
-            .align-middle {
-                vertical-align: middle !important;
-            }
-
             table {
                 border-collapse: collapse;
             }
@@ -151,7 +147,6 @@
 
             .print-container {
                 margin-bottom: -1.438rem;
-                page-break-after: always;
             }
 
             .table-order-item {
@@ -404,16 +399,6 @@
                 height: 30px;
             }
 
-            .invoice-amount-section {
-                margin-top: 0;
-                margin-left: 5px;
-                font-size: 14px;
-            }
-
-            .invoice-amount-table {
-                line-height: 6px;
-            }
-
             .print-time-section {
                 font-weight: 700;
                 margin-top: 5px;
@@ -428,198 +413,167 @@
                     width: 21.8cm;
                     height: 13.9cm;
                     margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
-
-                    @bottom-right {
-                        content: "Page " counter(page);
-                        font-family: "Calibri", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-                        font-size: 11px;
-                        font-weight: bold;
-                        margin-top: -26.35rem !important;
-                        margin-right: 19.3rem !important;
-                    }
                 }
 
                 body {
                     margin: 0;
                     zoom: 1.37;
                 }
+
+                .page-break {
+                    page-break-after: always;
+                }
             }
         </style>
     </head>
     <body>
-        @php $number = 1 @endphp
         @foreach($planOrders as $key => $planOrder)
-            <div class="print-container" id="printContainer">
-                <table class="table table-sm table-responsive-sm table-order-item">
-                    <thead class="print-header">
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid header-section">
-                                    <div class="title-header text-center">
-                                        <h5 class="text-bold">PLAN ORDER</h5>
-                                    </div>
-                                    <div class="order-info-section">
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Nomor</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ $planOrder->number }}</span>
+            @foreach($planOrder->pages as $pageIndex => $pageNumber)
+                @php
+                    $start = $pageIndex * ($itemsPerPage ?? 15);
+                    $pageItems = $planOrder->planOrderItems->slice($start, ($itemsPerPage ?? 15));
+                @endphp
+                <div class="print-container">
+                    <table class="table table-sm table-responsive-sm table-order-item">
+                        <thead class="print-header">
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid header-section">
+                                        <div class="title-header text-center">
+                                            <h5 class="text-bold">PLAN ORDER</h5>
                                         </div>
-                                        <div class="order-info-row">
-                                            <span class="order-info-label">Tanggal</span>
-                                            <span class="order-info-separator">:</span>
-                                            <span class="order-info-value">{{ formatDate($planOrder->date, 'd-M-y') }}</span>
+                                        <div class="order-info-section">
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Nomor</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ $planOrder->number }}</span>
+                                            </div>
+                                            <div class="order-info-row">
+                                                <span class="order-info-label">Tanggal</span>
+                                                <span class="order-info-separator">:</span>
+                                                <span class="order-info-value">{{ formatDate($planOrder->date, 'd-M-y') }}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="float-left logo-section">
-                                    <img src="{{ url('assets/img/logo.png') }}" alt="">
-                                    <h6 class="logo-section-phone-info">{{ $planOrder->branch_address }}</h6>
-                                    <span class="logo-section-phone-info">Telp : {{ $planOrder->branch_phone_number }}</span>
-                                </div>
-                                <div class="float-right customer-section">
-                                    <span class="customer-section-greetings">Kepada :</span>
-                                    <br>
-                                    <span class="customer-name-info">{{ $planOrder->supplier_name }}</span>
-                                    <br>
-                                    <span class="customer-address-info text-wrap">{{ $planOrder->supplier_address }}</span>
-                                    <br>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="text-center table-order-item-head">
-                            <td class="table-order-item-head-number">No</td>
-                            <td class="table-order-item-head-product">Nama Produk</td>
-                            <td class="table-order-item-head-quantity">Qty</td>
-                            <td class="table-order-item-head-unit">Unit</td>
-                        </tr>
-                    </thead>
-                    <tbody class="table-order-item-body">
-                        @foreach($planOrder->planOrderItems as $index => $planOrderItem)
-                            <tr class="table-order-item-body-row">
-                                <td class="text-center">{{ ++$index }}</td>
-                                <td>{{ $planOrderItem->product->name }}</td>
-                                <td class="text-right">{{ $planOrderItem->quantity }}</td>
-                                <td class="text-center">{{ $planOrderItem->unit->name }}</td>
+                                    <div class="float-left logo-section">
+                                        <img src="{{ url('assets/img/logo.png') }}" alt="">
+                                        <h6 class="logo-section-phone-info">{{ $planOrder->branch_address }}</h6>
+                                        <span class="logo-section-phone-info">Telp : {{ $planOrder->branch_phone_number }}</span>
+                                    </div>
+                                    <div class="float-right customer-section">
+                                        <span class="customer-section-greetings">Kepada :</span>
+                                        <br>
+                                        <span class="customer-name-info">{{ $planOrder->supplier_name }}</span>
+                                        <br>
+                                        <span class="customer-address-info text-wrap">{{ $planOrder->supplier_address }}</span>
+                                        <br>
+                                    </div>
+                                </td>
                             </tr>
-                        @endforeach
-                        @for($i = $planOrder->total_rows; $i < ($planOrder->total_page * 15); $i++)
-                            <tr class="table-order-item-body-row">
-                                <td colspan="6"></td>
+                            <tr class="text-center table-order-item-head">
+                                <td class="table-order-item-head-number">No</td>
+                                <td class="table-order-item-head-product">Nama Produk</td>
+                                <td class="table-order-item-head-quantity">Qty</td>
+                                <td class="table-order-item-head-unit">Unit</td>
                             </tr>
-                        @endfor
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="9">
-                                <div class="container-fluid footer-section">
-                                    <table class="table-footer">
-                                        <thead>
-                                            <tr>
-                                                <td class="table-footer-head-recipient">
-                                                    <div class="recipient-signature">
-                                                        <div class="payment-info">
-                                                            <span>Note:</span>
-                                                            <br>
-                                                            @if(!empty($planOrder->note))
-                                                                <span>{!! formatHtmlText($planOrder->note) !!}</span>
-                                                            @else
-                                                                <span>1. Apabila ada perubahan harga, harap konfirmasi terlebih dahulu</span>
+                        </thead>
+                        <tbody class="table-order-item-body">
+                            @foreach($pageItems as $index => $planOrderItem)
+                                <tr class="table-order-item-body-row">
+                                    <td class="text-center">{{ ++$index }}</td>
+                                    <td>{{ $planOrderItem->product->name }}</td>
+                                    <td class="text-right">{{ $planOrderItem->quantity }}</td>
+                                    <td class="text-center">{{ $planOrderItem->unit->name }}</td>
+                                </tr>
+                            @endforeach
+                            @for($i = $pageItems->count(); $i < 15; $i++)
+                                <tr class="table-order-item-body-row">
+                                    <td colspan="6"></td>
+                                </tr>
+                            @endfor
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="9">
+                                    <div class="container-fluid footer-section">
+                                        <table class="table-footer">
+                                            <thead>
+                                                <tr>
+                                                    <td class="table-footer-head-recipient">
+                                                        <div class="recipient-signature">
+                                                            <div class="payment-info">
+                                                                <span>Note:</span>
                                                                 <br>
-                                                                <span>2. Harap kirimkan barang hanya sesuai pesanan</span>
-                                                            @endif
+                                                                @if(!empty($planOrder->note))
+                                                                    <span>{!! formatHtmlText($planOrder->note) !!}</span>
+                                                                @else
+                                                                    <span>1. Apabila ada perubahan harga, harap konfirmasi terlebih dahulu</span>
+                                                                    <br>
+                                                                    <span>2. Harap kirimkan barang hanya sesuai pesanan</span>
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-warehouse">
-                                                    <div class="warehouse-signature">
-                                                        <table class="warehouse-signature-table">
-                                                            <tr>
-                                                                <td class="text-center">Gudang</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="warehouse-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(___________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td class="table-footer-head-admin">
-                                                    <div class="admin-signature">
-                                                        <table class="admin-signature-table">
-                                                            <tr>
-                                                                <td class="text-center admin-signature-table-date">{{ formatDate($planOrder->date, 'd-M-y') }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center admin-signature-label">Admin</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="admin-signature-table-blank"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">(__________)</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="float-left print-time-section">
-                                    <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
-                                </div>
-                                <div class="float-right print-time-section">
-                                    <span class="print-time-section-time"><span class="page-number"></span> of {{ $planOrder->total_page }}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+                                                    </td>
+                                                    <td class="table-footer-head-warehouse">
+                                                        <div class="warehouse-signature">
+                                                            <table class="warehouse-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center">Gudang</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="warehouse-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(___________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td class="table-footer-head-admin">
+                                                        <div class="admin-signature">
+                                                            <table class="admin-signature-table">
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-table-date">{{ formatDate($planOrder->date, 'd-M-y') }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center admin-signature-label">Admin</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="admin-signature-table-blank"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-center">(__________)</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="float-left print-time-section">
+                                        <span class="print-time-section-time">Waktu Cetak : {{ $printDate }} {{ $printTime }}</span>
+                                    </div>
+                                    <div class="float-right print-time-section">
+                                        <span class="print-time-section-time">Halaman {{ $pageIndex + 1 }} dari {{ $planOrder->total_pages }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            @endforeach
+            <div class="page-break"></div>
         @endforeach
 
         <script type="text/javascript">
-            function paginateTable(table, pageHeight = 1122) {
-                let rows = table.querySelectorAll("tbody tr");
-                let footer = table.querySelector("tfoot td .page-number");
-
-                let totalHeight = 0;
-                let page = 1;
-                let pages = 1;
-                let rowHeights = [];
-
-                rows.forEach(row => {
-                    rowHeights.push(row.offsetHeight);
-                });
-
-                totalHeight = 0;
-                pages = 1;
-                for (let h of rowHeights) {
-                    totalHeight += h;
-                    if (totalHeight > pageHeight) {
-                        pages++;
-                        totalHeight = h;
-                    }
-                }
-
-                footer.innerText = `Page ${page}`;
-            }
-
-            window.onbeforeprint = () => {
-                document.querySelectorAll("table.table-order-item").forEach(table => {
-                    // paginateTable(table, 842);
-                });
-            };
-
             window.onafterprint = function() {
                 const url = '{{ route('plan-orders.after-print', $id) }}';
                 window.location = url + '?start_number=' + encodeURIComponent('{{ $startNumber }}') + '&final_number=' + encodeURIComponent('{{ $finalNumber }}');
             }
 
-            window.print();
+            // window.print();
         </script>
     </body>
 </html>

@@ -427,20 +427,8 @@ class DeliveryOrderController extends Controller
             ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 
-        $itemsPerPage = 15;
+        $itemsPerPage = 14;
         foreach ($deliveryOrders as $key => $deliveryOrder) {
-            if(!$key) {
-                for($i = 0; $i < 14; $i++) {
-                    $deliveryOrder->deliveryOrderItems->push(new DeliveryOrderItem([
-                        'sales_order_item_id' => 74,
-                        'product_id' => 1,
-                        'unit_id' => 1,
-                        'quantity' => $i + 2,
-                        'actual_quantity' => $i + 2,
-                    ]));
-                }
-            }
-
             CommonService::paginatePrintPages($deliveryOrder, $deliveryOrder->deliveryOrderItems, $itemsPerPage);
         }
 
@@ -451,7 +439,7 @@ class DeliveryOrderController extends Controller
             'printTime' => $printTime,
             'startNumber' => $startNumber,
             'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
+            'itemsPerPage' => $itemsPerPage
         ];
 
         return view('pages.admin.delivery-order.print', $data);

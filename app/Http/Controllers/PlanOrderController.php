@@ -8,9 +8,11 @@ use App\Http\Requests\PlanOrderCreateRequest;
 use App\Http\Requests\PlanOrderUpdateRequest;
 use App\Models\Branch;
 use App\Models\PlanOrder;
+use App\Models\PlanOrderItem;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Utilities\Constant;
+use App\Utilities\Services\CommonService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\PlanOrderService;
 use App\Utilities\Services\ProductService;
@@ -328,10 +330,9 @@ class PlanOrderController extends Controller
             ->where('plan_orders.is_printed', 0)
             ->get();
 
+        $itemsPerPage = 15;
         foreach ($planOrders as $planOrder) {
-            $totalPage = ceil(($planOrder->planOrderItems->count()) / 15);
-            $planOrder->total_page = $totalPage;
-            $planOrder->total_rows = $planOrder->planOrderItems->count();
+            CommonService::paginatePrintPages($planOrder, $planOrder->planOrderItems, $itemsPerPage);
         }
 
         $data = [
@@ -341,7 +342,7 @@ class PlanOrderController extends Controller
             'printTime' => $printTime,
             'startNumber' => $startNumber,
             'finalNumber' => $finalNumber,
-            'rowNumbers' => 35
+            'itemsPerPage' => $itemsPerPage
         ];
 
         return view('pages.admin.plan-order.print', $data);

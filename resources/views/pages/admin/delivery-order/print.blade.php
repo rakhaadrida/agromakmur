@@ -80,10 +80,6 @@
                 font-weight: bold
             }
 
-            .text-right {
-                text-align: right !important;
-            }
-
             .text-wrap {
                 white-space: normal !important;
             }
@@ -454,7 +450,7 @@
                     $start = $pageIndex * ($itemsPerPage ?? 14);
                     $pageItems = $deliveryOrder->deliveryOrderItems->slice($start, ($itemsPerPage ?? 14));
                 @endphp
-                <div class="print-container" id="printContainer">
+                <div class="print-container">
                     <table class="table table-sm table-responsive-sm table-order-item">
                         <thead class="print-header">
                             <tr>
