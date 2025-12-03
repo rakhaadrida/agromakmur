@@ -582,10 +582,40 @@ class SalesOrderController extends Controller
         return view('pages.admin.sales-order.index-print', $data);
     }
 
+    public function indexPrintAjax(Request $request) {
+        $filter = (object) $request->all();
+        $isPrinted = $filter->is_printed;
+
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery
+                ->where('sales_orders.is_printed', 1)
+                ->orderByDesc('sales_orders.date')
+                ->orderByDesc('sales_orders.id');
+        } else {
+            $baseQuery = $baseQuery
+                ->where('sales_orders.is_printed', 0)
+                ->orderBy('sales_orders.date');
+        }
+
+        $salesOrders = $baseQuery
+            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->get();
+
+        return response()->json([
+            'data' => $salesOrders,
+        ]);
+    }
+
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
+
+        $isPrinted = $filter->is_printed;
+        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -595,18 +625,23 @@ class SalesOrderController extends Controller
             $baseQuery = $baseQuery->where('sales_orders.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('sales_orders.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', $startOperator, $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', $finalOperator, $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('sales_orders.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('sales_orders.id', $finalOperator, $startNumber);
             }
         }
 
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('sales_orders.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('sales_orders.is_printed', 0);
+        }
+
         $salesOrders = $baseQuery
-            ->where('sales_orders.is_printed', 0)
             ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 

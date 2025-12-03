@@ -90,7 +90,7 @@
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="8" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
+                                                        <td colspan="9" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>

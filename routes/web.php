@@ -125,8 +125,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('plan-orders/{id}/detail', 'PlanOrderController@detail')->name('plan-orders.detail');
         Route::get('plan-orders/{id}/print', 'PlanOrderController@print')->name('plan-orders.print');
         Route::get('plan-orders/{id}/after-print', 'PlanOrderController@afterPrint')->name('plan-orders.after-print');
-        Route::get('plan-orders-index-print-ajax', 'PlanOrderController@indexPrintAjax')->name('plan-orders.index-print-ajax');
-        Route::get('plan-orders-generate-number-ajax', 'PlanOrderController@generateNumberAjax')->name('plan-orders.generate-number-ajax');
+        Route::get('plan-order-index-print-ajax', 'PlanOrderController@indexPrintAjax')->name('plan-orders.index-print-ajax');
+        Route::get('plan-order-generate-number-ajax', 'PlanOrderController@generateNumberAjax')->name('plan-orders.generate-number-ajax');
         Route::get('print-plan-orders', 'PlanOrderController@indexPrint')->name('plan-orders.index-print');
         Route::get('edit-plan-orders', 'PlanOrderController@indexEdit')->name('plan-orders.index-edit');
         Route::get('export-plan-orders', 'PlanOrderController@export')->name('plan-orders.export');
@@ -150,7 +150,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('product-transfers/{id}/detail', 'ProductTransferController@detail')->name('product-transfers.detail');
         Route::get('product-transfers/{id}/print', 'ProductTransferController@print')->name('product-transfers.print');
         Route::get('product-transfers/{id}/after-print', 'ProductTransferController@afterPrint')->name('product-transfers.after-print');
-        Route::get('product-transfers-index-print-ajax', 'ProductTransferController@indexPrintAjax')->name('product-transfers.index-print-ajax');
+        Route::get('product-transfer-index-print-ajax', 'ProductTransferController@indexPrintAjax')->name('product-transfers.index-print-ajax');
         Route::get('print-product-transfers', 'ProductTransferController@indexPrint')->name('product-transfers.index-print');
 
         Route::resource('sales-orders', 'SalesOrderController');
@@ -159,6 +159,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
         Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
         Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
+        Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');
         Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
         Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
