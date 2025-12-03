@@ -398,10 +398,40 @@ class DeliveryOrderController extends Controller
         return view('pages.admin.delivery-order.index-print', $data);
     }
 
+    public function indexPrintAjax(Request $request) {
+        $filter = (object) $request->all();
+        $isPrinted = $filter->is_printed;
+
+        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery
+                ->where('delivery_orders.is_printed', 1)
+                ->orderByDesc('delivery_orders.date')
+                ->orderByDesc('delivery_orders.id');
+        } else {
+            $baseQuery = $baseQuery
+                ->where('delivery_orders.is_printed', 0)
+                ->orderBy('delivery_orders.date');
+        }
+
+        $deliveryOrders = $baseQuery
+            ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
+            ->get();
+
+        return response()->json([
+            'data' => $deliveryOrders,
+        ]);
+    }
+
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
+
+        $isPrinted = $filter->is_printed;
+        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -411,18 +441,23 @@ class DeliveryOrderController extends Controller
             $baseQuery = $baseQuery->where('delivery_orders.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('delivery_orders.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', $startOperator, $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', $finalOperator, $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('delivery_orders.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('delivery_orders.id', $finalOperator, $startNumber);
             }
         }
 
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('delivery_orders.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('delivery_orders.is_printed', 0);
+        }
+
         $deliveryOrders = $baseQuery
-            ->where('delivery_orders.is_printed', 0)
             ->where('delivery_orders.status', '!=', Constant::DELIVERY_ORDER_STATUS_WAITING_APPROVAL)
             ->get();
 

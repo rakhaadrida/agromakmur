@@ -22,73 +22,122 @@
 
         <div class="row">
             <div class="card-body">
+                <ul class="nav nav-tabs" id="tabHeader" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-inactive active" id="notPrintedTab" data-toggle="pill" data-target="#notPrinted" type="button" role="tab" aria-controls="not-printed" aria-selected="true">Belum Cetak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-inactive" id="printedTab" data-toggle="pill" data-target="#printed" type="button" role="tab" aria-controls="printed" aria-selected="false">Sudah Cetak</a>
+                    </li>
+                </ul>
                 <div class="table-responsive">
-                    <div class="card show">
+                    <div class="card show card-tabs">
                         <div class="card-body">
                             <form action="{{ route('delivery-orders.print', 0) }}" method="GET" id="form">
                                 @csrf
-                                <div class="container so-container">
-                                    <div class="form-group row justify-content-center">
-                                        <label for="startNumber" class="col-auto col-form-label text-bold">Nomor SJ</label>
-                                        <span class="col-form-label text-bold">:</span>
-                                        <div class="col-2">
-                                            <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" data-size="6" title="Pilih Nomor Awal" required>
-                                                @foreach($deliveryOrders as $deliveryOrder)
-                                                    <option value="{{ $deliveryOrder->id }}" data-tokens="{{ $deliveryOrder->number }}">{{ $deliveryOrder->number }}</option>
-                                                @endforeach
-                                            </select>
+                                <div class="tab-content" id="tabContent">
+                                    <div class="tab-pane fade show active" id="notPrinted" role="tabpanel" aria-labelledby="notPrintedTab">
+                                        <div class="form-group row justify-content-center">
+                                            <label for="startNumber" class="col-auto col-form-label text-bold">Nomor SJ</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-2">
+                                                <select class="selectpicker print-transaction-select-picker" name="start_number" id="startNumber" data-live-search="true" data-size="6" title="Pilih Nomor Awal" required>
+                                                    @foreach($deliveryOrders as $deliveryOrder)
+                                                        <option value="{{ $deliveryOrder->id }}" data-tokens="{{ $deliveryOrder->number }}">{{ $deliveryOrder->number }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <label for="finalNumber" class="col-auto col-form-label text-bold ">s / d</label>
+                                            <div class="col-2">
+                                                <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" data-size="6" title="Pilih Nomor Akhir" disabled>
+                                                </select>
+                                            </div>
+                                            <div class="col-2 mt-1 main-transaction-button">
+                                                <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
+                                            </div>
                                         </div>
-                                        <label for="finalNumber" class="col-auto col-form-label text-bold ">s / d</label>
-                                        <div class="col-2">
-                                            <select class="selectpicker print-transaction-final-select-picker" name="final_number" id="finalNumber" data-live-search="true" data-size="6" title="Pilih Nomor Akhir" disabled>
-                                            </select>
+                                        <hr>
+                                        <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTableNotPrinted">
+                                            <thead class="text-center text-bold text-dark">
+                                                <tr>
+                                                    <th class="align-middle th-number-transaction-index">No</th>
+                                                    <th class="align-middle th-delivery-order-number-index">Nomor</th>
+                                                    <th class="align-middle th-delivery-order-date-index">Tanggal</th>
+                                                    <th class="align-middle th-delivery-order-number-index">Nomor SO</th>
+                                                    <th class="align-middle th-delivery-order-branch-index-print">Cabang</th>
+                                                    <th class="align-middle">Customer</th>
+                                                    <th class="align-middle th-delivery-order-status-index">Status</th>
+                                                    <th class="align-middle th-delivery-order-status-index">Admin</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="itemNotPrinted">
+                                                @forelse ($deliveryOrders as $key => $deliveryOrder)
+                                                    <tr class="text-dark">
+                                                        <td class="align-middle text-center">{{ ++$key }}</td>
+                                                        <td class="align-middle">
+                                                            <a href="{{ route('delivery-orders.detail', $deliveryOrder->id) }}" class="btn btn-sm btn-link text-bold">
+                                                                {{ $deliveryOrder->number }}
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
+                                                        <td class="text-center align-middle">
+                                                            <a href="{{ route('sales-orders.detail', $deliveryOrder->sales_order_id) }}" class="btn btn-sm btn-link text-bold">
+                                                                {{ $deliveryOrder->sales_order_number }}
+                                                            </a>
+                                                        </td>
+                                                        <td class="align-middle">{{ $deliveryOrder->branch_name }}</td>
+                                                        <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
+                                                        <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
+                                                        <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="8" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" name="is_printed" id="isPrinted" value="0">
+                                    </div>
+                                    <div class="tab-pane fade" id="printed" role="tabpanel" aria-labelledby="printedTab">
+                                        <div class="form-group row justify-content-center">
+                                            <label for="startNumber" class="col-auto col-form-label text-bold">Nomor SJ</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-2">
+                                                <select class="selectpicker print-transaction-select-picker" name="start_number_printed" id="startNumberPrinted" data-live-search="true" data-size="6" title="Pilih Nomor Awal">
+                                                    @foreach($deliveryOrders as $deliveryOrder)
+                                                        <option value="{{ $deliveryOrder->id }}" data-tokens="{{ $deliveryOrder->number }}">{{ $deliveryOrder->number }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <label for="finalNumber" class="col-auto col-form-label text-bold ">s / d</label>
+                                            <div class="col-2">
+                                                <select class="selectpicker print-transaction-final-select-picker" name="final_number_printed" id="finalNumberPrinted" data-live-search="true" data-size="6" title="Pilih Nomor Akhir" disabled>
+                                                </select>
+                                            </div>
+                                            <div class="col-2 mt-1 main-transaction-button">
+                                                <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
+                                            </div>
                                         </div>
-                                        <div class="col-2 mt-1 main-transaction-button">
-                                            <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
-                                        </div>
+                                        <hr>
+                                        <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTablePrinted">
+                                            <thead class="text-center text-bold text-dark">
+                                                <tr>
+                                                    <th class="align-middle th-number-transaction-index">No</th>
+                                                    <th class="align-middle th-delivery-order-number-index">Nomor</th>
+                                                    <th class="align-middle th-delivery-order-date-index">Tanggal</th>
+                                                    <th class="align-middle th-delivery-order-number-index">Nomor SO</th>
+                                                    <th class="align-middle th-delivery-order-branch-index-print">Cabang</th>
+                                                    <th class="align-middle">Customer</th>
+                                                    <th class="align-middle th-delivery-order-status-index">Status</th>
+                                                    <th class="align-middle th-delivery-order-status-index">Admin</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="itemPrinted">
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <hr>
-                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
-                                    <thead class="text-center text-bold text-dark">
-                                        <tr>
-                                            <th class="align-middle th-number-transaction-index">No</th>
-                                            <th class="align-middle th-delivery-order-number-index">Nomor</th>
-                                            <th class="align-middle th-delivery-order-date-index">Tanggal</th>
-                                            <th class="align-middle th-delivery-order-number-index">Nomor SO</th>
-                                            <th class="align-middle th-delivery-order-branch-index-print">Cabang</th>
-                                            <th class="align-middle">Customer</th>
-                                            <th class="align-middle th-delivery-order-status-index">Status</th>
-                                            <th class="align-middle th-delivery-order-status-index">Admin</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($deliveryOrders as $key => $deliveryOrder)
-                                            <tr class="text-dark">
-                                                <td class="align-middle text-center">{{ ++$key }}</td>
-                                                <td class="align-middle">
-                                                    <a href="{{ route('delivery-orders.detail', $deliveryOrder->id) }}" class="btn btn-sm btn-link text-bold">
-                                                        {{ $deliveryOrder->number }}
-                                                    </a>
-                                                </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
-                                                <td class="text-center align-middle">
-                                                    <a href="{{ route('sales-orders.detail', $deliveryOrder->sales_order_id) }}" class="btn btn-sm btn-link text-bold">
-                                                        {{ $deliveryOrder->sales_order_number }}
-                                                    </a>
-                                                </td>
-                                                <td class="align-middle">{{ $deliveryOrder->branch_name }}</td>
-                                                <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
-                                                <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
-                                                <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="7" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
                             </form>
                         </div>
                     </div>
@@ -103,26 +152,247 @@
     <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript">
-        let datatable = $('#dataTable').DataTable({
+        $.fn.dataTable.ext.order['dom-data-sort'] = function (settings, col) {
+            return this.api()
+                .column(col, { order: 'index' })
+                .nodes()
+                .map(function (td) {
+                    return $(td).data('sort');
+                });
+        };
+
+        let datatableNotPrinted = $('#dataTableNotPrinted').DataTable({
             "responsive": true,
             "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
+            },
+        });
+
+        let datatablePrinted = $('#dataTablePrinted').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            "language": {
+                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
+            },
         });
 
         $(document).ready(function() {
-            let deliveryOrders = @json($deliveryOrders);
+            let printedDeliveryOrders;
+            let notPrintedDeliveryOrders = @json($deliveryOrders);
+            let notPrintedTab = $('#notPrintedTab');
+            let printedTab = $('#printedTab');
+
+            notPrintedTab.on('click', function (e) {
+                e.preventDefault();
+
+                let table = $('#itemNotPrinted');
+                if(table.find('.item-row').length === 0) {
+                    displayDeliveryOrderData(table, 9, notPrintedTab, datatableNotPrinted, 0);
+                }
+
+                removeRequiredStartNumberElement($('#startNumberPrinted'), 0);
+            });
+
+            printedTab.on('click', function (e) {
+                e.preventDefault();
+
+                let table = $('#itemPrinted');
+                if(table.find('.item-row').length === 0) {
+                    displayDeliveryOrderData(table, 9, printedTab, datatablePrinted, 1);
+                }
+
+                removeRequiredStartNumberElement($('#startNumber'), 1);
+            });
 
             $('#startNumber').on('change', function (event) {
                 let selectedValue = $(this).val();
                 let finalNumber = $('#finalNumber');
 
-                const filteredDeliveryOrders = deliveryOrders.filter(item => item.id > selectedValue);
-                finalNumber.empty();
+                handleNumberChange(notPrintedDeliveryOrders, selectedValue, finalNumber, 0);
+            });
+
+            $('#startNumberPrinted').on('change', function (event) {
+                let selectedValue = $(this).val();
+                let finalNumber = $('#finalNumberPrinted');
+
+                handleNumberChange(printedDeliveryOrders, selectedValue, finalNumber, 1);
+            });
+
+            function displayDeliveryOrderData(table, colspan, tabItem, datatable, isPrinted) {
+                $.ajax({
+                    url: '{{ route('delivery-orders.index-print-ajax') }}',
+                    type: 'GET',
+                    data: {
+                        is_printed: isPrinted,
+                    },
+                    dataType: 'json',
+                    beforeSend: function () {
+                        table.empty();
+
+                        let loadingRow = loadingItemRow(colspan);
+                        table.append(loadingRow);
+                    },
+                    success: function(data) {
+                        let deliveryOrders = data.data;
+                        table.empty();
+
+                        if(isPrinted) {
+                            printedDeliveryOrders = deliveryOrders;
+                        } else {
+                            notPrintedDeliveryOrders = deliveryOrders;
+                        }
+
+                        if(deliveryOrders.length === 0) {
+                            datatable.clear();
+                            datatable.draw(false);
+                        } else {
+                            let startNumber = $('#startNumber');
+                            let startNumberPrinted = $('#startNumberPrinted');
+
+                            if(isPrinted) {
+                                startNumberPrinted.empty();
+                            } else {
+                                startNumber.empty();
+                            }
+
+                            let rowNumber = 1;
+                            let newRow;
+
+                            $.each(deliveryOrders, function(index, item) {
+                                newRow = deliveryOrderRow(rowNumber, item);
+
+                                table.append(newRow);
+                                rowNumber++;
+
+                                if(isPrinted) {
+                                    displayNumberData(startNumberPrinted, index, item)
+                                } else {
+                                    displayNumberData(startNumber, index, item);
+                                }
+                            });
+
+                            if(isPrinted) {
+                                startNumberPrinted.attr('required', true);
+                                disableFinalNumberElement($('#finalNumberPrinted'));
+                            } else {
+                                startNumber.attr('required', true);
+                                disableFinalNumberElement($('#finalNumber'));
+                            }
+
+                            if (datatable) {
+                                datatable.clear();
+
+                                if (deliveryOrders.length > 0) {
+                                    datatable.rows.add(table.find('tr'));
+                                }
+
+                                datatable.draw(false);
+                            }
+                        }
+                    },
+                })
+            }
+
+            function deliveryOrderRow(rowNumber, item) {
+                let baseUrl = `{{ route('delivery-orders.detail', 'id') }}`;
+                let urlDetail = baseUrl.replace('id', item.id);
+
+                let baseUrlSalesOrder = `{{ route('sales-orders.detail', 'id') }}`;
+                let urlSalesOrderDetail = baseUrlSalesOrder.replace('id', item.sales_order_id);
+
+                return `
+                    <tr class="text-dark item-row">
+                        <td class="align-middle text-center">${rowNumber}</td>
+                        <td class="align-middle">
+                            <a href="${urlDetail}" class="btn btn-sm btn-link text-bold">
+                                ${item.number}
+                            </a>
+                        </td>
+                        <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
+                        <td class="align-middle">
+                            <a href="${urlSalesOrderDetail}" class="btn btn-sm btn-link text-bold">
+                                ${item.sales_order_number}
+                            </a>
+                        </td>
+                        <td class="align-middle">${item.branch_name}</td>
+                        <td class="align-middle">${item.customer_name}</td>
+                        <td class="align-middle text-center">${getDeliveryOrderStatusLabel(item.status)}</td>
+                        <td class="align-middle text-center">${item.user_name}</td>
+                    </tr>
+                `;
+            }
+
+            function loadingItemRow(colspan) {
+                return `
+                    <tr>
+                        <td colspan="${colspan}" class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden"></span>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+
+            function formatDate(dateStr, format = 'd-M-y') {
+                const date = new Date(dateStr);
+
+                if (format === 'Ymd') {
+                    return date.toISOString().split('T')[0].replace(/-/g, '');
+                } else if (format === 'd-M-y') {
+                    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' });
+                }
+
+                return dateStr;
+            }
+
+            function displayNumberData(element, index, item) {
+                element.append(
+                    $('<option></option>', {
+                        value: item.id,
+                        text: item.number,
+                        'data-tokens': item.number,
+                    })
+                );
+
+                if(!index) {
+                    element.selectpicker({
+                        title: 'Pilih Nomor Awal'
+                    });
+                }
+
+                element.selectpicker('refresh');
+                element.selectpicker('render');
+            }
+
+            function disableFinalNumberElement(element) {
+                element.empty();
+                element.attr('disabled', true);
+                element.selectpicker('refresh');
+            }
+
+            function removeRequiredStartNumberElement(element, number) {
+                element.removeAttr('required');
+                $('#isPrinted').val(number);
+            }
+
+            function handleNumberChange(deliveryOrderData, selectedValue, finalElement, isPrinted) {
+                let filteredDeliveryOrders;
+
+                if(isPrinted) {
+                    filteredDeliveryOrders = deliveryOrderData.filter(item => item.id < selectedValue);
+                } else {
+                    filteredDeliveryOrders = deliveryOrderData.filter(item => item.id > selectedValue);
+                }
+
+                finalElement.empty();
 
                 if(filteredDeliveryOrders.length === 0) {
-                    finalNumber.attr('disabled', true);
+                    finalElement.attr('disabled', true);
                 } else {
                     $.each(filteredDeliveryOrders, function(key, item) {
-                        finalNumber.append(
+                        finalElement.append(
                             $('<option></option>', {
                                 value: item.id,
                                 text: item.number,
@@ -131,11 +401,21 @@
                         );
                     });
 
-                    finalNumber.attr('disabled', false);
+                    finalElement.attr('disabled', false);
                 }
 
-                finalNumber.selectpicker('refresh');
-            });
+                finalElement.selectpicker('refresh');
+            }
+
+            function getDeliveryOrderStatusLabel(status) {
+                const labels = {
+                    'ACTIVE': 'Aktif',
+                    'UPDATED': 'Update',
+                    'CANCELLED': 'Batal',
+                };
+
+                return labels[status];
+            }
         });
     </script>
 @endpush
