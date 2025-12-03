@@ -240,10 +240,40 @@ class ProductTransferController extends Controller
         return view('pages.admin.product-transfer.index-print', $data);
     }
 
+    public function indexPrintAjax(Request $request) {
+        $filter = (object) $request->all();
+        $isPrinted = $filter->is_printed;
+
+        $baseQuery = ProductTransferService::getBaseQueryIndex();
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery
+                ->where('product_transfers.is_printed', 1)
+                ->orderByDesc('product_transfers.date')
+                ->orderByDesc('product_transfers.id');
+        } else {
+            $baseQuery = $baseQuery
+                ->where('product_transfers.is_printed', 0)
+                ->orderBy('product_transfers.date');
+        }
+
+        $productTransfers = $baseQuery
+            ->where('product_transfers.status', '!=', Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL)
+            ->get();
+
+        return response()->json([
+            'data' => $productTransfers,
+        ]);
+    }
+
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
-        $startNumber = $filter->start_number ?? 0;
-        $finalNumber = $filter->final_number ?? 0;
+
+        $isPrinted = $filter->is_printed;
+        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
 
         $printDate = Carbon::parse()->isoFormat('dddd, D MMMM Y');
         $printTime = Carbon::now()->format('H:i:s');
@@ -253,18 +283,24 @@ class ProductTransferController extends Controller
             $baseQuery = $baseQuery->where('product_transfers.id', $id);
         } else {
             if($startNumber) {
-                $baseQuery = $baseQuery->where('product_transfers.id', '>=', $startNumber);
+                $baseQuery = $baseQuery->where('product_transfers.id', $startOperator, $startNumber);
             }
 
             if($finalNumber) {
-                $baseQuery = $baseQuery->where('product_transfers.id', '<=', $finalNumber);
+                $baseQuery = $baseQuery->where('product_transfers.id', $finalOperator, $finalNumber);
             } else {
-                $baseQuery = $baseQuery->where('product_transfers.id', '<=', $startNumber);
+                $baseQuery = $baseQuery->where('product_transfers.id', $finalOperator, $startNumber);
             }
         }
 
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('product_transfers.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('product_transfers.is_printed', 0);
+        }
+
         $productTransfers = $baseQuery
-            ->where('product_transfers.is_printed', 0)
+            ->where('product_transfers.status', '!=', Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL)
             ->get();
 
         $itemsPerPage = 42;

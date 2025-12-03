@@ -453,12 +453,12 @@ class GoodsReceiptController extends Controller
                 ->orderBy('goods_receipts.date');
         }
 
-        $planOrders = $baseQuery
+        $goodsReceipts = $baseQuery
             ->where('goods_receipts.status', '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
             ->get();
 
         return response()->json([
-            'data' => $planOrders,
+            'data' => $goodsReceipts,
         ]);
     }
 

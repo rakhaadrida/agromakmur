@@ -136,6 +136,7 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -435,7 +436,7 @@
                 const labels = {
                     'ACTIVE': 'Aktif',
                     'UPDATED': 'Update',
-                    'CANCEL': 'Batal',
+                    'CANCELLED': 'Batal',
                 };
 
                 return labels[status];
