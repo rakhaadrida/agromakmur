@@ -9,26 +9,7 @@ class SupplierSeeder extends Seeder
 {
     public function run(): void
     {
-        $suppliers = [
-            [
-                'name' => 'Supplier A',
-                'address' => 'Bandung, Jawa Barat',
-                'contact_number' => '08123456789',
-                'tax_number' => '228877554433',
-            ],
-            [
-                'name' => 'Supplier B',
-                'address' => 'Klaten, Jawa Tengah',
-                'contact_number' => '08987654321',
-                'tax_number' => null,
-            ],
-            [
-                'name' => 'Supplier C',
-                'address' => 'Palembang, Sumatera Selatan',
-                'contact_number' => '08561237894',
-                'tax_number' => '0055663338877',
-            ],
-        ];
+        $suppliers = json_decode(file_get_contents(database_path('seeders/json/suppliers.json')), true);
 
         foreach ($suppliers as $supplier) {
             Supplier::create([

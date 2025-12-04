@@ -11,19 +11,14 @@ class BranchSeeder extends Seeder
     {
         $branches = [
             [
-                'name' => 'Main Branch',
-                'address' => 'Solok, Sumatera Barat',
-                'phone_number' => '021-74759320',
+                'name' => 'Utama',
+                'address' => 'Jl. Raya Curup, Lubuk Linggau, Cawang Baru, Kec. Selupu Rejang, Bengkulu',
+                'phone_number' => '082282393930',
             ],
             [
-                'name' => 'New Branch',
-                'address' => 'Jambi',
-                'phone_number' => '0812359542902',
-            ],
-            [
-                'name' => 'Future Branch',
-                'address' => 'Bengkulu',
-                'phone_number' => '021-73820421',
+                'name' => 'Rejang Lebong',
+                'address' => 'Jl. Dr. AK. Gani Kabupaten Rejang Lebong',
+                'phone_number' => '082378961876',
             ],
         ];
 

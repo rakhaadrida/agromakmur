@@ -11,13 +11,13 @@ class MarketingSeeder extends Seeder
     {
         $marketings = [
             [
-                'name' => 'Marketing X',
+                'name' => 'Budi Santoso',
             ],
             [
-                'name' => 'Marketing Y',
+                'name' => 'Rina Wijaya',
             ],
             [
-                'name' => 'Marketing Z',
+                'name' => 'Agus Pratama',
             ],
         ];
 

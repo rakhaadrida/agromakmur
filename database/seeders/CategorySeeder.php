@@ -11,13 +11,52 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Category A',
+                'name' => 'AKARISIDA',
             ],
             [
-                'name' => 'Category B',
+                'name' => 'ALAT PERTANIAN',
             ],
             [
-                'name' => 'Category C',
+                'name' => 'ASAM AMINO',
+            ],
+            [
+                'name' => 'BENIH',
+            ],
+            [
+                'name' => 'DEKOMPOSER',
+            ],
+            [
+                'name' => 'FUNGISIDA',
+            ],
+            [
+                'name' => 'HERBISIDA',
+            ],
+            [
+                'name' => 'INSEKTISIDA',
+            ],
+            [
+                'name' => 'MOLUSKISIDA',
+            ],
+            [
+                'name' => 'PEREKAT',
+            ],
+            [
+                'name' => 'PLASTIK MULSA',
+            ],
+            [
+                'name' => 'PUPUK CAIR',
+            ],
+            [
+                'name' => 'PUPUK',
+            ],
+            [
+                'name' => 'PUPUK MIKRO',
+            ],
+            [
+                'name' => 'SPRAYER',
+            ],
+            [
+                'name' => 'ZPT',
             ],
         ];
 
