@@ -24,15 +24,11 @@ class UserBranchSeeder extends Seeder
             ],
             [
                 'user_id' => 3,
-                'branch_id' => 3,
-            ],
-            [
-                'user_id' => 4,
                 'branch_id' => 2,
             ],
             [
                 'user_id' => 4,
-                'branch_id' => 3,
+                'branch_id' => 2,
             ],
         ];
 

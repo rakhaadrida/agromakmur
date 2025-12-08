@@ -20,11 +20,11 @@ class BranchWarehouseSeeder extends Seeder
             ],
             [
                 'branch_id' => 2,
-                'warehouse_id' => 1,
+                'warehouse_id' => 2,
             ],
             [
                 'branch_id' => 2,
-                'warehouse_id' => 2,
+                'warehouse_id' => 3,
             ],
         ];
 

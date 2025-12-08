@@ -12,18 +12,18 @@ class PriceSeeder extends Seeder
     {
         $prices = [
             [
-                'name' => 'New Price',
-                'code' => 'NP',
+                'name' => 'Harga Beli',
+                'code' => 'HB',
                 'type' => Constant::PRICE_TYPE_GENERAL
             ],
             [
-                'name' => 'Old Price',
-                'code' => 'OP',
+                'name' => 'Harga Grosir',
+                'code' => 'HG',
                 'type' => Constant::PRICE_TYPE_RETAIL
             ],
             [
-                'name' => 'Wholesale Price',
-                'code' => 'WP',
+                'name' => 'Harga Eceran',
+                'code' => 'HE',
                 'type' => Constant::PRICE_TYPE_WHOLESALE
             ],
         ];

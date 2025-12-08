@@ -9,17 +9,7 @@ class UnitSeeder extends Seeder
 {
     public function run(): void
     {
-        $units = [
-            [
-                'name' => 'Pcs',
-            ],
-            [
-                'name' => 'Kg',
-            ],
-            [
-                'name' => 'Dus',
-            ],
-        ];
+        $units = json_decode(file_get_contents(database_path('seeders/json/units.json')), true);
 
         foreach ($units as $unit) {
             Unit::create([

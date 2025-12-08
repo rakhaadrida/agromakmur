@@ -12,18 +12,18 @@ class WarehouseSeeder extends Seeder
     {
         $warehouses = [
             [
-                'name' => 'Warehouse E',
-                'address' => 'Bandung, Jawa Barat',
+                'name' => 'Pusat',
+                'address' => 'Selupu Rejang, Bengkulu',
                 'type' => Constant::WAREHOUSE_TYPE_PRIMARY,
             ],
             [
-                'name' => 'Warehouse F',
-                'address' => 'Klaten, Jawa Tengah',
+                'name' => 'Rejang Lebong',
+                'address' => 'Jl. Dr. AK. Gani',
                 'type' => Constant::WAREHOUSE_TYPE_SECONDARY,
             ],
             [
-                'name' => 'Warehouse G',
-                'address' => 'Palembang, Sumatera Selatan',
+                'name' => 'Cadangan',
+                'address' => 'Lubuk Linggau',
                 'type' => Constant::WAREHOUSE_TYPE_SECONDARY,
             ],
         ];

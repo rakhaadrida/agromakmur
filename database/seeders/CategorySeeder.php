@@ -9,56 +9,7 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $categories = [
-            [
-                'name' => 'AKARISIDA',
-            ],
-            [
-                'name' => 'ALAT PERTANIAN',
-            ],
-            [
-                'name' => 'ASAM AMINO',
-            ],
-            [
-                'name' => 'BENIH',
-            ],
-            [
-                'name' => 'DEKOMPOSER',
-            ],
-            [
-                'name' => 'FUNGISIDA',
-            ],
-            [
-                'name' => 'HERBISIDA',
-            ],
-            [
-                'name' => 'INSEKTISIDA',
-            ],
-            [
-                'name' => 'MOLUSKISIDA',
-            ],
-            [
-                'name' => 'PEREKAT',
-            ],
-            [
-                'name' => 'PLASTIK MULSA',
-            ],
-            [
-                'name' => 'PUPUK CAIR',
-            ],
-            [
-                'name' => 'PUPUK',
-            ],
-            [
-                'name' => 'PUPUK MIKRO',
-            ],
-            [
-                'name' => 'SPRAYER',
-            ],
-            [
-                'name' => 'ZPT',
-            ],
-        ];
+        $categories = json_decode(file_get_contents(database_path('seeders/json/categories.json')), true);
 
         foreach ($categories as $category) {
             Category::create([

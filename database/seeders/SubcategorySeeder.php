@@ -9,23 +9,7 @@ class SubcategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $subcategories = [
-            [
-                'name' => 'Subcategory X',
-                'reminder_limit' => 50,
-                'category_id' => 2
-            ],
-            [
-                'name' => 'Subcategory Y',
-                'reminder_limit' => 100,
-                'category_id' => 1
-            ],
-            [
-                'name' => 'Subcategory Z',
-                'reminder_limit' => 30,
-                'category_id' => 3
-            ],
-        ];
+        $subcategories = json_decode(file_get_contents(database_path('seeders/json/subcategories.json')), true);
 
         foreach ($subcategories as $subcategory) {
             Subcategory::create([
