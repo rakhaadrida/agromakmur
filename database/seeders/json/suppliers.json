@@ -1,893 +1,542 @@
 [
     {
         "name": "PT MUKTI JAYA AGRO ",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
         "name": "MITRA PETANI ANDALAS (CBA)",
         "address": "BENGKULU",
         "contact_number": "085946997164",
-        "sales": "FENZA AGUSMAN",
-        "nosales": "082377419980",
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": ""
     },
     {
         "name": "CV USAHA TANI ",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "FIKI (BENIH) /SUCI (PESTISIDA)",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "PT BANGUN SAHAQBAT TANI (DGW)",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "TIO",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "WIRA ",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "DANIL",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "PAN ",
         "address": "LAAMPUNG",
-        "contact_number": null,
-        "sales": "ARMAN",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "LAPAN MAS AGRO",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "EKA",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "ASIANG",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "ROSYID",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
         "name": "UNITAMA",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-
         "name": "WINNER",
         "address": "JAMBI",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 11,
         "name": "BBL",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 12,
         "name": "MAHAKAM",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 13,
         "name": "TANI MURNI",
         "address": "JAWA BARAT",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 14,
         "name": "BINTANG ASIA",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 15,
         "name": "Pembelian Kontan",
         "address": "CURUP",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 16,
         "name": "TOKO BUNGSU JAYA",
         "address": "JL.M.HASAN NO.48 KEPALA SIRING-CURUP TENGAH",
         "contact_number": "082176010427",
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": "-"
     },
     {
-        "idsup": 17,
         "name": "ZAHRI",
-        "address": null,
-        "contact_number": null,
-        "sales": "ZAHRI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 18,
         "name": "IKBAL",
         "address": "CURUP",
-        "contact_number": null,
-        "sales": "IKBAL",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 19,
         "name": "PAK H. LIS",
         "address": "TUNAS HARAPAN",
-        "contact_number": null,
-        "sales": "PAK H. LIS",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 20,
         "name": "RIDHO JAYA PERKASA",
-        "address": null,
-        "contact_number": null,
-        "sales": "RISKAN",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 21,
         "name": "TOKO TANI SUBUR",
         "address": "JL. Lettu Hamid No. 65 Pagar Alam",
         "contact_number": "081367007345",
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": ""
     },
     {
-        "idsup": 22,
         "name": "CV SUMBER HASIL KARYA MANDIRI",
         "address": "Desa Air Melas Bawah Kec. Curup Timur Kab. Rejang Lebong",
         "contact_number": "085268194143",
-        "sales": "UDA SONI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": ""
     },
     {
-        "idsup": 23,
         "name": "UDIN",
-        "address": null,
-        "contact_number": null,
-        "sales": "UDIN",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 24,
         "name": "BARAYA",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "AGUS",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 25,
         "name": "MEROKE",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "ZAINURI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 26,
         "name": "MDT MERAH DELIMA TANI",
         "address": "LUBUK LINGGAU",
-        "contact_number": null,
-        "sales": "GRAVIN",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 27,
         "name": "PT MARM MAJU SEJAHTERA",
         "address": "LAMPUNG TENGAH",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 28,
         "name": "FMC",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 29,
         "name": "CV. CAHAYA AGRO LAKSANA",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 30,
         "name": "ARI-BERKAT TANI",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 31,
         "name": "ZONA AGRO",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "ROSYID",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 32,
         "name": "SUMER HASIL ",
         "address": "AIR PUTIH",
-        "contact_number": null,
-        "sales": "UDA SONI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 33,
         "name": "HIKMAH TANI",
         "address": "LAMPUNG",
-        "contact_number": null,
-        "sales": "ALY",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 34,
         "name": "PT. MIOCHEM WINNER INDONESIA",
-        "address": null,
-        "contact_number": null,
-        "sales": "DENI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 35,
         "name": "PT. TAZAR GUNA MANDIRI",
         "address": "BENGKULU",
         "contact_number": "08273652355",
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": ""
     },
     {
-        "idsup": 36,
         "name": "BINTANG TANI MANDIRI ",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 37,
         "name": "USAHA TANI GINTUNG",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 38,
         "name": "PT MULTIDAYA PUTRA SEJAHTERA",
         "address": "KARAWANG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 39,
         "name": "TOKO RIDHO TANI",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 40,
         "name": "PT PPI (PERUSAHAAN PERDAGANGAN INDO",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 41,
         "name": "DENI",
         "address": "GELANG",
-        "contact_number": null,
-        "sales": "DENI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 42,
         "name": "ARUL",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 43,
         "name": "GIGI",
-        "address": null,
-        "contact_number": null,
-        "sales": "KAK PRI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 44,
         "name": "DA IN",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 45,
         "name": "PAK YOHANES",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 46,
         "name": "SALIM AGRO MANDIRI",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "HABIBI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 47,
         "name": "PT INDOIN",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 48,
         "name": "MEMED",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 49,
         "name": "TRI BERKAT AGRO",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 50,
         "name": "MANDIRI SEJAHTERA BENGKULU",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 51,
         "name": "PT PRABU AGRO MANDIRI ( MUTIARA BUM",
         "address": "CURUP",
-        "contact_number": null,
-        "sales": "ZHANI",
-        "nosales": "081273697685",
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 52,
         "name": "NAMDHARISEED",
         "address": "MALANG",
-        "contact_number": null,
-        "sales": "RIO",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 53,
         "name": "MARYANTO.PO",
-        "address": null,
-        "contact_number": null,
-        "sales": "MARYANTO",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 54,
         "name": "GOLDENFARM",
         "address": "PAYAKUMBUH",
-        "contact_number": null,
-        "sales": "PAK SYARIF",
-        "nosales": "081276027173",
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 55,
         "name": "UD JAYA AGRO SEJAHTERA",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 56,
         "name": "JERI",
         "address": "PEKALONGAN",
-        "contact_number": null,
-        "sales": "JERI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 57,
         "name": "ARMAN",
         "address": "SP LEBONG",
-        "contact_number": null,
-        "sales": "GONDRONG",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 58,
         "name": "SEMBADA",
         "address": "JAMBI",
-        "contact_number": null,
-        "sales": "SS",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 59,
         "name": "WARTAN",
         "address": "DESATELADAN",
-        "contact_number": null,
-        "sales": "WARTAN",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 60,
         "name": "INIBAE",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "BB",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 61,
         "name": "PT.FRANC AGRO CHEMICAL",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 62,
         "name": "CV MAXCIM JAYA",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 63,
         "name": "BAROKAH",
         "address": "SUBAN/LAMPUNG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 64,
         "name": "SAPRONI ",
         "address": "JARAI",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 65,
         "name": "PAK BUDI BIOTIS BENGKULU",
         "address": "BKL",
-        "contact_number": null,
-        "sales": "ADI KAMPRET",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 66,
         "name": "ARIS",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 67,
         "name": "ALY",
         "address": "LAMPUNG",
-        "contact_number": null,
-        "sales": "RAHMAT",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 68,
         "name": "BOLA MAS",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": "08176889998",
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 69,
         "name": "BBB",
         "address": "CURUP",
-        "contact_number": null,
-        "sales": "AGUNG",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 70,
         "name": "MENEMUKAN BARANG DI GUDANG",
         "address": "GUDANG BELAKANG",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 71,
         "name": "CINTA TANI",
         "address": "PAYAKUMBUH",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 72,
         "name": "CV LINTAS",
         "address": "PALEMBANG",
         "contact_number": "085269380212",
-        "sales": "IKHSAN ",
-        "nosales": "085269380212",
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": "-"
     },
     {
-        "idsup": 73,
         "name": "IMAM TANI",
         "address": "PAGAR ALAM ",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 74,
         "name": "EKA-SYIFA TANI",
-        "address": null,
-        "contact_number": null,
-        "sales": "EKA",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 75,
         "name": "UTAMA MESIN",
         "address": "JL.May Salim Batubara No.73",
         "contact_number": "082312209003",
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "tax_number": "-"
     },
     {
-        "idsup": 76,
         "name": "HARYANTO ",
         "address": "CURUP",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 77,
         "name": "STOK ANTAH BERANTAH TIBA TIBA ADA",
         "address": "ANTAH",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 78,
         "name": "AGROMAKMUR2",
-        "address": null,
-        "contact_number": null,
-        "sales": "AGRO MAKMUR 2",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 79,
         "name": "PT PRIMA AGRO YUCOMS",
         "address": "MUKO MUKO",
-        "contact_number": null,
-        "sales": "RIYAN",
-        "nosales": "085383390582",
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 80,
         "name": "MAS PURWADI-AMANAH TANI",
         "address": "SAMBI REJO",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
+        "contact_number": "",
         "tax_number": "0"
     },
     {
-        "idsup": 81,
         "name": "JERI KAMPANG",
         "address": "PEKALONGAN",
-        "contact_number": null,
-        "sales": "JERI KAMPRET",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 82,
         "name": "INDO TANI",
         "address": "BATUSANGKAR, LIMA KAUM",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 83,
         "name": "PT INFERCO",
         "address": "PALEMBANG",
-        "contact_number": null,
-        "sales": "RIZKY",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 84,
         "name": "PT.EXCEL",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 85,
         "name": "SAS PALEMBANG",
         "address": "PLMBNG",
-        "contact_number": null,
-        "sales": "VERY",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 86,
         "name": "TALI MAJUN DARI GARUT",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": "-"
     },
     {
-        "idsup": 87,
         "name": "DOHAR AGRO MANDIRI",
-        "address": null,
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "address": "",
+        "contact_number": "",
+        "tax_number": ""
     },
     {
-        "idsup": 88,
         "name": "ETONG",
         "address": "BENGKULU",
-        "contact_number": null,
-        "sales": "HENDRI",
-        "nosales": "085279295878",
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 89,
         "name": "ASA ",
         "address": "LAMPUNG",
-        "contact_number": null,
-        "sales": "PAK TONI",
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": "-"
     },
     {
-        "idsup": 90,
         "name": "TANI RAYA SEJAHTERA",
         "address": "PAGAR ALAM",
-        "contact_number": null,
-        "sales": null,
-        "nosales": null,
-        "noizinpt": null,
-        "tax_number": null
+        "contact_number": "",
+        "tax_number": ""
     }
 ]
