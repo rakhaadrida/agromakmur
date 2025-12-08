@@ -9,29 +9,7 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $products = [
-            [
-                'name' => 'Product M',
-                'sku' => '001',
-                'category_id' => 1,
-                'subcategory_id' => 2,
-                'unit_id' => 2
-            ],
-            [
-                'name' => 'Product N',
-                'sku' => '002',
-                'category_id' => 3,
-                'subcategory_id' => 3,
-                'unit_id' => 1
-            ],
-            [
-                'name' => 'Product O',
-                'sku' => '003',
-                'category_id' => 2,
-                'subcategory_id' => 1,
-                'unit_id' => 3
-            ],
-        ];
+        $products = json_decode(file_get_contents(database_path('seeders/json/products.json')), true);
 
         foreach ($products as $product) {
             Product::create([

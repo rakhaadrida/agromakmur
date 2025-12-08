@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             SubcategorySeeder::class,
             UnitSeeder::class,
             ProductSeeder::class,
+            ProductPriceSeeder::class,
+            ProductStockSeeder::class,
             UserBranchSeeder::class,
             BranchWarehouseSeeder::class
         ]);
