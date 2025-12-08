@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('tax_number')->nullable();
             $table->double('credit_limit')->default(0);
             $table->integer('tempo')->default(0);
-            $table->foreignId('marketing_id')->references('id')->on('marketings')->onDelete('cascade');
+            $table->foreignId('marketing_id')->nullable()->references('id')->on('marketings')->onDelete('cascade');
             $table->boolean('is_destroy')->default(false);
             $table->timestamps();
             $table->softDeletes();

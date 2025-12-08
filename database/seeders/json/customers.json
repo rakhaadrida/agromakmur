@@ -1,0 +1,2603 @@
+[
+    {
+        "name": "H.ROZALI",
+        "address": "CURUP",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK KHAIRUL ",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG TOMAS / PUTRI REJANG TANI",
+        "address": "KEPAYANG",
+        "contact_number": "08",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK HERMIANTO",
+        "address": "PASMA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBAK RIA / REYSYA TANI",
+        "address": "AIR LANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ENDANG / GILANG TANI",
+        "address": "UJAN MAS",
+        "contact_number": "082385870827",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ZULFIKAR / CAHAYA TANI",
+        "address": "SIMPANG NANGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ERIK - GEO TANI",
+        "address": "SINDANG JAYA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG MUHAMMAD",
+        "address": "MANGKURAJO ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "WINDARDI / TANI MAJU ",
+        "address": "PEKALONGAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK FIRMAN / REJA TANI",
+        "address": "ARGA MAKMUR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS LASWANTO",
+        "address": "TANGSI BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BUK SRI LESTARI / ANUGRAH TANI",
+        "address": "BUKIT SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS WANTO / TANI BARU",
+        "address": "AIR BANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG JAYA - SANAK TANI",
+        "address": "AIR PIKAT",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ARMAN / ZIRA TANI ",
+        "address": "AIR BENING",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBAK INA / UD SAKINAH",
+        "address": "SUMBER SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "FEDRI TRI SATRIYO / WARU AGRI",
+        "address": "KABAWETAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YOKI / MITRA AGRO TANI",
+        "address": "SEMBE LAMA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK H.LIS / ANUGRAH TANI",
+        "address": "TUNAS HARAPAN ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS PURWADI / AMANAH TANI",
+        "address": "SAMBIREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG EKA / SYIFA TANI",
+        "address": "AIR MERAH",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS EKO / BINTANG ASIA",
+        "address": "PEKALONGAN",
+        "contact_number": "081373648934",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YADI / JARAI",
+        "address": "JARAI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS KASIYONO / TIRTA TANI",
+        "address": "PEKALONGAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "REZA / BAROKAH TANI",
+        "address": "AIR RUSO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK MUL / ALDI TANI",
+        "address": "BUMI SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK FAUZI / BUMI TANI",
+        "address": "PULOKETO BARU ",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DEVI / GG TANI",
+        "address": "BERINGIN TIGO",
+        "contact_number": "085664686993",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK JAFAR / FMT",
+        "address": "SIMPANG BUKIT KABA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK RENI / SUMBER BAROKAH TANI",
+        "address": "SURO BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK RABIUS",
+        "address": "AIR DINGIN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DONA",
+        "address": "AIR PIKAT",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK ALFIAH",
+        "address": "KAMPUNG MELAYU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG TONI / YADI TANI",
+        "address": "BARU MANIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK MERDHY ",
+        "address": "AIR BENING",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK ISMAEL / ERIS MAKMUR",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG REZA / AMANAH TANI",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG MIKO / RAZI TANI MANDIRI",
+        "address": "PAL BATU",
+        "contact_number": "082244954536",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "SUNDARI / ANDI AGRO",
+        "address": "AIR DUKU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ARUL / ASRI TANI",
+        "address": "GELANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK ANTON ",
+        "address": "PAL DELAPAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG IKBAL",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "HERI / SUBUR MAKMUR",
+        "address": "SURO MUNCAR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "EKO / MUTIARA BUMI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS PONO / PONO AGRO",
+        "address": "BARU MANIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG PUTRA",
+        "address": "BLITAR",
+        "contact_number": "081272875700",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK JAYA / HIDAYAH TANI",
+        "address": "KAMPUNG MELAYU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBA TINA / WARTAN ABADI",
+        "address": "DESA TELADAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "JERI / JERI TANI ",
+        "address": "PEKALONGAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SUHADA / SEDULUR TANI",
+        "address": "BANDUNG BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS REDO / GIBRAN TANI",
+        "address": "AIR BANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG SYAIFUL / DEWI SRI",
+        "address": "BUMI SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG BOY",
+        "address": "UJAN MAS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG FERDI / FERDI TANI",
+        "address": "BUMI SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG FAHMI / TANI SUBUR",
+        "address": "KEPAYANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG CANDRA / SINAR KABA",
+        "address": "GRONGGONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS MUJIRAN / NARA TANI",
+        "address": "BUMI SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG KHANIF /DIVA TANI",
+        "address": "MERIGI JALUR 2",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ILHAM / TANI MURNI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK PRI / RAVEL",
+        "address": "CAWANG LAMO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG TOPAN / MERIGI JAYA TANI",
+        "address": "MERIGI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK MAMIK ",
+        "address": "TEMPEL",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DENNY / AGRO CHOWWY",
+        "address": "SUMBER URIP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DANI HAMDAMI",
+        "address": "AIR RUSO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ISMAIL / SUMBER REJEKI",
+        "address": "SAMBIREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BAROKAH TANI ",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBAK SRI / SRI MITRA TANI",
+        "address": "PAL BATU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG MUL / TOKO AYRIS",
+        "address": "KARANG PINANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RIDHO / RIDHO JAYA TANI",
+        "address": "AIR DUKU",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "NGATIONO / MITRA AMANAH TANI II",
+        "address": "KAYU MANIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "UDA ZUL / SAHABAT TANI ",
+        "address": "TIKUNGAN 3 BERADIK",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG HENDRY / EXEL",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS AGUS",
+        "address": "AIR LANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK YUYUN / RIMBUN TANI",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK ASEP ",
+        "address": "SIMPANG CBS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK RISKAN / RIDHO TANI",
+        "address": "LUBUK LINGGAU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG GRAVIN / MDT",
+        "address": "LINGGAU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "SAPRONI OKTAVIANUS / TANI MAKMUR",
+        "address": "PASAR JARAI PAGAR ALAM",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "EEN / AISYAH TANI",
+        "address": "CAWANG BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK GEMBOL",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ALI MARTOPO / DJAYA TANI II",
+        "address": "PASAR ATAS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS YANTO / SAHABAT TANI",
+        "address": "AIR DUKU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK YATMI",
+        "address": "AIR MELES ATAS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YAN / MANDIRI P.O",
+        "address": "TALANG ULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "TIO / SUMBER SEJAHTERA",
+        "address": "KAYU MANIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK YANTO",
+        "address": "AIR NAU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK RIZAL / DOHAR TANI",
+        "address": "DESA TELADAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "IKBAL / NUANSA TANI",
+        "address": "KAMPUNG DELIMA",
+        "contact_number": "089528937644",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BU NUR",
+        "address": "AIR LANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK MEMED / RIZKI TANI",
+        "address": "KEPAYANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RAHMAT GM",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BUK EVA / MJA ",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS BAMBANG / GITA TANI",
+        "address": "BELITAR MUKA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MEDO / TOPOS AGRO",
+        "address": "PERBO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG AMRAN / TOKO RIVAN ",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YASIN / SYARIAH TANI",
+        "address": "SUMBER URIP",
+        "contact_number": "081273794589",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG RUSDI / SINAR TALANG ULU",
+        "address": "TALANG ULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS AAN ",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK H. LEBOY",
+        "address": "KARANG ANYAR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ZAINURI / MTJ",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS HARYANTO / RAJA TANI",
+        "address": "PASAR HEWAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS BISRI / CBA",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS YOGI",
+        "address": "KAMPUNG MELAYU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG IDRIS / BERKAH TANI",
+        "address": "SIMPANG NANGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ARIF / HIKMAH TANI",
+        "address": "SIMPANG BUKIT KABA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK BOYMAN / MAJU JAYA TANI",
+        "address": "BLITAR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "IBU MAWARDAH/TANI SUBUR",
+        "address": "PAGAR ALAM",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS EKO / MUTIARA BUMI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG HAFIS / PUTRA JAYA TANI",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DIEN ",
+        "address": "PELALO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MUHAMMAD JIMMI",
+        "address": "SIMPANG PERBO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS WAWAN / KRESNA",
+        "address": "SELUMA ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MARYANTO / MARYANTO P.O",
+        "address": "MUJUREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK AGUNG / BBB",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK GIONO / PANDU PUTRA TANI",
+        "address": "SAMBIREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK LEMAN",
+        "address": "BARU MANIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS SADLI ",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS ROSYID / BERLIAN AGRO MANDIRI",
+        "address": "PAL BATU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BILLSYERA",
+        "address": "APK BANDUNG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG NIKO",
+        "address": "SB. BENING",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK PRI / BAYER",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "HIJAU TANI / YONDRI - DANDAN",
+        "address": "BENGKULU SELATAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK MINO / USAHA BARU ",
+        "address": "AIR RUSO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SATRIA",
+        "address": "KARANG ANYAR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "H. YATA ",
+        "address": "BRG. 3 ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "AGUS / BARAYA",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ARI / BAZAR TANI",
+        "address": "SIMPANG LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SUJAI / BAROKAH TANI",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK RISWADI ",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS HANAFI / BAYER",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "POPON / DANDAN / INDOIN",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS DONI / BINTANG ASIA",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YOTO",
+        "address": "AIR RUSO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG RIO / KJT",
+        "address": "SUMBER BENING",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG KAMARUD / MBT",
+        "address": "SIMPANG BUKIT",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS DIDI / CAHAYA AGRO",
+        "address": "LINGGAU",
+        "contact_number": "085267777888",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YOHANES",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "TRI JULIANSYAH ",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "REZA / CBA",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MANG HAKIKI / MAXXI AGRI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK ANDREAS / DUTA TANI",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUNUS/ANUGRAH TANI",
+        "address": "SIMPANG BUKIT",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS MUNGKARYANTO",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS TONI / RAJA PUTRA TANI",
+        "address": "SIMPANG BUKIT KABA",
+        "contact_number": "085268500322",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YUSUF / DUTA TANI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS TRI MARYANTO / JAYA TANI",
+        "address": "SINDANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YANUAR / KONCO TANI",
+        "address": "AIR BENING",
+        "contact_number": "0800000000",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DAPIT ",
+        "address": "AIR BENING",
+        "contact_number": "085284701621",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK DEDI - PETANI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS HANIF / ZIKRI AGRO",
+        "address": "KARANG JAYA",
+        "contact_number": "081632281827",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG DANDAN - INDOIN",
+        "address": "CURUP",
+        "contact_number": "00000000000",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK YUSRIZAL / AGRO MANDIRI",
+        "address": "JALUR DUA",
+        "contact_number": "082391384743",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "H. TOHARMAN ",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG GIGI / BAYER",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BUDE MUT",
+        "address": "KAYU MANIS",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS HARIANTO / RAJA TANI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK KODAR",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK MISLAN",
+        "address": "SUMBER BENING",
+        "contact_number": "082179951514",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS ZANI / MUTIARA BUMI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG YUDI",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG DENI / MIO",
+        "address": "JAMBI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS WAWAN / PELENGKAP TANI ",
+        "address": "SELUMA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "REKO ADI SAPUTRA - INDOIN",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MARZA / CAHAYA TANI ",
+        "address": "SIMPANG NANGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "JUKI / Namdhari Seeds",
+        "address": "SUBAN AYAM",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK LINA ",
+        "address": "SIMPANG KANDIS",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK H. KHOLIL",
+        "address": "PAL BATU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PETANI",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK HERI/JAYA TANI",
+        "address": "SUBAN AYAM",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "TANJUNG TANI LAMPUNG",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ACRONESIA BENGKULU",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "REKO",
+        "address": "PALAK CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS WANDI / MAJU JAYA TANI ",
+        "address": "AIR MELES",
+        "contact_number": "082185098619",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK LUX",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "STOK KOSONG ",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "EKO - APUR",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK AMRI / POLRES",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "Mas Destri/ Ruso Tani",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS SUCI/UT",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK OLAND",
+        "address": "SIMPANG NANGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PETUGAS / NAMDHARI SEED",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "00000",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "OKI",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SYARIF",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK HABIBI/RAFLESIA PUTRA TANI ",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK DAYAT",
+        "address": "SENGKOANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG MECKI/MAHAKAM",
+        "address": "SUBAN AYAM",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS PUR/TANI MAKMUR",
+        "address": "SINAR GUNUNG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK MIMI",
+        "address": "PAL 8",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK SRI",
+        "address": "MJ REJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK HERI PURWANTO",
+        "address": "SMPANG BUKIT KABA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK H. HASAN",
+        "address": "SUBAN AYAM",
+        "contact_number": "085179907373",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK PUR",
+        "address": "SINAR GUNUNG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DERI",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MARZUKI/NAMDHARI",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG MADI / UTAMA TANI ",
+        "address": "PASAR PANORAMA ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SODIK ",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DENI / ABDI TANI",
+        "address": "KABAWETAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS ROZI FMC",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BIAN / QUIN TANI ",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK ANDI",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "JEIFA / SALIM AGRO MANDIRI",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MANG HABIB",
+        "address": "PAL 8",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK EDI",
+        "address": "LUBUK ALAI",
+        "contact_number": "085833157909",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "NIZAR",
+        "address": "AIR PIKAT",
+        "contact_number": "082170268068",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "FERLI AGUSTA ",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RAJU",
+        "address": "TALANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "LINTAS TANI / IKHSAN",
+        "address": "PALEMBANG ",
+        "contact_number": "085269380212",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BEBEN / GILANG ABADI TANI ",
+        "address": "TUNAS ",
+        "contact_number": "082179680248",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "FITER - BERKAT TANI JAYA",
+        "address": "SIMPANG MACANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK BENI",
+        "address": "TEMPEL",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "HIDAYAT - SOLUSI TANI ",
+        "address": "SUMBER BENING",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ANDI / AGRO MITRA ABADI",
+        "address": "PADANG SERAI BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "SUPRI/UPL",
+        "address": "CURUP",
+        "contact_number": "082288616505",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS RUBIANTO",
+        "address": "TANGSIDUREN-KABAWETAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK REDI ",
+        "address": "PAL BATU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ZULFIKAR / BALE TANI ",
+        "address": "KARANG JAYA",
+        "contact_number": "085260997727",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DEDI / SAHABAT ABADI",
+        "address": "AIR BANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS PUR/GREEN PANTAS",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "CV. SURYA",
+        "address": "JL KELAPA REJOSARI, TENAYAN RAYA KOTA PEKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "LINA ",
+        "address": "SP KANDIS / BENGKULU",
+        "contact_number": "085378735975",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ALDI PITOK",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BIO",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "IRAWAN ",
+        "address": "SUMBER SARI",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAREN TANI",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "TOKO SAGALO",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK AZWAN",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK MAN",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "HABIB TANI",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "AGIVO",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "CANDRA/SYNGENTA",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK LAMSARI ",
+        "address": "KAYU MANIS",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK JALAL ",
+        "address": "AIR MELES ATAS ",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "AGRO MAKMUR 2",
+        "address": "RT 002 / RW 003 DUSUN CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK SALSA",
+        "address": "KAYU MANIS",
+        "contact_number": "085669359162",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK NANA",
+        "address": "MUARA AMAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ANDI / PAK TANI ",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "JEMI / NUGEN",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BAYU / BIOTIS",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "EDI SUPRATO/PUTRI JAYA ",
+        "address": "WR POJOK ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PJ TANI",
+        "address": "UJUNG TANJUNG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK SULAIMAN / HAFIS ",
+        "address": "DESA TELADAN ",
+        "contact_number": "085839514544",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RISWAN / DGW",
+        "address": "CURUP",
+        "contact_number": "082298479377",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK UCOK - AGRO TANI",
+        "address": "MUARA AMAN",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK LUSI / DAFFA TANI",
+        "address": "TALANG LEAK",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK LULUH",
+        "address": "SEMELAKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBA THINA ",
+        "address": "PAL 8 ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK DE TOP ",
+        "address": "SUKARAJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "TOMI - PETROKIMIA ",
+        "address": "CURUP",
+        "contact_number": "085367366961",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "QUEEN TANI",
+        "address": "PAGAR GUNUNG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ALDI / CBA",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS YOSPIQ / BENIH CITRA ASIA",
+        "address": "BENGKULU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ADI ",
+        "address": "SUKA SARI ",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DODI ",
+        "address": "AIR BANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK RICKY / TOKO ARUMI",
+        "address": "BERINGIN 3",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ANDRE / AMA",
+        "address": "PADANG SERAI, BENGKULU",
+        "contact_number": "081278464786",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DERI",
+        "address": "AIR DINGIN SINDANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DEVI / YB TANI",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KABUL / MAHAKAM ",
+        "address": "CURUP ",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK KHAIRUL /  5 A",
+        "address": "AIR BANG",
+        "contact_number": "0",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK APRI",
+        "address": "-",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK REKI / QUEEN TANI",
+        "address": "KELOBAK",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUDA ",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "WIWIN HERMANTO/ FRANC AGRO CHEMICAL",
+        "address": "-",
+        "contact_number": "085379787740",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "HERI KRISTIAN ",
+        "address": "CURUP",
+        "contact_number": "085377247320",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK ASEP MUDA TANI",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PANDO ",
+        "address": "KARANG ANYAR",
+        "contact_number": "089634054705",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK SRI - MUJOREJO",
+        "address": "MJREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MULYADI ",
+        "address": "KARANG PINANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DIMAS / TALANG LEAK",
+        "address": "TALANG LEAK",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG ADI - PETANI",
+        "address": "AIR MELES",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ELPIN",
+        "address": "LEBONG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RISKI",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "PAK LEK MARTONO",
+        "address": "TALANG ULU",
+        "contact_number": "085758589455",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MBA DESI",
+        "address": "PEKALONGAN ",
+        "contact_number": "083849656309",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK RISKI",
+        "address": "BABAKAN BARU",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "Bpk. Santoso ",
+        "address": "BTN Lama Air Bang",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "DEDI (PETANI)",
+        "address": "BENGKO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK ENDANG (GUDANG)",
+        "address": "CUR",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ROHADI / ARIS MOTOR",
+        "address": "SENGKOANG",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "CECEP",
+        "address": "MUJOREJO",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "ARI (PETANI)",
+        "address": "CURUP",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "AHMAT FATONI/ WARUNG TONI",
+        "address": "KAYU MANIS",
+        "contact_number": "082281706778",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "BG PUTRA / MAHAKAM",
+        "address": "BKL",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "RAJA / RAJA TANI",
+        "address": "SIMPANG 4 KAMPUNG",
+        "contact_number": "081368776994",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "YUK DENI/BIMA UTAMA TANI",
+        "address": "KP DELIMA",
+        "contact_number": "-",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "MAS DENI / SIDOREJO TANI ",
+        "address": "BENGKULU",
+        "contact_number": "085267992587",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    },
+    {
+        "name": "KAK EDI / PETANI MUDA",
+        "address": "SIMPANG MACANG",
+        "contact_number": "085709959060",
+        "tax_number": null,
+        "credit_limit": 10000000,
+        "tempo": 0,
+        "marketing_id": 1
+    }
+]
