@@ -1,0 +1,4142 @@
+[
+    {
+        "sales_order_number": "2309021007",
+        "amount": 30000,
+        "date": "2023-9-2"
+    },
+    {
+        "sales_order_number": "2309021008",
+        "amount": 1000,
+        "date": "2023-9-2"
+    },
+    {
+        "sales_order_number": "2309051001",
+        "amount": 2000000,
+        "date": "2023-9-5"
+    },
+    {
+        "sales_order_number": "2309051002",
+        "amount": 3000000,
+        "date": "2023-9-5"
+    },
+    {
+        "sales_order_number": "2309051004",
+        "amount": 30000000,
+        "date": "2023-9-5"
+    },
+    {
+        "sales_order_number": "2309071006",
+        "amount": 3000000,
+        "date": "2023-9-7"
+    },
+    {
+        "sales_order_number": "2309101007",
+        "amount": 70000000,
+        "date": "2023-9-10"
+    },
+    {
+        "sales_order_number": "2309241020",
+        "amount": 10000000,
+        "date": "2023-9-24"
+    },
+    {
+        "sales_order_number": "2309241024",
+        "amount": 11734000,
+        "date": "2023-9-24"
+    },
+    {
+        "sales_order_number": "2309241026",
+        "amount": 4518500,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309241027",
+        "amount": 3814000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309241028",
+        "amount": 8868000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309241029",
+        "amount": 4556000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309241031",
+        "amount": 4655000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309241032",
+        "amount": 2134000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309251041",
+        "amount": 2500000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309251048",
+        "amount": 572000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309251056",
+        "amount": 2500000,
+        "date": "2023-9-25"
+    },
+    {
+        "sales_order_number": "2309271094",
+        "amount": 2060000,
+        "date": "2023-9-27"
+    },
+    {
+        "sales_order_number": "2310011168",
+        "amount": 5173,
+        "date": "2023-10-1"
+    },
+    {
+        "sales_order_number": "2310021194",
+        "amount": 10190000,
+        "date": "2023-10-2"
+    },
+    {
+        "sales_order_number": "2310071272",
+        "amount": 3525000,
+        "date": "2023-10-7"
+    },
+    {
+        "sales_order_number": "2310071272",
+        "amount": 3525000,
+        "date": "2023-10-7"
+    },
+    {
+        "sales_order_number": "2310101316",
+        "amount": 3314000,
+        "date": "2023-10-10"
+    },
+    {
+        "sales_order_number": "2310121363",
+        "amount": 6721000,
+        "date": "2023-10-12"
+    },
+    {
+        "sales_order_number": "2310131371",
+        "amount": 6070000,
+        "date": "2023-10-13"
+    },
+    {
+        "sales_order_number": "2310231537",
+        "amount": 8000000,
+        "date": "2023-10-23"
+    },
+    {
+        "sales_order_number": "2310291687",
+        "amount": 3000000,
+        "date": "2023-10-29"
+    },
+    {
+        "sales_order_number": "2311021033",
+        "amount": 4700000,
+        "date": "2023-11-2"
+    },
+    {
+        "sales_order_number": "2311021041",
+        "amount": 770000,
+        "date": "2023-11-2"
+    },
+    {
+        "sales_order_number": "2311041089",
+        "amount": 1315000,
+        "date": "2023-11-4"
+    },
+    {
+        "sales_order_number": "2311061120",
+        "amount": 9282000,
+        "date": "2023-11-6"
+    },
+    {
+        "sales_order_number": "2311091219",
+        "amount": 9770000,
+        "date": "2023-11-9"
+    },
+    {
+        "sales_order_number": "2311091226",
+        "amount": 842000,
+        "date": "2023-11-9"
+    },
+    {
+        "sales_order_number": "2311101257",
+        "amount": 15000000,
+        "date": "2023-11-10"
+    },
+    {
+        "sales_order_number": "2311171387",
+        "amount": 30000000,
+        "date": "2023-11-17"
+    },
+    {
+        "sales_order_number": "2311181411",
+        "amount": 1300000,
+        "date": "2023-11-18"
+    },
+    {
+        "sales_order_number": "2311211495",
+        "amount": 3529000,
+        "date": "2023-11-21"
+    },
+    {
+        "sales_order_number": "2311231529",
+        "amount": 400000,
+        "date": "2023-11-23"
+    },
+    {
+        "sales_order_number": "2311241563",
+        "amount": 10000000,
+        "date": "2023-11-24"
+    },
+    {
+        "sales_order_number": "2311261593",
+        "amount": 600000,
+        "date": "2023-11-26"
+    },
+    {
+        "sales_order_number": "2311291694",
+        "amount": 1450000,
+        "date": "2023-11-29"
+    },
+    {
+        "sales_order_number": "2311291697",
+        "amount": 2000000,
+        "date": "2023-11-29"
+    },
+    {
+        "sales_order_number": "2312011015",
+        "amount": 2000000,
+        "date": "2023-12-1"
+    },
+    {
+        "sales_order_number": "2312041090",
+        "amount": 500000,
+        "date": "2023-12-4"
+    },
+    {
+        "sales_order_number": "2312061131",
+        "amount": 5000000,
+        "date": "2023-12-6"
+    },
+    {
+        "sales_order_number": "2312061133",
+        "amount": 3900000,
+        "date": "2023-12-6"
+    },
+    {
+        "sales_order_number": "2312131300",
+        "amount": 1700000,
+        "date": "2023-12-13"
+    },
+    {
+        "sales_order_number": "2312141313",
+        "amount": 3420000,
+        "date": "2023-12-14"
+    },
+    {
+        "sales_order_number": "2312141317",
+        "amount": 7000000,
+        "date": "2023-12-14"
+    },
+    {
+        "sales_order_number": "2312141320",
+        "amount": 1700000,
+        "date": "2023-12-14"
+    },
+    {
+        "sales_order_number": "2312141333",
+        "amount": 15000000,
+        "date": "2023-12-14"
+    },
+    {
+        "sales_order_number": "2312161370",
+        "amount": 900000,
+        "date": "2023-12-16"
+    },
+    {
+        "sales_order_number": "2312181413",
+        "amount": 3400000,
+        "date": "2023-12-18"
+    },
+    {
+        "sales_order_number": "2312211480",
+        "amount": 20000000,
+        "date": "2023-12-21"
+    },
+    {
+        "sales_order_number": "2312221498",
+        "amount": 5000000,
+        "date": "2023-12-22"
+    },
+    {
+        "sales_order_number": "2312231520",
+        "amount": 2200000,
+        "date": "2023-12-23"
+    },
+    {
+        "sales_order_number": "2401051090",
+        "amount": 3900000,
+        "date": "2024-1-5"
+    },
+    {
+        "sales_order_number": "2401091158",
+        "amount": 10000000,
+        "date": "2024-1-9"
+    },
+    {
+        "sales_order_number": "2401111203",
+        "amount": 2000000,
+        "date": "2024-1-11"
+    },
+    {
+        "sales_order_number": "2401151279",
+        "amount": 3210000,
+        "date": "2024-1-15"
+    },
+    {
+        "sales_order_number": "2401191348",
+        "amount": 3560000,
+        "date": "2024-1-19"
+    },
+    {
+        "sales_order_number": "2401231421",
+        "amount": 2434000,
+        "date": "2024-1-23"
+    },
+    {
+        "sales_order_number": "2401251444",
+        "amount": 3634500,
+        "date": "2024-1-25"
+    },
+    {
+        "sales_order_number": "2401271509",
+        "amount": 2200000,
+        "date": "2024-1-27"
+    },
+    {
+        "sales_order_number": "2401281522",
+        "amount": 2600000,
+        "date": "2024-1-28"
+    },
+    {
+        "sales_order_number": "2402011013",
+        "amount": 2300000,
+        "date": "2024-2-1"
+    },
+    {
+        "sales_order_number": "2402011015",
+        "amount": 3720000,
+        "date": "2024-2-1"
+    },
+    {
+        "sales_order_number": "2402051085",
+        "amount": 4050000,
+        "date": "2024-2-5"
+    },
+    {
+        "sales_order_number": "2402061108",
+        "amount": 1280000,
+        "date": "2024-2-6"
+    },
+    {
+        "sales_order_number": "2402061116",
+        "amount": 665000,
+        "date": "2024-2-6"
+    },
+    {
+        "sales_order_number": "2402081152",
+        "amount": 5000000,
+        "date": "2024-2-8"
+    },
+    {
+        "sales_order_number": "2402111197",
+        "amount": 3400000,
+        "date": "2024-2-11"
+    },
+    {
+        "sales_order_number": "2402111219",
+        "amount": 6000000,
+        "date": "2024-2-11"
+    },
+    {
+        "sales_order_number": "2402131257",
+        "amount": 800000,
+        "date": "2024-2-13"
+    },
+    {
+        "sales_order_number": "2402131259",
+        "amount": 15000000,
+        "date": "2024-2-13"
+    },
+    {
+        "sales_order_number": "2402181339",
+        "amount": 1000000,
+        "date": "2024-2-18"
+    },
+    {
+        "sales_order_number": "2402191342",
+        "amount": 18000000,
+        "date": "2024-2-19"
+    },
+    {
+        "sales_order_number": "2402201397",
+        "amount": 1180000,
+        "date": "2024-2-20"
+    },
+    {
+        "sales_order_number": "2402221428",
+        "amount": 6760000,
+        "date": "2024-2-22"
+    },
+    {
+        "sales_order_number": "2402231434",
+        "amount": 240000,
+        "date": "2024-2-23"
+    },
+    {
+        "sales_order_number": "2402251482",
+        "amount": 5000000,
+        "date": "2024-2-25"
+    },
+    {
+        "sales_order_number": "2402251487",
+        "amount": 4160000,
+        "date": "2024-2-25"
+    },
+    {
+        "sales_order_number": "2402291586",
+        "amount": 900000,
+        "date": "2024-2-29"
+    },
+    {
+        "sales_order_number": "2403011001",
+        "amount": 4000000,
+        "date": "2024-3-1"
+    },
+    {
+        "sales_order_number": "2403011016",
+        "amount": 1200000,
+        "date": "2024-3-1"
+    },
+    {
+        "sales_order_number": "2403021034",
+        "amount": 3185000,
+        "date": "2024-3-2"
+    },
+    {
+        "sales_order_number": "2403031057",
+        "amount": 256000,
+        "date": "2024-3-3"
+    },
+    {
+        "sales_order_number": "2403041075",
+        "amount": 665000,
+        "date": "2024-3-4"
+    },
+    {
+        "sales_order_number": "2403061129",
+        "amount": 1100000,
+        "date": "2024-3-6"
+    },
+    {
+        "sales_order_number": "2403071135",
+        "amount": 980000,
+        "date": "2024-3-7"
+    },
+    {
+        "sales_order_number": "2403071145",
+        "amount": 3100000,
+        "date": "2024-3-7"
+    },
+    {
+        "sales_order_number": "2403091163",
+        "amount": 3578000,
+        "date": "2024-3-9"
+    },
+    {
+        "sales_order_number": "2403111215",
+        "amount": 7500000,
+        "date": "2024-3-11"
+    },
+    {
+        "sales_order_number": "2403111223",
+        "amount": 1750,
+        "date": "2024-3-11"
+    },
+    {
+        "sales_order_number": "2403121229",
+        "amount": 440000,
+        "date": "2024-3-12"
+    },
+    {
+        "sales_order_number": "2403131246",
+        "amount": 1850000,
+        "date": "2024-3-13"
+    },
+    {
+        "sales_order_number": "2403131255",
+        "amount": 4090000,
+        "date": "2024-3-13"
+    },
+    {
+        "sales_order_number": "2403151271",
+        "amount": 1771000,
+        "date": "2024-3-15"
+    },
+    {
+        "sales_order_number": "2403151282",
+        "amount": 5000000,
+        "date": "2024-3-15"
+    },
+    {
+        "sales_order_number": "2403171319",
+        "amount": 1320000,
+        "date": "2024-3-17"
+    },
+    {
+        "sales_order_number": "2403171332",
+        "amount": 1600000,
+        "date": "2024-3-17"
+    },
+    {
+        "sales_order_number": "2403181345",
+        "amount": 1000000,
+        "date": "2024-3-18"
+    },
+    {
+        "sales_order_number": "2403201378",
+        "amount": 1820000,
+        "date": "2024-3-20"
+    },
+    {
+        "sales_order_number": "2403201379",
+        "amount": 800000,
+        "date": "2024-3-20"
+    },
+    {
+        "sales_order_number": "2403211391",
+        "amount": 190000,
+        "date": "2024-3-21"
+    },
+    {
+        "sales_order_number": "2403221399",
+        "amount": 259000,
+        "date": "2024-3-22"
+    },
+    {
+        "sales_order_number": "2403231424",
+        "amount": 275000,
+        "date": "2024-3-23"
+    },
+    {
+        "sales_order_number": "2403231437",
+        "amount": 1500000,
+        "date": "2024-3-23"
+    },
+    {
+        "sales_order_number": "2403231439",
+        "amount": 35000,
+        "date": "2024-3-23"
+    },
+    {
+        "sales_order_number": "2403241450",
+        "amount": 550000,
+        "date": "2024-3-24"
+    },
+    {
+        "sales_order_number": "2403251454",
+        "amount": 2300000,
+        "date": "2024-3-25"
+    },
+    {
+        "sales_order_number": "2403261479",
+        "amount": 2000000,
+        "date": "2024-3-26"
+    },
+    {
+        "sales_order_number": "2403261480",
+        "amount": 1000000,
+        "date": "2024-3-26"
+    },
+    {
+        "sales_order_number": "2403271493",
+        "amount": 3035000,
+        "date": "2024-3-27"
+    },
+    {
+        "sales_order_number": "2403271496",
+        "amount": 3525000,
+        "date": "2024-3-27"
+    },
+    {
+        "sales_order_number": "2403281525",
+        "amount": 4535000,
+        "date": "2024-3-28"
+    },
+    {
+        "sales_order_number": "2403291542",
+        "amount": 2825000,
+        "date": "2024-3-29"
+    },
+    {
+        "sales_order_number": "2404011016",
+        "amount": 1000000,
+        "date": "2024-4-1"
+    },
+    {
+        "sales_order_number": "2404041069",
+        "amount": 661000,
+        "date": "2024-4-4"
+    },
+    {
+        "sales_order_number": "2404241145",
+        "amount": 2250000,
+        "date": "2024-4-24"
+    },
+    {
+        "sales_order_number": "2404251151",
+        "amount": 11100000,
+        "date": "2024-4-25"
+    },
+    {
+        "sales_order_number": "2404301254",
+        "amount": 1840000,
+        "date": "2024-4-30"
+    },
+    {
+        "sales_order_number": "2405011011",
+        "amount": 5000000,
+        "date": "2024-5-1"
+    },
+    {
+        "sales_order_number": "2405021036",
+        "amount": 1535000,
+        "date": "2024-5-2"
+    },
+    {
+        "sales_order_number": "2405031041",
+        "amount": 4885000,
+        "date": "2024-5-3"
+    },
+    {
+        "sales_order_number": "2405031055",
+        "amount": 4175000,
+        "date": "2024-5-3"
+    },
+    {
+        "sales_order_number": "2405041079",
+        "amount": 4015000,
+        "date": "2024-5-4"
+    },
+    {
+        "sales_order_number": "2405081165",
+        "amount": 2350000,
+        "date": "2024-5-8"
+    },
+    {
+        "sales_order_number": "2405091173",
+        "amount": 10000,
+        "date": "2024-5-9"
+    },
+    {
+        "sales_order_number": "2405131250",
+        "amount": 2950000,
+        "date": "2024-5-13"
+    },
+    {
+        "sales_order_number": "2405151296",
+        "amount": 15000000,
+        "date": "2024-5-15"
+    },
+    {
+        "sales_order_number": "2405161318",
+        "amount": 5030000,
+        "date": "2024-5-16"
+    },
+    {
+        "sales_order_number": "2405161320",
+        "amount": 465000,
+        "date": "2024-5-16"
+    },
+    {
+        "sales_order_number": "2405191394",
+        "amount": 340000,
+        "date": "2024-5-19"
+    },
+    {
+        "sales_order_number": "2405191395",
+        "amount": 693000,
+        "date": "2024-5-19"
+    },
+    {
+        "sales_order_number": "2405201401",
+        "amount": 350000,
+        "date": "2024-5-20"
+    },
+    {
+        "sales_order_number": "2405201405",
+        "amount": 1370000,
+        "date": "2024-5-20"
+    },
+    {
+        "sales_order_number": "2405201407",
+        "amount": 1500000,
+        "date": "2024-5-20"
+    },
+    {
+        "sales_order_number": "2405211442",
+        "amount": 285000,
+        "date": "2024-5-21"
+    },
+    {
+        "sales_order_number": "2405241522",
+        "amount": 2402000,
+        "date": "2024-5-24"
+    },
+    {
+        "sales_order_number": "2405261561",
+        "amount": 1200000,
+        "date": "2024-5-26"
+    },
+    {
+        "sales_order_number": "2405291634",
+        "amount": 400000,
+        "date": "2024-5-29"
+    },
+    {
+        "sales_order_number": "2405301647",
+        "amount": 2000000,
+        "date": "2024-5-30"
+    },
+    {
+        "sales_order_number": "2405301656",
+        "amount": 4100000,
+        "date": "2024-5-30"
+    },
+    {
+        "sales_order_number": "2405311669",
+        "amount": 25000,
+        "date": "2024-5-31"
+    },
+    {
+        "sales_order_number": "2406011690",
+        "amount": 8075000,
+        "date": "2024-6-1"
+    },
+    {
+        "sales_order_number": "2406031732",
+        "amount": 420000,
+        "date": "2024-6-3"
+    },
+    {
+        "sales_order_number": "2406081-115",
+        "amount": 1335000,
+        "date": "2024-6-8"
+    },
+    {
+        "sales_order_number": "2406081-126",
+        "amount": 1335000,
+        "date": "2024-6-8"
+    },
+    {
+        "sales_order_number": "2406081-138",
+        "amount": 4400000,
+        "date": "2024-6-8"
+    },
+    {
+        "sales_order_number": "2406091-150",
+        "amount": 5750000,
+        "date": "2024-6-9"
+    },
+    {
+        "sales_order_number": "2406101-180",
+        "amount": 1037000,
+        "date": "2024-6-10"
+    },
+    {
+        "sales_order_number": "2406111-196",
+        "amount": 2214500,
+        "date": "2024-6-11"
+    },
+    {
+        "sales_order_number": "2406121-220",
+        "amount": 11000000,
+        "date": "2024-6-12"
+    },
+    {
+        "sales_order_number": "2406131-232",
+        "amount": 954000,
+        "date": "2024-6-13"
+    },
+    {
+        "sales_order_number": "2406141-254",
+        "amount": 1205000,
+        "date": "2024-6-14"
+    },
+    {
+        "sales_order_number": "2406151-277",
+        "amount": 1555000,
+        "date": "2024-6-15"
+    },
+    {
+        "sales_order_number": "2406181-331",
+        "amount": 1000000,
+        "date": "2024-6-18"
+    },
+    {
+        "sales_order_number": "2406181-338",
+        "amount": 7600000,
+        "date": "2024-6-18"
+    },
+    {
+        "sales_order_number": "2406181-342",
+        "amount": 1000000,
+        "date": "2024-6-18"
+    },
+    {
+        "sales_order_number": "2406191-345",
+        "amount": 300000,
+        "date": "2024-6-19"
+    },
+    {
+        "sales_order_number": "2406201-356",
+        "amount": 41590000,
+        "date": "2024-6-20"
+    },
+    {
+        "sales_order_number": "2406211-383",
+        "amount": 1536000,
+        "date": "2024-6-21"
+    },
+    {
+        "sales_order_number": "2406211-389",
+        "amount": 3000000,
+        "date": "2024-6-21"
+    },
+    {
+        "sales_order_number": "2406281-505",
+        "amount": 1170000,
+        "date": "2024-6-28"
+    },
+    {
+        "sales_order_number": "2406291-511",
+        "amount": 4720000,
+        "date": "2024-6-29"
+    },
+    {
+        "sales_order_number": "2407031-045",
+        "amount": 2425000,
+        "date": "2024-7-3"
+    },
+    {
+        "sales_order_number": "2407031-048",
+        "amount": 240000,
+        "date": "2024-7-3"
+    },
+    {
+        "sales_order_number": "2407041-087",
+        "amount": 3000000,
+        "date": "2024-7-4"
+    },
+    {
+        "sales_order_number": "2407081-148",
+        "amount": 600000,
+        "date": "2024-7-8"
+    },
+    {
+        "sales_order_number": "2407081-151",
+        "amount": 8000000,
+        "date": "2024-7-8"
+    },
+    {
+        "sales_order_number": "2407091-165",
+        "amount": 2750000,
+        "date": "2024-7-9"
+    },
+    {
+        "sales_order_number": "2407101-201",
+        "amount": 405000,
+        "date": "2024-7-10"
+    },
+    {
+        "sales_order_number": "2407111-209",
+        "amount": 6000000,
+        "date": "2024-7-11"
+    },
+    {
+        "sales_order_number": "2407111-223",
+        "amount": 465000,
+        "date": "2024-7-11"
+    },
+    {
+        "sales_order_number": "2407121-249",
+        "amount": 285000,
+        "date": "2024-7-12"
+    },
+    {
+        "sales_order_number": "2407131-260",
+        "amount": 3450000,
+        "date": "2024-7-13"
+    },
+    {
+        "sales_order_number": "2407141-277",
+        "amount": 17710000,
+        "date": "2024-7-14"
+    },
+    {
+        "sales_order_number": "2407141-280",
+        "amount": 4500000,
+        "date": "2024-7-14"
+    },
+    {
+        "sales_order_number": "2407151-291",
+        "amount": 4000000,
+        "date": "2024-7-15"
+    },
+    {
+        "sales_order_number": "2407151-294",
+        "amount": 1200000,
+        "date": "2024-7-15"
+    },
+    {
+        "sales_order_number": "2407151-312",
+        "amount": 1660000,
+        "date": "2024-7-15"
+    },
+    {
+        "sales_order_number": "2407151-315",
+        "amount": 2000000,
+        "date": "2024-7-15"
+    },
+    {
+        "sales_order_number": "2407161-337",
+        "amount": 1578000,
+        "date": "2024-7-16"
+    },
+    {
+        "sales_order_number": "2407171-363",
+        "amount": 26700000,
+        "date": "2024-7-17"
+    },
+    {
+        "sales_order_number": "2407181-365",
+        "amount": 45232000,
+        "date": "2024-7-18"
+    },
+    {
+        "sales_order_number": "2407181-367",
+        "amount": 2297000,
+        "date": "2024-7-18"
+    },
+    {
+        "sales_order_number": "2407181-368",
+        "amount": 1432000,
+        "date": "2024-7-18"
+    },
+    {
+        "sales_order_number": "2407181-374",
+        "amount": 1020000,
+        "date": "2024-7-18"
+    },
+    {
+        "sales_order_number": "2407181-376",
+        "amount": 1200000,
+        "date": "2024-7-18"
+    },
+    {
+        "sales_order_number": "2407191-390",
+        "amount": 65000,
+        "date": "2024-7-19"
+    },
+    {
+        "sales_order_number": "2407191-408",
+        "amount": 36000,
+        "date": "2024-7-19"
+    },
+    {
+        "sales_order_number": "2407201-428",
+        "amount": 30000000,
+        "date": "2024-7-20"
+    },
+    {
+        "sales_order_number": "2407231-488",
+        "amount": 1000000,
+        "date": "2024-7-23"
+    },
+    {
+        "sales_order_number": "2407241-495",
+        "amount": 5020000,
+        "date": "2024-7-24"
+    },
+    {
+        "sales_order_number": "2407241-496",
+        "amount": 3350000,
+        "date": "2024-7-24"
+    },
+    {
+        "sales_order_number": "2407261-536",
+        "amount": 300000,
+        "date": "2024-7-26"
+    },
+    {
+        "sales_order_number": "2407271-556",
+        "amount": 40000,
+        "date": "2024-7-27"
+    },
+    {
+        "sales_order_number": "2407301-603",
+        "amount": 1455000,
+        "date": "2024-7-30"
+    },
+    {
+        "sales_order_number": "2407301-612",
+        "amount": 2430000,
+        "date": "2024-7-30"
+    },
+    {
+        "sales_order_number": "2407311-639",
+        "amount": 20000,
+        "date": "2024-7-31"
+    },
+    {
+        "sales_order_number": "2408011-020",
+        "amount": 11785000,
+        "date": "2024-8-1"
+    },
+    {
+        "sales_order_number": "2408021-030",
+        "amount": 7000000,
+        "date": "2024-8-2"
+    },
+    {
+        "sales_order_number": "2408021-034",
+        "amount": 4200000,
+        "date": "2024-8-2"
+    },
+    {
+        "sales_order_number": "2408031-060",
+        "amount": 365000,
+        "date": "2024-8-3"
+    },
+    {
+        "sales_order_number": "2408041-073",
+        "amount": 1220000,
+        "date": "2024-8-4"
+    },
+    {
+        "sales_order_number": "2408041-078",
+        "amount": 2713000,
+        "date": "2024-8-4"
+    },
+    {
+        "sales_order_number": "2408041-080",
+        "amount": 10000,
+        "date": "2024-8-4"
+    },
+    {
+        "sales_order_number": "2408041-081",
+        "amount": 445000,
+        "date": "2024-8-4"
+    },
+    {
+        "sales_order_number": "2408051-092",
+        "amount": 26800000,
+        "date": "2024-8-5"
+    },
+    {
+        "sales_order_number": "2408061-119",
+        "amount": 1000000,
+        "date": "2024-8-6"
+    },
+    {
+        "sales_order_number": "2408061-129",
+        "amount": 1000000,
+        "date": "2024-8-6"
+    },
+    {
+        "sales_order_number": "2408081-162",
+        "amount": 3400000,
+        "date": "2024-8-8"
+    },
+    {
+        "sales_order_number": "2408091-192",
+        "amount": 2372000,
+        "date": "2024-8-9"
+    },
+    {
+        "sales_order_number": "2408131-260",
+        "amount": 1268000,
+        "date": "2024-8-13"
+    },
+    {
+        "sales_order_number": "2408141-285",
+        "amount": 34000,
+        "date": "2024-8-14"
+    },
+    {
+        "sales_order_number": "2408151-293",
+        "amount": 155000,
+        "date": "2024-8-15"
+    },
+    {
+        "sales_order_number": "2408151-302",
+        "amount": 900000,
+        "date": "2024-8-15"
+    },
+    {
+        "sales_order_number": "2408181-335",
+        "amount": 20000,
+        "date": "2024-8-18"
+    },
+    {
+        "sales_order_number": "2408201-378",
+        "amount": 1000000,
+        "date": "2024-8-20"
+    },
+    {
+        "sales_order_number": "2408221-415",
+        "amount": 5650000,
+        "date": "2024-8-22"
+    },
+    {
+        "sales_order_number": "2408241-447",
+        "amount": 525000,
+        "date": "2024-8-24"
+    },
+    {
+        "sales_order_number": "2408251-485",
+        "amount": 670000,
+        "date": "2024-8-25"
+    },
+    {
+        "sales_order_number": "2408261-511",
+        "amount": 81000,
+        "date": "2024-8-26"
+    },
+    {
+        "sales_order_number": "2408261-513",
+        "amount": 680000,
+        "date": "2024-8-26"
+    },
+    {
+        "sales_order_number": "2408301-588",
+        "amount": 3490000,
+        "date": "2024-8-30"
+    },
+    {
+        "sales_order_number": "2408311-602",
+        "amount": 560000,
+        "date": "2024-8-31"
+    },
+    {
+        "sales_order_number": "2408311-604",
+        "amount": 500000,
+        "date": "2024-8-31"
+    },
+    {
+        "sales_order_number": "2408311-610",
+        "amount": 155000,
+        "date": "2024-8-31"
+    },
+    {
+        "sales_order_number": "2408311-612",
+        "amount": 2350000,
+        "date": "2024-8-31"
+    },
+    {
+        "sales_order_number": "2409011-009",
+        "amount": 1550000,
+        "date": "2024-9-1"
+    },
+    {
+        "sales_order_number": "2409111-184",
+        "amount": 1300000,
+        "date": "2024-9-11"
+    },
+    {
+        "sales_order_number": "2409121-199",
+        "amount": 2450000,
+        "date": "2024-9-12"
+    },
+    {
+        "sales_order_number": "2409121-207",
+        "amount": 932000,
+        "date": "2024-9-12"
+    },
+    {
+        "sales_order_number": "2409121-209",
+        "amount": 4255000,
+        "date": "2024-9-12"
+    },
+    {
+        "sales_order_number": "2409121-222",
+        "amount": 450000,
+        "date": "2024-9-12"
+    },
+    {
+        "sales_order_number": "2409131-244",
+        "amount": 450000,
+        "date": "2024-9-13"
+    },
+    {
+        "sales_order_number": "2409151-269",
+        "amount": 392000,
+        "date": "2024-9-15"
+    },
+    {
+        "sales_order_number": "2409171-321",
+        "amount": 3800000,
+        "date": "2024-9-17"
+    },
+    {
+        "sales_order_number": "2409181-344",
+        "amount": 3960000,
+        "date": "2024-9-18"
+    },
+    {
+        "sales_order_number": "2409181-349",
+        "amount": 1300000,
+        "date": "2024-9-18"
+    },
+    {
+        "sales_order_number": "2409191-383",
+        "amount": 5000,
+        "date": "2024-9-19"
+    },
+    {
+        "sales_order_number": "2409201-401",
+        "amount": 1327000,
+        "date": "2024-9-20"
+    },
+    {
+        "sales_order_number": "2409211-427",
+        "amount": 610000,
+        "date": "2024-9-21"
+    },
+    {
+        "sales_order_number": "2409211-429",
+        "amount": 8000000,
+        "date": "2024-9-21"
+    },
+    {
+        "sales_order_number": "2409221-437",
+        "amount": 600000,
+        "date": "2024-9-22"
+    },
+    {
+        "sales_order_number": "2409251-506",
+        "amount": 4025000,
+        "date": "2024-9-25"
+    },
+    {
+        "sales_order_number": "2409251-510",
+        "amount": 5405000,
+        "date": "2024-9-25"
+    },
+    {
+        "sales_order_number": "2409251-512",
+        "amount": 535000,
+        "date": "2024-9-25"
+    },
+    {
+        "sales_order_number": "2409251-519",
+        "amount": 4180000,
+        "date": "2024-9-25"
+    },
+    {
+        "sales_order_number": "2409251-521",
+        "amount": 5000000,
+        "date": "2024-9-25"
+    },
+    {
+        "sales_order_number": "2409261-540",
+        "amount": 2900000,
+        "date": "2024-9-26"
+    },
+    {
+        "sales_order_number": "2409271-562",
+        "amount": 2100000,
+        "date": "2024-9-27"
+    },
+    {
+        "sales_order_number": "2409271-566",
+        "amount": 4030000,
+        "date": "2024-9-27"
+    },
+    {
+        "sales_order_number": "2409301-645",
+        "amount": 6553000,
+        "date": "2024-9-30"
+    },
+    {
+        "sales_order_number": "2410021-034",
+        "amount": 4220000,
+        "date": "2024-10-2"
+    },
+    {
+        "sales_order_number": "2410031-043",
+        "amount": 2200000,
+        "date": "2024-10-3"
+    },
+    {
+        "sales_order_number": "2410041-101",
+        "amount": 3785000,
+        "date": "2024-10-4"
+    },
+    {
+        "sales_order_number": "2410051-131",
+        "amount": 405000,
+        "date": "2024-10-5"
+    },
+    {
+        "sales_order_number": "2410081-197",
+        "amount": 490000,
+        "date": "2024-10-8"
+    },
+    {
+        "sales_order_number": "2410081-198",
+        "amount": 490000,
+        "date": "2024-10-8"
+    },
+    {
+        "sales_order_number": "2410081-206",
+        "amount": 10000000,
+        "date": "2024-10-8"
+    },
+    {
+        "sales_order_number": "2410091-222",
+        "amount": 5000,
+        "date": "2024-10-9"
+    },
+    {
+        "sales_order_number": "2410091-223",
+        "amount": 1000,
+        "date": "2024-10-9"
+    },
+    {
+        "sales_order_number": "2410101-229",
+        "amount": 760000,
+        "date": "2024-10-10"
+    },
+    {
+        "sales_order_number": "2410111-264",
+        "amount": 850000,
+        "date": "2024-10-11"
+    },
+    {
+        "sales_order_number": "2410161-372",
+        "amount": 4765000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-382",
+        "amount": 9000000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-384",
+        "amount": 10720000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-385",
+        "amount": 630000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-387",
+        "amount": 2575000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-388",
+        "amount": 25000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410161-390",
+        "amount": 1600000,
+        "date": "2024-10-16"
+    },
+    {
+        "sales_order_number": "2410171-399",
+        "amount": 15000,
+        "date": "2024-10-17"
+    },
+    {
+        "sales_order_number": "2410171-410",
+        "amount": 96000,
+        "date": "2024-10-17"
+    },
+    {
+        "sales_order_number": "2410191-457",
+        "amount": 2000000,
+        "date": "2024-10-19"
+    },
+    {
+        "sales_order_number": "2410211-503",
+        "amount": 3215000,
+        "date": "2024-10-21"
+    },
+    {
+        "sales_order_number": "2410231-542",
+        "amount": 15195000,
+        "date": "2024-10-23"
+    },
+    {
+        "sales_order_number": "2410231-545",
+        "amount": 700000,
+        "date": "2024-10-23"
+    },
+    {
+        "sales_order_number": "2410241-547",
+        "amount": 8315000,
+        "date": "2024-10-24"
+    },
+    {
+        "sales_order_number": "2410241-549",
+        "amount": 2745000,
+        "date": "2024-10-24"
+    },
+    {
+        "sales_order_number": "2410241-557",
+        "amount": 510000,
+        "date": "2024-10-24"
+    },
+    {
+        "sales_order_number": "2410241-561",
+        "amount": 18200000,
+        "date": "2024-10-24"
+    },
+    {
+        "sales_order_number": "2410251-584",
+        "amount": 2800000,
+        "date": "2024-10-25"
+    },
+    {
+        "sales_order_number": "2410281-629",
+        "amount": 1500000,
+        "date": "2024-10-28"
+    },
+    {
+        "sales_order_number": "2410281-630",
+        "amount": 5420000,
+        "date": "2024-10-28"
+    },
+    {
+        "sales_order_number": "2410281-631",
+        "amount": 8260000,
+        "date": "2024-10-28"
+    },
+    {
+        "sales_order_number": "2410281-632",
+        "amount": 1050000,
+        "date": "2024-10-28"
+    },
+    {
+        "sales_order_number": "2410281-648",
+        "amount": 5798000,
+        "date": "2024-10-28"
+    },
+    {
+        "sales_order_number": "2410291-652",
+        "amount": 6415000,
+        "date": "2024-10-29"
+    },
+    {
+        "sales_order_number": "2410291-663",
+        "amount": 16425000,
+        "date": "2024-10-29"
+    },
+    {
+        "sales_order_number": "2410291-664",
+        "amount": 4234000,
+        "date": "2024-10-29"
+    },
+    {
+        "sales_order_number": "2410281-638",
+        "amount": 6650000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410291-666",
+        "amount": 9969000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-678",
+        "amount": 1535000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-679",
+        "amount": 10200000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-681",
+        "amount": 7920000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-683",
+        "amount": 4180000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-684",
+        "amount": 2200000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410301-687",
+        "amount": 15575000,
+        "date": "2024-10-30"
+    },
+    {
+        "sales_order_number": "2410031-059",
+        "amount": 550000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-695",
+        "amount": 32070000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-696",
+        "amount": 1240000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-700",
+        "amount": 6650000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-701",
+        "amount": 2660000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-702",
+        "amount": 1710000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-703",
+        "amount": 8580000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-705",
+        "amount": 900000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2410311-708",
+        "amount": 680000,
+        "date": "2024-10-31"
+    },
+    {
+        "sales_order_number": "2408081-162",
+        "amount": 759000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2410111-249",
+        "amount": 11450000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2410161-382",
+        "amount": 1791000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-002",
+        "amount": 3838000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-002",
+        "amount": 3838000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-002",
+        "amount": 3838000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-006",
+        "amount": 8124500,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-010",
+        "amount": 3183000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-020",
+        "amount": 1700000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2411011-020",
+        "amount": 52000,
+        "date": "2024-11-1"
+    },
+    {
+        "sales_order_number": "2410311-710",
+        "amount": 5972000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411011-009",
+        "amount": 5655000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411011-015",
+        "amount": 20915000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-032",
+        "amount": 6507000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-034",
+        "amount": 1665000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-035",
+        "amount": 3892000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-036",
+        "amount": 750000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-037",
+        "amount": 5645000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411021-040",
+        "amount": 9868000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411031-056",
+        "amount": 1399000,
+        "date": "2024-11-3"
+    },
+    {
+        "sales_order_number": "2411041-069",
+        "amount": 3650000,
+        "date": "2024-11-4"
+    },
+    {
+        "sales_order_number": "2411041-085",
+        "amount": 3450000,
+        "date": "2024-11-4"
+    },
+    {
+        "sales_order_number": "2411051-119",
+        "amount": 4052000,
+        "date": "2024-11-6"
+    },
+    {
+        "sales_order_number": "2411061-126",
+        "amount": 1360000,
+        "date": "2024-11-6"
+    },
+    {
+        "sales_order_number": "2411061-142",
+        "amount": 135000,
+        "date": "2024-11-6"
+    },
+    {
+        "sales_order_number": "2411061-147",
+        "amount": 3370000,
+        "date": "2024-11-6"
+    },
+    {
+        "sales_order_number": "2411071-150",
+        "amount": 4130000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-150",
+        "amount": 2050000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-151",
+        "amount": 12389500,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-153",
+        "amount": 2523000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-155",
+        "amount": 2208000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-155",
+        "amount": 280000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411071-165",
+        "amount": 405000,
+        "date": "2024-11-7"
+    },
+    {
+        "sales_order_number": "2411011-022",
+        "amount": 6405000,
+        "date": "2024-11-8"
+    },
+    {
+        "sales_order_number": "2411081-171",
+        "amount": 4945000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-175",
+        "amount": 9260000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-179",
+        "amount": 2492500,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-181",
+        "amount": 14674000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-184",
+        "amount": 26600000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-185",
+        "amount": 4740000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-187",
+        "amount": 800000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-188",
+        "amount": 8248000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-191",
+        "amount": 13520000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411081-193",
+        "amount": 880000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411091-206",
+        "amount": 4000000,
+        "date": "2024-11-9"
+    },
+    {
+        "sales_order_number": "2411101-225",
+        "amount": 33000,
+        "date": "2024-11-10"
+    },
+    {
+        "sales_order_number": "2411111-253",
+        "amount": 10610000,
+        "date": "2024-11-11"
+    },
+    {
+        "sales_order_number": "2411111-258",
+        "amount": 5235000,
+        "date": "2024-11-11"
+    },
+    {
+        "sales_order_number": "2411111-269",
+        "amount": 944500,
+        "date": "2024-11-11"
+    },
+    {
+        "sales_order_number": "2411131-310",
+        "amount": 5151000,
+        "date": "2024-11-13"
+    },
+    {
+        "sales_order_number": "2411131-315",
+        "amount": 7860000,
+        "date": "2024-11-13"
+    },
+    {
+        "sales_order_number": "2411131-325",
+        "amount": 250000,
+        "date": "2024-11-13"
+    },
+    {
+        "sales_order_number": "2411131-327",
+        "amount": 2005500,
+        "date": "2024-11-13"
+    },
+    {
+        "sales_order_number": "2411141-340",
+        "amount": 2000000,
+        "date": "2024-11-14"
+    },
+    {
+        "sales_order_number": "2411141-342",
+        "amount": 2420000,
+        "date": "2024-11-14"
+    },
+    {
+        "sales_order_number": "2411151-364",
+        "amount": 1160000,
+        "date": "2024-11-15"
+    },
+    {
+        "sales_order_number": "2411161-391",
+        "amount": 670000,
+        "date": "2024-11-16"
+    },
+    {
+        "sales_order_number": "2411171-408",
+        "amount": 480000,
+        "date": "2024-11-17"
+    },
+    {
+        "sales_order_number": "2411181-430",
+        "amount": 10000000,
+        "date": "2024-11-18"
+    },
+    {
+        "sales_order_number": "2411201-476",
+        "amount": 925000,
+        "date": "2024-11-20"
+    },
+    {
+        "sales_order_number": "2411261-592",
+        "amount": 170000,
+        "date": "2024-11-26"
+    },
+    {
+        "sales_order_number": "2411271-602",
+        "amount": 5000000,
+        "date": "2024-11-27"
+    },
+    {
+        "sales_order_number": "2411281-612",
+        "amount": 4000000,
+        "date": "2024-11-28"
+    },
+    {
+        "sales_order_number": "2411291-643",
+        "amount": 8100000,
+        "date": "2024-11-29"
+    },
+    {
+        "sales_order_number": "2411291-653",
+        "amount": 1220000,
+        "date": "2024-11-29"
+    },
+    {
+        "sales_order_number": "2411291-659",
+        "amount": 1,
+        "date": "2024-11-29"
+    },
+    {
+        "sales_order_number": "2412021-014",
+        "amount": 2415000,
+        "date": "2024-12-2"
+    },
+    {
+        "sales_order_number": "2412031-057",
+        "amount": 1535000,
+        "date": "2024-12-3"
+    },
+    {
+        "sales_order_number": "2412041-066",
+        "amount": 1280000,
+        "date": "2024-12-4"
+    },
+    {
+        "sales_order_number": "2412041-077",
+        "amount": 2800000,
+        "date": "2024-12-4"
+    },
+    {
+        "sales_order_number": "2412061-140",
+        "amount": 1495000,
+        "date": "2024-12-6"
+    },
+    {
+        "sales_order_number": "2412071-151",
+        "amount": 1460000,
+        "date": "2024-12-7"
+    },
+    {
+        "sales_order_number": "2412071-166",
+        "amount": 1920000,
+        "date": "2024-12-7"
+    },
+    {
+        "sales_order_number": "2412091-221",
+        "amount": 1000000,
+        "date": "2024-12-9"
+    },
+    {
+        "sales_order_number": "2412091-225",
+        "amount": 1130000,
+        "date": "2024-12-9"
+    },
+    {
+        "sales_order_number": "2412091-221",
+        "amount": 20000,
+        "date": "2024-12-10"
+    },
+    {
+        "sales_order_number": "2412101-244",
+        "amount": 1550000,
+        "date": "2024-12-10"
+    },
+    {
+        "sales_order_number": "2412101-247",
+        "amount": 4985000,
+        "date": "2024-12-10"
+    },
+    {
+        "sales_order_number": "2412101-249",
+        "amount": 6532500,
+        "date": "2024-12-10"
+    },
+    {
+        "sales_order_number": "2412111-258",
+        "amount": 600000,
+        "date": "2024-12-11"
+    },
+    {
+        "sales_order_number": "2412021-041",
+        "amount": 11722000,
+        "date": "2024-12-12"
+    },
+    {
+        "sales_order_number": "2412141-318",
+        "amount": 1662000,
+        "date": "2024-12-14"
+    },
+    {
+        "sales_order_number": "2412141-324",
+        "amount": 2613000,
+        "date": "2024-12-14"
+    },
+    {
+        "sales_order_number": "2412161-361",
+        "amount": 2500000,
+        "date": "2024-12-16"
+    },
+    {
+        "sales_order_number": "2412161-382",
+        "amount": 1800000,
+        "date": "2024-12-16"
+    },
+    {
+        "sales_order_number": "2412201-479",
+        "amount": 5000000,
+        "date": "2024-12-20"
+    },
+    {
+        "sales_order_number": "2412211-507",
+        "amount": 875000,
+        "date": "2024-12-21"
+    },
+    {
+        "sales_order_number": "2412221-524",
+        "amount": 1200000,
+        "date": "2024-12-22"
+    },
+    {
+        "sales_order_number": "2412231-532",
+        "amount": 5169000,
+        "date": "2024-12-23"
+    },
+    {
+        "sales_order_number": "2412261-594",
+        "amount": 3480000,
+        "date": "2024-12-26"
+    },
+    {
+        "sales_order_number": "2412261-597",
+        "amount": 800000,
+        "date": "2024-12-26"
+    },
+    {
+        "sales_order_number": "2412271-623",
+        "amount": 9411000,
+        "date": "2024-12-27"
+    },
+    {
+        "sales_order_number": "2412271-627",
+        "amount": 4295000,
+        "date": "2024-12-27"
+    },
+    {
+        "sales_order_number": "2412281-649",
+        "amount": 1000000,
+        "date": "2024-12-28"
+    },
+    {
+        "sales_order_number": "2412291-659",
+        "amount": 11437500,
+        "date": "2024-12-29"
+    },
+    {
+        "sales_order_number": "2412291-672",
+        "amount": 900000,
+        "date": "2024-12-29"
+    },
+    {
+        "sales_order_number": "2412311-701",
+        "amount": 105000,
+        "date": "2024-12-31"
+    },
+    {
+        "sales_order_number": "2501011-006",
+        "amount": 2550000,
+        "date": "2025-1-1"
+    },
+    {
+        "sales_order_number": "2501021-014",
+        "amount": 670000,
+        "date": "2025-1-2"
+    },
+    {
+        "sales_order_number": "2501031-031",
+        "amount": 7000000,
+        "date": "2025-1-3"
+    },
+    {
+        "sales_order_number": "2501061-094",
+        "amount": 6000000,
+        "date": "2025-1-6"
+    },
+    {
+        "sales_order_number": "2501061-106",
+        "amount": 136000,
+        "date": "2025-1-6"
+    },
+    {
+        "sales_order_number": "2501091-184",
+        "amount": 5050000,
+        "date": "2025-1-9"
+    },
+    {
+        "sales_order_number": "2501101-208",
+        "amount": 1250000,
+        "date": "2025-1-10"
+    },
+    {
+        "sales_order_number": "2501141-275",
+        "amount": 10000,
+        "date": "2025-1-14"
+    },
+    {
+        "sales_order_number": "2501151-295",
+        "amount": 1480000,
+        "date": "2025-1-15"
+    },
+    {
+        "sales_order_number": "2501151-297",
+        "amount": 1440000,
+        "date": "2025-1-15"
+    },
+    {
+        "sales_order_number": "2501151-305",
+        "amount": 520000,
+        "date": "2025-1-15"
+    },
+    {
+        "sales_order_number": "2501151-322",
+        "amount": 3600000,
+        "date": "2025-1-15"
+    },
+    {
+        "sales_order_number": "2501161-348",
+        "amount": 3818000,
+        "date": "2025-1-16"
+    },
+    {
+        "sales_order_number": "2501201-428",
+        "amount": 4715000,
+        "date": "2025-1-20"
+    },
+    {
+        "sales_order_number": "2501201-431",
+        "amount": 15000000,
+        "date": "2025-1-20"
+    },
+    {
+        "sales_order_number": "2501221-451",
+        "amount": 2209000,
+        "date": "2025-1-22"
+    },
+    {
+        "sales_order_number": "2501221-464",
+        "amount": 5842000,
+        "date": "2025-1-22"
+    },
+    {
+        "sales_order_number": "2501231-468",
+        "amount": 2030000,
+        "date": "2025-1-23"
+    },
+    {
+        "sales_order_number": "2501231-483",
+        "amount": 1622000,
+        "date": "2025-1-23"
+    },
+    {
+        "sales_order_number": "2501251-527",
+        "amount": 365000,
+        "date": "2025-1-25"
+    },
+    {
+        "sales_order_number": "2501271-552",
+        "amount": 1155000,
+        "date": "2025-1-27"
+    },
+    {
+        "sales_order_number": "2501271-556",
+        "amount": 1900000,
+        "date": "2025-1-27"
+    },
+    {
+        "sales_order_number": "2501271-559",
+        "amount": 1900000,
+        "date": "2025-1-27"
+    },
+    {
+        "sales_order_number": "2501281-598",
+        "amount": 6000,
+        "date": "2025-1-28"
+    },
+    {
+        "sales_order_number": "2501301-636",
+        "amount": 355000,
+        "date": "2025-1-30"
+    },
+    {
+        "sales_order_number": "2501311-673",
+        "amount": 1895000,
+        "date": "2025-1-31"
+    },
+    {
+        "sales_order_number": "2502011-017",
+        "amount": 2065000,
+        "date": "2025-2-1"
+    },
+    {
+        "sales_order_number": "2502031-075",
+        "amount": 6000000,
+        "date": "2025-2-3"
+    },
+    {
+        "sales_order_number": "2502071-159",
+        "amount": 2000000,
+        "date": "2025-2-7"
+    },
+    {
+        "sales_order_number": "2502081-196",
+        "amount": 3700000,
+        "date": "2025-2-8"
+    },
+    {
+        "sales_order_number": "2502081-199",
+        "amount": 75000,
+        "date": "2025-2-8"
+    },
+    {
+        "sales_order_number": "2502101-237",
+        "amount": 100000,
+        "date": "2025-2-10"
+    },
+    {
+        "sales_order_number": "2502121-294",
+        "amount": 2860000,
+        "date": "2025-2-12"
+    },
+    {
+        "sales_order_number": "2502131-323",
+        "amount": 2920000,
+        "date": "2025-2-13"
+    },
+    {
+        "sales_order_number": "2502151-381",
+        "amount": 1360000,
+        "date": "2025-2-15"
+    },
+    {
+        "sales_order_number": "2502171-418",
+        "amount": 3340000,
+        "date": "2025-2-17"
+    },
+    {
+        "sales_order_number": "2502171-424",
+        "amount": 355000,
+        "date": "2025-2-17"
+    },
+    {
+        "sales_order_number": "2502211-515",
+        "amount": 4800000,
+        "date": "2025-2-21"
+    },
+    {
+        "sales_order_number": "2502241-574",
+        "amount": 2989000,
+        "date": "2025-2-24"
+    },
+    {
+        "sales_order_number": "2502261-671",
+        "amount": 20000000,
+        "date": "2025-2-26"
+    },
+    {
+        "sales_order_number": "2503011-005",
+        "amount": 20000000,
+        "date": "2025-3-1"
+    },
+    {
+        "sales_order_number": "2503011-013",
+        "amount": 5000000,
+        "date": "2025-3-1"
+    },
+    {
+        "sales_order_number": "2503021-026",
+        "amount": 9300000,
+        "date": "2025-3-2"
+    },
+    {
+        "sales_order_number": "2503021-027",
+        "amount": 3074000,
+        "date": "2025-3-2"
+    },
+    {
+        "sales_order_number": "2503021-031",
+        "amount": 1330000,
+        "date": "2025-3-2"
+    },
+    {
+        "sales_order_number": "2503031-044",
+        "amount": 4000000,
+        "date": "2025-3-3"
+    },
+    {
+        "sales_order_number": "2503041-059",
+        "amount": 1050000,
+        "date": "2025-3-4"
+    },
+    {
+        "sales_order_number": "2503041-064",
+        "amount": 1250000,
+        "date": "2025-3-4"
+    },
+    {
+        "sales_order_number": "2503041-075",
+        "amount": 246000,
+        "date": "2025-3-4"
+    },
+    {
+        "sales_order_number": "2503061-137",
+        "amount": 780000,
+        "date": "2025-3-6"
+    },
+    {
+        "sales_order_number": "2503071-155",
+        "amount": 360000,
+        "date": "2025-3-7"
+    },
+    {
+        "sales_order_number": "2503071-162",
+        "amount": 3000000,
+        "date": "2025-3-7"
+    },
+    {
+        "sales_order_number": "2503071-163",
+        "amount": 3000000,
+        "date": "2025-3-7"
+    },
+    {
+        "sales_order_number": "2503071-164",
+        "amount": 264000,
+        "date": "2025-3-7"
+    },
+    {
+        "sales_order_number": "2503081-187",
+        "amount": 6700000,
+        "date": "2025-3-8"
+    },
+    {
+        "sales_order_number": "2503091-210",
+        "amount": 4254000,
+        "date": "2025-3-9"
+    },
+    {
+        "sales_order_number": "2503091-214",
+        "amount": 8950000,
+        "date": "2025-3-9"
+    },
+    {
+        "sales_order_number": "2503121-281",
+        "amount": 1130000,
+        "date": "2025-3-12"
+    },
+    {
+        "sales_order_number": "2503131-291",
+        "amount": 527000,
+        "date": "2025-3-13"
+    },
+    {
+        "sales_order_number": "2503151-331",
+        "amount": 55000,
+        "date": "2025-3-15"
+    },
+    {
+        "sales_order_number": "2503151-338",
+        "amount": 6000000,
+        "date": "2025-3-15"
+    },
+    {
+        "sales_order_number": "2503151-344",
+        "amount": 5465000,
+        "date": "2025-3-15"
+    },
+    {
+        "sales_order_number": "2503161-359",
+        "amount": 3515000,
+        "date": "2025-3-16"
+    },
+    {
+        "sales_order_number": "2503161-361",
+        "amount": 22000,
+        "date": "2025-3-16"
+    },
+    {
+        "sales_order_number": "2503181-400",
+        "amount": 6615000,
+        "date": "2025-3-18"
+    },
+    {
+        "sales_order_number": "2503181-404",
+        "amount": 335000,
+        "date": "2025-3-18"
+    },
+    {
+        "sales_order_number": "2503181-405",
+        "amount": 2955000,
+        "date": "2025-3-18"
+    },
+    {
+        "sales_order_number": "2503181-431",
+        "amount": 10000000,
+        "date": "2025-3-18"
+    },
+    {
+        "sales_order_number": "2503191-450",
+        "amount": 3400000,
+        "date": "2025-3-19"
+    },
+    {
+        "sales_order_number": "2503191-453",
+        "amount": 1300000,
+        "date": "2025-3-19"
+    },
+    {
+        "sales_order_number": "2503221-508",
+        "amount": 666500,
+        "date": "2025-3-22"
+    },
+    {
+        "sales_order_number": "2503221-521",
+        "amount": 900000,
+        "date": "2025-3-22"
+    },
+    {
+        "sales_order_number": "2503221-528",
+        "amount": 1380000,
+        "date": "2025-3-22"
+    },
+    {
+        "sales_order_number": "2503231-533",
+        "amount": 485000,
+        "date": "2025-3-23"
+    },
+    {
+        "sales_order_number": "2503231-534",
+        "amount": 15000,
+        "date": "2025-3-23"
+    },
+    {
+        "sales_order_number": "2503241-571",
+        "amount": 45000,
+        "date": "2025-3-24"
+    },
+    {
+        "sales_order_number": "2503241-577",
+        "amount": 1760000,
+        "date": "2025-3-24"
+    },
+    {
+        "sales_order_number": "2503251-585",
+        "amount": 5229000,
+        "date": "2025-3-25"
+    },
+    {
+        "sales_order_number": "2503261-594",
+        "amount": 6300000,
+        "date": "2025-3-26"
+    },
+    {
+        "sales_order_number": "2503261-595",
+        "amount": 6300000,
+        "date": "2025-3-26"
+    },
+    {
+        "sales_order_number": "2503261-604",
+        "amount": 490000,
+        "date": "2025-3-26"
+    },
+    {
+        "sales_order_number": "2503271-618",
+        "amount": 430,
+        "date": "2025-3-27"
+    },
+    {
+        "sales_order_number": "2504071-006",
+        "amount": 7360000,
+        "date": "2025-4-7"
+    },
+    {
+        "sales_order_number": "2504071-012",
+        "amount": 20000000,
+        "date": "2025-4-7"
+    },
+    {
+        "sales_order_number": "2504071-022",
+        "amount": 3700000,
+        "date": "2025-4-7"
+    },
+    {
+        "sales_order_number": "2504071-023",
+        "amount": 5400000,
+        "date": "2025-4-7"
+    },
+    {
+        "sales_order_number": "2504081-064",
+        "amount": 3335000,
+        "date": "2025-4-8"
+    },
+    {
+        "sales_order_number": "2504091-104",
+        "amount": 10350000,
+        "date": "2025-4-9"
+    },
+    {
+        "sales_order_number": "2504101-131",
+        "amount": 2406000,
+        "date": "2025-4-10"
+    },
+    {
+        "sales_order_number": "2504101-132",
+        "amount": 2560000,
+        "date": "2025-4-10"
+    },
+    {
+        "sales_order_number": "2504111-152",
+        "amount": 8000000,
+        "date": "2025-4-11"
+    },
+    {
+        "sales_order_number": "2504111-155",
+        "amount": 800000,
+        "date": "2025-4-11"
+    },
+    {
+        "sales_order_number": "2504121-213",
+        "amount": 2630000,
+        "date": "2025-4-12"
+    },
+    {
+        "sales_order_number": "2504121-217",
+        "amount": 1500000,
+        "date": "2025-4-12"
+    },
+    {
+        "sales_order_number": "2504131-233",
+        "amount": 350000,
+        "date": "2025-4-13"
+    },
+    {
+        "sales_order_number": "2504131-243",
+        "amount": 1620000,
+        "date": "2025-4-13"
+    },
+    {
+        "sales_order_number": "2504141-254",
+        "amount": 135000,
+        "date": "2025-4-14"
+    },
+    {
+        "sales_order_number": "2504141-273",
+        "amount": 9000000,
+        "date": "2025-4-14"
+    },
+    {
+        "sales_order_number": "2504141-275",
+        "amount": 280000,
+        "date": "2025-4-14"
+    },
+    {
+        "sales_order_number": "2504161-308",
+        "amount": 1045000,
+        "date": "2025-4-16"
+    },
+    {
+        "sales_order_number": "2504161-320",
+        "amount": 270000,
+        "date": "2025-4-16"
+    },
+    {
+        "sales_order_number": "2504161-328",
+        "amount": 650000,
+        "date": "2025-4-16"
+    },
+    {
+        "sales_order_number": "2504161-330",
+        "amount": 392000,
+        "date": "2025-4-16"
+    },
+    {
+        "sales_order_number": "2504171-346",
+        "amount": 365000,
+        "date": "2025-4-17"
+    },
+    {
+        "sales_order_number": "2504181-379",
+        "amount": 410000,
+        "date": "2025-4-18"
+    },
+    {
+        "sales_order_number": "2504191-402",
+        "amount": 2903500,
+        "date": "2025-4-19"
+    },
+    {
+        "sales_order_number": "2504191-419",
+        "amount": 4520000,
+        "date": "2025-4-19"
+    },
+    {
+        "sales_order_number": "2504201-437",
+        "amount": 10000000,
+        "date": "2025-4-20"
+    },
+    {
+        "sales_order_number": "2504211-445",
+        "amount": 117000,
+        "date": "2025-4-21"
+    },
+    {
+        "sales_order_number": "2504211-469",
+        "amount": 680000,
+        "date": "2025-4-21"
+    },
+    {
+        "sales_order_number": "2504231-507",
+        "amount": 2258500,
+        "date": "2025-4-23"
+    },
+    {
+        "sales_order_number": "2504251-557",
+        "amount": 240000,
+        "date": "2025-4-25"
+    },
+    {
+        "sales_order_number": "2504251-574",
+        "amount": 9000000,
+        "date": "2025-4-25"
+    },
+    {
+        "sales_order_number": "2504271-592",
+        "amount": 3125000,
+        "date": "2025-4-27"
+    },
+    {
+        "sales_order_number": "2504271-608",
+        "amount": 22771000,
+        "date": "2025-4-27"
+    },
+    {
+        "sales_order_number": "2504271-616",
+        "amount": 500000,
+        "date": "2025-4-27"
+    },
+    {
+        "sales_order_number": "2504291-654",
+        "amount": 5000000,
+        "date": "2025-4-29"
+    },
+    {
+        "sales_order_number": "2504291-664",
+        "amount": 11000000,
+        "date": "2025-4-29"
+    },
+    {
+        "sales_order_number": "2504291-666",
+        "amount": 400000,
+        "date": "2025-4-29"
+    },
+    {
+        "sales_order_number": "2504291-670",
+        "amount": 1800000,
+        "date": "2025-4-29"
+    },
+    {
+        "sales_order_number": "2504291-674",
+        "amount": 676000,
+        "date": "2025-4-29"
+    },
+    {
+        "sales_order_number": "2504301-691",
+        "amount": 7220000,
+        "date": "2025-4-30"
+    },
+    {
+        "sales_order_number": "2505011-013",
+        "amount": 2590000,
+        "date": "2025-5-1"
+    },
+    {
+        "sales_order_number": "2505011-018",
+        "amount": 1870000,
+        "date": "2025-5-1"
+    },
+    {
+        "sales_order_number": "2505021-035",
+        "amount": 890000,
+        "date": "2025-5-2"
+    },
+    {
+        "sales_order_number": "2505021-050",
+        "amount": 5200000,
+        "date": "2025-5-2"
+    },
+    {
+        "sales_order_number": "2505031-082",
+        "amount": 5842000,
+        "date": "2025-5-3"
+    },
+    {
+        "sales_order_number": "2505041-089",
+        "amount": 1760000,
+        "date": "2025-5-4"
+    },
+    {
+        "sales_order_number": "2505061-148",
+        "amount": 1056000,
+        "date": "2025-5-6"
+    },
+    {
+        "sales_order_number": "2505061-159",
+        "amount": 1400000,
+        "date": "2025-5-6"
+    },
+    {
+        "sales_order_number": "2505061-165",
+        "amount": 1000000,
+        "date": "2025-5-6"
+    },
+    {
+        "sales_order_number": "2505071-169",
+        "amount": 5000000,
+        "date": "2025-5-7"
+    },
+    {
+        "sales_order_number": "2505071-176",
+        "amount": 10525000,
+        "date": "2025-5-7"
+    },
+    {
+        "sales_order_number": "2505081-208",
+        "amount": 2045500,
+        "date": "2025-5-8"
+    },
+    {
+        "sales_order_number": "2505091-253",
+        "amount": 207500,
+        "date": "2025-5-9"
+    },
+    {
+        "sales_order_number": "2505111-316",
+        "amount": 9220000,
+        "date": "2025-5-11"
+    },
+    {
+        "sales_order_number": "2505121-331",
+        "amount": 9500000,
+        "date": "2025-5-12"
+    },
+    {
+        "sales_order_number": "2505121-332",
+        "amount": 3000000,
+        "date": "2025-5-12"
+    },
+    {
+        "sales_order_number": "2505121-335",
+        "amount": 1760000,
+        "date": "2025-5-12"
+    },
+    {
+        "sales_order_number": "2505121-336",
+        "amount": 559000,
+        "date": "2025-5-12"
+    },
+    {
+        "sales_order_number": "2505121-339",
+        "amount": 1900000,
+        "date": "2025-5-12"
+    },
+    {
+        "sales_order_number": "2309191005",
+        "amount": 2000000,
+        "date": "2025-5-13"
+    },
+    {
+        "sales_order_number": "2505131-343",
+        "amount": 6515000,
+        "date": "2025-5-13"
+    },
+    {
+        "sales_order_number": "2505131-362",
+        "amount": 10625000,
+        "date": "2025-5-13"
+    },
+    {
+        "sales_order_number": "2505131-369",
+        "amount": 2900000,
+        "date": "2025-5-13"
+    },
+    {
+        "sales_order_number": "2505151-401",
+        "amount": 5165000,
+        "date": "2025-5-15"
+    },
+    {
+        "sales_order_number": "2505151-406",
+        "amount": 840000,
+        "date": "2025-5-15"
+    },
+    {
+        "sales_order_number": "2505171-463",
+        "amount": 2569000,
+        "date": "2025-5-17"
+    },
+    {
+        "sales_order_number": "2505171-476",
+        "amount": 2730000,
+        "date": "2025-5-17"
+    },
+    {
+        "sales_order_number": "2505181-483",
+        "amount": 660000,
+        "date": "2025-5-18"
+    },
+    {
+        "sales_order_number": "2505191-523",
+        "amount": 2520000,
+        "date": "2025-5-19"
+    },
+    {
+        "sales_order_number": "2505191-529",
+        "amount": 2320000,
+        "date": "2025-5-19"
+    },
+    {
+        "sales_order_number": "2505201-544",
+        "amount": 1100000,
+        "date": "2025-5-20"
+    },
+    {
+        "sales_order_number": "2505221-610",
+        "amount": 5000,
+        "date": "2025-5-22"
+    },
+    {
+        "sales_order_number": "2505221-612",
+        "amount": 10350000,
+        "date": "2025-5-22"
+    },
+    {
+        "sales_order_number": "2505221-619",
+        "amount": 740000,
+        "date": "2025-5-22"
+    },
+    {
+        "sales_order_number": "2505221-622",
+        "amount": 330,
+        "date": "2025-5-22"
+    },
+    {
+        "sales_order_number": "2505231-630",
+        "amount": 300000,
+        "date": "2025-5-23"
+    },
+    {
+        "sales_order_number": "2505231-630",
+        "amount": 300000,
+        "date": "2025-5-23"
+    },
+    {
+        "sales_order_number": "2505241-673",
+        "amount": 900000,
+        "date": "2025-5-24"
+    },
+    {
+        "sales_order_number": "2505241-681",
+        "amount": 5000000,
+        "date": "2025-5-24"
+    },
+    {
+        "sales_order_number": "2505241-695",
+        "amount": 1537500,
+        "date": "2025-5-24"
+    },
+    {
+        "sales_order_number": "2505241-696",
+        "amount": 2600000,
+        "date": "2025-5-24"
+    },
+    {
+        "sales_order_number": "2505251-698",
+        "amount": 1280000,
+        "date": "2025-5-25"
+    },
+    {
+        "sales_order_number": "2505261-737",
+        "amount": 5000000,
+        "date": "2025-5-26"
+    },
+    {
+        "sales_order_number": "2505271-772",
+        "amount": 2850000,
+        "date": "2025-5-27"
+    },
+    {
+        "sales_order_number": "2505291-822",
+        "amount": 240000,
+        "date": "2025-5-29"
+    },
+    {
+        "sales_order_number": "2505301-855",
+        "amount": 21924000,
+        "date": "2025-5-30"
+    },
+    {
+        "sales_order_number": "2505301-858",
+        "amount": 7750000,
+        "date": "2025-5-30"
+    },
+    {
+        "sales_order_number": "2505301-870",
+        "amount": 4180000,
+        "date": "2025-5-30"
+    },
+    {
+        "sales_order_number": "2505311-892",
+        "amount": 550000,
+        "date": "2025-5-31"
+    },
+    {
+        "sales_order_number": "2506011-008",
+        "amount": 4251000,
+        "date": "2025-6-1"
+    },
+    {
+        "sales_order_number": "2506011-022",
+        "amount": 2900000,
+        "date": "2025-6-1"
+    },
+    {
+        "sales_order_number": "2506031-078",
+        "amount": 1130000,
+        "date": "2025-6-3"
+    },
+    {
+        "sales_order_number": "2506041-115",
+        "amount": 4700000,
+        "date": "2025-6-4"
+    },
+    {
+        "sales_order_number": "2506051-124",
+        "amount": 3400000,
+        "date": "2025-6-5"
+    },
+    {
+        "sales_order_number": "2506051-134",
+        "amount": 4800000,
+        "date": "2025-6-5"
+    },
+    {
+        "sales_order_number": "2506071-144",
+        "amount": 6160000,
+        "date": "2025-6-7"
+    },
+    {
+        "sales_order_number": "2506081-151",
+        "amount": 1567000,
+        "date": "2025-6-8"
+    },
+    {
+        "sales_order_number": "2506081-156",
+        "amount": 2940000,
+        "date": "2025-6-8"
+    },
+    {
+        "sales_order_number": "2506081-157",
+        "amount": 336000,
+        "date": "2025-6-8"
+    },
+    {
+        "sales_order_number": "2506081-158",
+        "amount": 2170000,
+        "date": "2025-6-8"
+    },
+    {
+        "sales_order_number": "2506081-160",
+        "amount": 6000000,
+        "date": "2025-6-8"
+    },
+    {
+        "sales_order_number": "2506091-202",
+        "amount": 8000000,
+        "date": "2025-6-9"
+    },
+    {
+        "sales_order_number": "2506101-220",
+        "amount": 4000000,
+        "date": "2025-6-10"
+    },
+    {
+        "sales_order_number": "2506111-249",
+        "amount": 75000,
+        "date": "2025-6-11"
+    },
+    {
+        "sales_order_number": "2506131-279",
+        "amount": 4000,
+        "date": "2025-6-13"
+    },
+    {
+        "sales_order_number": "2506141-302",
+        "amount": 3730000,
+        "date": "2025-6-14"
+    },
+    {
+        "sales_order_number": "2506151-330",
+        "amount": 2300000,
+        "date": "2025-6-15"
+    },
+    {
+        "sales_order_number": "2506161-360",
+        "amount": 1435000,
+        "date": "2025-6-16"
+    },
+    {
+        "sales_order_number": "2506161-364",
+        "amount": 1230000,
+        "date": "2025-6-16"
+    },
+    {
+        "sales_order_number": "2506161-377",
+        "amount": 280000,
+        "date": "2025-6-16"
+    },
+    {
+        "sales_order_number": "2506171-386",
+        "amount": 1751000,
+        "date": "2025-6-17"
+    },
+    {
+        "sales_order_number": "2506171-387",
+        "amount": 3424500,
+        "date": "2025-6-17"
+    },
+    {
+        "sales_order_number": "2506171-405",
+        "amount": 5800000,
+        "date": "2025-6-17"
+    },
+    {
+        "sales_order_number": "2506191-425",
+        "amount": 6285000,
+        "date": "2025-6-19"
+    },
+    {
+        "sales_order_number": "2506191-437",
+        "amount": 2900000,
+        "date": "2025-6-19"
+    },
+    {
+        "sales_order_number": "2506201-473",
+        "amount": 89000,
+        "date": "2025-6-20"
+    },
+    {
+        "sales_order_number": "2506201-480",
+        "amount": 250000,
+        "date": "2025-6-20"
+    },
+    {
+        "sales_order_number": "2506211-484",
+        "amount": 1010000,
+        "date": "2025-6-21"
+    },
+    {
+        "sales_order_number": "2506211-505",
+        "amount": 2470000,
+        "date": "2025-6-21"
+    },
+    {
+        "sales_order_number": "2506211-507",
+        "amount": 4300000,
+        "date": "2025-6-21"
+    },
+    {
+        "sales_order_number": "2506221-516",
+        "amount": 12000000,
+        "date": "2025-6-22"
+    },
+    {
+        "sales_order_number": "2506231-527",
+        "amount": 800000,
+        "date": "2025-6-23"
+    },
+    {
+        "sales_order_number": "2506231-536",
+        "amount": 600000,
+        "date": "2025-6-23"
+    },
+    {
+        "sales_order_number": "2506231-538",
+        "amount": 2300000,
+        "date": "2025-6-23"
+    },
+    {
+        "sales_order_number": "2506241-564",
+        "amount": 345000,
+        "date": "2025-6-24"
+    },
+    {
+        "sales_order_number": "2506261-619",
+        "amount": 180000,
+        "date": "2025-6-26"
+    },
+    {
+        "sales_order_number": "2506261-621",
+        "amount": 1200000,
+        "date": "2025-6-26"
+    },
+    {
+        "sales_order_number": "2506261-637",
+        "amount": 465000,
+        "date": "2025-6-26"
+    },
+    {
+        "sales_order_number": "2506271-662",
+        "amount": 1650000,
+        "date": "2025-6-27"
+    },
+    {
+        "sales_order_number": "2506281-692",
+        "amount": 115000,
+        "date": "2025-6-28"
+    },
+    {
+        "sales_order_number": "2506301-736",
+        "amount": 1230000,
+        "date": "2025-6-30"
+    },
+    {
+        "sales_order_number": "2507031-041",
+        "amount": 2006,
+        "date": "2025-7-3"
+    },
+    {
+        "sales_order_number": "2507031-061",
+        "amount": 2205000,
+        "date": "2025-7-3"
+    },
+    {
+        "sales_order_number": "2507041-075",
+        "amount": 2200000,
+        "date": "2025-7-4"
+    },
+    {
+        "sales_order_number": "2507041-079",
+        "amount": 240000,
+        "date": "2025-7-4"
+    },
+    {
+        "sales_order_number": "2507041-084",
+        "amount": 5067500,
+        "date": "2025-7-4"
+    },
+    {
+        "sales_order_number": "2507051-106",
+        "amount": 12500,
+        "date": "2025-7-5"
+    },
+    {
+        "sales_order_number": "2507051-109",
+        "amount": 268000,
+        "date": "2025-7-5"
+    },
+    {
+        "sales_order_number": "2507051-114",
+        "amount": 4500000,
+        "date": "2025-7-5"
+    },
+    {
+        "sales_order_number": "2507051-121",
+        "amount": 3000000,
+        "date": "2025-7-5"
+    },
+    {
+        "sales_order_number": "2507061-135",
+        "amount": 1500000,
+        "date": "2025-7-6"
+    },
+    {
+        "sales_order_number": "2507071-175",
+        "amount": 1167500,
+        "date": "2025-7-7"
+    },
+    {
+        "sales_order_number": "2507071-192",
+        "amount": 1100000,
+        "date": "2025-7-7"
+    },
+    {
+        "sales_order_number": "2507091-257",
+        "amount": 2101500,
+        "date": "2025-7-9"
+    },
+    {
+        "sales_order_number": "2507091-261",
+        "amount": 7000000,
+        "date": "2025-7-9"
+    },
+    {
+        "sales_order_number": "2507091-262",
+        "amount": 430000,
+        "date": "2025-7-9"
+    },
+    {
+        "sales_order_number": "2507101-273",
+        "amount": 300000,
+        "date": "2025-7-10"
+    },
+    {
+        "sales_order_number": "2507101-289",
+        "amount": 170000,
+        "date": "2025-7-10"
+    },
+    {
+        "sales_order_number": "2507101-298",
+        "amount": 24000,
+        "date": "2025-7-10"
+    },
+    {
+        "sales_order_number": "2507101-300",
+        "amount": 1100000,
+        "date": "2025-7-10"
+    },
+    {
+        "sales_order_number": "2507111-317",
+        "amount": 1120000,
+        "date": "2025-7-11"
+    },
+    {
+        "sales_order_number": "2507111-323",
+        "amount": 1000000,
+        "date": "2025-7-11"
+    },
+    {
+        "sales_order_number": "2507111-333",
+        "amount": 1140000,
+        "date": "2025-7-11"
+    },
+    {
+        "sales_order_number": "2507121-358",
+        "amount": 2000000,
+        "date": "2025-7-12"
+    },
+    {
+        "sales_order_number": "2507131-371",
+        "amount": 405000,
+        "date": "2025-7-13"
+    },
+    {
+        "sales_order_number": "2507131-385",
+        "amount": 2700000,
+        "date": "2025-7-13"
+    },
+    {
+        "sales_order_number": "2507141-391",
+        "amount": 1000000,
+        "date": "2025-7-14"
+    },
+    {
+        "sales_order_number": "2507161-458",
+        "amount": 225000,
+        "date": "2025-7-16"
+    },
+    {
+        "sales_order_number": "2507161-467",
+        "amount": 13000000,
+        "date": "2025-7-16"
+    },
+    {
+        "sales_order_number": "2507171-484",
+        "amount": 10000000,
+        "date": "2025-7-17"
+    },
+    {
+        "sales_order_number": "2507171-487",
+        "amount": 450000,
+        "date": "2025-7-17"
+    },
+    {
+        "sales_order_number": "2507171-500",
+        "amount": 1310000,
+        "date": "2025-7-17"
+    },
+    {
+        "sales_order_number": "2507181-537",
+        "amount": 136500,
+        "date": "2025-7-18"
+    },
+    {
+        "sales_order_number": "2507211-600",
+        "amount": 465000,
+        "date": "2025-7-21"
+    },
+    {
+        "sales_order_number": "2507221-621",
+        "amount": 260000,
+        "date": "2025-7-22"
+    },
+    {
+        "sales_order_number": "2507231-665",
+        "amount": 3000000,
+        "date": "2025-7-23"
+    },
+    {
+        "sales_order_number": "2507231-681",
+        "amount": 7501000,
+        "date": "2025-7-23"
+    },
+    {
+        "sales_order_number": "2507241-689",
+        "amount": 2160000,
+        "date": "2025-7-24"
+    },
+    {
+        "sales_order_number": "2507251-722",
+        "amount": 8550000,
+        "date": "2025-7-25"
+    },
+    {
+        "sales_order_number": "2507251-726",
+        "amount": 290000,
+        "date": "2025-7-25"
+    },
+    {
+        "sales_order_number": "2507251-732",
+        "amount": 700000,
+        "date": "2025-7-25"
+    },
+    {
+        "sales_order_number": "2507251-741",
+        "amount": 2210000,
+        "date": "2025-7-25"
+    },
+    {
+        "sales_order_number": "2507251-742",
+        "amount": 200000,
+        "date": "2025-7-25"
+    },
+    {
+        "sales_order_number": "2507271-773",
+        "amount": 5000000,
+        "date": "2025-7-27"
+    },
+    {
+        "sales_order_number": "2507271-785",
+        "amount": 30000,
+        "date": "2025-7-27"
+    },
+    {
+        "sales_order_number": "2507271-787",
+        "amount": 3035000,
+        "date": "2025-7-27"
+    },
+    {
+        "sales_order_number": "2507281-816",
+        "amount": 655000,
+        "date": "2025-7-28"
+    },
+    {
+        "sales_order_number": "2507311-881",
+        "amount": 20700000,
+        "date": "2025-7-31"
+    },
+    {
+        "sales_order_number": "2507311-900",
+        "amount": 5000000,
+        "date": "2025-7-31"
+    },
+    {
+        "sales_order_number": "2507311-902",
+        "amount": 20000,
+        "date": "2025-7-31"
+    },
+    {
+        "sales_order_number": "2507311-911",
+        "amount": 1125000,
+        "date": "2025-7-31"
+    },
+    {
+        "sales_order_number": "2508011-011",
+        "amount": 1500000,
+        "date": "2025-8-1"
+    },
+    {
+        "sales_order_number": "2508011-020",
+        "amount": 300000,
+        "date": "2025-8-1"
+    },
+    {
+        "sales_order_number": "2508021-062",
+        "amount": 5320000,
+        "date": "2025-8-2"
+    },
+    {
+        "sales_order_number": "2508031-081",
+        "amount": 500000,
+        "date": "2025-8-3"
+    },
+    {
+        "sales_order_number": "2508041-111",
+        "amount": 334000,
+        "date": "2025-8-4"
+    },
+    {
+        "sales_order_number": "2508061-165",
+        "amount": 1600000,
+        "date": "2025-8-6"
+    },
+    {
+        "sales_order_number": "2508071-196",
+        "amount": 5000000,
+        "date": "2025-8-7"
+    },
+    {
+        "sales_order_number": "2508081-257",
+        "amount": 8130000,
+        "date": "2025-8-8"
+    },
+    {
+        "sales_order_number": "2508091-263",
+        "amount": 2970000,
+        "date": "2025-8-9"
+    },
+    {
+        "sales_order_number": "2508091-289",
+        "amount": 895000,
+        "date": "2025-8-9"
+    },
+    {
+        "sales_order_number": "2508101-304",
+        "amount": 5235000,
+        "date": "2025-8-10"
+    },
+    {
+        "sales_order_number": "2508111-348",
+        "amount": 700000,
+        "date": "2025-8-11"
+    },
+    {
+        "sales_order_number": "2508121-356",
+        "amount": 500000,
+        "date": "2025-8-12"
+    },
+    {
+        "sales_order_number": "2508121-362",
+        "amount": 2500000,
+        "date": "2025-8-12"
+    },
+    {
+        "sales_order_number": "2508131-383",
+        "amount": 450000,
+        "date": "2025-8-13"
+    },
+    {
+        "sales_order_number": "2508141-398",
+        "amount": 7000000,
+        "date": "2025-8-14"
+    },
+    {
+        "sales_order_number": "2508141-407",
+        "amount": 970000,
+        "date": "2025-8-14"
+    },
+    {
+        "sales_order_number": "2508141-418",
+        "amount": 676000,
+        "date": "2025-8-14"
+    },
+    {
+        "sales_order_number": "2508141-419",
+        "amount": 7000000,
+        "date": "2025-8-14"
+    },
+    {
+        "sales_order_number": "2508151-438",
+        "amount": 675000,
+        "date": "2025-8-15"
+    },
+    {
+        "sales_order_number": "2508151-452",
+        "amount": 5000000,
+        "date": "2025-8-15"
+    },
+    {
+        "sales_order_number": "2508161-490",
+        "amount": 326000,
+        "date": "2025-8-16"
+    },
+    {
+        "sales_order_number": "2508181-506",
+        "amount": 19080000,
+        "date": "2025-8-18"
+    },
+    {
+        "sales_order_number": "2508181-512",
+        "amount": 1000000,
+        "date": "2025-8-18"
+    },
+    {
+        "sales_order_number": "2508181-516",
+        "amount": 4700000,
+        "date": "2025-8-18"
+    },
+    {
+        "sales_order_number": "2508191-528",
+        "amount": 3250000,
+        "date": "2025-8-19"
+    },
+    {
+        "sales_order_number": "2508191-541",
+        "amount": 3800000,
+        "date": "2025-8-19"
+    },
+    {
+        "sales_order_number": "2508201-552",
+        "amount": 500000,
+        "date": "2025-8-20"
+    },
+    {
+        "sales_order_number": "2508201-568",
+        "amount": 240000,
+        "date": "2025-8-20"
+    },
+    {
+        "sales_order_number": "2508201-572",
+        "amount": 500000,
+        "date": "2025-8-20"
+    },
+    {
+        "sales_order_number": "2508211-592",
+        "amount": 265000,
+        "date": "2025-8-21"
+    },
+    {
+        "sales_order_number": "2508211-599",
+        "amount": 2600000,
+        "date": "2025-8-21"
+    },
+    {
+        "sales_order_number": "2508211-619",
+        "amount": 530000,
+        "date": "2025-8-21"
+    },
+    {
+        "sales_order_number": "2508231-664",
+        "amount": 7500000,
+        "date": "2025-8-23"
+    },
+    {
+        "sales_order_number": "2508241-680",
+        "amount": 17500,
+        "date": "2025-8-24"
+    },
+    {
+        "sales_order_number": "2508241-681",
+        "amount": 17500,
+        "date": "2025-8-24"
+    },
+    {
+        "sales_order_number": "2508251-713",
+        "amount": 200000,
+        "date": "2025-8-25"
+    },
+    {
+        "sales_order_number": "2508251-716",
+        "amount": 2370000,
+        "date": "2025-8-25"
+    },
+    {
+        "sales_order_number": "2508261-739",
+        "amount": 1062000,
+        "date": "2025-8-26"
+    },
+    {
+        "sales_order_number": "2508281-802",
+        "amount": 950000,
+        "date": "2025-8-28"
+    },
+    {
+        "sales_order_number": "2508281-804",
+        "amount": 2100000,
+        "date": "2025-8-28"
+    },
+    {
+        "sales_order_number": "2508301-866",
+        "amount": 2417000,
+        "date": "2025-8-30"
+    },
+    {
+        "sales_order_number": "2508301-881",
+        "amount": 17500,
+        "date": "2025-8-30"
+    },
+    {
+        "sales_order_number": "2508311-894",
+        "amount": 1035000,
+        "date": "2025-8-31"
+    },
+    {
+        "sales_order_number": "2508311-901",
+        "amount": 1000000,
+        "date": "2025-8-31"
+    },
+    {
+        "sales_order_number": "2509021-031",
+        "amount": 1500000,
+        "date": "2025-9-2"
+    },
+    {
+        "sales_order_number": "2509021-054",
+        "amount": 1350000,
+        "date": "2025-9-2"
+    },
+    {
+        "sales_order_number": "2509031-083",
+        "amount": 5000000,
+        "date": "2025-9-3"
+    },
+    {
+        "sales_order_number": "2509031-083",
+        "amount": 5000000,
+        "date": "2025-9-3"
+    },
+    {
+        "sales_order_number": "2509041-111",
+        "amount": 340000,
+        "date": "2025-9-4"
+    },
+    {
+        "sales_order_number": "2509041-112",
+        "amount": 1500000,
+        "date": "2025-9-4"
+    },
+    {
+        "sales_order_number": "2509051-150",
+        "amount": 680000,
+        "date": "2025-9-5"
+    },
+    {
+        "sales_order_number": "2509061-193",
+        "amount": 104000,
+        "date": "2025-9-6"
+    },
+    {
+        "sales_order_number": "2509071-223",
+        "amount": 300000,
+        "date": "2025-9-7"
+    },
+    {
+        "sales_order_number": "2509081-283",
+        "amount": 928000,
+        "date": "2025-9-8"
+    },
+    {
+        "sales_order_number": "2509091-304",
+        "amount": 25000,
+        "date": "2025-9-9"
+    },
+    {
+        "sales_order_number": "2509101-335",
+        "amount": 6000000,
+        "date": "2025-9-10"
+    },
+    {
+        "sales_order_number": "2509121-399",
+        "amount": 650000,
+        "date": "2025-9-12"
+    },
+    {
+        "sales_order_number": "2509131-449",
+        "amount": 30000000,
+        "date": "2025-9-13"
+    },
+    {
+        "sales_order_number": "2509131-453",
+        "amount": 1000000,
+        "date": "2025-9-13"
+    },
+    {
+        "sales_order_number": "2509141-490",
+        "amount": 22000000,
+        "date": "2025-9-14"
+    },
+    {
+        "sales_order_number": "2509141-493",
+        "amount": 5170000,
+        "date": "2025-9-14"
+    },
+    {
+        "sales_order_number": "2509141-494",
+        "amount": 100000,
+        "date": "2025-9-14"
+    },
+    {
+        "sales_order_number": "2509151-528",
+        "amount": 25000,
+        "date": "2025-9-15"
+    },
+    {
+        "sales_order_number": "2509151-536",
+        "amount": 300000,
+        "date": "2025-9-15"
+    },
+    {
+        "sales_order_number": "2509161-552",
+        "amount": 1530000,
+        "date": "2025-9-16"
+    },
+    {
+        "sales_order_number": "2509161-557",
+        "amount": 325000,
+        "date": "2025-9-16"
+    },
+    {
+        "sales_order_number": "2509181-614",
+        "amount": 4900000,
+        "date": "2025-9-18"
+    },
+    {
+        "sales_order_number": "2509181-616",
+        "amount": 4900000,
+        "date": "2025-9-18"
+    },
+    {
+        "sales_order_number": "2509191-662",
+        "amount": 1800000,
+        "date": "2025-9-19"
+    },
+    {
+        "sales_order_number": "2509201-690",
+        "amount": 750000,
+        "date": "2025-9-20"
+    },
+    {
+        "sales_order_number": "2509201-701",
+        "amount": 950000,
+        "date": "2025-9-20"
+    },
+    {
+        "sales_order_number": "2509211-702",
+        "amount": 2440000,
+        "date": "2025-9-21"
+    },
+    {
+        "sales_order_number": "2509211-711",
+        "amount": 1008000,
+        "date": "2025-9-21"
+    },
+    {
+        "sales_order_number": "2509221-747",
+        "amount": 11702500,
+        "date": "2025-9-22"
+    },
+    {
+        "sales_order_number": "2509221-757",
+        "amount": 1760000,
+        "date": "2025-9-22"
+    },
+    {
+        "sales_order_number": "2509221-758",
+        "amount": 5000000,
+        "date": "2025-9-22"
+    },
+    {
+        "sales_order_number": "2509231-767",
+        "amount": 4750000,
+        "date": "2025-9-23"
+    },
+    {
+        "sales_order_number": "2509231-770",
+        "amount": 140000,
+        "date": "2025-9-23"
+    },
+    {
+        "sales_order_number": "2509231-778",
+        "amount": 3662000,
+        "date": "2025-9-23"
+    },
+    {
+        "sales_order_number": "2509231-779",
+        "amount": 5000000,
+        "date": "2025-9-23"
+    },
+    {
+        "sales_order_number": "2509231-781",
+        "amount": 31650000,
+        "date": "2025-9-23"
+    },
+    {
+        "sales_order_number": "2509241-788",
+        "amount": 30000,
+        "date": "2025-9-24"
+    },
+    {
+        "sales_order_number": "2509241-792",
+        "amount": 5400000,
+        "date": "2025-9-24"
+    },
+    {
+        "sales_order_number": "2509251-817",
+        "amount": 1240000,
+        "date": "2025-9-25"
+    },
+    {
+        "sales_order_number": "2509261-834",
+        "amount": 10100000,
+        "date": "2025-9-26"
+    },
+    {
+        "sales_order_number": "2509261-839",
+        "amount": 3000000,
+        "date": "2025-9-26"
+    },
+    {
+        "sales_order_number": "2509261-844",
+        "amount": 3040000,
+        "date": "2025-9-26"
+    },
+    {
+        "sales_order_number": "2509261-847",
+        "amount": 1065000,
+        "date": "2025-9-26"
+    },
+    {
+        "sales_order_number": "2509271-890",
+        "amount": 660000,
+        "date": "2025-9-27"
+    },
+    {
+        "sales_order_number": "2509271-905",
+        "amount": 670000,
+        "date": "2025-9-27"
+    },
+    {
+        "sales_order_number": "2510081-227",
+        "amount": 204000,
+        "date": "2025-10-8"
+    },
+    {
+        "sales_order_number": "2510081-237",
+        "amount": 1000000,
+        "date": "2025-10-8"
+    },
+    {
+        "sales_order_number": "2510091-261",
+        "amount": 44000000,
+        "date": "2025-10-9"
+    },
+    {
+        "sales_order_number": "2510091-267",
+        "amount": 200000,
+        "date": "2025-10-9"
+    },
+    {
+        "sales_order_number": "2510101-320",
+        "amount": 400000,
+        "date": "2025-10-10"
+    },
+    {
+        "sales_order_number": "2510131-393",
+        "amount": 285000,
+        "date": "2025-10-13"
+    },
+    {
+        "sales_order_number": "2510131-395",
+        "amount": 2150000,
+        "date": "2025-10-13"
+    },
+    {
+        "sales_order_number": "2510151-429",
+        "amount": 26000,
+        "date": "2025-10-15"
+    },
+    {
+        "sales_order_number": "2510151-436",
+        "amount": 215000,
+        "date": "2025-10-15"
+    },
+    {
+        "sales_order_number": "2510151-439",
+        "amount": 2400000,
+        "date": "2025-10-15"
+    },
+    {
+        "sales_order_number": "2510151-447",
+        "amount": 550000,
+        "date": "2025-10-15"
+    },
+    {
+        "sales_order_number": "2510161-453",
+        "amount": 700000,
+        "date": "2025-10-16"
+    },
+    {
+        "sales_order_number": "2510161-454",
+        "amount": 700000,
+        "date": "2025-10-16"
+    },
+    {
+        "sales_order_number": "2510161-455",
+        "amount": 250000,
+        "date": "2025-10-16"
+    },
+    {
+        "sales_order_number": "2510161-466",
+        "amount": 1700000,
+        "date": "2025-10-16"
+    },
+    {
+        "sales_order_number": "2510171-491",
+        "amount": 650000,
+        "date": "2025-10-17"
+    },
+    {
+        "sales_order_number": "2510171-493",
+        "amount": 900000,
+        "date": "2025-10-17"
+    },
+    {
+        "sales_order_number": "2510171-498",
+        "amount": 24000,
+        "date": "2025-10-17"
+    },
+    {
+        "sales_order_number": "2510171-505",
+        "amount": 1365000,
+        "date": "2025-10-17"
+    },
+    {
+        "sales_order_number": "2510171-508",
+        "amount": 30350000,
+        "date": "2025-10-17"
+    },
+    {
+        "sales_order_number": "2510181-534",
+        "amount": 1330000,
+        "date": "2025-10-18"
+    },
+    {
+        "sales_order_number": "2510191-554",
+        "amount": 642000,
+        "date": "2025-10-19"
+    },
+    {
+        "sales_order_number": "2510201-574",
+        "amount": 4000000,
+        "date": "2025-10-20"
+    },
+    {
+        "sales_order_number": "2510211-584",
+        "amount": 665000,
+        "date": "2025-10-21"
+    },
+    {
+        "sales_order_number": "2510211-589",
+        "amount": 5100000,
+        "date": "2025-10-21"
+    },
+    {
+        "sales_order_number": "2510221-614",
+        "amount": 830000,
+        "date": "2025-10-22"
+    },
+    {
+        "sales_order_number": "2510221-627",
+        "amount": 1135000,
+        "date": "2025-10-22"
+    },
+    {
+        "sales_order_number": "2510231-637",
+        "amount": 1220000,
+        "date": "2025-10-23"
+    },
+    {
+        "sales_order_number": "2510241-667",
+        "amount": 2500000,
+        "date": "2025-10-24"
+    },
+    {
+        "sales_order_number": "2510241-680",
+        "amount": 200000,
+        "date": "2025-10-24"
+    },
+    {
+        "sales_order_number": "2510271-742",
+        "amount": 1000000,
+        "date": "2025-10-27"
+    },
+    {
+        "sales_order_number": "2510281-773",
+        "amount": 2175000,
+        "date": "2025-10-28"
+    },
+    {
+        "sales_order_number": "2510291-774",
+        "amount": 800000,
+        "date": "2025-10-29"
+    },
+    {
+        "sales_order_number": "2510291-796",
+        "amount": 2640000,
+        "date": "2025-10-29"
+    },
+    {
+        "sales_order_number": "2510301-804",
+        "amount": 1000000,
+        "date": "2025-10-30"
+    },
+    {
+        "sales_order_number": "2510301-810",
+        "amount": 315000,
+        "date": "2025-10-30"
+    },
+    {
+        "sales_order_number": "2510301-817",
+        "amount": 350000,
+        "date": "2025-10-30"
+    },
+    {
+        "sales_order_number": "2510301-818",
+        "amount": 1000000,
+        "date": "2025-10-30"
+    },
+    {
+        "sales_order_number": "2510311-839",
+        "amount": 40000,
+        "date": "2025-10-31"
+    },
+    {
+        "sales_order_number": "2510311-849",
+        "amount": 12000000,
+        "date": "2025-10-31"
+    },
+    {
+        "sales_order_number": "2511011-002",
+        "amount": 3000000,
+        "date": "2025-11-1"
+    },
+    {
+        "sales_order_number": "2511011-026",
+        "amount": 140000,
+        "date": "2025-11-1"
+    },
+    {
+        "sales_order_number": "2511011-035",
+        "amount": 135000,
+        "date": "2025-11-1"
+    },
+    {
+        "sales_order_number": "2511021-049",
+        "amount": 12977000,
+        "date": "2025-11-2"
+    },
+    {
+        "sales_order_number": "2511031-074",
+        "amount": 2000000,
+        "date": "2025-11-3"
+    },
+    {
+        "sales_order_number": "2511031-075",
+        "amount": 950000,
+        "date": "2025-11-3"
+    },
+    {
+        "sales_order_number": "2511031-079",
+        "amount": 240000,
+        "date": "2025-11-3"
+    },
+    {
+        "sales_order_number": "2511041-087",
+        "amount": 16500,
+        "date": "2025-11-4"
+    },
+    {
+        "sales_order_number": "2511061-135",
+        "amount": 20000,
+        "date": "2025-11-6"
+    },
+    {
+        "sales_order_number": "2511061-137",
+        "amount": 1000000,
+        "date": "2025-11-6"
+    },
+    {
+        "sales_order_number": "2511061-137",
+        "amount": 1000000,
+        "date": "2025-11-6"
+    },
+    {
+        "sales_order_number": "2511071-167",
+        "amount": 1650000,
+        "date": "2025-11-7"
+    },
+    {
+        "sales_order_number": "2511071-174",
+        "amount": 4640000,
+        "date": "2025-11-7"
+    },
+    {
+        "sales_order_number": "2511071-183",
+        "amount": 4100000,
+        "date": "2025-11-7"
+    },
+    {
+        "sales_order_number": "2511081-230",
+        "amount": 1000000,
+        "date": "2025-11-8"
+    },
+    {
+        "sales_order_number": "2511111-301",
+        "amount": 230000,
+        "date": "2025-11-11"
+    },
+    {
+        "sales_order_number": "2511111-311",
+        "amount": 5425000,
+        "date": "2025-11-11"
+    },
+    {
+        "sales_order_number": "2511121-329",
+        "amount": 6000000,
+        "date": "2025-11-12"
+    },
+    {
+        "sales_order_number": "2511121-333",
+        "amount": 1800000,
+        "date": "2025-11-12"
+    },
+    {
+        "sales_order_number": "2511141-378",
+        "amount": 2800000,
+        "date": "2025-11-14"
+    },
+    {
+        "sales_order_number": "2511141-381",
+        "amount": 60000,
+        "date": "2025-11-14"
+    },
+    {
+        "sales_order_number": "2511151-406",
+        "amount": 3046000,
+        "date": "2025-11-15"
+    },
+    {
+        "sales_order_number": "2511151-410",
+        "amount": 60000,
+        "date": "2025-11-15"
+    },
+    {
+        "sales_order_number": "2511171-477",
+        "amount": 10700000,
+        "date": "2025-11-17"
+    },
+    {
+        "sales_order_number": "2511191-536",
+        "amount": 935000,
+        "date": "2025-11-19"
+    },
+    {
+        "sales_order_number": "2511191-538",
+        "amount": 2000000,
+        "date": "2025-11-19"
+    },
+    {
+        "sales_order_number": "2511201-553",
+        "amount": 85500,
+        "date": "2025-11-20"
+    }
+]

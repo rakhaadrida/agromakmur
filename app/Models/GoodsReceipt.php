@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GoodsReceipt extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterByUserBranch;
 
     protected $fillable = [
         'branch_id',
