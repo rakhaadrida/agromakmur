@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             UserBranchSeeder::class,
             BranchWarehouseSeeder::class,
             GoodsReceiptSeeder::class,
-            SalesOrderSeeder::class
+            SalesOrderSeeder::class,
+            AccountPayableSeeder::class
         ]);
     }
 }
