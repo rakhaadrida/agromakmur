@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
             ProductStockSeeder::class,
             UserBranchSeeder::class,
             BranchWarehouseSeeder::class,
-            GoodsReceiptSeeder::class
+            GoodsReceiptSeeder::class,
+            SalesOrderSeeder::class
         ]);
     }
 }

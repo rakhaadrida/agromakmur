@@ -19,12 +19,12 @@ class PriceSeeder extends Seeder
             [
                 'name' => 'Harga Grosir',
                 'code' => 'HG',
-                'type' => Constant::PRICE_TYPE_RETAIL
+                'type' => Constant::PRICE_TYPE_WHOLESALE
             ],
             [
                 'name' => 'Harga Eceran',
                 'code' => 'HE',
-                'type' => Constant::PRICE_TYPE_WHOLESALE
+                'type' => Constant::PRICE_TYPE_RETAIL
             ],
         ];
 
