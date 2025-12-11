@@ -12,8 +12,7 @@ class Warehouse extends Model
 
     protected $fillable = [
         'name',
-        'address',
-        'type',
+        'address'
     ];
 
     public function productStocks() {

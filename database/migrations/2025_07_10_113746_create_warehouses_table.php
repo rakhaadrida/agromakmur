@@ -15,11 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('address');
-            $table->enum('type', [
-                \App\Utilities\Constant::WAREHOUSE_TYPE_PRIMARY,
-                \App\Utilities\Constant::WAREHOUSE_TYPE_SECONDARY,
-                \App\Utilities\Constant::WAREHOUSE_TYPE_RETURN
-            ])->nullable();
             $table->boolean('is_destroy')->default(false);
             $table->timestamps();
             $table->softDeletes();

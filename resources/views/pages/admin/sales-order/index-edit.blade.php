@@ -200,7 +200,6 @@
                                                             <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
                                                             <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                                             <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                                            <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                                             <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
                                                             <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                                             <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
@@ -208,9 +207,6 @@
                                                             <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                                         </tr>
                                                         <tr>
-                                                            @foreach($warehouses as $warehouse)
-                                                                <td>{{ $warehouse->name }}</td>
-                                                            @endforeach
                                                             <td class="align-middle table-head-discount-percentage-sales-order">%</td>
                                                             <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
                                                         </tr>
@@ -222,9 +218,6 @@
                                                                 <td>{{ $salesOrderItem->product_sku }} </td>
                                                                 <td>{{ $salesOrderItem->product_name }}</td>
                                                                 <td class="text-right">{{ formatQuantity($salesOrderItem->quantity) }}</td>
-                                                                @foreach($warehouses as $warehouse)
-                                                                    <td class="text-right">{{ $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
-                                                                @endforeach
                                                                 <td>{{ $salesOrderItem->unit_name }}</td>
                                                                 <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
                                                                 <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
@@ -234,7 +227,7 @@
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="6" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
+                                                                <td colspan="10" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>

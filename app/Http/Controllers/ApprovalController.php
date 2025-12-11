@@ -131,8 +131,6 @@ class ApprovalController extends Controller
     public function show($id) {
         $approval = Approval::query()->findOrFail($id);
         $childData = $approval->activeChild;
-        $productWarehouses = [];
-        $childProductWarehouses = [];
 
         $approvalItems = $approval->approvalItems()->orderBy('product_id')->get();
 
@@ -141,11 +139,6 @@ class ApprovalController extends Controller
                 $approval->client_label = 'Customer';
                 $approval->client_name = $approval->subject->customer->name ?? '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
-
-                foreach($approval->approvalItems as $approvalItem) {
-                    $productWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
-                }
-
                 $approval->approvalItems = SalesOrderService::mapSalesOrderItemDetail($approvalItems);
 
                 break;
@@ -224,11 +217,6 @@ class ApprovalController extends Controller
 
                     $revision = ApprovalService::getRevisionCountBySubject(SalesOrder::class, [$childData->subject_id]);
                     $childData->revision = $revision + 1;
-
-                    foreach($childData->approvalItems as $approvalItem) {
-                        $childProductWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
-                    }
-
                     $childData->approvalItems = SalesOrderService::mapSalesOrderItemDetail($childItems);
 
                     break;
@@ -263,8 +251,6 @@ class ApprovalController extends Controller
             'childData' => $childData,
             'warehouses' => $warehouses,
             'totalWarehouses' => $totalWarehouses,
-            'productWarehouses' => $productWarehouses ?? [],
-            'childProductWarehouses' => $childProductWarehouses ?? [],
         ];
 
         return view('pages.admin.approval.detail', $data);
@@ -497,8 +483,6 @@ class ApprovalController extends Controller
     public function detail($id) {
         $approval = Approval::query()->findOrFail($id);
         $childData = $approval->activeChild;
-        $productWarehouses = [];
-        $childProductWarehouses = [];
 
         $approvalItems = $approval->approvalItems()->orderBy('product_id')->get();
 
@@ -507,11 +491,6 @@ class ApprovalController extends Controller
                 $approval->client_label = 'Customer';
                 $approval->client_name = $approval->subject->customer->name ?? '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
-
-                foreach($approval->approvalItems as $approvalItem) {
-                    $productWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
-                }
-
                 $approval->approvalItems = SalesOrderService::mapSalesOrderItemDetail($approvalItems);
 
                 break;
@@ -587,11 +566,6 @@ class ApprovalController extends Controller
             switch ($childData->subject_type) {
                 case SalesOrder::class:
                     $childData->subject_label = Constant::APPROVAL_SUBJECT_TYPE_SALES_ORDER;
-
-                    foreach($childData->approvalItems as $approvalItem) {
-                        $childProductWarehouses[$approvalItem->product_id][$approvalItem->warehouse_id] = $approvalItem->quantity;
-                    }
-
                     $childData->approvalItems = SalesOrderService::mapSalesOrderItemDetail($childItems);
 
                     break;
@@ -618,8 +592,6 @@ class ApprovalController extends Controller
             'childData' => $childData,
             'warehouses' => $warehouses,
             'totalWarehouses' => $totalWarehouses,
-            'productWarehouses' => $productWarehouses ?? [],
-            'childProductWarehouses' => $childProductWarehouses ?? [],
         ];
 
         return view('pages.admin.approval.detail-history', $data);

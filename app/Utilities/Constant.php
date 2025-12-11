@@ -35,21 +35,6 @@ class Constant
         self::USER_STATUS_ACTIVE => 'Aktif'
     ];
 
-    const WAREHOUSE_TYPE_PRIMARY = 'PRIMARY';
-    const WAREHOUSE_TYPE_SECONDARY = 'SECONDARY';
-    const WAREHOUSE_TYPE_RETURN = 'RETURN';
-
-    const WAREHOUSE_TYPES = [
-        self::WAREHOUSE_TYPE_PRIMARY,
-        self::WAREHOUSE_TYPE_SECONDARY,
-        self::WAREHOUSE_TYPE_RETURN,
-    ];
-    const WAREHOUSE_TYPE_LABELS = [
-        self::WAREHOUSE_TYPE_PRIMARY => 'Utama',
-        self::WAREHOUSE_TYPE_SECONDARY => 'Tambahan',
-        self::WAREHOUSE_TYPE_RETURN => 'Retur'
-    ];
-
     const PRICE_TYPE_GENERAL = 'GENERAL';
     const PRICE_TYPE_RETAIL = 'RETAIL';
     const PRICE_TYPE_WHOLESALE = 'WHOLESALE';

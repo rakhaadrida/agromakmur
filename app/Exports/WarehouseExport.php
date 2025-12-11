@@ -44,20 +44,20 @@ class WarehouseExport implements FromView, ShouldAutoSize, WithStyles
 
         $range = 4 + $warehouses->count();
         $rangeStr = strval($range);
-        $rangeTab = 'E'.$rangeStr;
+        $rangeTab = 'D'.$rangeStr;
 
-        $header = 'A4:E4';
+        $header = 'A4:D4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:E1');
-        $sheet->mergeCells('A2:E2');
-        $title = 'A1:E2';
+        $sheet->mergeCells('A1:D1');
+        $sheet->mergeCells('A2:D2');
+        $title = 'A1:D2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:E2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:D2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [

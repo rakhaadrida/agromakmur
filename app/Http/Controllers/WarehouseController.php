@@ -7,7 +7,6 @@ use App\Http\Requests\WarehouseCreateRequest;
 use App\Http\Requests\WarehouseUpdateRequest;
 use App\Models\Branch;
 use App\Models\Warehouse;
-use App\Utilities\Constant;
 use App\Utilities\Services\ProductStockService;
 use App\Utilities\Services\WarehouseService;
 use Carbon\Carbon;
@@ -29,17 +28,9 @@ class WarehouseController extends Controller
     }
 
     public function create() {
-        $warehouseTypes = Constant::WAREHOUSE_TYPE_LABELS;
-
-        $primaryWarehouse = Warehouse::query()->where('type', Constant::WAREHOUSE_TYPE_PRIMARY)->first();
-        if($primaryWarehouse) {
-            unset($warehouseTypes[Constant::WAREHOUSE_TYPE_PRIMARY]);
-        }
-
         $branches = Branch::all();
 
         $data = [
-            'warehouseTypes' => $warehouseTypes,
             'branches' => $branches,
         ];
 
@@ -70,12 +61,6 @@ class WarehouseController extends Controller
 
     public function edit($id) {
         $warehouse = Warehouse::query()->findOrFail($id);
-        $warehouseTypes = Constant::WAREHOUSE_TYPE_LABELS;
-
-        $primaryWarehouse = Warehouse::query()->where('type', Constant::WAREHOUSE_TYPE_PRIMARY)->first();
-        if($primaryWarehouse) {
-            unset($warehouseTypes[Constant::WAREHOUSE_TYPE_PRIMARY]);
-        }
 
         $branchIds = WarehouseService::findBranchIdsByWarehouseId($id);
         $branchIds = implode(',', $branchIds);
@@ -85,7 +70,6 @@ class WarehouseController extends Controller
         $data = [
             'id' => $id,
             'warehouse' => $warehouse,
-            'warehouseTypes' => $warehouseTypes,
             'branchIds' => $branchIds,
             'branches' => $branches,
         ];

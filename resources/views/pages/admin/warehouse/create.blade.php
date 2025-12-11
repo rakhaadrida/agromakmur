@@ -41,22 +41,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="type" class="col-2 col-form-label text-md-right">Tipe</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <select class="custom-select mr-sm-2" name="type" id="type">
-                                            @foreach($warehouseTypes as $key => $warehouseType)
-                                                <option value="{{ $key }}">{{ $warehouseType }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('type')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="branchIds" class="col-2 col-form-label text-md-right">Cabang</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">

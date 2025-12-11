@@ -11,7 +11,6 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Alamat</th>
-                    <th>Tipe</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -21,7 +20,6 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $warehouse->name }}</td>
                         <td>{{ $warehouse->address }}</td>
-                        <td>{{ getWarehouseTypeLabel($warehouse->type) }}</td>
                         <td class="text-center">{{ isActiveData($warehouse) }}</td>
                     </tr>
                 @endforeach

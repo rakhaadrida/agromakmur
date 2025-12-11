@@ -11,7 +11,6 @@ use App\Models\Customer;
 use App\Models\Marketing;
 use App\Models\Product;
 use App\Models\SalesOrder;
-use App\Models\Warehouse;
 use App\Notifications\CancelSalesOrderNotification;
 use App\Notifications\UpdateSalesOrderNotification;
 use App\Utilities\Constant;
@@ -113,10 +112,6 @@ class SalesOrderController extends Controller
             $number = NumberSettingService::currentNumber(Constant::NUMBER_SETTING_KEY_SALES_ORDER, $branches->first()->id);
         }
 
-        $warehouses = Warehouse::query()
-            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
-            ->get();
-
         $rows = range(1, 5);
         $rowNumbers = count($rows);
 
@@ -127,7 +122,6 @@ class SalesOrderController extends Controller
             'marketings' => $marketings,
             'products' => $products,
             'number' => $number ?? '',
-            'warehouses' => $warehouses,
             'rows' => $rows,
             'rowNumbers' => $rowNumbers
         ];
@@ -351,10 +345,6 @@ class SalesOrderController extends Controller
             $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
         }
 
-        $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
-            ->get();
-
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
@@ -364,8 +354,6 @@ class SalesOrderController extends Controller
             'salesOrders' => $salesOrders,
             'mapRevisionBySalesOrderId' => $mapRevisionBySalesOrderId,
             'productWarehouses' => $productWarehouses,
-            'warehouses' => $warehouses,
-            'totalWarehouses' => $warehouses->count(),
         ];
 
         return view('pages.admin.sales-order.index-edit', $data);
@@ -417,10 +405,6 @@ class SalesOrderController extends Controller
             ];
         }
 
-        $warehouses = Warehouse::query()
-            ->where('type', Constant::WAREHOUSE_TYPE_SECONDARY)
-            ->get();
-
         $data = [
             'id' => $id,
             'salesOrder' => $salesOrder,
@@ -432,7 +416,6 @@ class SalesOrderController extends Controller
             'rowNumbers' => $rowNumbers,
             'units' => $units ?? [],
             'prices' => $prices ?? [],
-            'warehouses' => $warehouses,
             'startDate' => $request->start_date ?? null,
             'finalDate' => $request->final_date ?? null,
             'number' => $request->number ?? null,

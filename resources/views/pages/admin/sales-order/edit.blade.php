@@ -276,54 +276,7 @@
                     <h4 class="modal-title text-bold">Notifikasi Stok Produk</h4>
                 </div>
                 <div class="modal-body text-dark">
-                    <h5>Jumlah qty input tidak boleh melebihi total stok. Total stok untuk produk <span class="col-form-label text-bold" id="stockProductName"></span> adalah <span class="col-form-label text-bold" id="totalStock"></span> (<span class="col-form-label text-bold" id="totalConversion"></span>)</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modalWarehouseStock" tabindex="-1" role="dialog" aria-labelledby="modalWarehouseStock" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" id="closeModal" class="h2 text-bold">&times;</span>
-                    </button>
-                    <h4 class="modal-title text-bold">Pilih Stok Gudang</h4>
-                </div>
-                <div class="modal-body text-dark">
-                    <p>Jumlah qty input melebihi stok di gudang <span class="text-bold" id="warehouseName"></span>. Pilih gudang lain untuk memenuhi jumlah pesanan.</p>
-                    <div class="form-group row" style="margin-top: -10px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Qty Order</label>
-                        <span class="col-auto col-form-label text-bold">:</span>
-                        <span class="col-form-label text-bold" id="orderQuantity"></span>
-                        <input type="hidden" id="rowIndex">
-                    </div>
-                    <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Stok Gudang Utama</label>
-                        <span class="col-auto col-form-label text-bold">:</span>
-                        <span class="col-form-label text-bold" id="primaryStock"></span>
-                    </div>
-                    <div class="form-group row" style="margin-top: -20px">
-                        <label for="kode" class="col-6 col-form-label text-bold">Sisa Qty Order</label>
-                        <span class="col-auto col-form-label text-bold">:</span>
-                        <span class="col-form-label text-bold" id="remainingQuantity"></span>
-                        <input type="hidden" id="remainingQuantityValue">
-                        <input type="hidden" id="remainingQuantityUnit">
-                        <input type="hidden" id="remainingConversionValue">
-                        <input type="hidden" id="remainingConversionUnit">
-                    </div>
-                    <label style="margin-bottom: -5px">Pilih Gudang Lain</label>
-                    @foreach($warehouses as $key => $warehouse)
-                        <div class="row other-warehouse-row" id="otherWarehouse-{{ $warehouse->id }}">
-                            <label for="warehouseName" class="col-8 col-form-label text-bold">{{ $warehouse->name }} (Stok : <span class="col-form-label text-bold" id="warehouseStock-{{ $warehouse->id }}"></span>)</label>
-                            <input type="hidden" id="warehouseId-{{ $warehouse->id }}" value="{{ $warehouse->id }}">
-                            <input type="hidden" id="warehouseOriginalStock-{{ $warehouse->id }}">
-                            <div class="col-3">
-                                <button type="button" class="btn btn-sm btn-success btn-block text-bold mt-1 btn-select" id="btnSelect-{{ $warehouse->id }}">Pilih</button>
-                            </div>
-                        </div>
-                    @endforeach
+                    <h5>Jumlah qty input tidak boleh melebihi total stok. Total stok untuk produk <span class="col-form-label text-bold" id="stockProductName"></span> adalah <span class="col-form-label text-bold" id="totalStock"></span><span class="col-form-label text-bold" id="totalConversion"></span></h5>
                 </div>
             </div>
         </div>
@@ -379,7 +332,6 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
-            const modalWarehouseStock = $('#modalWarehouseStock');
 
             let invoiceDiscount = $('#invoiceDiscount');
             let totalAmount = document.getElementById('totalAmount');
@@ -560,19 +512,6 @@
                 $(`#productName-${rowId}`).selectpicker();
             });
 
-            modalWarehouseStock.on('click', '.btn-select', function () {
-                const buttonId = $(this).attr('id');
-                const warehouseId = buttonId.split('-')[1];
-
-                updateWarehouseStock(warehouseId, this);
-            });
-
-            modalWarehouseStock.on('hidden.bs.modal', function () {
-                $('.btn-select').each(function () {
-                    $(this).attr('disabled', false);
-                });
-            });
-
             function displayPrice(productId, index, isProductName) {
                 $.ajax({
                     url: '{{ route('products.index-ajax') }}',
@@ -657,22 +596,14 @@
                 let productName = $(`#productName-${index} option:selected`).text();
                 let selectedUnit = $(`#unit-${index} option:selected`);
                 let conversionUnit = $(`#unit-${index} option:not(:selected):first`);
+                let unitCount = $(`#unit-${index}`).children('option').length;
                 let warehouseIds = $(`#warehouseIds-${index}`);
                 let warehouseStocks = $(`#warehouseStocks-${index}`);
-                let baseWarehouseIds = $(`#baseWarehouseIds-${index}`) || [];
-                let baseWarehouseStocks = $(`#baseWarehouseStocks-${index}`) || [];
-                let otherWarehouseRow = $('.other-warehouse-row');
+                let totalConversion = $(`#totalConversion`);
 
                 let totalStock = 0;
                 let productStocks;
-                let currentQuantity = numberFormat(quantity) || 0;
-
-                quantity = numberFormat(quantity) - +baseQuantity;
-
-                otherWarehouseRow.each(function() {
-                    $(this).removeAttr('data-value');
-                    $(this).show();
-                });
+                quantity = numberFormat(quantity);
 
                 $.ajax({
                     url: '{{ route('products.check-stock-ajax') }}',
@@ -684,169 +615,37 @@
                     },
                     dataType: 'json',
                     success: function(data) {
-                        let primaryWarehouse = data.primary_warehouse;
-                        let otherWarehouses = data.other_warehouses;
-                        let arrayWarehouseIds = baseWarehouseIds.length ? baseWarehouseIds.val().split(',') : [];
-                        let arrayWarehouseStocks = baseWarehouseStocks.length ? baseWarehouseStocks.val().split(',') : [];
-                        let primaryWarehouseStock = arrayWarehouseStocks[0] || 0;
-                        let primaryWarehouseConversion = +primaryWarehouseStock / +conversionUnit.data('foo');
-                        primaryWarehouseConversion = hasDecimal(primaryWarehouseConversion) ? primaryWarehouseConversion.toFixed(2) : primaryWarehouseConversion;
-
+                        totalConversion.text(``);
                         totalStock = data.total_stock;
                         productStocks = data.product_stocks;
 
-                        warehouseIds.val(primaryWarehouse.id);
-                        warehouseStocks.val(+quantity + +primaryWarehouseStock);
+                        warehouseIds.val(data.primary_warehouse_id);
+                        warehouseStocks.val(quantity);
 
-                        let baseConversionStock = +baseQuantity / +conversionUnit.data('foo');
-                        let conversionStock = +totalStock / +conversionUnit.data('foo');
-                        baseConversionStock = hasDecimal(baseConversionStock) ? baseConversionStock.toFixed(2) : baseConversionStock;
-                        conversionStock = hasDecimal(conversionStock) ? conversionStock.toFixed(2) : conversionStock;
+                        let conversionStock;
+                        if(unitCount > 1 && conversionUnit.length > 0) {
+                            conversionStock = +totalStock / +conversionUnit.data('foo');
+                            conversionStock = hasDecimal(conversionStock) ? conversionStock.toFixed(2) : conversionStock;
+                        }
 
                         if(+quantity > +totalStock) {
                             totalStock = thousandSeparator(+totalStock + +baseQuantity) + ` ${selectedUnit.text()}`;
-                            conversionStock = decimalSeparator(+conversionStock + +baseConversionStock) + ` ${conversionUnit.text()}`;
+
+                            if(unitCount > 1 && conversionUnit.length > 0) {
+                                conversionStock = decimalSeparator(conversionStock) + ` ${conversionUnit.text()}`;
+                            }
 
                             $('#stockProductName').text(productName);
                             $('#totalStock').text(totalStock);
-                            $('#totalConversion').text(` ${conversionStock}`);
-                            $('#modalStock').modal('show');
-                        } else if(+quantity > +primaryWarehouse.stock) {
-                            let originalQuantity = thousandSeparator(+quantity + +baseQuantity) + ` ${selectedUnit.text()}`
-                            let orderConversion = +quantity / +conversionUnit.data('foo');
-                            orderConversion = hasDecimal(orderConversion) ? orderConversion.toFixed(2) : orderConversion;
 
-                            let conversionQuantity = ` (${decimalSeparator(+orderConversion + +baseConversionStock)} ${conversionUnit.text()})`;
-                            let orderQuantity = originalQuantity + conversionQuantity;
-
-                            let primaryQuantity = thousandSeparator(+primaryWarehouse.stock + +primaryWarehouseStock) + ` ${selectedUnit.text()}`;
-                            let primaryConversionStock = +primaryWarehouse.stock / +conversionUnit.data('foo');
-                            primaryConversionStock = hasDecimal(primaryConversionStock) ? primaryConversionStock.toFixed(2) : primaryConversionStock;
-
-                            let primaryConversion = ` (${decimalSeparator(+primaryConversionStock + +primaryWarehouseConversion)} ${conversionUnit.text()})`;
-                            let primaryStock = primaryQuantity + primaryConversion;
-
-                            let remainingStockValue = (+quantity + +baseQuantity) - (+primaryWarehouse.stock + +primaryWarehouseStock);
-                            let remainingQuantity = thousandSeparator(remainingStockValue) + ` ${selectedUnit.text()}`;
-                            let remainingConversionStock = +remainingStockValue / +conversionUnit.data('foo');
-                            remainingConversionStock = hasDecimal(remainingConversionStock) ? remainingConversionStock.toFixed(2) : remainingConversionStock;
-
-                            let remainingConversion = ` (${decimalSeparator(remainingConversionStock)} ${conversionUnit.text()})`;
-                            let remainingStock = remainingQuantity + remainingConversion;
-
-                            $('#warehouseName').text(primaryWarehouse.name);
-                            $('#orderQuantity').text(orderQuantity);
-                            $('#primaryStock').text(primaryStock);
-                            $('#remainingQuantity').text(remainingStock);
-
-                            $('#remainingQuantityValue').val(remainingStockValue);
-                            $('#remainingQuantityUnit').val(selectedUnit.text());
-                            $('#remainingConversionValue').val(conversionUnit.data('foo'));
-                            $('#remainingConversionUnit').val(conversionUnit.text());
-
-                            $.each(otherWarehouses, function(key, item) {
-                                let existingWarehouseStock = 0;
-                                let existingWarehouseConversion = 0;
-                                let existingWarehouseId = arrayWarehouseIds.indexOf(item.id.toString());
-
-                                if(existingWarehouseId > 0) {
-                                    existingWarehouseStock = arrayWarehouseStocks[existingWarehouseId];
-                                    existingWarehouseConversion = existingWarehouseStock / +conversionUnit.data('foo');
-                                    existingWarehouseConversion = hasDecimal(existingWarehouseConversion) ? existingWarehouseConversion.toFixed(2) : existingWarehouseConversion;
-                                }
-
-                                let otherStock = thousandSeparator(+item.stock + +existingWarehouseStock) + ` ${selectedUnit.text()} / `;
-                                let otherConversionStock = +item.stock / +conversionUnit.data('foo');
-                                otherConversionStock = hasDecimal(otherConversionStock) ? otherConversionStock.toFixed(2) : otherConversionStock;
-
-                                let otherConversion = `${decimalSeparator(+otherConversionStock + +existingWarehouseConversion)} ${conversionUnit.text()}`;
-
-                                $(`#warehouseStock-${item.id}`).text(otherStock + otherConversion);
-                                $(`#warehouseOriginalStock-${item.id}`).val(+item.stock + +existingWarehouseStock);
-                                $(`#otherWarehouse-${item.id}`).attr('data-value', 1);
-                            });
-
-                            otherWarehouseRow.each(function() {
-                                if(!$(this).attr('data-value')) {
-                                    $(this).hide();
-                                }
-                            });
-
-                            $('#rowIndex').val(index);
-                            warehouseStocks.val(+primaryWarehouse.stock + +primaryWarehouseStock);
-                            modalWarehouseStock.modal('show');
-                        } else {
-                            if(arrayWarehouseIds.length > 0) {
-                                let newWarehouseIds = '';
-                                let newWarehouseStocks = '';
-                                let newQuantity = +quantity + +primaryWarehouseStock;
-
-                                arrayWarehouseIds.forEach(function (warehouseId, index) {
-                                    if (!index) {
-                                        newWarehouseIds = warehouseId;
-                                        newWarehouseStocks = newQuantity > 0 ? newQuantity : 0;
-                                        currentQuantity -= newWarehouseStocks;
-                                    } else {
-                                        let newStocks = arrayWarehouseStocks[index];
-                                        if (currentQuantity > arrayWarehouseStocks[index]) {
-                                            currentQuantity -= arrayWarehouseStocks[index];
-                                        } else {
-                                            newStocks = currentQuantity;
-                                            currentQuantity = 0;
-                                        }
-
-                                        newWarehouseIds += ',' + warehouseId;
-                                        newWarehouseStocks += ',' + newStocks;
-                                    }
-                                });
-
-                                warehouseIds.val(newWarehouseIds);
-                                warehouseStocks.val(newWarehouseStocks);
+                            if(unitCount > 1 && conversionUnit.length > 0) {
+                                totalConversion.text(` (${conversionStock})`);
                             }
+
+                            $('#modalStock').modal('show');
                         }
                     },
                 })
-            }
-
-            function updateWarehouseStock(index, element) {
-                let remainingStockValue = $('#remainingQuantityValue');
-                let remainingStockUnit = $('#remainingQuantityUnit');
-                let remainingConversionValue = $('#remainingConversionValue');
-                let remainingConversionUnit = $('#remainingConversionUnit');
-                let warehouseOriginalStock = $(`#warehouseOriginalStock-${index}`);
-                let warehouseId = $(`#warehouseId-${index}`).val();
-                let rowIndex = $('#rowIndex').val();
-                let warehouseIds = $(`#warehouseIds-${rowIndex}`);
-                let warehouseStocks = $(`#warehouseStocks-${rowIndex}`);
-
-                let remainingStock = +remainingStockValue.val();
-                let remainingConversion = +remainingConversionValue.val();
-                let warehouseStock = warehouseOriginalStock.val();
-                let warehouseIdsValue = warehouseIds.val();
-                let warehouseStocksValue = warehouseStocks.val();
-
-                if(+warehouseStock < +remainingStock) {
-                    $(element).attr('disabled', true);
-
-                    let newRemainingStock = +remainingStock - +warehouseStock;
-                    let newRemainingConversion = +newRemainingStock / +remainingConversion;
-                    newRemainingConversion = hasDecimal(newRemainingConversion) ? newRemainingConversion.toFixed(2) : newRemainingConversion;
-
-                    let remainingQuantityText = thousandSeparator(newRemainingStock) + ` ${remainingStockUnit.val()}`;
-                    let remainingConversionText = ` (${decimalSeparator(newRemainingConversion)} ${remainingConversionUnit.val()})`;
-                    let newRemainingQuantity = remainingQuantityText + remainingConversionText;
-
-                    warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
-                    warehouseStocks.val(warehouseStocksValue + ',' + warehouseStock);
-
-                    remainingStockValue.val(newRemainingStock);
-                    $('#remainingQuantity').text(newRemainingQuantity);
-                } else {
-                    warehouseIds.val(warehouseIdsValue + ',' + warehouseId);
-                    warehouseStocks.val(warehouseStocksValue + ',' + remainingStock);
-
-                    modalWarehouseStock.modal('hide');
-                }
             }
 
             function calculateTotal(index) {

@@ -33,7 +33,6 @@
                                 <th class="table-head-number">No</th>
                                 <th>Nama</th>
                                 <th>Alamat</th>
-                                <th>Tipe</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -43,7 +42,6 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $warehouse->name }}</td>
                                     <td class="align-middle table-row-text">{{ $warehouse->address }}</td>
-                                    <td class="align-middle table-row-text">{{ getWarehouseTypeLabel($warehouse->type) }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">
                                             <div class="col-auto button-action-deleted-left">
@@ -63,7 +61,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">Tidak Ada Data</td>
+                                    <td colspan="4" class="text-center">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>

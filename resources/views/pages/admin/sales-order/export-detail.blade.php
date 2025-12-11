@@ -14,7 +14,6 @@
                     <th rowspan="2">SKU Produk</th>
                     <th rowspan="2">Nama Produk</th>
                     <th rowspan="2">Qty</th>
-                    <th colspan="{{ $totalWarehouses }}">Gudang</th>
                     <th rowspan="2">Unit</th>
                     <th rowspan="2">Harga</th>
                     <th rowspan="2">Total</th>
@@ -22,9 +21,6 @@
                     <th rowspan="2">Netto</th>
                 </tr>
                 <tr>
-                    @foreach($warehouses as $key => $warehouse)
-                        <th>{{ $warehouse->name }}</th>
-                    @endforeach
                     <th>%</th>
                     <th>Rupiah</th>
                 </tr>
@@ -37,9 +33,6 @@
                         <td>{{ $salesOrderItem->product_sku }}</td>
                         <td>{{ $salesOrderItem->product_name }}</td>
                         <td>{{ $salesOrderItem->quantity }}</td>
-                        @foreach($warehouses as $warehouse)
-                            <td>{{ $productWarehouses[$salesOrderItem->sales_order_id][$salesOrderItem->product_id][$warehouse->id] ?? '' }}</td>
-                        @endforeach
                         <td>{{ $salesOrderItem->unit_name }}</td>
                         <td>{{ $salesOrderItem->price }}</td>
                         <td>{{ $salesOrderItem->total }}</td>

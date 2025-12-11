@@ -31,7 +31,6 @@
                                 <th class="table-head-warehouse-number">No</th>
                                 <th class="table-head-warehouse-name">Nama</th>
                                 <th>Alamat</th>
-                                <th class="table-head-warehouse-type">Tipe</th>
                                 @if(isUserSuperAdmin())
                                     <th class="table-head-warehouse-branch">Cabang</th>
                                 @endif
@@ -44,7 +43,6 @@
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $warehouse->name }}</td>
                                     <td class="align-middle table-row-text">{{ $warehouse->address }}</td>
-                                    <td class="align-middle table-row-text">{{ getWarehouseTypeLabel($warehouse->type) }}</td>
                                     @if(isUserSuperAdmin())
                                         <td class="align-middle table-row-text">{{ $warehouse->branch_name }}</td>
                                     @endif
@@ -60,9 +58,9 @@
                             @empty
                                 <tr>
                                     @if(isUserSuperAdmin())
-                                        <td colspan="6" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
-                                    @else
                                         <td colspan="5" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
+                                    @else
+                                        <td colspan="4" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                     @endif
                                 </tr>
                             @endforelse

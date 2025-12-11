@@ -405,7 +405,6 @@
                                             <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
                                             <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                             <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                            <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                             <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
                                             <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                             <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
@@ -413,9 +412,6 @@
                                             <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                         </tr>
                                         <tr>
-                                            @foreach($warehouses as $warehouse)
-                                                <td>{{ $warehouse->name }}</td>
-                                            @endforeach
                                             <td class="align-middle table-head-discount-percentage-sales-order">%</td>
                                             <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
                                         </tr>
@@ -427,9 +423,6 @@
                                                 <td>{{ $approvalItem->product_sku }} </td>
                                                 <td>{{ $approvalItem->product_name }}</td>
                                                 <td class="text-right">{{ formatQuantity($approvalItem->quantity) }}</td>
-                                                @foreach($warehouses as $index => $warehouse)
-                                                    <td class="text-right">{{ $productWarehouses[$approvalItem->product_id][$warehouse->id] ?? '' }}</td>
-                                                @endforeach
                                                 <td>{{ $approvalItem->unit_name }}</td>
                                                 <td class="text-right">{{ formatPrice($approvalItem->price) }}</td>
                                                 <td class="text-right">{{ formatPrice($approvalItem->total) }}</td>
@@ -655,7 +648,6 @@
                                                 <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
                                                 <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
                                                 <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                                <td colspan="{{ $totalWarehouses }}">Gudang</td>
                                                 <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
                                                 <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
                                                 <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
@@ -663,9 +655,6 @@
                                                 <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
                                             </tr>
                                             <tr>
-                                                @foreach($warehouses as $warehouse)
-                                                    <td>{{ $warehouse->name }}</td>
-                                                @endforeach
                                                 <td class="align-middle table-head-discount-percentage-sales-order">%</td>
                                                 <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
                                             </tr>
@@ -683,11 +672,6 @@
                                                 <td class="text-right @if(isDifferenceApprovalItem($approvalItem->quantity, $approvalItems[$key]->quantity ?? null)) bg-warning text-bold text-dark @endif">
                                                     {{ formatQuantity($approvalItem->quantity) }}
                                                 </td>
-                                                @foreach($warehouses as $index => $warehouse)
-                                                    <td class="text-right @if(isDifferenceApprovalItem($childProductWarehouses[$approvalItem->product_id][$warehouse->id] ?? '', $productWarehouses[$approvalItem->product_id][$warehouse->id] ?? '')) bg-warning text-bold text-dark @endif">
-                                                        {{ $childProductWarehouses[$approvalItem->product_id][$warehouse->id] ?? '' }}
-                                                    </td>
-                                                @endforeach
                                                 <td @if(isDifferenceApprovalItem($approvalItem->unit_name, $approvalItems[$key]->unit_name ?? null)) class="bg-warning text-bold text-dark" @endif>
                                                     {{ $approvalItem->unit_name }}
                                                 </td>

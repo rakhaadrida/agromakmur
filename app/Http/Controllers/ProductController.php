@@ -12,7 +12,6 @@ use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\Unit;
 use App\Models\Warehouse;
-use App\Utilities\Constant;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductStockService;
 use Carbon\Carbon;
@@ -390,36 +389,16 @@ class ProductController extends Controller
             });
         }
 
+        $firstStock = $productStocks->first();
+        $primaryWarehouseId = $firstStock->warehouse_id ?? 0;
+
         $totalStock = $productStocks->sum('stock');
-
-        $primaryWarehouse = [];
-        $otherWarehouses = [];
-        foreach ($productStocks as $productStock) {
-            if ($productStock->warehouse->type == Constant::WAREHOUSE_TYPE_PRIMARY) {
-                $primaryWarehouse = [
-                    'id' => $productStock->warehouse_id,
-                    'name' => $productStock->warehouse->name,
-                    'stock' => $productStock->stock
-                ];
-            } else {
-                $otherWarehouses[] = [
-                    'id' => $productStock->warehouse_id,
-                    'name' => $productStock->warehouse->name,
-                    'stock' => $productStock->stock
-                ];
-            }
-        }
-
-        if (empty($primaryWarehouse) && !empty($otherWarehouses)) {
-            $primaryWarehouse = array_shift($otherWarehouses);
-        }
 
         return response()->json([
             'data' => $product,
             'product_stocks' => $productStocks,
             'total_stock' => $totalStock,
-            'primary_warehouse' => $primaryWarehouse,
-            'other_warehouses' => $otherWarehouses,
+            'primary_warehouse_id' => $primaryWarehouseId,
         ]);
     }
 }

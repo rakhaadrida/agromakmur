@@ -8,7 +8,6 @@ use App\Http\Requests\AccountReceivableCreateRequest;
 use App\Http\Requests\AccountReceivableUpdateRequest;
 use App\Models\AccountReceivable;
 use App\Models\Customer;
-use App\Models\Warehouse;
 use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ProductService;
@@ -356,10 +355,6 @@ class AccountReceivableController extends Controller
             $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
         }
 
-        $warehouses = Warehouse::query()
-            ->where('type', '!=', Constant::WAREHOUSE_TYPE_RETURN)
-            ->get();
-
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
@@ -368,8 +363,6 @@ class AccountReceivableController extends Controller
             'customers' => $customers,
             'salesOrders' => $salesOrders,
             'productWarehouses' => $productWarehouses,
-            'warehouses' => $warehouses,
-            'totalWarehouses' => $warehouses->count(),
         ];
 
         return view('pages.finance.account-receivable.check-invoice', $data);
