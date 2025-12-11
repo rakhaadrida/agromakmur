@@ -13,8 +13,4 @@ class Category extends Model
         'name',
         'reminder_limit'
     ];
-
-    public function subcategories() {
-        return $this->hasMany(Subcategory::class, 'category_id', 'id');
-    }
 }

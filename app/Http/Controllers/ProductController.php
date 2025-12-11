@@ -10,7 +10,6 @@ use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductStock;
-use App\Models\Subcategory;
 use App\Models\Unit;
 use App\Models\Warehouse;
 use App\Utilities\Constant;
@@ -103,10 +102,6 @@ class ProductController extends Controller
         $units = Unit::all();
         $prices = Price::all();
 
-        $subcategories = Subcategory::query()
-            ->where('category_id', $product->category_id)
-            ->get();
-
         $productPrices = $product->productPrices->mapWithKeys(function($productPrice) {
             $array = [];
 
@@ -127,7 +122,6 @@ class ProductController extends Controller
             'categories' => $categories,
             'units' => $units,
             'prices' => $prices,
-            'subcategories' => $subcategories,
             'productPrices' => $productPrices
         ];
 
@@ -201,11 +195,9 @@ class ProductController extends Controller
             ->select(
                 'products.*',
                 'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
                 'units.name AS unit_name'
             )
             ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
             ->leftJoin('units', 'units.id', 'products.unit_id')
             ->findOrFail($id);
 

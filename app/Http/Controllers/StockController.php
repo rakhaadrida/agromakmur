@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Price;
 use App\Models\Product;
 use App\Models\ProductStock;
-use App\Models\Subcategory;
-use App\Models\Unit;
 use App\Models\Warehouse;
 
 class StockController extends Controller
@@ -16,11 +12,9 @@ class StockController extends Controller
         $products = Product::query()
             ->select(
                 'products.*',
-                'categories.name AS category_name',
-                'subcategories.name AS subcategory_name'
+                'categories.name AS category_name'
             )
             ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
             ->get();
 
         $warehouses = Warehouse::all();

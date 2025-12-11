@@ -16,7 +16,6 @@ class ProductSeeder extends Seeder
                 'name' => $product['name'],
                 'sku' => $product['sku'],
                 'category_id' => $product['category_id'],
-                'subcategory_id' => $product['subcategory_id'],
                 'unit_id' => $product['unit_id'],
             ]);
         }

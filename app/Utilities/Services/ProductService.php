@@ -185,19 +185,6 @@ class ProductService
         return true;
     }
 
-    public static function updateProductCategoryBySubcategory($subcategory) {
-        $products = Product::query()
-            ->where('subcategory_id', $subcategory->id)
-            ->get();
-
-        foreach($products as $product) {
-            $product->category_id = $subcategory->category_id;
-            $product->save();
-        }
-
-        return true;
-    }
-
     public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $branchId = null, $finalAmount = null, $isReturn = false) {
         $initialStock = $productStock ? $productStock->stock : 0;
 

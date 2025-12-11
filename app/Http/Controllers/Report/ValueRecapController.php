@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Report;
 use App\Exports\ValueRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Subcategory;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;

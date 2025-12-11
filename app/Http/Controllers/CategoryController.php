@@ -6,7 +6,6 @@ use App\Exports\CategoryExport;
 use App\Http\Requests\CategoryCreateRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
-use App\Utilities\Services\SubcategoryService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -85,7 +84,6 @@ class CategoryController extends Controller
             DB::beginTransaction();
 
             $category = Category::query()->findOrFail($id);
-            $category->subcategories()->delete();
             $category->delete();
 
             DB::commit();
@@ -122,8 +120,6 @@ class CategoryController extends Controller
             }
 
             $categories->restore();
-
-            SubcategoryService::restoreSubcategoryByCategoryId($id);
 
             DB::commit();
 

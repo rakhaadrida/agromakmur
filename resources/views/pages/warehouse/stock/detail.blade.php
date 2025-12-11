@@ -41,13 +41,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Sub Kategori</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <input type="text" class="form-control col-form-label-sm" name="subcategory" id="subcategory" value="{{ $product->subcategory->name }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="unit" class="col-2 col-form-label text-bold text-right">Unit</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku')->nullable();
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreignId('subcategory_id')->nullable()->references('id')->on('subcategories')->onDelete('cascade');
             $table->foreignId('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->boolean('is_destroy')->default(false);
             $table->timestamps();

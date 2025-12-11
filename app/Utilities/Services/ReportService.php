@@ -157,14 +157,6 @@ class ReportService
             ->get();
     }
 
-    public static function getCommonRecapMapSubcategory($subcategories, $mapSubcategoryByCategory): array {
-        foreach($subcategories as $subcategory) {
-            $mapSubcategoryByCategory[$subcategory->category_id][] = $subcategory;
-        }
-
-        return $mapSubcategoryByCategory;
-    }
-
     public static function getCommonRecapMapProduct($mapProductByCategory): array {
         $products = Product::all();
 
@@ -218,7 +210,7 @@ class ReportService
             $product->price = $productPrice;
             $product->total_value = $totalValue;
 
-            $mapProductByCategory[$product->subcategory_id][] = $product;
+            $mapProductByCategory[$product->category_id][] = $product;
             $mapTotalValueByCategory[$product->category_id] = ($mapTotalValueByCategory[$product->category_id] ?? 0) + $totalValue;
         }
 

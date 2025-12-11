@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Report;
 use App\Exports\StockRecapExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Subcategory;
 use App\Models\Warehouse;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;

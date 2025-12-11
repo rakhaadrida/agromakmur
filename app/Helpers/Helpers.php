@@ -76,7 +76,6 @@ function getMasterRoute() : array
         'warehouses.*',
         'prices.*',
         'categories.*',
-        'subcategories.*',
         'units.*',
         'products.*',
         'deleted-users',
@@ -86,7 +85,6 @@ function getMasterRoute() : array
         'deleted-warehouses',
         'deleted-prices',
         'deleted-categories',
-        'deleted-subcategories',
         'deleted-units',
         'deleted-products',
     ];

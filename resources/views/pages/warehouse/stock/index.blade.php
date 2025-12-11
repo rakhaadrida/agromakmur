@@ -29,7 +29,7 @@
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $product->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $product->category_name }} - {{ $product->subcategory_name }}</td>
+                                    <td class="align-middle table-row-text">{{ $product->category_name }}</td>
                                     @foreach($warehouses as $warehouse)
                                         <td class="align-middle text-right table-row-text">{{ formatQuantity($mapStockByProductWarehouse[$product->id][$warehouse->id] ?? 0) }}</td>
                                     @endforeach
