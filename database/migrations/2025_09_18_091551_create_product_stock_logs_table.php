@@ -17,7 +17,6 @@ return new class extends Migration
             $table->dateTime('subject_date');
             $table->enum('type', [
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT,
-                \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER,
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER,
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN,
                 \App\Utilities\Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN,

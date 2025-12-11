@@ -95,10 +95,8 @@ function getPurchaseRoute() : array
     return [
         'plan-orders.*',
         'goods-receipts.*',
-        'product-transfers.*',
         'print-plan-orders',
         'print-goods-receipts',
-        'print-product-transfers',
         'edit-goods-receipts',
     ];
 }
@@ -180,11 +178,6 @@ function getGoodsReceiptStatusLabel($status): string
     return Constant::GOODS_RECEIPT_STATUS_LABELS[$status];
 }
 
-function getProductTransferStatusLabel($status): string
-{
-    return Constant::PRODUCT_TRANSFER_STATUS_LABELS[$status];
-}
-
 function getSalesOrderStatusLabel($status): string
 {
     return Constant::SALES_ORDER_STATUS_LABELS[$status];
@@ -253,7 +246,6 @@ function getProductStockLogTypeRoute($type): string
 function isWaitingApproval($status): bool
 {
     return in_array($status, [
-        Constant::PRODUCT_TRANSFER_STATUS_WAITING_APPROVAL,
         Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL,
         Constant::SALES_ORDER_STATUS_WAITING_APPROVAL,
         Constant::SALES_RETURN_STATUS_WAITING_APPROVAL,
@@ -275,7 +267,6 @@ function isUpdated($status): bool
 function isCancelled($status): bool
 {
     return in_array($status, [
-        Constant::PRODUCT_TRANSFER_STATUS_CANCELLED,
         Constant::GOODS_RECEIPT_STATUS_CANCELLED,
         Constant::SALES_ORDER_STATUS_CANCELLED,
         Constant::SALES_RETURN_STATUS_CANCELLED,
@@ -301,11 +292,6 @@ function isApprovalSubjectTypeGoodsReceipt($subjectType): bool
 function isApprovalSubjectTypeDeliveryOrder($subjectType): bool
 {
     return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
-}
-
-function isApprovalSubjectTypeProductTransfer($subjectType): bool
-{
-    return $subjectType == Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
 }
 
 function isApprovalSubjectTypeSalesReturn($subjectType): bool
@@ -426,7 +412,6 @@ function isTransactionLog($type): bool
 {
     return in_array($type, [
         Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT,
-        Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER,
         Constant::PRODUCT_STOCK_LOG_TYPE_SALES_ORDER,
     ]);
 }

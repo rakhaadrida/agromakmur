@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Approval;
 use App\Models\DeliveryOrder;
 use App\Models\GoodsReceipt;
-use App\Models\ProductTransfer;
 use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
@@ -17,7 +16,6 @@ use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\NotificationService;
-use App\Utilities\Services\ProductTransferService;
 use App\Utilities\Services\PurchaseReturnService;
 use App\Utilities\Services\SalesOrderService;
 use App\Utilities\Services\SalesReturnService;
@@ -53,9 +51,6 @@ class ApprovalController extends Controller
                 case DeliveryOrder::class:
                     $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER] = $countApproval->total_approvals;
                     break;
-                case ProductTransfer::class:
-                    $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER] = $countApproval->total_approvals;
-                    break;
                 case SalesReturn::class:
                     $mapCountApprovalBySubject[Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN] = $countApproval->total_approvals;
                     break;
@@ -88,9 +83,6 @@ class ApprovalController extends Controller
                 break;
             case 'delivery-orders':
                 $subject = DeliveryOrder::class;
-                break;
-            case 'product-transfers':
-                $subject = ProductTransfer::class;
                 break;
             case 'sales-returns':
                 $subject = SalesReturn::class;
@@ -153,12 +145,6 @@ class ApprovalController extends Controller
                 $approval->client_name = $approval->subject->customer->name ?? '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                 $approval->approvalItems = $approvalItems;
-                break;
-            case ProductTransfer::class:
-                $approval->client_label = '';
-                $approval->client_name = '';
-                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
-                $approval->approvalItems = $approval->subject->productTransferItems;
                 break;
             case SalesReturn::class:
                 $approval->client_label = 'Customer';
@@ -300,10 +286,6 @@ class ApprovalController extends Controller
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                     DeliveryOrderService::handleApprovalData($approval->subject_id, $approval);
                     break;
-                case ProductTransfer::class:
-                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
-                    ProductTransferService::handleApprovalData($approval->subject_id);
-                    break;
                 case SalesReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     SalesReturnService::handleApprovalData($approval->subject_id);
@@ -382,9 +364,6 @@ class ApprovalController extends Controller
                 case DeliveryOrder::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                     break;
-                case ProductTransfer::class:
-                    $subjectType = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
-                    break;
                 case SalesReturn::class:
                     $subjectType = Constant::APPROVAL_SUBJECT_TYPE_SALES_RETURN;
                     $branchId = $approval->subject->salesOrder->branch_id;
@@ -440,9 +419,6 @@ class ApprovalController extends Controller
                 break;
             case 'delivery-orders':
                 $subject = DeliveryOrder::class;
-                break;
-            case 'product-transfers':
-                $subject = ProductTransfer::class;
                 break;
             case 'sales-returns':
                 $subject = SalesReturn::class;
@@ -505,12 +481,6 @@ class ApprovalController extends Controller
                 $approval->client_name = $approval->subject->customer->name ?? '';
                 $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_DELIVERY_ORDER;
                 $approval->approvalItems = $approvalItems;
-                break;
-            case ProductTransfer::class:
-                $approval->client_label = '';
-                $approval->client_name = '';
-                $approval->subject_label = Constant::APPROVAL_SUBJECT_TYPE_PRODUCT_TRANSFER;
-                $approval->approvalItems = $approval->subject->productTransferItems;
                 break;
             case SalesReturn::class:
                 $approval->client_label = 'Customer';

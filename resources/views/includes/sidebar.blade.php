@@ -89,9 +89,6 @@
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Ubah Barang Masuk</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Barang Masuk Harian</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.create') }}">Transfer Produk</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.index-print') }}">Cetak Transfer Produk</a>
-                    <a class="collapse-item" href="{{ route('product-transfers.index') }}">Daftar Transfer Produk</a>
                 </div>
             </div>
         </li>

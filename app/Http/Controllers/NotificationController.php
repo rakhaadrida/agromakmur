@@ -2,15 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Approval;
-use App\Models\DeliveryOrder;
-use App\Models\GoodsReceipt;
-use App\Models\ProductTransfer;
-use App\Models\SalesOrder;
 use App\Models\User;
-use App\Models\Warehouse;
-use App\Utilities\Constant;
-use App\Utilities\Services\SalesOrderService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;

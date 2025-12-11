@@ -8,7 +8,6 @@ use App\Models\ProductConversion;
 use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\ProductStockLog;
-use App\Models\ProductTransfer;
 use App\Models\PurchaseReturn;
 use App\Models\SalesOrder;
 use App\Models\SalesReturn;
@@ -223,13 +222,8 @@ class ProductService
                 $type = Constant::PRODUCT_STOCK_LOG_TYPE_SALES_RETURN;
             }
         } else {
-            if($isReturn) {
-                $subjectType = Product::class;
-                $type = Constant::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT;
-            } else {
-                $subjectType = ProductTransfer::class;
-                $type = Constant::PRODUCT_STOCK_LOG_TYPE_PRODUCT_TRANSFER;
-            }
+            $subjectType = Product::class;
+            $type = Constant::PRODUCT_STOCK_LOG_TYPE_MANUAL_EDIT;
         }
 
         ProductStockLog::create([

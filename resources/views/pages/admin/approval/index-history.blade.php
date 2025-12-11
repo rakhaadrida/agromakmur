@@ -34,9 +34,6 @@
                         <a class="nav-link nav-link-inactive" id="deliveryOrderTab" data-toggle="pill" data-target="#deliveryOrder" type="button" role="tab" aria-controls="delivery-order" aria-selected="false">Surat Jalan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-inactive" id="productTransferTab" data-toggle="pill" data-target="#productTransfer" type="button" role="tab" aria-controls="product-transfer" aria-selected="false">Transfer Produk</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link nav-link-inactive" id="salesReturnTab" data-toggle="pill" data-target="#salesReturn" type="button" role="tab" aria-controls="sales-return" aria-selected="false">Retur Penjualan</a>
                     </li>
                     <li class="nav-item">
@@ -126,24 +123,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="itemDeliveryOrder">
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane fade" id="productTransfer" role="tabpanel" aria-labelledby="productTransferTab">
-                                    <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTableProductTransfer">
-                                        <thead class="text-center text-bold text-dark">
-                                            <tr>
-                                                <th class="align-middle th-number-transaction-index">No</th>
-                                                <th class="align-middle th-code-transaction-index">Nomor Transfer</th>
-                                                <th class="align-middle th-code-transaction-index">Tanggal Transfer</th>
-                                                <th class="align-middle th-status-transaction-index">Tanggal Request</th>
-                                                <th class="align-middle th-status-transaction-index">Tipe</th>
-                                                <th class="align-middle th-warehouse-transaction-index">Deskripsi</th>
-                                                <th class="align-middle th-code-transaction-index">Admin</th>
-                                                <th class="align-middle th-code-transaction-index">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="itemProductTransfer">
                                         </tbody>
                                     </table>
                                 </div>
@@ -270,27 +249,6 @@
             ],
         });
 
-        let datatableProductTransfer = $('#dataTableProductTransfer').DataTable({
-            "responsive": true,
-            "autoWidth": false,
-            "language": {
-                "emptyTable": `<span class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</span>`
-            },
-            "order": [
-                [3, "desc"]
-            ],
-            "columnDefs": [
-                {
-                    targets: [2, 3],
-                    orderDataType: 'dom-data-sort'
-                },
-                {
-                    targets: [0, 4, 5, 6, 7],
-                    orderable: false
-                }
-            ],
-        });
-
         let datatableSalesReturn = $('#dataTableSalesReturn').DataTable({
             "responsive": true,
             "autoWidth": false,
@@ -352,15 +310,6 @@
                 }
             });
 
-            $('#productTransferTab').on('click', function (e) {
-                e.preventDefault();
-
-                let table = $('#itemProductTransfer');
-                if(table.find('.item-row').length === 0) {
-                    displayApprovalData(table, 'product-transfers', 8, datatableProductTransfer);
-                }
-            });
-
             $('#salesReturnTab').on('click', function (e) {
                 e.preventDefault();
 
@@ -411,9 +360,6 @@
                                         break;
                                     case 'delivery-orders':
                                         newRow = deliveryOrderItemRow(rowNumber, item);
-                                        break;
-                                    case 'product-transfers':
-                                        newRow = productTransferItemRow(rowNumber, item);
                                         break;
                                     case 'sales-returns':
                                         newRow = salesReturnItemRow(rowNumber, item);
@@ -503,33 +449,6 @@
                 `;
             }
 
-            function productTransferItemRow(rowNumber, item) {
-                let baseUrl = `{{ route('product-transfers.detail', 'id') }}`;
-                let urlDetail = baseUrl.replace('id', item.subject_id);
-                let urlEdit = `{{ route('approvals.detail', '') }}` + '/' + item.id;
-
-                return `
-                    <tr class="text-dark item-row">
-                        <td class="align-middle text-center">${rowNumber}</td>
-                        <td class="align-middle">
-                            <a href="${urlDetail}" class="btn btn-sm btn-link text-bold">
-                                ${item.subject.number}
-                            </a>
-                        </td>
-                        <td class="align-middle text-center" data-sort="${formatDate(item.subject.date, 'Ymd')}">${formatDate(item.subject.date, 'd-M-y')}</td>
-                        <td class="align-middle text-center" data-sort="${formatDate(item.date, 'Ymd')}">${formatDate(item.date, 'd-M-y')}</td>
-                        <td class="align-middle text-center">${getApprovalTypeLabel(item.type)}</td>
-                        <td class="align-middle text-center">${item.description}</td>
-                        <td class="align-middle text-center">${item.updated_user_name}</td>
-                        <td class="align-middle text-center">
-                            <a href="${urlEdit}" class="btn btn-sm btn-info">
-                                <i class="fas fa-fw fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
-                `;
-            }
-
             function salesReturnItemRow(rowNumber, item) {
                 let baseUrl = `{{ route('sales-returns.show', 'id') }}`;
                 let urlDetail = baseUrl.replace('id', item.subject_id);
@@ -596,14 +515,6 @@
                                 <span class="visually-hidden"></span>
                             </div>
                         </td>
-                    </tr>
-                `;
-            }
-
-            function emptyItemRow(colspan) {
-                return `
-                    <tr>
-                        <td colspan="${colspan}" class="text-center text-bold text-dark h4 py-2">No Data Available</td>
                     </tr>
                 `;
             }
