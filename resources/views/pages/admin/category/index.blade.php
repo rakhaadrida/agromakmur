@@ -30,7 +30,8 @@
                             <tr>
                                 <th class="table-head-number">No</th>
                                 <th>Nama</th>
-                                <th>Aksi</th>
+                                <th class="table-head-category-limit">Batas Pengingat Stok</th>
+                                <th class="th-product-action">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +39,7 @@
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $category->name }}</td>
+                                    <td class="align-middle text-center table-row-text">{{ $category->reminder_limit }}</td>
                                     <td class="align-middle text-center">
                                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-fw fa-edit"></i>
@@ -49,7 +51,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
+                                    <td colspan="4" class="text-center text-bold h4 p-2">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -88,7 +90,7 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [2],
+                    targets: [3],
                     orderable: false
                 }
             ],

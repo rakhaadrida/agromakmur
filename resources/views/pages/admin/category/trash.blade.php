@@ -32,7 +32,8 @@
                             <tr>
                                 <th class="table-head-number">No</th>
                                 <th>Nama</th>
-                                <th>Aksi</th>
+                                <th class="table-head-category-limit">Batas Pengingat Stok</th>
+                                <th class="th-product-action">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,7 @@
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $category->name }}</td>
+                                    <td class="align-middle text-center table-row-text">{{ $category->reminder_limit }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">
                                             <div class="col-auto button-action-deleted-left">
@@ -59,7 +61,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="text-center">Tidak Ada Data</td>
+                                    <td colspan="4" class="text-center">Tidak Ada Data</td>
                                 </tr>
                             @endforelse
                         </tbody>

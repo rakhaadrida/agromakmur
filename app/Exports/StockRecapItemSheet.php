@@ -70,7 +70,7 @@ class StockRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeColumn = $this->numberToExcelColumn(5 + $warehouses->count());
+        $rangeColumn = $this->numberToExcelColumn(4 + $warehouses->count());
         $rangeTab = $rangeColumn.$rangeStr;
 
         $header = 'A4:'.$rangeColumn.'4';
@@ -106,17 +106,14 @@ class StockRecapItemSheet extends DefaultValueBinder implements FromView, Should
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
         $rangeNumberCell = 'D5:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'E5:E'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFFF00');
 
-        $rangeQuantityColumn = $this->numberToExcelColumn(5 + $warehouses->count());
+        $rangeQuantityColumn = $this->numberToExcelColumn(4 + $warehouses->count());
         $rangeTab = $rangeQuantityColumn.$rangeStr;
 
-        $rangeNumberCell = 'E5:'.$rangeTab;
+        $rangeNumberCell = 'D5:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
@@ -124,7 +121,7 @@ class StockRecapItemSheet extends DefaultValueBinder implements FromView, Should
     public function bindValue(Cell $cell, $value)
     {
         $warehouses = Warehouse::all();
-        $numbers = range(5, 5 + $warehouses->count());
+        $numbers = range(4, 4 + $warehouses->count());
         $columns = $this->convertNumbersToLetters($numbers);
 
         $numericalColumns = $columns;

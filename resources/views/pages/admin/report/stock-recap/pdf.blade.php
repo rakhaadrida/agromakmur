@@ -168,22 +168,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($mapSubcategoryByCategory[$category->id] ?? [] as $subcategory)
-                            <tr class="text-dark text-bold" style="background-color: rgb(255, 221, 181)">
-                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center">{{ $subcategory->name }}</td>
+                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
+                            <tr class="text-dark text-bold">
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $product->sku }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td class="text-right th-total-stock">{{ getTotalArray($mapStockByProduct[$product->id] ?? []) }}</td>
+                                @foreach($warehouses as $warehouse)
+                                    <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id][$warehouse->id] ?? 0) }}</td>
+                                @endforeach
                             </tr>
-                            @foreach($mapProductBySubcategory[$subcategory->id] ?? [] as $index => $product)
-                                <tr class="text-dark text-bold">
-                                    <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="text-center">{{ $product->sku }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td class="text-right th-total-stock">{{ getTotalArray($mapStockByProduct[$product->id] ?? []) }}</td>
-                                    @foreach($warehouses as $warehouse)
-                                        <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id][$warehouse->id] ?? 0) }}</td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                     <tfoot>
                         <tr class="th-value-recap">

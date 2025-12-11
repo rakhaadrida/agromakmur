@@ -68,7 +68,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeColumn = $this->numberToExcelColumn(4 + $prices->count());
+        $rangeColumn = $this->numberToExcelColumn(3 + $prices->count());
         $rangeTab = $rangeColumn.$rangeStr;
 
         $header = 'A4:'.$rangeColumn.'4';
@@ -103,13 +103,10 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
         $rangeNumberCell = 'A5:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'D5:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeQuantityColumn = $this->numberToExcelColumn(4 + $prices->count());
+        $rangeQuantityColumn = $this->numberToExcelColumn(3 + $prices->count());
         $rangeTab = $rangeQuantityColumn.$rangeStr;
 
-        $rangeNumberCell = 'E5:'.$rangeTab;
+        $rangeNumberCell = 'D5:'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
@@ -117,7 +114,7 @@ class PriceListItemSheet extends DefaultValueBinder implements FromView, ShouldA
     public function bindValue(Cell $cell, $value)
     {
         $prices = Price::all();
-        $numbers = range(4, 4 + $prices->count());
+        $numbers = range(3, 3 + $prices->count());
         $columns = $this->convertNumbersToLetters($numbers);
 
         $numericalColumns = $columns;

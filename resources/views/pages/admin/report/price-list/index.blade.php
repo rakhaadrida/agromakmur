@@ -58,26 +58,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @forelse($mapSubcategoryByCategory[$category->id] ?? [] as $subcategory)
-                                                            <tr class="text-dark text-bold" style="background-color: rgb(255, 221, 181)">
-                                                                <td colspan="{{ $prices->count() + 3 }}" class="text-center">
-                                                                    <button type="button" class="btn btn-link btn-sm text-dark text-bold" data-toggle="collapse" data-target="#collapseSubcategory-{{ $subcategory->id }}" aria-expanded="false" aria-controls="collapseSubcategory-{{ $subcategory->id }}" style="padding: 0; font-size: 15px; width: 100%">{{ $subcategory->name }}</button>
-                                                                </td>
+                                                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
+                                                            <tr class="text-dark text-bold">
+                                                                <td class="text-center">{{ $index + 1 }}</td>
+                                                                <td class="text-center">{{ $product->sku }}</td>
+                                                                <td>{{ $product->name }}</td>
+                                                                @foreach($prices as $price)
+                                                                    <td class="text-right">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
+                                                                @endforeach
                                                             </tr>
-                                                            @forelse($mapProductBySubcategory[$subcategory->id] ?? [] as $index => $product)
-                                                                <tr class="text-dark text-bold collapse show" id="collapseSubcategory-{{ $subcategory->id }}">
-                                                                    <td class="text-center">{{ $index + 1 }}</td>
-                                                                    <td class="text-center">{{ $product->sku }}</td>
-                                                                    <td>{{ $product->name }}</td>
-                                                                    @foreach($prices as $price)
-                                                                        <td class="text-right">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
-                                                                    @endforeach
-                                                                </tr>
-                                                            @empty
-                                                                <tr>
-                                                                    <td colspan="{{ $prices->count() + 3 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
-                                                                </tr>
-                                                            @endforelse
                                                         @empty
                                                             <tr>
                                                                 <td colspan="{{ $prices->count() + 3 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>

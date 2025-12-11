@@ -1,50 +1,66 @@
 [
     {
-        "name": "AKARISIDA"
+        "name": "AKARISIDA",
+        "reminder_limit": 30
     },
     {
-        "name": "ALAT PERTANIAN"
+        "name": "ALAT PERTANIAN",
+        "reminder_limit": 30
     },
     {
-        "name": "ASAM AMINO"
+        "name": "ASAM AMINO",
+        "reminder_limit": 30
     },
     {
-        "name": "BENIH"
+        "name": "BENIH",
+        "reminder_limit": 30
     },
     {
-        "name": "DEKOMPOSER"
+        "name": "DEKOMPOSER",
+        "reminder_limit": 30
     },
     {
-        "name": "FUNGISIDA"
+        "name": "FUNGISIDA",
+        "reminder_limit": 30
     },
     {
-        "name": "HERBISIDA"
+        "name": "HERBISIDA",
+        "reminder_limit": 30
     },
     {
-        "name": "INSEKTISIDA"
+        "name": "INSEKTISIDA",
+        "reminder_limit": 30
     },
     {
-        "name": "MOLUSKISIDA"
+        "name": "MOLUSKISIDA",
+        "reminder_limit": 30
     },
     {
-        "name": "PEREKAT"
+        "name": "PEREKAT",
+        "reminder_limit": 30
     },
     {
-        "name": "PLASTIK MULSA"
+        "name": "PLASTIK MULSA",
+        "reminder_limit": 30
     },
     {
-        "name": "PUPUK CAIR"
+        "name": "PUPUK CAIR",
+        "reminder_limit": 30
     },
     {
-        "name": "PUPUK"
+        "name": "PUPUK",
+        "reminder_limit": 30
     },
     {
-        "name": "PUPUK MIKRO"
+        "name": "PUPUK MIKRO",
+        "reminder_limit": 30
     },
     {
-        "name": "SPRAYER"
+        "name": "SPRAYER",
+        "reminder_limit": 30
     },
     {
-        "name": "ZPT"
+        "name": "ZPT",
+        "reminder_limit": 30
     }
 ]

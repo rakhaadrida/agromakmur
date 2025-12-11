@@ -582,6 +582,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 280px;
 }
 
+.table-head-category-limit {
+    width: 320px;
+}
+
 .table-row-text {
     padding-left: 0.6rem !important;
 }

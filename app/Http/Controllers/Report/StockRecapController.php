@@ -16,10 +16,8 @@ class StockRecapController extends Controller
 {
     public function index() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
         [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
 
         $warehouses = Warehouse::all();
@@ -27,8 +25,7 @@ class StockRecapController extends Controller
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
             'mapTotalStockByCategory' => $mapTotalStockByCategory,
             'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,
@@ -47,10 +44,8 @@ class StockRecapController extends Controller
 
     public function pdf() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
         [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
 
         $warehouses = Warehouse::all();
@@ -59,8 +54,7 @@ class StockRecapController extends Controller
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
             'mapTotalStockByCategory' => $mapTotalStockByCategory,
             'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,

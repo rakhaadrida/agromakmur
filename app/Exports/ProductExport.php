@@ -26,11 +26,9 @@ class ProductExport extends DefaultValueBinder  implements FromView, ShouldAutoS
             ->select(
                 'products.*',
                 'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
                 'units.name AS unit_name'
             )
             ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
             ->leftJoin('units', 'units.id', 'products.unit_id')
             ->where('products.is_destroy', 0)
             ->get();
@@ -75,20 +73,20 @@ class ProductExport extends DefaultValueBinder  implements FromView, ShouldAutoS
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeTab = 'H'.$rangeStr;
+        $rangeTab = 'G'.$rangeStr;
 
-        $header = 'A4:H4';
+        $header = 'A4:G4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:H1');
-        $sheet->mergeCells('A2:H2');
-        $title = 'A1:H2';
+        $sheet->mergeCells('A1:G1');
+        $sheet->mergeCells('A2:G2');
+        $title = 'A1:G2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:H2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:G2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -111,7 +109,7 @@ class ProductExport extends DefaultValueBinder  implements FromView, ShouldAutoS
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['G'];
+        $numericalColumns = ['F'];
 
         if (!in_array($cell->getColumn(), $numericalColumns) || $value == '' || $value == null) {
             $cell->setValueExplicit($value, DataType::TYPE_STRING2);

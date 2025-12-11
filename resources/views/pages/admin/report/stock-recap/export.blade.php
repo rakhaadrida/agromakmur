@@ -11,7 +11,6 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Nama Produk</th>
-                    <th>Sub Kategori</th>
                     <th>Total Stok</th>
                     @foreach($warehouses as $warehouse)
                         <td>{{ $warehouse->name }}</td>
@@ -24,7 +23,6 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->subcategory_name }}</td>
                         <td>{{ getTotalArrayExport($mapStockByProduct[$product->id] ?? []) }}</td>
                         @foreach($warehouses as $warehouse)
                             <td>{{ $mapStockByProduct[$product->id][$warehouse->id] ?? 0 }}</td>

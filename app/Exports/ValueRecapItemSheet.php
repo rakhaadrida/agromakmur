@@ -33,15 +33,12 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
             $mapStockByProduct[$productStock->product_id] = $productStock->total_stock;
         }
 
-        $mapProductBySubcategory = [];
         foreach($products as $product) {
             $productPrice = $product->mainPrice ? $product->mainPrice->price : 0;
             $totalValue = $productPrice * ($mapStockByProduct[$product->id] ?? 0);
 
             $product->price = $productPrice;
             $product->total_value = $totalValue;
-
-            $mapProductBySubcategory[$product->subcategory_id][] = $product;
         }
 
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
@@ -50,7 +47,6 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
             'category' => $this->category,
             'products' => $products,
             'mapStockByProduct' => $mapStockByProduct,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
             'exportDate' => $exportDate,
         ];
 
@@ -73,21 +69,21 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);
-        $rangeTab = 'G'.$rangeStr;
+        $rangeTab = 'F'.$rangeStr;
 
-        $header = 'A4:G4';
+        $header = 'A4:F4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:G1');
-        $sheet->mergeCells('A2:G2');
+        $sheet->mergeCells('A1:F1');
+        $sheet->mergeCells('A2:F2');
 
-        $title = 'A1:G2';
+        $title = 'A1:F2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:G2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:F2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -107,17 +103,14 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
         $rangeNumberCell = 'A5:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'D5:D'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
-        $rangeNumberCell = 'E5:G'.$rangeStr;
+        $rangeNumberCell = 'D5:F'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['E', 'F', 'G'];
+        $numericalColumns = ['D', 'E', 'F'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);

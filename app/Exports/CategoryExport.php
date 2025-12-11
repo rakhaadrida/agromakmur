@@ -45,20 +45,20 @@ class CategoryExport implements FromView, ShouldAutoSize, WithStyles
 
         $range = 4 + $categories->count();
         $rangeStr = strval($range);
-        $rangeTab = 'C'.$rangeStr;
+        $rangeTab = 'D'.$rangeStr;
 
-        $header = 'A4:C4';
+        $header = 'A4:D4';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center');
         $sheet->getStyle($header)->getFill()
                 ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                 ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:H1');
-        $sheet->mergeCells('A2:H2');
-        $title = 'A1:H2';
+        $sheet->mergeCells('A1:D1');
+        $sheet->mergeCells('A2:D2');
+        $title = 'A1:D2';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:C2')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:D2')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -76,6 +76,9 @@ class CategoryExport implements FromView, ShouldAutoSize, WithStyles
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
         $rangeNumberCell = 'A5:A'.$rangeStr;
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
+
+        $rangeNumberCell = 'C5:D'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
     }
 }

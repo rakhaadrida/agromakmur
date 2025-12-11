@@ -15,6 +15,7 @@ class CategoryUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'reminder_limit' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

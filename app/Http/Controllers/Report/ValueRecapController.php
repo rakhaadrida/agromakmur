@@ -15,18 +15,15 @@ class ValueRecapController extends Controller
 {
     public function index() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
         [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
-        [$mapProductBySubcategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
+        [$mapProductByCategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
             'mapTotalStockByCategory' => $mapTotalStockByCategory,
             'mapTotalValueByCategory' => $mapTotalValueByCategory,
@@ -44,19 +41,16 @@ class ValueRecapController extends Controller
 
     public function pdf() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
         [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
-        [$mapProductBySubcategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
+        [$mapProductByCategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
         $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         $fileDate = Carbon::now()->format('Y_m_d');
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
             'mapTotalStockByCategory' => $mapTotalStockByCategory,
             'mapTotalValueByCategory' => $mapTotalValueByCategory,

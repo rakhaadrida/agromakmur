@@ -6,7 +6,6 @@ use App\Exports\PriceListExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Price;
-use App\Models\Subcategory;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -16,10 +15,8 @@ class PriceListController extends Controller
 {
     public function index() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -27,8 +24,7 @@ class PriceListController extends Controller
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapPriceByProduct' => $mapPriceByProduct,
             'prices' => $prices,
             'reportDate' => $reportDate,
@@ -45,10 +41,8 @@ class PriceListController extends Controller
 
     public function pdf() {
         $categories = Category::all();
-        $subcategories = Subcategory::all();
 
-        $mapSubcategoryByCategory = ReportService::getCommonRecapMapSubcategory($subcategories, []);
-        $mapProductBySubcategory = ReportService::getCommonRecapMapProduct([]);
+        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -57,8 +51,7 @@ class PriceListController extends Controller
 
         $data = [
             'categories' => $categories,
-            'mapSubcategoryByCategory' => $mapSubcategoryByCategory,
-            'mapProductBySubcategory' => $mapProductBySubcategory,
+            'mapProductByCategory' => $mapProductByCategory,
             'mapPriceByProduct' => $mapPriceByProduct,
             'prices' => $prices,
             'exportDate' => $exportDate,

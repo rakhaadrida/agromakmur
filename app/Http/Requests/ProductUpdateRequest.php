@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidProductSubcategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductUpdateRequest extends FormRequest
@@ -17,10 +16,6 @@ class ProductUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:categories,id,deleted_at,NULL'],
-            'subcategory_id' => ['nullable', new ValidProductSubcategory(
-                $this->input('category_id'),
-                $this->input('subcategory_id')
-            )],
             'unit_id' => ['nullable', 'exists:units,id,deleted_at,NULL'],
             'has_conversion' => ['sometimes'],
             'unit_conversion_id' => ['exclude_without:has_conversion', 'exists:units,id,deleted_at,NULL', 'different:unit_id'],

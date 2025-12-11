@@ -50,19 +50,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="subcategory" class="col-2 col-form-label text-bold text-right">Sub Kategori</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-3">
-                                        <select class="selectpicker custom-select-picker" name="subcategory_id" id="subcategory" data-live-search="true" data-size="6" title="Silahkan Pilih Kategori" required disabled>
-                                        </select>
-                                        @error('subcategory_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="unit" class="col-2 col-form-label text-bold text-right">Unit</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <div class="col-3">
@@ -155,42 +142,6 @@
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#category').on('change', function(event) {
-                $('#subcategory').removeAttr('disabled');
-
-                $.ajax({
-                    url: '{{ route('subcategories.index-ajax') }}',
-                    type: 'GET',
-                    data: {
-                        category_id: $(this).val()
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        let subcategory = $('#subcategory');
-                        subcategory.empty();
-
-                        $.each(data, function(index, item) {
-                            subcategory.append(
-                                $('<option></option>', {
-                                    value: item.id,
-                                    text: item.name,
-                                    'data-tokens': item.name,
-                                })
-                            );
-
-                            if(!index) {
-                                subcategory.selectpicker({
-                                    title: 'Enter or Choose Subcategory'
-                                });
-                            }
-
-                            subcategory.selectpicker('refresh');
-                            subcategory.selectpicker('render');
-                        });
-                    }
-                })
-            });
-
             $('#unit').on('change', function(event) {
                 if($('#conversion').is(':checked')) {
                     renderSelectConversionUnit();

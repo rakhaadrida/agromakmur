@@ -25,8 +25,7 @@ class LowStockController extends Controller
                 'products.sku AS product_sku',
                 'products.name AS product_name',
                 'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
-                'subcategories.reminder_limit AS stock_limit',
+                'categories.reminder_limit AS stock_limit',
                 'units.name AS unit_name',
                 'product_stocks.current_stock AS current_stock'
             )
@@ -46,9 +45,8 @@ class LowStockController extends Controller
                 'product_stocks.product_id'
                 )
             ->join('categories', 'categories.id', '=', 'products.category_id')
-            ->join('subcategories', 'subcategories.id', '=', 'products.subcategory_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
-            ->whereColumn('product_stocks.current_stock', '<=', 'subcategories.reminder_limit')
+            ->whereColumn('product_stocks.current_stock', '<=', 'categories.reminder_limit')
             ->orderBy('product_stocks.current_stock')
             ->get();
 

@@ -165,14 +165,14 @@ class ReportService
         return $mapSubcategoryByCategory;
     }
 
-    public static function getCommonRecapMapProduct($mapProductBySubcategory): array {
+    public static function getCommonRecapMapProduct($mapProductByCategory): array {
         $products = Product::all();
 
         foreach($products as $product) {
-            $mapProductBySubcategory[$product->subcategory_id][] = $product;
+            $mapProductByCategory[$product->category_id][] = $product;
         }
 
-        return $mapProductBySubcategory;
+        return $mapProductByCategory;
     }
 
     public static function getPriceListMapPrice($mapPriceByProduct): array {
@@ -208,7 +208,7 @@ class ReportService
         return [$mapStockByProduct, $mapTotalStockByCategory];
     }
 
-    public static function getValueRecapMapProduct($mapStockByProduct, $mapProductBySubcategory, $mapTotalValueByCategory): array {
+    public static function getValueRecapMapProduct($mapStockByProduct, $mapProductByCategory, $mapTotalValueByCategory): array {
         $products = Product::all();
 
         foreach($products as $product) {
@@ -218,10 +218,10 @@ class ReportService
             $product->price = $productPrice;
             $product->total_value = $totalValue;
 
-            $mapProductBySubcategory[$product->subcategory_id][] = $product;
+            $mapProductByCategory[$product->subcategory_id][] = $product;
             $mapTotalValueByCategory[$product->category_id] = ($mapTotalValueByCategory[$product->category_id] ?? 0) + $totalValue;
         }
 
-        return [$mapProductBySubcategory, $mapTotalValueByCategory];
+        return [$mapProductByCategory, $mapTotalValueByCategory];
     }
 }

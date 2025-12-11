@@ -42,7 +42,7 @@
                                 <tr class="text-dark">
                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                     <td class="align-middle table-row-text">{{ $product->name }}</td>
-                                    <td class="align-middle table-row-text">{{ $product->category_name }} - {{ $product->subcategory_name }}</td>
+                                    <td class="align-middle table-row-text">{{ $product->category_name }}</td>
                                     <td class="align-middle table-row-text">{{ $product->unit_name }}</td>
                                     <td class="align-middle text-center">
                                         <div class="row justify-content-center deleted-action-section">

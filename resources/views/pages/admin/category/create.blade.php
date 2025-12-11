@@ -29,6 +29,13 @@
                                         <input type="text" class="form-control col-form-label-sm" name="name" id="name" value="{{ old('name') }}" required autofocus>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="reminderLimit" class="col-2 col-form-label text-bold text-right">Batas Pengingat Stok</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-3">
+                                        <input type="number" min="0" class="form-control col-form-label-sm" name="reminder_limit" id="reminderLimit" value="{{ old('reminder_limit') ?? 0 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">

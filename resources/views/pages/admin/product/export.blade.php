@@ -11,7 +11,6 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Kategori</th>
-                    <th>Sub Kategori</th>
                     <th>Unit</th>
                     <th>Unit Konversi</th>
                     <th>Qty</th>
@@ -24,7 +23,6 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category_name }}</td>
-                        <td>{{ $product->subcategory_name }}</td>
                         <td>{{ $product->unit_name }}</td>
                         <td>{{ !empty($conversions[$product->id]) ? $conversions[$product->id]['unit_name'] : '' }}</td>
                         <td>{{ !empty($conversions[$product->id]) ? $conversions[$product->id]['quantity'] : '' }}</td>

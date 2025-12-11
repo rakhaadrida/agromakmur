@@ -10,6 +10,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
+                    <th>Batas Pengingat Stok</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -18,6 +19,7 @@
                     <tr class="text-dark">
                         <td class="text-center">{{ ++$key }}</td>
                         <td>{{ $category->name }}</td>
+                        <td>{{ $category->reminder_limit }}</td>
                         <td class="text-center">{{ isActiveData($category) }}</td>
                     </tr>
                 @endforeach

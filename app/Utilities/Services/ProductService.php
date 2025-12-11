@@ -24,11 +24,9 @@ class ProductService
             ->select(
                 'products.*',
                 'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
                 'units.name AS unit_name'
             )
             ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
             ->leftJoin('units', 'units.id', 'products.unit_id')
             ->get();
     }
@@ -300,11 +298,8 @@ class ProductService
 
     public static function findExportProductsByCategoryId($categoryId) {
         return Product::query()
-            ->select('products.*', 'subcategories.name AS subcategory_name')
-            ->leftJoin('subcategories', 'subcategories.id', '=', 'products.subcategory_id')
             ->where('products.category_id', $categoryId)
             ->whereNull('products.deleted_at')
-            ->orderBy('subcategories.id')
             ->orderBy('products.name')
             ->get();
     }

@@ -11,7 +11,6 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Nama Produk</th>
-                    <th>Sub Kategori</th>
                     <th>Harga</th>
                     <th>Total Stok</th>
                     <th>Total Value</th>
@@ -23,7 +22,6 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->subcategory_name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $mapStockByProduct[$product->id] ?? 0 }}</td>
                         <td>{{ $product->total_value }}</td>

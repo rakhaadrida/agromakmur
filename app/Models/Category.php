@@ -10,7 +10,8 @@ class Category extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'reminder_limit'
     ];
 
     public function subcategories() {

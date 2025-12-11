@@ -168,21 +168,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($mapSubcategoryByCategory[$category->id] ?? [] as $subcategory)
-                            <tr class="text-dark text-bold" style="background-color: rgb(255, 221, 181)">
-                                <td colspan="6" class="text-center">{{ $subcategory->name }}</td>
+                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
+                            <tr class="text-dark text-bold">
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="text-center">{{ $product->sku }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td class="text-right">{{ formatPrice($product->price) }}</td>
+                                <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id] ?? 0) }}</td>
+                                <td class="text-right">{{ formatPrice($product->total_value) }}</td>
                             </tr>
-                            @foreach($mapProductBySubcategory[$subcategory->id] ?? [] as $index => $product)
-                                <tr class="text-dark text-bold">
-                                    <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="text-center">{{ $product->sku }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td class="text-right">{{ formatPrice($product->price) }}</td>
-                                    <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id] ?? 0) }}</td>
-                                    <td class="text-right">{{ formatPrice($product->total_value) }}</td>
-                                </tr>
-                            @endforeach
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                     <tfoot>
                         <tr class="th-value-recap">

@@ -263,11 +263,9 @@ class ProductController extends Controller
             ->select(
                 'products.*',
                 'categories.name AS category_name',
-                'subcategories.name AS subcategory_name',
                 'units.name AS unit_name'
             )
             ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('subcategories', 'subcategories.id', 'products.subcategory_id')
             ->leftJoin('units', 'units.id', 'products.unit_id')
             ->where('products.is_destroy', 0)
             ->get();

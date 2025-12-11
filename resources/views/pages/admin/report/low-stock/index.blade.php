@@ -37,7 +37,7 @@
                                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                                             <td class="align-middle text-center">{{ $product->product_sku }}</td>
                                             <td class="align-middle">{{ $product->product_name }}</td>
-                                            <td class="align-middle">{{ $product->category_name }} - {{ $product->subcategory_name }}</td>
+                                            <td class="align-middle">{{ $product->category_name }}</td>
                                             <td class="align-middle text-center">{{ $product->unit_name }}</td>
                                             <td class="align-middle text-center td-low-stock-amount" data-sort="{{ $product->current_stock }}">
                                                 <a href="{{ route('products.stock', $product->id) }}" class="btn btn-sm btn-link text-bold a-low-stock-amount">

@@ -69,7 +69,6 @@
                     <a class="collapse-item" href="{{ route('warehouses.index') }}">Gudang</a>
                     <a class="collapse-item" href="{{ route('prices.index') }}">Harga</a>
                     <a class="collapse-item" href="{{ route('categories.index') }}">Kategori</a>
-                    <a class="collapse-item" href="{{ route('subcategories.index') }}">Sub Kategori</a>
                     <a class="collapse-item" href="{{ route('units.index') }}">Unit</a>
                     <button class="collapse-item product-menu-button" id="menuProduct" href="{{ route('products.index') }}">Produk</button>
                 </div>
