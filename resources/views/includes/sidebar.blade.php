@@ -96,6 +96,8 @@
                 </div>
             </div>
         </li>
+    @endif
+    @if(isUserAdmin() || isUserSales())
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getSalesRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSales" aria-expanded="true" aria-controls="collapseSales">
                 <i class="fas fa-fw fa-shipping-fast"></i>
@@ -107,30 +109,34 @@
                     <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Cetak Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index-edit') }}">Ubah Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index') }}">Sales Order Harian</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Ubah Surat Jalan</a>
-                    <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
+                    @if(!isUserSales())
+                        <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>
+                        <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
+                        <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Ubah Surat Jalan</a>
+                        <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
+                    @endif
                 </div>
             </div>
         </li>
     @endif
 
-    <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getReturnRoute()) ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReturn" aria-expanded="true" aria-controls="collapseReturn">
-          <i class="fas fa-fw fa-recycle"></i>
-          <span>Retur</span>
-        </a>
-        <div id="collapseReturn" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="py-2 collapse-inner rounded">
-                @if(isUserAdmin() || isUserWarehouse())
-                    <a class="collapse-item" href="{{ route('returns.index') }}">Stok Retur</a>
-                @endif
-                <a class="collapse-item" href="{{ route('sales-returns.index') }}">Retur Penjualan</a>
-                <a class="collapse-item" href="{{ route('purchase-returns.index') }}">Retur Pembelian</a>
+    @if(!isUserSales())
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getReturnRoute()) ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReturn" aria-expanded="true" aria-controls="collapseReturn">
+              <i class="fas fa-fw fa-recycle"></i>
+              <span>Retur</span>
+            </a>
+            <div id="collapseReturn" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="py-2 collapse-inner rounded">
+                    @if(isUserAdmin() || isUserWarehouse())
+                        <a class="collapse-item" href="{{ route('returns.index') }}">Stok Retur</a>
+                    @endif
+                    <a class="collapse-item" href="{{ route('sales-returns.index') }}">Retur Penjualan</a>
+                    <a class="collapse-item" href="{{ route('purchase-returns.index') }}">Retur Pembelian</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    @endif
 
     @if(isUserAdmin())
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getProductReportRoute()) ? 'active' : '' }}">

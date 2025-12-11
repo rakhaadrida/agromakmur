@@ -45,6 +45,13 @@ function isUserWarehouse(): string
     return in_array($userRole, [Constant::USER_ROLE_WAREHOUSE]);
 }
 
+function isUserSales(): string
+{
+    $userRole = Auth::user()->role ?? null;
+
+    return in_array($userRole, [Constant::USER_ROLE_SALES]);
+}
+
 function isUserDetailSuperAdmin($userRole): string
 {
     return $userRole == Constant::USER_ROLE_SUPER_ADMIN;

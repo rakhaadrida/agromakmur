@@ -86,7 +86,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::put('deleted-customers/{id}/restore', 'CustomerController@restore')->name('customers.restore');
         Route::put('deleted-customers/{id}/remove', 'CustomerController@remove')->name('customers.remove');
         Route::get('export-customers', 'CustomerController@export')->name('customers.export');
-        Route::get('customer-limit-ajax', 'CustomerController@customerLimitAjax')->name('customers.customer-limit-ajax');
 
         Route::resource('warehouses', 'WarehouseController');
         Route::get('deleted-warehouses', 'WarehouseController@indexDeleted')->name('warehouses.deleted');
@@ -120,8 +119,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::resource('products', 'ProductController');
         Route::get('products/{id}/stock', 'ProductController@stock')->name('products.stock');
         Route::put('products/{id}/stock', 'ProductController@updateStock')->name('products.update-stock');
-        Route::get('products-ajax', 'ProductController@indexAjax')->name('products.index-ajax');
-        Route::post('products-stock-ajax', 'ProductController@checkStockAjax')->name('products.check-stock-ajax');
         Route::get('deleted-products', 'ProductController@indexDeleted')->name('products.deleted');
         Route::put('deleted-products/{id}/restore', 'ProductController@restore')->name('products.restore');
         Route::put('deleted-products/{id}/remove', 'ProductController@remove')->name('products.remove');
@@ -158,19 +155,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('product-transfers/{id}/after-print', 'ProductTransferController@afterPrint')->name('product-transfers.after-print');
         Route::get('product-transfer-index-print-ajax', 'ProductTransferController@indexPrintAjax')->name('product-transfers.index-print-ajax');
         Route::get('print-product-transfers', 'ProductTransferController@indexPrint')->name('product-transfers.index-print');
-
-        Route::resource('sales-orders', 'SalesOrderController');
-        Route::get('sales-orders/{id}/detail', 'SalesOrderController@detail')->name('sales-orders.detail');
-        Route::get('sales-orders/{id}/print', 'SalesOrderController@print')->name('sales-orders.print');
-        Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
-        Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
-        Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
-        Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');
-        Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
-        Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
-        Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
-        Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');
-        Route::get('pdf-sales-orders', 'SalesOrderController@pdf')->name('sales-orders.pdf');
 
         Route::resource('delivery-orders', 'DeliveryOrderController');
         Route::get('delivery-orders/{id}/detail', 'DeliveryOrderController@detail')->name('delivery-orders.detail');
@@ -218,6 +202,31 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::get('export-purchase-recap', 'PurchaseRecapController@export')->name('purchase-recap.export');
             Route::get('purchase-recap-ajax', 'PurchaseRecapController@indexAjax')->name('purchase-recap.index-ajax');
         });
+    });
+
+    Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
+        \App\Utilities\Constant::USER_ROLE_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SALES,
+    ]], function() {
+        Route::get('customer-limit-ajax', 'CustomerController@customerLimitAjax')->name('customers.customer-limit-ajax');
+
+        Route::get('products-ajax', 'ProductController@indexAjax')->name('products.index-ajax');
+        Route::post('products-stock-ajax', 'ProductController@checkStockAjax')->name('products.check-stock-ajax');
+
+        Route::resource('sales-orders', 'SalesOrderController');
+        Route::get('sales-orders/{id}/detail', 'SalesOrderController@detail')->name('sales-orders.detail');
+        Route::get('sales-orders/{id}/print', 'SalesOrderController@print')->name('sales-orders.print');
+        Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
+        Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
+        Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
+        Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');
+        Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
+        Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
+        Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
+        Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');
+        Route::get('pdf-sales-orders', 'SalesOrderController@pdf')->name('sales-orders.pdf');
     });
 
     Route::group(['roles' => [
