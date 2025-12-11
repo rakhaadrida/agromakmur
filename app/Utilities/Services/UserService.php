@@ -5,6 +5,7 @@ namespace App\Utilities\Services;
 use App\Models\User;
 use App\Models\UserBranch;
 use App\Utilities\Constant;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserService
@@ -27,6 +28,8 @@ class UserService
     }
 
     public static function getBaseQueryIndex() {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+
         return User::query()
             ->select(
                 'users.*',
@@ -47,6 +50,9 @@ class UserService
                      ->whereNull('user_branches.deleted_at');
             })
             ->leftJoin('branches', 'branches.id', 'user_branches.branch_id')
+            ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                $q->whereIn('user_branches.branch_id', $branchIds);
+            })
             ->groupBy('users.id')
             ->get();
     }

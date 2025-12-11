@@ -11,7 +11,7 @@
         </a>
     </li>
 
-    @if(isUserSuperAdmin())
+    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getApprovalRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseApproval" aria-expanded="true" aria-controls="collapseApproval">
                 <i class="fas fa-fw fa-check"></i>
@@ -57,8 +57,10 @@
             </a>
             <div id="collapseMaster" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    @if(isUserSuperAdmin())
+                    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
                         <a class="collapse-item" href="{{ route('users.index') }}">User</a>
+                    @endif
+                    @if(isUserSuperAdmin())
                         <a class="collapse-item" href="{{ route('branches.index') }}">Cabang</a>
                     @endif
                     <a class="collapse-item" href="{{ route('marketings.index') }}">Sales</a>
@@ -146,7 +148,7 @@
                     <button class="collapse-item price-list-menu-button" id="menuReportPriceList" href="{{ route('report.price-lists.index') }}">Daftar Harga</button>
                     <button class="collapse-item price-list-menu-button" id="menuReportStockRecap" href="{{ route('report.stock-recap.index') }}">Rekap Stok</button>
                     <a class="collapse-item" href="{{ route('report.value-recap.index') }}">Rekap Value</a>
-                    @if(isUserSuperAdmin())
+                    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
                         <a class="collapse-item" href="{{ route('report.marketing-recap.index') }}">Rekap Qty Sales</a>
                     @endif
                 </div>
@@ -169,7 +171,7 @@
 
     <hr class="sidebar-divider">
 
-    @if(isUserSuperAdmin() || isUserFinance())
+    @if(isUserSuperAdmin() || isUserSuperAdminBranch() || isUserFinance())
         <div class="sidebar-heading sidebar-heading-title text-white">
             Keuangan
         </div>
@@ -193,7 +195,7 @@
         </li>
     @endif
 
-    @if(isUserSuperAdmin())
+    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
         <li class="nav-item sidebar-menu-icon">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFinancialReport" aria-expanded="true" aria-controls="collapseFinancialReport">
                 <i class="fas fa-fw fa-table"></i>
@@ -208,7 +210,7 @@
         </li>
     @endif
 
-    @if(isUserSuperAdmin() || isUserFinance())
+    @if(isUserSuperAdmin() || isUserSuperAdminBranch() || isUserFinance())
         <hr class="sidebar-divider d-none d-md-block">
     @endif
 

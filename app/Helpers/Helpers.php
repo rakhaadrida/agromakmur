@@ -10,11 +10,18 @@ function isUserSuperAdmin(): string
     return in_array($userRole, [Constant::USER_ROLE_SUPER_ADMIN]);
 }
 
+function isUserSuperAdminBranch(): string
+{
+    $userRole = Auth::user()->role ?? null;
+
+    return in_array($userRole, [Constant::USER_ROLE_SUPER_ADMIN_BRANCH]);
+}
+
 function isUserAdmin(): string
 {
     $userRole = Auth::user()->role ?? null;
 
-    return in_array($userRole, [Constant::USER_ROLE_SUPER_ADMIN, Constant::USER_ROLE_ADMIN]);
+    return in_array($userRole, [Constant::USER_ROLE_SUPER_ADMIN, Constant::USER_ROLE_SUPER_ADMIN_BRANCH, Constant::USER_ROLE_ADMIN]);
 }
 
 function isUserAdminOnly(): string

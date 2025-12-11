@@ -19,7 +19,9 @@ return new class extends Migration
                 \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
                 \App\Utilities\Constant::USER_ROLE_ADMIN,
                 \App\Utilities\Constant::USER_ROLE_FINANCE,
-                \App\Utilities\Constant::USER_ROLE_WAREHOUSE
+                \App\Utilities\Constant::USER_ROLE_WAREHOUSE,
+                \App\Utilities\Constant::USER_ROLE_SALES,
+                \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH
             ])->nullable();
             $table->enum('status', [
                 \App\Utilities\Constant::USER_STATUS_PENDING,

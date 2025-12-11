@@ -66,9 +66,9 @@
                             <div class="form-group row">
                                 <label for="branchIds" class="col-md-4 col-form-label text-md-right">Cabang</label>
                                 <div class="col-md-6">
-                                    <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple disabled>
+                                    <select class="selectpicker custom-select-picker" name="branch_ids[]" id="branchIds" data-live-search="true" data-selected-text-format="count > 3" multiple @if(isUserSuperAdmin()) disabled @endif>
                                         @foreach($branches as $key => $branch)
-                                            <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}">{{ $branch->name }}</option>
+                                            <option value="{{ $branch->id }}" data-tokens="{{ $branch->name }}" @if(isUserSuperAdminBranch() && !$key) selected @endif>{{ $branch->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('branch_ids[]')

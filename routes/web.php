@@ -30,16 +30,21 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('approval-histories', 'ApprovalController@indexHistory')->name('approvals.index-history');
         Route::get('approval-history-ajax', 'ApprovalController@indexHistoryAjax')->name('approvals.index-history-ajax');
 
-        Route::resource('users', 'UserController');
-        Route::get('deleted-users', 'UserController@indexDeleted')->name('users.deleted');
-        Route::put('deleted-users/{id}/restore', 'UserController@restore')->name('users.restore');
-        Route::put('deleted-users/{id}/remove', 'UserController@remove')->name('users.remove');
-
         Route::resource('branches', 'BranchController');
         Route::get('deleted-branches', 'BranchController@indexDeleted')->name('branches.deleted');
         Route::put('deleted-branches/{id}/restore', 'BranchController@restore')->name('branches.restore');
         Route::put('deleted-branches/{id}/remove', 'BranchController@remove')->name('branches.remove');
         Route::get('export-branches', 'BranchController@export')->name('branches.export');
+    });
+
+    Route::group(['roles' => [
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
+    ]], function() {
+        Route::resource('users', 'UserController');
+        Route::get('deleted-users', 'UserController@indexDeleted')->name('users.deleted');
+        Route::put('deleted-users/{id}/restore', 'UserController@restore')->name('users.restore');
+        Route::put('deleted-users/{id}/remove', 'UserController@remove')->name('users.remove');
     });
 
     Route::group(['roles' => [
@@ -57,6 +62,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
     ]], function() {
         Route::get('approval-histories/{id}', 'ApprovalController@detail')->name('approvals.detail');
@@ -216,6 +222,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
         \App\Utilities\Constant::USER_ROLE_FINANCE,
     ]], function() {
         Route::resource('account-receivables', 'AccountReceivableController')->only(['index', 'store', 'update']);
@@ -240,6 +247,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
         \App\Utilities\Constant::USER_ROLE_WAREHOUSE
     ]], function() {
@@ -248,6 +256,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
 
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
+        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
         \App\Utilities\Constant::USER_ROLE_FINANCE,
         \App\Utilities\Constant::USER_ROLE_WAREHOUSE

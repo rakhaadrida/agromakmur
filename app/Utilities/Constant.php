@@ -5,19 +5,26 @@ namespace App\Utilities;
 class Constant
 {
     const USER_ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
+    const USER_ROLE_SUPER_ADMIN_BRANCH = 'SUPER_ADMIN_BRANCH';
     const USER_ROLE_ADMIN = 'ADMIN';
     const USER_ROLE_FINANCE = 'FINANCE';
+    const USER_ROLE_SALES = 'SALES';
     const USER_ROLE_WAREHOUSE = 'WAREHOUSE';
+
     const USER_ROLES = [
         self::USER_ROLE_SUPER_ADMIN,
+        self::USER_ROLE_SUPER_ADMIN_BRANCH,
         self::USER_ROLE_ADMIN,
         self::USER_ROLE_FINANCE,
+        self::USER_ROLE_SALES,
         self::USER_ROLE_WAREHOUSE,
     ];
     const USER_ROLE_LABELS = [
         self::USER_ROLE_SUPER_ADMIN => 'Super Admin',
+        self::USER_ROLE_SUPER_ADMIN_BRANCH => 'Super Admin Cabang',
         self::USER_ROLE_ADMIN => 'Admin',
         self::USER_ROLE_FINANCE => 'Finance',
+        self::USER_ROLE_SALES => 'Sales',
         self::USER_ROLE_WAREHOUSE => 'Warehouse',
     ];
 

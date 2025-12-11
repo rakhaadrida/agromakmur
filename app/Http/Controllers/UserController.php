@@ -31,6 +31,11 @@ class UserController extends Controller
         $userRoles = Constant::USER_ROLE_LABELS;
         $branches = Branch::all();
 
+        if(isUserSuperAdminBranch()) {
+            unset($userRoles[Constant::USER_ROLE_SUPER_ADMIN]);
+            unset($userRoles[Constant::USER_ROLE_SUPER_ADMIN_BRANCH]);
+        }
+
         $data = [
             'userRoles' => $userRoles,
             'branches' => $branches,

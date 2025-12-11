@@ -7,8 +7,10 @@ use App\Models\Category;
 use App\Models\GoodsReceiptItem;
 use App\Models\Marketing;
 use App\Models\SalesOrderItem;
+use App\Utilities\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class MarketingRecapController extends Controller
@@ -25,6 +27,7 @@ class MarketingRecapController extends Controller
         $categories = Category::all();
 
         $marketingItems = $marketingId ? Marketing::where('id', $marketingId)->get() : $marketings;
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
 
         $baseQuery = SalesOrderItem::query()
             ->select(
@@ -45,7 +48,10 @@ class MarketingRecapController extends Controller
             ->join('marketings', 'marketings.id', '=', 'sales_orders.marketing_id')
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
-            ->where('sales_orders.status', '!=', 'CANCELLED');
+            ->where('sales_orders.status', '!=', 'CANCELLED')
+            ->when(!isUserSuperAdmin(), function ($q) use ($branchIds) {
+                $q->whereIn('sales_orders.branch_id', $branchIds);
+            });
 
         if($marketingId) {
             $baseQuery = $baseQuery->where('sales_orders.marketing_id', $marketingId);
