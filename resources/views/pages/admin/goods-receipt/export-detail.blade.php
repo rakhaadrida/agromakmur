@@ -18,6 +18,7 @@
                     <th>Harga</th>
                     <th>Upah</th>
                     <th>Ongkos Kirim</th>
+                    <th>Harga Modal</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                         <td>{{ $goodsReceiptItem->price }}</td>
                         <td>{{ $goodsReceiptItem->wages }}</td>
                         <td>{{ $goodsReceiptItem->shipping_cost }}</td>
+                        <td>{{ $goodsReceiptItem->cost_price }}</td>
                         <td>{{ $goodsReceiptItem->total }}</td>
                     </tr>
                 @endforeach

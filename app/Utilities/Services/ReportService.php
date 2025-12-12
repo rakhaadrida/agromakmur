@@ -76,6 +76,7 @@ class ReportService
                 'goods_receipt_items.price AS price',
                 'goods_receipt_items.wages AS wages',
                 'goods_receipt_items.shipping_cost AS shipping_cost',
+                'goods_receipt_items.cost_price AS cost_price',
                 'goods_receipt_items.total AS total',
             )
             ->join('goods_receipts', 'goods_receipts.id', '=', 'goods_receipt_items.goods_receipt_id')

@@ -164,6 +164,7 @@ class GoodsReceiptService
                 'price' => $approvalItem->price,
                 'wages' => $approvalItem->wages,
                 'shipping_cost' => $approvalItem->shipping_cost,
+                'cost_price' => $approvalItem->cost_price,
                 'total' => $approvalItem->total,
             ]);
         }

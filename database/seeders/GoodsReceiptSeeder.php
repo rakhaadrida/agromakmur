@@ -47,6 +47,7 @@ class GoodsReceiptSeeder extends Seeder
                         'price' => $item['price'],
                         'wages' => $item['wages'],
                         'shipping_cost' => $item['shipping_cost'],
+                        'cost_price' => $item['price'],
                         'total' => $item['total'],
                     ]);
                 }

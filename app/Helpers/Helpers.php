@@ -498,6 +498,11 @@ function getActualPrice($quantity, $actualQuantity, $price)
     return $price / $realQuantity;
 }
 
+function getBaseTotal($price, $quantity)
+{
+    return $price * $quantity;
+}
+
 function formatDate($date, $format)
 {
     return \Carbon\Carbon::parse($date)->format($format);

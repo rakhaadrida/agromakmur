@@ -65,6 +65,7 @@ class PurchaseRecapService
                 'goods_receipt_items.price AS price',
                 'goods_receipt_items.wages AS wages',
                 'goods_receipt_items.shipping_cost AS shipping_cost',
+                'goods_receipt_items.cost_price AS cost_price',
                 'goods_receipt_items.total AS total',
             )
             ->joinSub(
@@ -76,6 +77,7 @@ class PurchaseRecapService
                         DB::raw('MAX(goods_receipt_items.price) AS price'),
                         DB::raw('SUM(goods_receipt_items.wages) AS wages'),
                         DB::raw('SUM(goods_receipt_items.shipping_cost) AS shipping_cost'),
+                        DB::raw('SUM(goods_receipt_items.cost_price) AS cost_price'),
                         DB::raw('SUM(goods_receipt_items.total) AS total'),
                         DB::raw('MAX(units.name) AS unit_name')
                     )
@@ -165,6 +167,7 @@ class PurchaseRecapService
                 'goods_receipt_items.price AS price',
                 'goods_receipt_items.wages AS wages',
                 'goods_receipt_items.shipping_cost AS shipping_cost',
+                'goods_receipt_items.cost_price AS cost_price',
                 'goods_receipt_items.total AS total',
             )
             ->joinSub(
@@ -176,6 +179,7 @@ class PurchaseRecapService
                         DB::raw('MAX(goods_receipt_items.price) AS price'),
                         DB::raw('SUM(goods_receipt_items.wages) AS wages'),
                         DB::raw('SUM(goods_receipt_items.shipping_cost) AS shipping_cost'),
+                        DB::raw('SUM(goods_receipt_items.cost_price) AS cost_price'),
                         DB::raw('SUM(goods_receipt_items.total) AS total'),
                         DB::raw('MAX(units.name) AS unit_name')
                     )

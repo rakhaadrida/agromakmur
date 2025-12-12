@@ -20,6 +20,7 @@ class ApprovalItem extends Model
         'price',
         'wages',
         'shipping_cost',
+        'cost_price',
         'total',
         'discount',
         'discount_amount',

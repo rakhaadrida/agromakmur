@@ -128,7 +128,8 @@
                                         <td class="table-head-unit-transaction">Unit</td>
                                         <td class="table-head-price-transaction">Harga</td>
                                         <td class="table-head-price-transaction">Upah</td>
-                                        <td class="table-head-shipping-cost-transaction">Ongkos Kirim</td>
+                                        <td class="table-head-price-transaction">Ongkos Kirim</td>
+                                        <td class="table-head-price-transaction">Harga Modal</td>
                                         <td class="table-head-shipping-cost-transaction">Total</td>
                                     </tr>
                                 </thead>
@@ -143,6 +144,7 @@
                                             <td class="text-right">{{ formatPrice($goodsReceiptItem->price) }}</td>
                                             <td class="text-right">{{ formatPrice($goodsReceiptItem->wages) }}</td>
                                             <td class="text-right">{{ formatPrice($goodsReceiptItem->shipping_cost) }}</td>
+                                            <td class="text-right">{{ formatPrice($goodsReceiptItem->cost_price) }}</td>
                                             <td class="text-right">{{ formatPrice($goodsReceiptItem->total) }}</td>
                                         </tr>
                                     @endforeach

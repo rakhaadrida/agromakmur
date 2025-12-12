@@ -134,12 +134,13 @@
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
                                             <td class="align-middle table-head-code-transaction">SKU</td>
-                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
+                                            <td class="align-middle">Nama Produk</td>
                                             <td class="align-middle table-head-quantity-transaction">Qty</td>
                                             <td class="align-middle table-head-unit-transaction">Unit</td>
                                             <td class="align-middle table-head-price-transaction">Harga</td>
                                             <td class="align-middle table-head-price-transaction">Upah</td>
                                             <td class="align-middle table-head-price-transaction">Ongkos Kirim</td>
+                                            <td class="align-middle table-head-total-transaction">Harga Modal</td>
                                             <td class="align-middle table-head-total-transaction">Total</td>
                                             <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
@@ -180,6 +181,10 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="cost_price[]" id="costPrice-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('cost_price[]') }}" title="" readonly>
+                                                    <input type="hidden" name="base_total[]" id="baseTotal-{{ $key }}" value="">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
@@ -600,12 +605,17 @@
                 let price = document.getElementById(`price-${index}`);
                 let wages = document.getElementById(`wages-${index}`);
                 let shippingCost = document.getElementById(`shippingCost-${index}`);
+                let costPrice = document.getElementById(`costPrice-${index}`);
+                let baseTotal = document.getElementById(`baseTotal-${index}`);
                 let total = document.getElementById(`total-${index}`);
 
                 let currentTotal = 0;
+                let newBaseTotal = numberFormat(price.value) * numberFormat(quantity.value);
 
                 if(quantity.value === "") {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(baseTotal.value));
+                    costPrice.value = '';
+                    baseTotal.value = '';
                     total.value = '';
                 }
                 else {
@@ -613,9 +623,13 @@
                     let shippingCostAmount = numberFormat(shippingCost.value) || 0;
                     let totalExpenses = wagesAmount + shippingCostAmount;
 
-                    currentTotal = numberFormat(total.value);
-                    total.value = thousandSeparator((numberFormat(quantity.value) * numberFormat(price.value) + totalExpenses));
-                    calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
+                    currentTotal = numberFormat(baseTotal.value);
+
+                    costPrice.value = thousandSeparator(numberFormat(price.value) + totalExpenses);
+                    baseTotal.value = newBaseTotal;
+                    total.value = thousandSeparator(numberFormat(quantity.value) * numberFormat(costPrice.value));
+
+                    calculateSubtotal(currentTotal, numberFormat(baseTotal.value), subtotal);
                 }
 
                 calculateTax(numberFormat(subtotal.value));
@@ -664,10 +678,12 @@
 
             function updateAllRowIndexes(index, deleteRow) {
                 let quantity = document.getElementById(`quantity-${index}`);
-                let total = document.getElementById(`total-${index}`);
+                let price = document.getElementById(`price-${index}`);
+
+                let baseTotal = numberFormat(price.value || 0) * numberFormat(quantity.value || 0);
 
                 if(quantity.value !== '') {
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - baseTotal);
                     calculateTax(numberFormat(subtotal.value));
                 }
 
@@ -676,6 +692,8 @@
                     let price = document.getElementById(`price-${i}`);
                     let wages = document.getElementById(`wages-${i}`);
                     let shippingCost = document.getElementById(`shippingCost-${i}`);
+                    let costPrice = document.getElementById(`costPrice-${i}`);
+                    let baseTotal = document.getElementById(`baseTotal-${i}`);
                     let total = document.getElementById(`total-${i}`);
                     let realQuantity = document.getElementById(`realQuantity-${i}`);
                     let unitValue = document.getElementById(`unitValue-${i}`);
@@ -687,6 +705,8 @@
                     let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newWages = document.getElementById(`wages-${rowNumber}`);
                     let newShippingCost = document.getElementById(`shippingCost-${rowNumber}`);
+                    let newCostPrice = document.getElementById(`costPrice-${rowNumber}`);
+                    let newBaseTotal = document.getElementById(`baseTotal-${rowNumber}`);
                     let newUnit = document.getElementById(`unit-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
                     let newRealQuantity = document.getElementById(`realQuantity-${rowNumber}`);
@@ -697,6 +717,8 @@
                         price.value = newPrice.value;
                         wages.value = newWages.value;
                         shippingCost.value = newShippingCost.value;
+                        costPrice.value = newCostPrice.value;
+                        baseTotal.value = newBaseTotal.value;
                         quantity.value = newQuantity.value;
                         realQuantity.value = newRealQuantity.value;
                         unitValue.value = newUnitValue.value;
@@ -706,7 +728,7 @@
                         changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
 
                         if(newProductId.value === '') {
-                            let deletedElements = [quantity, price, wages, shippingCost];
+                            let deletedElements = [quantity, price, wages, shippingCost, costPrice, baseTotal];
                             handleDeletedElementAttribute(deletedElements);
 
                             updateDeletedRowValue([], i);
@@ -715,9 +737,11 @@
                             handleRemoveRequiredReadonly(newPrice, price);
                             handleRemoveRequiredReadonly(newWages, wages);
                             handleRemoveRequiredReadonly(newShippingCost, shippingCost);
+                            handleRemoveRequiredReadonly(newCostPrice, costPrice);
+                            handleRemoveRequiredReadonly(newBaseTotal, baseTotal);
                         }
 
-                        let elements = [newTotal, newShippingCost, newWages, newPrice, newQuantity, newRealQuantity, newUnitValue];
+                        let elements = [newTotal, newBaseTotal, newCostPrice, newShippingCost, newWages, newPrice, newQuantity, newRealQuantity, newUnitValue];
                         updateDeletedRowValue(elements, rowNumber);
                     } else {
                         let totalRow = $('#rowNumber').val();
@@ -725,10 +749,10 @@
                             $(`#${i}`).remove();
                         }
 
-                        let deletedElements = [quantity, price, wages, shippingCost];
+                        let deletedElements = [quantity, price, wages, shippingCost, costPrice, baseTotal];
                         handleDeletedElementAttribute(deletedElements);
 
-                        let elements = [total, shippingCost, wages, price, quantity, realQuantity, unitValue];
+                        let elements = [total, baseTotal, costPrice, shippingCost, wages, price, quantity, realQuantity, unitValue];
                         updateDeletedRowValue(elements, i);
                     }
                 }
@@ -842,6 +866,10 @@
                             <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shippingCost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
                         <td>
+                            <input type="text" name="cost_price[]" id="costPrice-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('cost_price[]') }}" title="" readonly >
+                            <input type="hidden" name="base_total[]" id="baseTotal-${rowId}" value="">
+                        </td>
+                        <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                         </td>
                         <td class="align-middle text-center">
@@ -853,6 +881,5 @@
                 `;
             }
         });
-
     </script>
 @endpush

@@ -60,22 +60,22 @@ class PurchaseRecapItemSheet extends DefaultValueBinder implements FromView, Sho
 
         $range = 5 + $purchaseItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'K'.$rangeStr;
+        $rangeTab = 'L'.$rangeStr;
 
-        $header = 'A5:K5';
+        $header = 'A5:L5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:K1');
-        $sheet->mergeCells('A2:K2');
-        $sheet->mergeCells('A3:K3');
+        $sheet->mergeCells('A1:L1');
+        $sheet->mergeCells('A2:L2');
+        $sheet->mergeCells('A3:L3');
 
-        $title = 'A1:K3';
+        $title = 'A1:L3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:K3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:L3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -114,14 +114,14 @@ class PurchaseRecapItemSheet extends DefaultValueBinder implements FromView, Sho
         $rangeNumberCell = 'G6:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'H6:K'.$rangeStr;
+        $rangeNumberCell = 'H6:L'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['F', 'H', 'I', 'J', 'K'];
+        $numericalColumns = ['F', 'H', 'I', 'J', 'K', 'L'];
         $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {

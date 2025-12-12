@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('approval_items', function (Blueprint $table) {
             $table->double('wages')->nullable()->after('price');
             $table->double('shipping_cost')->nullable()->after('wages');
+            $table->double('cost_price')->nullable()->after('shipping_cost');
         });
     }
 
@@ -23,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('approval_items', function (Blueprint $table) {
-            $table->dropColumn(['wages', 'shipping_cost']);
+            $table->dropColumn(['wages', 'shipping_cost', 'cost_price']);
         });
     }
 };

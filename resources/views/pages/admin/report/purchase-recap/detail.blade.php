@@ -98,6 +98,7 @@
                                                 <td class="align-middle th-purchase-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-purchase-recap-detail-price">Upah</td>
                                                 <td class="align-middle th-purchase-recap-detail-price">Ongkos Kirim</td>
+                                                <td class="align-middle th-purchase-recap-detail-price">Harga Modal</td>
                                                 <td class="align-middle th-purchase-recap-detail-total">Total</td>
                                             </tr>
                                         </thead>
@@ -117,6 +118,7 @@
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->price }}">{{ formatPrice($purchaseItem->price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->wages }}">{{ formatPrice($purchaseItem->wages) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->shipping_cost }}">{{ formatPrice($purchaseItem->shipping_cost) }}</td>
+                                                    <td class="align-middle text-right" data-sort="{{ $purchaseItem->cost_price }}">{{ formatPrice($purchaseItem->cost_price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->total }}">{{ formatPrice($purchaseItem->total) }}</td>
                                                 </tr>
                                             @empty
@@ -137,6 +139,7 @@
                                                 <td class="align-middle th-purchase-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-purchase-recap-detail-price">Upah</td>
                                                 <td class="align-middle th-purchase-recap-detail-price">Ongkos Kirim</td>
+                                                <td class="align-middle th-purchase-recap-detail-price">Harga Modal</td>
                                                 <td class="align-middle th-purchase-recap-detail-total">Total</td>
                                             </tr>
                                         </thead>
@@ -156,6 +159,7 @@
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->price }}">{{ formatPrice($purchaseItem->price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->wages }}">{{ formatPrice($purchaseItem->wages) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->shipping_cost }}">{{ formatPrice($purchaseItem->shipping_cost) }}</td>
+                                                    <td class="align-middle text-right" data-sort="{{ $purchaseItem->cost_price }}">{{ formatPrice($purchaseItem->cost_price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $purchaseItem->total }}">{{ formatPrice($purchaseItem->total) }}</td>
                                                 </tr>
                                             @empty

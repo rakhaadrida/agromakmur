@@ -19,6 +19,7 @@
                         <th>Harga</th>
                         <th>Upah</th>
                         <th>Ongkos Kirim</th>
+                        <th>Harga Modal</th>
                         <th>Total</th>
                     </tr>
                 @else
@@ -32,6 +33,7 @@
                         <th>Harga</th>
                         <th>Upah</th>
                         <th>Ongkos Kirim</th>
+                        <th>Harga Modal</th>
                         <th>Total</th>
                     </tr>
                 @endif
@@ -49,6 +51,7 @@
                             <td>{{ $purchaseItem->price }}</td>
                             <td>{{ $purchaseItem->wages }}</td>
                             <td>{{ $purchaseItem->shipping_cost }}</td>
+                            <td>{{ $purchaseItem->cost_price }}</td>
                             <td>{{ $purchaseItem->total }}</td>
                         </tr>
                     @endforeach
@@ -64,6 +67,7 @@
                             <td>{{ $purchaseItem->price }}</td>
                             <td>{{ $purchaseItem->wages }}</td>
                             <td>{{ $purchaseItem->shipping_cost }}</td>
+                            <td>{{ $purchaseItem->cost_price }}</td>
                             <td>{{ $purchaseItem->total }}</td>
                         </tr>
                     @endforeach

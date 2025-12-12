@@ -148,8 +148,9 @@ class GoodsReceiptController extends Controller
 
                     $actualQuantity = $quantity * $realQuantity;
                     $totalExpenses = $wages + $shippingCost;
-                    $total = ($quantity * $price) + $totalExpenses;
-                    $subtotal += $total;
+                    $totalCostPrice = $price + $totalExpenses;
+                    $total = $quantity * $totalCostPrice;
+                    $subtotal += ($price * $quantity);
 
                     $goodsReceipt->goodsReceiptItems()->create([
                         'product_id' => $productId,
@@ -159,6 +160,7 @@ class GoodsReceiptController extends Controller
                         'price' => $price,
                         'wages' => $wages,
                         'shipping_cost' => $shippingCost,
+                        'cost_price' => $totalCostPrice,
                         'total' => $total
                     ]);
 
@@ -467,7 +469,7 @@ class GoodsReceiptController extends Controller
 
         $isPrinted = $filter->is_printed;
         $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
-        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number ?? 0;
         $startOperator = $isPrinted ? '<=' : '>=';
         $finalOperator = $isPrinted ? '>=' : '<=';
 

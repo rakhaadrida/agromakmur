@@ -3,6 +3,7 @@
 namespace App\Utilities\Services;
 
 use App\Models\Approval;
+use App\Models\GoodsReceipt;
 use App\Utilities\Constant;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +83,7 @@ class ApprovalService
         $totalAfterDiscount = $subtotal - $approval->discount_amount;
 
         $taxAmount = 0;
-        if($subject->is_taxable) {
+        if($subject->is_taxable || $approval->subject_type == GoodsReceipt::class) {
             $taxAmount = round($totalAfterDiscount * (10 / 100));
         }
 
@@ -139,9 +140,17 @@ class ApprovalService
         $subtotal = 0;
         foreach($parentItems as $item) {
             $totalExpenses = $item->wages + $item->shipping_cost;
-            $total = ($item->quantity * $item->price) + $totalExpenses;
-            $finalAmount = $total - $item->discount_amount ?? 0;
-            $subtotal += $finalAmount;
+            $totalCostPrice = $item->price + $totalExpenses;
+
+            if($approval->subject_type == GoodsReceipt::class) {
+                $total = $item->quantity * $totalCostPrice;
+                $finalAmount = $total;
+                $subtotal += ($item->price * $item->quantity);
+            } else {
+                $total = ($item->quantity * $item->price) + $totalExpenses;
+                $finalAmount = $total - $item->discount_amount ?? 0;
+                $subtotal += $finalAmount;
+            }
 
             $approval->approvalItems()->create([
                 'product_id' => $item->product_id,
@@ -153,6 +162,7 @@ class ApprovalService
                 'price' => $item->price ?? 0,
                 'wages' => $item->wages ?? 0,
                 'shipping_cost' => $item->shipping_cost ?? 0,
+                'cost_price' => $totalCostPrice ?? 0,
                 'total' => $total ?? 0,
                 'discount' => $item->discount ?? 0,
                 'discount_amount' => $item->discount_amount ?? 0,
@@ -185,9 +195,17 @@ class ApprovalService
 
                 $actualQuantity = $quantity * $realQuantity;
                 $totalExpenses = $wages + $shippingCost;
-                $total = ($quantity * $price) + $totalExpenses;
-                $finalAmount = $total - $discountAmount;
-                $subtotal += $finalAmount;
+                $totalCostPrice = $price + $totalExpenses;
+
+                if($approval->subject_type == GoodsReceipt::class) {
+                    $total = $quantity * $totalCostPrice;
+                    $finalAmount = $total;
+                    $subtotal += ($price * $quantity);
+                } else {
+                    $total = ($quantity * $price) + $totalExpenses;
+                    $finalAmount = $total - $discountAmount;
+                    $subtotal += $finalAmount;
+                }
 
                 $approval->approvalItems()->create([
                     'product_id' => $productId,
@@ -199,6 +217,7 @@ class ApprovalService
                     'price' => $price,
                     'wages' => $wages,
                     'shipping_cost' => $shippingCost,
+                    'cost_price' => $totalCostPrice,
                     'total' => $total,
                     'discount' => $discount,
                     'discount_amount' => $discountAmount,

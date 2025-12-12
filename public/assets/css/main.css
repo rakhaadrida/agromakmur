@@ -1633,23 +1633,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-product-history-detail-branch {
-    width: 140px;
+    width: 110px;
 }
 
 .th-product-history-detail-price {
-    width: 65px;
+    width: 50px;
 }
 
 .th-product-history-detail-unit {
-    width: 75px;
+    width: 65px;
 }
 
 .th-product-history-detail-quantity {
-    width: 60px;
+    width: 30px;
 }
 
 .th-product-history-detail-total {
-    width: 90px;
+    width: 70px;
 }
 
 .th-sales-recap-number {
@@ -1729,11 +1729,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-purchase-recap-detail-price {
-    width: 65px;
+    width: 50px;
 }
 
 .th-purchase-recap-detail-total {
-    width: 85px;
+    width: 75px;
 }
 
 .th-low-stock-number {

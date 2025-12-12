@@ -82,6 +82,7 @@
                                             <th class="align-middle th-product-history-detail-unit">Unit</th>
                                             <th class="align-middle th-product-history-detail-price">Upah</th>
                                             <th class="align-middle th-product-history-detail-price">Ongkos Kirim</th>
+                                            <th class="align-middle th-product-history-detail-price">Harga Modal</th>
                                             <th class="align-middle th-product-history-detail-total">Total</th>
                                         </tr>
                                     </thead>
@@ -102,6 +103,7 @@
                                                 <td class="align-middle text-center">{{ $receiptItem->unit_name }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $receiptItem->wages }}">{{ formatPrice($receiptItem->wages) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $receiptItem->shipping_cost }}">{{ formatPrice($receiptItem->shipping_cost) }}</td>
+                                                <td class="align-middle text-right" data-sort="{{ $receiptItem->cost_price }}">{{ formatPrice($receiptItem->cost_price) }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $receiptItem->total }}">{{ formatPrice($receiptItem->total) }}</td>
                                             </tr>
                                         @empty

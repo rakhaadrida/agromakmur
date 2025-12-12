@@ -31,55 +31,43 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(!isApprovalSubjectTypeProductTransfer($approval->subject_label))
-                                        @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->branch->name }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->salesOrder->branch->name }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row">
-                                                    <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->goodsReceipt->branch->name }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @else
-                                            <div class="col-12 col-lg-6">
-                                                <div class="form-group row">
-                                                    <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @elseif(isApprovalTypeCancel($approval->type))
+                                    @if(isApprovalSubjectTypeSalesOrder($approval->subject_label) || isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group row">
-                                                <label for="description" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Deskripsi</label>
+                                                <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="description" id="description" value="{{ $approval->description }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->branch->name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif(isApprovalSubjectTypeSalesReturn($approval->subject_label))
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row">
+                                                <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->salesOrder->branch->name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif(isApprovalSubjectTypePurchaseReturn($approval->subject_label))
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row">
+                                                <label for="branch" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Cabang</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="branch" id="branch" value="{{ $approval->subject->goodsReceipt->branch->name }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group row">
+                                                <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <div class="col-6 col-sm-5 col-md-7">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,27 +83,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(!isApprovalSubjectTypeProductTransfer($approval->subject_label))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
-                                                </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="form-group row approval-detail-row">
+                                            <label for="clientLabel" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">{{ $approval->client_label }}</label>
+                                            <span class="col-form-label text-bold">:</span>
+                                            <div class="col-6 col-sm-5 col-md-7">
+                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="client_label" id="clientLabel" value="{{ $approval->client_name }}" readonly>
                                             </div>
                                         </div>
-                                    @elseif(isApprovalTypeCancel($approval->type))
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group row approval-detail-row">
-                                                <label for="type" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-dark text-right mt-1">Tipe Approval</label>
-                                                <span class="col-form-label text-bold">:</span>
-                                                <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-md text-bold text-dark" name="type" id="type" value="{{ getApprovalTypeLabel($approval->type) }}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
+                                    </div>
                                 </div>
                                 <div class="row" style="margin-top: -5px">
                                     <div class="col-12 col-lg-6">
@@ -265,32 +241,7 @@
                                 </div>
                             </div>
                             <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
-                                @if(isApprovalSubjectTypeProductTransfer($approval->subject_label))
-                                    <thead class="text-center text-bold text-dark">
-                                        <tr>
-                                            <td class="table-head-number-transaction">No</td>
-                                            <td class="table-head-code-transaction">SKU</td>
-                                            <td class="table-head-name-transaction">Nama Produk</td>
-                                            <td class="table-head-unit-transaction">Unit</td>
-                                            <td>Gudang Asal</td>
-                                            <td>Qty Dikirim</td>
-                                            <td>Gudang Tujuan</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($approval->approvalItems as $key => $approvalItem)
-                                            <tr class="text-dark">
-                                                <td class="text-center">{{ ++$key }}</td>
-                                                <td>{{ $approvalItem->product->sku }} </td>
-                                                <td>{{ $approvalItem->product->name }}</td>
-                                                <td>{{ $approvalItem->unit->name }}</td>
-                                                <td class="text-center">{{ $approvalItem->sourceWarehouse->name }}</td>
-                                                <td class="text-right">{{ formatQuantity($approvalItem->quantity) }}</td>
-                                                <td class="text-center">{{ $approvalItem->destinationWarehouse->name }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                @elseif(isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
+                                @if(isApprovalSubjectTypeDeliveryOrder($approval->subject_label))
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
                                             <td class="align-middle table-head-number-transaction">No</td>
@@ -321,7 +272,8 @@
                                             <td class="table-head-unit-transaction">Unit</td>
                                             <td class="table-head-price-transaction">Harga</td>
                                             <td class="table-head-price-transaction">Upah</td>
-                                            <td class="table-head-shipping-cost-transaction">Ongkos Kirim</td>
+                                            <td class="table-head-price-transaction">Ongkos Kirim</td>
+                                            <td class="table-head-price-transaction">Harga Modal</td>
                                             <td class="table-head-shipping-cost-transaction">Total</td>
                                         </tr>
                                     </thead>
@@ -336,6 +288,7 @@
                                                 <td class="text-right">{{ formatPrice($approvalItem->price) }}</td>
                                                 <td class="text-right">{{ formatPrice($approvalItem->wages) }}</td>
                                                 <td class="text-right">{{ formatPrice($approvalItem->shipping_cost) }}</td>
+                                                <td class="text-right">{{ formatPrice($approvalItem->cost_price) }}</td>
                                                 <td class="text-right">{{ formatPrice($approvalItem->total) }}</td>
                                             </tr>
                                         @endforeach
@@ -625,7 +578,8 @@
                                                 <td class="table-head-unit-transaction">Unit</td>
                                                 <td class="table-head-price-transaction">Harga</td>
                                                 <td class="table-head-price-transaction">Upah</td>
-                                                <td class="table-head-shipping-cost-transaction">Ongkos Kirim</td>
+                                                <td class="table-head-price-transaction">Ongkos Kirim</td>
+                                                <td class="table-head-price-transaction">Harga Modal</td>
                                                 <td class="table-head-shipping-cost-transaction">Total</td>
                                             </tr>
                                         </thead>
@@ -653,6 +607,9 @@
                                                 </td>
                                                 <td class="text-right @if(isDifferenceApprovalItem($approvalItem->shipping_cost, $approvalItems[$key]->shipping_cost ?? null)) bg-warning text-bold text-dark @endif">
                                                     {{ formatPrice($approvalItem->shipping_cost) }}
+                                                </td>
+                                                <td class="text-right @if(isDifferenceApprovalItem($approvalItem->cost_price, $approvalItems[$key]->cost_price ?? null)) bg-warning text-bold text-dark @endif">
+                                                    {{ formatPrice($approvalItem->cost_price) }}
                                                 </td>
                                                 <td class="text-right @if(isDifferenceApprovalItem($approvalItem->total, $approvalItems[$key]->total ?? null)) bg-warning text-bold text-dark @endif">
                                                     {{ formatPrice($approvalItem->total) }}
