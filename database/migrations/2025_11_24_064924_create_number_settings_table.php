@@ -16,7 +16,6 @@ return new class extends Migration
             $table->enum('key', [
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_PLAN_ORDER,
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_GOODS_RECEIPT,
-                \App\Utilities\Constant::NUMBER_SETTING_KEY_PRODUCT_TRANSFER,
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_SALES_ORDER,
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_DELIVERY_ORDER,
                 \App\Utilities\Constant::NUMBER_SETTING_KEY_SALES_RETURN,
