@@ -50,7 +50,7 @@
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="subtotal" id="subtotal">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right" name="subtotal" id="subtotal" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
@@ -58,20 +58,36 @@
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext col-form-label-sm text-bold text-right" name="tax_amount" id="taxAmount">
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-right" name="tax_amount" id="taxAmount" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row" style="margin-top: -25px">
-                                                <label for="grandTotal" class="col-5 col-form-label text-bold ">Grand Total</label>
+                                                <label for="grandTotal" class="col-5 col-form-label text-bold">Grand Total</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <span class="col-form-label text-bold ml-2">Rp</span>
                                                 <div class="col-5">
-                                                    <input type="text" readonly class="form-control-plaintext text-bold text-right text-danger" name="grand_total" id="grandTotal">
+                                                    <input type="text" class="form-control-plaintext text-bold text-right text-danger" name="grand_total" id="grandTotal" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" style="margin-top: -25px">
+                                                <label for="paymentAmount" class="col-5 col-form-label text-bold">Pembayaran</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <span class="col-form-label text-bold ml-2">Rp</span>
+                                                <div class="col-5">
+                                                    <input type="text" class="form-control form-control-md text-bold text-right text-dark mt-1 goods-receipt-payment" name="payment_amount" id="paymentAmount" placeholder="Input Nominal" tabindex="9999">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" style="margin-top: -25px">
+                                                <label for="outstandingAmount" class="col-5 col-form-label text-bold">Sisa Bayar</label>
+                                                <span class="col-form-label text-bold">:</span>
+                                                <span class="col-form-label text-bold ml-2">Rp</span>
+                                                <div class="col-5">
+                                                    <input type="text" class="form-control-plaintext text-bold text-right text-danger" name="outstanding_amount" id="outstandingAmount" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row subtotal-so" style="margin-top: -68px">
+                                    <div class="form-group row subtotal-so" style="margin-top: -126px">
                                         <label for="branch" class="col-2 col-form-label text-bold text-right">Cabang</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-3 mt-1">
@@ -283,7 +299,10 @@
             const table = $('#itemTable');
             let number = $('#number');
             let branch = $('#branch');
+            let paymentAmount = $('#paymentAmount');
             let subtotal = document.getElementById('subtotal');
+            let grandTotal = document.getElementById('grandTotal');
+            let outstandingAmount = document.getElementById('outstandingAmount');
 
             if(($('#branch option').length === 1) || ($("#branch option:selected").length > 0)) {
                 const selected = branch.find(':selected');
@@ -414,6 +433,14 @@
                 updateAllRowIndexes(index, deleteRow);
             });
 
+            paymentAmount.on('keyup', function() {
+                this.value = currencyFormat(this.value);
+            });
+
+            paymentAmount.on('blur', function() {
+                calculateOutstandingAmount(this.value, grandTotal.value);
+            });
+
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
@@ -447,6 +474,8 @@
                     $('input[name="shipping_cost[]"]').each(function() {
                         this.value = numberFormat(this.value);
                     });
+
+                    paymentAmount.val(numberFormat(paymentAmount.val()));
 
                     $('#modalConfirmation').modal('show');
 
@@ -646,11 +675,18 @@
             function calculateTax(subtotalAmount) {
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
+                let paymentAmount = document.getElementById('paymentAmount');
 
                 let taxValue = (subtotalAmount * 0.1).toFixed(0);
 
                 taxAmount.value = thousandSeparator(taxValue);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
+
+                calculateOutstandingAmount(paymentAmount.value, grandTotal.value);
+            }
+
+            function calculateOutstandingAmount(paymentAmount, grandTotal) {
+                outstandingAmount.value = thousandSeparator(numberFormat(grandTotal) - numberFormat(paymentAmount));
             }
 
             function currencyFormat(value) {

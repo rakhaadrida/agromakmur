@@ -55,6 +55,7 @@ class GoodsReceiptService
         $goodsReceipt->subtotal = $goodsReceipt->pendingApproval->subtotal;
         $goodsReceipt->tax_amount = $goodsReceipt->pendingApproval->tax_amount;
         $goodsReceipt->grand_total = $goodsReceipt->pendingApproval->grand_total;
+        $goodsReceipt->outstanding_amount = $goodsReceipt->pendingApproval->grand_total - $goodsReceipt->payment_amount;
         $goodsReceipt->goodsReceiptItems = $goodsReceipt->pendingApproval->approvalItems;
 
         return $goodsReceipt;
@@ -173,7 +174,18 @@ class GoodsReceiptService
             'subtotal' => $approval->subtotal,
             'tax_amount' => $approval->tax_amount,
             'grand_total' => $approval->grand_total,
+            'outstanding_amount' => $approval->grand_total - $goodsReceipt->payment_amount,
         ]);
+
+        if($goodsReceipt->status != Constant::GOODS_RECEIPT_STATUS_CANCELLED) {
+            if($goodsReceipt->outstanding_amount <= 0) {
+                $goodsReceipt->accountPayable()->update([
+                    'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_PAID,
+                ]);
+            }
+        } else {
+            $goodsReceipt->accountPayable()->delete();
+        }
 
         return true;
     }

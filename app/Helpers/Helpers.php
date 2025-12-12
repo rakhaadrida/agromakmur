@@ -503,6 +503,11 @@ function getBaseTotal($price, $quantity)
     return $price * $quantity;
 }
 
+function getOutstandingAmount($grandTotal, $paymentAmount)
+{
+    return $grandTotal - $paymentAmount;
+}
+
 function formatDate($date, $format)
 {
     return \Carbon\Carbon::parse($date)->format($format);

@@ -193,6 +193,20 @@
                                         <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->grand_total) }}" readonly>
                                     </div>
                                 </div>
+                                <div class="form-group row justify-content-end mt-1">
+                                    <label for="paymentAmount" class="col-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-2 mr-1">
+                                        <input type="text" id="paymentAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->payment_amount) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end grandtotal-so">
+                                    <label for="outstandingAmount" class="col-2 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-2 mr-1">
+                                        <input type="text" id="outstandingAmount" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->outstanding_amount) }}" readonly>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="form-row justify-content-center">
                                     <div class="col-2">
@@ -243,6 +257,7 @@
         $(document).ready(function() {
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
+            let outstandingAmount = document.getElementById('outstandingAmount');
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
@@ -512,9 +527,16 @@
             function calculateTax(subtotalAmount) {
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
+                let paymentAmount = document.getElementById('paymentAmount');
 
                 taxAmount.value = thousandSeparator(subtotalAmount * 0.1);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
+
+                calculateOutstandingAmount(paymentAmount.value, grandTotal.value);
+            }
+
+            function calculateOutstandingAmount(paymentAmount, grandTotal) {
+                outstandingAmount.value = thousandSeparator(numberFormat(grandTotal) - numberFormat(paymentAmount));
             }
 
             function currencyFormat(value) {

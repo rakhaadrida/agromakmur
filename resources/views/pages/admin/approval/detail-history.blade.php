@@ -435,6 +435,22 @@
                                     </div>
                                 </div>
                             @endif
+                            @if(isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
+                                <div class="form-group row justify-content-end mt-1">
+                                    <label for="paymentAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                        <input type="text" class="form-control-plaintext text-bold text-danger text-right" id="paymentAmount" value="{{ formatPrice($approval->subject->payment_amount) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end grandtotal-so">
+                                    <label for="outstandingAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                        <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right" id="outstandingAmount" value="{{ formatPrice(getOutstandingAmount($approval->grand_total, $approval->subject->payment_amount)) }}" readonly>
+                                    </div>
+                                </div>
+                            @endif
                             @if(!isApprovalTypeApprovalLimit($approval->type) && !isApprovalTypeCancel($approval->type))
                                 <div class="row justify-content-center @if(isApprovalSalesReceiptTransaction($approval->subject_label)) blue-arrow @else blue-arrow-delivery-order @endif">
                                     <i class="fas fa-arrow-down fa-4x text-primary"></i>
@@ -697,6 +713,22 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 col-sm-4 col-md-2 mr-1">
                                             <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right @if(isDifferenceApprovalItem($childData->grand_total, $approval->grand_total)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="grand_total_child" id="grandTotalChild" value="{{ formatPrice($childData->grand_total) }}" readonly>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(isApprovalSubjectTypeGoodsReceipt($childData->subject_label))
+                                    <div class="form-group row justify-content-end mt-1">
+                                        <label for="paymentAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                            <input type="text" class="form-control-plaintext text-bold text-danger text-right" id="paymentAmountChild" value="{{ formatPrice($childData->subject->payment_amount) }}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row justify-content-end grandtotal-so">
+                                        <label for="outstandingAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                            <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right @if(isDifferenceApprovalItem(getOutstandingAmount($childData->grand_total, $childData->subject->payment_amount), getOutstandingAmount($approval->grand_total, $approval->subject->payment_amount))) bg-warning text-bold text-dark approval-difference-amount-section @endif" id="outstandingAmountChild" value="{{ formatPrice(getOutstandingAmount($childData->grand_total, $childData->subject->payment_amount)) }}" readonly>
                                         </div>
                                     </div>
                                 @endif

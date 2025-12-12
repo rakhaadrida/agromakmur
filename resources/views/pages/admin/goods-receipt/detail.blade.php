@@ -130,7 +130,7 @@
                                         <td class="table-head-price-transaction">Upah</td>
                                         <td class="table-head-price-transaction">Ongkos Kirim</td>
                                         <td class="table-head-price-transaction">Harga Modal</td>
-                                        <td class="table-head-shipping-cost-transaction">Total</td>
+                                        <td class="table-head-price-transaction">Total</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,6 +169,20 @@
                                 <span class="col-form-label text-bold">:</span>
                                 <div class="col-2 mr-1">
                                     <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->grand_total) }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row justify-content-end mt-1">
+                                <label for="paymentAmount" class="col-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                <span class="col-form-label text-bold">:</span>
+                                <div class="col-2 mr-1">
+                                    <input type="text" id="paymentAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($goodsReceipt->payment_amount) }}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row justify-content-end grandtotal-so">
+                                <label for="outstandingAmount" class="col-2 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                <span class="col-form-label text-bold">:</span>
+                                <div class="col-2 mr-1">
+                                    <input type="text" id="outstandingAmount" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($goodsReceipt->outstanding_amount) }}" readonly>
                                 </div>
                             </div>
                             <hr>

@@ -21,6 +21,8 @@ class GoodsReceipt extends Model
         'subtotal',
         'tax_amount',
         'grand_total',
+        'payment_amount',
+        'outstanding_amount',
         'is_printed',
         'status',
         'user_id',
@@ -44,6 +46,10 @@ class GoodsReceipt extends Model
 
     public function goodsReceiptItems() {
         return $this->hasMany(GoodsReceiptItem::class, 'goods_receipt_id', 'id');
+    }
+
+    public function accountPayable() {
+        return $this->hasOne(AccountPayable::class, 'goods_receipt_id', 'id');
     }
 
     public function approvals()

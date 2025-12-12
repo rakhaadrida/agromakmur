@@ -1900,3 +1900,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .note-editable {
     font-weight: normal !important;
 }
+
+.goods-receipt-payment {
+    border: 0;
+    background: transparent;
+    padding-right: 0 !important;
+    padding-top: 8px !important;
+    padding-left: 0 !important;
+    height: 25px;
+}

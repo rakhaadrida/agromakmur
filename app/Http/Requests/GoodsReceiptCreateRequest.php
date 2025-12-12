@@ -21,6 +21,7 @@ class GoodsReceiptCreateRequest extends FormRequest
             'supplier_id' => ['required', 'exists:suppliers,id,deleted_at,NULL'],
             'date' => ['required', 'date', 'date_format:d-m-Y'],
             'tempo' => ['nullable', 'integer', 'min:0'],
+            'payment_amount' => ['nullable', 'integer', 'min:0'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],

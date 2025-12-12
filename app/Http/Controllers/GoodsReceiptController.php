@@ -125,10 +125,12 @@ class GoodsReceiptController extends Controller
             $request->merge([
                 'number' => $number,
                 'date' => $date,
-                'tempo' => $request->get('tempo') || 0,
+                'tempo' => $request->get('tempo') ?? 0,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
+                'payment_amount' => (int) $request->get('payment_amount') ?? 0,
+                'outstanding_amount' => 0,
                 'status' => Constant::GOODS_RECEIPT_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
@@ -185,11 +187,13 @@ class GoodsReceiptController extends Controller
 
             $taxAmount = $subtotal * (10 / 100);
             $grandTotal = $subtotal + $taxAmount;
+            $outstandingAmount = $grandTotal - $goodsReceipt->payment_amount;
 
             $goodsReceipt->update([
                 'subtotal' => $subtotal,
                 'tax_amount' => $taxAmount,
-                'grand_total' => $grandTotal
+                'grand_total' => $grandTotal,
+                'outstanding_amount' => $outstandingAmount
             ]);
 
             AccountPayableService::createData($goodsReceipt);

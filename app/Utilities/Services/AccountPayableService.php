@@ -206,9 +206,30 @@ class AccountPayableService
     }
 
     public static function createData($goodsReceipt) {
-        AccountPayable::create([
+        $data = AccountPayable::create([
             'goods_receipt_id' => $goodsReceipt->id,
             'status' => Constant::ACCOUNT_PAYABLE_STATUS_UNPAID,
+        ]);
+
+        if($goodsReceipt->payment_amount > 0) {
+            static::createPaymentData($data, $goodsReceipt);
+
+            if($goodsReceipt->payment_amount >= $goodsReceipt->grand_total) {
+                $data->status = Constant::ACCOUNT_PAYABLE_STATUS_PAID;
+            } else {
+                $data->status = Constant::ACCOUNT_PAYABLE_STATUS_ONGOING;
+            }
+
+            $data->save();
+        }
+
+        return true;
+    }
+
+    public static function createPaymentData($accountPayable, $goodsReceipt): bool {
+        $accountPayable->payments()->create([
+            'date' => $goodsReceipt->date,
+            'amount' => $goodsReceipt->payment_amount,
         ]);
 
         return true;
