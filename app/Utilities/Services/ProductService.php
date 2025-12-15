@@ -30,6 +30,17 @@ class ProductService
             ->get();
     }
 
+    public static function getProductPriceQuery($productId) {
+        return ProductPrice::query()
+            ->whereHas('pricing', function($query) {
+                $query->where('type', Constant::PRICE_TYPE_GENERAL)
+                    ->whereNull('deleted_at');
+            })
+            ->where('product_id', $productId)
+            ->whereNull('deleted_at')
+            ->first();
+    }
+
     public static function getProductStockQuery($productId, $warehouseId) {
         return ProductStock::query()
             ->where('product_id', $productId)
@@ -180,6 +191,31 @@ class ProductService
         }
 
         $conversions->restore();
+
+        return true;
+    }
+
+    public static function updateProductPrice($productId, $price) {
+        $basePrice = floor($price / 1.1);
+        $taxAmount = floor($price - $basePrice);
+
+        $productPrice = ProductService::getProductPriceQuery($productId);
+
+        if($productPrice) {
+            $productPrice->is_updated = 1;
+            $productPrice->deleted_at = Carbon::now();
+            $productPrice->save();
+        }
+
+        $purchasePrice = PriceService::getGeneralPrice();
+
+        ProductPrice::create([
+            'product_id' => $productId,
+            'price_id' => $purchasePrice->id,
+            'base_price' => $basePrice,
+            'tax_amount' => $taxAmount,
+            'price' => $price
+        ]);
 
         return true;
     }

@@ -8,6 +8,12 @@ use App\Utilities\Constant;
 
 class PriceService
 {
+    public static function getGeneralPrice() {
+        return Price::query()
+            ->where('type', Constant::PRICE_TYPE_GENERAL)
+            ->first();
+    }
+
     public static function getRetailPrice() {
         return Price::query()
             ->where('type', Constant::PRICE_TYPE_RETAIL)

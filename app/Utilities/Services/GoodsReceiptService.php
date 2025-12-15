@@ -74,6 +74,18 @@ class GoodsReceiptService
         return $goodsReceiptQuantities;
     }
 
+    public static function getLatestGoodsReceiptByProductId($productId) {
+        return GoodsReceipt::query()
+            ->whereHas('goodsReceiptItems', function($query) use ($productId) {
+                $query->where('product_id', $productId)
+                    ->whereNull('deleted_at');
+            })
+            ->whereNull('deleted_at')
+            ->orderByDesc('date')
+            ->orderByDesc('id')
+            ->first();
+    }
+
     public static function handleApprovalData($id, $approval) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
         $status = $approval->type == Constant::APPROVAL_TYPE_EDIT
@@ -168,6 +180,12 @@ class GoodsReceiptService
                 'cost_price' => $approvalItem->cost_price,
                 'total' => $approvalItem->total,
             ]);
+
+            $latestGoodsReceipt = static::getLatestGoodsReceiptByProductId($approvalItem->product_id);
+
+            if($latestGoodsReceipt && $latestGoodsReceipt->id == $goodsReceipt->id) {
+                ProductService::updateProductPrice($approvalItem->product_id, $approvalItem->price);
+            }
         }
 
         $goodsReceipt->update([

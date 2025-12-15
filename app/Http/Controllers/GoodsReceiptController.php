@@ -166,6 +166,8 @@ class GoodsReceiptController extends Controller
                         'total' => $total
                     ]);
 
+                    ProductService::updateProductPrice($productId, $price);
+
                     $productStock = ProductService::getProductStockQuery(
                         $productId,
                         $goodsReceipt->warehouse_id
