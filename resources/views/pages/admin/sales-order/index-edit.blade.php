@@ -33,7 +33,7 @@
                                         <div class="col-2">
                                             <input type="text" class="form-control form-control-sm text-bold mt-1" name="number" id="number" value="{{ $number }}" tabindex="1" autofocus>
                                         </div>
-                                        <label for="supplier" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
+                                        <label for="customer" class="col-auto col-form-label text-bold text-right filter-supplier-receipt">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
                                             <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="2">

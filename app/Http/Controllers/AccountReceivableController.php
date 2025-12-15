@@ -25,17 +25,22 @@ class AccountReceivableController extends Controller
     public function index(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $customerId = $filter->customer_id ?? null;
 
         $accountReceivables = AccountReceivableService::getIndexData($filter);
+
+        $customers = Customer::all();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
             'accountReceivableStatuses' => Constant::ACCOUNT_RECEIVABLE_STATUSES,
             'status' => $filter->status ?? 0,
-            'accountReceivables' => $accountReceivables
+            'customerId' => $customerId,
+            'accountReceivables' => $accountReceivables,
+            'customers' => $customers,
         ];
 
         return view('pages.finance.account-receivable.index', $data);

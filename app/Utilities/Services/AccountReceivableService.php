@@ -98,8 +98,9 @@ class AccountReceivableService
     }
 
     public static function getIndexData($filter) {
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $customerId = $filter->customer_id ?? null;
         $status = Constant::ACCOUNT_RECEIVABLE_STATUSES;
 
         if(!empty($filter->status)) {
@@ -107,6 +108,10 @@ class AccountReceivableService
         }
 
         $baseQuery = AccountReceivableService::getBaseQueryIndex();
+
+        if(!empty($customerId)) {
+            $baseQuery->where('sales_orders.customer_id', $customerId);
+        }
 
         $accountReceivables = $baseQuery
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
@@ -170,6 +175,7 @@ class AccountReceivableService
     public static function getExportIndexData($filter) {
         $startDate = $filter->start_date;
         $finalDate = $filter->final_date;
+        $customerId = $filter->customer_id ?? null;
 
         $accountReceivableStatuses = Constant::ACCOUNT_RECEIVABLE_STATUSES;
         $status = $accountReceivableStatuses;
@@ -179,6 +185,10 @@ class AccountReceivableService
         }
 
         $baseQuery = static::getBaseQueryIndex();
+
+        if(!empty($customerId)) {
+            $baseQuery->where('sales_orders.customer_id', $customerId);
+        }
 
         $accountReceivables = $baseQuery
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())

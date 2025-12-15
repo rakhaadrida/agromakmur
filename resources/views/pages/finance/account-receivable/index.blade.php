@@ -3,6 +3,7 @@
 @push('addon-style')
     <link href="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -30,11 +31,20 @@
                                     <div class="form-group row account-payable-filter-row">
                                         <label for="status" class="col-2 col-form-label text-right text-bold">Status</label>
                                         <span class="col-form-label text-bold">:</span>
-                                        <div class="col-5 account-payable-filter-status">
+                                        <div class="col-2 account-payable-filter-status">
                                             <select class="form-control form-control-sm mt-1" name="status" id="status" tabindex="2">
                                                 <option value="0" selected>All</option>
                                                 @foreach($accountReceivableStatuses as $accountReceivableStatus)
                                                     <option value="{{ $accountReceivableStatus }}" @if($status == $accountReceivableStatus) selected @endif>{{ getAccountReceivableStatusLabel($accountReceivableStatus) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <label for="customer" class="col-auto col-form-label text-bold text-right ">Customer</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 mt-1">
+                                            <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="3">
+                                                @foreach($customers as $customer)
+                                                    <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" @if($customerId == $customer->id) selected @endif>{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -43,11 +53,11 @@
                                         <label for="startDate" class="col-2 col-form-label text-right text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="3">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1" name="start_date" id="startDate" value="{{ $startDate }}" tabindex="4">
                                         </div>
-                                        <label for="finalDate" class="col-auto col-form-label text-bold ml-1"> s / d </label>
+                                        <label for="finalDate" class="col-auto col-form-label text-bold text-center ml-1 filter-final-date-receivable"> s / d </label>
                                         <div class="col-2">
-                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1 ml-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="4">
+                                            <input type="text" class="form-control datepicker form-control-sm text-bold mt-1 ml-1" name="final_date" id="finalDate" value="{{ $finalDate }}" tabindex="5">
                                         </div>
                                         <div class="col-1 mt-1 ml-n2">
                                             <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm btn-block text-bold">Cari</button>
@@ -118,6 +128,7 @@
     <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $.fn.datepicker.dates['id'] = {
             days:["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"],
