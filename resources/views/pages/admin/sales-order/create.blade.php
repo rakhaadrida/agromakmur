@@ -288,8 +288,11 @@
                                                 <input type="hidden" name="is_print" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
-                                                    <div class="col-3">
-                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak</button>
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak Faktur</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-primary btn-block text-bold" id="btnPrint">Cetak Struk</button>
                                                     </div>
                                                     <div class="col-4">
                                                         <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Lagi</button>
@@ -584,7 +587,7 @@
                     $('#modalDuplicate').modal('show');
 
                     return false;
-                } else if(outstandingAmount + grandTotal > creditLimit) {
+                } else if(+outstandingAmount + +grandTotal > creditLimit) {
                     $('#creditLimitLabel').text(thousandSeparator(creditLimit));
                     $('#totalCredit').text(thousandSeparator(outstandingAmount));
                     $('#invoiceAmount').text(thousandSeparator(grandTotal));
