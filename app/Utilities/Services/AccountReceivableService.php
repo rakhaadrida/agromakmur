@@ -209,9 +209,30 @@ class AccountReceivableService
     }
 
     public static function createData($salesOrder) {
-        AccountReceivable::create([
+        $data = AccountReceivable::create([
             'sales_order_id' => $salesOrder->id,
             'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID,
+        ]);
+
+        if($salesOrder->payment_amount > 0) {
+            static::createPaymentData($data, $salesOrder);
+
+            if($salesOrder->payment_amount >= $salesOrder->grand_total) {
+                $data->status = Constant::ACCOUNT_RECEIVABLE_STATUS_PAID;
+            } else {
+                $data->status = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
+            }
+
+            $data->save();
+        }
+
+        return true;
+    }
+
+    public static function createPaymentData($accountReceivable, $salesOrder): bool {
+        $accountReceivable->payments()->create([
+            'date' => $salesOrder->date,
+            'amount' => $salesOrder->payment_amount,
         ]);
 
         return true;

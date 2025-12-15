@@ -378,28 +378,28 @@
                                     </tbody>
                                 @endif
                             </table>
-                            <div class="form-group row justify-content-end subtotal-so">
-                                <label for="subtotal" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sub Total</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="subtotal" id="subtotal" value="{{ formatPrice($approval->subtotal) }}" readonly>
+                            @if(isApprovalSubjectTypeGoodsReceipt($approval->subject_label) || isApprovalSubjectTypeSalesOrder($approval->subject_label))
+                                <div class="form-group row justify-content-end subtotal-so">
+                                    <label for="subtotal" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sub Total</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="subtotal" id="subtotal" value="{{ formatPrice($approval->subtotal) }}" readonly>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row justify-content-end total-so">
-                                <label for="taxAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="tax_amount" id="taxAmount" value="{{ formatPrice($approval->tax_amount) }}" readonly>
+                                <div class="form-group row justify-content-end total-so">
+                                    <label for="taxAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right" name="tax_amount" id="taxAmount" value="{{ formatPrice($approval->tax_amount) }}" readonly>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row justify-content-end grandtotal-so">
-                                <label for="grandTotal" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Grand Total</label>
-                                <span class="col-form-label text-bold">:</span>
-                                <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                    <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right" name="grand_total" id="grandTotal" value="{{ formatPrice($approval->grand_total) }}" readonly>
+                                <div class="form-group row justify-content-end grandtotal-so">
+                                    <label for="grandTotal" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Grand Total</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                        <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right" name="grand_total" id="grandTotal" value="{{ formatPrice($approval->grand_total) }}" readonly>
+                                    </div>
                                 </div>
-                            </div>
-                            @if(isApprovalSubjectTypeGoodsReceipt($approval->subject_label))
                                 <div class="form-group row justify-content-end mt-1">
                                     <label for="paymentAmount" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
                                     <span class="col-form-label text-bold">:</span>
@@ -636,28 +636,28 @@
                                         </tbody>
                                     @endif
                                 </table>
-                                <div class="form-group row justify-content-end subtotal-so">
-                                    <label for="subtotalChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sub Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->subtotal, $approval->subtotal)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="subtotal_child" id="subtotalChild" value="{{ formatPrice($childData->subtotal) }}" readonly>
+                                @if(isApprovalSubjectTypeGoodsReceipt($childData->subject_label) || isApprovalSubjectTypeSalesOrder($childData->subject_label))
+                                    <div class="form-group row justify-content-end subtotal-so">
+                                        <label for="subtotalChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Sub Total</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->subtotal, $approval->subtotal)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="subtotal_child" id="subtotalChild" value="{{ formatPrice($childData->subtotal) }}" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so">
-                                    <label for="taxAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->tax_amount, $approval->tax_amount)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="tax_amount_child" id="taxAmountChild" value="{{ formatPrice($childData->tax_amount) }}" readonly>
+                                    <div class="form-group row justify-content-end total-so">
+                                        <label for="taxAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">PPN</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                            <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-danger text-right @if(isDifferenceApprovalItem($childData->tax_amount, $approval->tax_amount)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="tax_amount_child" id="taxAmountChild" value="{{ formatPrice($childData->tax_amount) }}" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row justify-content-end grandtotal-so">
-                                    <label for="grandTotalChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Grand Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <div class="col-4 col-sm-4 col-md-2 mr-1">
-                                        <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right @if(isDifferenceApprovalItem($childData->grand_total, $approval->grand_total)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="grand_total_child" id="grandTotalChild" value="{{ formatPrice($childData->grand_total) }}" readonly>
+                                    <div class="form-group row justify-content-end grandtotal-so">
+                                        <label for="grandTotalChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Grand Total</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-4 col-sm-4 col-md-2 mr-1">
+                                            <input type="text" class="form-control-plaintext text-bold text-dark text-lg text-right @if(isDifferenceApprovalItem($childData->grand_total, $approval->grand_total)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="grand_total_child" id="grandTotalChild" value="{{ formatPrice($childData->grand_total) }}" readonly>
+                                        </div>
                                     </div>
-                                </div>
-                                @if(isApprovalSubjectTypeGoodsReceipt($childData->subject_label))
                                     <div class="form-group row justify-content-end mt-1">
                                         <label for="paymentAmountChild" class="col-4 col-sm-4 col-md-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
                                         <span class="col-form-label text-bold">:</span>

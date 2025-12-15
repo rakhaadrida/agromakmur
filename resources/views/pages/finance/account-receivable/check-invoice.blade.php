@@ -220,6 +220,20 @@
                                                         <input type="text" id="grandTotal" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($salesOrder->grand_total) }}" readonly>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row justify-content-end mt-1">
+                                                    <label for="paymentAmount" class="col-2 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-2 mr-1">
+                                                        <input type="text" id="paymentAmount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->payment_amount) }}" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row justify-content-end outstanding-so">
+                                                    <label for="outstandingAmount" class="col-2 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-2 mr-1">
+                                                        <input type="text" id="outstandingAmount" class="form-control-plaintext text-bold text-danger text-right text-lg" value="{{ formatPrice($salesOrder->outstanding_amount) }}" readonly>
+                                                    </div>
+                                                </div>
                                                 <hr>
                                             </div>
                                         @empty

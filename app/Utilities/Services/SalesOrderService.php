@@ -73,6 +73,7 @@ class SalesOrderService
         $salesOrder->subtotal = $salesOrder->pendingApproval->subtotal;
         $salesOrder->tax_amount = $salesOrder->pendingApproval->tax_amount;
         $salesOrder->grand_total = $salesOrder->pendingApproval->grand_total;
+        $salesOrder->outstanding_amount = $salesOrder->pendingApproval->grand_total - $salesOrder->payment_amount;
         $salesOrder->salesOrderItems = $salesOrder->pendingApproval->approvalItems;
 
         return $salesOrder;
@@ -250,6 +251,7 @@ class SalesOrderService
                 'subtotal' => $approval->subtotal,
                 'tax_amount' => $approval->tax_amount,
                 'grand_total' => $approval->grand_total,
+                'outstanding_amount' => $approval->grand_total - $salesOrder->payment_amount,
             ]);
         } else {
             AccountReceivableService::deleteData($salesOrder->accountReceivable);

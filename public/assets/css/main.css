@@ -161,6 +161,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom: -20px;
 }
 
+.outstanding-so {
+    margin-top: -35px;
+    margin-bottom: -20px;
+}
+
 .total-so {
     margin-top: -30px;
 }
@@ -533,7 +538,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .table,
     .subtotal-so,
     .total-so,
-    .grandtotal-so {
+    .grandtotal-so,
+    .outstanding-so {
         font-size: 13px;
     }
 

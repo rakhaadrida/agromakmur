@@ -247,6 +247,22 @@
                                             <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="grand_total" id="grandTotal" readonly>
                                         </div>
                                     </div>
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="paymentAmount" class="col-3 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control form-control-sm text-bold text-right text-dark mt-1 goods-receipt-payment" name="payment_amount" id="paymentAmount" placeholder="Input Nominal" tabindex="9999">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                        <label for="outstandingPayment" class="col-3 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <span class="col-form-label text-bold ml-2">Rp</span>
+                                        <div class="col-2">
+                                            <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="outstanding_payment" id="outstandingPayment" readonly>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="form-row justify-content-center">
                                         <div class="col-2">
@@ -393,7 +409,10 @@
 
             let number = $('#number');
             let branch = $('#branch');
+            let paymentAmount = $('#paymentAmount');
             let subtotal = document.getElementById('subtotal');
+            let grandTotal = document.getElementById('grandTotal');
+            let outstandingPayment = document.getElementById('outstandingPayment');
 
             number.on('blur', function(event) {
                 event.preventDefault();
@@ -526,6 +545,14 @@
                 updateAllRowIndexes(index, deleteRow);
             });
 
+            paymentAmount.on('keyup', function() {
+                this.value = currencyFormat(this.value);
+            });
+
+            paymentAmount.on('blur', function() {
+                calculateOutstandingAmount(this.value, grandTotal.value);
+            });
+
             $('#btnSubmit').on('click', function(event) {
                 event.preventDefault();
 
@@ -542,6 +569,8 @@
                 $('input[name="price[]"]').each(function() {
                     this.value = numberFormat(this.value);
                 });
+
+                paymentAmount.val(numberFormat(paymentAmount.val()));
 
                 let creditLimit = $('#creditLimit').val();
                 let outstandingAmount = $('#outstandingAmount').val();
@@ -832,6 +861,7 @@
 
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
+                let paymentAmount = document.getElementById('paymentAmount');
 
                 let taxValue = 0;
                 if(isTaxable === '1') {
@@ -840,6 +870,12 @@
 
                 taxAmount.value = thousandSeparator(taxValue);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
+
+                calculateOutstandingAmount(paymentAmount.value, grandTotal.value);
+            }
+
+            function calculateOutstandingAmount(paymentAmount, grandTotal) {
+                outstandingPayment.value = thousandSeparator(numberFormat(grandTotal) - numberFormat(paymentAmount));
             }
 
             function currencyFormat(value) {

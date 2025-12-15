@@ -25,6 +25,8 @@ class SalesOrder extends Model
         'subtotal',
         'tax_amount',
         'grand_total',
+        'payment_amount',
+        'outstanding_amount',
         'is_printed',
         'print_count',
         'status',

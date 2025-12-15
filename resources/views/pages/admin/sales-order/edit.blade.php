@@ -207,7 +207,7 @@
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="tax_amount" id="taxAmount" value="{{ formatPrice($salesOrder->tax_amount) }}" readonly>
+                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="tax_amount" id="taxAmount" value="{{ formatPrice($salesOrder->tax_amount) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -216,6 +216,22 @@
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
                                         <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="grand_total" id="grandTotal" value="{{ formatPrice($salesOrder->grand_total) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                    <label for="paymentAmount" class="col-3 col-form-label text-bold text-right text-dark">Pembayaran</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <span class="col-form-label text-bold ml-2">Rp</span>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="payment_amount" id="paymentAmount" value="{{ formatPrice($salesOrder->payment_amount) }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
+                                    <label for="outstandingAmount" class="col-3 col-form-label text-bold text-right text-dark">Sisa Bayar</label>
+                                    <span class="col-form-label text-bold">:</span>
+                                    <span class="col-form-label text-bold ml-2">Rp</span>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-danger text-right mt-1" name="outstanding_amount" id="outstandingAmount" value="{{ formatPrice($salesOrder->outstanding_amount) }}" readonly>
                                     </div>
                                 </div>
                                 <hr>
@@ -302,6 +318,7 @@
         $(document).ready(function() {
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
+            let outstandingAmount = document.getElementById('outstandingAmount');
 
             $('#customer').on('change', function(event) {
                 event.preventDefault();
@@ -613,6 +630,7 @@
                 let isTaxable = document.getElementById('isTaxable');
                 let taxAmount = document.getElementById('taxAmount');
                 let grandTotal = document.getElementById('grandTotal');
+                let paymentAmount = document.getElementById('paymentAmount');
 
                 let taxValue = 0;
                 if(isTaxable.value === '1') {
@@ -621,6 +639,12 @@
 
                 taxAmount.value = thousandSeparator(taxValue);
                 grandTotal.value = thousandSeparator(subtotalAmount + numberFormat(taxAmount.value));
+
+                calculateOutstandingAmount(paymentAmount.value, grandTotal.value);
+            }
+
+            function calculateOutstandingAmount(paymentAmount, grandTotal) {
+                outstandingAmount.value = thousandSeparator(numberFormat(grandTotal) - numberFormat(paymentAmount));
             }
 
             function currencyFormat(value) {

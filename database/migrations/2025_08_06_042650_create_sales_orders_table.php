@@ -23,6 +23,8 @@ return new class extends Migration
             $table->double('subtotal')->default(0);
             $table->double('tax_amount')->default(0);
             $table->double('grand_total')->default(0);
+            $table->double('payment_amount')->default(0);
+            $table->double('outstanding_amount')->default(0);
             $table->boolean('is_printed')->default(false);
             $table->integer('print_count')->default(0);
             $table->enum('status', [

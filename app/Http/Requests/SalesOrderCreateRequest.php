@@ -24,6 +24,7 @@ class SalesOrderCreateRequest extends FormRequest
             'tempo' => ['nullable', 'integer', 'min:0'],
             'is_taxable' => ['nullable', 'boolean'],
             'note' => ['nullable', 'string'],
+            'payment_amount' => ['nullable', 'integer', 'min:0'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],

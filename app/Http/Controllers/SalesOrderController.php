@@ -153,6 +153,8 @@ class SalesOrderController extends Controller
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
+                'payment_amount' => (int) $request->get('payment_amount') ?? 0,
+                'outstanding_amount' => 0,
                 'status' => Constant::SALES_ORDER_STATUS_ACTIVE,
                 'user_id' => Auth::user()->id,
             ]);
@@ -232,11 +234,13 @@ class SalesOrderController extends Controller
             }
 
             $grandTotal = (int) $subtotal + $taxAmount;
+            $outstandingAmount = $grandTotal - $salesOrder->payment_amount;
 
             $salesOrder->update([
                 'subtotal' => $subtotal,
                 'tax_amount' => $taxAmount,
                 'grand_total' => $grandTotal,
+                'outstanding_amount' => $outstandingAmount,
                 'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED
             ]);
 
