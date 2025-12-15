@@ -18,9 +18,6 @@
                         <th>Unit</th>
                         <th>Harga</th>
                         <th>Total</th>
-                        <th>Diskon (%)</th>
-                        <th>Jumlah Diskon</th>
-                        <th>Netto</th>
                     </tr>
                 @else
                     <tr>
@@ -32,9 +29,6 @@
                         <th>Unit</th>
                         <th>Harga</th>
                         <th>Total</th>
-                        <th>Diskon (%)</th>
-                        <th>Jumlah Diskon</th>
-                        <th>Netto</th>
                     </tr>
                 @endif
             </thead>
@@ -50,9 +44,6 @@
                             <td>{{ $salesItem->unit_name }}</td>
                             <td>{{ $salesItem->price }}</td>
                             <td>{{ $salesItem->total }}</td>
-                            <td>{{ $salesItem->discount }}</td>
-                            <td>{{ $salesItem->discount_amount }}</td>
-                            <td>{{ $salesItem->final_amount }}</td>
                         </tr>
                     @endforeach
                 @elseif(isSubjectCustomer($subject))
@@ -66,14 +57,11 @@
                             <td>{{ $salesItem->unit_name }}</td>
                             <td>{{ $salesItem->price }}</td>
                             <td>{{ $salesItem->total }}</td>
-                            <td>{{ $salesItem->discount }}</td>
-                            <td>{{ $salesItem->discount_amount }}</td>
-                            <td>{{ $salesItem->final_amount }}</td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="11">Tidak Ada Data</td>
+                        <td colspan="8">Tidak Ada Data</td>
                     </tr>
                 @endif
             </tbody>

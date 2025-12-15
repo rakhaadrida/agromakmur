@@ -37,7 +37,7 @@ class AccountReceivableService
                 DB::table('account_receivable_returns')
                     ->select(
                         'account_receivable_returns.account_receivable_id',
-                        DB::raw('SUM(account_receivable_returns.final_amount) AS total_return')
+                        DB::raw('SUM(account_receivable_returns.total) AS total_return')
                     )
                     ->whereNull('account_receivable_returns.deleted_at')
                     ->groupBy('account_receivable_returns.account_receivable_id'),
@@ -85,7 +85,7 @@ class AccountReceivableService
                 DB::table('account_receivable_returns')
                     ->select(
                         'account_receivable_returns.account_receivable_id',
-                        DB::raw('SUM(account_receivable_returns.final_amount) AS total_return'),
+                        DB::raw('SUM(account_receivable_returns.total) AS total_return'),
                         DB::raw('SUM(account_receivable_returns.quantity) AS total_quantity')
                     )
                     ->whereNull('account_receivable_returns.deleted_at')

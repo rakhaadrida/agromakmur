@@ -187,12 +187,9 @@ class AccountReceivableController extends Controller
                 $realQuantity = $request->get('real_quantity')[$index];
                 $priceId = $request->get('price_id')[$index];
                 $price = $request->get('price')[$index];
-                $discount = $request->get('discount')[$index];
-                $discountAmount = $request->get('discount_product')[$index];
 
                 $actualQuantity = $quantity * $realQuantity;
                 $total = $quantity * $price;
-                $finalAmount = $total - $discountAmount;
 
                 $accountReceivable->returns()->create([
                     'product_id' => $productId,
@@ -202,13 +199,10 @@ class AccountReceivableController extends Controller
                     'actual_quantity' => $actualQuantity,
                     'price_id' => $priceId,
                     'price' => $price,
-                    'total' => $total,
-                    'discount' => $discount,
-                    'discount_amount' => $discountAmount,
-                    'final_amount' => $finalAmount
+                    'total' => $total
                 ]);
 
-                $totalReturn += $finalAmount;
+                $totalReturn += $total;
             }
 
             $totalPayment = $accountReceivable->payments()->sum('amount') ?? 0;

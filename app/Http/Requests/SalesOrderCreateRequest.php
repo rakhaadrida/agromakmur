@@ -30,11 +30,8 @@ class SalesOrderCreateRequest extends FormRequest
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],
             'price_id.*' => ['nullable', 'exists:prices,id,deleted_at,NULL'],
             'price.*' => ['nullable', 'integer'],
-            'discount.*' => ['nullable', 'string'],
-            'discount_product.*' => ['nullable', 'integer'],
             'warehouse_ids.*' => ['nullable', 'string'],
             'warehouse_stocks.*' => ['nullable', 'string'],
-            'invoice_discount' => ['nullable', 'integer'],
             'is_print' => ['nullable', 'boolean'],
             'is_generated_number' => ['nullable', 'boolean'],
         ];

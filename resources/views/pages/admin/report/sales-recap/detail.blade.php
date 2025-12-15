@@ -97,9 +97,6 @@
                                                 <td class="align-middle th-sales-recap-detail-unit">Unit</td>
                                                 <td class="align-middle th-sales-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-sales-recap-detail-total">Total</td>
-                                                <td class="align-middle th-sales-recap-detail-discount">Diskon (%)</td>
-                                                <td class="align-middle th-sales-recap-detail-discount-amount">Jumlah Diskon</td>
-                                                <td class="align-middle th-sales-recap-detail-final-amount">Netto</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -117,13 +114,10 @@
                                                     <td class="align-middle text-center">{{ $salesItem->unit_name }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $salesItem->price }}">{{ formatPrice($salesItem->price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $salesItem->total }}">{{ formatPrice($salesItem->total) }}</td>
-                                                    <td class="align-middle text-right">{{ $salesItem->discount }}</td>
-                                                    <td class="align-middle text-right" data-sort="{{ $salesItem->discount_amount }}">{{ formatPrice($salesItem->discount_amount) }}</td>
-                                                    <td class="align-middle text-right" data-sort="{{ $salesItem->final_amount }}">{{ formatPrice($salesItem->final_amount) }}</td>
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                                                    <td colspan="8" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
@@ -138,9 +132,6 @@
                                                 <td class="align-middle th-sales-recap-detail-unit">Unit</td>
                                                 <td class="align-middle th-sales-recap-detail-price">Harga</td>
                                                 <td class="align-middle th-sales-recap-detail-total">Total</td>
-                                                <td class="align-middle th-sales-recap-detail-discount">Diskon (%)</td>
-                                                <td class="align-middle th-sales-recap-detail-discount-amount">Jumlah Diskon</td>
-                                                <td class="align-middle th-sales-recap-detail-final-amount">Netto</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -158,13 +149,10 @@
                                                     <td class="align-middle text-center">{{ $salesItem->unit_name }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $salesItem->price }}">{{ formatPrice($salesItem->price) }}</td>
                                                     <td class="align-middle text-right" data-sort="{{ $salesItem->total }}">{{ formatPrice($salesItem->total) }}</td>
-                                                    <td class="align-middle text-right">{{ $salesItem->discount }}</td>
-                                                    <td class="align-middle text-right" data-sort="{{ $salesItem->discount_amount }}">{{ formatPrice($salesItem->discount_amount) }}</td>
-                                                    <td class="align-middle text-right" data-sort="{{ $salesItem->final_amount }}">{{ formatPrice($salesItem->final_amount) }}</td>
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="11" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                                                    <td colspan="8" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>

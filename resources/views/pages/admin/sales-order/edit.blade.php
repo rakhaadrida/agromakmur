@@ -125,21 +125,15 @@
                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" >
                                     <thead class="text-center text-bold text-dark">
                                         <tr>
-                                            <td rowspan="2" class="align-middle table-head-number-sales-order">No</td>
-                                            <td rowspan="2" class="align-middle table-head-code-sales-order">SKU</td>
-                                            <td rowspan="2" class="align-middle">Nama Produk</td>
-                                            <td rowspan="2" class="align-middle table-head-quantity-sales-order">Qty</td>
-                                            <td rowspan="2" class="align-middle table-head-unit-sales-order">Unit</td>
-                                            <td rowspan="2" class="align-middle table-head-price-type-sales-order">Tipe Harga</td>
-                                            <td rowspan="2" class="align-middle table-head-price-sales-order">Harga</td>
-                                            <td rowspan="2" class="align-middle table-head-total-sales-order">Total</td>
-                                            <td colspan="2" class="align-middle">Diskon</td>
-                                            <td rowspan="2" class="align-middle table-head-final-amount-sales-order">Netto</td>
-                                            <td rowspan="2" class="align-middle table-head-delete-transaction">Hapus</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="table-head-discount-percentage-sales-order">%</td>
-                                            <td class="table-head-discount-amount-sales-order">Rupiah</td>
+                                            <td class="align-middle table-head-number-sales-order">No</td>
+                                            <td class="align-middle table-head-code-sales-order">SKU</td>
+                                            <td class="align-middle">Nama Produk</td>
+                                            <td class="align-middle table-head-quantity-sales-order">Qty</td>
+                                            <td class="align-middle table-head-unit-sales-order">Unit</td>
+                                            <td class="align-middle table-head-price-type-sales-order">Tipe Harga</td>
+                                            <td class="align-middle table-head-price-sales-order">Harga</td>
+                                            <td class="align-middle table-head-total-sales-order">Total</td>
+                                            <td class="align-middle table-head-delete-transaction">Hapus</td>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTable">
@@ -191,15 +185,6 @@
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
                                                 </td>
-                                                <td>
-                                                    <input type="text" name="discount[]" id="discount-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ $salesOrderItem->discount }}" tabindex="{{ $rowNumbers += 9 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka dan tanda tambah saja" @if($key == 0) required @endif>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="discount_product[]" id="discountProduct-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->discount_amount) }}" title="" readonly>
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="final_amount[]" id="finalAmount-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->final_amount) }}" title="" readonly>
-                                                </td>
                                                 <td class="align-middle text-center">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                                         <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
@@ -210,27 +195,11 @@
                                     </tbody>
                                 </table>
                                 <div class="form-group row justify-content-end subtotal-so sales-order-total-amount-info">
-                                    <label for="totalAmount" class="col-3 col-form-label text-bold text-right text-dark">Total</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="total_amount" id="totalAmount" value="{{ formatPrice($salesOrder->subtotal) }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
-                                    <label for="invoiceDiscount" class="col-3 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
-                                    <span class="col-form-label text-bold">:</span>
-                                    <span class="col-form-label text-bold ml-2">Rp</span>
-                                    <div class="col-2">
-                                        <input type="text" class="form-control form-control-sm text-bold text-dark text-right mt-1 invoice-discount" name="invoice_discount" id="invoiceDiscount" value="{{ formatPrice($salesOrder->discount_amount) }}" tabindex="9999">
-                                    </div>
-                                </div>
-                                <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
                                     <label for="subtotal" class="col-3 col-form-label text-bold text-right text-dark">Sub Total</label>
                                     <span class="col-form-label text-bold">:</span>
                                     <span class="col-form-label text-bold ml-2">Rp</span>
                                     <div class="col-2">
-                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="subtotal" id="subtotal" value="{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}" readonly>
+                                        <input type="text" class="form-control-plaintext form-control-sm text-bold text-secondary text-right mt-1" name="subtotal" id="subtotal" value="{{ formatPrice($salesOrder->subtotal) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-end total-so sales-order-total-amount-info">
@@ -332,9 +301,6 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
-
-            let invoiceDiscount = $('#invoiceDiscount');
-            let totalAmount = document.getElementById('totalAmount');
             let subtotal = document.getElementById('subtotal');
 
             $('#customer').on('change', function(event) {
@@ -392,7 +358,6 @@
 
                 $(`#price-${index}`).val(thousandSeparator(numberFormat(actualPriceValue) * realQuantity));
                 calculateTotal(index);
-                calculateDiscount(index);
             });
 
             table.on('change', 'select[name="price_type[]"]', function () {
@@ -406,7 +371,6 @@
                 $(`#actualPrice-${index}`).val(thousandSeparator(selected.data('foo')));
 
                 calculateTotal(index);
-                calculateDiscount(index);
             });
 
             table.on('keypress', 'input[name="price[]"]', function (event) {
@@ -427,33 +391,11 @@
                 calculateTotal(index);
             });
 
-            table.on('keypress', 'input[name="discount[]"]', function (event) {
-                if (!this.readOnly && event.which > 31 && event.which !== 43 && event.which !== 44 && (event.which < 48 || event.which > 57)) {
-                    const index = $(this).closest('tr').index();
-                    $(`#discount-${index}`).tooltip('show');
-
-                    event.preventDefault();
-                }
-            });
-
-            table.on('blur', 'input[name="discount[]"]', function () {
-                const index = $(this).closest('tr').index();
-                calculateDiscount(index);
-            });
-
             table.on('click', '.remove-transaction-table', function () {
                 const index = $(this).closest('tr').index();
                 const deleteRow = $('.remove-transaction-table');
 
                 updateAllRowIndexes(index, deleteRow);
-            });
-
-            invoiceDiscount.on('keyup', function() {
-                this.value = currencyFormat(this.value);
-            });
-
-            invoiceDiscount.on('blur', function() {
-                calculateInvoiceDiscount(this.value, totalAmount.value);
             });
 
             $('#btnSubmit').on('click', function(event) {
@@ -472,13 +414,6 @@
                 $('input[name="price[]"]').each(function() {
                     this.value = numberFormat(this.value);
                 });
-
-                $('input[name="discount_product[]"]').each(function() {
-                    this.value = numberFormat(this.value);
-                });
-
-                let invoiceDiscount = $('#invoiceDiscount');
-                invoiceDiscount.val(numberFormat(invoiceDiscount.val()));
 
                 let duplicateCodes = checkDuplicateProduct();
                 if(duplicateCodes.length) {
@@ -651,80 +586,25 @@
             function calculateTotal(index) {
                 let quantity = document.getElementById(`quantity-${index}`);
                 let price = document.getElementById(`price-${index}`);
-                let discountProduct = document.getElementById(`discountProduct-${index}`);
                 let total = document.getElementById(`total-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
-
-                let currentFinalAmount = 0;
 
                 if(quantity.value === "") {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(finalAmount.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(finalAmount.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
                     total.value = '';
-                    finalAmount.value = '';
                 }
                 else {
-                    currentFinalAmount = numberFormat(finalAmount.value);
+                    let currentTotal = numberFormat(total.value);
                     total.value = thousandSeparator((numberFormat(quantity.value) * numberFormat(price.value)));
-                    finalAmount.value = thousandSeparator((numberFormat(quantity.value) * numberFormat(price.value) - numberFormat(discountProduct.value)));
-                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
+                    calculateSubtotal(currentTotal, numberFormat(total.value), subtotal);
                 }
 
                 calculateTax(numberFormat(subtotal.value));
             }
 
-            function calculateDiscount(index) {
-                let discount = document.getElementById(`discount-${index}`);
-                let discountProduct = document.getElementById(`discountProduct-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
-                let total = document.getElementById(`total-${index}`);
-
-                if(discount.value === '') {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) + numberFormat(discountProduct.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) + numberFormat(discountProduct.value));
-                    discountProduct.value = '';
-                    finalAmount.value = total.value;
-                } else {
-                    let currentFinalAmount = numberFormat(finalAmount.value);
-                    let discountPercentage = calculateDiscountPercentage(discount.value);
-                    let totalValue = numberFormat(total.value);
-                    let discountValue = ((discountPercentage * totalValue) / 100).toFixed(0);
-
-                    discountProduct.value = thousandSeparator(discountValue);
-                    finalAmount.value = thousandSeparator(totalValue - discountValue);
-
-                    calculateSubtotal(currentFinalAmount, numberFormat(finalAmount.value), subtotal, totalAmount);
-                }
-
-                calculateTax(numberFormat(subtotal.value));
-            }
-
-            function calculateDiscountPercentage(value) {
-                let maxDiscount = 100;
-
-                value.replace(/\,/g, ".");
-                let arrayDiscount = value.split('+');
-
-                arrayDiscount.forEach(function(discount) {
-                    maxDiscount -= (discount * maxDiscount) / 100;
-                });
-
-                maxDiscount = ((maxDiscount - 100) * -1);
-
-                return maxDiscount;
-            }
-
-            function calculateInvoiceDiscount(invoiceDiscount, totalAmount) {
-                subtotal.value = thousandSeparator(numberFormat(totalAmount) - numberFormat(invoiceDiscount));
-                calculateTax(numberFormat(subtotal.value));
-            }
-
-            function calculateSubtotal(previousAmount, currentAmount, subtotal, total) {
+            function calculateSubtotal(previousAmount, currentAmount, subtotal) {
                 if(previousAmount > currentAmount) {
-                    total.value = thousandSeparator(numberFormat(total.value) - (+previousAmount - +currentAmount));
                     subtotal.value = thousandSeparator(numberFormat(subtotal.value) - (+previousAmount - +currentAmount));
                 } else {
-                    total.value = thousandSeparator(numberFormat(total.value) + (+currentAmount - +previousAmount));
                     subtotal.value = thousandSeparator(numberFormat(subtotal.value) + (+currentAmount - +previousAmount));
                 }
             }
@@ -787,11 +667,10 @@
 
             function updateAllRowIndexes(index, deleteRow) {
                 let quantity = document.getElementById(`quantity-${index}`);
-                let finalAmount = document.getElementById(`finalAmount-${index}`);
+                let total = document.getElementById(`total-${index}`);
 
                 if(quantity.value !== '') {
-                    totalAmount.value = thousandSeparator(numberFormat(totalAmount.value) - numberFormat(finalAmount.value));
-                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(finalAmount.value));
+                    subtotal.value = thousandSeparator(numberFormat(subtotal.value) - numberFormat(total.value));
                     calculateTax(numberFormat(subtotal.value));
                 }
 
@@ -802,9 +681,6 @@
                     let priceId = document.getElementById(`priceId-${i}`);
                     let price = document.getElementById(`price-${i}`);
                     let total = document.getElementById(`total-${i}`);
-                    let discount = document.getElementById(`discount-${i}`);
-                    let discountProduct = document.getElementById(`discountProduct-${i}`);
-                    let finalAmount = document.getElementById(`finalAmount-${i}`);
                     let warehouseIds = document.getElementById(`warehouseIds-${i}`);
                     let warehouseStocks = document.getElementById(`warehouseStocks-${i}`);
 
@@ -819,9 +695,6 @@
                     let newPriceId = document.getElementById(`priceId-${rowNumber}`);
                     let newPrice = document.getElementById(`price-${rowNumber}`);
                     let newTotal = document.getElementById(`total-${rowNumber}`);
-                    let newDiscount = document.getElementById(`discount-${rowNumber}`);
-                    let newDiscountProduct = document.getElementById(`discountProduct-${rowNumber}`);
-                    let newFinalAmount = document.getElementById(`finalAmount-${rowNumber}`);
                     let newWarehouseIds = document.getElementById(`warehouseIds-${rowNumber}`);
                     let newWarehouseStocks = document.getElementById(`warehouseStocks-${rowNumber}`);
 
@@ -832,32 +705,25 @@
                         priceId.value = newPriceId.value;
                         price.value = newPrice.value;
                         total.value = newTotal.value;
-                        discount.value = newDiscount.value;
-                        discountProduct.value = newDiscountProduct.value;
-                        finalAmount.value = newFinalAmount.value;
                         warehouseIds.value = newWarehouseIds.value;
                         warehouseStocks.value = newWarehouseStocks.value;
 
-                        changeSelectPickerValue($(`#priceType-${i}`), newPriceType.value, rowNumber, true);
-                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true);
+                        changeSelectPickerValue($(`#priceType-${i}`), newPriceType.value, rowNumber, true, $(`#priceType-${rowNumber}`));
+                        changeSelectPickerValue($(`#unit-${i}`), newUnit.value, rowNumber, true, $(`#unit-${rowNumber}`));
                         changeSelectPickerValue($(`#productName-${i}`), newProductName.value, rowNumber, false);
                         changeSelectPickerValue($(`#productId-${i}`), newProductId.value, rowNumber, false);
 
                         if(newProductId.value === '') {
-                            let deletedElements = [quantity, price, discount];
+                            let deletedElements = [quantity, price];
                             handleDeletedElementAttribute(deletedElements);
 
                             updateDeletedRowValue([], i);
                         } else {
                             handleRemoveRequiredReadonly(newQuantity, quantity);
                             handleRemoveRequiredReadonly(newPrice, price);
-                            handleRemoveRequiredReadonly(newDiscount, discount);
                         }
 
                         let elements = [
-                            newFinalAmount,
-                            newDiscountProduct,
-                            newDiscount,
                             newTotal,
                             newPrice,
                             newPriceId,
@@ -874,13 +740,10 @@
                             $(`#${i}`).remove();
                         }
 
-                        let deletedElements = [quantity, price, discount];
+                        let deletedElements = [quantity, price];
                         handleDeletedElementAttribute(deletedElements);
 
                         let elements = [
-                            finalAmount,
-                            discountProduct,
-                            discount,
                             total,
                             price,
                             priceId,
@@ -896,13 +759,11 @@
                 }
             }
 
-            function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled) {
+            function changeSelectPickerValue(selectElement, value, index, isRemoveDisabled, newElement = null) {
                 if(isRemoveDisabled) {
-                    let newUnit = $(`#unit-${index}`);
-
-                    if(!newUnit.is(':disabled')) {
+                    if(!newElement.is(':disabled')) {
                         selectElement.empty();
-                        selectElement.append(newUnit.html()).find('option');
+                        selectElement.append(newElement.html()).find('option');
                         selectElement.selectpicker('refresh');
                         selectElement.attr('disabled', false);
                     }
@@ -1007,15 +868,6 @@
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
-                        </td>
-                        <td>
-                            <input type="text" name="discount[]" id="discount-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('discount[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja and plus sign" readonly>
-                        </td>
-                        <td>
-                            <input type="text" name="discount_product[]" id="discountProduct-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('discount_product[]') }}" title="" readonly >
-                        </td>
-                        <td>
-                            <input type="text" name="final_amount[]" id="finalAmount-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('final_amount[]') }}" title="" readonly >
                         </td>
                         <td class="align-middle text-center">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">

@@ -80,14 +80,12 @@ class ApprovalService
             $subtotal = static::createChildItems($approval, $subjectItems);
         }
 
-        $totalAfterDiscount = $subtotal - $approval->discount_amount;
-
         $taxAmount = 0;
         if($subject->is_taxable || $approval->subject_type == GoodsReceipt::class) {
-            $taxAmount = round($totalAfterDiscount * (10 / 100));
+            $taxAmount = round($subtotal * (10 / 100));
         }
 
-        $grandTotal = (int) $totalAfterDiscount + $taxAmount;
+        $grandTotal = (int) $subtotal + $taxAmount;
 
         $approval->update([
             'subtotal' => $subtotal,
@@ -112,20 +110,18 @@ class ApprovalService
             'customer_id' => $subjectData['customer_id'],
             'marketing_id' => $subjectData['marketing_id'],
             'tempo' => $subjectData['tempo'],
-            'discount_amount' => $subjectData['invoice_discount'] ?? 0,
+            'discount_amount' => 0,
             'user_id' => Auth::user()->id,
         ]);
 
         $subtotal = static::createChildItemSalesOrders($approval, $subjectItems);
 
-        $totalAfterDiscount = $subtotal - $approval->discount_amount;
-
         $taxAmount = 0;
         if($subject->is_taxable) {
-            $taxAmount = round($totalAfterDiscount * (10 / 100));
+            $taxAmount = round($subtotal * (10 / 100));
         }
 
-        $grandTotal = (int) $totalAfterDiscount + $taxAmount;
+        $grandTotal = (int) $subtotal + $taxAmount;
 
         $approval->update([
             'subtotal' => $subtotal,
@@ -144,12 +140,10 @@ class ApprovalService
 
             if($approval->subject_type == GoodsReceipt::class) {
                 $total = $item->quantity * $totalCostPrice;
-                $finalAmount = $total;
                 $subtotal += ($item->price * $item->quantity);
             } else {
-                $total = ($item->quantity * $item->price) + $totalExpenses;
-                $finalAmount = $total - $item->discount_amount ?? 0;
-                $subtotal += $finalAmount;
+                $total = $item->quantity * $item->price;
+                $subtotal += $total;
             }
 
             $approval->approvalItems()->create([
@@ -190,8 +184,6 @@ class ApprovalService
                 $price = $childItems['price'][$index] ?? 0;
                 $wages = $childItems['wages'][$index] ?? 0;
                 $shippingCost = $childItems['shipping_cost'][$index] ?? 0;
-                $discount = $childItems['discount'][$index] ?? 0;
-                $discountAmount = $childItems['discount_amount'][$index] ?? 0;
 
                 $actualQuantity = $quantity * $realQuantity;
                 $totalExpenses = $wages + $shippingCost;
@@ -199,12 +191,10 @@ class ApprovalService
 
                 if($approval->subject_type == GoodsReceipt::class) {
                     $total = $quantity * $totalCostPrice;
-                    $finalAmount = $total;
                     $subtotal += ($price * $quantity);
                 } else {
-                    $total = ($quantity * $price) + $totalExpenses;
-                    $finalAmount = $total - $discountAmount;
-                    $subtotal += $finalAmount;
+                    $total = $quantity * $price;
+                    $subtotal += $total;
                 }
 
                 $approval->approvalItems()->create([
@@ -219,9 +209,6 @@ class ApprovalService
                     'shipping_cost' => $shippingCost,
                     'cost_price' => $totalCostPrice,
                     'total' => $total,
-                    'discount' => $discount,
-                    'discount_amount' => $discountAmount,
-                    'final_amount' => $finalAmount,
                 ]);
             }
         }
@@ -232,24 +219,11 @@ class ApprovalService
     protected static function createChildItemSalesOrders($approval, $childItems) {
         $subtotal = 0;
         foreach ($childItems as $item) {
-            $totalDiscount = $item['discount_product'];
-            $warehouseCount = count($item['warehouse_ids']);
-
             foreach ($item['warehouse_ids'] as $key => $warehouseId) {
                 $quantity = $item['warehouse_stocks'][$key] ?? 0;
                 $actualQuantity = $quantity * $item['real_quantity'];
                 $total = $quantity * $item['price'];
-
-                $discountValue = round($item['discount_product'] / $warehouseCount);
-                if ($discountValue < $totalDiscount) {
-                    $totalDiscount -= $discountValue;
-                } else {
-                    $discountValue = $totalDiscount;
-                    $totalDiscount = 0;
-                }
-
-                $finalAmount = $total - $discountValue;
-                $subtotal += $finalAmount;
+                $subtotal += $total;
 
                 $approval->approvalItems()->create([
                     'product_id' => $item['product_id'],
@@ -259,10 +233,7 @@ class ApprovalService
                     'actual_quantity' => $actualQuantity,
                     'price_id' => $item['price_id'],
                     'price' => $item['price'],
-                    'total' => $total,
-                    'discount' => $item['discount'],
-                    'discount_amount' => $discountValue,
-                    'final_amount' => $finalAmount
+                    'total' => $total
                 ]);
             }
         }

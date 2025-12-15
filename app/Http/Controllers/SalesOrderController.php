@@ -150,7 +150,7 @@ class SalesOrderController extends Controller
                 'number' => $number,
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
-                'discount_amount' => $request->get('invoice_discount') ?? 0,
+                'discount_amount' => 0,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
@@ -166,15 +166,12 @@ class SalesOrderController extends Controller
             $realQuantities = $request->get('real_quantity', []);
             $prices = $request->get('price', []);
             $priceIds = $request->get('price_id', []);
-            $discounts = $request->get('discount', []);
-            $discountProducts = $request->get('discount_product', []);
             $warehouseIdsList = $request->get('warehouse_ids', []);
             $warehouseStocksList = $request->get('warehouse_stocks', []);
 
             $itemsData = collect($productIds)
                 ->map(function ($productId, $index) use (
-                    $unitIds, $realQuantities, $prices, $priceIds,
-                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
+                    $unitIds, $realQuantities, $prices, $priceIds, $warehouseIdsList, $warehouseStocksList
                 ) {
                     if (empty($productId)) return null;
 
@@ -184,8 +181,6 @@ class SalesOrderController extends Controller
                         'real_quantity' => $realQuantities[$index],
                         'price' => $prices[$index],
                         'price_id' => $priceIds[$index],
-                        'discount' => $discounts[$index],
-                        'discount_product' => $discountProducts[$index],
                         'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
                         'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
                     ];
@@ -194,24 +189,11 @@ class SalesOrderController extends Controller
 
             $subtotal = 0;
             foreach ($itemsData as $item) {
-                $totalDiscount = $item['discount_product'];
-                $warehouseCount = count($item['warehouse_ids']);
-
                 foreach ($item['warehouse_ids'] as $key => $warehouseId) {
                     $quantity = $item['warehouse_stocks'][$key] ?? 0;
                     $actualQuantity = $quantity * $item['real_quantity'];
                     $total = $quantity * $item['price'];
-
-                    $discountValue = round($item['discount_product'] / $warehouseCount);
-                    if ($discountValue < $totalDiscount) {
-                        $totalDiscount -= $discountValue;
-                    } else {
-                        $discountValue = $totalDiscount;
-                        $totalDiscount = 0;
-                    }
-
-                    $finalAmount = $total - $discountValue;
-                    $subtotal += $finalAmount;
+                    $subtotal += $total;
 
                     $salesOrderItem = $salesOrder->salesOrderItems()->create([
                         'product_id' => $item['product_id'],
@@ -222,9 +204,6 @@ class SalesOrderController extends Controller
                         'price_id' => $item['price_id'],
                         'price' => $item['price'],
                         'total' => $total,
-                        'discount' => $item['discount'],
-                        'discount_amount' => $discountValue,
-                        'final_amount' => $finalAmount
                     ]);
 
                     $productStock = ProductService::getProductStockQuery($item['product_id'], $warehouseId);
@@ -238,7 +217,7 @@ class SalesOrderController extends Controller
                         -$actualQuantity,
                         $salesOrder->branch_id,
                         null,
-                        $finalAmount,
+                        $total,
                         $salesOrder->customer_id
                     );
 
@@ -248,14 +227,12 @@ class SalesOrderController extends Controller
                 }
             }
 
-            $totalAfterDiscount = $subtotal - $salesOrder->discount_amount;
-
             $taxAmount = 0;
             if($isTaxable) {
-                $taxAmount = round($totalAfterDiscount * (10 / 100));
+                $taxAmount = round($subtotal * (10 / 100));
             }
 
-            $grandTotal = (int) $totalAfterDiscount + $taxAmount;
+            $grandTotal = (int) $subtotal + $taxAmount;
 
             $salesOrder->update([
                 'subtotal' => $subtotal,
@@ -440,15 +417,12 @@ class SalesOrderController extends Controller
             $realQuantities = $request->get('real_quantity', []);
             $prices = $request->get('price', []);
             $priceIds = $request->get('price_id', []);
-            $discounts = $request->get('discount', []);
-            $discountProducts = $request->get('discount_product', []);
             $warehouseIdsList = $request->get('warehouse_ids', []);
             $warehouseStocksList = $request->get('warehouse_stocks', []);
 
             $itemsData = collect($productIds)
                 ->map(function ($productId, $index) use (
-                    $unitIds, $realQuantities, $prices, $priceIds,
-                    $discounts, $discountProducts, $warehouseIdsList, $warehouseStocksList
+                    $unitIds, $realQuantities, $prices, $priceIds, $warehouseIdsList, $warehouseStocksList
                 ) {
                     if (empty($productId)) return null;
 
@@ -458,8 +432,6 @@ class SalesOrderController extends Controller
                         'real_quantity' => $realQuantities[$index],
                         'price' => $prices[$index],
                         'price_id' => $priceIds[$index],
-                        'discount' => $discounts[$index],
-                        'discount_product' => $discountProducts[$index],
                         'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
                         'warehouse_stocks' => explode(',', $warehouseStocksList[$index] ?? ''),
                     ];

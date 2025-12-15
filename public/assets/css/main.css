@@ -1027,23 +1027,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .table-head-quantity-sales-order {
-    width: 70px;
+    width: 80px;
 }
 
 .table-head-unit-sales-order {
-    width: 60px;
+    width: 80px;
 }
 
 .table-head-price-type-sales-order {
-    width: 50px;
+    width: 70px;
 }
 
 .table-head-price-sales-order {
-    width: 100px;
+    width: 110px;
 }
 
 .table-head-total-sales-order {
-    width: 110px;
+    width: 120px;
 }
 
 .table-head-discount-percentage-sales-order {
@@ -1433,7 +1433,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-return-number-receivable-returns {
-    width: 100px;
+    width: 160px;
 }
 
 .th-quantity-receivable-returns {
@@ -1441,11 +1441,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-price-receivable-returns {
-    width: 100px;
+    width: 110px;
 }
 
 .th-total-receivable-returns {
-    width: 100px;
+    width: 120px;
 }
 
 .th-discount-percentage-receivable-returns {
@@ -1689,39 +1689,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-sales-recap-detail-date {
-    width: 75px;
+    width: 100px;
 }
 
 .th-sales-recap-detail-number {
-    width: 80px;
+    width: 140px;
 }
 
 .th-sales-recap-detail-quantity {
-    width: 35px;
-}
-
-.th-sales-recap-detail-unit {
     width: 70px;
 }
 
+.th-sales-recap-detail-unit {
+    width: 90px;
+}
+
 .th-sales-recap-detail-price {
-    width: 55px;
+    width: 100px;
 }
 
 .th-sales-recap-detail-total {
-    width: 75px;
-}
-
-.th-sales-recap-detail-discount {
-    width: 75px;
-}
-
-.th-sales-recap-detail-discount-amount {
-    width: 75px;
-}
-
-.th-sales-recap-detail-final-amount {
-    width: 80px;
+    width: 110px;
 }
 
 .th-purchase-recap-detail-number {

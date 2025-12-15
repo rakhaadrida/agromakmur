@@ -172,19 +172,13 @@
                                                 <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="tablePO">
                                                     <thead class="text-center text-bold text-dark">
                                                         <tr>
-                                                            <td rowspan="2" class="align-middle table-head-number-transaction">No</td>
-                                                            <td rowspan="2" class="align-middle table-head-code-transfer-transaction">SKU</td>
-                                                            <td rowspan="2" class="align-middle table-head-name-transaction">Nama Produk</td>
-                                                            <td rowspan="2" class="align-middle table-head-quantity-transaction">Qty</td>
-                                                            <td rowspan="2" class="align-middle table-head-unit-transaction">Unit</td>
-                                                            <td rowspan="2" class="align-middle table-head-price-transaction">Harga</td>
-                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Total</td>
-                                                            <td colspan="2">Diskon</td>
-                                                            <td rowspan="2" class="align-middle table-head-total-transaction">Netto</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="align-middle table-head-discount-percentage-sales-order">%</td>
-                                                            <td class="align-middle table-head-discount-amount-sales-order">Rupiah</td>
+                                                            <td class="align-middle table-head-number-transaction">No</td>
+                                                            <td class="align-middle table-head-code-transfer-transaction">SKU</td>
+                                                            <td class="align-middle table-head-name-transaction">Nama Produk</td>
+                                                            <td class="align-middle table-head-quantity-transaction">Qty</td>
+                                                            <td class="align-middle table-head-unit-transaction">Unit</td>
+                                                            <td class="align-middle table-head-price-transaction">Harga</td>
+                                                            <td class="align-middle table-head-total-transaction">Total</td>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -197,32 +191,15 @@
                                                                 <td>{{ $salesOrderItem->unit_name }}</td>
                                                                 <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
                                                                 <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
-                                                                <td class="text-right">{{ $salesOrderItem->discount }}</td>
-                                                                <td class="text-right">{{ formatPrice($salesOrderItem->discount_amount) }}</td>
-                                                                <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
                                                             </tr>
                                                         @empty
                                                             <tr>
-                                                                <td colspan="10" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
+                                                                <td colspan="7" class="text-center text-bold h4 p-2"><i>Tidak Ada Data</i></td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
                                                 </table>
                                                 <div class="form-group row justify-content-end subtotal-so">
-                                                    <label for="total" class="col-2 col-form-label text-bold text-right text-dark">Total</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-2 mr-1">
-                                                        <input type="text" id="total" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->subtotal) }}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row justify-content-end total-so">
-                                                    <label for="invoiceDiscount" class="col-2 col-form-label text-bold text-right text-dark">Diskon Faktur</label>
-                                                    <span class="col-form-label text-bold">:</span>
-                                                    <div class="col-2 mr-1">
-                                                        <input type="text" id="invoiceDiscount" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->discount_amount) }}" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row justify-content-end total-so">
                                                     <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">

@@ -64,9 +64,6 @@ class SalesRecapService
                 'sales_order_items.quantity AS quantity',
                 'sales_order_items.price AS price',
                 'sales_order_items.total AS total',
-                'sales_order_items.discount AS discount',
-                'sales_order_items.discount_amount AS discount_amount',
-                'sales_order_items.final_amount AS final_amount',
             )
             ->joinSub(
                 DB::table('sales_order_items')
@@ -76,9 +73,6 @@ class SalesRecapService
                         DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
                         DB::raw('MAX(sales_order_items.price) AS price'),
                         DB::raw('SUM(sales_order_items.total) AS total'),
-                        DB::raw('MAX(sales_order_items.discount) AS discount'),
-                        DB::raw('SUM(sales_order_items.discount_amount) AS discount_amount'),
-                        DB::raw('SUM(sales_order_items.final_amount) AS final_amount'),
                         DB::raw('MAX(units.name) AS unit_name')
                     )
                     ->join('products', 'products.id', '=', 'sales_order_items.product_id')
@@ -168,9 +162,6 @@ class SalesRecapService
                 'sales_order_items.quantity AS quantity',
                 'sales_order_items.price AS price',
                 'sales_order_items.total AS total',
-                'sales_order_items.discount AS discount',
-                'sales_order_items.discount_amount AS discount_amount',
-                'sales_order_items.final_amount AS final_amount',
             )
             ->joinSub(
                 DB::table('sales_order_items')
@@ -180,9 +171,6 @@ class SalesRecapService
                         DB::raw('SUM(sales_order_items.actual_quantity) AS quantity'),
                         DB::raw('MAX(sales_order_items.price) AS price'),
                         DB::raw('SUM(sales_order_items.total) AS total'),
-                        DB::raw('MAX(sales_order_items.discount) AS discount'),
-                        DB::raw('SUM(sales_order_items.discount_amount) AS discount_amount'),
-                        DB::raw('SUM(sales_order_items.final_amount) AS final_amount'),
                         DB::raw('MAX(units.name) AS unit_name')
                     )
                     ->join('products', 'products.id', '=', 'sales_order_items.product_id')

@@ -9,20 +9,14 @@
         <table>
             <thead>
                 <tr>
-                    <th rowspan="2">No</th>
-                    <th rowspan="2">Nomor Order</th>
-                    <th rowspan="2">SKU Produk</th>
-                    <th rowspan="2">Nama Produk</th>
-                    <th rowspan="2">Qty</th>
-                    <th rowspan="2">Unit</th>
-                    <th rowspan="2">Harga</th>
-                    <th rowspan="2">Total</th>
-                    <th colspan="2">Diskon</th>
-                    <th rowspan="2">Netto</th>
-                </tr>
-                <tr>
-                    <th>%</th>
-                    <th>Rupiah</th>
+                    <th>No</th>
+                    <th>Nomor Order</th>
+                    <th>SKU Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Harga</th>
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,9 +30,6 @@
                         <td>{{ $salesOrderItem->unit_name }}</td>
                         <td>{{ $salesOrderItem->price }}</td>
                         <td>{{ $salesOrderItem->total }}</td>
-                        <td>{{ $salesOrderItem->discount }}</td>
-                        <td>{{ $salesOrderItem->discount_amount }}</td>
-                        <td>{{ $salesOrderItem->final_amount }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -60,22 +60,22 @@ class SalesRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
         $range = 5 + $salesItems->count();
         $rangeStr = strval($range);
-        $rangeTab = 'L'.$rangeStr;
+        $rangeTab = 'I'.$rangeStr;
 
-        $header = 'A5:L5';
+        $header = 'A5:I5';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('ffddb5');
 
-        $sheet->mergeCells('A1:L1');
-        $sheet->mergeCells('A2:L2');
-        $sheet->mergeCells('A3:L3');
+        $sheet->mergeCells('A1:I1');
+        $sheet->mergeCells('A2:I2');
+        $sheet->mergeCells('A3:I3');
 
-        $title = 'A1:L3';
+        $title = 'A1:I3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:L3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:I3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -93,7 +93,7 @@ class SalesRecapItemSheet extends DefaultValueBinder implements FromView, Should
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
         if(!$salesItems->count()) {
-            $rangeIsiTable = 'A6:L6';
+            $rangeIsiTable = 'A6:I6';
             $sheet->getStyle($rangeIsiTable)->getAlignment()->setHorizontal('center');
             $sheet->getStyle($rangeIsiTable)->getFont()->setBold(true);
         }
@@ -114,17 +114,14 @@ class SalesRecapItemSheet extends DefaultValueBinder implements FromView, Should
         $rangeNumberCell = 'G6:G'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'H6:L'.$rangeStr;
+        $rangeNumberCell = 'H6:I'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
-
-        $rangeNumberCell = 'J6:J'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('@');
     }
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['F', 'H', 'I', 'J', 'K', 'L'];
+        $numericalColumns = ['F', 'H', 'I'];
         $dateColumns = ['C'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {

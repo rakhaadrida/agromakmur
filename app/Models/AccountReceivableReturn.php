@@ -19,9 +19,6 @@ class AccountReceivableReturn extends Model
         'price_id',
         'price',
         'total',
-        'discount',
-        'discount_amount',
-        'final_amount',
     ];
 
     public function accountReceivable() {

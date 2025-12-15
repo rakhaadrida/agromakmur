@@ -22,8 +22,6 @@ class AccountReceivableUpdateRequest extends FormRequest
             'unit_id.*' => ['required', 'exists:units,id,deleted_at,NULL'],
             'price_id.*' => ['required', 'exists:prices,id,deleted_at,NULL'],
             'price.*' => ['required', 'integer'],
-            'discount.*' => ['nullable', 'string'],
-            'discount_product.*' => ['nullable', 'integer'],
         ];
     }
 }
