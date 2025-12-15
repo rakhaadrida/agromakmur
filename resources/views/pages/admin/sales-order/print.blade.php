@@ -440,9 +440,8 @@
             }
 
             .invoice-amount-number {
-                width: 173px;
+                width: 170px;
                 font-size: 16px;
-                padding-right: 0.01rem !important;
             }
 
             .invoice-amount-table .invoice-amount-label-grand-total {
@@ -451,7 +450,7 @@
 
             .invoice-amount-table .invoice-amount-grand-total {
                 padding-top: 10px !important;
-                width: 145px;
+                width: 186px;
                 font-size: 17px;
             }
 
@@ -543,7 +542,7 @@
                                     <td class="text-right">{{ $salesOrderItem->quantity }}</td>
                                     <td class="text-center">{{ $salesOrderItem->unit_name }}</td>
                                     <td class="text-right">{{ formatPrice($salesOrderItem->price) }}</td>
-                                    <td class="text-right">{{ formatPrice($salesOrderItem->final_amount) }}</td>
+                                    <td class="text-right">{{ formatPrice($salesOrderItem->total) }}</td>
                                 </tr>
                             @endforeach
                             @for($i = $pageItems->count(); $i < 15; $i++)
@@ -619,22 +618,16 @@
                                                     <td>
                                                         <div class="invoice-amount-section">
                                                             <table class="invoice-amount-table">
-                                                                <tr>
-                                                                    <td class="text-bold invoice-amount-label">Total</td>
-                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-bold invoice-amount-label">Diskon Faktur</td>
-                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->discount_amount) }}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-bold invoice-amount-label">Subtotal</td>
-                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="text-bold invoice-amount-label">PPN</td>
-                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
-                                                                </tr>
+                                                                @if($salesOrder->is_taxable)
+                                                                    <tr>
+                                                                        <td class="text-bold invoice-amount-label">Subtotal</td>
+                                                                        <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->subtotal) }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="text-bold invoice-amount-label">PPN</td>
+                                                                        <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->tax_amount) }}</td>
+                                                                    </tr>
+                                                                @endif
                                                                 <tr>
                                                                     <td class="text-bold invoice-amount-label invoice-amount-label-grand-total">Grand Total</td>
                                                                     <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
