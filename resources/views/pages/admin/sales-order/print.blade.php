@@ -439,18 +439,22 @@
                 font-size: 14px;
             }
 
+            .invoice-amount-table .invoice-amount-label {
+                padding-top: 5px !important;
+            }
+
             .invoice-amount-number {
                 width: 170px;
                 font-size: 16px;
             }
 
             .invoice-amount-table .invoice-amount-label-grand-total {
-                padding-top: 10px !important;
+                padding-top: 7px !important;
             }
 
             .invoice-amount-table .invoice-amount-grand-total {
-                padding-top: 10px !important;
-                width: 186px;
+                padding-top: 7px !important;
+                width: 181px;
                 font-size: 17px;
             }
 
@@ -632,6 +636,14 @@
                                                                     <td class="text-bold invoice-amount-label invoice-amount-label-grand-total">Grand Total</td>
                                                                     <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->grand_total) }}</td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label">Pembayaran</td>
+                                                                    <td class="text-right invoice-amount-number">{{ formatPrice($salesOrder->payment_amount) }}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-bold invoice-amount-label invoice-amount-label-grand-total">Sisa Bayar</td>
+                                                                    <td class="text-right invoice-amount-grand-total">{{ formatPrice($salesOrder->outstanding_amount) }}</td>
+                                                                </tr>
                                                             </table>
                                                         </div>
                                                     </td>
@@ -651,7 +663,9 @@
                     </table>
                 </div>
             @endforeach
-            <div class="page-break"></div>
+            @if($key + 1 < count($salesOrders))
+                <div class="page-break"></div>
+            @endif
         @endforeach
 
         <script type="text/javascript">

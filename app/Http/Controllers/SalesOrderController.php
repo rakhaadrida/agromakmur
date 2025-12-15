@@ -571,7 +571,7 @@ class SalesOrderController extends Controller
 
         $isPrinted = $filter->is_printed;
         $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
-        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $finalNumber = $isPrinted ? $filter->final_number_printed ?? 0 : $filter->final_number ?? 0;
         $startOperator = $isPrinted ? '<=' : '>=';
         $finalOperator = $isPrinted ? '>=' : '<=';
 
