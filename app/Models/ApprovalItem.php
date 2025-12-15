@@ -22,9 +22,6 @@ class ApprovalItem extends Model
         'shipping_cost',
         'cost_price',
         'total',
-        'discount',
-        'discount_amount',
-        'final_amount',
         'delivered_quantity',
         'received_quantity',
         'cut_bill_quantity'

@@ -24,7 +24,6 @@
                         <th>Customer</th>
                         <th>Total Faktur</th>
                         <th>Subtotal</th>
-                        <th>Diskon Faktur</th>
                         <th>PPN</th>
                         <th>Grand Total</th>
                     </tr>
@@ -50,7 +49,6 @@
                             <td>{{ $salesItem->customer_name }}</td>
                             <td>{{ $salesItem->invoice_count }}</td>
                             <td>{{ $salesItem->subtotal }}</td>
-                            <td>{{ $salesItem->invoice_discount }}</td>
                             <td>{{ $salesItem->tax_amount }}</td>
                             <td>{{ $salesItem->grand_total }}</td>
                         </tr>

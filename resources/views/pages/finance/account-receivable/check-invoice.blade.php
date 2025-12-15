@@ -203,7 +203,7 @@
                                                     <label for="subtotal" class="col-2 col-form-label text-bold text-right text-dark">Sub Total</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-2 mr-1">
-                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->subtotal - $salesOrder->discount_amount) }}" readonly>
+                                                        <input type="text" id="subtotal" class="form-control-plaintext text-bold text-secondary text-right text-lg" value="{{ formatPrice($salesOrder->subtotal) }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row justify-content-end total-so">

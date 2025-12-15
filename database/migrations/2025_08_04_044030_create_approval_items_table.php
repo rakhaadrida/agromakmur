@@ -22,9 +22,6 @@ return new class extends Migration
             $table->foreignId('price_id')->nullable()->references('id')->on('prices')->onDelete('cascade');
             $table->double('price')->nullable();
             $table->double('total')->nullable();
-            $table->string('discount')->nullable();
-            $table->string('discount_amount')->nullable();
-            $table->double('final_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

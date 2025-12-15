@@ -71,7 +71,6 @@ class SalesOrderService
         $salesOrder->marketing_name = $salesOrder->pendingApproval->marketing->name;
         $salesOrder->tempo = $salesOrder->pendingApproval->tempo;
         $salesOrder->subtotal = $salesOrder->pendingApproval->subtotal;
-        $salesOrder->discount_amount = $salesOrder->pendingApproval->discount_amount;
         $salesOrder->tax_amount = $salesOrder->pendingApproval->tax_amount;
         $salesOrder->grand_total = $salesOrder->pendingApproval->grand_total;
         $salesOrder->salesOrderItems = $salesOrder->pendingApproval->approvalItems;
@@ -116,17 +115,6 @@ class SalesOrderService
             ->map(function ($items, $key) {
                 $first = $items->first();
 
-                $totalDiscount = 100;
-                $discount = str_replace(',', '.', $first->discount);
-                $arrayDiscounts = explode('+', $discount);
-
-                foreach ($arrayDiscounts as $arrayDiscount) {
-                    $arrayDiscount = (float) $arrayDiscount;
-                    $totalDiscount -= ($arrayDiscount * $totalDiscount) / 100;
-                }
-
-                $discountPercentage = number_format((($totalDiscount - 100) * -1), 2, ",", "");
-
                 $realQuantity = $items->sum('actual_quantity') / max(1, $items->sum('quantity'));
                 $actualPrice = $first->price / $realQuantity;
 
@@ -145,10 +133,6 @@ class SalesOrderService
                     'price'               => $first->price,
                     'actual_price'        => $actualPrice,
                     'total'               => $items->sum('total'),
-                    'discount'            => $first->discount,
-                    'discount_percentage' => $discountPercentage,
-                    'discount_amount'     => $items->sum('discount_amount'),
-                    'final_amount'        => $items->sum('final_amount'),
                 ];
             })
             ->values();
@@ -264,7 +248,6 @@ class SalesOrderService
                 'marketing_id' => $approval->marketing_id ?: $salesOrder->marketing_id,
                 'tempo' => $approval->tempo ?: $salesOrder->tempo,
                 'subtotal' => $approval->subtotal,
-                'discount_amount' => $approval->discount_amount,
                 'tax_amount' => $approval->tax_amount,
                 'grand_total' => $approval->grand_total,
             ]);

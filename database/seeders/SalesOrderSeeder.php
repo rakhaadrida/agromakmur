@@ -43,7 +43,6 @@ class SalesOrderSeeder extends Seeder
                 'type' => $salesOrder['type'],
                 'note' => $salesOrder['note'],
                 'subtotal' => $salesOrder['subtotal'],
-                'discount_amount' => $salesOrder['discount_amount'],
                 'tax_amount' => $salesOrder['tax_amount'],
                 'grand_total' => $salesOrder['grand_total'],
                 'status' => $salesOrder['status'],
@@ -70,10 +69,7 @@ class SalesOrderSeeder extends Seeder
                         'actual_quantity' => $item['actual_quantity'],
                         'price_id' => $item['price_id'],
                         'price' => $item['price'],
-                        'total' => $item['total'],
-                        'discount' => $item['discount'],
-                        'discount_amount' => $item['discount_amount'],
-                        'final_amount' => $item['final_amount'],
+                        'total' => $item['total']
                     ]);
                 }
             }

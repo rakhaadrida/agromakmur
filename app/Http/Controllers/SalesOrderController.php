@@ -150,7 +150,6 @@ class SalesOrderController extends Controller
                 'number' => $number,
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
-                'discount_amount' => 0,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,

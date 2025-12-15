@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('tempo')->default(0);
             $table->boolean('is_taxable')->default(false);
             $table->double('subtotal')->default(0);
-            $table->double('discount_amount')->default(0);
             $table->double('tax_amount')->default(0);
             $table->double('grand_total')->default(0);
             $table->boolean('is_printed')->default(false);

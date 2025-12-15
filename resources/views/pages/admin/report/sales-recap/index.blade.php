@@ -143,7 +143,6 @@
                                                 <th class="align-middle">Customer</th>
                                                 <th class="align-middle text-center th-sales-recap-invoice-count">Total Faktur</th>
                                                 <th class="align-middle text-center th-sales-recap-subtotal">Subtotal</th>
-                                                <th class="align-middle text-center th-sales-recap-subtotal">Diskon Faktur</th>
                                                 <th class="align-middle text-center th-sales-recap-subtotal">PPN</th>
                                                 <th class="align-middle text-center th-sales-recap-grand-total">Grand Total</th>
                                                 <th class="align-middle th-sales-recap-action">Aksi</th>
@@ -235,18 +234,17 @@
                     { data: 'customer_name', className: 'align-middle' },
                     { data: 'invoice_count', className: 'align-middle text-right' },
                     { data: 'subtotal', className: 'align-middle text-right' },
-                    { data: 'invoice_discount', className: 'align-middle text-right' },
                     { data: 'tax_amount', className: 'align-middle text-right' },
                     { data: 'grand_total', className: 'align-middle text-right' },
                     { data: 'action', className: 'align-middle text-center' }
                 ],
                 "columnDefs": [
                     {
-                        targets: [0, 7],
+                        targets: [0, 6],
                         orderable: false
                     },
                     {
-                        targets: [2, 3, 4, 5, 6],
+                        targets: [2, 3, 4, 5],
                         render: function (data, type, row) {
                             if (type === 'display') {
                                 return formatQuantity(data || 0);
@@ -329,7 +327,6 @@
                                     customer_name: item.customer_name,
                                     invoice_count: item.invoice_count,
                                     subtotal: item.subtotal,
-                                    invoice_discount: item.invoice_discount,
                                     tax_amount: item.tax_amount,
                                     grand_total: item.grand_total,
                                     action: `<a href="${detailUrl}" class="btn btn-sm btn-info">Detail</a>`

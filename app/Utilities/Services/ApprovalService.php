@@ -70,7 +70,6 @@ class ApprovalService
             'type' => $type,
             'status' => $status,
             'description' => $description,
-            'discount_amount' => $subject->discount_amount ?? 0,
             'user_id' => Auth::user()->id,
         ]);
 
@@ -110,7 +109,6 @@ class ApprovalService
             'customer_id' => $subjectData['customer_id'],
             'marketing_id' => $subjectData['marketing_id'],
             'tempo' => $subjectData['tempo'],
-            'discount_amount' => 0,
             'user_id' => Auth::user()->id,
         ]);
 
@@ -158,9 +156,6 @@ class ApprovalService
                 'shipping_cost' => $item->shipping_cost ?? 0,
                 'cost_price' => $totalCostPrice ?? 0,
                 'total' => $total ?? 0,
-                'discount' => $item->discount ?? 0,
-                'discount_amount' => $item->discount_amount ?? 0,
-                'final_amount' => $finalAmount ?? 0,
                 'delivered_quantity' => $item->delivered_quantity ?? 0,
                 'received_quantity' => $item->received_quantity ?? 0,
                 'cut_bill_quantity' => $item->cut_bill_quantity ?? 0,

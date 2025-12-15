@@ -119,7 +119,7 @@ class AccountReceivableController extends Controller
                 }
             }
 
-            $returnAmount = $accountReceivable->returns()->sum('final_amount') ?? 0;
+            $returnAmount = $accountReceivable->returns()->sum('total') ?? 0;
 
             $status = Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING;
             if($totalPayment == ($accountReceivable->salesOrder->grand_total - $returnAmount)) {

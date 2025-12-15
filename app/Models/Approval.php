@@ -22,7 +22,6 @@ class Approval extends Model
         'marketing_id',
         'tempo',
         'subtotal',
-        'discount_amount',
         'tax_amount',
         'grand_total',
         'user_id',

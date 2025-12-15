@@ -113,9 +113,6 @@ class SalesReturnService
                         if($accountReceivable) {
                             $salesOrderItem = SalesOrderService::getSalesOrderItemById($itemId);
                             $total = $salesOrderItem->price * $cutBillQuantity;
-                            $discountPercentage = CommonService::calculateDiscountPercentage($salesOrderItem->discount);
-                            $discountAmount = ceil(($total * $discountPercentage) / 100);
-                            $finalAmount = ceil($total - $discountAmount);
 
                             $accountReceivable->returns()->create([
                                 'sales_return_id' => $salesReturn->id,
@@ -126,9 +123,6 @@ class SalesReturnService
                                 'price_id' => $salesOrderItem->price_id,
                                 'price' => $salesOrderItem->price,
                                 'total' => $total,
-                                'discount' => $salesOrderItem->discount,
-                                'discount_amount' => $discountAmount,
-                                'final_amount' => $finalAmount,
                             ]);
                         }
                     }

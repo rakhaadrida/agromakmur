@@ -23,7 +23,6 @@ class SalesOrder extends Model
         'type',
         'note',
         'subtotal',
-        'discount_amount',
         'tax_amount',
         'grand_total',
         'is_printed',
