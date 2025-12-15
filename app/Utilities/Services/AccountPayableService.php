@@ -95,8 +95,9 @@ class AccountPayableService
     }
 
     public static function getIndexData($filter) {
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $supplierId = $filter->supplier_id ?? null;
         $status = Constant::ACCOUNT_PAYABLE_STATUSES;
 
         if(!empty($filter->status)) {
@@ -104,6 +105,10 @@ class AccountPayableService
         }
 
         $baseQuery = AccountPayableService::getBaseQueryIndex();
+
+        if(!empty($supplierId)) {
+            $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        }
 
         $accountPayables = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
@@ -167,6 +172,7 @@ class AccountPayableService
     public static function getExportIndexData($filter) {
         $startDate = $filter->start_date;
         $finalDate = $filter->final_date;
+        $supplierId = $filter->supplier_id ?? null;
 
         $accountPayableStatuses = Constant::ACCOUNT_PAYABLE_STATUSES;
         $status = $accountPayableStatuses;
@@ -176,6 +182,10 @@ class AccountPayableService
         }
 
         $baseQuery = static::getBaseQueryIndex();
+
+        if(!empty($supplierId)) {
+            $baseQuery->where('goods_receipts.supplier_id', $supplierId);
+        }
 
         $accountPayables = $baseQuery
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())

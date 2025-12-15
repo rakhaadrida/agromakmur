@@ -988,6 +988,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 5.8rem !important;
 }
 
+.filter-final-date-payable {
+    width: 5.2rem !important;
+}
+
 .btn-search-receipt {
     margin-left: -10px !important;
 }

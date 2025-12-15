@@ -23,17 +23,22 @@ class AccountPayableController extends Controller
     public function index(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $supplierId = $filter->supplier_id ?? null;
 
         $accountPayables = AccountPayableService::getIndexData($filter);
+
+        $suppliers = Supplier::all();
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
             'accountPayableStatuses' => Constant::ACCOUNT_PAYABLE_STATUSES,
             'status' => $filter->status ?? 0,
-            'accountPayables' => $accountPayables
+            'supplierId' => $supplierId,
+            'accountPayables' => $accountPayables,
+            'suppliers' => $suppliers,
         ];
 
         return view('pages.finance.account-payable.index', $data);

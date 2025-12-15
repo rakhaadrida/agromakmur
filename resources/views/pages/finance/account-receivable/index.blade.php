@@ -39,7 +39,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <label for="customer" class="col-auto col-form-label text-bold text-right ">Customer</label>
+                                        <label for="customer" class="col-auto col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4 mt-1">
                                             <select class="selectpicker supplier-params-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="3">
