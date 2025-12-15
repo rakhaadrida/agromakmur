@@ -132,7 +132,7 @@ class ReportService
             ->get();
     }
 
-    public static function getOutgoingItemsData($startDate, $finalDate) {
+    public static function getOutgoingItemsData($startDate, $finalDate, $productId) {
         return SalesOrderItem::query()
             ->select(
                 'customers.id AS customer_id',
@@ -150,6 +150,9 @@ class ReportService
             ->join('customers', 'customers.id', '=', 'sales_orders.customer_id')
             ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->when($productId, function ($q) use ($productId) {
+                $q->where('products.id', $productId);
+            })
             ->where('sales_orders.status', '!=', 'CANCELLED')
             ->groupBy('customers.id', 'products.id', 'warehouses.id')
             ->orderBy('customers.name')

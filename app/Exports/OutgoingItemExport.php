@@ -129,9 +129,10 @@ class OutgoingItemExport extends DefaultValueBinder implements FromView, ShouldA
     {
         $filter = (object) $this->request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(30)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $productId = $filter->product_id ?? null;
 
-        return ReportService::getOutgoingItemsData($startDate, $finalDate);
+        return ReportService::getOutgoingItemsData($startDate, $finalDate, $productId);
     }
 }

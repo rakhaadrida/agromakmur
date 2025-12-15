@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Exports\OutgoingItemExport;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,17 +15,21 @@ class OutgoingItemController extends Controller
     public function index(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(30)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
+        $productId = $filter->product_id ?? null;
 
-        $orderItems = ReportService::getOutgoingItemsData($startDate, $finalDate);
+        $orderItems = ReportService::getOutgoingItemsData($startDate, $finalDate, $productId);
 
+        $products = Product::all();
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
             'startDate' => $startDate,
             'finalDate' => $finalDate,
+            'productId' => $productId,
             'orderItems' => $orderItems,
+            'products' => $products,
             'reportDate' => $reportDate,
         ];
 

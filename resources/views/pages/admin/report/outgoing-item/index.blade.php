@@ -3,6 +3,7 @@
 @push('addon-style')
     <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -28,6 +29,17 @@
                             <form action="{{ route('report.outgoing-items.index') }}" method="GET" id="form">
                                 <div class="container so-container">
                                     <div class="form-group row justify-content-center">
+                                        <label for="product" class="col-auto col-form-label text-bold outgoing-items-product-label">Nama Produk</label>
+                                        <span class="col-form-label text-bold">:</span>
+                                        <div class="col-5">
+                                            <select class="selectpicker outgoing-items-product-params-select-picker" name="product_id" id="product" data-live-search="true" data-size="6" title="Input atau Pilih Produk">
+                                                @foreach($products as $product)
+                                                    <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($productId == $product->id) selected @endif>{{ $product->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row justify-content-center outgoing-items-report-date">
                                         <label for="startDate" class="col-auto col-form-label text-bold">Tanggal Awal</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2">
@@ -99,6 +111,7 @@
     <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
         $.fn.datepicker.dates['id'] = {
             days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],

@@ -14,7 +14,7 @@ class IncomingItemController extends Controller
     public function index(Request $request) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(30)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
         $receiptItems = ReportService::getIncomingItemsData($startDate, $finalDate);
