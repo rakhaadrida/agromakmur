@@ -86,6 +86,13 @@ class SalesOrderService
                 $realQuantity = $items->sum('actual_quantity') / $items->sum('quantity');
                 $actualPrice = $items->first()->price / $realQuantity;
 
+                $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($productId);
+
+                if($latestGoodsReceipt) {
+                    $latestGoodsReceiptItem = $latestGoodsReceipt->goodsReceiptItems->firstWhere('product_id', $productId);
+                    $costPrice = $latestGoodsReceiptItem ? $latestGoodsReceiptItem->cost_price : 0;
+                }
+
                 return (object) [
                     'id' => $items->first()->id,
                     'product_id' => $productId,
@@ -102,6 +109,7 @@ class SalesOrderService
                     'price_id' => $items->first()->price_id,
                     'price' => $items->first()->price,
                     'actual_price' => $actualPrice,
+                    'cost_price' => $costPrice,
                     'total' => $items->sum('total'),
                 ];
             })

@@ -109,6 +109,7 @@
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-4">
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
+                                            <input type="hidden" name="type" id="type" value="{{ $salesOrder->type }}">
                                             <input type="hidden" name="start_date" id="startDate" value="{{ $startDate }}">
                                             <input type="hidden" name="final_date" id="finalDate" value="{{ $finalDate }}">
                                             <input type="hidden" name="is_taxable" id="isTaxable" value="{{ $salesOrder->is_taxable }}">
@@ -179,6 +180,7 @@
                                                 <td>
                                                     <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                     <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}" value="{{ $salesOrderItem->actual_price }}">
+                                                    <input type="hidden" name="cost_price[]" id="costPrice-{{ $key }}" value="{{ $salesOrderItem->cost_price }}">
                                                 </td>
                                                 <td>
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
@@ -265,6 +267,22 @@
         </div>
     </div>
 
+    <div class="modal" id="modalPrice" tabindex="-1" role="dialog" aria-labelledby="modalPrice" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Notifikasi Harga Produk</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>Harga produk dengan tipe <b><span id="modalPriceType"></span></b> tidak boleh di bawah dari <b><span id="modalPriceTypeLabel"></span></b> yang senilai <b>Rp. <span id="modalPriceTypeAmount"></span></b>.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="modalDuplicate" tabindex="-1" role="dialog" aria-labelledby="modalDuplicate" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -305,6 +323,8 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+
+            let salesOrderType = $('#type').val();
             let subtotal = document.getElementById('subtotal');
             let outstandingAmount = document.getElementById('outstandingAmount');
 
@@ -393,6 +413,7 @@
 
             table.on('blur', 'input[name="price[]"]', function () {
                 const index = $(this).closest('tr').index();
+                checkPriceAmount(index);
                 calculateTotal(index);
             });
 
@@ -468,6 +489,7 @@
 
                         let price = $(`#price-${index}`);
                         let actualPrice = $(`#actualPrice-${index}`);
+                        let costPrice = $(`#costPrice-${index}`);
                         let discount = $(`#discount-${index}`);
                         let quantity = $(`#quantity-${index}`);
 
@@ -478,6 +500,7 @@
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
                         actualPrice.val(productPrice);
+                        costPrice.val(data.cost_price);
 
                         changeReadonlyRequired(price);
                         changeReadonlyRequired(discount);
@@ -516,6 +539,12 @@
                                     'data-foo': item.price,
                                 })
                             );
+
+                            if(item.type === salesOrderType) {
+                                productPriceId = item.id;
+                                price.val(thousandSeparator(item.price));
+                                actualPrice.val(thousandSeparator(item.price));
+                            }
 
                             priceType.attr('disabled', false);
                             priceType.selectpicker('refresh');
@@ -586,6 +615,33 @@
                         }
                     },
                 })
+            }
+
+            function checkPriceAmount(index) {
+                let price = $(`#price-${index}`);
+                let costPrice = $(`#costPrice-${index}`);
+
+                if(salesOrderType === 'WHOLESALE') {
+                    if(numberFormat(price.val()) < numberFormat(costPrice.val())) {
+                        $('#modalPriceType').text('Grosir');
+                        $('#modalPriceTypeLabel').text('Harga Modal');
+                        $('#modalPriceTypeAmount').text(thousandSeparator(costPrice.val()));
+                        $('#modalPrice').modal('show');
+
+                        price.val(thousandSeparator(costPrice.val()));
+                    }
+                } else if(salesOrderType === 'RETAIL') {
+                    let wholesalePrice = $(`#priceType-${index} option[data-type="WHOLESALE"]`).data('foo');
+
+                    if(numberFormat(price.val()) < wholesalePrice) {
+                        $('#modalPriceType').text('Eceran');
+                        $('#modalPriceTypeLabel').text('Harga Grosir');
+                        $('#modalPriceTypeAmount').text(thousandSeparator(decimalSeparator(wholesalePrice)));
+                        $('#modalPrice').modal('show');
+
+                        price.val(thousandSeparator(wholesalePrice));
+                    }
+                }
             }
 
             function calculateTotal(index) {
@@ -877,6 +933,7 @@
                         <td>
                             <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
+                            <input type="hidden" name="cost_price[]" id="costPrice-${rowId}">
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >

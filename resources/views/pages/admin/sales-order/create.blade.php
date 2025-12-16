@@ -210,6 +210,7 @@
                                                     <td>
                                                         <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly @if($key == 0) required @endif>
                                                         <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}">
+                                                        <input type="hidden" name="cost_price[]" id="costPrice-{{ $key }}">
                                                     </td>
                                                     <td>
                                                         <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly>
@@ -365,6 +366,22 @@
                 </div>
                 <div class="modal-body text-dark">
                     <h5>Jumlah qty input tidak boleh melebihi total stok. Total stok untuk produk <span class="col-form-label text-bold" id="stockProductName"></span> adalah <span class="col-form-label text-bold" id="totalStock"></span><span class="col-form-label text-bold" id="totalConversion"></span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalPrice" tabindex="-1" role="dialog" aria-labelledby="modalPrice" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-bold">Notifikasi Harga Produk</h4>
+                </div>
+                <div class="modal-body text-dark">
+                    <h5>Harga produk dengan tipe <b><span id="modalPriceType"></span></b> tidak boleh di bawah dari <b><span id="modalPriceTypeLabel"></span></b> yang senilai <b>Rp. <span id="modalPriceTypeAmount"></span></b>.</h5>
                 </div>
             </div>
         </div>
@@ -539,6 +556,7 @@
 
             table.on('blur', 'input[name="price[]"]', function () {
                 const index = $(this).closest('tr').index();
+                checkPriceAmount(index);
                 calculateTotal(index);
             });
 
@@ -714,6 +732,7 @@
 
                         let price = $(`#price-${index}`);
                         let actualPrice = $(`#actualPrice-${index}`);
+                        let costPrice = $(`#costPrice-${index}`);
                         let discount = $(`#discount-${index}`);
                         let quantity = $(`#quantity-${index}`);
 
@@ -724,6 +743,7 @@
                         productName.selectpicker('val', productId);
                         price.val(productPrice);
                         actualPrice.val(productPrice);
+                        costPrice.val(data.cost_price);
 
                         changeReadonlyRequired(price);
                         changeReadonlyRequired(discount);
@@ -839,6 +859,34 @@
                         }
                     },
                 })
+            }
+
+            function checkPriceAmount(index) {
+                let salesOrderType = $('input[name="type"]:checked').val();
+                let price = $(`#price-${index}`);
+                let costPrice = $(`#costPrice-${index}`);
+
+                if(salesOrderType === 'WHOLESALE') {
+                    if(numberFormat(price.val()) < numberFormat(costPrice.val())) {
+                        $('#modalPriceType').text('Grosir');
+                        $('#modalPriceTypeLabel').text('Harga Modal');
+                        $('#modalPriceTypeAmount').text(thousandSeparator(costPrice.val()));
+                        $('#modalPrice').modal('show');
+
+                        price.val(thousandSeparator(costPrice.val()));
+                    }
+                } else if(salesOrderType === 'RETAIL') {
+                    let wholesalePrice = $(`#priceType-${index} option[data-type="WHOLESALE"]`).data('foo');
+
+                    if(numberFormat(price.val()) < wholesalePrice) {
+                        $('#modalPriceType').text('Eceran');
+                        $('#modalPriceTypeLabel').text('Harga Grosir');
+                        $('#modalPriceTypeAmount').text(thousandSeparator(decimalSeparator(wholesalePrice)));
+                        $('#modalPrice').modal('show');
+
+                        price.val(thousandSeparator(wholesalePrice));
+                    }
+                }
             }
 
             function calculateTotal(index) {
@@ -1132,6 +1180,7 @@
                         <td>
                             <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
+                            <input type="hidden" name="cost_price[]" id="costPrice-${rowId}">
                         </td>
                         <td>
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >

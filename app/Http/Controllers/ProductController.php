@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\Unit;
 use App\Models\Warehouse;
+use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ProductStockService;
 use Carbon\Carbon;
@@ -359,6 +360,13 @@ class ProductController extends Controller
             ];
         }
 
+        $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($product->id);
+
+        if($latestGoodsReceipt) {
+            $latestGoodsReceiptItem = $latestGoodsReceipt->goodsReceiptItems->firstWhere('product_id', $product->id);
+            $costPrice = $latestGoodsReceiptItem ? $latestGoodsReceiptItem->cost_price : 0;
+        }
+
         $productStocks = $product->productStocks->mapWithKeys(function($stock) {
             $array = [];
             $array[$stock->warehouse_id] = $stock->stock;
@@ -372,6 +380,7 @@ class ProductController extends Controller
             'prices' => $prices ?? [],
             'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
             'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
+            'cost_price' => $costPrice ?? 0,
             'product_stocks' => $productStocks,
         ]);
     }
