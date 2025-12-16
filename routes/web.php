@@ -147,7 +147,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('delivery-order-index-print-ajax', 'DeliveryOrderController@indexPrintAjax')->name('delivery-orders.index-print-ajax');
         Route::get('delivery-order-generate-number-ajax', 'DeliveryOrderController@generateNumberAjax')->name('delivery-orders.generate-number-ajax');
         Route::get('print-delivery-orders', 'DeliveryOrderController@indexPrint')->name('delivery-orders.index-print');
-        Route::get('edit-delivery-orders', 'DeliveryOrderController@indexEdit')->name('delivery-orders.index-edit');
         Route::get('export-delivery-orders', 'DeliveryOrderController@export')->name('delivery-orders.export');
         Route::get('pdf-delivery-orders', 'DeliveryOrderController@pdf')->name('delivery-orders.pdf');
 

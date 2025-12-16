@@ -91,8 +91,6 @@
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
                                             <input type="hidden" name="start_date" id="startDate" value="{{ $startDate }}">
                                             <input type="hidden" name="final_date" id="finalDate" value="{{ $finalDate }}">
-                                            <input type="hidden" name="delivery_number" id="deliveryNumber" value="{{ $number }}">
-                                            <input type="hidden" name="customer_id" id="customerId" value="{{ $customerId }}">
                                             <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         </div>
                                     </div>

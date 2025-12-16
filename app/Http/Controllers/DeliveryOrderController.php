@@ -180,66 +180,6 @@ class DeliveryOrderController extends Controller
         }
     }
 
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $customerId = $filter->customer_id ?? null;
-
-        if(!$number && !$customerId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $customers = Customer::all();
-        $baseQuery = DeliveryOrderService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('delivery_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('delivery_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('delivery_orders.number', $number);
-        }
-
-        if($customerId) {
-            $baseQuery = $baseQuery->where('delivery_orders.customer_id', $customerId);
-        }
-
-        $deliveryOrders = $baseQuery
-            ->orderByDesc('delivery_orders.date')
-            ->orderByDesc('delivery_orders.id')
-            ->get();
-
-        $deliveryOrders = DeliveryOrderService::mapDeliveryOrderIndex($deliveryOrders);
-
-        $deliveryOrderIds = $deliveryOrders->pluck('id')->toArray();
-        $deliveryOrderRevisions = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, $deliveryOrderIds, true);
-
-        $mapRevisionByDeliveryOrderId = [];
-        foreach ($deliveryOrderRevisions as $revision) {
-            $mapRevisionByDeliveryOrderId[$revision->subject_id] = $revision->revision_count;
-        }
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'customerId' => $customerId,
-            'customers' => $customers,
-            'deliveryOrders' => $deliveryOrders,
-            'mapRevisionByDeliveryOrderId' => $mapRevisionByDeliveryOrderId,
-        ];
-
-        return view('pages.admin.delivery-order.index-edit', $data);
-    }
-
     public function edit(Request $request, $id) {
         $deliveryOrder = DeliveryOrder::query()->findOrFail($id);
         $deliveryOrder->revision = ApprovalService::getRevisionCountBySubject(DeliveryOrder::class, [$deliveryOrder->id]);
@@ -283,8 +223,6 @@ class DeliveryOrderController extends Controller
             'rowNumbers' => $rowNumbers,
             'startDate' => $request->start_date ?? null,
             'finalDate' => $request->final_date ?? null,
-            'number' => $request->number ?? null,
-            'customerId' => $request->customer_id ?? null,
         ];
 
         return view('pages.admin.delivery-order.edit', $data);
@@ -330,11 +268,9 @@ class DeliveryOrderController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('delivery_number', null),
-                'customer_id' => $request->get('customer_id', null),
             ];
 
-            return redirect()->route('delivery-orders.index-edit', $params);
+            return redirect()->route('delivery-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -371,7 +307,12 @@ class DeliveryOrderController extends Controller
                 $user->notify(new CancelDeliveryOrderNotification($deliveryOrder->number, $approval->id));
             }
 
-            return redirect()->route('delivery-orders.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+            ];
+
+            return redirect()->route('delivery-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

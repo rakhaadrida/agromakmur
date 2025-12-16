@@ -61,6 +61,7 @@
                                             <th class="align-middle">Customer</th>
                                             <th class="align-middle th-delivery-order-status-index">Status</th>
                                             <th class="align-middle th-delivery-order-status-index">Admin</th>
+                                            <th class="align-middle th-goods-receipt-action-index">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,15 +83,62 @@
                                                 <td class="align-middle">{{ $deliveryOrder->customer_name }}</td>
                                                 <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
                                                 <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>
+                                                <td class="align-middle text-center">
+                                                    @if(!isCancelled($deliveryOrder->status))
+                                                        <button type="submit" class="btn btn-sm btn-info text-bold edit-order" formaction="{{ route('delivery-orders.edit', $deliveryOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>
+                                                        <button type="button" class="btn btn-sm btn-danger text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $deliveryOrder->id }}" data-number="{{ $deliveryOrder->number }}">Batal</button>
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="8" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
+                                                <td colspan="9" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
                             </form>
+
+                            <div class="modal" id="modalCancelOrder" tabindex="-1" role="dialog" aria-labelledby="modalCancelOrder" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title">Batalkan Surat Jalan - <span id="modalOrderNumber"></span></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="POST" id="deleteForm">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="form-group row">
+                                                    <label for="status" class="col-2 col-form-label text-bold">Status</label>
+                                                    <span class="col-form-label text-bold">:</span>
+                                                    <div class="col-3">
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="status" id="status" value="CANCEL" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group subtotal-so">
+                                                    <label for="description" class="col-form-label">Deskripsi</label>
+                                                    <input type="text" class="form-control" name="description" id="description">
+                                                    <input type="hidden" class="form-control" name="start_date" value="{{ $startDate }}">
+                                                    <input type="hidden" class="form-control" name="final_date" value="{{ $finalDate }}">
+                                                </div>
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-3">
+                                                        <button type="submit" class="btn btn-success btn-block text-bold" id="btnSubmit">Simpan</button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button type="button" class="btn btn-outline-secondary btn-block text-bold" data-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,10 +175,50 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [6, 7],
+                    targets: [6, 7, 8],
                     orderable: false
                 }
             ],
         });
+
+        $(document).ready(function() {
+            const form = $('#form');
+            const modalCancelOrder = $('#modalCancelOrder');
+
+            form.on('click', '.edit-order', function (e) {
+                if(!$(this).attr('data-validated')) {
+                    e.preventDefault();
+
+                    let subjectIndex = $(this).data('index');
+                    $('#subjectIndex').val(subjectIndex);
+                    $('#modalPasswordEdit').modal('show');
+                } else {
+                    $(this).removeAttr('data-validated');
+                }
+            });
+
+            form.on('click', '.cancel-order', function () {
+                const orderId = $(this).data('id');
+                const orderNumber = $(this).data('number');
+                const url = `{{ route('delivery-orders.destroy', '') }}` + '/' + orderId;
+
+                $('#modalOrderNumber').text(orderNumber);
+                $('#deleteForm').attr('action', url);
+            });
+
+            modalCancelOrder.on('show.bs.modal', function (e) {
+                $('#description').attr('required', true);
+            })
+
+            modalCancelOrder.on('hide.bs.modal', function (e) {
+                $('#description').removeAttr('required');
+            })
+        });
+
+        function submitForm(index) {
+            const sourceButton = $('#btnEdit-' + index);
+            sourceButton.attr('data-validated', 'true');
+            sourceButton.trigger('click');
+        }
     </script>
 @endpush

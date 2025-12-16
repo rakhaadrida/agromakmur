@@ -105,7 +105,6 @@
                     @if(!isUserSales())
                         <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>
                         <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
-                        <a class="collapse-item" href="{{ route('delivery-orders.index-edit') }}">Ubah Surat Jalan</a>
                         <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
                     @endif
                 </div>

@@ -15,6 +15,8 @@ class DeliveryOrderCancelRequest extends FormRequest
     {
         return [
             'description' => ['required', 'string'],
+            'start_date' => ['nullable', 'date', 'date_format:d-m-Y'],
+            'final_date' => ['nullable', 'date', 'date_format:d-m-Y'],
         ];
     }
 }
