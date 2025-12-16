@@ -17,8 +17,6 @@ class GoodsReceiptUpdateRequest extends FormRequest
             'description' => ['required', 'string'],
             'start_date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'final_date' => ['nullable', 'date', 'date_format:d-m-Y'],
-            'receipt_number' => ['nullable', 'string'],
-            'supplier_id' => ['nullable', 'exists:suppliers,id,deleted_at,NULL'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'unit_id.*' => ['nullable', 'exists:units,id,deleted_at,NULL'],

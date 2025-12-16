@@ -15,8 +15,6 @@ class GoodsReceiptCancelRequest extends FormRequest
     {
         return [
             'description' => ['required', 'string'],
-            'number' => ['nullable', 'string'],
-            'supplier_id' => ['nullable', 'exists:suppliers,id,deleted_at,NULL'],
             'start_date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'final_date' => ['nullable', 'date', 'date_format:d-m-Y'],
         ];

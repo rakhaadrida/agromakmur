@@ -86,7 +86,6 @@
                     <a class="collapse-item" href="{{ route('plan-orders.index') }}">Plan Order Harian</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Barang Masuk</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index-edit') }}">Ubah Barang Masuk</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Barang Masuk Harian</a>
                 </div>
             </div>

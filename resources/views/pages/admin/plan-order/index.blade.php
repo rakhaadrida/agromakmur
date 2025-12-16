@@ -81,7 +81,7 @@
                                                 <td class="text-center align-middle">{{ $planOrder->user_name }}</td>
                                                 <td class="align-middle text-center">
                                                     @if(!isCancelled($planOrder->status))
-                                                        <button type="submit" class="btn btn-sm btn-info text-bold edit-order" formaction="{{ route('plan-orders.edit', $planOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}" @if(isCancelled($planOrder->status)) disabled @endif>Ubah</button>
+                                                        <button type="submit" class="btn btn-sm btn-info text-bold edit-order" formaction="{{ route('plan-orders.edit', $planOrder->id) }}" formmethod="GET" id="btnEdit-{{ $key }}" data-index="{{ $key }}">Ubah</button>
                                                         <button type="button" class="btn btn-sm btn-danger text-bold cancel-order" id="btnCancel-{{ $key }}" data-toggle="modal" data-target="#modalCancelOrder" data-id="{{ $planOrder->id }}" data-number="{{ $planOrder->number }}">Batal</button>
                                                     @endif
                                                 </td>

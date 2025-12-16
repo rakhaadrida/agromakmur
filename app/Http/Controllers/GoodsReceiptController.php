@@ -221,66 +221,6 @@ class GoodsReceiptController extends Controller
         }
     }
 
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $supplierId = $filter->supplier_id ?? null;
-
-        if(!$number && !$supplierId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $suppliers = Supplier::all();
-        $baseQuery = GoodsReceiptService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('goods_receipts.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('goods_receipts.number', $number);
-        }
-
-        if($supplierId) {
-            $baseQuery = $baseQuery->where('goods_receipts.supplier_id', $supplierId);
-        }
-
-        $goodsReceipts = $baseQuery
-            ->orderByDesc('goods_receipts.date')
-            ->orderByDesc('goods_receipts.id')
-            ->get();
-
-        $goodsReceipts = GoodsReceiptService::mapGoodsReceiptIndex($goodsReceipts);
-
-        $goodsReceiptIds = $goodsReceipts->pluck('id')->toArray();
-        $goodsReceiptRevisions = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, $goodsReceiptIds, true);
-
-        $mapRevisionByGoodsReceiptId = [];
-        foreach ($goodsReceiptRevisions as $revision) {
-            $mapRevisionByGoodsReceiptId[$revision->subject_id] = $revision->revision_count;
-        }
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'supplierId' => $supplierId,
-            'suppliers' => $suppliers,
-            'goodsReceipts' => $goodsReceipts,
-            'mapRevisionByGoodsReceiptId' => $mapRevisionByGoodsReceiptId
-        ];
-
-        return view('pages.admin.goods-receipt.index-edit', $data);
-    }
-
     public function edit(Request $request, $id) {
         $goodsReceipt = GoodsReceipt::query()->findOrFail($id);
         $goodsReceipt->revision = ApprovalService::getRevisionCountBySubject(GoodsReceipt::class, [$goodsReceipt->id]);
@@ -322,8 +262,6 @@ class GoodsReceiptController extends Controller
             'units' => $units ?? [],
             'startDate' => $request->start_date ?? null,
             'finalDate' => $request->final_date ?? null,
-            'number' => $request->number ?? null,
-            'supplierId' => $request->supplier_id ?? null,
         ];
 
         return view('pages.admin.goods-receipt.edit', $data);
@@ -369,11 +307,9 @@ class GoodsReceiptController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('receipt_number', null),
-                'supplier_id' => $request->get('supplier_id', null),
             ];
 
-            return redirect()->route('goods-receipts.index-edit', $params);
+            return redirect()->route('goods-receipts.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -413,11 +349,9 @@ class GoodsReceiptController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('number', null),
-                'supplier_id' => $request->get('supplier_id', null),
             ];
 
-            return redirect()->route('goods-receipts.index-edit', $params);
+            return redirect()->route('goods-receipts.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

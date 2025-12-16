@@ -137,7 +137,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('goods-receipt-index-print-ajax', 'GoodsReceiptController@indexPrintAjax')->name('goods-receipts.index-print-ajax');
         Route::get('goods-receipt-generate-number-ajax', 'GoodsReceiptController@generateNumberAjax')->name('goods-receipts.generate-number-ajax');
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
-        Route::get('edit-goods-receipts', 'GoodsReceiptController@indexEdit')->name('goods-receipts.index-edit');
         Route::get('export-goods-receipts', 'GoodsReceiptController@export')->name('goods-receipts.export');
         Route::get('pdf-goods-receipts', 'GoodsReceiptController@pdf')->name('goods-receipts.pdf');
 
