@@ -148,61 +148,66 @@ class GoodsReceiptService
             }
         }
 
-        $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
-        $receiptItemProductIds = $goodsReceipt->goodsReceiptItems->pluck('product_id');
+        if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
+            $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
+            $receiptItemProductIds = $goodsReceipt->goodsReceiptItems->pluck('product_id');
 
-        $missingReceiptItemIds = $receiptItemProductIds->diff($approvalItemProductIds);
-        $missingReceiptItemIds->each(function ($itemId) use ($goodsReceipt) {
-            $productStock = ProductService::getProductStockQuery(
-                $itemId,
-                $goodsReceipt->warehouse_id
-            );
+            $missingReceiptItemIds = $receiptItemProductIds->diff($approvalItemProductIds);
+            $missingReceiptItemIds->each(function ($itemId) use ($goodsReceipt) {
+                $productStock = ProductService::getProductStockQuery(
+                    $itemId,
+                    $goodsReceipt->warehouse_id
+                );
 
-            $receiptItem = $goodsReceipt->goodsReceiptItems
-                ->where('product_id', $itemId)
-                ->first();
+                $receiptItem = $goodsReceipt->goodsReceiptItems
+                    ->where('product_id', $itemId)
+                    ->first();
 
-            if($receiptItem) {
-                $productStock?->decrement('stock', $receiptItem->actual_quantity);
+                if ($receiptItem) {
+                    $productStock?->decrement('stock', $receiptItem->actual_quantity);
+                }
+            });
+
+            $goodsReceipt->goodsReceiptItems()->delete();
+            foreach ($approval->approvalItems as $approvalItem) {
+                $goodsReceipt->goodsReceiptItems()->create([
+                    'product_id' => $approvalItem->product_id,
+                    'unit_id' => $approvalItem->unit_id,
+                    'quantity' => $approvalItem->quantity,
+                    'actual_quantity' => $approvalItem->actual_quantity,
+                    'price' => $approvalItem->price,
+                    'wages' => $approvalItem->wages,
+                    'shipping_cost' => $approvalItem->shipping_cost,
+                    'cost_price' => $approvalItem->cost_price,
+                    'total' => $approvalItem->total,
+                ]);
+
+                $latestGoodsReceipt = static::getLatestGoodsReceiptByProductId($approvalItem->product_id);
+
+                if ($latestGoodsReceipt && $latestGoodsReceipt->id == $goodsReceipt->id) {
+                    ProductService::updateProductPrice($approvalItem->product_id, $approvalItem->price);
+                }
             }
-        });
 
-        $goodsReceipt->goodsReceiptItems()->delete();
-        foreach($approval->approvalItems as $approvalItem) {
-            $goodsReceipt->goodsReceiptItems()->create([
-                'product_id' => $approvalItem->product_id,
-                'unit_id' => $approvalItem->unit_id,
-                'quantity' => $approvalItem->quantity,
-                'actual_quantity' => $approvalItem->actual_quantity,
-                'price' => $approvalItem->price,
-                'wages' => $approvalItem->wages,
-                'shipping_cost' => $approvalItem->shipping_cost,
-                'cost_price' => $approvalItem->cost_price,
-                'total' => $approvalItem->total,
+            $goodsReceipt->update([
+                'subtotal' => $approval->subtotal,
+                'tax_amount' => $approval->tax_amount,
+                'grand_total' => $approval->grand_total,
+                'outstanding_amount' => $approval->grand_total - $goodsReceipt->payment_amount,
             ]);
 
-            $latestGoodsReceipt = static::getLatestGoodsReceiptByProductId($approvalItem->product_id);
-
-            if($latestGoodsReceipt && $latestGoodsReceipt->id == $goodsReceipt->id) {
-                ProductService::updateProductPrice($approvalItem->product_id, $approvalItem->price);
-            }
-        }
-
-        $goodsReceipt->update([
-            'subtotal' => $approval->subtotal,
-            'tax_amount' => $approval->tax_amount,
-            'grand_total' => $approval->grand_total,
-            'outstanding_amount' => $approval->grand_total - $goodsReceipt->payment_amount,
-        ]);
-
-        if($goodsReceipt->status != Constant::GOODS_RECEIPT_STATUS_CANCELLED) {
-            if($goodsReceipt->outstanding_amount <= 0) {
-                $goodsReceipt->accountPayable()->update([
-                    'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_PAID,
-                ]);
+            if ($goodsReceipt->status != Constant::GOODS_RECEIPT_STATUS_CANCELLED) {
+                if ($goodsReceipt->outstanding_amount <= 0) {
+                    $goodsReceipt->accountPayable()->update([
+                        'status' => Constant::ACCOUNT_PAYABLE_STATUS_PAID,
+                    ]);
+                }
+            } else {
+                $goodsReceipt->accountPayable()->delete();
             }
         } else {
-            $goodsReceipt->accountPayable()->delete();
+            AccountPayableService::deleteData($goodsReceipt->accountPayable);
+            PurchaseReturnService::createAutoCancelApprovalData($goodsReceipt);
         }
 
         return true;

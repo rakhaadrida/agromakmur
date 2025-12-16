@@ -144,9 +144,6 @@
             </a>
             <div id="collapseReturn" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    @if(isUserAdmin() || isUserWarehouse())
-                        <a class="collapse-item" href="{{ route('returns.index') }}">Stok Retur</a>
-                    @endif
                     <a class="collapse-item" href="{{ route('sales-returns.index') }}">Retur Penjualan</a>
                     <a class="collapse-item" href="{{ route('purchase-returns.index') }}">Retur Pembelian</a>
                 </div>

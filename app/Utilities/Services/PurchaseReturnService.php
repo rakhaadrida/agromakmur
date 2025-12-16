@@ -3,7 +3,6 @@
 namespace App\Utilities\Services;
 
 use App\Models\PurchaseReturn;
-use App\Models\SalesReturn;
 use App\Utilities\Constant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +59,7 @@ class PurchaseReturnService
                     $totalReceivedQuantity += $receivedQuantity;
                     $totalCutBillQuantity += $cutBillQuantity;
 
-                    $returnWarehouse = WarehouseService::getReturnWarehouse();
+                    $returnWarehouse = WarehouseService::getPrimaryWarehouse();
                     $productStock = ProductService::getProductStockQuery(
                         $productId,
                         $returnWarehouse->id
@@ -153,7 +152,7 @@ class PurchaseReturnService
     }
 
     public static function deleteItemData($purchaseReturnItems) {
-        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        $returnWarehouse = WarehouseService::getPrimaryWarehouse();
 
         foreach ($purchaseReturnItems as $item) {
             $realQuantity = $item->actual_quantity / $item->quantity;
@@ -176,14 +175,14 @@ class PurchaseReturnService
             'status' => Constant::PURCHASE_RETURN_STATUS_CANCELLED
         ]);
 
-        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        $returnWarehouse = WarehouseService::getPrimaryWarehouse();
         foreach($purchaseReturn->purchaseReturnItems as $purchaseReturnItem) {
             $productStock = ProductService::getProductStockQuery(
                 $purchaseReturnItem->product_id,
                 $returnWarehouse->id
             );
 
-            $returnWarehouse = WarehouseService::getReturnWarehouse();
+            $returnWarehouse = WarehouseService::getPrimaryWarehouse();
 
             ProductService::deleteProductStockLog(
                 $purchaseReturn->id,
@@ -203,45 +202,52 @@ class PurchaseReturnService
         return true;
     }
 
-    public static function createAutoCancelApprovalData($salesOrder) {
-        $returnWarehouse = WarehouseService::getReturnWarehouse();
-        $salesReturns = SalesReturn::query()
-            ->where('sales_order_id', $salesOrder->id)
+    public static function createAutoCancelApprovalData($goodsReceipt) {
+        $returnWarehouse = WarehouseService::getPrimaryWarehouse();
+        $purchaseReturns = PurchaseReturn::query()
+            ->where('goods_receipt_id', $goodsReceipt->id)
             ->get();
 
-        foreach($salesReturns as $salesReturn) {
-            if($salesReturn->status == Constant::SALES_RETURN_STATUS_CANCELLED) {
+        foreach($purchaseReturns as $purchaseReturn) {
+            if($purchaseReturn->status == Constant::PURCHASE_RETURN_STATUS_CANCELLED) {
                 continue;
             }
 
-            $salesReturn->update([
-                'status' => Constant::SALES_RETURN_STATUS_CANCELLED
+            $purchaseReturn->update([
+                'status' => Constant::PURCHASE_RETURN_STATUS_CANCELLED
             ]);
 
-            ApprovalService::deleteData($salesReturn->pendingApprovals);
+            ApprovalService::deleteData($purchaseReturn->pendingApprovals);
 
             $approval = ApprovalService::createData(
-                $salesReturn,
-                $salesReturn->salesReturnItems,
+                $purchaseReturn,
+                $purchaseReturn->purchaseReturnItems,
                 Constant::APPROVAL_TYPE_CANCEL,
                 Constant::APPROVAL_STATUS_APPROVED,
-                'Auto cancel by system due to sales order cancellation'
+                'Auto cancel by system due to goods receipt cancellation'
             );
 
             $approval->update([
                 'updated_by' => Auth::user()->id
             ]);
 
-            foreach($salesReturn->salesReturnItems as $salesReturnItem) {
+            foreach($purchaseReturn->purchaseReturnItems as $purchaseReturnItem) {
                 $productStock = ProductService::getProductStockQuery(
-                    $salesReturnItem->product_id,
+                    $purchaseReturnItem->product_id,
                     $returnWarehouse->id
                 );
 
-                $realQuantity = $salesReturnItem->actual_quantity * $salesReturnItem->quantity;
-                $actualDeliveredQuantity = $salesReturnItem->delivered_quantity * $realQuantity;
+                ProductService::deleteProductStockLog(
+                    $purchaseReturn->id,
+                    $purchaseReturnItem->product_id,
+                    $returnWarehouse->id,
+                    Constant::PRODUCT_STOCK_LOG_TYPE_PURCHASE_RETURN
+                );
 
-                $productStock?->decrement('stock', $salesReturnItem->actualQuantity - $actualDeliveredQuantity);
+                $realQuantity = $purchaseReturnItem->actual_quantity * $purchaseReturnItem->quantity;
+                $actualReceivedQuantity = $purchaseReturnItem->received_quantity * $realQuantity;
+
+                $productStock?->increment('stock', $purchaseReturnItem->actualQuantity - $actualReceivedQuantity);
             }
         }
     }

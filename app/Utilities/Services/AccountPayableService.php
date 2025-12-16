@@ -245,6 +245,14 @@ class AccountPayableService
         return true;
     }
 
+    public static function deleteData($accountPayable) {
+        $accountPayable->payments()->delete();
+        $accountPayable->returns()->delete();
+        $accountPayable->delete();
+
+        return true;
+    }
+
     public static function getAccountPayableByGoodsReceiptId($goodsReceiptId) {
         return AccountPayable::query()->where('goods_receipt_id', $goodsReceiptId)->first();
     }

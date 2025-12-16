@@ -13,6 +13,7 @@ use App\Notifications\CancelPurchaseReturnNotification;
 use App\Utilities\Constant;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\DeliveryOrderService;
+use App\Utilities\Services\GoodsReceiptService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\PurchaseReturnService;
 use App\Utilities\Services\UserService;
@@ -83,10 +84,18 @@ class PurchaseReturnController extends Controller
         $purchaseReturn = PurchaseReturn::query()->findOrFail($id);
         $purchaseReturnItems = $purchaseReturn->purchaseReturnItems;
 
+        $productIds = $purchaseReturnItems->pluck('product_id')->toArray();
+        $receiptQuantities = GoodsReceiptService::getGoodsReceiptQuantityByGoodsReceiptProductIds($purchaseReturn->goods_receipt_id, $productIds);
+
+        $mapReceiptQuantityByProductId = [];
+        foreach($receiptQuantities as $receiptQuantity) {
+            $mapReceiptQuantityByProductId[$receiptQuantity->product_id] = $receiptQuantity->quantity;
+        }
+
         foreach($purchaseReturnItems as $purchaseReturnItem) {
             $remainingQuantity = $purchaseReturnItem->quantity - $purchaseReturnItem->received_quantity - $purchaseReturnItem->cut_bill_quantity;
             $purchaseReturnItem->remaining_quantity = $remainingQuantity;
-            $purchaseReturnItem->receipt_quantity = $purchaseReturnItem->goodsReceiptItem->quantity;
+            $purchaseReturnItem->receipt_quantity = $mapReceiptQuantityByProductId[$purchaseReturnItem->product_id] ?? 0;
         }
 
         $data = [
@@ -157,10 +166,18 @@ class PurchaseReturnController extends Controller
         $purchaseReturn = PurchaseReturn::query()->findOrFail($id);
         $purchaseReturnItems = $purchaseReturn->purchaseReturnItems;
 
+        $productIds = $purchaseReturnItems->pluck('product_id')->toArray();
+        $receiptQuantities = GoodsReceiptService::getGoodsReceiptQuantityByGoodsReceiptProductIds($purchaseReturn->goods_receipt_id, $productIds);
+
+        $mapReceiptQuantityByProductId = [];
+        foreach($receiptQuantities as $receiptQuantity) {
+            $mapReceiptQuantityByProductId[$receiptQuantity->product_id] = $receiptQuantity->quantity;
+        }
+
         foreach($purchaseReturnItems as $purchaseReturnItem) {
             $remainingQuantity = $purchaseReturnItem->quantity - $purchaseReturnItem->received_quantity - $purchaseReturnItem->cut_bill_quantity;
             $purchaseReturnItem->remaining_quantity = $remainingQuantity;
-            $purchaseReturnItem->receipt_quantity = $purchaseReturnItem->goodsReceiptItem->quantity;
+            $purchaseReturnItem->receipt_quantity = $mapReceiptQuantityByProductId[$purchaseReturnItem->product_id] ?? 0;
         }
 
         $rowNumbers = count($purchaseReturnItems);

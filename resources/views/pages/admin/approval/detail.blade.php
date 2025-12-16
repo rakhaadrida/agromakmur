@@ -26,7 +26,7 @@
                                         <div class="form-group row transaction-number">
                                             <label for="number" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Nomor Transaksi</label>
                                             <span class="col-form-label text-bold">:</span>
-                                            <div class="col-4 col-md-3">
+                                            <div class="col-4">
                                                 <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="number" id="number" value="{{ $approval->subject->number }}" readonly>
                                             </div>
                                         </div>

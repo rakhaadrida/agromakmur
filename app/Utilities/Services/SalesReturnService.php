@@ -59,7 +59,7 @@ class SalesReturnService
                     $totalDeliveredQuantity += $deliveredQuantity;
                     $totalCutBillQuantity += $cutBillQuantity;
 
-                    $returnWarehouse = WarehouseService::getReturnWarehouse();
+                    $returnWarehouse = WarehouseService::getPrimaryWarehouse();
                     $productStock = ProductService::getProductStockQuery(
                         $productId,
                         $returnWarehouse->id
@@ -151,7 +151,7 @@ class SalesReturnService
             $realQuantity = $item->actual_quantity / $item->quantity;
             $actualDeliveredQuantity = $item->delivered_quantity * $realQuantity;
 
-            $returnWarehouse = WarehouseService::getReturnWarehouse();
+            $returnWarehouse = WarehouseService::getPrimaryWarehouse();
             $productStock = ProductService::getProductStockQuery(
                 $item->product_id,
                 $returnWarehouse->id
@@ -169,14 +169,14 @@ class SalesReturnService
             'status' => Constant::SALES_RETURN_STATUS_CANCELLED
         ]);
 
-        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        $returnWarehouse = WarehouseService::getPrimaryWarehouse();
         foreach($salesReturn->salesReturnItems as $salesReturnItem) {
             $productStock = ProductService::getProductStockQuery(
                 $salesReturnItem->product_id,
                 $returnWarehouse->id
             );
 
-            $returnWarehouse = WarehouseService::getReturnWarehouse();
+            $returnWarehouse = WarehouseService::getPrimaryWarehouse();
 
             ProductService::deleteProductStockLog(
                 $salesReturn->id,
@@ -197,7 +197,7 @@ class SalesReturnService
     }
 
     public static function createAutoCancelApprovalData($salesOrder) {
-        $returnWarehouse = WarehouseService::getReturnWarehouse();
+        $returnWarehouse = WarehouseService::getPrimaryWarehouse();
         $salesReturns = SalesReturn::query()
             ->where('sales_order_id', $salesOrder->id)
             ->get();

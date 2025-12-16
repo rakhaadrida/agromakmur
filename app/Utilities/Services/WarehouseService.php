@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class WarehouseService
 {
-    public static function getReturnWarehouse() {
+    public static function getPrimaryWarehouse() {
         return Warehouse::query()
             ->whereNull('deleted_at')
             ->first();

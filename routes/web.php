@@ -240,15 +240,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
         \App\Utilities\Constant::USER_ROLE_ADMIN,
-        \App\Utilities\Constant::USER_ROLE_WAREHOUSE
-    ]], function() {
-        Route::resource('returns', 'ReturnController')->only(['index']);
-    });
-
-    Route::group(['roles' => [
-        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
-        \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
-        \App\Utilities\Constant::USER_ROLE_ADMIN,
         \App\Utilities\Constant::USER_ROLE_FINANCE,
         \App\Utilities\Constant::USER_ROLE_WAREHOUSE
     ]], function() {

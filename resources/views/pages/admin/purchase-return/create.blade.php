@@ -99,7 +99,7 @@
                                                 <td class="align-middle">Nama Produk</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Qty Masuk</td>
                                                 <td class="align-middle table-head-unit-delivery-order">Unit</td>
-                                                <td class="align-middle table-head-quantity-delivery-order">Qty Return</td>
+                                                <td class="align-middle table-head-quantity-delivery-order">Qty Retur</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Qty Terima</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Potong Tagihan</td>
                                                 <td class="align-middle table-head-quantity-delivery-order">Sisa Qty</td>

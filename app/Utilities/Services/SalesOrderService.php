@@ -253,6 +253,16 @@ class SalesOrderService
                 'grand_total' => $approval->grand_total,
                 'outstanding_amount' => $approval->grand_total - $salesOrder->payment_amount,
             ]);
+
+            if($salesOrder->status != Constant::SALES_ORDER_STATUS_CANCELLED) {
+                if($salesOrder->outstanding_amount <= 0) {
+                    $salesOrder->accountReceivable()->update([
+                        'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_PAID,
+                    ]);
+                }
+            } else {
+                $salesOrder->accountReceivable()->delete();
+            }
         } else {
             AccountReceivableService::deleteData($salesOrder->accountReceivable);
             DeliveryOrderService::createAutoCancelApprovalData($salesOrder);
