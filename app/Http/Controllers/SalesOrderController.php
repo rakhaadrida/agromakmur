@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
 
 class SalesOrderController extends Controller
 {
@@ -251,6 +253,9 @@ class SalesOrderController extends Controller
 
             if($request->get('is_print')) {
                 $route = 'sales-orders.print';
+                $parameters = ['id' => $salesOrder->id];
+            } else if($request->get('is_print_bill')) {
+                $route = 'sales-orders.print-bill';
                 $parameters = ['id' => $salesOrder->id];
             }
 
@@ -498,8 +503,8 @@ class SalesOrderController extends Controller
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
 
-        $isPrinted = $filter->is_printed;
-        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
+        $isPrinted = $filter->is_printed ?? 0;
+        $startNumber = $isPrinted ? $filter->start_number_printed ?? 0 : $filter->start_number ?? 0;
         $finalNumber = $isPrinted ? $filter->final_number_printed ?? 0 : $filter->final_number ?? 0;
         $startOperator = $isPrinted ? '<=' : '>=';
         $finalOperator = $isPrinted ? '>=' : '<=';
@@ -550,6 +555,28 @@ class SalesOrderController extends Controller
         ];
 
         return view('pages.admin.sales-order.print', $data);
+    }
+
+    public function printBill(Request $request, $id) {
+        $salesOrder = SalesOrder::query()->findOrFail($id);
+        $salesOrder->change_amount = $salesOrder->payment_amount - $salesOrder->grand_total;
+        $salesOrder->total_quantity = $salesOrder->salesOrderItems->sum('quantity');
+
+        if($salesOrder->change_amount < 0) {
+            $salesOrder->change_amount = 0;
+        }
+
+        $printDate = Carbon::parse()->isoFormat('DD MMM Y');
+        $printTime = Carbon::now()->format('H:i:s');
+
+        $data = [
+            'id' => $id,
+            'salesOrder' => $salesOrder,
+            'printDate' => $printDate,
+            'printTime' => $printTime,
+        ];
+
+        return view('pages.admin.sales-order.print-bill', $data);
     }
 
     public function afterPrint(Request $request, $id) {
@@ -707,5 +734,119 @@ class SalesOrderController extends Controller
         return response()->json([
             'number' => $number
         ]);
+    }
+
+    private function autoPrintBill($salesOrder) {
+        $salesOrder->change_amount = $salesOrder->payment_amount - $salesOrder->grand_total;
+        $salesOrder->total_quantity = $salesOrder->salesOrderItems->sum('quantity');
+        $printDate = Carbon::parse()->isoFormat('DD MMM Y');
+        $printTime = Carbon::now()->format('H:i:s');
+
+        $connector = new WindowsPrintConnector("Microsoft Print to PDF");
+        $printer   = new Printer($connector);
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->setEmphasis(true);
+        $printer->text("AGRO MAKMUR\n");
+        $printer->setEmphasis(false);
+
+        $printer->text($salesOrder->branch->address . "\n");
+        $printer->text("No. Telp: " . $salesOrder->branch->phone_number . "\n");
+
+        $printer->text("-------------------------------------------\n");
+
+        $printer->setJustification(Printer::JUSTIFY_LEFT);
+
+        $this->printLeftRight(
+            $printer,
+            Carbon::now()->format($printDate . "\n" . $printTime),
+            $salesOrder->user->username . "\n" . $salesOrder->customer->name . "\n" . $salesOrder->customer->address
+        );
+
+        $printer->text($salesOrder->number . "n");
+
+        $printer->text("-------------------------------------------\n");
+
+        foreach ($salesOrder->salesOrderItems as $index => $salesOrderItem) {
+            $maxName = 40;
+            $name = wordwrap($salesOrderItem->product->name, $maxName, "\n", true);
+            $lines = explode("\n", $name);
+
+            $printer->setEmphasis(true);
+            $printer->text(($index + 1).". " . $lines[0] . "\n");
+            $printer->setEmphasis(false);
+
+            for ($i = 1; $i < count($lines); $i++) {
+                $printer->text("   " . $lines[$i] . "\n");
+            }
+
+            $left  = $salesOrderItem->quantity . " " . $salesOrderItem->unit->name . " x " . formatPrice($salesOrderItem->price);
+            $right = "Rp " . formatPrice($salesOrderItem->total);
+
+            $printer->text(
+                str_pad($left, 26) .
+                str_pad($right, 16, ' ', STR_PAD_LEFT) . "\n"
+            );
+        }
+
+        $printer->text("-------------------------------------------\n");
+
+        $printer->text("Total QTY : " . $salesOrder->total_quantity ."\n");
+
+        $this->printTotalLine($printer, 'Sub Total', 'Rp ' . $salesOrder->subtotal);
+
+        if($salesOrder->is_taxable) {
+            $this->printTotalLine($printer, 'PPN', 'Rp ' . $salesOrder->tax_amount);
+        }
+
+        $this->printTotalLine($printer, 'TOTAL', 'Rp ' . $salesOrder->grand_total, 42, true);
+        $this->printTotalLine($printer, 'Pembayaran', 'Rp ' . $salesOrder->payment_amount);
+        $this->printTotalLine($printer, 'Kembali', 'Rp ' . $salesOrder->change_amount);
+
+        $printer->feed();
+
+        $printer->setJustification(Printer::JUSTIFY_CENTER);
+        $printer->text("Terimakasih Telah Berbelanja\n");
+        $printer->feed();
+
+        $printer->cut();
+        $printer->close();
+    }
+
+    private function printLeftRight($printer, $left, $right, $width = 42)
+    {
+        $leftWidth  = floor($width / 2);
+        $rightWidth = $width - $leftWidth;
+
+        $leftLines  = explode("\n", wordwrap($left,  $leftWidth, "\n", true));
+        $rightLines = explode("\n", wordwrap($right, $rightWidth, "\n", true));
+
+        $max = max(count($leftLines), count($rightLines));
+
+        for ($i = 0; $i < $max; $i++) {
+            $l = $leftLines[$i]  ?? '';
+            $r = $rightLines[$i] ?? '';
+
+            $printer->text(
+                str_pad($l, $leftWidth) .
+                str_pad($r, $rightWidth, ' ', STR_PAD_LEFT) . "\n"
+            );
+        }
+    }
+
+    private function printTotalLine($printer, $label, $value, $width = 42, $bold = false)
+    {
+        if ($bold) {
+            $printer->setEmphasis(true);
+        }
+
+        $printer->text(
+            str_pad($label, 21) .
+            str_pad($value, 21, ' ', STR_PAD_LEFT) . "\n"
+        );
+
+        if ($bold) {
+            $printer->setEmphasis(false);
+        }
     }
 }

@@ -286,13 +286,14 @@
                                             <div class="modal-body">
                                                 <p>Data Sales Order akan disimpan. Silakan pilih cetak atau input kembali Sales Order.</p>
                                                 <input type="hidden" name="is_print" value="0">
+                                                <input type="hidden" name="is_print_bill" value="0">
                                                 <hr>
                                                 <div class="form-row justify-content-center">
                                                     <div class="col-4">
                                                         <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak Faktur</button>
                                                     </div>
                                                     <div class="col-4">
-                                                        <button type="button" class="btn btn-primary btn-block text-bold" id="btnPrint">Cetak Struk</button>
+                                                        <button type="button" class="btn btn-primary btn-block text-bold" id="btnPrintBill">Cetak Struk</button>
                                                     </div>
                                                     <div class="col-4">
                                                         <button type="submit" class="btn btn-outline-secondary btn-block text-bold">Input Lagi</button>
@@ -608,6 +609,13 @@
                 event.preventDefault();
 
                 $('input[name="is_print"]').val(1);
+                $('#form').submit();
+            });
+
+            $('#btnPrintBill').on('click', function(event) {
+                event.preventDefault();
+
+                $('input[name="is_print_bill"]').val(1);
                 $('#form').submit();
             });
 
