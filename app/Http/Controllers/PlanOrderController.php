@@ -136,55 +136,6 @@ class PlanOrderController extends Controller
         }
     }
 
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $supplierId = $filter->supplier_id ?? null;
-
-        if(!$number && !$supplierId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $suppliers = Supplier::all();
-        $baseQuery = PlanOrderService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('plan_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('plan_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('plan_orders.number', $number);
-        }
-
-        if($supplierId) {
-            $baseQuery = $baseQuery->where('plan_orders.supplier_id', $supplierId);
-        }
-
-        $planOrders = $baseQuery
-            ->orderByDesc('plan_orders.date')
-            ->orderByDesc('plan_orders.id')
-            ->get();
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'supplierId' => $supplierId,
-            'suppliers' => $suppliers,
-            'planOrders' => $planOrders,
-        ];
-
-        return view('pages.admin.plan-order.index-edit', $data);
-    }
-
     public function edit(Request $request, $id) {
         $planOrder = PlanOrder::query()->findOrFail($id);
         $planOrderItems = $planOrder->planOrderItems;
@@ -220,8 +171,6 @@ class PlanOrderController extends Controller
             'units' => $units ?? [],
             'startDate' => $request->start_date ?? null,
             'finalDate' => $request->final_date ?? null,
-            'number' => $request->number ?? null,
-            'supplierId' => $request->supplier_id ?? null,
         ];
 
         return view('pages.admin.plan-order.edit', $data);
@@ -243,11 +192,9 @@ class PlanOrderController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('order_number', null),
-                'supplier_id' => $request->get('supplier_id', null),
             ];
 
-            return redirect()->route('plan-orders.index-edit', $params);
+            return redirect()->route('plan-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -272,11 +219,9 @@ class PlanOrderController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('number', null),
-                'supplier_id' => $request->get('supplier_id', null),
             ];
 
-            return redirect()->route('plan-orders.index-edit', $params);
+            return redirect()->route('plan-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

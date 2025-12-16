@@ -256,6 +256,7 @@ function isWaitingApproval($status): bool
 function isUpdated($status): bool
 {
     return in_array($status, [
+        Constant::PLAN_ORDER_STATUS_UPDATED,
         Constant::GOODS_RECEIPT_STATUS_UPDATED,
         Constant::SALES_ORDER_STATUS_UPDATED,
         Constant::DELIVERY_ORDER_STATUS_UPDATED,
@@ -267,6 +268,7 @@ function isUpdated($status): bool
 function isCancelled($status): bool
 {
     return in_array($status, [
+        Constant::PLAN_ORDER_STATUS_CANCELLED,
         Constant::GOODS_RECEIPT_STATUS_CANCELLED,
         Constant::SALES_ORDER_STATUS_CANCELLED,
         Constant::SALES_RETURN_STATUS_CANCELLED,

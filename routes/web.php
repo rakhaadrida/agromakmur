@@ -124,7 +124,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('plan-order-index-print-ajax', 'PlanOrderController@indexPrintAjax')->name('plan-orders.index-print-ajax');
         Route::get('plan-order-generate-number-ajax', 'PlanOrderController@generateNumberAjax')->name('plan-orders.generate-number-ajax');
         Route::get('print-plan-orders', 'PlanOrderController@indexPrint')->name('plan-orders.index-print');
-        Route::get('edit-plan-orders', 'PlanOrderController@indexEdit')->name('plan-orders.index-edit');
         Route::get('export-plan-orders', 'PlanOrderController@export')->name('plan-orders.export');
         Route::get('pdf-plan-orders', 'PlanOrderController@pdf')->name('plan-orders.pdf');
 

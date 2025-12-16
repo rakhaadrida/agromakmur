@@ -79,7 +79,7 @@
         $('#btnSubmitPasswordEdit').on('click', function(event) {
             event.preventDefault();
 
-            $('#passwordErrorMessage').css('display', 'none');
+            $('#passwordErrorMessageEdit').css('display', 'none');
             let password = $('#passwordEdit').val();
 
             $.ajax({
@@ -99,9 +99,9 @@
                 error: function(xhr) {
                     if(xhr.status === 422) {
                         let errors = xhr.responseJSON;
-                        $('#passwordErrorMessage').text(errors.message).css('display', 'block');
+                        $('#passwordErrorMessageEdit').text(errors.message).css('display', 'block');
                     } else {
-                        $('#passwordErrorMessage').text('An error occurred. Please try again.');
+                        $('#passwordErrorMessageEdit').text('An error occurred. Please try again.');
                     }
                 }
             })

@@ -69,8 +69,6 @@
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
                                             <input type="hidden" name="start_date" id="startDate" value="{{ $startDate }}">
                                             <input type="hidden" name="final_date" id="finalDate" value="{{ $finalDate }}">
-                                            <input type="hidden" name="order_number" id="orderNumber" value="{{ $number }}">
-                                            <input type="hidden" name="supplier_id" id="supplierId" value="{{ $supplierId }}">
                                             <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         </div>
                                     </div>
@@ -166,16 +164,6 @@
 @push('addon-script')
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
-        let url = new URL(window.location.href);
-        let params = url.searchParams;
-
-        params.delete('start_date');
-        params.delete('final_date');
-        params.delete('number');
-        params.delete('supplier_id');
-
-        window.history.pushState({}, document.title, url.toString());
-
         $(document).ready(function() {
             const table = $('#itemTable');
 

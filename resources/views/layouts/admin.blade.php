@@ -100,7 +100,7 @@
                             <span class="col-form-label text-bold"></span>
                             <div class="col-6">
                                 <input type="hidden" id="subjectIndex">
-                                <strong><span class="invalid-feedback ml-2" role="alert" id="passwordErrorMessage"></span></strong>
+                                <strong><span class="invalid-feedback ml-2" role="alert" id="passwordErrorMessageEdit"></span></strong>
                             </div>
                         </div>
                     </div>

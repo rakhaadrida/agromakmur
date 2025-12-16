@@ -967,6 +967,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 80px;
 }
 
+.th-goods-receipt-action-index {
+    width: 120px;
+}
+
 .detail-po-information-row {
     margin-top: -1.7rem !important;
 }

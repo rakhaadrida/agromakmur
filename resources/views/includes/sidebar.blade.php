@@ -83,7 +83,6 @@
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('plan-orders.create') }}">Plan Order</a>
                     <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Cetak Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index-edit') }}">Ubah Plan Order</a>
                     <a class="collapse-item" href="{{ route('plan-orders.index') }}">Plan Order Harian</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Barang Masuk</a>
                     <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
