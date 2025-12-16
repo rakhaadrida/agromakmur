@@ -81,12 +81,24 @@
             </a>
             <div id="collapsePurchase" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('plan-orders.create') }}">Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Cetak Plan Order</a>
-                    <a class="collapse-item" href="{{ route('plan-orders.index') }}">Plan Order Harian</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Barang Masuk</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
-                    <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Barang Masuk Harian</a>
+                    <a class="collapse-item d-flex justify-content-between align-items-center" href="#" data-toggle="collapse" data-target="#collapsePlanOrder">
+                        <span>Plan Order</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
+                    <div id="collapsePlanOrder" class="collapse collapse-inner rounded ml-3 mt-2">
+                        <a class="collapse-item" href="{{ route('plan-orders.create') }}">Input Plan Order</a>
+                        <a class="collapse-item" href="{{ route('plan-orders.index-print') }}">Cetak Plan Order</a>
+                        <a class="collapse-item" href="{{ route('plan-orders.index') }}">Plan Order Harian</a>
+                    </div>
+                    <a class="collapse-item d-flex justify-content-between align-items-center border-bottom-0" href="#" data-toggle="collapse" data-target="#collapseGoodsReceipt">
+                        <span>Barang Masuk</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
+                    <div id="collapseGoodsReceipt" class="collapse collapse-inner rounded ml-3 mt-5">
+                        <a class="collapse-item" href="{{ route('goods-receipts.create') }}">Input Barang Masuk</a>
+                        <a class="collapse-item" href="{{ route('goods-receipts.index-print') }}">Cetak Barang Masuk</a>
+                        <a class="collapse-item" href="{{ route('goods-receipts.index') }}">Barang Masuk Harian</a>
+                    </div>
                 </div>
             </div>
         </li>
@@ -99,13 +111,25 @@
             </a>
             <div id="collapseSales" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('sales-orders.create') }}">Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Cetak Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index') }}">Sales Order Harian</a>
+                    <a class="collapse-item d-flex justify-content-between align-items-center" href="#" data-toggle="collapse" data-target="#collapseSalesOrder">
+                        <span>Sales Order</span>
+                        <i class="fas fa-angle-down"></i>
+                    </a>
+                    <div id="collapseSalesOrder" class="collapse collapse-inner rounded ml-3 mt-2">
+                        <a class="collapse-item" href="{{ route('sales-orders.create') }}">Input Sales Order</a>
+                        <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Cetak Sales Order</a>
+                        <a class="collapse-item" href="{{ route('sales-orders.index') }}">Sales Order Harian</a>
+                    </div>
                     @if(!isUserSales())
-                        <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>
-                        <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
-                        <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
+                        <a class="collapse-item d-flex justify-content-between align-items-center border-bottom-0" href="#" data-toggle="collapse" data-target="#collapseDeliveryOrder">
+                            <span>Surat Jalan</span>
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                        <div id="collapseDeliveryOrder" class="collapse collapse-inner rounded ml-3 mt-5">
+                            <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Input Surat Jalan</a>
+                            <a class="collapse-item" href="{{ route('delivery-orders.index-print') }}">Cetak Surat Jalan</a>
+                            <a class="collapse-item" href="{{ route('delivery-orders.index') }}">Surat Jalan Harian</a>
+                        </div>
                     @endif
                 </div>
             </div>
