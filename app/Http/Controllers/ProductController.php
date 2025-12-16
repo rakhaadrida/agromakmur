@@ -151,6 +151,8 @@ class ProductController extends Controller
                 true
             );
 
+            ProductService::updateProductStockLogByProductPrice($product);
+
             DB::commit();
 
             return redirect()->route('products.index');

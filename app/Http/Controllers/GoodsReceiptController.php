@@ -168,6 +168,8 @@ class GoodsReceiptController extends Controller
 
                     ProductService::updateProductPrice($productId, $price);
 
+                    [$wholesalePrice, $retailPrice] = ProductService::findWholesaleAndRetailPrice($productId);
+
                     $productStock = ProductService::getProductStockQuery(
                         $productId,
                         $goodsReceipt->warehouse_id
@@ -182,7 +184,10 @@ class GoodsReceiptController extends Controller
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
                         $goodsReceipt->branch_id,
-                        $total
+                        $total,
+                        $price,
+                        $wholesalePrice ?? $price,
+                        $retailPrice ?? $price,
                     );
                 }
             }

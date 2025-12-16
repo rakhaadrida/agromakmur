@@ -12,61 +12,60 @@
                 <td rowspan="2">No</td>
                 <td rowspan="2">Tanggal</td>
                 <td rowspan="2">Nomor Transaksi</td>
-                <td rowspan="2">Tipe</td>
                 <td rowspan="2">Customer / Supplier</td>
-                <td colspan="3">Masuk</td>
-                <td colspan="3">Keluar</td>
+                <td rowspan="2">Harga Beli</td>
+                <td colspan="2">Hrga Jual</td>
+                <td colspan="2">Jumlah</td>
+                <td rowspan="2">Sisa Stok</td>
                 <td rowspan="2">Admin</td>
             </tr>
             <tr>
-                <td>{{ $product ? $product->unit->name : 'Unit' }}</td>
-                <td>Gudang</td>
-                <td>Jumlah</td>
-                <td>{{ $product ? $product->unit->name : 'Unit' }}</td>
-                <td>Gudang</td>
-                <td>Jumlah</td>
+                <td>Grosir</td>
+                <td>Eceran</td>
+                <td>Masuk</td>
+                <td>Keluar</td>
             </tr>
             </thead>
             <tbody>
             @if($stockLogs->count() > 0)
                 <tr>
-                    <td colspan="5">Stok Awal</td>
-                    <td>{{ formatQuantity($initialStock) }}</td>
-                    <td colspan="6"></td>
+                    <td colspan=7">Stok Awal</td>
+                    <td>{{ $initialStock }}</td>
+                    <td colspan="3"></td>
                 </tr>
+                @php $currentStock = $initialStock; @endphp
                 @foreach($stockLogs as $index => $stockLog)
+                    @php $currentStock += $stockLog->quantity; @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ !isManualLog($stockLog->type) ? $stockLog->subject->date : $stockLog->subject_date }}</td>
                         <td>{{ !isManualLog($stockLog->type) ? $stockLog->subject->number : '' }}</td>
-                        <td>{{ getProductStockLogTypeLabel($stockLog->type) }}</td>
                         <td>
                             @if(isSupplierLog($stockLog->type)) {{ $stockLog->supplier_name }} @elseif(isCustomerLog($stockLog->type)) {{ $stockLog->customer_name }} @else - @endif
                         </td>
+                        <td>{{ isGoodsReceiptLog($stockLog->type) ? $stockLog->price : '' }}</td>
+                        <td>{{ isGoodsReceiptLog($stockLog->type) ? $stockLog->wholesale_price : '' }}</td>
+                        <td>{{ isGoodsReceiptLog($stockLog->type) ? $stockLog->retail_price : '' }}</td>
                         <td>{{ $stockLog->quantity >= 0 ? $stockLog->quantity : '' }}</td>
-                        <td>{{ $stockLog->quantity >= 0 ? $stockLog->warehouse->name : '' }}</td>
-                        <td>{{ $stockLog->quantity >= 0 ? $stockLog->final_amount : '' }}</td>
                         <td>{{ $stockLog->quantity < 0 ? $stockLog->quantity * -1 : '' }}</td>
-                        <td>{{ $stockLog->quantity < 0 ? $stockLog->warehouse_name : '' }}</td>
-                        <td>{{ $stockLog->quantity < 0 ? $stockLog->final_amount : '' }}</td>
-                        <td>{{ $stockLog->user->username }} - {{ formatDate($stockLog->subject->created_at, 'H:i:s') }}</td>
+                        <td>{{ $currentStock }}</td>
+                        <td>{{ $stockLog->user->username }}</td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="5">Total</td>
+                    <td colspan="7">Total</td>
                     <td>{{ $initialStock + $totalIncomingQuantity }}</td>
-                    <td colspan="2"></td>
                     <td>{{ $totalOutgoingQuantity * -1 }}</td>
-                    <td colspan="3"></td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
-                    <td colspan="5">Stok Akhir</td>
+                    <td colspan="7">Stok Akhir</td>
                     <td>{{ $initialStock + $totalIncomingQuantity - ($totalOutgoingQuantity * -1) }}</td>
-                    <td colspan="6"></td>
+                    <td colspan="3"></td>
                 </tr>
             @else
                 <tr>
-                    <td colspan="12">Tidak Ada Data</td>
+                    <td colspan="11">Tidak Ada Data</td>
                 </tr>
             @endif
             </tbody>

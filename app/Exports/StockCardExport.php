@@ -85,22 +85,22 @@ class StockCardExport extends DefaultValueBinder implements FromView, ShouldAuto
 
         $range = 6 + $stockLogs->count() + 3;
         $rangeStr = strval($range);
-        $rangeTab = 'L'.$rangeStr;
+        $rangeTab = 'K'.$rangeStr;
 
-        $header = 'A5:L6';
+        $header = 'A5:K6';
         $sheet->getStyle($header)->getFont()->setBold(true)->setSize(12);
         $sheet->getStyle($header)->getAlignment()->setHorizontal('center')->setVertical('center');
         $sheet->getStyle($header)->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()->setARGB('FFFF00');
 
-        $sheet->mergeCells('A1:L1');
-        $sheet->mergeCells('A2:L2');
-        $sheet->mergeCells('A3:L3');
+        $sheet->mergeCells('A1:K1');
+        $sheet->mergeCells('A2:K2');
+        $sheet->mergeCells('A3:K3');
 
-        $title = 'A1:L3';
+        $title = 'A1:K3';
         $sheet->getStyle($title)->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:L3')->getFont()->setBold(false)->setSize(12);
+        $sheet->getStyle('A2:K3')->getFont()->setBold(false)->setSize(12);
 
         $styleArray = [
             'borders' => [
@@ -117,41 +117,32 @@ class StockCardExport extends DefaultValueBinder implements FromView, ShouldAuto
         $rangeIsiTable = 'A7:'.$rangeTab;
         $sheet->getStyle($rangeIsiTable)->getFont()->setSize(12);
 
-        $rangeNumberCell = 'A7:L7';
+        $rangeNumberCell = 'A7:K7';
         $sheet->getStyle($rangeNumberCell)->getFont()->setBold(true);
 
         $rangeNumberCell = 'A7:C'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
-        $rangeNumberCell = 'F7:F'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
-
-        $rangeNumberCell = 'H7:I'.$rangeStr;
+        $rangeNumberCell = 'E7:J'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
 
         $rangeNumberCell = 'K7:K'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('right');
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('#,##0');
+        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
 
         $rangeNumberCell = 'B8:B'.$rangeStr;
         $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('dd-mmm-yyyy');
 
-        $rangeNumberCell = 'L8:L'.$rangeStr;
-        $sheet->getStyle($rangeNumberCell)->getNumberFormat()->setFormatCode('hh:mm:ss');
-        $sheet->getStyle($rangeNumberCell)->getAlignment()->setHorizontal('center');
-
         $range = 8 + $stockLogs->count();
         $rangeStr = strval($range);
-        $rangeTab = 'L'.$rangeStr;
+        $rangeTab = 'K'.$rangeStr;
 
         $rangeNumberCell = 'A'.$rangeStr.':'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getFont()->setBold(true);
 
         $range += 1;
         $rangeStr = strval($range);
-        $rangeTab = 'L'.$rangeStr;
+        $rangeTab = 'K'.$rangeStr;
 
         $rangeNumberCell = 'A'.$rangeStr.':'.$rangeTab;
         $sheet->getStyle($rangeNumberCell)->getFont()->setBold(true);
@@ -162,8 +153,8 @@ class StockCardExport extends DefaultValueBinder implements FromView, ShouldAuto
 
     public function bindValue(Cell $cell, $value)
     {
-        $numericalColumns = ['F', 'H', 'I', 'K'];
-        $dateColumns = ['B', 'L'];
+        $numericalColumns = ['E', 'F', 'G', 'H', 'I', 'J'];
+        $dateColumns = ['B'];
 
         if (in_array($cell->getColumn(), $numericalColumns) && is_numeric($value)) {
             return parent::bindValue($cell, (float) $value);

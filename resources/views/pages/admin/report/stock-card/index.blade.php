@@ -71,7 +71,7 @@
                                         </h5>
                                     </div>
                                     <div class="row justify-content-center stock-card-report-date">
-                                        <h5 class="text-bold text-dark">Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'D MMM Y') }}</h5>
+                                        <h5 class="text-bold text-dark">Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'DD MMM Y') }}</h5>
                                     </div>
                                     <div class="row justify-content-end stock-card-export-button">
                                         <div class="col-2">
@@ -86,29 +86,30 @@
                                             <td rowspan="2" class="align-middle th-stock-card-number">No</td>
                                             <td rowspan="2" class="align-middle th-stock-card-date">Tanggal</td>
                                             <td rowspan="2" class="align-middle th-stock-card-transaction-number">Nomor Transaksi</td>
-                                            <td rowspan="2" class="align-middle th-stock-card-type">Tipe</td>
                                             <td rowspan="2" class="align-middle">Customer / Supplier</td>
-                                            <td colspan="3" class="align-middle">Masuk</td>
-                                            <td colspan="3" class="align-middle">Keluar</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-amount">Harga Beli</td>
+                                            <td colspan="2" class="align-middle">Harga Jual</td>
+                                            <td colspan="2" class="align-middle">Jumlah</td>
+                                            <td rowspan="2" class="align-middle th-stock-card-quantity">Sisa Stok</td>
                                             <td rowspan="2" class="align-middle th-stock-card-user">Admin</td>
                                         </tr>
                                         <tr>
-                                            <td class="align-middle th-stock-card-quantity">{{ $product ? $product->unit->name : 'Unit' }}</td>
-                                            <td class="align-middle th-stock-card-warehouse">Gudang</td>
-                                            <td class="align-middle th-stock-card-amount">Jumlah</td>
-                                            <td class="align-middle th-stock-card-quantity">{{ $product ? $product->unit->name : 'Unit' }}</td>
-                                            <td class="align-middle th-stock-card-warehouse">Gudang</td>
-                                            <td class="align-middle th-stock-card-amount">Jumlah</td>
+                                            <td class="align-middle th-stock-card-amount">Grosir</td>
+                                            <td class="align-middle th-stock-card-amount">Eceran</td>
+                                            <td class="align-middle th-stock-card-quantity">Masuk</td>
+                                            <td class="align-middle th-stock-card-quantity">Keluar</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if($stockLogs->count() > 0)
                                             <tr>
-                                                <td colspan="5" class="text-bold text-dark text-center">Stok Awal</td>
+                                                <td colspan="7" class="text-bold text-dark text-center">Stok Awal</td>
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock) }}</td>
-                                                <td colspan="6"></td>
+                                                <td colspan="3"></td>
                                             </tr>
+                                            @php $currentStock = $initialStock; @endphp
                                             @foreach($stockLogs as $index => $stockLog)
+                                                @php $currentStock += $stockLog->quantity; @endphp
                                                 <tr class="text-dark">
                                                     <td class="align-middle text-center">{{ $index + 1 }}</td>
                                                     <td class="align-middle text-center">{{ formatDateIso(!isManualLog($stockLog->type) ? $stockLog->subject->date : $stockLog->subject_date, 'D-MMM-YY') }}</td>
@@ -131,34 +132,32 @@
                                                             </a>
                                                         </td>
                                                     @endif
-                                                    <td class="align-middle">{{ getProductStockLogTypeLabel($stockLog->type) }}</td>
                                                     <td class="align-middle">
                                                         @if(isSupplierLog($stockLog->type)) {{ $stockLog->supplier_name }} @elseif(isCustomerLog($stockLog->type)) {{ $stockLog->customer_name }} @else - @endif
                                                     </td>
+                                                    <td class="align-middle text-right">{{ isGoodsReceiptLog($stockLog->type) ? formatPrice($stockLog->price) : '' }}</td>
+                                                    <td class="align-middle text-right">{{ isGoodsReceiptLog($stockLog->type) ? formatPrice($stockLog->wholesale_price) : '' }}</td>
+                                                    <td class="align-middle text-right">{{ isGoodsReceiptLog($stockLog->type) ? formatPrice($stockLog->retail_price) : '' }}</td>
                                                     <td class="align-middle text-right">{{ $stockLog->quantity >= 0 ? formatQuantity($stockLog->quantity) : '' }}</td>
-                                                    <td class="align-middle">{{ $stockLog->quantity >= 0 ? $stockLog->warehouse->name : '' }}</td>
-                                                    <td class="align-middle text-right">{{ $stockLog->quantity >= 0 ? formatPrice($stockLog->final_amount) : '' }}</td>
                                                     <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatQuantity($stockLog->quantity * -1) : '' }}</td>
-                                                    <td class="align-middle">{{ $stockLog->quantity < 0 ? $stockLog->warehouse_name : '' }}</td>
-                                                    <td class="align-middle text-right">{{ $stockLog->quantity < 0 ? formatPrice($stockLog->final_amount) : '' }}</td>
-                                                    <td class="align-middle text-center">{{ $stockLog->user->username }} {{ formatDate($stockLog->subject->created_at, 'H:i:s') }}</td>
+                                                    <td class="align-middle text-right">{{ formatQuantity($currentStock) }}</td>
+                                                    <td class="align-middle text-center">{{ $stockLog->user->username }}</td>
                                                 </tr>
                                             @endforeach
                                             <tr>
-                                                <td colspan="5" class="text-bold text-dark text-center">Total</td>
+                                                <td colspan="7" class="text-bold text-dark text-center">Total</td>
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock + $totalIncomingQuantity) }}</td>
-                                                <td colspan="2"></td>
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($totalOutgoingQuantity * -1) }}</td>
-                                                <td colspan="3"></td>
+                                                <td colspan="2"></td>
                                             </tr>
                                             <tr class="th-stock-card-background">
-                                                <td colspan="5" class="text-bold text-dark text-center">Stok Akhir</td>
+                                                <td colspan="7" class="text-bold text-dark text-center">Stok Akhir</td>
                                                 <td class="text-bold text-dark text-right">{{ formatQuantity($initialStock + $totalIncomingQuantity - ($totalOutgoingQuantity * -1)) }}</td>
-                                                <td colspan="6"></td>
+                                                <td colspan="3"></td>
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="12" class="text-center text-bold text-dark h4 p-2">Tidak Ada Data</td>
+                                                <td colspan="11" class="text-center text-bold text-dark h4 p-2">Tidak Ada Data</td>
                                             </tr>
                                         @endif
                                     </tbody>

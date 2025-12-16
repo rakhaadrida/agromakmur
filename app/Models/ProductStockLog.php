@@ -22,6 +22,9 @@ class ProductStockLog extends Model
         'initial_stock',
         'quantity',
         'final_amount',
+        'price',
+        'wholesale_price',
+        'retail_price',
         'user_id',
     ];
 

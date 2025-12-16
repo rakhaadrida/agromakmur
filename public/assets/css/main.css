@@ -1820,7 +1820,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-stock-card-transaction-number {
-    width: 90px;
+    width: 140px;
 }
 
 .th-stock-card-type {
@@ -1828,7 +1828,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-stock-card-quantity {
-    width: 55px;
+    width: 80px;
 }
 
 .th-stock-card-warehouse {
@@ -1836,7 +1836,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-stock-card-amount {
-    width: 95px;
+    width: 100px;
 }
 
 .th-stock-card-user {

@@ -220,7 +220,34 @@ class ProductService
         return true;
     }
 
-    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $branchId = null, $finalAmount = null, $isReturn = false) {
+    public static function updateProductStockLogByProductPrice($product) {
+        $warehouse = WarehouseService::getPrimaryWarehouse();
+
+        $productStockLog = ProductStockLog::query()
+            ->where('type', Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT)
+            ->where('product_id', $product->id)
+            ->where('warehouse_id', $warehouse->id)
+            ->whereNull('deleted_at')
+            ->orderByDesc('subject_date')
+            ->orderByDesc('subject_id')
+            ->first();
+
+        if($productStockLog) {
+            foreach ($product->productPrices as $price) {
+                if($price->pricing->type == Constant::PRICE_TYPE_WHOLESALE) {
+                    $productStockLog->wholesale_price = $price->price;
+                } else if($price->pricing->type == Constant::PRICE_TYPE_RETAIL) {
+                    $productStockLog->retail_price = $price->price;
+                }
+            }
+
+            $productStockLog->save();
+        }
+
+        return true;
+    }
+
+    public static function updateProductStockIncrement($productId, $productStock, $actualQuantity, $transactionId, $transactionDate, $warehouseId, $supplierId = null, $branchId = null, $finalAmount = null, $price = null, $wholesalePrice = null, $retailPrice = null) {
         $initialStock = $productStock ? $productStock->stock : 0;
 
         if($productStock) {
@@ -233,14 +260,12 @@ class ProductService
             ]);
         }
 
-        if(!$isReturn) {
-            static::createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId, $supplierId, $finalAmount);
-        }
+        static::createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId, $supplierId, $finalAmount, null, false, $price, $wholesalePrice, $retailPrice);
 
         return true;
     }
 
-    public static function createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId = null, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false) {
+    public static function createProductStockLog($transactionId, $transactionDate, $productId, $warehouseId, $initialStock, $actualQuantity, $branchId = null, $supplierId = null, $finalAmount = null, $customerId = null, $isReturn = false, $price = null, $wholesalePrice = null, $retailPrice = null) {
         if($supplierId) {
             if(!$isReturn) {
                 $subjectType = GoodsReceipt::class;
@@ -275,6 +300,9 @@ class ProductService
             'initial_stock' => $initialStock,
             'quantity' => $actualQuantity,
             'final_amount' => $finalAmount,
+            'price' => $price,
+            'wholesale_price' => $wholesalePrice,
+            'retail_price' => $retailPrice,
             'user_id' => Auth::user()->id
         ]);
 
@@ -299,6 +327,25 @@ class ProductService
         return true;
     }
 
+    public static function findAndDeleteProductStockLog($transactionId, $productId, $warehouseId, $type) {
+        $productStockLog = ProductStockLog::query()
+            ->where('subject_id', $transactionId)
+            ->where('type', $type)
+            ->where('product_id', $productId)
+            ->where('warehouse_id', $warehouseId)
+            ->whereNull('deleted_at')
+            ->orderByDesc('subject_date')
+            ->orderByDesc('subject_id')
+            ->first();
+
+        if($productStockLog) {
+            $currentStockLog = $productStockLog;
+            $productStockLog->delete();
+        }
+
+        return $currentStockLog ?? null;
+    }
+
     public static function findProductConversions($productIds) {
         return ProductConversion::query()
             ->whereIn('product_id', $productIds)
@@ -319,5 +366,22 @@ class ProductService
             ->whereNull('products.deleted_at')
             ->orderBy('products.name')
             ->get();
+    }
+
+    public static function findWholesaleAndRetailPrice($productId): array {
+        $prices = static::findProductPrices([$productId]);
+
+        $wholesalePrice = null;
+        $retailPrice = null;
+
+        foreach($prices as $price) {
+            if($price->pricing->type == Constant::PRICE_TYPE_WHOLESALE) {
+                $wholesalePrice = $price->price;
+            } else if($price->pricing->type == Constant::PRICE_TYPE_RETAIL) {
+                $retailPrice = $price->price;
+            }
+        }
+
+        return [$wholesalePrice, $retailPrice];
     }
 }

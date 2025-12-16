@@ -29,6 +29,9 @@ return new class extends Migration
             $table->integer('initial_stock')->default(0);
             $table->integer('quantity')->default(0);
             $table->double('final_amount')->nullable();
+            $table->double('price')->nullable();
+            $table->double('wholesale_price')->nullable();
+            $table->double('retail_price')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

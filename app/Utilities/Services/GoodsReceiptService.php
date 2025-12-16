@@ -103,12 +103,15 @@ class GoodsReceiptService
                 $goodsReceipt->warehouse_id
             );
 
-            ProductService::deleteProductStockLog(
+            $currentStockLog = ProductService::findAndDeleteProductStockLog(
                 $goodsReceipt->id,
                 $approvalItem->product_id,
                 $goodsReceipt->warehouse_id,
                 Constant::PRODUCT_STOCK_LOG_TYPE_GOODS_RECEIPT
             );
+
+            $currentWholesalePrice = $currentStockLog?->wholesale_price ?? 0;
+            $currentRetailPrice = $currentStockLog?->retail_price ?? 0;
 
             if($approval->type == Constant::APPROVAL_TYPE_CANCEL) {
                 $productStock?->decrement('stock', $approvalItem->actual_quantity);
@@ -127,7 +130,10 @@ class GoodsReceiptService
                         $goodsReceipt->warehouse_id,
                         $goodsReceipt->supplier_id,
                         $goodsReceipt->branch_id,
-                        $approvalItem->total
+                        $approvalItem->total,
+                        $approvalItem->price,
+                        $currentWholesalePrice,
+                        $currentRetailPrice
                     );
                 } else {
                     ProductService::createProductStockLog(
@@ -139,7 +145,12 @@ class GoodsReceiptService
                         $approvalItem->actual_quantity,
                         $goodsReceipt->branch_id,
                         $goodsReceipt->supplier_id,
-                        $approvalItem->total
+                        $approvalItem->total,
+                        null,
+                        false,
+                        $approvalItem->price,
+                        $currentWholesalePrice,
+                        $currentRetailPrice,
                     );
 
                     $actualQuantity = $approvalItem->actual_quantity - $receiptItem->actual_quantity;
