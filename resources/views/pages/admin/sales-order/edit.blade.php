@@ -111,8 +111,6 @@
                                             <input type="text" class="form-control form-control-sm mt-1 text-dark" name="description" id="description" tabindex="1" required autofocus>
                                             <input type="hidden" name="start_date" id="startDate" value="{{ $startDate }}">
                                             <input type="hidden" name="final_date" id="finalDate" value="{{ $finalDate }}">
-                                            <input type="hidden" name="order_number" id="orderNumber" value="{{ $number }}">
-                                            <input type="hidden" name="filter_customer_id" id="customerId" value="{{ $customerId }}">
                                             <input type="hidden" name="is_taxable" id="isTaxable" value="{{ $salesOrder->is_taxable }}">
                                             <input type="hidden" name="row_number" id="rowNumber" value="{{ $rowNumbers }}">
                                         </div>
@@ -288,16 +286,6 @@
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
-        let url = new URL(window.location.href);
-        let params = url.searchParams;
-
-        params.delete('start_date');
-        params.delete('final_date');
-        params.delete('number');
-        params.delete('customer_id');
-
-        window.history.pushState({}, document.title, url.toString());
-
         $.fn.datepicker.dates['id'] = {
             days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
             daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],

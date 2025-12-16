@@ -101,7 +101,6 @@
                 <div class="py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('sales-orders.create') }}">Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index-print') }}">Cetak Sales Order</a>
-                    <a class="collapse-item" href="{{ route('sales-orders.index-edit') }}">Ubah Sales Order</a>
                     <a class="collapse-item" href="{{ route('sales-orders.index') }}">Sales Order Harian</a>
                     @if(!isUserSales())
                         <a class="collapse-item" href="{{ route('delivery-orders.create') }}">Surat Jalan</a>

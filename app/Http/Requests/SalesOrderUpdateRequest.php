@@ -21,8 +21,6 @@ class SalesOrderUpdateRequest extends FormRequest
             'description' => ['required', 'string'],
             'start_date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'final_date' => ['nullable', 'date', 'date_format:d-m-Y'],
-            'order_number' => ['nullable', 'string'],
-            'filter_customer_id' => ['nullable', 'exists:customers,id,deleted_at,NULL'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'quantity.*' => ['nullable', 'integer'],
             'real_quantity.*' => ['nullable', 'integer'],

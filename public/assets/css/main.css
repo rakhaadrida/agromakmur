@@ -957,12 +957,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 110px;
 }
 
-.th-goods-receipt-invoice-age-index {
-    width: 55px;
-}
-
+.th-goods-receipt-invoice-age-index,
 .th-sales-order-invoice-age-index {
-    width: 75px;
+    width: 55px;
 }
 
 .th-goods-receipt-grand-total-index,

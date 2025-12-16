@@ -267,78 +267,6 @@ class SalesOrderController extends Controller
         }
     }
 
-    public function indexEdit(Request $request) {
-        $filter = (object) $request->all();
-
-        $startDate = $filter->start_date ?? null;
-        $finalDate = $filter->final_date ?? null;
-        $number = $filter->number ?? null;
-        $customerId = $filter->customer_id ?? null;
-
-        if(!$number && !$customerId && !$startDate && !$finalDate) {
-            $startDate = Carbon::now()->format('d-m-Y');
-            $finalDate = Carbon::now()->format('d-m-Y');
-        }
-
-        $customers = Customer::all();
-        $baseQuery = SalesOrderService::getBaseQueryIndex();
-
-        if($startDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay());
-        }
-
-        if($finalDate) {
-            $baseQuery = $baseQuery->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay());
-        }
-
-        if($number) {
-            $baseQuery = $baseQuery->where('sales_orders.number', $number);
-        }
-
-        if($customerId) {
-            $baseQuery = $baseQuery->where('sales_orders.customer_id', $customerId);
-        }
-
-        $salesOrders = $baseQuery
-            ->orderByDesc('sales_orders.date')
-            ->orderByDesc('sales_orders.id')
-            ->get();
-
-        $salesOrders = SalesOrderService::mapSalesOrderIndex($salesOrders, true);
-
-        $salesOrderIds = $salesOrders->pluck('id')->toArray();
-        $salesOrderRevisions = ApprovalService::getRevisionCountBySubject(SalesOrder::class, $salesOrderIds, true);
-
-        $mapRevisionBySalesOrderId = [];
-        foreach ($salesOrderRevisions as $revision) {
-            $mapRevisionBySalesOrderId[$revision->subject_id] = $revision->revision_count;
-        }
-
-        $productWarehouses = [];
-        foreach ($salesOrders as $salesOrder) {
-            foreach($salesOrder->salesOrderItems as $salesOrderItem) {
-                $productWarehouses[$salesOrder->id][$salesOrderItem->product_id][$salesOrderItem->warehouse_id] = $salesOrderItem->quantity;
-            }
-        }
-
-        foreach ($salesOrders as $salesOrder) {
-            $salesOrder->salesOrderItems = SalesOrderService::mapSalesOrderItemDetail($salesOrder->salesOrderItems);
-        }
-
-        $data = [
-            'startDate' => $startDate,
-            'finalDate' => $finalDate,
-            'number' => $number,
-            'customerId' => $customerId,
-            'customers' => $customers,
-            'salesOrders' => $salesOrders,
-            'mapRevisionBySalesOrderId' => $mapRevisionBySalesOrderId,
-            'productWarehouses' => $productWarehouses,
-        ];
-
-        return view('pages.admin.sales-order.index-edit', $data);
-    }
-
     public function edit(Request $request, $id) {
         $salesOrder = SalesOrder::query()->findOrFail($id);
         $salesOrder->revision = ApprovalService::getRevisionCountBySubject(SalesOrder::class, [$salesOrder->id]);
@@ -398,8 +326,6 @@ class SalesOrderController extends Controller
             'prices' => $prices ?? [],
             'startDate' => $request->start_date ?? null,
             'finalDate' => $request->final_date ?? null,
-            'number' => $request->number ?? null,
-            'customerId' => $request->customer_id ?? null,
         ];
 
         return view('pages.admin.sales-order.edit', $data);
@@ -472,11 +398,9 @@ class SalesOrderController extends Controller
             $params = [
                 'start_date' => $request->get('start_date', null),
                 'final_date' => $request->get('final_date', null),
-                'number' => $request->get('order_number', null),
-                'customer_id' => $request->get('filter_customer_id', null),
             ];
 
-            return redirect()->route('sales-orders.index-edit', $params);
+            return redirect()->route('sales-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
@@ -513,7 +437,12 @@ class SalesOrderController extends Controller
                 $user->notify(new CancelSalesOrderNotification($salesOrder->number, $approval->id));
             }
 
-            return redirect()->route('sales-orders.index-edit');
+            $params = [
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+            ];
+
+            return redirect()->route('sales-orders.index', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

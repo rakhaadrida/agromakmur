@@ -208,7 +208,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');
         Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
-        Route::get('edit-sales-orders', 'SalesOrderController@indexEdit')->name('sales-orders.index-edit');
         Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');
         Route::get('pdf-sales-orders', 'SalesOrderController@pdf')->name('sales-orders.pdf');
     });
