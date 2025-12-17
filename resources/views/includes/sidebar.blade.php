@@ -214,21 +214,6 @@
         </li>
     @endif
 
-    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
-        <li class="nav-item sidebar-menu-icon">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFinancialReport" aria-expanded="true" aria-controls="collapseFinancialReport">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Laporan</span>
-            </a>
-            <div id="collapseFinancialReport" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="py-2 collapse-inner rounded">
-                  <a class="collapse-item" href="#">Laporan Keuangan</a>
-                  <a class="collapse-item" href="#">Komisi Sales</a>
-                </div>
-            </div>
-        </li>
-    @endif
-
     @if(isUserSuperAdmin() || isUserSuperAdminBranch() || isUserFinance())
         <hr class="sidebar-divider d-none d-md-block">
     @endif
