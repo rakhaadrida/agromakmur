@@ -79,7 +79,7 @@
                                             <label for="date" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Transaksi</label>
                                             <span class="col-form-label text-bold">:</span>
                                             <div class="col-4">
-                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDate($approval->subject->date, 'd-M-y') }}" readonly>
+                                                <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="date" id="date" value="{{ formatDateIso($approval->subject->date, 'DD-MMM-YY') }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                                 <label for="dueDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-6 col-sm-5 col-md-7">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'd-M-y') }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="due_date" id="dueDate" value="{{ getDueDate($approval->subject->date, $approval->subject->tempo, 'DD-MMM-YY') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -429,7 +429,7 @@
                                                 <label for="requestDate" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Request</label>
                                                 <span class="col-form-label text-bold">:</span>
                                                 <div class="col-4">
-                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="requestDate" id="requestDate" value="{{ formatDate($childData->date, 'd-M-y') }}" readonly>
+                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark" name="requestDate" id="requestDate" value="{{ formatDateIso($childData->date, 'DD-MMM-YY') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -472,7 +472,7 @@
                                                     <label for="dateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Tanggal Transaksi</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-4">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->subject_date, $approval->subject->date)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="date_child" id="dateChild" value="{{ formatDate($childData->subject_date, 'd-M-y') }}" readonly>
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->subject_date, $approval->subject->date)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="date_child" id="dateChild" value="{{ formatDateIso($childData->subject_date, 'DD-MMM-YY') }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -492,7 +492,7 @@
                                                     <label for="dueDateChild" class="col-5 col-sm-4 col-md-3 col-lg-4 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                     <span class="col-form-label text-bold">:</span>
                                                     <div class="col-6 col-sm-5 col-md-7">
-                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->tempo, $approval->subject->tempo)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="due_date_child" id="dueDateChild" value="{{ getDueDate($childData->subject_date, $childData->tempo, 'd-M-y') }}" readonly>
+                                                        <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark @if(isDifferenceApprovalItem($childData->tempo, $approval->subject->tempo)) bg-warning text-bold text-dark approval-difference-amount-section @endif" name="due_date_child" id="dueDateChild" value="{{ getDueDate($childData->subject_date, $childData->tempo, 'DD-MMM-YY') }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>

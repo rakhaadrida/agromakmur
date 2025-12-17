@@ -276,6 +276,26 @@ class SalesOrderService
                         'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID,
                     ]);
                 }
+
+                $deliveredQuantity = DeliveryOrderService::getDeliveryQuantityBySalesOrderProductIds($salesOrder->id, $approvalItemProductIds);
+                $orderQuantity = static::getSalesOrderQuantityBySalesOrderProductIds($salesOrder->id, $approvalItemProductIds);
+
+                $deliveredQuantity = $deliveredQuantity->sum('quantity');
+                $orderQuantity = $orderQuantity->sum('quantity');
+
+                if($deliveredQuantity >= $orderQuantity) {
+                    $salesOrder->update([
+                        'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED,
+                    ]);
+                } else if($deliveredQuantity > 0) {
+                    $salesOrder->update([
+                        'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_ON_PROGRESS,
+                    ]);
+                } else {
+                    $salesOrder->update([
+                        'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_ACTIVE,
+                    ]);
+                }
             } else {
                 $salesOrder->accountReceivable()->delete();
             }

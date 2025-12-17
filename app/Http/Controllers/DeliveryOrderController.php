@@ -368,9 +368,9 @@ class DeliveryOrderController extends Controller
     public function print(Request $request, $id) {
         $filter = (object) $request->all();
 
-        $isPrinted = $filter->is_printed;
-        $startNumber = $isPrinted ? $filter->start_number_printed : $filter->start_number;
-        $finalNumber = $isPrinted ? $filter->final_number_printed : $filter->final_number;
+        $isPrinted = $filter->is_printed ?? 0;
+        $startNumber = $isPrinted ? $filter->start_number_printed ?? 0 : $filter->start_number ?? 0;
+        $finalNumber = $isPrinted ? $filter->final_number_printed ?? 0 : $filter->final_number ?? 0;
         $startOperator = $isPrinted ? '<=' : '>=';
         $finalOperator = $isPrinted ? '>=' : '<=';
 

@@ -462,7 +462,7 @@ function getDueDate($date, $tempo, $format): string
 {
     $dueDate = \Carbon\Carbon::parse($date)->add($tempo, 'days');
 
-    return formatDate($dueDate, $format);
+    return formatDateIso($dueDate, $format);
 }
 
 function getInvoiceAge($date, $tempo): int
