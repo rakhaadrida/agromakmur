@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('approval_items', function (Blueprint $table) {
-            $table->integer('delivered_quantity')->nullable()->after('final_amount');
+            $table->integer('delivered_quantity')->nullable()->after('total');
             $table->integer('cut_bill_quantity')->nullable()->after('delivered_quantity');
         });
     }

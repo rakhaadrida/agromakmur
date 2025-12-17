@@ -19,6 +19,7 @@ class SalesReturnCreateRequest extends FormRequest
             'date' => ['required', 'date', 'date_format:d-m-Y'],
             'sales_order_id' => ['required', 'exists:sales_orders,id,deleted_at,NULL'],
             'customer_id' => ['required', 'exists:customers,id,deleted_at,NULL'],
+            'branch_id' => ['required', 'exists:branches,id,deleted_at,NULL'],
             'delivery_date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'item_id.*' => ['nullable', 'exists:sales_order_items,id,deleted_at,NULL'],

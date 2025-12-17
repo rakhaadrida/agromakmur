@@ -19,6 +19,7 @@ class PurchaseReturnCreateRequest extends FormRequest
             'date' => ['required', 'date', 'date_format:d-m-Y'],
             'goods_receipt_id' => ['required', 'exists:goods_receipts,id,deleted_at,NULL'],
             'supplier_id' => ['required', 'exists:suppliers,id,deleted_at,NULL'],
+            'branch_id' => ['required', 'exists:branches,id,deleted_at,NULL'],
             'received_date' => ['nullable', 'date', 'date_format:d-m-Y'],
             'product_id.*' => ['nullable', 'exists:products,id,deleted_at,NULL'],
             'item_id.*' => ['nullable', 'exists:goods_receipt_items,id,deleted_at,NULL'],

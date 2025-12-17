@@ -236,7 +236,7 @@ class SalesReturnController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($salesReturn->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new CancelSalesReturnNotification($salesReturn->number, $approval->id));

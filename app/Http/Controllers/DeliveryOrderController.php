@@ -259,7 +259,7 @@ class DeliveryOrderController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($deliveryOrder->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new UpdateDeliveryOrderNotification($deliveryOrder->number, $parentApproval->id));
@@ -301,7 +301,7 @@ class DeliveryOrderController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($deliveryOrder->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new CancelDeliveryOrderNotification($deliveryOrder->number, $approval->id));

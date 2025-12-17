@@ -394,7 +394,7 @@ class SalesOrderController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($salesOrder->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new UpdateSalesOrderNotification($salesOrder->number, $parentApproval->id));
@@ -436,7 +436,7 @@ class SalesOrderController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($salesOrder->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new CancelSalesOrderNotification($salesOrder->number, $approval->id));

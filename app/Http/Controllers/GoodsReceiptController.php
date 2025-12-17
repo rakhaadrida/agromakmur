@@ -303,7 +303,7 @@ class GoodsReceiptController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($goodsReceipt->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new UpdateGoodsReceiptNotification($goodsReceipt->number, $parentApproval->id));
@@ -345,7 +345,7 @@ class GoodsReceiptController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($goodsReceipt->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new CancelGoodsReceiptNotification($goodsReceipt->number, $approval->id));

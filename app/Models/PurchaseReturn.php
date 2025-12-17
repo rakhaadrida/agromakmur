@@ -14,6 +14,7 @@ class PurchaseReturn extends Model
     protected $fillable = [
         'supplier_id',
         'goods_receipt_id',
+        'branch_id',
         'number',
         'date',
         'received_date',

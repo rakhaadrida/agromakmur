@@ -242,7 +242,7 @@ class PurchaseReturnController extends Controller
 
             DB::commit();
 
-            $users = UserService::getSuperAdminUsers();
+            $users = UserService::getSuperAdminUsers($purchaseReturn->branch_id);
 
             foreach($users as $user) {
                 $user->notify(new CancelPurchaseReturnNotification($purchaseReturn->number, $approval->id));

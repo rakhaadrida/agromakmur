@@ -25,11 +25,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
     ]], function() {
-        Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
-        Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
-        Route::get('approval-histories', 'ApprovalController@indexHistory')->name('approvals.index-history');
-        Route::get('approval-history-ajax', 'ApprovalController@indexHistoryAjax')->name('approvals.index-history-ajax');
-
         Route::resource('branches', 'BranchController');
         Route::get('deleted-branches', 'BranchController@indexDeleted')->name('branches.deleted');
         Route::put('deleted-branches/{id}/restore', 'BranchController@restore')->name('branches.restore');
@@ -41,6 +36,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
     ]], function() {
+        Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
+        Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
+        Route::get('approval-histories', 'ApprovalController@indexHistory')->name('approvals.index-history');
+        Route::get('approval-history-ajax', 'ApprovalController@indexHistoryAjax')->name('approvals.index-history-ajax');
+
         Route::resource('users', 'UserController');
         Route::get('deleted-users', 'UserController@indexDeleted')->name('users.deleted');
         Route::put('deleted-users/{id}/restore', 'UserController@restore')->name('users.restore');

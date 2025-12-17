@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Utilities\Traits\FilterApprovalBySubjectBranch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Approval extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FilterApprovalBySubjectBranch;
 
     protected $fillable = [
         'parent_id',

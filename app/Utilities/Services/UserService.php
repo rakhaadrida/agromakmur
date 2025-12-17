@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class UserService
 {
-    public static function getSuperAdminUsers() {
+    public static function getSuperAdminUsers($branchId = null) {
         return User::query()
             ->where('role', Constant::USER_ROLE_SUPER_ADMIN)
+            ->orWhere(function($query) use ($branchId) {
+                $query->where('role', Constant::USER_ROLE_SUPER_ADMIN_BRANCH)
+                      ->when($branchId, function($query) use ($branchId) {
+                          $query->whereHas('userBranches', function($query) use ($branchId) {
+                              $query->where('branch_id', $branchId);
+                          });
+                      });
+            })
             ->get();
     }
 
