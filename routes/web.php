@@ -133,7 +133,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('goods-receipts/{id}/after-print', 'GoodsReceiptController@afterPrint')->name('goods-receipts.after-print');
         Route::get('goods-receipt-ajax', 'GoodsReceiptController@indexAjax')->name('goods-receipts.index-ajax');
         Route::get('goods-receipt-lists-ajax', 'GoodsReceiptController@indexListAjax')->name('goods-receipts.index-list-ajax');
-        Route::get('goods-receipt-data-ajax', 'GoodsReceiptController@indexDataAjax')->name('goods-receipts.index-data-ajax');
         Route::get('goods-receipt-index-print-ajax', 'GoodsReceiptController@indexPrintAjax')->name('goods-receipts.index-print-ajax');
         Route::get('goods-receipt-generate-number-ajax', 'GoodsReceiptController@generateNumberAjax')->name('goods-receipts.generate-number-ajax');
         Route::get('print-goods-receipts', 'GoodsReceiptController@indexPrint')->name('goods-receipts.index-print');
@@ -204,8 +203,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-orders/{id}/print-bill', 'SalesOrderController@printBill')->name('sales-orders.print-bill');
         Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
         Route::get('sales-orders/{id}/after-print-bill', 'SalesOrderController@afterPrintBill')->name('sales-orders.after-print-bill');
-        Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
-        Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
         Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');
         Route::get('sales-order-generate-number-ajax', 'SalesOrderController@generateNumberAjax')->name('sales-orders.generate-number-ajax');
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
@@ -245,6 +242,11 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_FINANCE,
         \App\Utilities\Constant::USER_ROLE_WAREHOUSE
     ]], function() {
+        Route::get('goods-receipt-data-ajax', 'GoodsReceiptController@indexDataAjax')->name('goods-receipts.index-data-ajax');
+
+        Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
+        Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
+
         Route::resource('sales-returns', 'SalesReturnController');
         Route::get('sales-returns-generate-number-ajax', 'SalesReturnController@generateNumberAjax')->name('sales-returns.generate-number-ajax');
 
