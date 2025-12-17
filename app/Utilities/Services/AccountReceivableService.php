@@ -142,7 +142,7 @@ class AccountReceivableService
     }
 
     public static function getDetailData($id, $filter) {
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
         $status = Constant::ACCOUNT_RECEIVABLE_STATUSES;
 

@@ -47,7 +47,7 @@ class AccountPayableController extends Controller
     public function detail(Request $request, $id) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
         $supplier = Supplier::query()->findOrFail($id);
@@ -66,7 +66,7 @@ class AccountPayableController extends Controller
         return view('pages.finance.account-payable.detail', $data);
     }
 
-    public function payment($id) {
+    public function payment(Request $request, $id) {
         $baseQuery = AccountPayableService::getBaseQueryDetail();
         $accountPayable = $baseQuery->where('account_payables.id', $id)->first();
 
@@ -86,7 +86,10 @@ class AccountPayableController extends Controller
         $data = [
             'accountPayable' => $accountPayable,
             'accountPayablePayments' => $accountPayablePayments,
-            'rowNumbers' => $rowNumbers
+            'rowNumbers' => $rowNumbers,
+            'startDate' => $request->get('start_date') ?? null,
+            'finalDate' => $request->get('final_date') ?? null,
+            'status' => $request->get('status') ?? 0,
         ];
 
         return view('pages.finance.account-payable.payment', $data);
@@ -128,7 +131,14 @@ class AccountPayableController extends Controller
 
             DB::commit();
 
-            return redirect()->route('account-payables.detail', ['id' => $accountPayable->goodsReceipt->supplier_id]);
+            $params = [
+                'id' => $accountPayable->goodsReceipt->supplier_id,
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'status' => $request->get('status', 0),
+            ];
+
+            return redirect()->route('account-payables.detail', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

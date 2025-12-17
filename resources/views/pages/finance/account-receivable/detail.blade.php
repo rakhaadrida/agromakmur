@@ -98,7 +98,7 @@
                                                 </td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountReceivable->outstanding_amount }}">{{ formatPrice($accountReceivable->outstanding_amount) }}</td>
                                                 <td class="align-middle text-center text-bold @if(isAccountReceivableUnpaid($accountReceivable->status)) account-payable-unpaid @elseif(isAccountReceivableOngoing($accountReceivable->status)) account-payable-ongoing @else account-payable-paid @endif">
-                                                    <a href="{{ route('account-receivables.payment', $accountReceivable->id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ getAccountReceivableStatusLabel($accountReceivable->status) }}</a>
+                                                    <button type="submit" class="btn btn-link btn-sm text-bold tbody-payable-status" formaction="{{ route('account-receivables.payment', $accountReceivable->id) }}" formmethod="GET">{{ getAccountReceivableStatusLabel($accountReceivable->status) }}</button>
                                                 </td>
                                             </tr>
                                         @empty

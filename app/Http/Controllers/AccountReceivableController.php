@@ -49,7 +49,7 @@ class AccountReceivableController extends Controller
     public function detail(Request $request, $id) {
         $filter = (object) $request->all();
 
-        $startDate = $filter->start_date ?? Carbon::now()->subDays(90)->format('d-m-Y');
+        $startDate = $filter->start_date ?? Carbon::now()->format('d-m-Y');
         $finalDate = $filter->final_date ?? Carbon::now()->format('d-m-Y');
 
         $customer = Customer::query()->findOrFail($id);
@@ -68,7 +68,7 @@ class AccountReceivableController extends Controller
         return view('pages.finance.account-receivable.detail', $data);
     }
 
-    public function payment($id) {
+    public function payment(Request $request, $id) {
         $baseQuery = AccountReceivableService::getBaseQueryDetail();
         $accountReceivable = $baseQuery->where('account_receivables.id', $id)->first();
 
@@ -93,7 +93,10 @@ class AccountReceivableController extends Controller
         $data = [
             'accountReceivable' => $accountReceivable,
             'accountReceivablePayments' => $accountReceivablePayments,
-            'rowNumbers' => $rowNumbers
+            'rowNumbers' => $rowNumbers,
+            'startDate' => $request->get('start_date') ?? null,
+            'finalDate' => $request->get('final_date') ?? null,
+            'status' => $request->get('status') ?? 0,
         ];
 
         return view('pages.finance.account-receivable.payment', $data);
@@ -137,7 +140,14 @@ class AccountReceivableController extends Controller
 
             DB::commit();
 
-            return redirect()->route('account-receivables.detail', ['id' => $accountReceivable->salesOrder->customer_id]);
+            $params = [
+                'id' => $accountReceivable->salesOrder->customer_id,
+                'start_date' => $request->get('start_date', null),
+                'final_date' => $request->get('final_date', null),
+                'status' => $request->get('status', 0),
+            ];
+
+            return redirect()->route('account-receivables.detail', $params);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

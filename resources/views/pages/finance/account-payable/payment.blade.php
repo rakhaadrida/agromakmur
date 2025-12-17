@@ -83,6 +83,9 @@
                                         <div class="col-4 mt-1">
                                             <input type="text" readonly class="form-control form-control-sm text-bold text-dark" name="supplier" id="supplier" value="{{ $accountPayable->supplier_name }}">
                                         </div>
+                                        <input type="hidden" name="start_date" id="startDate" value="{{ $startDate }}">
+                                        <input type="hidden" name="final_date" id="finalDate" value="{{ $finalDate }}">
+                                        <input type="hidden" name="status" id="status" value="{{ $status }}">
                                         <input type="hidden" name="row_numbers" id="rowNumbers" value="{{ $rowNumbers }}">
                                     </div>
                                 </div>
