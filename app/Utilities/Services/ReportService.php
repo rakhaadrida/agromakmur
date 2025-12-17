@@ -106,7 +106,7 @@ class ReportService
             ->get();
     }
 
-    public static function getIncomingItemsData($startDate, $finalDate) {
+    public static function getIncomingItemsData($startDate, $finalDate, $productId) {
         return GoodsReceiptItem::query()
             ->select(
                 'suppliers.id AS supplier_id',
@@ -124,6 +124,9 @@ class ReportService
             ->join('warehouses', 'warehouses.id', '=', 'goods_receipts.warehouse_id')
             ->where('goods_receipts.date', '>=',  Carbon::parse($startDate)->startOfDay())
             ->where('goods_receipts.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->when($productId, function ($q) use ($productId) {
+                $q->where('products.id', $productId);
+            })
             ->where('goods_receipts.status', '!=', 'CANCELLED')
             ->groupBy('suppliers.id', 'products.id', 'warehouses.id')
             ->orderBy('suppliers.name')

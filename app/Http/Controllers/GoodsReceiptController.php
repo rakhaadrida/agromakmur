@@ -392,8 +392,8 @@ class GoodsReceiptController extends Controller
         if($isPrinted) {
             $baseQuery = $baseQuery
                 ->where('goods_receipts.is_printed', 1)
-                ->where('goods_receipts.date', '>=', Carbon::now()->subDays(30))
-                ->where('goods_receipts.date', '<=', Carbon::now())
+                ->where('goods_receipts.date', '>=', Carbon::now()->subDays(30)->startOfDay())
+                ->where('goods_receipts.date', '<=', Carbon::now()->endOfDay())
                 ->orderByDesc('goods_receipts.date')
                 ->orderByDesc('goods_receipts.id');
         } else {

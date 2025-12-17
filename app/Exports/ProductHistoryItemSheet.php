@@ -151,6 +151,8 @@ class ProductHistoryItemSheet extends DefaultValueBinder implements FromView, Sh
             ->join('suppliers', 'suppliers.id', '=', 'goods_receipts.supplier_id')
             ->join('products', 'products.id', '=', 'goods_receipt_items.product_id')
             ->join('units', 'units.id', '=', 'products.unit_id')
+            ->where('goods_receipts.date', '>=',  Carbon::now()->subDays(90)->startOfDay())
+            ->where('goods_receipts.date', '<=',  Carbon::now()->endOfDay())
             ->whereNull('goods_receipt_items.deleted_at')
             ->whereNull('goods_receipts.deleted_at');
 

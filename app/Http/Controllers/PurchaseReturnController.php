@@ -111,7 +111,11 @@ class PurchaseReturnController extends Controller
         $date = Carbon::now()->format('d-m-Y');
         $suppliers = Supplier::all();
         $goodsReceipts = GoodsReceipt::query()
+            ->where('date', '>=', Carbon::now()->subDays(90)->startOfDay())
+            ->where('date', '<=', Carbon::now()->endOfDay())
             ->where('status' , '!=', Constant::GOODS_RECEIPT_STATUS_WAITING_APPROVAL)
+            ->orderByDesc('date')
+            ->orderByDesc('id')
             ->get();
 
         $data = [

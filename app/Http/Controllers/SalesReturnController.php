@@ -105,7 +105,11 @@ class SalesReturnController extends Controller
         $date = Carbon::now()->format('d-m-Y');
         $customers = Customer::all();
         $salesOrders = SalesOrder::query()
+            ->where('date', '>=', Carbon::now()->subDays(90)->startOfDay())
+            ->where('date', '<=', Carbon::now()->endOfDay())
             ->where('status' , '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->orderByDesc('date')
+            ->orderByDesc('id')
             ->get();
 
         $data = [

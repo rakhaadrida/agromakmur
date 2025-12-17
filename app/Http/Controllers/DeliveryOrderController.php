@@ -350,8 +350,8 @@ class DeliveryOrderController extends Controller
         if($isPrinted) {
             $baseQuery = $baseQuery
                 ->where('delivery_orders.is_printed', 1)
-                ->where('delivery_orders.date', '>=', Carbon::now()->subDays(30))
-                ->where('delivery_orders.date', '<=', Carbon::now())
+                ->where('delivery_orders.date', '>=', Carbon::now()->subDays(30)->startOfDay())
+                ->where('delivery_orders.date', '<=', Carbon::now()->endOfDay())
                 ->orderByDesc('delivery_orders.date')
                 ->orderByDesc('delivery_orders.id');
         } else {
