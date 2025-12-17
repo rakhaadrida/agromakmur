@@ -112,7 +112,7 @@
                                                                 <label for="dueDate" class="col-2 form-control-sm text-bold text-right mt-1">Jatuh Tempo</label>
                                                                 <span class="col-form-label text-bold">:</span>
                                                                 <div class="col-4">
-                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'd-m-Y') }}" readonly>
+                                                                    <input type="text" class="form-control-plaintext col-form-label-sm text-bold text-dark text-wrap" id="dueDate" value="{{ getDueDate($salesOrder->date, $salesOrder->tempo, 'DD-MM-Y') }}" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>

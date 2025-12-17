@@ -328,7 +328,7 @@
                         </td>
                         <td>
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="${thousandSeparator(item.remaining_quantity)}" tabindex="${rowNumbers += 1}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
-                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity}">
+                            <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.real_quantity}">
                         </td>
                         <td>
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-${rowId}" value="${item.unit_name}" title="" readonly>

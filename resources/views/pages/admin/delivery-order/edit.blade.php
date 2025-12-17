@@ -163,16 +163,6 @@
     <script src="{{ url('assets/vendor/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ url('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script type="text/javascript">
-        let url = new URL(window.location.href);
-        let params = url.searchParams;
-
-        params.delete('start_date');
-        params.delete('final_date');
-        params.delete('number');
-        params.delete('customer_id');
-
-        window.history.pushState({}, document.title, url.toString());
-
         $.fn.datepicker.dates['id'] = {
             days: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
             daysShort: ['Mgu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],

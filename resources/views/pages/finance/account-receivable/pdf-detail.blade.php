@@ -184,7 +184,7 @@
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $accountReceivable->number }}</td>
                             <td class="align-middle text-center">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
-                            <td class="align-middle text-center">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
+                            <td class="align-middle text-center">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'DD-MM-Y') }}</td>
                             <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Hari</td>
                             <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                             <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>

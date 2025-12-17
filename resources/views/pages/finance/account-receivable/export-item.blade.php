@@ -31,7 +31,7 @@
                         <td>{{ $receivableItem->customer_name }}</td>
                         <td>{{ $receivableItem->number }}</td>
                         <td>{{ $receivableItem->date }}</td>
-                        <td>{{ getDueDate($receivableItem->date, $receivableItem->tempo, 'd-m-Y') }}</td>
+                        <td>{{ getDueDate($receivableItem->date, $receivableItem->tempo, 'DD-MM-Y') }}</td>
                         <td>{{ getInvoiceAge($receivableItem->date, $receivableItem->tempo) }} Hari</td>
                         <td>{{ $receivableItem->branch_name }}</td>
                         <td>{{ getSalesOrderTypeLabel($receivableItem->type) }}</td>

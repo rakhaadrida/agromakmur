@@ -124,6 +124,7 @@ class DeliveryOrderService
     public static function getDeliveryQuantityBySalesOrderProductIds($salesOrderId, $productIds) {
         $deliveryOrderIds = DeliveryOrder::query()
             ->where('sales_order_id', $salesOrderId)
+            ->where('status', '!=', Constant::DELIVERY_ORDER_STATUS_CANCELLED)
             ->pluck('id')
             ->toArray();
 
@@ -150,17 +151,38 @@ class DeliveryOrderService
             'status' => $status
         ]);
 
-        foreach($approval->approvalItems as $approvalItem) {
-            $deliveryItem = $deliveryOrder->deliveryOrderItems
-                ->where('product_id', $approvalItem->product_id)
-                ->first();
+        if($approval->type == Constant::APPROVAL_TYPE_EDIT) {
+            $approvalItemProductIds = $approval->approvalItems->pluck('product_id');
 
-            if($deliveryItem) {
-                $deliveryItem->update([
+            $deliveryOrder->deliveryOrderItems()->delete();
+            foreach ($approval->approvalItems as $approvalItem) {
+                $deliveryOrder->deliveryOrderItems()->create([
+                    'product_id' => $approvalItem->product_id,
+                    'unit_id' => $approvalItem->unit_id,
                     'quantity' => $approvalItem->quantity,
                     'actual_quantity' => $approvalItem->actual_quantity,
                 ]);
             }
+        }
+
+        $deliveredQuantity = static::getDeliveryQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $approvalItemProductIds);
+        $orderQuantity = SalesOrderService::getSalesOrderQuantityBySalesOrderProductIds($deliveryOrder->sales_order_id, $approvalItemProductIds);
+
+        $deliveredQuantity = $deliveredQuantity->sum('quantity');
+        $orderQuantity = $orderQuantity->sum('quantity');
+
+        if($deliveredQuantity >= $orderQuantity) {
+            $deliveryOrder->salesOrder()->update([
+                'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_COMPLETED,
+            ]);
+        } else if($deliveredQuantity > 0) {
+            $deliveryOrder->salesOrder()->update([
+                'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_ON_PROGRESS,
+            ]);
+        } else {
+            $deliveryOrder->salesOrder()->update([
+                'delivery_status' => Constant::SALES_ORDER_DELIVERY_STATUS_ACTIVE,
+            ]);
         }
 
         return true;

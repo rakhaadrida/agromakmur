@@ -73,7 +73,7 @@
                                                         {{ $deliveryOrder->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDateIso($deliveryOrder->date, 'DD-MMM-YY')  }}</td>
                                                 <td class="text-center align-middle">
                                                     <a href="{{ route('sales-orders.detail', $deliveryOrder->sales_order_id) }}" class="btn btn-sm btn-link text-bold">
                                                         {{ $deliveryOrder->sales_order_number }}

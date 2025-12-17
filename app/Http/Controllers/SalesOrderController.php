@@ -712,6 +712,7 @@ class SalesOrderController extends Controller
 
             $salesOrderItem->delivered_quantity = $deliveredQuantity;
             $salesOrderItem->remaining_quantity = $remainingQuantity;
+            $salesOrderItem->real_quantity = $salesOrderItem->actual_quantity / $salesOrderItem->quantity;
         }
 
         return response()->json([

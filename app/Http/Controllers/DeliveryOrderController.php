@@ -134,11 +134,13 @@ class DeliveryOrderController extends Controller
                     $quantity = $request->get('quantity')[$index];
                     $actualQuantity = $request->get('real_quantity')[$index];
 
+                    $realQuantity = $quantity * $actualQuantity;
+
                     $deliveryOrder->deliveryOrderItems()->create([
                         'product_id' => $productId,
                         'unit_id' => $unitId,
                         'quantity' => $quantity,
-                        'actual_quantity' => $actualQuantity,
+                        'actual_quantity' => $realQuantity,
                     ]);
 
                     $totalOrderQuantity += $orderQuantity;
@@ -348,6 +350,8 @@ class DeliveryOrderController extends Controller
         if($isPrinted) {
             $baseQuery = $baseQuery
                 ->where('delivery_orders.is_printed', 1)
+                ->where('delivery_orders.date', '>=', Carbon::now()->subDays(30))
+                ->where('delivery_orders.date', '<=', Carbon::now())
                 ->orderByDesc('delivery_orders.date')
                 ->orderByDesc('delivery_orders.id');
         } else {

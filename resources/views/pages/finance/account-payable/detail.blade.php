@@ -85,7 +85,7 @@
                                                     <a href="{{ route('goods-receipts.detail', $accountPayable->goods_receipt_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ $accountPayable->number }}</a>
                                                 </td>
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($accountPayable->date, 'Ymd') }}">{{ formatDate($accountPayable->date, 'd-m-Y') }}</td>
-                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'Ymd') }}">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'Ymd') }}">{{ getDueDate($accountPayable->date, $accountPayable->tempo, 'DD-MM-Y') }}</td>
                                                 <td class="align-middle text-center">{{ getInvoiceAge($accountPayable->date, $accountPayable->tempo) }} Hari</td>
                                                 <td class="align-middle">{{ $accountPayable->branch_name }}</td>
                                                 <td class="align-middle text-right" data-sort="{{ $accountPayable->grand_total }}">{{ formatPrice($accountPayable->grand_total) }}</td>

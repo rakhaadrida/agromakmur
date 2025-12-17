@@ -71,7 +71,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="itemNotPrinted">
-                                                @forelse ($deliveryOrders as $key => $deliveryOrder)
+                                                @foreach ($deliveryOrders as $key => $deliveryOrder)
                                                     <tr class="text-dark">
                                                         <td class="align-middle text-center">{{ ++$key }}</td>
                                                         <td class="align-middle">
@@ -79,7 +79,7 @@
                                                                 {{ $deliveryOrder->number }}
                                                             </a>
                                                         </td>
-                                                        <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDate($deliveryOrder->date, 'd-M-y')  }}</td>
+                                                        <td class="text-center align-middle" data-sort="{{ formatDate($deliveryOrder->date, 'Ymd') }}">{{ formatDateIso($deliveryOrder->date, 'DD-MMM-YY')  }}</td>
                                                         <td class="text-center align-middle">
                                                             <a href="{{ route('sales-orders.detail', $deliveryOrder->sales_order_id) }}" class="btn btn-sm btn-link text-bold">
                                                                 {{ $deliveryOrder->sales_order_number }}
@@ -90,11 +90,7 @@
                                                         <td class="text-center align-middle">{{ getDeliveryOrderStatusLabel($deliveryOrder->status) }}</td>
                                                         <td class="text-center align-middle">{{ $deliveryOrder->user_name }}</td>
                                                     </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="8" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                         <input type="hidden" name="is_printed" id="isPrinted" value="0">
@@ -188,7 +184,7 @@
 
                 let table = $('#itemNotPrinted');
                 if(table.find('.item-row').length === 0) {
-                    displayDeliveryOrderData(table, 9, notPrintedTab, datatableNotPrinted, 0);
+                    displayDeliveryOrderData(table, 8, notPrintedTab, datatableNotPrinted, 0);
                 }
 
                 removeRequiredStartNumberElement($('#startNumberPrinted'), 0);
@@ -199,7 +195,7 @@
 
                 let table = $('#itemPrinted');
                 if(table.find('.item-row').length === 0) {
-                    displayDeliveryOrderData(table, 9, printedTab, datatablePrinted, 1);
+                    displayDeliveryOrderData(table, 8, printedTab, datatablePrinted, 1);
                 }
 
                 removeRequiredStartNumberElement($('#startNumber'), 1);
@@ -257,25 +253,36 @@
                             }
 
                             let rowNumber = 1;
-                            let newRow;
+                            let rowsHtml = '';
 
                             $.each(deliveryOrders, function(index, item) {
-                                newRow = deliveryOrderRow(rowNumber, item);
-
-                                table.append(newRow);
+                                rowsHtml += deliveryOrderRow(rowNumber, item);
                                 rowNumber++;
-
-                                if(isPrinted) {
-                                    displayNumberData(startNumberPrinted, index, item)
-                                } else {
-                                    displayNumberData(startNumber, index, item);
-                                }
                             });
 
-                            if(isPrinted) {
+                            table.html(rowsHtml);
+
+                            let optionsHtml = '';
+                            $.each(deliveryOrders, function(index, item) {
+                                optionsHtml += `<option value="${item.id}" data-tokens="${item.number}">${item.number}</option>`;
+                            });
+
+                            if (isPrinted) {
+                                startNumberPrinted.html(optionsHtml);
+                                startNumberPrinted.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumberPrinted.selectpicker('refresh');
                                 startNumberPrinted.attr('required', true);
                                 disableFinalNumberElement($('#finalNumberPrinted'));
                             } else {
+                                startNumber.html(optionsHtml);
+                                startNumber.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumber.selectpicker('refresh');
                                 startNumber.attr('required', true);
                                 disableFinalNumberElement($('#finalNumber'));
                             }
@@ -341,29 +348,10 @@
                 if (format === 'Ymd') {
                     return date.toISOString().split('T')[0].replace(/-/g, '');
                 } else if (format === 'd-M-y') {
-                    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' });
+                    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
 
                 return dateStr;
-            }
-
-            function displayNumberData(element, index, item) {
-                element.append(
-                    $('<option></option>', {
-                        value: item.id,
-                        text: item.number,
-                        'data-tokens': item.number,
-                    })
-                );
-
-                if(!index) {
-                    element.selectpicker({
-                        title: 'Pilih Nomor Awal'
-                    });
-                }
-
-                element.selectpicker('refresh');
-                element.selectpicker('render');
             }
 
             function disableFinalNumberElement(element) {

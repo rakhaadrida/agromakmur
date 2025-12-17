@@ -86,7 +86,7 @@
                                                     <a href="{{ route('sales-orders.detail', $accountReceivable->sales_order_id) }}" class="btn btn-link btn-sm text-bold tbody-payable-status">{{ $accountReceivable->number }}</a>
                                                 </td>
                                                 <td class="align-middle text-center" data-sort="{{ formatDate($accountReceivable->date, 'Ymd') }}">{{ formatDate($accountReceivable->date, 'd-m-Y') }}</td>
-                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'Ymd') }}">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'd-m-Y') }}</td>
+                                                <td class="align-middle text-center" data-sort="{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'Ymd') }}">{{ getDueDate($accountReceivable->date, $accountReceivable->tempo, 'DD-MM-Y') }}</td>
                                                 <td class="align-middle text-center">{{ getInvoiceAge($accountReceivable->date, $accountReceivable->tempo) }} Hari</td>
                                                 <td class="align-middle">{{ $accountReceivable->branch_name }}</td>
                                                 <td class="align-middle text-center">{{ getSalesOrderTypeLabel($accountReceivable->type) }}</td>
