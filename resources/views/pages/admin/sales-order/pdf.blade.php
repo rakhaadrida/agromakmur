@@ -195,7 +195,7 @@
                         <tr class="text-dark">
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->number }}</td>
-                            <td class="align-middle text-center">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
+                            <td class="align-middle text-center">{{ formatDateIso($salesOrder->date, 'DD-MMM-YY')  }}</td>
                             <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                             <td class="align-middle">{{ $salesOrder->customer_name }}</td>
                             <td class="align-middle text-center">{{ $salesOrder->marketing_name }}</td>

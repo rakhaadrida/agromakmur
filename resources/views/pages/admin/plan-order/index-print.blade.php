@@ -339,25 +339,6 @@
                 return dateStr;
             }
 
-            function displayNumberData(element, index, item) {
-                element.append(
-                    $('<option></option>', {
-                        value: item.id,
-                        text: item.number,
-                        'data-tokens': item.number,
-                    })
-                );
-
-                if(!index) {
-                    element.selectpicker({
-                        title: 'Pilih Nomor Awal'
-                    });
-                }
-
-                element.selectpicker('refresh');
-                element.selectpicker('render');
-            }
-
             function disableFinalNumberElement(element) {
                 element.empty();
                 element.attr('disabled', true);

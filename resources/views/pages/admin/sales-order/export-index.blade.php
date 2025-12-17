@@ -2,7 +2,7 @@
     <body>
         <div>
             <h2>Daftar Sales Order</h2>
-            <h5>Tanggal Laporan : {{ formatDate($startDate, 'd M Y') }} - {{ formatDate($finalDate, 'd M Y') }}</h5>
+            <h5>Tanggal Laporan : {{ formatDateIso($startDate, 'DD MMM Y') }} - {{ formatDateIso($finalDate, 'DD MMM Y') }}</h5>
             <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>

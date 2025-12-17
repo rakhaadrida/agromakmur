@@ -181,7 +181,7 @@ class SalesOrderController extends Controller
                     return [
                         'product_id' => $productId,
                         'unit_id' => $unitIds[$index],
-                        'real_quantity' => $realQuantities[$index],
+                        'real_quantity' => (int) $realQuantities[$index],
                         'price' => $prices[$index],
                         'price_id' => $priceIds[$index],
                         'warehouse_ids' => explode(',', $warehouseIdsList[$index] ?? ''),
@@ -193,7 +193,7 @@ class SalesOrderController extends Controller
             $subtotal = 0;
             foreach ($itemsData as $item) {
                 foreach ($item['warehouse_ids'] as $key => $warehouseId) {
-                    $quantity = $item['warehouse_stocks'][$key] ?? 0;
+                    $quantity = (int) $item['warehouse_stocks'][$key] ?? 0;
                     $actualQuantity = $quantity * $item['real_quantity'];
                     $total = $quantity * $item['price'];
                     $subtotal += $total;
@@ -483,6 +483,8 @@ class SalesOrderController extends Controller
         if($isPrinted) {
             $baseQuery = $baseQuery
                 ->where('sales_orders.is_printed', 1)
+                ->where('sales_orders.date', '>=', Carbon::now()->subDays(30))
+                ->where('sales_orders.date', '<=', Carbon::now())
                 ->orderByDesc('sales_orders.date')
                 ->orderByDesc('sales_orders.id');
         } else {
@@ -620,6 +622,19 @@ class SalesOrderController extends Controller
             DB::commit();
 
             return redirect()->route($route);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return redirect()->back()->withInput()->withErrors([
+                'message' => 'An error occurred while updating data'
+            ]);
+        }
+    }
+
+    public function afterPrintBill(Request $request, $id) {
+        try {
+            return redirect()->route('sales-orders.create');
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

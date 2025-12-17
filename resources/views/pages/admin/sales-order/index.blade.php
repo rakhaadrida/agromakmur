@@ -74,7 +74,7 @@
                                                         {{ $salesOrder->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDate($salesOrder->date, 'd-M-y')  }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($salesOrder->date, 'Ymd') }}">{{ formatDateIso($salesOrder->date, 'DD-MMM-YY')  }}</td>
                                                 <td class="align-middle">{{ $salesOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $salesOrder->customer_name }}</td>
                                                 <td class="text-center align-middle" data-sort="{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }}">{{ getInvoiceAge($salesOrder->date, $salesOrder->tempo) }} Hari</td>

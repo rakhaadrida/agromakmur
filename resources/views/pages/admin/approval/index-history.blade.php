@@ -69,8 +69,8 @@
                                                             {{ $approval->subject->number }}
                                                         </a>
                                                     </td>
-                                                    <td class="align-middle text-center" data-sort="{{ formatDate($approval->subject->date, 'Ymd') }}">{{ formatDate($approval->subject->date, 'd-M-y')  }}</td>
-                                                    <td class="align-middle text-center" data-sort="{{ formatDate($approval->date, 'Ymd') }}">{{ formatDate($approval->date, 'd-M-y')  }}</td>
+                                                    <td class="align-middle text-center" data-sort="{{ formatDate($approval->subject->date, 'Ymd') }}">{{ formatDateIso($approval->subject->date, 'DD-MMM-YY')  }}</td>
+                                                    <td class="align-middle text-center" data-sort="{{ formatDate($approval->date, 'Ymd') }}">{{ formatDateIso($approval->date, 'DD-MMM-YY')  }}</td>
                                                     <td class="align-middle">{{ $approval->subject->branch->name }}</td>
                                                     <td class="align-middle">{{ $approval->subject->customer->name }}</td>
                                                     <td class="align-middle text-center">{{ getApprovalTypeLabel($approval->type) }}</td>
@@ -525,7 +525,7 @@
                 if (format === 'Ymd') {
                     return date.toISOString().split('T')[0].replace(/-/g, '');
                 } else if (format === 'd-M-y') {
-                    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' });
+                    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
 
                 return dateStr;

@@ -267,6 +267,14 @@ class SalesOrderService
                     $salesOrder->accountReceivable()->update([
                         'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_PAID,
                     ]);
+                } else if ($salesOrder->payment_amount > 0) {
+                    $salesOrder->accountReceivable()->update([
+                        'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_ONGOING,
+                    ]);
+                } else {
+                    $salesOrder->accountReceivable()->update([
+                        'status' => Constant::ACCOUNT_RECEIVABLE_STATUS_UNPAID,
+                    ]);
                 }
             } else {
                 $salesOrder->accountReceivable()->delete();

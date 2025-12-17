@@ -203,6 +203,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('sales-orders/{id}/print', 'SalesOrderController@print')->name('sales-orders.print');
         Route::get('sales-orders/{id}/print-bill', 'SalesOrderController@printBill')->name('sales-orders.print-bill');
         Route::get('sales-orders/{id}/after-print', 'SalesOrderController@afterPrint')->name('sales-orders.after-print');
+        Route::get('sales-orders/{id}/after-print-bill', 'SalesOrderController@afterPrintBill')->name('sales-orders.after-print-bill');
         Route::get('sales-orders-ajax', 'SalesOrderController@indexAjax')->name('sales-orders.index-ajax');
         Route::get('sales-order-lists-ajax', 'SalesOrderController@indexListAjax')->name('sales-orders.index-list-ajax');
         Route::get('sales-order-index-print-ajax', 'SalesOrderController@indexPrintAjax')->name('sales-orders.index-print-ajax');

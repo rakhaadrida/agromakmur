@@ -64,6 +64,7 @@ class DeliveryOrderService
     public static function createData($salesOrder) {
         return DeliveryOrder::create([
             'sales_order_id' => $salesOrder->id,
+            'branch_id' => $salesOrder->branch_id,
             'customer_id' => $salesOrder->customer_id,
             'number' => static::generateOrderNumber(),
             'date' => $salesOrder->delivery_date,

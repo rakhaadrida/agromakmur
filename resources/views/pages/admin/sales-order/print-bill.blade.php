@@ -142,6 +142,10 @@
         <br>
 
         <script type="text/javascript">
+            window.onafterprint = function() {
+                window.location = '{{ route('sales-orders.after-print-bill', $id) }}';
+            }
+
             window.print();
         </script>
     </body>

@@ -183,7 +183,7 @@
                                                                 <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
+                                                        <input type="text" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                     </td>
                                                     <td>
                                                         <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
@@ -191,8 +191,8 @@
                                                                 <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
-                                                        <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
+                                                        <input type="text" name="warehouse_ids[]" id="warehouseIds-{{ $key }}">
+                                                        <input type="text" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}">
                                                     </td>
                                                     <td>
                                                         <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly @if($key == 0) required @endif>
