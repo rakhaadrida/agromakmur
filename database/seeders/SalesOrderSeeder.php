@@ -48,6 +48,7 @@ class SalesOrderSeeder extends Seeder
                 'status' => $salesOrder['status'],
                 'delivery_status' => $salesOrder['delivery_status'],
                 'user_id' => $salesOrder['user_id'],
+                'is_printed' => 1
             ]);
 
             $number = $data->number;

@@ -187,7 +187,7 @@
                         <tr class="text-dark">
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->number }}</td>
-                            <td class="align-middle text-center">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                            <td class="align-middle text-center">{{ formatDateIso($goodsReceipt->date, 'DD-MMM-YY')  }}</td>
                             <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                             <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                             <td class="align-middle text-center">{{ $goodsReceipt->warehouse_name }}</td>

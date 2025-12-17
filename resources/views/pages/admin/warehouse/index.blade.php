@@ -95,12 +95,14 @@
     <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript">
+        let isSuperAdmin = '{{ isUserSuperAdmin() }}';
+
         let datatable = $('#dataTable').DataTable({
             "responsive": true,
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [4],
+                    targets: isSuperAdmin ? [4] : [3],
                     orderable: false
                 }
             ],

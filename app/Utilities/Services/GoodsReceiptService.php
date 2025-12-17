@@ -94,7 +94,6 @@ class GoodsReceiptService
 
         $goodsReceipt->update([
             'status' => $status,
-            'updated_by' => Auth::user()->id
         ]);
 
         foreach($approval->approvalItems as $approvalItem) {
@@ -211,6 +210,14 @@ class GoodsReceiptService
                 if ($goodsReceipt->outstanding_amount <= 0) {
                     $goodsReceipt->accountPayable()->update([
                         'status' => Constant::ACCOUNT_PAYABLE_STATUS_PAID,
+                    ]);
+                } else if ($goodsReceipt->payment_amount > 0) {
+                    $goodsReceipt->accountPayable()->update([
+                        'status' => Constant::ACCOUNT_PAYABLE_STATUS_ONGOING,
+                    ]);
+                } else {
+                    $goodsReceipt->accountPayable()->update([
+                        'status' => Constant::ACCOUNT_PAYABLE_STATUS_UNPAID,
                     ]);
                 }
             } else {

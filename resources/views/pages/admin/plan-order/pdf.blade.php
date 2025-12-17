@@ -179,7 +179,7 @@
                         <tr class="text-dark">
                             <td class="align-middle text-center">{{ $index + 1 }}</td>
                             <td class="align-middle text-center">{{ $planOrder->number }}</td>
-                            <td class="align-middle text-center">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
+                            <td class="align-middle text-center">{{ formatDateIso($planOrder->date, 'DD-MMM-YY')  }}</td>
                             <td class="align-middle">{{ $planOrder->branch_name }}</td>
                             <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                             <td class="align-middle text-center">{{ $planOrder->total_items }}</td>

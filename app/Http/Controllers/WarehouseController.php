@@ -106,7 +106,6 @@ class WarehouseController extends Controller
 
             $warehouse = Warehouse::query()->findOrFail($id);
 
-            $warehouse->branchWarehouses()->delete();
             $warehouse->productStocks()->delete();
 
             $warehouse->delete();
@@ -167,11 +166,14 @@ class WarehouseController extends Controller
             DB::beginTransaction();
 
             $warehouses = Warehouse::onlyTrashed();
+
             if($id) {
                 $warehouses = $warehouses->where('id', $id);
             }
 
             $warehouses->update(['is_destroy' => 1]);
+
+            WarehouseService::removeBranchWarehouseByWarehouses($warehouses->get());
 
             DB::commit();
 

@@ -74,7 +74,7 @@
                                                         {{ $goodsReceipt->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDateIso($goodsReceipt->date, 'DD-MMM-YY')  }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                                                 <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                 <td class="text-center align-middle" data-sort="{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }}">{{ getInvoiceAge($goodsReceipt->date, $goodsReceipt->tempo) }} Hari</td>

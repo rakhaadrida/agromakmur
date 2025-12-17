@@ -303,7 +303,7 @@ class ApprovalController extends Controller
             }
 
             $subjectLabel = Constant::APPROVAL_SUBJECT_TYPE_LABELS[$subjectType] ?? 'Unknown Subject';
-            NotificationService::markAsReadRequestNotification($id);
+            NotificationService::markAsReadRequestNotification($id, $approval->subject->branch_id);
 
             DB::commit();
 
@@ -334,7 +334,7 @@ class ApprovalController extends Controller
                 ->whereNull('deleted_at')
                 ->get();
 
-
+            $branchId = null;
             foreach($approvals as $approval) {
                 $approval->update([
                     'status' => Constant::APPROVAL_STATUS_REJECTED,
@@ -344,9 +344,11 @@ class ApprovalController extends Controller
                 $approval->subject()->update([
                     'status' => Constant::SALES_ORDER_STATUS_ACTIVE
                 ]);
+
+                $branchId = $approval->subject->branch_id ?? null;
             }
 
-            NotificationService::markAsReadRequestNotification($id);
+            NotificationService::markAsReadRequestNotification($id, $branchId);
 
             DB::commit();
 

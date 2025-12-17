@@ -72,7 +72,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="itemNotPrinted">
-                                                @forelse ($goodsReceipts as $key => $goodsReceipt)
+                                                @foreach ($goodsReceipts as $key => $goodsReceipt)
                                                     <tr class="text-dark">
                                                         <td class="align-middle text-center">{{ ++$key }}</td>
                                                         <td class="align-middle">
@@ -80,7 +80,7 @@
                                                                 {{ $goodsReceipt->number }}
                                                             </a>
                                                         </td>
-                                                        <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDate($goodsReceipt->date, 'd-M-y')  }}</td>
+                                                        <td class="text-center align-middle" data-sort="{{ formatDate($goodsReceipt->date, 'Ymd') }}">{{ formatDateIso($goodsReceipt->date, 'DD-MMM-YY')  }}</td>
                                                         <td class="align-middle">{{ $goodsReceipt->branch_name }}</td>
                                                         <td class="align-middle">{{ $goodsReceipt->supplier_name }}</td>
                                                         <td class="align-middle">{{ $goodsReceipt->warehouse_name }}</td>
@@ -88,11 +88,7 @@
                                                         <td class="text-right align-middle" data-sort="{{ $goodsReceipt->grand_total }}">{{ formatPrice($goodsReceipt->grand_total) }}</td>
                                                         <td class="text-center align-middle">{{ getGoodsReceiptStatusLabel($goodsReceipt->status) }}</td>
                                                     </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="9" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
-                                                    </tr>
-                                                @endforelse
+                                                @endforeach
                                             </tbody>
                                         </table>
                                         <input type="hidden" name="is_printed" id="isPrinted" value="0">
@@ -268,25 +264,36 @@
                             }
 
                             let rowNumber = 1;
-                            let newRow;
+                            let rowsHtml = '';
 
                             $.each(goodsReceipts, function(index, item) {
-                                newRow = goodsReceiptRow(rowNumber, item);
-
-                                table.append(newRow);
+                                rowsHtml += goodsReceiptRow(rowNumber, item);
                                 rowNumber++;
-
-                                if(isPrinted) {
-                                    displayNumberData(startNumberPrinted, index, item)
-                                } else {
-                                    displayNumberData(startNumber, index, item);
-                                }
                             });
 
-                            if(isPrinted) {
+                            table.html(rowsHtml);
+
+                            let optionsHtml = '';
+                            $.each(goodsReceipts, function(index, item) {
+                                optionsHtml += `<option value="${item.id}" data-tokens="${item.number}">${item.number}</option>`;
+                            });
+
+                            if (isPrinted) {
+                                startNumberPrinted.html(optionsHtml);
+                                startNumberPrinted.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumberPrinted.selectpicker('refresh');
                                 startNumberPrinted.attr('required', true);
                                 disableFinalNumberElement($('#finalNumberPrinted'));
                             } else {
+                                startNumber.html(optionsHtml);
+                                startNumber.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumber.selectpicker('refresh');
                                 startNumber.attr('required', true);
                                 disableFinalNumberElement($('#finalNumber'));
                             }
@@ -346,29 +353,10 @@
                 if (format === 'Ymd') {
                     return date.toISOString().split('T')[0].replace(/-/g, '');
                 } else if (format === 'd-M-y') {
-                    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' });
+                    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
 
                 return dateStr;
-            }
-
-            function displayNumberData(element, index, item) {
-                element.append(
-                    $('<option></option>', {
-                        value: item.id,
-                        text: item.number,
-                        'data-tokens': item.number,
-                    })
-                );
-
-                if(!index) {
-                    element.selectpicker({
-                        title: 'Pilih Nomor Awal'
-                    });
-                }
-
-                element.selectpicker('refresh');
-                element.selectpicker('render');
             }
 
             function disableFinalNumberElement(element) {

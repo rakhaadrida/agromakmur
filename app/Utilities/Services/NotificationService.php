@@ -30,18 +30,20 @@ class NotificationService
         ];
     }
 
-    public static function markAsReadRequestNotification($id) {
-        $user = User::query()->findOrFail(Auth::id());
+    public static function markAsReadRequestNotification($id, $branchId) {
+        $users = UserService::getSuperAdminUsers($branchId);
 
-        $notificationTypes = NotificationService::getRequestNotificationTypes();
-        $notifications = $user->notifications()
-            ->whereIn('type', $notificationTypes)
-            ->where('data->approval_id', $id)
-            ->whereNull('read_at')
-            ->get();
+        foreach ($users as $user) {
+            $notificationTypes = NotificationService::getRequestNotificationTypes();
+            $notifications = $user->notifications()
+                ->whereIn('type', $notificationTypes)
+                ->where('data->approval_id', $id)
+                ->whereNull('read_at')
+                ->get();
 
-        foreach($notifications as $notification) {
-            $notification->markAsRead();
+            foreach($notifications as $notification) {
+                $notification->markAsRead();
+            }
         }
 
         return true;

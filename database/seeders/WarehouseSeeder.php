@@ -18,10 +18,6 @@ class WarehouseSeeder extends Seeder
                 'name' => 'Rejang Lebong',
                 'address' => 'Jl. Dr. AK. Gani'
             ],
-            [
-                'name' => 'Cadangan',
-                'address' => 'Lubuk Linggau'
-            ],
         ];
 
         foreach ($warehouses as $warehouse) {

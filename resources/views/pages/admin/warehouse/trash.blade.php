@@ -100,7 +100,7 @@
             "autoWidth": false,
             "columnDefs": [
                 {
-                    targets: [4],
+                    targets: [3],
                     orderable: false
                 }
             ],

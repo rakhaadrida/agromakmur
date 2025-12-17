@@ -33,7 +33,7 @@
                         Notifikasi
                     </h6>
                     @forelse($notificationLists as $notification)
-                        <a href="{{ route('approvals.detail', $notification->data['approval_id']) }}" class="dropdown-item d-flex align-items-center">
+                        <a href="@if(isUserAdminOnly()) {{ route('approvals.detail', $notification->data['approval_id']) }} @else {{ route('approvals.show', $notification->data['approval_id']) }} @endif" class="dropdown-item d-flex align-items-center">
                             <div class="mr-3">
                                 <div class="icon-circle bg-primary" style="margin-left: -10px">
                                     <i class="fas fa-file-alt text-white"></i>
@@ -48,7 +48,7 @@
                         <a class="dropdown-item text-center text-dark-600" href="#">Tidak Ada Notifikasi</a>
                     @endforelse
                     @if($notificationLists->count() > 0)
-                        @if(isUserSuperAdmin())
+                        @if(isUserSuperAdmin() || isUserSuperAdminBranch())
                             <a class="dropdown-item text-center small text-dark-600" href="{{ route('approvals.index') }}">Lihat Semua Notifikasi</a>
                         @elseif(isUserAdminOnly())
                             <a class="dropdown-item text-center small text-dark-600" href="{{ route('notifications.index') }}">Lihat Semua Notifikasi</a>

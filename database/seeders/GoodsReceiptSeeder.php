@@ -26,6 +26,7 @@ class GoodsReceiptSeeder extends Seeder
                 'grand_total' => $goodsReceipt['grand_total'],
                 'status' => $goodsReceipt['status'],
                 'user_id' => $goodsReceipt['user_id'],
+                'is_printed' => 1
             ]);
 
             $number = $data->number;

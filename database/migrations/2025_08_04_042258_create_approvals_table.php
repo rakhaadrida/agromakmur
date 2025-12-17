@@ -35,7 +35,7 @@ return new class extends Migration
             $table->double('tax_amount')->default(0);
             $table->double('grand_total')->default(0);
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

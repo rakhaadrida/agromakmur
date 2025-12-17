@@ -70,7 +70,7 @@
                                             </tr>
                                             </thead>
                                             <tbody id="itemNotPrinted">
-                                            @forelse ($planOrders as $key => $planOrder)
+                                            @foreach ($planOrders as $key => $planOrder)
                                                 <tr class="text-dark">
                                                     <td class="align-middle text-center">{{ ++$key }}</td>
                                                     <td class="align-middle">
@@ -78,17 +78,13 @@
                                                             {{ $planOrder->number }}
                                                         </a>
                                                     </td>
-                                                    <td class="align-middle text-center" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
+                                                    <td class="align-middle text-center" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDateIso($planOrder->date, 'DD-MMM-YY')  }}</td>
                                                     <td class="align-middle">{{ $planOrder->branch_name }}</td>
                                                     <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                                                     <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
                                                     <td class="align-middle text-center">{{ $planOrder->user_name }}</td>
                                                 </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="7" class="text-center text-bold text-dark h4 py-2">Tidak Ada Data</td>
-                                                </tr>
-                                            @endforelse
+                                            @endforeach
                                             </tbody>
                                         </table>
                                         <input type="hidden" name="is_printed" id="isPrinted" value="0">
@@ -250,25 +246,36 @@
                             }
 
                             let rowNumber = 1;
-                            let newRow;
+                            let rowsHtml = '';
 
                             $.each(planOrders, function(index, item) {
-                                newRow = planOrderRow(rowNumber, item);
-
-                                table.append(newRow);
+                                rowsHtml += planOrderRow(rowNumber, item);
                                 rowNumber++;
-
-                                if(isPrinted) {
-                                    displayNumberData(startNumberPrinted, index, item)
-                                } else {
-                                    displayNumberData(startNumber, index, item);
-                                }
                             });
 
-                            if(isPrinted) {
+                            table.html(rowsHtml);
+
+                            let optionsHtml = '';
+                            $.each(planOrders, function(index, item) {
+                                optionsHtml += `<option value="${item.id}" data-tokens="${item.number}">${item.number}</option>`;
+                            });
+
+                            if (isPrinted) {
+                                startNumberPrinted.html(optionsHtml);
+                                startNumberPrinted.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumberPrinted.selectpicker('refresh');
                                 startNumberPrinted.attr('required', true);
                                 disableFinalNumberElement($('#finalNumberPrinted'));
                             } else {
+                                startNumber.html(optionsHtml);
+                                startNumber.selectpicker({
+                                    title: 'Pilih Nomor Awal'
+                                });
+
+                                startNumber.selectpicker('refresh');
                                 startNumber.attr('required', true);
                                 disableFinalNumberElement($('#finalNumber'));
                             }
@@ -326,7 +333,7 @@
                 if (format === 'Ymd') {
                     return date.toISOString().split('T')[0].replace(/-/g, '');
                 } else if (format === 'd-M-y') {
-                    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' });
+                    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: '2-digit' });
                 }
 
                 return dateStr;

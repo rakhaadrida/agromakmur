@@ -73,6 +73,14 @@ class WarehouseService
         return true;
     }
 
+    public static function removeBranchWarehouseByWarehouses($warehouses) {
+        foreach($warehouses as $warehouse) {
+            $warehouse->branchWarehouses()->delete();
+        }
+
+        return true;
+    }
+
     public static function restoreBranchWarehouseByWarehouseId($warehouseId) {
         $branchWarehouses = BranchWarehouse::onlyTrashed()
             ->where('is_updated', 0)

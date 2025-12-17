@@ -11,7 +11,7 @@ trait FilterByUserBranch
     protected static function bootFilterByUserBranch(): void
     {
         static::addGlobalScope('user_branch', function (Builder $builder) {
-            $user = User::query()->findOrFail(Auth::id());
+            $user = User::query()->find(Auth::id() ?? 0);
 
             if (!$user) return;
 

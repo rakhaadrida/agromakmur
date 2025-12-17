@@ -73,7 +73,7 @@
                                                         {{ $planOrder->number }}
                                                     </a>
                                                 </td>
-                                                <td class="text-center align-middle" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDate($planOrder->date, 'd-M-y')  }}</td>
+                                                <td class="text-center align-middle" data-sort="{{ formatDate($planOrder->date, 'Ymd') }}">{{ formatDateIso($planOrder->date, 'DD-MMM-YY')  }}</td>
                                                 <td class="align-middle">{{ $planOrder->branch_name }}</td>
                                                 <td class="align-middle">{{ $planOrder->supplier_name }}</td>
                                                 <td class="align-middle text-center" data-sort="{{ $planOrder->planOrderItems->count() }}">{{ formatQuantity($planOrder->planOrderItems->count()) }}</td>
