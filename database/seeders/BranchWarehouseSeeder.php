@@ -15,16 +15,8 @@ class BranchWarehouseSeeder extends Seeder
                 'warehouse_id' => 1,
             ],
             [
-                'branch_id' => 1,
-                'warehouse_id' => 3,
-            ],
-            [
                 'branch_id' => 2,
                 'warehouse_id' => 2,
-            ],
-            [
-                'branch_id' => 2,
-                'warehouse_id' => 3,
             ],
         ];
 
