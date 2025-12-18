@@ -183,7 +183,7 @@
                                                                 <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
                                                             @endforeach
                                                         </select>
-                                                        <input type="text" name="real_quantity[]" id="realQuantity-{{ $key }}">
+                                                        <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}">
                                                     </td>
                                                     <td>
                                                         <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
