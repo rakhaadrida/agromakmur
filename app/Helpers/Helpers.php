@@ -57,6 +57,13 @@ function isUserDetailSuperAdmin($userRole): string
     return $userRole == Constant::USER_ROLE_SUPER_ADMIN;
 }
 
+function getDashboardRoute() : array
+{
+    return [
+        'dashboard-super-admin',
+    ];
+}
+
 function getApprovalRoute() : array
 {
     return [

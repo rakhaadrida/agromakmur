@@ -4,12 +4,14 @@
         <div class="sidebar-brand-text mx-3">{{ env('APP_NAME') }}</div>
     </a>
     <hr class="sidebar-divider my-0">
-    <li class="nav-item sidebar-first-icon {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="#">
-            <i class="fas fa-fw fa-home"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
+    @if(isUserSuperAdmin() || isUserSuperAdminBranch())
+        <li class="nav-item sidebar-first-icon {{ request()->routeIs(getDashboardRoute()) ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('dashboard-super-admin') }}">
+                <i class="fas fa-fw fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+    @endif
 
     @if(isUserSuperAdmin() || isUserSuperAdminBranch())
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getApprovalRoute()) ? 'active' : '' }}">

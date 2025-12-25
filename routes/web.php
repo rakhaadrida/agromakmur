@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'roles'])->group(function() {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::get('change-password', 'UserController@changePassword')->name('change-password');
     Route::post('update-password', 'UserController@updatePassword')->name('update-password');
@@ -36,6 +35,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
     ]], function() {
+        Route::get('dashboard', 'DashboardController@indexSuperAdmin')->name('dashboard-super-admin');
+
         Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
         Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
         Route::get('approval-histories', 'ApprovalController@indexHistory')->name('approvals.index-history');

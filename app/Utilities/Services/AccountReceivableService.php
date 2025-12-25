@@ -114,8 +114,8 @@ class AccountReceivableService
         }
 
         $accountReceivables = $baseQuery
-            ->where('sales_orders.date', '>=',  Carbon::parse($startDate)->startOfDay())
-            ->where('sales_orders.date', '<=',  Carbon::parse($finalDate)->endOfDay())
+            ->where('sales_orders.date', '>=', Carbon::parse($startDate)->startOfDay())
+            ->where('sales_orders.date', '<=', Carbon::parse($finalDate)->endOfDay())
             ->orderBy('customers.name')
             ->get();
 
