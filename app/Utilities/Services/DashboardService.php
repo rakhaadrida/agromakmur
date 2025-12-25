@@ -3,6 +3,8 @@
 namespace App\Utilities\Services;
 
 use App\Models\AccountReceivable;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardService
@@ -40,5 +42,31 @@ class DashboardService
                 'returns.account_receivable_id',
                 'account_receivables.id'
             );
+    }
+
+    public static function getBaseQueryLowStockProduct() {
+        $branchIds = UserService::findBranchIdsByUserId(Auth::id());
+        $warehouseIds = BranchService::findWarehouseIdsByBranchIds($branchIds);
+
+        return Product::query()
+            ->joinSub(
+                DB::table('product_stocks')
+                    ->select(
+                        'product_stocks.product_id',
+                        DB::raw('SUM(product_stocks.stock) AS current_stock')
+                    )
+                    ->when(!isUserSuperAdmin(), function ($q) use ($warehouseIds) {
+                        $q->whereIn('product_stocks.warehouse_id', $warehouseIds);
+                    })
+                    ->whereNull('product_stocks.deleted_at')
+                    ->groupBy('product_stocks.product_id'),
+                'product_stocks',
+                'products.id',
+                'product_stocks.product_id'
+            )
+            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->join('units', 'units.id', '=', 'products.unit_id')
+            ->whereColumn('product_stocks.current_stock', '<=', 'categories.reminder_limit')
+            ->count();
     }
 }

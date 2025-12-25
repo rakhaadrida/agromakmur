@@ -13,6 +13,15 @@
         </li>
     @endif
 
+    @if(isUserAdminOnly())
+        <li class="nav-item sidebar-first-icon {{ request()->routeIs(getDashboardRoute()) ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('dashboard-admin') }}">
+                <i class="fas fa-fw fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+    @endif
+
     @if(isUserSuperAdmin() || isUserSuperAdminBranch())
         <li class="nav-item sidebar-menu-icon {{ request()->routeIs(getApprovalRoute()) ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseApproval" aria-expanded="true" aria-controls="collapseApproval">

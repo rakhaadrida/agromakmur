@@ -60,6 +60,7 @@ function isUserDetailSuperAdmin($userRole): string
 function getDashboardRoute() : array
 {
     return [
+        'dashboard-admin',
         'dashboard-super-admin',
     ];
 }

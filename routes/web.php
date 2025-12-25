@@ -35,7 +35,7 @@ Route::middleware(['auth', 'roles'])->group(function() {
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN,
         \App\Utilities\Constant::USER_ROLE_SUPER_ADMIN_BRANCH,
     ]], function() {
-        Route::get('dashboard', 'DashboardController@indexSuperAdmin')->name('dashboard-super-admin');
+        Route::get('dashboard-super-admin', 'DashboardController@indexSuperAdmin')->name('dashboard-super-admin');
 
         Route::resource('approvals', 'ApprovalController')->except(['create', 'edit']);
         Route::get('approvals-ajax', 'ApprovalController@indexAjax')->name('approvals.index-ajax');
@@ -51,6 +51,8 @@ Route::middleware(['auth', 'roles'])->group(function() {
     Route::group(['roles' => [
         \App\Utilities\Constant::USER_ROLE_ADMIN,
     ]], function() {
+        Route::get('dashboard-admin', 'DashboardController@indexAdmin')->name('dashboard-admin');
+
         Route::resource('notifications', 'NotificationController')->only(['index', 'update']);
         Route::post('notifications-read-all', 'NotificationController@readAll')->name('notifications.read-all');
     });

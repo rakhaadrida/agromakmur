@@ -83,4 +83,65 @@ class DashboardController extends Controller
 
         return view('pages.admin.dashboard.super-admin', $data);
     }
+
+    public function indexAdmin() {
+        $startOfYear = Carbon::now()->startOfYear();
+        $startOfMonth = Carbon::now()->startOfMonth();
+
+        $totalAnnualTransaction = SalesOrder::query()
+            ->where('status', '!=', 'CANCELLED')
+            ->where('date', '>=', $startOfYear)
+            ->count();
+
+        $totalMonthlyTransaction = SalesOrder::query()
+            ->where('status', '!=', 'CANCELLED')
+            ->where('date', '>=', $startOfMonth)
+            ->count();
+
+        $totalUnprintedInvoice = SalesOrder::query()
+            ->where('status', '!=', 'CANCELLED')
+            ->where('is_printed', false)
+            ->count();
+
+        $totalPendingInvoice = SalesOrder::query()
+            ->where('status',  Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->count();
+
+        $totalLowStockProduct = DashboardService::getBaseQueryLowStockProduct();
+
+        $latestTransactions = SalesOrder::query()
+            ->select('sales_orders.id', 'number', 'date', 'customers.name AS customer_name', 'grand_total')
+            ->leftJoin('customers', 'customers.id', 'sales_orders.customer_id')
+            ->latest('sales_orders.created_at')
+            ->limit(6)
+            ->get();
+
+        $transactionPerStatus = SalesOrder::query()
+            ->select(
+                'status',
+                DB::raw('COUNT(id) AS total_transaction')
+            )
+            ->where('date', '>=', $startOfYear)
+            ->groupBy('status')
+            ->orderBy('status')
+            ->pluck('total_transaction', 'status');
+
+
+        $transactionPerStatus = collect(Constant::SALES_ORDER_STATUSES)
+            ->map(fn ($status) => (int) ($transactionPerStatus[$status] ?? 0))
+            ->values();
+
+        $data = [
+            'totalAnnualTransaction' => $totalAnnualTransaction,
+            'totalMonthlyTransaction' => $totalMonthlyTransaction,
+            'totalUnprintedInvoice' => $totalUnprintedInvoice,
+            'totalPendingInvoice' => $totalPendingInvoice,
+            'totalLowStockProduct' => $totalLowStockProduct,
+            'latestTransactions' => $latestTransactions,
+            'transactionPerStatus' => $transactionPerStatus,
+            'transactionStatuses' => Constant::SALES_ORDER_STATUSES
+        ];
+
+        return view('pages.admin.dashboard.admin', $data);
+    }
 }
