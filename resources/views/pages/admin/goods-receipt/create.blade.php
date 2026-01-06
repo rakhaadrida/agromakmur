@@ -572,6 +572,7 @@
                     },
                     dataType: 'json',
                     success: function(data) {
+                        console.log('test');
                         let productName = $(`#productName-${index}`);
                         if(isProductName) {
                             productName = $(`#productId-${index}`);
