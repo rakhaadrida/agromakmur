@@ -6,6 +6,7 @@ use App\Exports\PriceListExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Price;
+use App\Utilities\Constant;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -20,6 +21,13 @@ class PriceListController extends Controller
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
+
+        if(isUserSales()) {
+            $prices = $prices->filter(function($price) {
+                return $price->type != Constant::PRICE_TYPE_GENERAL;
+            });
+        }
+
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
@@ -44,6 +52,12 @@ class PriceListController extends Controller
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
+        if(isUserSales()) {
+            $prices = $prices->filter(function($price) {
+                return $price->type != Constant::PRICE_TYPE_GENERAL;
+            });
+        }
+
         $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         $fileDate = Carbon::now()->format('Y_m_d');
 

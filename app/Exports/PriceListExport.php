@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Price;
 use App\Models\Product;
+use App\Utilities\Constant;
 use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
@@ -27,6 +28,12 @@ class PriceListExport extends DefaultValueBinder implements FromView, ShouldAuto
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
+        if(isUserSales()) {
+            $prices = $prices->filter(function($price) {
+                return $price->type != Constant::PRICE_TYPE_GENERAL;
+            });
+        }
+
         $exportDate = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
@@ -52,7 +59,13 @@ class PriceListExport extends DefaultValueBinder implements FromView, ShouldAuto
         $sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(5);
 
         $products = Product::all();
+
         $prices = Price::all();
+        if(isUserSales()) {
+            $prices = $prices->filter(function($price) {
+                return $price->type != Constant::PRICE_TYPE_GENERAL;
+            });
+        }
 
         $range = 4 + $products->count();
         $rangeStr = strval($range);

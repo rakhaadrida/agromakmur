@@ -155,7 +155,6 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::resource('stock-cards', 'StockCardController')->only(['index']);
             Route::resource('incoming-items', 'IncomingItemController')->only(['index']);
             Route::resource('outgoing-items', 'OutgoingItemController')->only(['index']);
-            Route::resource('price-lists', 'PriceListController')->only(['index']);
             Route::resource('stock-recap', 'StockRecapController')->only(['index']);
             Route::resource('value-recap', 'ValueRecapController')->only(['index']);
             Route::resource('marketing-recap', 'MarketingRecapController')->only(['index']);
@@ -164,11 +163,9 @@ Route::middleware(['auth', 'roles'])->group(function() {
             Route::get('export-stock-cards', 'StockCardController@export')->name('stock-cards.export');
             Route::get('export-incoming-items', 'IncomingItemController@export')->name('incoming-items.export');
             Route::get('export-outgoing-items', 'OutgoingItemController@export')->name('outgoing-items.export');
-            Route::get('export-price-lists', 'PriceListController@export')->name('price-lists.export');
             Route::get('export-stock-recap', 'StockRecapController@export')->name('stock-recap.export');
             Route::get('export-value-recap', 'ValueRecapController@export')->name('value-recap.export');
 
-            Route::get('pdf-price-lists', 'PriceListController@pdf')->name('price-lists.pdf');
             Route::get('pdf-stock-recap', 'StockRecapController@pdf')->name('stock-recap.pdf');
             Route::get('pdf-value-recap', 'ValueRecapController@pdf')->name('value-recap.pdf');
 
@@ -208,6 +205,12 @@ Route::middleware(['auth', 'roles'])->group(function() {
         Route::get('print-sales-orders', 'SalesOrderController@indexPrint')->name('sales-orders.index-print');
         Route::get('export-sales-orders', 'SalesOrderController@export')->name('sales-orders.export');
         Route::get('pdf-sales-orders', 'SalesOrderController@pdf')->name('sales-orders.pdf');
+
+        Route::group(['namespace' => 'Report', 'prefix' => 'report', 'as' => 'report.'], function () {
+            Route::resource('price-lists', 'PriceListController')->only(['index']);
+            Route::get('pdf-price-lists', 'PriceListController@pdf')->name('price-lists.pdf');
+            Route::get('export-price-lists', 'PriceListController@export')->name('price-lists.export');
+        });
     });
 
     Route::group(['roles' => [

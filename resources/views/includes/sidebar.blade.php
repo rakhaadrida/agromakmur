@@ -188,6 +188,15 @@
         </li>
     @endif
 
+    @if(isUserSales())
+        <li class="nav-item sidebar-menu-icon {{ request()->routeIs('report.price-lists.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('report.price-lists.index') }}">
+                <i class="fas fa-fw fa-money-bill"></i>
+                <span>Daftar Harga</span>
+            </a>
+        </li>
+    @endif
+
     <hr class="sidebar-divider">
 
     @if(isUserSuperAdmin() || isUserSuperAdminBranch() || isUserFinance())
