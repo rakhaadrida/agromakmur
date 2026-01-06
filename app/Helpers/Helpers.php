@@ -515,6 +515,11 @@ function getOutstandingAmount($grandTotal, $paymentAmount)
     return $grandTotal - $paymentAmount;
 }
 
+function getColumnIndex($row, $column)
+{
+    return $row * 6 + $column;
+}
+
 function formatDate($date, $format)
 {
     return \Carbon\Carbon::parse($date)->format($format);
