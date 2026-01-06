@@ -1,7 +1,7 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Daftar Harga - {{ $category->name }}</h2>
+            <h2 class="text-bold text-dark">Daftar Harga Produk</h2>
             <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
@@ -11,6 +11,7 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Nama Produk</th>
+                    <th>Kategori</th>
                     @foreach($prices as $price)
                         <td>{{ $price->name }}</td>
                     @endforeach
@@ -22,6 +23,7 @@
                         <td>{{ ++$key }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
+                        <td>{{ $product->category_name }}</td>
                         @foreach($prices as $price)
                             <td>{{ $mapPriceByProduct[$product->id][$price->id] ?? 0 }}</td>
                         @endforeach

@@ -11,7 +11,7 @@
                 color: #858796;
                 text-align: left;
                 background-color: #fff;
-                width: 85%;
+                width: 100%;
                 margin: auto;
             }
 
@@ -135,51 +135,55 @@
             }
 
             .td-receipt-number {
-                width: 80px;
+                width: 70px;
+            }
+
+            .td-category {
+                width: 110px;
             }
 
             .td-price {
-                width: 70px;
+                width: 50px;
             }
         </style>
     </head>
     <body>
-        @foreach($categories as $key => $category)
-            <div class="pdf-section">
-                <div class="header-section text-center">
-                    <h5 class="text-bold text-dark">Daftar Harga {{ $category->name }}</h5>
-                    <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
-                </div>
+        <div class="pdf-section">
+            <div class="header-section text-center">
+                <h5 class="text-bold text-dark">Daftar Harga Produk</h5>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
+            </div>
 
-                <table class="table table-sm table-bordered table-items">
-                    <thead class="text-center text-dark text-bold">
-                        <tr class="th-value-recap">
-                            <th class="align-middle td-number">No</th>
-                            <th class="align-middle td-receipt-number">SKU</th>
-                            <th class="align-middle">Nama Produk</th>
+            <table class="table table-sm table-bordered table-items">
+                <thead class="text-center text-dark text-bold">
+                    <tr class="th-value-recap">
+                        <th class="align-middle td-number">No</th>
+                        <th class="align-middle td-receipt-number">SKU</th>
+                        <th class="align-middle">Nama Produk</th>
+                        <th class="align-middle td-category">Kategori</th>
+                        @foreach($prices as $price)
+                            <td class="align-middle td-price">{{ $price->name }}</td>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($products ?? [] as $index => $product)
+                        <tr class="text-dark text-bold">
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td class="text-center">{{ $product->sku }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td class="text-center">{{ $product->category_name }}</td>
                             @foreach($prices as $price)
-                                <td class="align-middle td-price">{{ $price->name }}</td>
+                                <td class="text-right">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
                             @endforeach
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
-                            <tr class="text-dark text-bold">
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td class="text-center">{{ $product->sku }}</td>
-                                <td>{{ $product->name }}</td>
-                                @foreach($prices as $price)
-                                    <td class="text-right">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
-                                @endforeach
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="{{ $prices->count() + 3 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="{{ $prices->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

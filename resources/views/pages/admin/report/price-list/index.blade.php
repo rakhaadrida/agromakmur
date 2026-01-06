@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @push('addon-style')
-    <link href="{{ url('assets/vendor/datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -34,60 +34,44 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div id="priceListCarousel" class="carousel slide price-list-carousel" data-interval="false" wrap="false">
-                                    <div class="carousel-inner">
-                                        @foreach($categories as $key => $category)
-                                            <div class="carousel-item @if(!$key) active @endif">
-                                                <div class="container" style="margin-bottom: 0">
-                                                    <div class="row justify-content-center">
-                                                        <h4 class="text-bold text-dark">Daftar Harga {{ $category->name }}</h4>
-                                                    </div>
-                                                    <div class="row justify-content-center" style="margin-top: -5px">
-                                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
-                                                    </div>
-                                                </div>
-                                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover">
-                                                    <thead class="text-center text-dark text-bold">
-                                                        <tr>
-                                                            <td class="align-middle th-price-list-number">No</td>
-                                                            <td class="align-middle th-price-list-product-sku">SKU</td>
-                                                            <td class="align-middle">Nama Produk</td>
-                                                            @foreach($prices as $price)
-                                                                <td class="align-middle th-price-list-price">{{ $price->name }}</td>
-                                                            @endforeach
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
-                                                            <tr class="text-dark text-bold">
-                                                                <td class="text-center">{{ $index + 1 }}</td>
-                                                                <td class="text-center">{{ $product->sku }}</td>
-                                                                <td>{{ $product->name }}</td>
-                                                                @foreach($prices as $price)
-                                                                    <td class="text-right">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
-                                                                @endforeach
-                                                            </tr>
-                                                        @empty
-                                                            <tr>
-                                                                <td colspan="{{ $prices->count() + 3 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
-                                                            </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        @endforeach
+                                <div class="container" style="margin-bottom: 0">
+                                    <div class="row justify-content-center">
+                                        <h4 class="text-bold text-dark">Daftar Harga Produk</h4>
                                     </div>
-                                    @if(($categories->count() > 0) && ($categories->count() != 1))
-                                        <a class="carousel-control-prev" href="#priceListCarousel" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next " href="#priceListCarousel" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    @endif
+                                    <div class="row justify-content-center" style="margin-top: -5px">
+                                        <h6 class="text-dark">Tanggal Laporan : {{ $reportDate }}</h6>
+                                    </div>
                                 </div>
+                                <table class="table table-sm table-bordered table-striped table-responsive-sm table-hover" id="dataTable">
+                                    <thead class="text-center text-dark text-bold">
+                                        <tr>
+                                            <td class="align-middle th-price-list-number">No</td>
+                                            <td class="align-middle th-price-list-product-sku">SKU</td>
+                                            <td class="align-middle">Nama Produk</td>
+                                            <td class="align-middle th-price-list-product-category">Kategori</td>
+                                            @foreach($prices as $price)
+                                                <td class="align-middle th-price-list-price">{{ $price->name }}</td>
+                                            @endforeach
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($products ?? [] as $index => $product)
+                                            <tr class="text-dark text-bold">
+                                                <td class="text-center">{{ $index + 1 }}</td>
+                                                <td class="text-center">{{ $product->sku }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td class="text-center">{{ $product->category_name }}</td>
+                                                @foreach($prices as $price)
+                                                    <td class="text-right" data-sort="{{ $mapPriceByProduct[$product->id][$price->id] ?? 0 }}">{{ formatPrice($mapPriceByProduct[$product->id][$price->id] ?? 0) }}</td>
+                                                @endforeach
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="{{ $prices->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </form>
                         </div>
                     </div>
@@ -98,6 +82,13 @@
 @endsection
 
 @push('addon-script')
+    <script src="{{ url('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript">
+        let datatable = $('#dataTable').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            "pageLength": 25,
+        });
     </script>
 @endpush

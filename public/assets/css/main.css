@@ -1489,11 +1489,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .th-price-list-product-sku {
-    width: 110px;
+    width: 120px;
+}
+
+.th-price-list-product-category {
+    width: 140px;
 }
 
 .th-price-list-price {
-    width: 130px;
+    width: 70px;
 }
 
 .th-price-list-total-value {

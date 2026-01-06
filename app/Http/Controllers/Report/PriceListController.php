@@ -6,6 +6,7 @@ use App\Exports\PriceListExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Price;
+use App\Utilities\Services\ProductService;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -15,8 +16,7 @@ class PriceListController extends Controller
 {
     public function index() {
         $categories = Category::all();
-
-        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
+        $products = ProductService::getBaseQueryIndex();
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -24,7 +24,7 @@ class PriceListController extends Controller
 
         $data = [
             'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
+            'products' => $products,
             'mapPriceByProduct' => $mapPriceByProduct,
             'prices' => $prices,
             'reportDate' => $reportDate,
@@ -40,9 +40,7 @@ class PriceListController extends Controller
     }
 
     public function pdf() {
-        $categories = Category::all();
-
-        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
+        $products = ProductService::getBaseQueryIndex();
         $mapPriceByProduct = ReportService::getPriceListMapPrice([]);
 
         $prices = Price::all();
@@ -50,8 +48,7 @@ class PriceListController extends Controller
         $fileDate = Carbon::now()->format('Y_m_d');
 
         $data = [
-            'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
+            'products' => $products,
             'mapPriceByProduct' => $mapPriceByProduct,
             'prices' => $prices,
             'exportDate' => $exportDate,
