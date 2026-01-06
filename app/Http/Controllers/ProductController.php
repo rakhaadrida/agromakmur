@@ -360,12 +360,12 @@ class ProductController extends Controller
             ];
         }
 
-        $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($product->id);
+        /* $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($product->id);
 
         if($latestGoodsReceipt) {
             $latestGoodsReceiptItem = $latestGoodsReceipt->goodsReceiptItems->firstWhere('product_id', $product->id);
             $costPrice = $latestGoodsReceiptItem ? $latestGoodsReceiptItem->cost_price : 0;
-        }
+        } */
 
         $productStocks = $product->productStocks->mapWithKeys(function($stock) {
             $array = [];
