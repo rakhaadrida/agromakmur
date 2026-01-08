@@ -201,6 +201,138 @@
                 }
             });
 
+            table.on('keydown', 'td', function (e) {
+                if ($(this).find('.bootstrap-select.show').length) {
+                    return;
+                }
+
+                const $cell = $(this);
+
+                if ($cell.hasClass('action-delete')) {
+                    if (e.key === 'Enter' || e.key === 'Delete') {
+                        e.preventDefault();
+
+                        const index = $(this).closest('tr').index();
+                        const deleteRow = $('.remove-transaction-table');
+
+                        updateAllRowIndexes(index, deleteRow);
+
+                        return;
+                    }
+                }
+
+                if (e.key === 'Enter' || e.key === 'F2') {
+                    e.preventDefault();
+
+                    const $input = $cell.find('input, textarea, select').first();
+                    if ($input.length) {
+                        $input.focus();
+
+                        if ($input.is('select')) {
+                            $input.selectpicker('toggle');
+                        }
+                    }
+                    return;
+                }
+
+                if (e.target === this && /^[0-9a-zA-Z]$/.test(e.key)) {
+                    const $input = $cell.find('input[type="text"], textarea').first();
+
+                    if ($input.length) {
+                        e.preventDefault();
+                        $input.focus();
+
+                        $input.val(e.key);
+
+                        const el = $input[0];
+                        el.setSelectionRange(el.value.length, el.value.length);
+                    }
+                    return;
+                }
+
+                if (
+                    $(e.target).is('input, textarea, select, button') ||
+                    $(e.target).closest('.bootstrap-select').length ||
+                    $(e.target).is('[contenteditable]')
+                ) {
+                    return;
+                }
+
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                let targetRow = row;
+                let targetCol = col;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                        targetCol++;
+                        break;
+                    case 'ArrowLeft':
+                        targetCol--;
+                        break;
+                    case 'ArrowDown':
+                        targetRow++;
+                        break;
+                    case 'ArrowUp':
+                        targetRow--;
+                        break;
+                    default:
+                        return;
+                }
+
+                const target = $(`#itemTable td[data-row="${targetRow}"][data-col="${targetCol}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.bootstrap-select').length) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+
+                    return;
+                }
+
+                if (e.key !== 'Enter') return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rowCount = $('#itemTable tr').length;
+                const cell = $(this).closest('td');
+
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(col === 7) {
+                    if(row === rowCount - 1) {
+                        col++;
+                    } else {
+                        col = 5;
+                        row++;
+                    }
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
                     const index = $(this).closest('tr').index();
@@ -478,33 +610,33 @@
             function salesOrderItemRowElement(rowId, rowNumber, rowNumbers, item) {
                 return `
                     <tr class="text-bold text-dark" id="${rowId}">
-                        <td class="align-middle text-center">${rowNumber}</td>
-                        <td>
+                        <td class="align-middle text-center" tabindex="0" data-row="${rowId}" data-col="0">${rowNumber}</td>
+                        <td tabindex="0" data-row="${rowId}" data-col="1">
                             <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_sku[]" id="productSku-${rowId}" value="${item.product_sku}" title="" readonly>
                             <input type="hidden" name="product_id[]" id="productId-${rowId}" value="${item.product_id}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="2">
                             <input type="text" class="form-control form-control-sm text-bold text-dark readonly-input" name="product_name[]" id="productName-${rowId}" value="${item.product_name}" title="" readonly>
                             <input type="hidden" name="item_id[]" id="itemId-${rowId}" value="${item.id}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="3">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="order_quantity[]" id="orderQuantity-${rowId}" value="${thousandSeparator(item.quantity)}" title="" readonly>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="4">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-center readonly-input" name="unit[]" id="unit-${rowId}" value="${item.unit_name}" title="" readonly>
                             <input type="hidden" name="unit_id[]" id="unitId-${rowId}" value="${item.unit_id}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="5">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="quantity[]" id="quantity-${rowId}" value="" tabindex="${rowNumbers + 1}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}" value="${item.actual_quantity / item.quantity}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="6">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="delivered_quantity[]" id="deliveredQuantity-${rowId}" tabindex="${rowNumbers + 2}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="7">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="cut_bill_quantity[]" id="cutBillQuantity-${rowId}" tabindex="${rowNumbers + 3}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="8">
                             <input type="text" class="form-control form-control-sm text-bold text-dark text-right readonly-input" name="remaining_quantity[]" id="remainingQuantity-${rowId}" title="" readonly>
                         </td>
                     </tr>
