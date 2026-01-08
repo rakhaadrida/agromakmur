@@ -228,8 +228,6 @@
             let number = $('#number');
             let branch = $('#branch');
 
-            let bsSelectNavigated = false;
-
             note.summernote({
                 height: 60,
                 toolbar: [
@@ -401,14 +399,17 @@
             });
 
             table.on('hidden.bs.select', '.selectpicker', function () {
+                const rowCount = $('#itemTable tr').length;
                 const $cell = $(this).closest('td');
 
                 let row = parseInt($cell.data('row'));
                 let col = parseInt($cell.data('col'));
 
                 if (col === 4) {
-                    col = 1;
-                    row++;
+                    if(row !== rowCount - 1) {
+                        col = 1;
+                        row++;
+                    }
                 } else if (col === 1 || col === 2) {
                     col = 3;
                 } else {
