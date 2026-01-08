@@ -103,18 +103,18 @@
                                     <tbody class="table-ar" id="itemTable" >
                                         @foreach($accountReceivablePayments as $index => $accountReceivablePayment)
                                             <tr class="table-modal-first-row text-dark" id="{{ $index }}" style="font-size: 16px !important">
-                                                <td class="text-center align-middle">{{ $index + 1 }}</td>
-                                                <td class="text-center">
+                                                <td class="text-center align-middle" tabindex="0" data-row="{{ $index }}" data-col="0">{{ $index + 1 }}</td>
+                                                <td class="text-center" tabindex="0" data-row="{{ $index }}" data-col="1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold text-dark text-center" name="payment_date[]" id="paymentDate-{{ $index }}" value="{{ formatDate($accountReceivablePayment->date, 'd-m-Y') }}" title="" style="font-size: 16px">
                                                 </td>
-                                                <td class="text-right">
+                                                <td class="text-right" tabindex="0" data-row="{{ $index }}" data-col="2">
                                                     <input type="text" class="form-control form-control-sm text-bold text-dark text-right" name="payment_amount[]" id="paymentAmount-{{ $index }}" value="{{ formatPrice($accountReceivablePayment->amount) }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" style="font-size: 16px">
                                                     <input type="hidden" name="base_payment_amount[]" id="basePaymentAmount-{{ $index }}" value="{{ $accountReceivablePayment->amount }}">
                                                 </td>
-                                                <td class="text-right align-middle text-bold">
+                                                <td class="text-right align-middle text-bold" tabindex="0" data-row="{{ $index }}" data-col="3">
                                                     <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="outstanding_payment[]" id="outstandingPayment-{{ $index }}" value="{{ formatPrice($accountReceivablePayment->outstanding_amount) }}" title="" style="font-size: 16px" readonly>
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center action-delete" tabindex="0" data-row="{{ $index }}" data-col="4">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                                         <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                                                     </button>
@@ -123,18 +123,18 @@
                                         @endforeach
                                         @if(!isAccountReceivablePaid($accountReceivable->status))
                                             <tr class="text-dark" id="{{ $rowNumbers }}">
-                                                <td class="text-center align-middle">{{ $rowNumbers + 1 }}</td>
-                                                <td class="text-center align-middle">
+                                                <td class="text-center align-middle" tabindex="0" data-row="{{ $rowNumbers }}" data-col="0">{{ $rowNumbers + 1 }}</td>
+                                                <td class="text-center align-middle" tabindex="0" data-row="{{ $rowNumbers }}" data-col="1">
                                                     <input type="text" class="form-control datepicker form-control-sm text-bold text-dark text-center" name="payment_date[]" id="paymentDate-{{ $rowNumbers }}" title="" placeholder="DD-MM-YYYY" style="font-size: 16px" @if(!$rowNumbers) required @endif>
                                                </td>
-                                                <td class="text-right align-middle">
+                                                <td class="text-right align-middle" tabindex="0" data-row="{{ $rowNumbers }}" data-col="2">
                                                     <input type="text" class="form-control form-control-sm text-bold text-dark text-right" name="payment_amount[]" id="paymentAmount-{{ $rowNumbers }}" title="" style="font-size: 16px" @if(!$rowNumbers) required @endif>
                                                     <input type="hidden" name="base_payment_amount[]" id="basePaymentAmount-{{ $rowNumbers }}" value="0">
                                                 </td>
-                                                <td class="text-right align-middle">
+                                                <td class="text-right align-middle" tabindex="0" data-row="{{ $rowNumbers }}" data-col="3">
                                                     <input type="text" class="form-control-plaintext form-control-sm text-bold text-dark text-right" name="outstanding_payment[]" id="outstandingPayment-{{ $rowNumbers }}" title="" style="font-size: 16px" readonly>
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center action-delete" tabindex="0" data-row="{{ $rowNumbers }}" data-col="4">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                                         <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                                                     </button>
@@ -215,6 +215,164 @@
         $(document).ready(function() {
             const table = $('#itemTable');
             let totalOutstanding = document.getElementById(`outstandingAmount`);
+
+            table.on('keydown', 'td', function (e) {
+                if ($(this).find('.bootstrap-select.show').length) {
+                    return;
+                }
+
+                const $cell = $(this);
+
+                if ($cell.hasClass('action-delete')) {
+                    if (e.key === 'Enter' || e.key === 'Delete') {
+                        e.preventDefault();
+
+                        const index = $(this).closest('tr').index();
+                        const deleteRow = $('.remove-transaction-table');
+
+                        updateAllRowIndexes(index, deleteRow);
+
+                        return;
+                    }
+                }
+
+                if (e.key === 'Enter' || e.key === 'F2') {
+                    e.preventDefault();
+
+                    const $input = $cell.find('input, textarea, select').first();
+                    if ($input.length) {
+                        $input.focus();
+
+                        if ($input.is('select')) {
+                            $input.selectpicker('toggle');
+                        }
+                    }
+                    return;
+                }
+
+                if (e.target === this && /^[0-9a-zA-Z]$/.test(e.key)) {
+                    const $input = $cell.find('input[type="text"], textarea').first();
+
+                    if ($input.length) {
+                        e.preventDefault();
+                        $input.focus();
+
+                        $input.val(e.key);
+
+                        const el = $input[0];
+                        el.setSelectionRange(el.value.length, el.value.length);
+                    }
+                    return;
+                }
+
+                if (
+                    $(e.target).is('input, textarea, select, button') ||
+                    $(e.target).closest('.bootstrap-select').length ||
+                    $(e.target).is('[contenteditable]')
+                ) {
+                    return;
+                }
+
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                let targetRow = row;
+                let targetCol = col;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                        targetCol++;
+                        break;
+                    case 'ArrowLeft':
+                        targetCol--;
+                        break;
+                    case 'ArrowDown':
+                        targetRow++;
+                        break;
+                    case 'ArrowUp':
+                        targetRow--;
+                        break;
+                    default:
+                        return;
+                }
+
+                const target = $(`#itemTable td[data-row="${targetRow}"][data-col="${targetCol}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.datepicker, .datepicker-dropdown').length ||
+                    $(e.target).hasClass('datepicker') ||
+                    $(e.target).data('datepicker')) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+
+                    return;
+                }
+
+                if (e.key !== 'Enter') return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rowCount = $('#itemTable tr').length;
+                const cell = $(this).closest('td');
+
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(col === 2) {
+                    if(row === rowCount - 2) {
+                        col++;
+                    } else {
+                        col = 1;
+                        row++;
+                    }
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('changeDate', '.datepicker', function () {
+                const rowCount = $('#itemTable tr').length;
+                const $cell = $(this).closest('td');
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                if(col === 2) {
+                    if(row === rowCount - 2) {
+                        col++;
+                    } else {
+                        col = 1;
+                        row++;
+                    }
+                } else {
+                    col++;
+                }
+
+                const $target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+                if ($target.length) {
+                    $target.focus();
+                }
+            });
 
             table.on('change', 'input[name="payment_date[]"]', function () {
                 const index = $(this).closest('tr').index();
