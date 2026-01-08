@@ -109,7 +109,7 @@ class SalesOrderService
                     'price_id' => $items->first()->price_id,
                     'price' => $items->first()->price,
                     'actual_price' => $actualPrice,
-                    'cost_price' => $costPrice,
+                    'cost_price' => $costPrice ?? 0,
                     'total' => $items->sum('total'),
                 ];
             })
