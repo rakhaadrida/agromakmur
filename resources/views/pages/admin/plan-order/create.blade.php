@@ -228,6 +228,8 @@
             let number = $('#number');
             let branch = $('#branch');
 
+            let bsSelectNavigated = false;
+
             note.summernote({
                 height: 60,
                 toolbar: [
@@ -356,6 +358,10 @@
             });
 
             table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.bootstrap-select').length) {
+                    return;
+                }
+
                 if (e.key === 'Escape') {
                     e.preventDefault();
                     $(this).closest('td').focus();
@@ -366,12 +372,21 @@
                 if (e.key !== 'Enter') return;
 
                 e.preventDefault();
+                e.stopPropagation();
 
                 const cell = $(this).closest('td');
-                const row  = cell.closest('tr');
-                const colIndex = cell.index();
 
-                const target = row.next('tr').find('td').eq(colIndex);
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(col === 4) {
+                    col = 1;
+                    row++;
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
 
                 if (target.length) {
                     target.focus();
@@ -383,18 +398,26 @@
                     e.preventDefault();
                     $(this).closest('td').focus();
                 }
+            });
 
-                if (e.key === 'Enter') {
-                    e.preventDefault();
+            table.on('hidden.bs.select', '.selectpicker', function () {
+                const $cell = $(this).closest('td');
 
-                    const $cell = $(this).closest('td');
-                    const $row = $cell.closest('tr');
-                    const colIndex = $cell.index();
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
 
-                    const $target = $row.next('tr').find('td').eq(colIndex);
-                    if ($target.length) {
-                        $target.focus();
-                    }
+                if (col === 4) {
+                    col = 1;
+                    row++;
+                } else if (col === 1 || col === 2) {
+                    col = 3;
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+                if (target.length) {
+                    target.focus();
                 }
             });
 
