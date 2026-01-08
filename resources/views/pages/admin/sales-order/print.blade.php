@@ -469,8 +469,7 @@
 
             @media print {
                 @page {
-                    width: 24.13cm;
-                    height: 27.94cm;
+                    size: 24.13cm 27.94cm;
                     margin: 1cm;
                 }
 

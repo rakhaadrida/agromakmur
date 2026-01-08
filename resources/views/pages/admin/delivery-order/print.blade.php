@@ -427,14 +427,15 @@
 
             @media print {
                 @page {
-                    width: 21.8cm;
-                    height: 13.9cm;
-                    margin: 0.4002cm 1.27cm 0.144cm 0.281cm;
+                    size: 24.13cm 27.94cm;
+                    margin: 1cm;
                 }
 
                 body {
                     margin: 0;
-                    zoom: 1.37;
+                    padding: 0;
+                    font-size: 10pt;
+                    line-height: 1.2;
                 }
 
                 .page-break {
