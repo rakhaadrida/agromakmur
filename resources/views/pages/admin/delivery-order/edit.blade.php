@@ -112,28 +112,28 @@
                                     <tbody id="itemTable">
                                         @foreach($deliveryOrderItems as $key => $deliveryOrderItem)
                                             <tr class="text-bold text-dark" id="{{ $key }}">
-                                                <td class="align-middle text-center">{{ $key + 1 }}</td>
-                                                <td class="align-middle">
+                                                <td class="align-middle text-center" tabindex="0" data-row="{{ $key }}" data-col="0">{{ $key + 1 }}</td>
+                                                <td class="align-middle" tabindex="0" data-row="{{ $key }}" data-col="1">
                                                     <input type="text" name="product_sku[]" id="productSku-{{ $key }}" class="form-control form-control-sm text-bold text-dark readonly-input" title="" value="{{ $deliveryOrderItem->product->sku }}" readonly>
                                                     <input type="hidden" name="product_id[]" id="productId-{{ $key }}" value="{{ $deliveryOrderItem->product_id }}">
                                                 </td>
-                                                <td class="align-middle">
+                                                <td class="align-middle" tabindex="0" data-row="{{ $key }}" data-col="2">
                                                     <input type="text" name="product_name[]" id="productName-{{ $key }}" class="form-control form-control-sm text-bold text-dark readonly-input" title="" value="{{ $deliveryOrderItem->product->name }}" readonly>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="3">
                                                     <input type="text" name="order_quantity[]" id="orderQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->order_quantity) }}" title="" readonly>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="4">
                                                     <input type="text" name="delivered_quantity[]" id="deliveredQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->delivered_quantity) }}" title="" readonly>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="5">
                                                     <input type="text" name="remaining_quantity[]" id="remainingQuantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->remaining_quantity) }}" title="" readonly>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="6">
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($deliveryOrderItem->quantity) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" required>
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ $deliveryOrderItem->actual_quantity / $deliveryOrderItem->quantity }}">
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center" tabindex="0" data-row="{{ $key }}" data-col="7">
                                                     <input type="text" name="unit[]" id="unit-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-center readonly-input" title="" value="{{ $deliveryOrderItem->unit->name }}" readonly>
                                                     <input type="hidden" name="unit_id[]" id="unitId-{{ $key }}" value="{{ $deliveryOrderItem->unit_id }}">
                                                 </td>
@@ -182,6 +182,118 @@
 
         $(document).ready(function() {
             const table = $('#itemTable');
+
+            table.on('keydown', 'td', function (e) {
+                if ($(this).find('.bootstrap-select.show').length) {
+                    return;
+                }
+
+                const $cell = $(this);
+
+                if (e.key === 'Enter' || e.key === 'F2') {
+                    e.preventDefault();
+
+                    const $input = $cell.find('input, textarea, select').first();
+                    if ($input.length) {
+                        $input.focus();
+
+                        if ($input.is('select')) {
+                            $input.selectpicker('toggle');
+                        }
+                    }
+                    return;
+                }
+
+                if (e.target === this && /^[0-9a-zA-Z]$/.test(e.key)) {
+                    const $input = $cell.find('input[type="text"], textarea').first();
+
+                    if ($input.length) {
+                        e.preventDefault();
+                        $input.focus();
+
+                        $input.val(e.key);
+
+                        const el = $input[0];
+                        el.setSelectionRange(el.value.length, el.value.length);
+                    }
+                    return;
+                }
+
+                if (
+                    $(e.target).is('input, textarea, select, button') ||
+                    $(e.target).closest('.bootstrap-select').length ||
+                    $(e.target).is('[contenteditable]')
+                ) {
+                    return;
+                }
+
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                let targetRow = row;
+                let targetCol = col;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                        targetCol++;
+                        break;
+                    case 'ArrowLeft':
+                        targetCol--;
+                        break;
+                    case 'ArrowDown':
+                        targetRow++;
+                        break;
+                    case 'ArrowUp':
+                        targetRow--;
+                        break;
+                    default:
+                        return;
+                }
+
+                const target = $(`#itemTable td[data-row="${targetRow}"][data-col="${targetCol}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.bootstrap-select').length) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+
+                    return;
+                }
+
+                if (e.key !== 'Enter') return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rowCount = $('#itemTable tr').length;
+                const cell = $(this).closest('td');
+
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(row !== rowCount - 1) {
+                    row++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
 
             table.on('keypress', 'input[name="quantity[]"]', function (event) {
                 if (!this.readOnly && event.which > 31 && (event.which < 48 || event.which > 57)) {
