@@ -138,8 +138,8 @@
                                     <tbody id="itemTable">
                                         @foreach($salesOrderItems as $key => $salesOrderItem)
                                             <tr class="text-bold text-dark" id="{{ $key }}">
-                                                <td class="align-middle text-center">{{ $key + 1 }}</td>
-                                                <td>
+                                                <td class="align-middle text-center" tabindex="0" data-row="{{ $key }}" data-col="0">{{ $key + 1 }}</td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="1">
                                                     <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 5 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
@@ -147,7 +147,7 @@
                                                     </select>
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($salesOrderItem->quantity, $salesOrderItem->actual_quantity) }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="2">
                                                     <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 6 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($salesOrderItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
@@ -158,10 +158,10 @@
                                                     <input type="hidden" name="warehouse_ids[]" id="warehouseIds-{{ $key }}" value="{{ $salesOrderItem->warehouse_ids }}">
                                                     <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-{{ $key }}" value="{{ $salesOrderItem->warehouse_stocks }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="3">
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($salesOrderItem->quantity) }}" data-foo="{{ $salesOrderItem->quantity }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="4">
                                                     <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 7 }}" @if($key == 0) required @endif>
                                                         @foreach($units[$salesOrderItem->product_id] as $unit)
                                                             <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" data-foo="{{ $unit['quantity'] }}" @if($salesOrderItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
@@ -169,7 +169,7 @@
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}" value="{{ $salesOrderItem->unit_id }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="5">
                                                     <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 6 }}" @if($key == 0) required @endif>
                                                         @foreach($prices[$salesOrderItem->product_id] as $price)
                                                             <option value="{{ $price['id'] }}" data-tokens="{{ $price['code'] }}" data-foo="{{ $price['price'] }}" @if($salesOrderItem->price_id == $price['id']) selected @endif>{{ $price['code'] }}</option>
@@ -177,15 +177,15 @@
                                                     </select>
                                                     <input type="hidden" name="price_id[]" id="priceId-{{ $key }}" value="{{ $salesOrderItem->price_id }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="6">
                                                     <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($salesOrderItem->price) }}" tabindex="{{ $rowNumbers += 8 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                     <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}" value="{{ $salesOrderItem->actual_price }}">
                                                     <input type="hidden" name="cost_price[]" id="costPrice-{{ $key }}" value="{{ $salesOrderItem->cost_price }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="7">
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($salesOrderItem->total) }}" title="" readonly>
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center action-delete" tabindex="0" data-row="{{ $key }}" data-col="8">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                                         <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                                                     </button>
@@ -339,6 +339,163 @@
 
                 $('#taxNumber').val(selected.data('tax'));
                 $('#tempo').val(selected.data('tempo'));
+            });
+
+            table.on('keydown', 'td', function (e) {
+                if ($(this).find('.bootstrap-select.show').length) {
+                    return;
+                }
+
+                const $cell = $(this);
+
+                if ($cell.hasClass('action-delete')) {
+                    if (e.key === 'Enter' || e.key === 'Delete') {
+                        e.preventDefault();
+
+                        const index = $(this).closest('tr').index();
+                        const deleteRow = $('.remove-transaction-table');
+
+                        updateAllRowIndexes(index, deleteRow);
+
+                        return;
+                    }
+                }
+
+                if (e.key === 'Enter' || e.key === 'F2') {
+                    e.preventDefault();
+
+                    const $input = $cell.find('input, textarea, select').first();
+                    if ($input.length) {
+                        $input.focus();
+
+                        if ($input.is('select')) {
+                            $input.selectpicker('toggle');
+                        }
+                    }
+                    return;
+                }
+
+                if (e.target === this && /^[0-9a-zA-Z]$/.test(e.key)) {
+                    const $input = $cell.find('input[type="text"], textarea').first();
+
+                    if ($input.length) {
+                        e.preventDefault();
+                        $input.focus();
+
+                        $input.val(e.key);
+
+                        const el = $input[0];
+                        el.setSelectionRange(el.value.length, el.value.length);
+                    }
+                    return;
+                }
+
+                if (
+                    $(e.target).is('input, textarea, select, button') ||
+                    $(e.target).closest('.bootstrap-select').length ||
+                    $(e.target).is('[contenteditable]')
+                ) {
+                    return;
+                }
+
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                let targetRow = row;
+                let targetCol = col;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                        targetCol++;
+                        break;
+                    case 'ArrowLeft':
+                        targetCol--;
+                        break;
+                    case 'ArrowDown':
+                        targetRow++;
+                        break;
+                    case 'ArrowUp':
+                        targetRow--;
+                        break;
+                    default:
+                        return;
+                }
+
+                const target = $(`#itemTable td[data-row="${targetRow}"][data-col="${targetCol}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.bootstrap-select').length) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+
+                    return;
+                }
+
+                if (e.key !== 'Enter') return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rowCount = $('#itemTable tr').length;
+                const cell = $(this).closest('td');
+
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(col === 6) {
+                    if(row === rowCount - 1) {
+                        col++;
+                    } else {
+                        col = 1;
+                        row++;
+                    }
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', '.bootstrap-select button', function (e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+                }
+            });
+
+            table.on('hidden.bs.select', '.selectpicker', function () {
+                const $cell = $(this).closest('td');
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                if (col === 1 || col === 2) {
+                    col = 3;
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+                if (target.length) {
+                    target.focus();
+                }
             });
 
             table.on('change', 'select[name="product_id[]"]', function () {
@@ -899,8 +1056,8 @@
             function newRowElement(rowId, rowNumber, rowNumbers) {
                 return `
                     <tr class="text-bold text-dark" id="${rowId}">
-                        <td class="align-middle text-center">${rowNumber}</td>
-                        <td>
+                        <td class="align-middle text-center" tabindex="0" data-row="${rowId}" data-col="0">${rowNumber}</td>
+                        <td tabindex="0" data-row="${rowId}" data-col="1">
                             <select class="selectpicker sales-order-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
@@ -908,7 +1065,7 @@
                             </select>
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="2">
                             <select class="selectpicker sales-order-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
@@ -917,28 +1074,28 @@
                             <input type="hidden" name="warehouse_ids[]" id="warehouseIds-${rowId}">
                             <input type="hidden" name="warehouse_stocks[]" id="warehouseStocks-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="3">
                             <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="4">
                             <select class="selectpicker sales-order-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="5">
                             <select class="selectpicker sales-order-price-type-select-picker" name="price_type[]" id="priceType-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 5}" disabled>
                             </select>
                             <input type="hidden" name="price_id[]" id="priceId-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="6">
                             <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
                             <input type="hidden" name="cost_price[]" id="costPrice-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="7">
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                         </td>
-                        <td class="align-middle text-center">
+                        <td class="align-middle text-center action-delete" tabindex="0" data-row="${rowId}" data-col="8">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                 <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                             </button>
