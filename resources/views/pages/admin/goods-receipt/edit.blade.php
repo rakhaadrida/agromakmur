@@ -117,8 +117,8 @@
                                     <tbody id="itemTable">
                                         @foreach($goodsReceiptItems as $key => $goodsReceiptItem)
                                             <tr class="text-bold text-dark" id="{{ $key }}">
-                                                <td class="align-middle text-center">{{ $key + 1 }}</td>
-                                                <td>
+                                                <td class="align-middle text-center" tabindex="0" data-row="{{ $key }}" data-col="0">{{ $key + 1 }}</td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="1">
                                                     <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-{{ $key }}" data-live-search="true" data-size="6" title="Input SKU" tabindex="{{ $rowNumbers += 1 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->sku }}</option>
@@ -126,17 +126,17 @@
                                                     </select>
                                                     <input type="hidden" name="real_quantity[]" id="realQuantity-{{ $key }}" value="{{ getRealQuantity($goodsReceiptItem->quantity, $goodsReceiptItem->actual_quantity) }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="2">
                                                     <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-{{ $key }}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="{{ $rowNumbers += 2 }}" @if($key == 0) required @endif>
                                                         @foreach($products as $product)
                                                             <option value="{{ $product->id }}" data-tokens="{{ $product->name }}" @if($goodsReceiptItem->product_id == $product->id) selected @endif>{{ $product->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="3">
                                                     <input type="text" name="quantity[]" id="quantity-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatQuantity($goodsReceiptItem->quantity) }}" tabindex="{{ $rowNumbers += 3 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="4">
                                                     <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-{{ $key }}" data-live-search="true" data-size="6" title="" tabindex="{{ $rowNumbers += 4 }}" @if($key == 0) required @endif>
                                                         @foreach($units[$goodsReceiptItem->product_id] as $unit)
                                                             <option value="{{ $unit['id'] }}" data-tokens="{{ $unit['name'] }}" data-foo="{{ $unit['quantity'] }}" @if($goodsReceiptItem->unit_id == $unit['id']) selected @endif>{{ $unit['name'] }}</option>
@@ -144,24 +144,24 @@
                                                     </select>
                                                     <input type="hidden" name="unit_id[]" id="unitValue-{{ $key }}" value="{{ $goodsReceiptItem->unit_id }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="5">
                                                     <input type="text" name="price[]" id="price-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->price) }}" tabindex="{{ $rowNumbers += 5 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" @if($key == 0) required @endif>
                                                     <input type="hidden" name="actual_price[]" id="actualPrice-{{ $key }}" value="{{ getActualPrice($goodsReceiptItem->quantity, $goodsReceiptItem->actual_quantity, $goodsReceiptItem->price) }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="6">
                                                     <input type="text" name="wages[]" id="wages-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->wages) }}" tabindex="{{ $rowNumbers += 6 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="7">
                                                     <input type="text" name="shipping_cost[]" id="shippingCost-{{ $key }}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ formatPrice($goodsReceiptItem->shipping_cost) }}" tabindex="{{ $rowNumbers += 7 }}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="8">
                                                     <input type="text" name="cost_price[]" id="costPrice-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($goodsReceiptItem->cost_price) }}" title="" readonly>
                                                     <input type="hidden" name="base_total[]" id="baseTotal-{{ $key }}" value="{{ getBaseTotal($goodsReceiptItem->price, $goodsReceiptItem->quantity) }}">
                                                 </td>
-                                                <td>
+                                                <td tabindex="0" data-row="{{ $key }}" data-col="9">
                                                     <input type="text" name="total[]" id="total-{{ $key }}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ formatPrice($goodsReceiptItem->total) }}" title="" readonly >
                                                 </td>
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-center action-delete" tabindex="0" data-row="{{ $key }}" data-col="10">
                                                     <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                                         <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                                                     </button>
@@ -246,6 +246,163 @@
             const table = $('#itemTable');
             let subtotal = document.getElementById('subtotal');
             let outstandingAmount = document.getElementById('outstandingAmount');
+
+            table.on('keydown', 'td', function (e) {
+                if ($(this).find('.bootstrap-select.show').length) {
+                    return;
+                }
+
+                const $cell = $(this);
+
+                if ($cell.hasClass('action-delete')) {
+                    if (e.key === 'Enter' || e.key === 'Delete') {
+                        e.preventDefault();
+
+                        const index = $(this).closest('tr').index();
+                        const deleteRow = $('.remove-transaction-table');
+
+                        updateAllRowIndexes(index, deleteRow);
+
+                        return;
+                    }
+                }
+
+                if (e.key === 'Enter' || e.key === 'F2') {
+                    e.preventDefault();
+
+                    const $input = $cell.find('input, textarea, select').first();
+                    if ($input.length) {
+                        $input.focus();
+
+                        if ($input.is('select')) {
+                            $input.selectpicker('toggle');
+                        }
+                    }
+                    return;
+                }
+
+                if (e.target === this && /^[0-9a-zA-Z]$/.test(e.key)) {
+                    const $input = $cell.find('input[type="text"], textarea').first();
+
+                    if ($input.length) {
+                        e.preventDefault();
+                        $input.focus();
+
+                        $input.val(e.key);
+
+                        const el = $input[0];
+                        el.setSelectionRange(el.value.length, el.value.length);
+                    }
+                    return;
+                }
+
+                if (
+                    $(e.target).is('input, textarea, select, button') ||
+                    $(e.target).closest('.bootstrap-select').length ||
+                    $(e.target).is('[contenteditable]')
+                ) {
+                    return;
+                }
+
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                    e.preventDefault();
+                }
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                let targetRow = row;
+                let targetCol = col;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                        targetCol++;
+                        break;
+                    case 'ArrowLeft':
+                        targetCol--;
+                        break;
+                    case 'ArrowDown':
+                        targetRow++;
+                        break;
+                    case 'ArrowUp':
+                        targetRow--;
+                        break;
+                    default:
+                        return;
+                }
+
+                const target = $(`#itemTable td[data-row="${targetRow}"][data-col="${targetCol}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', 'input, select, textarea', function (e) {
+                if ($(e.target).closest('.bootstrap-select').length) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+
+                    return;
+                }
+
+                if (e.key !== 'Enter') return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const rowCount = $('#itemTable tr').length;
+                const cell = $(this).closest('td');
+
+                let row = parseInt(cell.data('row'));
+                let col = parseInt(cell.data('col'));
+
+                if(col === 7) {
+                    if(row === rowCount - 1) {
+                        col++;
+                    } else {
+                        col = 1;
+                        row++;
+                    }
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+
+                if (target.length) {
+                    target.focus();
+                }
+            });
+
+            table.on('keydown', '.bootstrap-select button', function (e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    $(this).closest('td').focus();
+                }
+            });
+
+            table.on('hidden.bs.select', '.selectpicker', function () {
+                const $cell = $(this).closest('td');
+
+                let row = parseInt($cell.data('row'));
+                let col = parseInt($cell.data('col'));
+
+                if (col === 1 || col === 2) {
+                    col = 3;
+                } else {
+                    col++;
+                }
+
+                const target = $(`#itemTable td[data-row="${row}"][data-col="${col}"]`);
+                if (target.length) {
+                    target.focus();
+                }
+            });
 
             table.on('change', 'select[name="product_id[]"]', function () {
                 const index = $(this).closest('tr').index();
@@ -704,8 +861,8 @@
             function newRowElement(rowId, rowNumber, rowNumbers) {
                 return `
                     <tr class="text-bold text-dark" id="${rowId}">
-                        <td class="align-middle text-center">${rowNumber}</td>
-                        <td>
+                        <td class="align-middle text-center" tabindex="0" data-row="${rowId}" data-col="0">${rowNumber}</td>
+                        <td tabindex="0" data-row="${rowId}" data-col="1">
                             <select class="selectpicker product-sku-select-picker" name="product_id[]" id="productId-${rowId}" data-live-search="true" data-size="6" title="Input SKU" tabindex="${rowNumbers += 1}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->sku }}">{{ $product->sku }}</option>
@@ -713,39 +870,39 @@
                             </select>
                             <input type="hidden" name="real_quantity[]" id="realQuantity-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="2">
                             <select class="selectpicker product-name-select-picker" name="product_name[]" id="productName-${rowId}" data-live-search="true" data-size="6" title="Atau Nama Produk..." tabindex="${rowNumbers += 2}">
                                 @foreach($products as $product)
                                     <option value="{{ $product->id }}" data-tokens="{{ $product->name }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="3">
                             <input type="text" name="quantity[]" id="quantity-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('quantity[]') }}" tabindex="${rowNumbers += 3}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="4">
                             <select class="selectpicker product-unit-select-picker" name="unit[]" id="unit-${rowId}" data-live-search="true" data-size="6" title="" tabindex="${rowNumbers += 4}" disabled>
                             </select>
                             <input type="hidden" name="unit_id[]" id="unitValue-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="5">
                             <input type="text" name="price[]" id="price-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('price[]') }}" tabindex="${rowNumbers += 5}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                             <input type="hidden" name="actual_price[]" id="actualPrice-${rowId}">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="6">
                             <input type="text" name="wages[]" id="wages-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('wages[]') }}" tabindex="${rowNumbers += 6}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="7">
                             <input type="text" name="shipping_cost[]" id="shippingCost-${rowId}" class="form-control form-control-sm text-bold text-dark text-right readonly-input" value="{{ old('shipping_cost[]') }}" tabindex="${rowNumbers += 7}" data-toogle="tooltip" data-placement="bottom" title="Hanya masukkan angka saja" readonly>
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="8">
                             <input type="text" name="cost_price[]" id="costPrice-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('cost_price[]') }}" title="" readonly >
                             <input type="hidden" name="base_total[]" id="baseTotal-${rowId}" value="">
                         </td>
-                        <td>
+                        <td tabindex="0" data-row="${rowId}" data-col="9">
                             <input type="text" name="total[]" id="total-${rowId}" class="form-control-plaintext form-control-sm text-bold text-dark text-right" value="{{ old('total[]') }}" title="" readonly >
                         </td>
-                        <td class="align-middle text-center">
+                        <td class="align-middle text-center action-delete" tabindex="0" data-row="${rowId}" data-col="10">
                             <button type="button" class="remove-transaction-table" id="deleteRow[]">
                                 <i class="fas fa-fw fa-times fa-lg ic-remove mt-1"></i>
                             </button>
