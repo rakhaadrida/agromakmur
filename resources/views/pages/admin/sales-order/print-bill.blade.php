@@ -61,85 +61,97 @@
             .grand-total {
                 font-size: 13px;
             }
+
+            @media print {
+                .page-break {
+                    page-break-after: always;
+                }
+            }
         </style>
     </head>
 
     <body>
-        <div class="center bold store-name">
-            AGRO MAKMUR
-        </div>
-        <div class="center">
-            {{ $salesOrder->branch->address }}<br>
-            No. Telp: {{ $salesOrder->branch->phone_number }}
-        </div>
-        <div class="line">
-            -------------------------------------------
-        </div>
-        <table>
-            <tr>
-                <td>
-                    {{ $printDate }}<br>
-                    {{ $printTime }}
-                </td>
-                <td class="right">
-                    {{ $salesOrder->user->username }}<br>
-                    {{ $salesOrder->customer->name }}<br>
-                    {{ $salesOrder->customer->address }}
-                </td>
-            </tr>
-        </table>
-        <div class="order-number">{{ $salesOrder->number }}</div>
-        <div class="line">
-            -------------------------------------------
-        </div>
-        @foreach($salesOrder->salesOrderItems as $index => $salesOrderItem)
-            <div class="bold item-name">
-                {{ $index + 1 }}. {{ $salesOrderItem->product->name }}
+        @foreach($salesOrders as $key => $salesOrder)
+            <div class="center bold store-name">
+                AGRO MAKMUR
             </div>
-            <table class="table-item">
+            <div class="center">
+                {{ $salesOrder->branch_address }}<br>
+                No. Telp: {{ $salesOrder->branch_phone_number }}
+            </div>
+            <div class="line">
+                -------------------------------------------
+            </div>
+            <table>
                 <tr>
-                    <td class="item-price">
-                        {{ $salesOrderItem->quantity }} {{ $salesOrderItem->unit->name }} x {{ formatPrice($salesOrderItem->price) }}
+                    <td>
+                        {{ $printDate }}<br>
+                        {{ $printTime }}
                     </td>
                     <td class="right">
-                        Rp {{ formatPrice($salesOrderItem->total) }}
+                        {{ $salesOrder->user_name }}<br>
+                        {{ $salesOrder->customer_name }}<br>
+                        {{ $salesOrder->customer_address }}
                     </td>
                 </tr>
             </table>
-        @endforeach
-        <div class="line">
-            -------------------------------------------
-        </div>
-        <div class="total-quantity">Total QTY : {{ $salesOrder->total_quantity }}</div>
-        <table>
-            <tr>
-                <td>Sub Total</td>
-                <td class="right">Rp {{ formatPrice($salesOrder->subtotal) }}</td>
-            </tr>
-            @if($salesOrder->is_taxable)
+            <div class="order-number">{{ $salesOrder->number }}</div>
+            <div class="line">
+                -------------------------------------------
+            </div>
+            @foreach($salesOrder->salesOrderItems as $index => $salesOrderItem)
+                <div class="bold item-name">
+                    {{ $index + 1 }}. {{ $salesOrderItem->product->name }}
+                </div>
+                <table class="table-item">
+                    <tr>
+                        <td class="item-price">
+                            {{ $salesOrderItem->quantity }} {{ $salesOrderItem->unit->name }} x {{ formatPrice($salesOrderItem->price) }}
+                        </td>
+                        <td class="right">
+                            Rp {{ formatPrice($salesOrderItem->total) }}
+                        </td>
+                    </tr>
+                </table>
+            @endforeach
+            <div class="line">
+                -------------------------------------------
+            </div>
+            <div class="total-quantity">Total QTY : {{ $salesOrder->total_quantity }}</div>
+            <table>
                 <tr>
-                    <td>PPN</td>
-                    <td class="right">Rp {{ formatPrice($salesOrder->tax_amount) }}</td>
+                    <td>Sub Total</td>
+                    <td class="right">Rp {{ formatPrice($salesOrder->subtotal) }}</td>
                 </tr>
+                @if($salesOrder->is_taxable)
+                    <tr>
+                        <td>PPN</td>
+                        <td class="right">Rp {{ formatPrice($salesOrder->tax_amount) }}</td>
+                    </tr>
+                @endif
+                <tr class="bold grand-total">
+                    <td>Total</td>
+                    <td class="right">Rp {{ formatPrice($salesOrder->grand_total) }}</td>
+                </tr>
+                <tr>
+                    <td>Pembayaran</td>
+                    <td class="right">Rp {{ formatPrice($salesOrder->payment_amount) }}</td>
+                </tr>
+                <tr>
+                    <td>Kembali</td>
+                    <td class="right">Rp {{ number_format($salesOrder->change_amount) }}</td>
+                </tr>
+            </table>
+            <br>
+            <div class="center">
+                Terimakasih Telah Berbelanja
+            </div>
+            <br>
+
+            @if($key + 1 < count($salesOrders))
+                <div class="page-break"></div>
             @endif
-            <tr class="bold grand-total">
-                <td>Total</td>
-                <td class="right">Rp {{ formatPrice($salesOrder->grand_total) }}</td>
-            </tr>
-            <tr>
-                <td>Pembayaran</td>
-                <td class="right">Rp {{ formatPrice($salesOrder->payment_amount) }}</td>
-            </tr>
-            <tr>
-                <td>Kembali</td>
-                <td class="right">Rp {{ number_format($salesOrder->change_amount) }}</td>
-            </tr>
-        </table>
-        <br>
-        <div class="center">
-            Terimakasih Telah Berbelanja
-        </div>
-        <br>
+        @endforeach
 
         <script type="text/javascript">
             window.onafterprint = function() {

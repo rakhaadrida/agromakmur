@@ -53,7 +53,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-2 mt-1 main-transaction-button">
-                                                <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
+                                                <button type="button" class="btn btn-success btn-sm btn-block text-bold" data-toggle="modal" data-target="#modalConfirmation">Cetak</button>
                                             </div>
                                         </div>
                                         <hr>
@@ -110,7 +110,7 @@
                                                 </select>
                                             </div>
                                             <div class="col-2 mt-1 main-transaction-button">
-                                                <button type="submit" class="btn btn-success btn-sm btn-block text-bold">Cetak</button>
+                                                <button type="button" class="btn btn-success btn-sm btn-block text-bold" data-toggle="modal" data-target="#modalConfirmation">Cetak</button>
                                             </div>
                                         </div>
                                         <hr>
@@ -131,6 +131,33 @@
                                             <tbody id="itemPrinted">
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+
+                                <div class="modal" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true" class="h2 text-bold">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title">Cetak Sales Order</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Silakan pilih cetak faktur atau cetak struk.</p>
+                                                <input type="hidden" name="is_print" value="0">
+                                                <input type="hidden" name="is_print_bill" value="0">
+                                                <hr>
+                                                <div class="form-row justify-content-center">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-success btn-block text-bold" id="btnPrint">Cetak Faktur</button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-primary btn-block text-bold" id="btnPrintBill">Cetak Struk</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -224,6 +251,30 @@
                 let finalNumber = $('#finalNumberPrinted');
 
                 handleNumberChange(printedSalesOrders, selectedValue, finalNumber, 1);
+            });
+
+            $('#btnPrint').on('click', function(event) {
+                event.preventDefault();
+
+                $('input[name="is_print"]').val(1);
+
+                const form = $('#form');
+                const url = `{{ route('sales-orders.print', 0) }}`;
+
+                form.attr('action', url);
+                form.submit();
+            });
+
+            $('#btnPrintBill').on('click', function(event) {
+                event.preventDefault();
+
+                $('input[name="is_print_bill"]').val(1);
+
+                const form = $('#form');
+                const url = `{{ route('sales-orders.print-bill', 0) }}`;
+
+                form.attr('action', url);
+                form.submit();
             });
 
             function displaySalesOrderData(table, colspan, tabItem, datatable, isPrinted) {
@@ -357,25 +408,6 @@
                 }
 
                 return dateStr;
-            }
-
-            function displayNumberData(element, index, item) {
-                element.append(
-                    $('<option></option>', {
-                        value: item.id,
-                        text: item.number,
-                        'data-tokens': item.number,
-                    })
-                );
-
-                if(!index) {
-                    element.selectpicker({
-                        title: 'Pilih Nomor Awal'
-                    });
-                }
-
-                element.selectpicker('refresh');
-                element.selectpicker('render');
             }
 
             function disableFinalNumberElement(element) {

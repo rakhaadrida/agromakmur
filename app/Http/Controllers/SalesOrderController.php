@@ -560,12 +560,47 @@ class SalesOrderController extends Controller
     }
 
     public function printBill(Request $request, $id) {
-        $salesOrder = SalesOrder::query()->findOrFail($id);
-        $salesOrder->change_amount = $salesOrder->payment_amount - $salesOrder->grand_total;
-        $salesOrder->total_quantity = $salesOrder->salesOrderItems->sum('quantity');
+        $filter = (object) $request->all();
 
-        if($salesOrder->change_amount < 0) {
-            $salesOrder->change_amount = 0;
+        $isPrinted = $filter->is_printed ?? 0;
+        $startNumber = $isPrinted ? $filter->start_number_printed ?? 0 : $filter->start_number ?? 0;
+        $finalNumber = $isPrinted ? $filter->final_number_printed ?? 0 : $filter->final_number ?? 0;
+        $startOperator = $isPrinted ? '<=' : '>=';
+        $finalOperator = $isPrinted ? '>=' : '<=';
+
+        $baseQuery = SalesOrderService::getBaseQueryIndex();
+
+        if($id) {
+            $baseQuery = $baseQuery->where('sales_orders.id', $id);
+        } else {
+            if($startNumber) {
+                $baseQuery = $baseQuery->where('sales_orders.id', $startOperator, $startNumber);
+            }
+
+            if($finalNumber) {
+                $baseQuery = $baseQuery->where('sales_orders.id', $finalOperator, $finalNumber);
+            } else {
+                $baseQuery = $baseQuery->where('sales_orders.id', $finalOperator, $startNumber);
+            }
+        }
+
+        if($isPrinted) {
+            $baseQuery = $baseQuery->where('sales_orders.is_printed', 1);
+        } else {
+            $baseQuery = $baseQuery->where('sales_orders.is_printed', 0);
+        }
+
+        $salesOrders = $baseQuery
+            ->where('sales_orders.status', '!=', Constant::SALES_ORDER_STATUS_WAITING_APPROVAL)
+            ->get();
+
+        foreach($salesOrders as $salesOrder) {
+            $salesOrder->change_amount = $salesOrder->payment_amount - $salesOrder->grand_total;
+            $salesOrder->total_quantity = $salesOrder->salesOrderItems->sum('quantity');
+
+            if($salesOrder->change_amount < 0) {
+                $salesOrder->change_amount = 0;
+            }
         }
 
         $printDate = Carbon::parse()->isoFormat('DD MMM Y');
@@ -573,7 +608,7 @@ class SalesOrderController extends Controller
 
         $data = [
             'id' => $id,
-            'salesOrder' => $salesOrder,
+            'salesOrders' => $salesOrders,
             'printDate' => $printDate,
             'printTime' => $printTime,
         ];
@@ -634,7 +669,9 @@ class SalesOrderController extends Controller
 
     public function afterPrintBill(Request $request, $id) {
         try {
-            return redirect()->route('sales-orders.create');
+            $route = $id ? 'sales-orders.create' : 'sales-orders.index-print';
+
+            return redirect()->route($route);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
