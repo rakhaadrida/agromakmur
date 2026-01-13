@@ -17,15 +17,17 @@
                 </tr>
             </thead>
             <tbody>
+                @php $number = 1; @endphp
                 @foreach($products as $key => $product)
                     <tr class="text-dark">
-                        <td>{{ ++$key }}</td>
+                        <td>{{ $number }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $mapStockByProduct[$product->id] ?? 0 }}</td>
                         <td>{{ $product->total_value }}</td>
                     </tr>
+                    @php $number++; @endphp
                 @endforeach
             </tbody>
         </table>
