@@ -35,8 +35,4 @@ class Product extends Model
     public function productStocks() {
         return $this->hasMany(ProductStock::class, 'product_id', 'id');
     }
-
-    public function mainPrice() {
-        return $this->hasOne(ProductPrice::class, 'product_id', 'id')->oldestOfMany();
-    }
 }

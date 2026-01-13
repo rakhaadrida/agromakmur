@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Category;
 use App\Utilities\Services\ProductService;
+use App\Utilities\Services\ReportService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -25,7 +26,7 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
 
     public function view(): View
     {
-        $products = ProductService::findExportProductsByCategoryId($this->category->id);
+        $products = ReportService::getValueRecapExportQuery($this->category->id);
 
         $productStocks = ProductService::getTotalProductStock();
         $mapStockByProduct = [];
@@ -34,7 +35,7 @@ class ValueRecapItemSheet extends DefaultValueBinder implements FromView, Should
         }
 
         foreach($products as $product) {
-            $productPrice = $product->mainPrice ? $product->mainPrice->price : 0;
+            $productPrice = $product->price ?? 0;
             $totalValue = $productPrice * ($mapStockByProduct[$product->id] ?? 0);
 
             $product->price = $productPrice;

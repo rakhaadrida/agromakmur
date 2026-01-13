@@ -208,10 +208,19 @@ class ReportService
     }
 
     public static function getValueRecapMapProduct($mapStockByProduct, $mapProductByCategory, $mapTotalValueByCategory): array {
-        $products = Product::all();
+        $products = Product::query()
+            ->select('products.id', 'products.name', 'products.category_id', 'product_prices.price')
+            ->leftJoin('product_prices', 'product_prices.product_id', 'products.id')
+            ->orderBy('product_prices.created_at')
+            ->get()
+            ->groupBy('id');
+
+        $products = $products->map(function($rows) {
+            return $rows->first();
+        });
 
         foreach($products as $product) {
-            $productPrice = $product->mainPrice ? $product->mainPrice->price : 0;
+            $productPrice = $product->price ?? 0;
             $totalValue = $productPrice * ($mapStockByProduct[$product->id] ?? 0);
 
             $product->price = $productPrice;
@@ -222,5 +231,19 @@ class ReportService
         }
 
         return [$mapProductByCategory, $mapTotalValueByCategory];
+    }
+
+    public static function getValueRecapExportQuery($categoryId) {
+        $products = Product::query()
+            ->select('products.id', 'products.name', 'products.category_id', 'product_prices.price')
+            ->leftJoin('product_prices', 'product_prices.product_id', 'products.id')
+            ->where('products.category_id', $categoryId)
+            ->orderBy('product_prices.created_at')
+            ->get()
+            ->groupBy('id');
+
+        return $products->map(function($rows) {
+            return $rows->first();
+        });
     }
 }

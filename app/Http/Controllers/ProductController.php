@@ -393,21 +393,25 @@ class ProductController extends Controller
         $filter = (object) $request->all();
 
         $product = Product::query()
-            ->with(['mainPrice'])
-            ->findOrFail($filter->product_id);
+            ->select('products.id', 'products.name')
+            ->where('products.id', $filter->product_id)
+            ->first();
 
-        $productStocks = $product->productStocks;
+        $stocks = ProductStock::query()
+            ->join('warehouses', 'product_stocks.warehouse_id', '=', 'warehouses.id')
+            ->leftJoin('branch_warehouses', 'warehouses.id', '=', 'branch_warehouses.warehouse_id')
+            ->where('product_stocks.product_id', $filter->product_id);
 
-        if($filter->branch_id) {
-            $productStocks = $productStocks->filter(function($stock) use ($filter) {
-                return $stock->warehouse->branchWarehouses->contains('branch_id', $filter->branch_id);
-            });
+        if ($filter->branch_id) {
+            $stocks->where('branch_warehouses.branch_id', $filter->branch_id);
         }
 
-        $firstStock = $productStocks->first();
-        $primaryWarehouseId = $firstStock->warehouse_id ?? 0;
+        $productStocks = $stocks
+            ->select('product_stocks.warehouse_id', 'product_stocks.stock')
+            ->get();
 
         $totalStock = $productStocks->sum('stock');
+        $primaryWarehouseId = $productStocks->first()->warehouse_id ?? 0;
 
         return response()->json([
             'data' => $product,
