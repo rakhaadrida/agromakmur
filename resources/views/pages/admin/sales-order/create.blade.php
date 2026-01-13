@@ -109,11 +109,12 @@
                                         <label for="customer" class="col-2 col-form-label text-bold text-right">Customer</label>
                                         <span class="col-form-label text-bold">:</span>
                                         <div class="col-2 mt-1">
-                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" title="Input atau Pilih Customer" tabindex="3" required>
+                                            <select class="selectpicker warehouse-select-picker" name="customer_id" id="customer" data-live-search="true" data-size="6" data-none-results-text="Tambah: {0}" title="Input atau Pilih Customer" tabindex="3" required>
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}" data-tokens="{{ $customer->name }}" data-foo="{{ $customer->marketing_id }}" data-tax="{{ $customer->tax_number }}" data-tempo="{{ $customer->tempo }}">{{ $customer->name }}</option>
                                                 @endforeach
                                             </select>
+                                            <input type="hidden" name="new_customer" id="newCustomer">
                                             @error('customer')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -430,6 +431,7 @@
 
             let number = $('#number');
             let branch = $('#branch');
+            let customer = $('#customer');
             let paymentAmount = $('#paymentAmount');
             let subtotal = document.getElementById('subtotal');
             let grandTotal = document.getElementById('grandTotal');
@@ -456,7 +458,60 @@
                 generateAutoNumber(selected.val());
             });
 
-            $('#customer').on('change', function(event) {
+            customer.on('shown.bs.select', function () {
+                let searchBox = $('.bs-searchbox input');
+
+                searchBox.off('keydown').on('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                        e.preventDefault();
+
+                        let keyword = $(this).val().trim();
+                        if (keyword.length < 2) return;
+
+                        let exists = false;
+
+                        $('#customerSelect option').each(function () {
+                            if ($(this).text().toLowerCase() === keyword.toLowerCase()) {
+                                exists = true;
+                            }
+                        });
+
+
+                        if (!exists) {
+                            const firstMarketingOption = $('#marketing option:not([disabled]):not([value=""])').first();
+                            const firstMarketingValue = firstMarketingOption.val();
+
+                            customer.selectpicker('toggle');
+
+                            customer.append(
+                                $('<option></option>', {
+                                    value: keyword,
+                                    text: keyword,
+                                    'data-tokens': keyword,
+                                    'data-foo': firstMarketingValue,
+                                    'data-tempo': 0,
+                                    'data-tax': '',
+                                    'data-new-customer': true
+                                })
+                            );
+
+                            $('#newCustomer').val(keyword);
+
+                            customer.selectpicker('refresh');
+                            customer.selectpicker('val', keyword);
+
+                            const marketing = $(`#marketing`);
+
+                            marketing.selectpicker('val', firstMarketingValue);
+                            marketing.selectpicker('refresh');
+
+                            $('#tempo').val(0);
+                        }
+                    }
+                });
+            });
+
+            customer.on('change', function(event) {
                 event.preventDefault();
 
                 const selected = $(this).find(':selected');
@@ -467,7 +522,12 @@
 
                 $('#tempo').val(selected.data('tempo'));
 
-                displayCreditLimit(selected.val());
+                if(!selected.data('new-customer')) {
+                    $('#newCustomer').val('');
+                    displayCreditLimit(selected.val());
+                } else {
+                    $('#newCustomer').val(selected.val());
+                }
             });
 
             $('input[name="is_taxable"]').change(function() {
@@ -754,7 +814,9 @@
                 let creditLimit = $('#creditLimit').val();
                 let outstandingAmount = $('#outstandingAmount').val();
                 let grandTotal = numberFormat($('#grandTotal').val());
+                let totalInvoice = +grandTotal - +paymentAmount.val();
 
+                let newCustomer = $('#newCustomer').val();
                 let duplicateCodes = checkDuplicateProduct();
                 if (duplicateCodes.length) {
                     let duplicateCode = duplicateCodes.join(', ');
@@ -763,7 +825,7 @@
                     $('#modalDuplicate').modal('show');
 
                     return false;
-                } else if(+outstandingAmount + +grandTotal > creditLimit) {
+                } else if((+outstandingAmount + +totalInvoice > creditLimit) && newCustomer.length === 0) {
                     $('#creditLimitLabel').text(thousandSeparator(creditLimit));
                     $('#totalCredit').text(thousandSeparator(outstandingAmount));
                     $('#invoiceAmount').text(thousandSeparator(grandTotal));

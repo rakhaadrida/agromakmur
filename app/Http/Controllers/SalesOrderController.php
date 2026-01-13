@@ -17,6 +17,7 @@ use App\Utilities\Constant;
 use App\Utilities\Services\AccountReceivableService;
 use App\Utilities\Services\ApprovalService;
 use App\Utilities\Services\CommonService;
+use App\Utilities\Services\CustomerService;
 use App\Utilities\Services\DeliveryOrderService;
 use App\Utilities\Services\NumberSettingService;
 use App\Utilities\Services\ProductService;
@@ -140,6 +141,14 @@ class SalesOrderController extends Controller
                 $number = NumberSettingService::generateNumber(Constant::NUMBER_SETTING_KEY_SALES_ORDER, $request->get('branch_id'));
             }
 
+            $customerId = $request->get('customer_id');
+            if($request->get('new_customer')) {
+                $customerId = CustomerService::createDataFromSalesOrder(
+                    $request->get('new_customer'),
+                    $request->get('marketing_id')
+                );
+            }
+
             $date = $request->get('date');
             $date = Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
 
@@ -152,6 +161,7 @@ class SalesOrderController extends Controller
                 'number' => $number,
                 'date' => $date,
                 'delivery_date' => $deliveryDate,
+                'customer_id' => $customerId,
                 'subtotal' => 0,
                 'tax_amount' => 0,
                 'grand_total' => 0,
