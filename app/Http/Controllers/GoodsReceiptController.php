@@ -9,6 +9,7 @@ use App\Http\Requests\GoodsReceiptUpdateRequest;
 use App\Models\Branch;
 use App\Models\GoodsReceipt;
 use App\Models\Product;
+use App\Models\ProductConversion;
 use App\Models\Supplier;
 use App\Models\Warehouse;
 use App\Notifications\CancelGoodsReceiptNotification;
@@ -562,21 +563,23 @@ class GoodsReceiptController extends Controller
         $filter = (object) $request->all();
 
         $product = Product::query()
-            ->findOrFail($filter->product_id);
+            ->select('products.id', 'products.name', 'units.id as unit_id', 'units.name as unit_name')
+            ->leftJoin('units', 'products.unit_id', '=', 'units.id')
+            ->where('products.id', $filter->product_id)
+            ->first();
 
-        $units[] = [
+        $units = ProductConversion::query()
+            ->select('units.id', 'units.name', 'product_conversions.quantity')
+            ->join('units', 'product_conversions.unit_id', '=', 'units.id')
+            ->where('product_conversions.product_id', $filter->product_id)
+            ->get()
+            ->toArray();
+
+        array_unshift($units, [
             'id' => $product->unit_id,
-            'name' => $product->unit->name,
+            'name' => $product->unit_name,
             'quantity' => 1
-        ];
-
-        foreach ($product->productConversions as $conversion) {
-            $units[] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
-        }
+        ]);
 
         return response()->json([
             'data' => $product,

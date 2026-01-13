@@ -941,6 +941,7 @@
                     type: 'GET',
                     data: {
                         product_id: productId,
+                        is_sales_order: true
                     },
                     dataType: 'json',
                     success: function(data) {

@@ -568,7 +568,8 @@
                     url: '{{ route('products.index-ajax') }}',
                     type: 'GET',
                     data: {
-                        product_id: productId
+                        product_id: productId,
+                        is_sales_order: false
                     },
                     dataType: 'json',
                     success: function(data) {

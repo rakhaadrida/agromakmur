@@ -9,6 +9,8 @@ use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Category;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductConversion;
+use App\Models\ProductPrice;
 use App\Models\ProductStock;
 use App\Models\Unit;
 use App\Models\Warehouse;
@@ -334,54 +336,56 @@ class ProductController extends Controller
         $filter = (object) $request->all();
 
         $product = Product::query()
-            ->with(['mainPrice'])
-            ->findOrFail($filter->product_id);
+            ->select(
+                'products.id',
+                'products.name',
+                'products.unit_id',
+                'units.name AS unit_name',
+                'product_prices.id AS main_price_id',
+                'product_prices.price AS main_price'
+            )
+            ->join('units', 'products.unit_id', '=', 'units.id')
+            ->leftJoin('product_prices', 'product_prices.product_id', 'products.id')
+            ->where('products.id', $filter->product_id)
+            ->orderBy('product_prices.created_at')
+            ->first();
 
-        $units[] = [
+        $units = ProductConversion::query()
+            ->select('units.id', 'units.name', 'product_conversions.quantity')
+            ->join('units', 'product_conversions.unit_id', '=', 'units.id')
+            ->where('product_conversions.product_id', $filter->product_id)
+            ->get()
+            ->toArray();
+
+        array_unshift($units, [
             'id' => $product->unit_id,
-            'name' => $product->unit->name,
+            'name' => $product->unit_name,
             'quantity' => 1
-        ];
+        ]);
 
-        foreach ($product->productConversions as $conversion) {
-            $units[] = [
-                'id' => $conversion->unit_id,
-                'name' => $conversion->unit->name,
-                'quantity' => $conversion->quantity
-            ];
+        $prices = ProductPrice::query()
+            ->select('prices.id', 'prices.code', 'prices.type', 'product_prices.price')
+            ->join('prices', 'product_prices.price_id', '=', 'prices.id')
+            ->where('product_prices.product_id', $filter->product_id)
+            ->get()
+            ->toArray();
+
+        if($filter->is_sales_order) {
+            $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($product->id);
+
+            if($latestGoodsReceipt) {
+                $latestGoodsReceiptItem = $latestGoodsReceipt->goodsReceiptItems->firstWhere('product_id', $product->id);
+                $costPrice = $latestGoodsReceiptItem ? $latestGoodsReceiptItem->cost_price : 0;
+            }
         }
-
-        foreach ($product->productPrices as $productPrice) {
-            $prices[] = [
-                'id' => $productPrice->price_id,
-                'code' => $productPrice->pricing->code,
-                'type' => $productPrice->pricing->type,
-                'price' => $productPrice->price
-            ];
-        }
-
-        $latestGoodsReceipt = GoodsReceiptService::getLatestGoodsReceiptByProductId($product->id);
-
-        if($latestGoodsReceipt) {
-            $latestGoodsReceiptItem = $latestGoodsReceipt->goodsReceiptItems->firstWhere('product_id', $product->id);
-            $costPrice = $latestGoodsReceiptItem ? $latestGoodsReceiptItem->cost_price : 0;
-        }
-
-        $productStocks = $product->productStocks->mapWithKeys(function($stock) {
-            $array = [];
-            $array[$stock->warehouse_id] = $stock->stock;
-
-            return $array;
-        });
 
         return response()->json([
             'data' => $product,
             'units' => $units,
             'prices' => $prices ?? [],
-            'main_price_id' => $product->mainPrice ? $product->mainPrice->price_id : null,
-            'main_price' => $product->mainPrice ? $product->mainPrice->price : 0,
+            'main_price_id' => $product->main_price_id ?? null,
+            'main_price' => $product->main_price ?? 0,
             'cost_price' => $costPrice ?? 0,
-            'product_stocks' => $productStocks,
         ]);
     }
 
