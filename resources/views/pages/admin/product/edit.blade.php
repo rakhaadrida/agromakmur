@@ -110,15 +110,15 @@
                                     <div class="form-row">
                                         <div class="form-group col-2">
                                             <label for="basePrice-{{ $key }}" class="col-form-label text-bold">Harga Dasar</label>
-                                            <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="basePrice-{{ $key }}" name="base_price[]" value="{{ $productPrices[$price->id]['base_price'] }}" readonly/>
+                                            <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="basePrice-{{ $key }}" name="base_price[]" value="{{ $productPrices[$price->id]['base_price'] ?? 0 }}" readonly/>
                                         </div>
                                         <div class="form-group col-2 ml-2">
                                             <label for="tax-{{ $key }}" class="col-form-label text-bold">PPN</label>
-                                            <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="tax-{{ $key }}" name="tax_amount[]" value="{{ $productPrices[$price->id]['tax_amount'] }}" readonly/>
+                                            <input type="text" tabindex="-1" class="form-control col-form-label-sm" id="tax-{{ $key }}" name="tax_amount[]" value="{{ $productPrices[$price->id]['tax_amount'] ?? 0 }}" readonly/>
                                         </div>
                                         <div class="form-group col-2 ml-2">
                                             <label for="price-{{ $key }}" class="col-form-label text-bold">{{ $price->name }}</label>
-                                            <input type="text" class="form-control col-form-label-sm" id="price-{{ $key }}" name="price[]" value="{{ $productPrices[$price->id]['price'] }}" data-toogle="tooltip" data-placement="right" title="Hanya masukkan angka saja" required>
+                                            <input type="text" class="form-control col-form-label-sm" id="price-{{ $key }}" name="price[]" value="{{ $productPrices[$price->id]['price'] ?? 0 }}" data-toogle="tooltip" data-placement="right" title="Hanya masukkan angka saja" required>
                                             <input type="hidden" name="price_id[]" value="{{ $price->id }}">
                                         </div>
                                     </div>
