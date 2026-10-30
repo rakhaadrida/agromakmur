@@ -13,15 +13,12 @@ use Maatwebsite\Excel\Facades\Excel;
 class ValueRecapController extends Controller
 {
     public function index() {
-        $categories = Category::all();
-
         $mapStockByProduct = ReportService::getValueRecapMapStock([], []);
         $products = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
-            'categories' => $categories,
             'products' => $products,
             'mapStockByProduct' => $mapStockByProduct,
             'reportDate' => $reportDate,
@@ -37,20 +34,15 @@ class ValueRecapController extends Controller
     }
 
     public function pdf() {
-        $categories = Category::all();
-
-        [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
-        [$mapProductByCategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
+        $mapStockByProduct = ReportService::getValueRecapMapStock([], []);
+        $products = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
         $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         $fileDate = Carbon::now()->format('Y_m_d');
 
         $data = [
-            'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
+            'products' => $products,
             'mapStockByProduct' => $mapStockByProduct,
-            'mapTotalStockByCategory' => $mapTotalStockByCategory,
-            'mapTotalValueByCategory' => $mapTotalValueByCategory,
             'exportDate' => $exportDate,
         ];
 

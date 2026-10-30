@@ -11,7 +11,7 @@
                 color: #858796;
                 text-align: left;
                 background-color: #fff;
-                width: 90%;
+                width: 100%;
                 margin: auto;
             }
 
@@ -135,63 +135,60 @@
             }
 
             .td-receipt-number {
-                width: 80px;
+                width: 60px;
+            }
+
+            .td-category {
+                width: 100px;
             }
 
             .td-price,
             .td-stock {
-                width: 70px;
+                width: 55px;
             }
 
             .td-grand-total {
-                width: 90px;
+                width: 65px;
             }
         </style>
     </head>
     <body>
-        @foreach($categories as $key => $category)
-            <div class="pdf-section">
-                <div class="header-section text-center">
-                    <h5 class="text-bold text-dark">Rekap Value {{ $category->name }}</h5>
-                    <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
-                </div>
-
-                <table class="table table-sm table-bordered table-items">
-                    <thead class="text-center text-dark text-bold">
-                        <tr class="th-value-recap">
-                            <th class="align-middle td-number">No</th>
-                            <th class="align-middle td-receipt-number">SKU</th>
-                            <th class="align-middle">Nama Produk</th>
-                            <th class="align-middle td-price">Harga</th>
-                            <th class="align-middle td-stock">Total Stok</th>
-                            <th class="align-middle td-grand-total">Total Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
-                            <tr class="text-dark text-bold">
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td class="text-center">{{ $product->sku }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td class="text-right">{{ formatPrice($product->price) }}</td>
-                                <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id] ?? 0) }}</td>
-                                <td class="text-right">{{ formatPrice($product->total_value) }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr class="th-value-recap">
-                            <th colspan="4" class="text-bold text-dark text-center">GRAND TOTAL</th>
-                            <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalStockByCategory[$category->id] ?? 0) }}</th>
-                            <th class="text-bold text-dark text-right">{{ formatPrice($mapTotalValueByCategory[$category->id] ?? 0) }}</th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class="pdf-section">
+            <div class="header-section text-center">
+                <h5 class="text-bold text-dark">Rekap Value Produk</h5>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
-        @endforeach
+
+            <table class="table table-sm table-bordered table-items">
+                <thead class="text-center text-dark text-bold">
+                    <tr class="th-value-recap">
+                        <th class="align-middle td-number">No</th>
+                        <th class="align-middle td-receipt-number">SKU</th>
+                        <th class="align-middle">Nama Produk</th>
+                        <th class="align-middle td-category">Kategori</th>
+                        <th class="align-middle td-price">Harga</th>
+                        <th class="align-middle td-stock">Total Stok</th>
+                        <th class="align-middle td-grand-total">Total Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($products ?? [] as $index => $product)
+                        <tr class="text-dark text-bold">
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td class="text-center">{{ $product->sku }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td class="text-center">{{ $product->category_name }}</td>
+                            <td class="text-right">{{ formatPrice($product->price) }}</td>
+                            <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id] ?? 0) }}</td>
+                            <td class="text-right">{{ formatPrice($product->total_value) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
