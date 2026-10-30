@@ -15,17 +15,15 @@ class ValueRecapController extends Controller
     public function index() {
         $categories = Category::all();
 
-        [$mapStockByProduct, $mapTotalStockByCategory] = ReportService::getValueRecapMapStock([], []);
-        [$mapProductByCategory, $mapTotalValueByCategory] = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
+        $mapStockByProduct = ReportService::getValueRecapMapStock([], []);
+        $products = ReportService::getValueRecapMapProduct($mapStockByProduct, [], []);
 
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
             'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
+            'products' => $products,
             'mapStockByProduct' => $mapStockByProduct,
-            'mapTotalStockByCategory' => $mapTotalStockByCategory,
-            'mapTotalValueByCategory' => $mapTotalValueByCategory,
             'reportDate' => $reportDate,
         ];
 

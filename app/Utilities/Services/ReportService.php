@@ -196,20 +196,20 @@ class ReportService
         return [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse];
     }
 
-    public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory): array {
+    public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory) {
         $productStocks = ProductService::getTotalProductStock();
 
         foreach($productStocks as $productStock) {
             $mapStockByProduct[$productStock->product_id] = $productStock->total_stock;
-            $mapTotalStockByCategory[$productStock->product->category_id] = ($mapTotalStockByCategory[$productStock->product->category_id] ?? 0) + $productStock->total_stock;
         }
 
-        return [$mapStockByProduct, $mapTotalStockByCategory];
+        return $mapStockByProduct;
     }
 
-    public static function getValueRecapMapProduct($mapStockByProduct, $mapProductByCategory, $mapTotalValueByCategory): array {
+    public static function getValueRecapMapProduct($mapStockByProduct, $mapProductByCategory, $mapTotalValueByCategory) {
         $products = Product::query()
-            ->select('products.id', 'products.name', 'products.category_id', 'product_prices.price')
+            ->select('products.id', 'products.sku', 'products.name', 'categories.name AS category_name', 'product_prices.price')
+            ->leftJoin('categories', 'categories.id', 'products.category_id')
             ->leftJoin('product_prices', 'product_prices.product_id', 'products.id')
             ->orderBy('product_prices.created_at')
             ->get()
@@ -217,7 +217,7 @@ class ReportService
 
         $products = $products->map(function($rows) {
             return $rows->first();
-        });
+        })->values();
 
         foreach($products as $product) {
             $productPrice = $product->price ?? 0;
@@ -225,12 +225,9 @@ class ReportService
 
             $product->price = $productPrice;
             $product->total_value = $totalValue;
-
-            $mapProductByCategory[$product->category_id][] = $product;
-            $mapTotalValueByCategory[$product->category_id] = ($mapTotalValueByCategory[$product->category_id] ?? 0) + $totalValue;
         }
 
-        return [$mapProductByCategory, $mapTotalValueByCategory];
+        return $products;
     }
 
     public static function getValueRecapExportQuery($categoryId) {
