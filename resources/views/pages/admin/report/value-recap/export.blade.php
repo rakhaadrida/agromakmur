@@ -1,7 +1,7 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Rekap Value - {{ $category->name }}</h2>
+            <h2 class="text-bold text-dark">Rekap Value Produk</h2>
             <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
@@ -11,6 +11,7 @@
                     <th>No</th>
                     <th>SKU</th>
                     <th>Nama Produk</th>
+                    <th>Kategori</th>
                     <th>Harga</th>
                     <th>Total Stok</th>
                     <th>Total Value</th>
@@ -23,6 +24,7 @@
                         <td>{{ $number }}</td>
                         <td>{{ $product->sku }}</td>
                         <td>{{ $product->name }}</td>
+                        <td>{{ $product->category_name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $mapStockByProduct[$product->id] ?? 0 }}</td>
                         <td>{{ $product->total_value }}</td>
