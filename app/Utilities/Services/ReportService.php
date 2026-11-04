@@ -189,11 +189,9 @@ class ReportService
 
         foreach($productStocks as $productStock) {
             $mapStockByProduct[$productStock->product_id][$productStock->warehouse_id] = $productStock->stock;
-            $mapTotalStockByCategory[$productStock->product->category_id] = ($mapTotalStockByCategory[$productStock->product->category_id] ?? 0) + $productStock->stock;
-            $mapTotalStockByCategoryWarehouse[$productStock->product->category_id][$productStock->warehouse_id] = ($mapTotalStockByCategoryWarehouse[$productStock->product->category_id][$productStock->warehouse_id] ?? 0) + $productStock->stock;
         }
 
-        return [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse];
+        return $mapStockByProduct;
     }
 
     public static function getValueRecapMapStock($mapStockByProduct, $mapTotalStockByCategory) {

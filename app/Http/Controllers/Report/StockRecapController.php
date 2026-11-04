@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Exports\StockRecapExport;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Product;
 use App\Models\Warehouse;
 use App\Utilities\Services\ReportService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,20 +14,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class StockRecapController extends Controller
 {
     public function index() {
-        $categories = Category::all();
+        $mapStockByProduct = ReportService::getStockRecapMapStock([], [], []);
 
-        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
-        [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
-
+        $products = Product::all();
         $warehouses = Warehouse::all();
         $reportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
 
         $data = [
-            'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
-            'mapTotalStockByCategory' => $mapTotalStockByCategory,
-            'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,
+            'products' => $products,
             'warehouses' => $warehouses,
             'reportDate' => $reportDate,
         ];
