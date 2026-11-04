@@ -37,21 +37,16 @@ class StockRecapController extends Controller
     }
 
     public function pdf() {
-        $categories = Category::all();
-
-        $mapProductByCategory = ReportService::getCommonRecapMapProduct([]);
-        [$mapStockByProduct, $mapTotalStockByCategory, $mapTotalStockByCategoryWarehouse] = ReportService::getStockRecapMapStock([], [], []);
-
+        $mapStockByProduct = ReportService::getStockRecapMapStock([], [], []);
+        
+        $products = Product::all();
         $warehouses = Warehouse::all();
         $exportDate = Carbon::parse()->isoFormat('dddd, D MMMM Y, HH:mm:ss');
         $fileDate = Carbon::now()->format('Y_m_d');
 
         $data = [
-            'categories' => $categories,
-            'mapProductByCategory' => $mapProductByCategory,
             'mapStockByProduct' => $mapStockByProduct,
-            'mapTotalStockByCategory' => $mapTotalStockByCategory,
-            'mapTotalStockByCategoryWarehouse' => $mapTotalStockByCategoryWarehouse,
+            'products' => $products,
             'warehouses' => $warehouses,
             'exportDate' => $exportDate,
         ];

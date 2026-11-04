@@ -148,53 +148,42 @@
         </style>
     </head>
     <body>
-        @foreach($categories as $key => $category)
-            <div class="pdf-section">
-                <div class="header-section text-center">
-                    <h5 class="text-bold text-dark">Rekap Stok {{ $category->name }}</h5>
-                    <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
-                </div>
-
-                <table class="table table-sm table-bordered table-items">
-                    <thead class="text-center text-dark text-bold">
-                        <tr class="th-value-recap">
-                            <th class="align-middle td-number">No</th>
-                            <th class="align-middle td-receipt-number">SKU</th>
-                            <th class="align-middle">Nama Produk</th>
-                            <th class="align-middle th-total-stock td-price">Total Stok</th>
-                            @foreach($warehouses as $warehouse)
-                                <td class="align-middle td-price">{{ $warehouse->name }}</td>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($mapProductByCategory[$category->id] ?? [] as $index => $product)
-                            <tr class="text-dark text-bold">
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td class="text-center">{{ $product->sku }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td class="text-right th-total-stock">{{ getTotalArray($mapStockByProduct[$product->id] ?? []) }}</td>
-                                @foreach($warehouses as $warehouse)
-                                    <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id][$warehouse->id] ?? 0) }}</td>
-                                @endforeach
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                    <tfoot>
-                        <tr class="th-value-recap">
-                            <th colspan="3" class="text-bold text-dark text-center">GRAND TOTAL</th>
-                            <th class="text-bold text-dark text-right th-total-stock">{{ formatQuantity($mapTotalStockByCategory[$category->id] ?? 0) }}</th>
-                            @foreach($warehouses as $warehouse)
-                                <th class="text-bold text-dark text-right">{{ formatQuantity($mapTotalStockByCategoryWarehouse[$category->id][$warehouse->id] ?? 0) }}</th>
-                            @endforeach
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class="pdf-section">
+            <div class="header-section text-center">
+                <h5 class="text-bold text-dark">Rekap Stok Produk</h5>
+                <h6 class="text-dark report-date">Tanggal Export : {{ $exportDate }}</h6>
             </div>
-        @endforeach
+
+            <table class="table table-sm table-bordered table-items">
+                <thead class="text-center text-dark text-bold">
+                    <tr class="th-value-recap">
+                        <th class="align-middle td-number">No</th>
+                        <th class="align-middle td-receipt-number">SKU</th>
+                        <th class="align-middle">Nama Produk</th>
+                        <th class="align-middle th-total-stock td-price">Total Stok</th>
+                        @foreach($warehouses as $warehouse)
+                            <td class="align-middle td-price">{{ $warehouse->name }}</td>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($products ?? [] as $index => $product)
+                        <tr class="text-dark text-bold">
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td class="text-center">{{ $product->sku }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td class="text-right th-total-stock">{{ getTotalArray($mapStockByProduct[$product->id] ?? []) }}</td>
+                            @foreach($warehouses as $warehouse)
+                                <td class="text-right">{{ formatQuantity($mapStockByProduct[$product->id][$warehouse->id] ?? 0) }}</td>
+                            @endforeach
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="{{ $warehouses->count() + 4 }}" class="text-center text-dark text-bold h4 p-2">Tidak Ada Data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
