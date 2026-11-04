@@ -1,7 +1,7 @@
 <html lang="en">
     <body>
         <div class="justify-content-center">
-            <h2 class="text-bold text-dark">Rekap Stok - {{ $category->name }}</h2>
+            <h2 class="text-bold text-dark">Rekap Stok Produk</h2>
             <h5>Tanggal Export : {{ $exportDate }}</h5>
         </div>
         <br>
